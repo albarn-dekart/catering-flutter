@@ -5,12 +5,14 @@ import 'package:intl/intl.dart';
 
 import 'package:catering_app/Classes/authorization.dart';
 import 'package:catering_app/Classes/date_range_picker.dart';
-import 'package:catering_app/Classes/role_manager.dart';
+import 'package:catering_app/Classes/user_manager.dart';
 import 'package:catering_app/Classes/api_config.dart';
 import 'package:catering_app/Classes/notification_bar.dart';
 import 'package:catering_app/Classes/meal.dart';
 import 'package:catering_app/Classes/info_row.dart';
 import 'package:catering_app/Classes/app_theme.dart';
+import 'package:catering_app/Classes/user.dart';
+import 'package:catering_app/Classes/button.dart';
 
 class Order {
   final int id;
@@ -29,6 +31,13 @@ class Order {
     required this.deliveryDays,
   });
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || (other is Order && other.id == id);
+
+  @override
+  int get hashCode => id.hashCode;
+
   factory Order.fromJson(Map<String, dynamic> json) {
     final meals = (json['meals'] as List<dynamic>)
         .map((mealJson) => Meal.fromJson(mealJson as Map<String, dynamic>))
@@ -45,15 +54,15 @@ class Order {
     );
   }
 
-  static Future<List<Order>> fetch([int? userId]) async {
+  static Future<List<Order>> getAll([User? user]) async {
     try {
       final token = await Authorization.getValidToken();
       if (token == null) return [];
 
       final response = await http.get(
-        userId != null
-            ? ApiConfig.getUserOrdersByIdAdminUrl(userId.toString())
-            : ApiConfig.getUserOrdersUrl(),
+        user != null
+            ? ApiConfig.ordersByUserId(user.id.toString())
+            : ApiConfig.orders(),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -68,7 +77,7 @@ class Order {
             .toList();
       } else {
         final error =
-            '${response.statusCode} - ${jsonDecode(response.body)['message'] ?? 'Unknown error'}';
+            '${response.statusCode.toString()} - ${jsonDecode(response.body)['error'] ?? 'Unknown error'}';
         NotificationBar().show('Failed to load orders', Colors.red, error);
       }
     } catch (error) {
@@ -78,13 +87,13 @@ class Order {
     return [];
   }
 
-  Future<void> delete() async {
+  Future<bool> delete() async {
     try {
       final token = await Authorization.getValidToken();
-      if (token == null) return;
+      if (token == null) return false;
 
       final response = await http.delete(
-        ApiConfig.getDeleteOrderByIdAdminUrl(id.toString()),
+        ApiConfig.deleteOrder(id.toString()),
         headers: {
           'Authorization': 'Bearer $token',
         },
@@ -92,33 +101,70 @@ class Order {
 
       if (response.statusCode == 204) {
         NotificationBar().show('Order deleted!', Colors.green);
+        return true;
       } else {
         final error =
-            '${response.statusCode} - ${jsonDecode(response.body)['message'] ?? 'Unknown error'}';
+            '${response.statusCode.toString()} - ${jsonDecode(response.body)['error'] ?? 'Unknown error'}';
         NotificationBar().show('Failed to delete order', Colors.red, error);
       }
     } catch (error) {
       NotificationBar()
           .show('Failed to delete order', Colors.red, error.toString());
     }
+    return false;
   }
 
-  static Future<void> placeOrder(List<Meal> meals, DateTime startDate,
+  static Future<bool> placeOrder(List<Meal> meals, DateTime startDate,
       DateTime endDate, List<int> deliveryDays) async {
+    // Validation
+    if (meals.isEmpty) {
+      NotificationBar().show(
+        'Meals list must not be empty',
+        Colors.yellow,
+      );
+      return false;
+    }
+
+    if (startDate.isAfter(endDate)) {
+      NotificationBar().show(
+        'Start date must be before end date',
+        Colors.yellow,
+      );
+      return false;
+    }
+
+    if (deliveryDays.isEmpty) {
+      NotificationBar().show(
+        'Delivery days must not be empty',
+        Colors.yellow,
+      );
+      return false;
+    }
+
+    for (var day in deliveryDays) {
+      if (day < 1 || day > 7) {
+        NotificationBar().show(
+          'Delivery days must be between 1 and 7',
+          Colors.yellow,
+        );
+        return false;
+      }
+    }
+
     final dateFormat = DateFormat('yyyy-MM-dd');
     final requestBody = {
       "start_date": dateFormat.format(startDate),
       "end_date": dateFormat.format(endDate),
       "delivery_days": deliveryDays.toList(),
-      "meals": meals.map((meal) => {"id": meal.id}).toList(),
+      "meals": meals.map((meal) => meal.id).toList(),
     };
 
     try {
       final token = await Authorization.getValidToken();
-      if (token == null) return;
+      if (token == null) return false;
 
       final response = await http.post(
-        ApiConfig.getNewOrderUrl(),
+        ApiConfig.newOrder(),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -128,15 +174,17 @@ class Order {
 
       if (response.statusCode == 201) {
         NotificationBar().show('Order placed!', Colors.green);
+        return true;
       } else {
         final error =
-            '${response.statusCode} - ${jsonDecode(response.body)['message'] ?? 'Unknown error'}';
+            '${response.statusCode.toString()} - ${jsonDecode(response.body)['error'] ?? 'Unknown error'}';
         NotificationBar().show('Failed to place order', Colors.red, error);
       }
     } catch (error) {
       NotificationBar()
           .show('Failed to place order', Colors.red, error.toString());
     }
+    return false;
   }
 }
 
@@ -159,7 +207,7 @@ OrderStatus parseOrderStatus(String status) {
 
 class OrderCard extends StatefulWidget {
   final Order order;
-  final ValueChanged<int> onOrderDeleted;
+  final Function(Order) onOrderDeleted;
 
   const OrderCard({
     super.key,
@@ -186,7 +234,7 @@ class _OrderCardState extends State<OrderCard> {
       if (token == null) return;
 
       final response = await http.patch(
-        ApiConfig.getUpdateOrderStatusUrl(widget.order.id.toString()),
+        ApiConfig.updateOrderStatus(widget.order.id.toString()),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -203,7 +251,7 @@ class _OrderCardState extends State<OrderCard> {
         );
       } else {
         final error =
-            '${response.statusCode} - ${jsonDecode(response.body)['message'] ?? 'Unknown error'}';
+            '${response.statusCode.toString()} - ${jsonDecode(response.body)['error'] ?? 'Unknown error'}';
         NotificationBar().show(
           'Update failed',
           AppTheme.errorColor,
@@ -233,6 +281,7 @@ class _OrderCardState extends State<OrderCard> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppTheme.cardRadius),
       ),
+      elevation: 2,
       child: Padding(
         padding: const EdgeInsets.all(AppTheme.defaultPadding),
         child: Column(
@@ -263,13 +312,9 @@ class _OrderCardState extends State<OrderCard> {
                 fontWeight: FontWeight.w600,
               ),
         ),
-        if (RoleManager().isAdmin)
-          IconButton(
-            icon: const Icon(Icons.delete_outline),
-            color: AppTheme.errorColor,
-            tooltip: 'Delete order',
-            onPressed: _confirmDelete,
-          ),
+        if (UserManager().hasRole('ROLE_ADMIN'))
+          cardButton(
+              'Delete', _confirmDelete, Icons.delete_outlined, Colors.red),
       ],
     );
   }
@@ -308,7 +353,7 @@ class _OrderCardState extends State<OrderCard> {
         const InfoRow(
             icon: Icons.inventory_2_outlined, label: 'Status', value: ''),
         const SizedBox(width: AppTheme.defaultPadding),
-        if (RoleManager().isAdmin)
+        if (UserManager().hasRole('ROLE_ADMIN'))
           _buildStatusDropdown()
         else
           _buildStatusChip(),
@@ -318,7 +363,7 @@ class _OrderCardState extends State<OrderCard> {
 
   Widget _buildStatusDropdown() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.symmetric(horizontal: AppTheme.defaultPadding),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey[300]!),
         borderRadius: BorderRadius.circular(AppTheme.cardRadius),
@@ -332,7 +377,7 @@ class _OrderCardState extends State<OrderCard> {
             return DropdownMenuItem<OrderStatus>(
               value: status,
               child: Text(
-                status.name.capitalize(),
+                status.name,
                 style: TextStyle(
                   color: _statusColor(status),
                 ),
@@ -349,7 +394,7 @@ class _OrderCardState extends State<OrderCard> {
   Widget _buildStatusChip() {
     return Chip(
       label: Text(
-        _currentStatus.name.capitalize(),
+        _currentStatus.name,
         style: TextStyle(
           color: _statusColor(_currentStatus),
           fontSize: 12,
@@ -420,14 +465,9 @@ class _OrderCardState extends State<OrderCard> {
     );
 
     if (confirmed == true) {
-      await widget.order.delete();
-      widget.onOrderDeleted(widget.order.id);
+      if (await widget.order.delete()) {
+        widget.onOrderDeleted(widget.order);
+      }
     }
-  }
-}
-
-extension StringExtension on String {
-  String capitalize() {
-    return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 }

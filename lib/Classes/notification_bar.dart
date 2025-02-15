@@ -6,9 +6,8 @@ class NotificationBar {
   void show(String message, Color backgroundColor, [String? debug]) {
     if (debug != null) debugPrint(debug);
 
-    final textColor = backgroundColor.computeLuminance() > 0.5
-        ? Colors.black
-        : Colors.white;
+    final textColor =
+        backgroundColor.computeLuminance() > 0.5 ? Colors.black : Colors.white;
 
     scaffoldMessengerKey.currentState?.showSnackBar(
       SnackBar(
@@ -16,7 +15,7 @@ class NotificationBar {
           children: [
             _getIcon(backgroundColor),
             const SizedBox(width: AppTheme.defaultPadding),
-            Expanded(child: Text(message)),
+            Expanded(child: Text(message, style: TextStyle(color: textColor)))
           ],
         ),
         backgroundColor: backgroundColor,

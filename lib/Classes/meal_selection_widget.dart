@@ -1,15 +1,16 @@
+import 'package:catering_app/Classes/category.dart';
 import 'package:flutter/material.dart';
 import 'package:catering_app/Classes/meal.dart';
 import 'package:catering_app/Classes/app_theme.dart';
 
 class MealSelectionWidget extends StatelessWidget {
-  final List<String> categories;
-  final String? selectedCategory;
+  final List<Category> categories;
+  final Category? selectedCategory;
   final List<Meal> availableMeals;
   final List<Meal> selectedMeals;
-  final Function(String?) onCategoryChanged;
-  final Function(Meal) onMealSelected;
-  final Function(Meal) onMealRemoved;
+  final Function(Category?) onCategoryChanged;
+  final Function(Meal) onAddToOrder;
+  final Function(Meal) onRemoveFromOrder;
 
   const MealSelectionWidget({
     super.key,
@@ -18,8 +19,8 @@ class MealSelectionWidget extends StatelessWidget {
     required this.availableMeals,
     required this.selectedMeals,
     required this.onCategoryChanged,
-    required this.onMealSelected,
-    required this.onMealRemoved,
+    required this.onAddToOrder,
+    required this.onRemoveFromOrder,
   });
 
   @override
@@ -37,28 +38,35 @@ class MealSelectionWidget extends StatelessWidget {
 
   Widget _buildCategorySelector(BuildContext context) {
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(AppTheme.defaultPadding / 2),
-        child: Row(
-          children: [
-            Text('Category:', style: Theme.of(context).textTheme.bodyMedium),
-            const SizedBox(width: AppTheme.defaultPadding),
-            DropdownButton<String>(
-              value: selectedCategory,
-              hint: const Text('Select Category'),
-              items: categories
-                  .map((category) => DropdownMenuItem(
-                        value: category,
-                        child: Text(category),
-                      ))
-                  .toList(),
-              onChanged: onCategoryChanged,
-              underline: Container(),
-              borderRadius: BorderRadius.circular(AppTheme.cardRadius),
-            ),
-          ],
-        ),
+      margin: const EdgeInsets.symmetric(
+        vertical: AppTheme.defaultPadding / 2,
+        horizontal: AppTheme.defaultPadding,
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppTheme.cardRadius),
+      ),
+      elevation: 2,
+      child: Padding(
+    padding: const EdgeInsets.all(AppTheme.defaultPadding),
+    child: Row(
+        children: [
+          Text('Category:', style: Theme.of(context).textTheme.bodyMedium),
+          const SizedBox(width: AppTheme.defaultPadding),
+          DropdownButton<Category>(
+            value: selectedCategory,
+            hint: const Text('Select Category'),
+            items: categories
+                .map((category) => DropdownMenuItem(
+                      value: category,
+                      child: Text(category.name),
+                    ))
+                .toList(),
+            onChanged: onCategoryChanged,
+            underline: Container(),
+            borderRadius: BorderRadius.circular(AppTheme.cardRadius),
+          ),
+        ],
+      ),),
     );
   }
 
@@ -75,8 +83,8 @@ class MealSelectionWidget extends StatelessWidget {
               const SizedBox(height: AppTheme.defaultPadding / 2),
           itemBuilder: (context, index) => MealCard(
             meal: availableMeals[index],
-            showAddButton: !selectedMeals.contains(availableMeals[index]),
-            onAddToOrder: () => onMealSelected(availableMeals[index]),
+            addToOrderButton: !selectedMeals.contains(availableMeals[index]),
+            onAddToOrder: () => onAddToOrder(availableMeals[index]),
           ),
         ),
       ],
@@ -96,8 +104,8 @@ class MealSelectionWidget extends StatelessWidget {
               const SizedBox(height: AppTheme.defaultPadding / 2),
           itemBuilder: (context, index) => MealCard(
             meal: selectedMeals[index],
-            showDeleteButton: true,
-            onDelete: () => onMealRemoved(selectedMeals[index]),
+            removeFromOrderButton: true,
+            onRemoveFromOrder: () => onRemoveFromOrder(selectedMeals[index]),
           ),
         ),
       ],

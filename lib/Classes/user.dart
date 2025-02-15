@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:catering_app/Pages/orders_page.dart';
+import 'package:catering_app/Pages/user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -7,6 +9,7 @@ import 'package:catering_app/Classes/info_row.dart';
 import 'package:catering_app/Classes/authorization.dart';
 import 'package:catering_app/Classes/notification_bar.dart';
 import 'package:catering_app/Classes/app_theme.dart';
+import 'package:catering_app/Classes/button.dart';
 
 class User {
   final int id;
@@ -19,6 +22,13 @@ class User {
     required this.roles,
   });
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || (other is User && other.id == id);
+
+  @override
+  int get hashCode => id.hashCode;
+
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
@@ -27,7 +37,7 @@ class User {
     );
   }
 
-  static Future<List<User>> fetch() async {
+  static Future<List<User>> getAllUsers() async {
     try {
       final token = await Authorization.getValidToken();
       if (token == null) {
@@ -35,7 +45,7 @@ class User {
       }
 
       final response = await http.get(
-        ApiConfig.getUsersAdminUrl(),
+        ApiConfig.users(),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -50,33 +60,97 @@ class User {
             .toList();
       } else {
         final error =
-            '${response.statusCode.toString()} - ${jsonDecode(response.body)['message'] ?? 'Unknown error'}';
-        NotificationBar().show('Failed to fetch users', Colors.red, error);
+            '${response.statusCode.toString()} - ${jsonDecode(response.body)['error'] ?? 'Unknown error'}';
+        NotificationBar().show('Failed to get users', Colors.red, error);
       }
     } catch (error) {
       NotificationBar()
-          .show('Failed to fetch users', Colors.red, error.toString());
+          .show('Failed to get users', Colors.red, error.toString());
     }
     return [];
   }
 
-  Future<void> delete() async {
+  static Future<Map<String, dynamic>?> getCurrentUserDetails() async {
+    //Request
+    try {
+      final token = await Authorization.getValidToken();
+      if (token == null) return null;
+
+      final response = await http.get(
+        ApiConfig.userDetails(),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        if (data.isNotEmpty) {
+          return data;
+        }
+      } else {
+        final error =
+            '${response.statusCode.toString()} - ${jsonDecode(response.body)['error'] ?? 'Unknown error'}';
+        NotificationBar().show('Failed to load user data', Colors.red, error);
+      }
+    } catch (error) {
+      NotificationBar()
+          .show('Failed to load user data', Colors.red, error.toString());
+    }
+
+    return null;
+  }
+
+  Future<Map<String, dynamic>?> getDetails() async {
+    //Request
+    try {
+      final token = await Authorization.getValidToken();
+      if (token == null) return null;
+
+      final response = await http.get(
+        ApiConfig.userDetailsById(id.toString()),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        if (data.isNotEmpty) {
+          return data;
+        }
+      } else {
+        final error =
+            '${response.statusCode.toString()} - ${jsonDecode(response.body)['error'] ?? 'Unknown error'}';
+        NotificationBar().show('Failed to load user data', Colors.red, error);
+      }
+    } catch (error) {
+      NotificationBar()
+          .show('Failed to load user data', Colors.red, error.toString());
+    }
+
+    return null;
+  }
+
+  Future<bool> delete() async {
     if (roles.contains('admin')) {
       NotificationBar().show(
         'Cannot delete admin users!',
         Colors.red,
       );
-      return;
+      return false;
     }
 
     try {
       final token = await Authorization.getValidToken();
-      if (token == null) {
-        return;
-      }
+      if (token == null) return false;
 
       final response = await http.delete(
-        ApiConfig.getDeleteUserByIdAdminUrl(id.toString()),
+        ApiConfig.deleteUserById(id.toString()),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -85,15 +159,17 @@ class User {
 
       if (response.statusCode == 204) {
         NotificationBar().show('User deleted!', Colors.green);
+        return true;
       } else {
         final error =
-            '${response.statusCode.toString()} - ${jsonDecode(response.body)['message'] ?? 'Unknown error'}';
+            '${response.statusCode.toString()} - ${jsonDecode(response.body)['error'] ?? 'Unknown error'}';
         NotificationBar().show('Failed to delete user', Colors.red, error);
       }
     } catch (error) {
       NotificationBar()
           .show('Failed to delete user', Colors.red, error.toString());
     }
+    return false;
   }
 
   Future<void> updateRoles() async {
@@ -103,12 +179,10 @@ class User {
 
     try {
       final token = await Authorization.getValidToken();
-      if (token == null) {
-        return;
-      }
+      if (token == null) return;
 
       final response = await http.patch(
-        ApiConfig.getUpdateUserRolesByIdAdminUrl(id.toString()),
+        ApiConfig.updateRolesById(id.toString()),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -120,7 +194,7 @@ class User {
         NotificationBar().show('User roles updated!', Colors.green);
       } else {
         final error =
-            '${response.statusCode.toString()} - ${jsonDecode(response.body)['message'] ?? 'Unknown error'}';
+            '${response.statusCode.toString()} - ${jsonDecode(response.body)['error'] ?? 'Unknown error'}';
         NotificationBar().show('Failed to update roles', Colors.red, error);
       }
     } catch (error) {
@@ -132,7 +206,7 @@ class User {
 
 class UserCard extends StatefulWidget {
   final User user;
-  final ValueChanged<int> onDelete;
+  final Function(User) onDelete;
 
   const UserCard({
     super.key,
@@ -206,8 +280,9 @@ class _UserCardState extends State<UserCard> {
     );
 
     if (confirmed == true) {
-      await widget.user.delete();
-      widget.onDelete(widget.user.id);
+      if (await widget.user.delete()) {
+        widget.onDelete(widget.user);
+      }
     }
   }
 
@@ -220,6 +295,8 @@ class _UserCardState extends State<UserCard> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
+
     return Card(
       margin: const EdgeInsets.symmetric(
         vertical: AppTheme.defaultPadding / 2,
@@ -238,13 +315,12 @@ class _UserCardState extends State<UserCard> {
             const SizedBox(height: AppTheme.defaultPadding),
             InfoRow(
               icon: Icons.email_outlined,
-              label: "Email",
               value: widget.user.email,
             ),
             const SizedBox(height: AppTheme.defaultPadding / 2),
             _buildRolesEditor(),
             const SizedBox(height: AppTheme.defaultPadding),
-            _buildActionButtons(),
+            _buildActionButtons(isMobile),
           ],
         ),
       ),
@@ -274,21 +350,24 @@ class _UserCardState extends State<UserCard> {
         _isEditing
             ? Expanded(
                 child: TextFormField(
-                controller: _rolesController,
-                decoration: InputDecoration(
-                  isDense: true,
-                  hintText: 'Comma-separated roles..',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(AppTheme.cardRadius),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: AppTheme.defaultPadding,
-                    vertical: 12,
+                  controller: _rolesController,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    hintText: 'Comma-separated roles..',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(AppTheme.cardRadius),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: AppTheme.defaultPadding,
+                      vertical: 12,
+                    ),
                   ),
                 ),
-              ))
-            : Text(
-                widget.user.roles.join(', '),
+              )
+            : Expanded(
+                child: Text(
+                  widget.user.roles.join(', '),
+                ),
               ),
         const SizedBox(width: AppTheme.defaultPadding / 2),
         _buildEditControls(),
@@ -323,48 +402,37 @@ class _UserCardState extends State<UserCard> {
     );
   }
 
-  Widget _buildActionButtons() {
+  Widget _buildActionButtons(bool isMobile) {
     return Wrap(
       spacing: AppTheme.defaultPadding / 2,
       runSpacing: AppTheme.defaultPadding / 2,
       alignment: WrapAlignment.end,
       children: [
-        OutlinedButton.icon(
-          icon: const Icon(Icons.shopping_cart_outlined, size: 18),
-          label: const Text('Orders'),
-          style: OutlinedButton.styleFrom(
-            foregroundColor: AppTheme.primaryColor,
-            side: const BorderSide(color: AppTheme.primaryColor),
-          ),
-          onPressed: () => Navigator.pushNamed(
-            context,
-            '/admin/${widget.user.id}/orders',
-          ),
-        ),
-        OutlinedButton.icon(
-          icon: const Icon(Icons.edit_note_outlined,
-              size: 18, color: AppTheme.secondaryColor),
-          label: const Text('EDIT'),
-          style: OutlinedButton.styleFrom(
-            foregroundColor: AppTheme.secondaryColor,
-            side: const BorderSide(color: AppTheme.secondaryColor),
-          ),
-          onPressed: () => Navigator.pushNamed(
-            context,
-            '/admin/${widget.user.id}/details',
-          ),
-        ),
+        cardButton(
+            'Orders',
+            () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OrdersPage(user: widget.user),
+                  ),
+                ),
+            Icons.shopping_cart_outlined,
+            AppTheme.secondaryColor,
+            isMobile),
+        cardButton(
+            'Details',
+            () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserPage(user: widget.user),
+                  ),
+                ),
+            Icons.edit_note_outlined,
+            AppTheme.primaryColor,
+            isMobile),
         if (!widget.user.roles.contains('ROLE_ADMIN'))
-          OutlinedButton.icon(
-            onPressed: _confirmDelete,
-            icon:
-                const Icon(Icons.delete_outlined, size: 18, color: Colors.red),
-            label: const Text('DELETE'),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.red,
-              side: const BorderSide(color: Colors.red),
-            ),
-          ),
+          cardButton('Delete', _confirmDelete, Icons.delete_outlined,
+              Colors.red, isMobile),
       ],
     );
   }

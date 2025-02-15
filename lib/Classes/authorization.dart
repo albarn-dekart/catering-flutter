@@ -1,19 +1,74 @@
 import 'dart:convert';
+import 'package:catering_app/Classes/user_manager.dart';
+import 'package:catering_app/Pages/login_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
 import 'package:catering_app/main.dart';
-import 'package:catering_app/Classes/role_manager.dart';
+
 import 'package:catering_app/Classes/api_config.dart';
 import 'package:catering_app/Classes/notification_bar.dart';
+import 'package:catering_app/Pages/home_page.dart';
 
 class Authorization {
   static const _storage = FlutterSecureStorage();
   static const _keyToken = 'token';
   static const _keyRefreshToken = 'refresh_token';
   static const _keyRefreshTokenExpiration = 'refresh_token_expiration';
+
+  static Future<void> register(String email, String password, String passwordRepeat) async {
+    // Email validation
+    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
+    if (!emailRegex.hasMatch(email)) {
+      NotificationBar()
+          .show('Please enter a valid email address', Colors.yellow);
+      return;
+    }
+
+    // Password validation
+    if (password.length < 8 ||
+        !RegExp(r'[A-Z]').hasMatch(password) || // Uppercase
+        !RegExp(r'[0-9]').hasMatch(password) || // Digit
+        !RegExp(r'[\W_]').hasMatch(password)) {
+      // Special character
+      NotificationBar().show(
+        'Password must be at least 8 characters long and include at least one uppercase letter, one number, and one special character',
+        Colors.yellow,
+      );
+      return;
+    }
+
+    // Check if passwords match
+    if (password != passwordRepeat) {
+      NotificationBar().show('The passwords don\'t match', Colors.yellow);
+      return;
+    }
+
+    //Request
+    try {
+      final response = await http.post(
+        ApiConfig.register(),
+        body: jsonEncode({
+          'email': email,
+          'password': password,
+        }),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 204) {
+        NotificationBar().show('Registration successful!', Colors.green);
+        await Authorization.login(email, password);
+      } else {
+        final error =
+            '${response.statusCode.toString()} - ${jsonDecode(response.body)['error'] ?? 'Unknown error'}';
+        NotificationBar().show('Registration failed', Colors.red, error);
+      }
+    } catch (error) {
+      NotificationBar()
+          .show('Registration failed', Colors.red, error.toString());
+    }
+  }
 
   static Future<void> login(String email, String password) async {
     if (email.isEmpty || password.isEmpty) {
@@ -24,7 +79,7 @@ class Authorization {
     //Request
     try {
       final response = await http.post(
-        ApiConfig.getLoginUrl(),
+        ApiConfig.login(),
         body: jsonEncode({
           'email': email,
           'password': password,
@@ -38,17 +93,21 @@ class Authorization {
         final refreshToken = data['refresh_token'];
         final refreshTokenExpiration = data['refresh_token_expiration'];
 
+        UserManager().updateUserFromToken(token);
+
         await Authorization.saveToken(_keyToken, token);
         await Authorization.saveToken(_keyRefreshToken, refreshToken);
         await Authorization.saveRefreshTokenExpiration(refreshTokenExpiration);
 
-        RoleManager().setRoles(await getUserRoles());
-
         NotificationBar().show('Logged in!', Colors.green);
-        navigatorKey.currentState?.pushReplacementNamed('/home');
+        navigatorKey.currentState?.pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => HomePage(),
+          ),
+        );
       } else {
         final error =
-            '${response.statusCode.toString()} - ${jsonDecode(response.body)['message'] ?? 'Unknown error'}';
+            '${response.statusCode.toString()} - ${jsonDecode(response.body)['error'] ?? 'Unknown error'}';
         NotificationBar()
             .show('Login or password is incorrect', Colors.red, error);
       }
@@ -64,7 +123,7 @@ class Authorization {
         String? refreshToken = await getToken(_keyRefreshToken);
 
         final response = await http.post(
-          ApiConfig.getLogoutUrl(),
+          ApiConfig.logout(),
           body: jsonEncode({
             'refresh_token': refreshToken,
           }),
@@ -76,13 +135,14 @@ class Authorization {
           await Authorization.deleteToken(_keyRefreshToken);
           await Authorization.deleteToken(_keyRefreshTokenExpiration);
 
-          RoleManager().setRoles([]);
+          UserManager().clearUser();
 
           NotificationBar().show('Logged out', Colors.green);
-          navigatorKey.currentState?.pushReplacementNamed('/login');
+          navigatorKey.currentState?.pushReplacement(
+              MaterialPageRoute(builder: (context) => LoginPage()));
         } else {
           final error =
-              '${response.statusCode.toString()} - ${jsonDecode(response.body)['message'] ?? 'Unknown error'}';
+              '${response.statusCode.toString()} - ${jsonDecode(response.body)['error'] ?? 'Unknown error'}';
           NotificationBar()
               .show('Network error. Please try again', Colors.red, error);
         }
@@ -95,16 +155,15 @@ class Authorization {
       await Authorization.deleteToken(_keyRefreshToken);
       await Authorization.deleteToken(_keyRefreshTokenExpiration);
 
-      RoleManager().setRoles([]);
+      UserManager().clearUser();
     }
   }
 
-  static Future<List<String>> getUserRoles() async {
+  //Check if user has role in decoded token
+  static Future<bool> hasRole(String role) async {
     String? token = await getValidToken();
 
-    if (token == null || JwtDecoder.isExpired(token)) {
-      return [];
-    }
+    if (token == null || JwtDecoder.isExpired(token)) return false;
 
     try {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
@@ -112,14 +171,32 @@ class Authorization {
       if (decodedToken.containsKey('roles') &&
           decodedToken['roles'] is List<dynamic>) {
         List<String> userRoles = List<String>.from(decodedToken['roles']);
-        return userRoles;
-      } else {
-        return [];
+        return userRoles.contains(role);
       }
     } catch (error) {
       debugPrint("Error decoding token: $error");
-      return [];
     }
+
+    return false;
+  }
+
+  //Get username from token
+  static Future<String?> username() async {
+    String? token = await getValidToken();
+
+    if (token == null || JwtDecoder.isExpired(token)) return null;
+
+    try {
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+
+      if (decodedToken.containsKey('username')) {
+        return decodedToken['username'];
+      }
+    } catch (error) {
+      debugPrint("Error decoding token: $error");
+    }
+
+    return null;
   }
 
   static Future<void> saveToken(String key, String token) async {
@@ -145,7 +222,7 @@ class Authorization {
     await _storage.delete(key: key);
   }
 
-  // Refresh the JWT token using the refresh token
+  // Refresh token using the refresh token, if expired ask for login
   static Future<String?> refreshJwtToken() async {
     String? refreshToken = await getToken(_keyRefreshToken);
     int? expirationTime = await getRefreshTokenExpiration();
@@ -158,7 +235,7 @@ class Authorization {
       } else {
         try {
           final response = await http.post(
-            ApiConfig.getRefreshTokenUrl(),
+            ApiConfig.refreshToken(),
             headers: {
               'Content-Type': 'application/json',
             },
@@ -181,7 +258,7 @@ class Authorization {
             return newToken;
           } else {
             final error =
-                '${response.statusCode.toString()} - ${jsonDecode(response.body)['message'] ?? 'Unknown error'}';
+                '${response.statusCode.toString()} - ${jsonDecode(response.body)['error'] ?? 'Unknown error'}';
             NotificationBar()
                 .show('Network error. Please log in again', Colors.red, error);
           }
@@ -195,11 +272,12 @@ class Authorization {
     }
 
     await logout(false);
-    navigatorKey.currentState?.pushReplacementNamed('/login');
+    navigatorKey.currentState
+        ?.pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));
     return null;
   }
 
-  // Retrieve a valid token, refreshing it if necessary
+  // Get valid token, refresh if necessary
   static Future<String?> getValidToken() async {
     String? token = await getToken(_keyToken);
 

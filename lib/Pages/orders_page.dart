@@ -2,11 +2,12 @@ import 'package:catering_app/Classes/order.dart';
 import 'package:flutter/material.dart';
 import 'package:catering_app/Classes/catering_app_bar.dart';
 import 'package:catering_app/Classes/app_theme.dart';
+import 'package:catering_app/Classes/user.dart';
 
 class OrdersPage extends StatefulWidget {
-  final int? userId;
+  final User? user;
 
-  const OrdersPage({super.key, this.userId});
+  const OrdersPage({super.key, this.user});
 
   @override
   _OrdersPageState createState() => _OrdersPageState();
@@ -19,15 +20,13 @@ class _OrdersPageState extends State<OrdersPage> {
   @override
   void initState() {
     super.initState();
-    _fetchOrders();
+    _getOrders();
   }
 
-  Future<void> _fetchOrders() async {
-    setState(() {
-      isLoading = true;
-    });
+  Future<void> _getOrders() async {
+    setState(() => isLoading = true);
 
-    final fetchedOrders = await Order.fetch(widget.userId);
+    final fetchedOrders = await Order.getAll(widget.user);
 
     setState(() {
       orders = fetchedOrders;
@@ -38,7 +37,7 @@ class _OrdersPageState extends State<OrdersPage> {
   @override
   Widget build(BuildContext context) {
     final pageTitle =
-    widget.userId != null ? 'ID ${widget.userId} Orders' : 'My Orders';
+        widget.user != null ? 'ID ${widget.user?.id} Orders' : 'My Orders';
 
     return Scaffold(
       appBar: CateringAppBar(title: pageTitle),
@@ -53,13 +52,12 @@ class _OrdersPageState extends State<OrdersPage> {
     return ListView.separated(
       padding: const EdgeInsets.all(AppTheme.defaultPadding),
       itemCount: orders.length,
-      separatorBuilder: (_, __) => const SizedBox(height: AppTheme.defaultPadding),
+      separatorBuilder: (_, __) =>
+          const SizedBox(height: AppTheme.defaultPadding),
       itemBuilder: (context, index) => OrderCard(
         order: orders[index],
-        onOrderDeleted: (orderId) {
-          setState(() {
-            orders.removeWhere((order) => order.id == orderId);
-          });
+        onOrderDeleted: (Order order) {
+          setState(() => orders.remove(order));
         },
       ),
     );

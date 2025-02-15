@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+
+import 'package:catering_app/Pages/home_page.dart';
+import 'package:catering_app/Pages/login_page.dart';
+import 'package:catering_app/Pages/new_order.dart';
+import 'package:catering_app/Pages/orders_page.dart';
+import 'package:catering_app/Pages/register_page.dart';
+import 'package:catering_app/Pages/user_page.dart';
+
 import 'package:catering_app/main.dart';
-import 'package:catering_app/Classes/role_manager.dart';
+import 'package:catering_app/Classes/user_manager.dart';
 import 'package:catering_app/Classes/authorization.dart';
+import 'package:catering_app/Pages/admin_page.dart';
 
 class CateringAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
@@ -10,7 +19,7 @@ class CateringAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CateringAppBar({
     super.key,
     required this.title,
-    this.showBackButton = false,
+    this.showBackButton = true,
   });
 
   @override
@@ -23,11 +32,17 @@ class CateringAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _CateringAppBarState extends State<CateringAppBar> {
   @override
   Widget build(BuildContext context) {
-    final isAdmin = RoleManager().isAdmin;
-    final isUser = RoleManager().isUser;
+    final isAdmin = UserManager().hasRole('ROLE_ADMIN');
+    final isUser = UserManager().hasRole('ROLE_USER');
+    final detailsFilled = UserManager().detailsFilled;
+    final username = UserManager().username;
 
     return AppBar(
-      title: Text(widget.title),
+      //Page title
+      title: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(widget.title),
+      ),
       leading: widget.showBackButton
           ? IconButton(
               icon: const Icon(Icons.arrow_back),
@@ -36,24 +51,35 @@ class _CateringAppBarState extends State<CateringAppBar> {
           : null,
       automaticallyImplyLeading: false,
       actions: [
-        if (isAdmin) ...[
-          _buildAppBarButton('Manage Users', '/admin/users'),
-          _buildAppBarButton('Manage Meal Plans', '/admin/meal_plans'),
-        ],
+        if (isAdmin) _buildAppBarButton('Admin Page', AdminPage()),
         if (isUser) ...[
-          _buildAppBarButton('New Order', '/order'),
-          _buildProfileMenu(),
+          //New order or redirect if user details are not filled
+          _buildAppBarButton(
+              'New Order', detailsFilled ? NewOrder() : UserPage()),
+          //Show current username
+          if (username != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Center(
+                child: Text(
+                  '($username)',
+                  style: const TextStyle(fontSize: 14, color: Colors.white70),
+                ),
+              ),
+            ),
+          _buildUserMenu(), // UserMenu comes after the username
         ] else ...[
-          _buildAppBarButton('Login', '/login'),
-          _buildAppBarButton('Register', '/register'),
+          _buildAppBarButton('Login', LoginPage()),
+          _buildAppBarButton('Register', RegisterPage()),
         ],
       ],
     );
   }
 
-  Widget _buildAppBarButton(String text, String route) {
+  Widget _buildAppBarButton(String text, Widget page) {
     return TextButton(
-      onPressed: () => navigatorKey.currentState?.pushReplacementNamed(route),
+      onPressed: () => navigatorKey.currentState
+          ?.push(MaterialPageRoute(builder: (context) => page)),
       style: TextButton.styleFrom(
         foregroundColor: Colors.white,
       ),
@@ -61,7 +87,7 @@ class _CateringAppBarState extends State<CateringAppBar> {
     );
   }
 
-  Widget _buildProfileMenu() {
+  Widget _buildUserMenu() {
     return PopupMenuButton<String>(
       icon: const Icon(Icons.person, color: Colors.white),
       itemBuilder: (context) => [
@@ -69,7 +95,7 @@ class _CateringAppBarState extends State<CateringAppBar> {
           value: 'details',
           child: ListTile(
             leading: Icon(Icons.account_circle),
-            title: Text('Profile Details'),
+            title: Text('User Details'),
           ),
         ),
         const PopupMenuItem(
@@ -88,8 +114,24 @@ class _CateringAppBarState extends State<CateringAppBar> {
         ),
       ],
       onSelected: (value) async {
-        if (value == 'logout') await Authorization.logout();
-        navigatorKey.currentState?.pushReplacementNamed('/$value');
+        Widget page = HomePage();
+        switch (value) {
+          case 'details':
+            page = UserPage();
+            break;
+          case 'orders':
+            page = OrdersPage();
+            break;
+          case 'logout':
+            await Authorization.logout();
+            break;
+        }
+
+        navigatorKey.currentState?.push(
+          MaterialPageRoute(
+            builder: (context) => page,
+          ),
+        );
       },
     );
   }

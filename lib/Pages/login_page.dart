@@ -61,16 +61,21 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () async {
-                      await Authorization.login(
-                          _emailController.text, _passwordController.text);
-                    },
+                    onPressed: isLoading
+                        ? null
+                        : () async {
+                            setState(() => isLoading = true);
+                            await Authorization.login(_emailController.text,
+                                _passwordController.text);
+                            setState(() => isLoading = false);
+                          },
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: AppTheme.defaultPadding),
                     ),
                     child: isLoading
                         ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text('SIGN IN'),
+                        : const Text('Sign In'),
                   ),
                 ),
               ],
