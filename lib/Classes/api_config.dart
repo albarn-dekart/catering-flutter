@@ -1,10 +1,5 @@
 class ApiConfig {
-  static const String devBaseUrl = 'http://127.0.0.1:8000/api';
-  static const String prodBaseUrl = 'http://63.177.98.17/api';
-
-  static const bool isProduction = true;
-
-  static String get baseUrl => isProduction ? prodBaseUrl : devBaseUrl;
+  static const String baseUrl = 'http://63.177.98.17/api';
 
   //Authorization
   static Uri register() => Uri.parse('$baseUrl/register');

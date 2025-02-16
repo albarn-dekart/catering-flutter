@@ -1,18 +1,16 @@
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:catering_app/Classes/user_manager.dart';
 import 'package:catering_app/Pages/login_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:catering_app/main.dart';
-
 import 'package:catering_app/Classes/api_config.dart';
 import 'package:catering_app/Classes/notification_bar.dart';
 import 'package:catering_app/Pages/home_page.dart';
 
 class Authorization {
-  static const _storage = FlutterSecureStorage();
   static const _keyToken = 'token';
   static const _keyRefreshToken = 'refresh_token';
   static const _keyRefreshTokenExpiration = 'refresh_token_expiration';
@@ -159,7 +157,6 @@ class Authorization {
     }
   }
 
-  //Check if user has role in decoded token
   static Future<bool> hasRole(String role) async {
     String? token = await getValidToken();
 
@@ -180,7 +177,6 @@ class Authorization {
     return false;
   }
 
-  //Get username from token
   static Future<String?> username() async {
     String? token = await getValidToken();
 
@@ -200,29 +196,30 @@ class Authorization {
   }
 
   static Future<void> saveToken(String key, String token) async {
-    await _storage.write(key: key, value: token);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(key, token);
   }
 
   static Future<void> saveRefreshTokenExpiration(int expirationTime) async {
-    await _storage.write(
-        key: _keyRefreshTokenExpiration, value: expirationTime.toString());
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(_keyRefreshTokenExpiration, expirationTime);
   }
 
   static Future<int?> getRefreshTokenExpiration() async {
-    return await _storage
-        .read(key: _keyRefreshTokenExpiration)
-        .then((value) => int.tryParse(value ?? '0'));
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(_keyRefreshTokenExpiration);
   }
 
   static Future<String?> getToken(String key) async {
-    return await _storage.read(key: key);
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key);
   }
 
   static Future<void> deleteToken(String key) async {
-    await _storage.delete(key: key);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(key);
   }
 
-  // Refresh token using the refresh token, if expired ask for login
   static Future<String?> refreshJwtToken() async {
     String? refreshToken = await getToken(_keyRefreshToken);
     int? expirationTime = await getRefreshTokenExpiration();
@@ -277,7 +274,6 @@ class Authorization {
     return null;
   }
 
-  // Get valid token, refresh if necessary
   static Future<String?> getValidToken() async {
     String? token = await getToken(_keyToken);
 

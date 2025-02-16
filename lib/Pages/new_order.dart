@@ -1,4 +1,3 @@
-import 'package:catering_app/Classes/user_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -10,8 +9,6 @@ import 'package:catering_app/Classes/category.dart';
 import 'package:catering_app/Classes/app_theme.dart';
 import 'package:catering_app/Classes/order.dart';
 import 'package:catering_app/Classes/meal_selection_widget.dart';
-import 'package:catering_app/Classes/user.dart';
-import 'package:catering_app/Pages/user_page.dart';
 
 class NewOrder extends StatefulWidget {
   const NewOrder({super.key});
