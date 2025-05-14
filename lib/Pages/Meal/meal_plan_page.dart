@@ -42,7 +42,7 @@ class _MealPlanPageState extends State<MealPlanPage> {
           ),
         ),
         backgroundColor: AppTheme.primaryColor,
-        foregroundColor: Colors.white,
+        foregroundColor: Colors.white70,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppTheme.cardRadius),
         ),

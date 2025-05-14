@@ -228,10 +228,10 @@ class WeekdayToggle extends StatelessWidget {
           selected: isSelected,
           onSelected: (selected) => onToggle(day),
           selectedColor: AppTheme.primaryColor,
-          checkmarkColor: Colors.white,
+          checkmarkColor: Colors.white70,
           backgroundColor: Colors.grey[200],
           labelStyle: TextStyle(
-            color: isSelected ? Colors.white : Colors.black87,
+            color: isSelected ? Colors.white70 : Colors.black87,
           ),
         );
       }),

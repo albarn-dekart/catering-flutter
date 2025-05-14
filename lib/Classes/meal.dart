@@ -246,16 +246,12 @@ class _MealCard extends State<MealCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(
-        vertical: AppTheme.defaultPadding / 2,
-        horizontal: AppTheme.defaultPadding,
-      ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppTheme.cardRadius),
       ),
       elevation: 2,
       child: Padding(
-        padding: const EdgeInsets.all(AppTheme.defaultPadding),
+        padding: const EdgeInsets.all(AppTheme.defaultPadding / 2),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

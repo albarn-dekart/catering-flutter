@@ -81,7 +81,7 @@ class _CateringAppBarState extends State<CateringAppBar> {
       onPressed: () => navigatorKey.currentState
           ?.push(MaterialPageRoute(builder: (context) => page)),
       style: TextButton.styleFrom(
-        foregroundColor: Colors.white,
+        foregroundColor: Colors.white70,
       ),
       child: Text(text),
     );
@@ -89,7 +89,7 @@ class _CateringAppBarState extends State<CateringAppBar> {
 
   Widget _buildUserMenu() {
     return PopupMenuButton<String>(
-      icon: const Icon(Icons.person, color: Colors.white),
+      icon: const Icon(Icons.person, color: Colors.white70),
       itemBuilder: (context) => [
         const PopupMenuItem(
           value: 'details',

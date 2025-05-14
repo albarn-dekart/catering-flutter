@@ -93,7 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           vertical: AppTheme.defaultPadding),
                     ),
                     child: isLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
+                        ? const CircularProgressIndicator(color: Colors.white70)
                         : const Text('Register'),
                   ),
                 ),

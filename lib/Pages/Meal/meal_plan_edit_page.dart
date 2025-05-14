@@ -125,7 +125,7 @@ class _MealPlanEditPageState extends State<MealPlanEditPage> {
               ),
               child: const Text(
                 'Save Meal Plan',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white70),
               ),
             ),
             const SizedBox(height: AppTheme.defaultPadding),

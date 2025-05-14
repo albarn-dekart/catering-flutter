@@ -11,7 +11,9 @@ import 'package:catering_app/Classes/order.dart';
 import 'package:catering_app/Classes/meal_selection_widget.dart';
 
 class NewOrder extends StatefulWidget {
-  const NewOrder({super.key});
+  final MealPlan? initialMealPlan;
+
+  const NewOrder({super.key, this.initialMealPlan});
 
   @override
   _NewOrderState createState() => _NewOrderState();
@@ -78,6 +80,18 @@ class _NewOrderState extends State<NewOrder> {
       final results = await Future.wait([mealPlansFuture, categoriesFuture]);
       mealPlans = results[0] as List<MealPlan>;
       categories = results[1] as List<Category>;
+
+      // Pre-select initialMealPlan if provided
+      if (widget.initialMealPlan != null) {
+        for (var plan in mealPlans) {
+          if (plan.id == widget.initialMealPlan!.id) {
+            plan.isSelected = true;
+            selectedMealPlan = plan;
+            selectedMeals = plan.meals;
+            break;
+          }
+        }
+      }
     } else {
       meals = await Meal.get(category);
     }
@@ -208,7 +222,7 @@ class _NewOrderState extends State<NewOrder> {
             ),
             child: Text(
               currentStep < 2 ? 'Continue' : 'Place Order',
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white70),
             ),
           ),
         ],

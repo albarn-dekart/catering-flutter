@@ -247,7 +247,7 @@ class _CategoryCardState extends State<CategoryCard> {
                       onPressed: _handleSave,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.primaryColor,
-                        foregroundColor: Colors.white,
+                        foregroundColor: Colors.white70,
                       ),
                       child: const Text('Save'),
                     ),

@@ -1,4 +1,4 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:html';
 import 'dart:convert';
 import 'package:catering_app/Classes/user_manager.dart';
 import 'package:catering_app/Pages/login_page.dart';
@@ -196,28 +196,24 @@ class Authorization {
   }
 
   static Future<void> saveToken(String key, String token) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(key, token);
+    window.localStorage[key] = token;
   }
 
   static Future<void> saveRefreshTokenExpiration(int expirationTime) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_keyRefreshTokenExpiration, expirationTime);
+    window.localStorage[_keyRefreshTokenExpiration] = expirationTime.toString();
   }
 
   static Future<int?> getRefreshTokenExpiration() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(_keyRefreshTokenExpiration);
+    final expiration = window.localStorage[_keyRefreshTokenExpiration];
+    return expiration != null ? int.tryParse(expiration) : null;
   }
 
   static Future<String?> getToken(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(key);
+    return window.localStorage[key];
   }
 
   static Future<void> deleteToken(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(key);
+    window.localStorage.remove(key);
   }
 
   static Future<String?> refreshJwtToken() async {

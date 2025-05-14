@@ -73,7 +73,7 @@ class _CategoryPageState extends State<CategoryPage> {
           );
         },
         backgroundColor: AppTheme.primaryColor,
-        foregroundColor: Colors.white,
+        foregroundColor: Colors.white70,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppTheme.cardRadius),
         ),
@@ -166,7 +166,7 @@ class _CategoryAddDialogState extends State<CategoryAddDialog> {
           onPressed: () => _submitForm(context),
           style: ElevatedButton.styleFrom(
             backgroundColor: AppTheme.primaryColor,
-            foregroundColor: Colors.white,
+            foregroundColor: Colors.white70,
           ),
           child: const Text('Create'),
         ),

@@ -422,7 +422,7 @@ class _UserPageState extends State<UserPage> {
       width: double.infinity,
       child: ElevatedButton.icon(
         icon: const Icon(Icons.save, size: 20),
-        label: Text(label, style: TextStyle(color: Colors.white)),
+        label: Text(label, style: TextStyle(color: Colors.white70)),
         style: ElevatedButton.styleFrom(
           padding:
               const EdgeInsets.symmetric(vertical: AppTheme.defaultPadding),

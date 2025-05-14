@@ -108,7 +108,7 @@ class _MealEditPageState extends State<MealEditPage> {
               ),
               child: const Text(
                 'Save Meal',
-                style: TextStyle(color: Colors.white, fontSize: 16),
+                style: TextStyle(color: Colors.white70, fontSize: 16),
               ),
             ),
           ],

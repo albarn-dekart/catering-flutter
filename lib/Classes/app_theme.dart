@@ -6,8 +6,8 @@ class AppTheme {
   static const Color errorColor = Color(0xFFD32F2F);
   static const Color successColor = Color(0xFF388E3C);
   static const Color warningColor = Color(0xFFF57C00);
-  static const Color backgroundColor = Colors.white;
-  static const Color cardColor = Colors.white;
+  static const Color backgroundColor = Colors.white70;
+  static const Color cardColor = Colors.white70;
   static const double defaultPadding = 16.0;
   static const double cardRadius = 12.0;
 
@@ -27,7 +27,7 @@ class AppTheme {
         titleTextStyle: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
-          color: Colors.white,
+          color: Colors.white70,
         ),
       ),
       cardTheme: CardTheme(

@@ -7,7 +7,7 @@ class NotificationBar {
     if (debug != null) debugPrint(debug);
 
     final textColor =
-        backgroundColor.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+        backgroundColor.computeLuminance() > 0.5 ? Colors.black : Colors.white70;
 
     scaffoldMessengerKey.currentState?.showSnackBar(
       SnackBar(

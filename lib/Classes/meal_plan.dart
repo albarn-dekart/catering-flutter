@@ -223,13 +223,11 @@ class _MealPlanCard extends State<MealPlanCard> {
           children: [
             _buildImageAndContent(imageSize, isMobile),
             const SizedBox(height: AppTheme.defaultPadding),
-            ...widget.mealPlan.meals.map((meal) => Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: AppTheme.defaultPadding / 4,
-                  ),
-                  child: MealCard(meal: meal),
-                )),
-            _buildSelectionButton(isMobile),
+            ...widget.mealPlan.meals.map(
+              (meal) => MealCard(meal: meal),
+            ),
+            const SizedBox(height: AppTheme.defaultPadding),
+            _buildSelectButton(isMobile),
           ],
         ),
       ),
@@ -306,7 +304,7 @@ class _MealPlanCard extends State<MealPlanCard> {
           );
   }
 
-  Widget _buildSelectionButton(bool isMobile) {
+  Widget _buildSelectButton(bool isMobile) {
     if (widget.isAdmin) return const SizedBox.shrink();
 
     return Align(
@@ -353,5 +351,99 @@ class _MealPlanCard extends State<MealPlanCard> {
     if (confirmed == true && await widget.mealPlan.delete()) {
       widget.onDelete?.call(widget.mealPlan);
     }
+  }
+}
+
+class HomeMealPlanCard extends StatelessWidget {
+  final MealPlan mealPlan;
+  final VoidCallback onSelect;
+
+  const HomeMealPlanCard({
+    super.key,
+    required this.mealPlan,
+    required this.onSelect,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    Widget buildHeader(bool isMobile) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          buildImage(mealPlan.imageFile, isMobile ? 80 : 100),
+          const SizedBox(width: AppTheme.defaultPadding),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(mealPlan.name,
+                    style: Theme.of(context).textTheme.titleLarge),
+                if (mealPlan.description != null)
+                  Text(mealPlan.description!,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis),
+                const SizedBox(height: AppTheme.defaultPadding / 2),
+                Text('\$${_calculateTotalPrice().toStringAsFixed(2)}/day',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: AppTheme.primaryColor,
+                        fontWeight: FontWeight.w600)),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+
+    final isMobile = MediaQuery.of(context).size.width < 600;
+
+    return Card(
+      margin: EdgeInsets.symmetric(
+        vertical: AppTheme.defaultPadding / 2,
+        horizontal:
+            isMobile ? AppTheme.defaultPadding / 2 : AppTheme.defaultPadding,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppTheme.cardRadius),
+      ),
+      elevation: 2,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(AppTheme.cardRadius),
+        onTap: onSelect,
+        child: Padding(
+          padding: EdgeInsets.all(
+              isMobile ? AppTheme.defaultPadding / 2 : AppTheme.defaultPadding),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              buildHeader(isMobile),
+              const SizedBox(height: AppTheme.defaultPadding),
+              ...mealPlan.meals.map((meal) => Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: AppTheme.defaultPadding / 4),
+                    child: Text('• ${meal.name}',
+                        style: Theme.of(context).textTheme.bodyMedium),
+                  )),
+              const SizedBox(height: AppTheme.defaultPadding),
+              _buildSelectButton(isMobile),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSelectButton(bool isMobile) {
+    return Align(
+      alignment: isMobile ? Alignment.center : Alignment.centerRight,
+      child: SizedBox(
+          width: isMobile ? double.infinity : null,
+          child: cardButton('Order Meal Plan', onSelect, Icons.shopping_cart,
+              AppTheme.primaryColor, isMobile)),
+    );
+  }
+
+  double _calculateTotalPrice() {
+    return mealPlan.meals.fold(0.0, (sum, meal) => sum + meal.price);
   }
 }

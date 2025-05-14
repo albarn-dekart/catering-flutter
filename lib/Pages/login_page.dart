@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                           vertical: AppTheme.defaultPadding),
                     ),
                     child: isLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
+                        ? const CircularProgressIndicator(color: Colors.white70)
                         : const Text('Sign In'),
                   ),
                 ),

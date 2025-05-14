@@ -41,7 +41,7 @@ class _MealPageState extends State<MealPage> {
           ),
         ),
         backgroundColor: AppTheme.primaryColor,
-        foregroundColor: Colors.white,
+        foregroundColor: Colors.white70,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppTheme.cardRadius),
         ),
