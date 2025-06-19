@@ -5,17 +5,17 @@ import 'package:http/http.dart' as http;
 import 'package:catering_app/Classes/api_config.dart';
 
 import 'package:catering_app/Classes/notification_bar.dart';
-import 'package:catering_app/Classes/build_image.dart';
 import 'package:catering_app/Classes/meal.dart';
 import 'package:catering_app/Classes/app_theme.dart';
 import 'package:catering_app/Classes/authorization.dart';
 import 'package:catering_app/Classes/button.dart';
+import 'package:catering_app/Classes/network_image.dart';
 
 class MealPlan {
   final int? id;
   final String name;
   final String? description;
-  final String? imageFile;
+  final String imageFile;
   final List<Meal> meals;
   bool isSelected;
 
@@ -23,8 +23,8 @@ class MealPlan {
     this.id,
     required this.name,
     required this.meals,
+    required this.imageFile,
     this.description,
-    this.imageFile,
     this.isSelected = false,
   });
 
@@ -203,7 +203,7 @@ class _MealPlanCard extends State<MealPlanCard> {
   @override
   Widget build(BuildContext context) {
     final bool isMobile = MediaQuery.of(context).size.width < 600;
-    final double imageSize = isMobile ? 80.0 : 100.0;
+    final double imageSize = 200;
 
     return Card(
       margin: EdgeInsets.symmetric(
@@ -270,7 +270,11 @@ class _MealPlanCard extends State<MealPlanCard> {
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(child: buildImage(widget.mealPlan.imageFile, imageSize)),
+              Center(
+                  child: NetworkImageWidget(
+                filename: widget.mealPlan.imageFile,
+                size: imageSize,
+              )),
               const SizedBox(height: AppTheme.defaultPadding),
               content,
             ],
@@ -278,7 +282,10 @@ class _MealPlanCard extends State<MealPlanCard> {
         : Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildImage(widget.mealPlan.imageFile, imageSize),
+              NetworkImageWidget(
+                filename: widget.mealPlan.imageFile,
+                size: imageSize,
+              ),
               const SizedBox(width: AppTheme.defaultPadding),
               Expanded(child: content),
             ],
@@ -366,42 +373,12 @@ class HomeMealPlanCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget buildHeader(bool isMobile) {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          buildImage(mealPlan.imageFile, isMobile ? 80 : 100),
-          const SizedBox(width: AppTheme.defaultPadding),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(mealPlan.name,
-                    style: Theme.of(context).textTheme.titleLarge),
-                if (mealPlan.description != null)
-                  Text(mealPlan.description!,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis),
-                const SizedBox(height: AppTheme.defaultPadding / 2),
-                Text('\$${_calculateTotalPrice().toStringAsFixed(2)}/day',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: AppTheme.primaryColor,
-                        fontWeight: FontWeight.w600)),
-              ],
-            ),
-          ),
-        ],
-      );
-    }
-
     final isMobile = MediaQuery.of(context).size.width < 600;
 
     return Card(
       margin: EdgeInsets.symmetric(
         vertical: AppTheme.defaultPadding / 2,
-        horizontal:
-            isMobile ? AppTheme.defaultPadding / 2 : AppTheme.defaultPadding,
+        horizontal: AppTheme.defaultPadding / 2,
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppTheme.cardRadius),
@@ -411,12 +388,100 @@ class HomeMealPlanCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppTheme.cardRadius),
         onTap: onSelect,
         child: Padding(
-          padding: EdgeInsets.all(
-              isMobile ? AppTheme.defaultPadding / 2 : AppTheme.defaultPadding),
+          padding: EdgeInsets.all(AppTheme.defaultPadding),
+          child: isMobile
+              ? _buildMobileLayout(context)
+              : _buildDesktopLayout(context),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMobileLayout(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Image row
+        Center(
+            child: NetworkImageWidget(
+          filename: mealPlan.imageFile,
+          size: 240,
+        )),
+        const SizedBox(height: AppTheme.defaultPadding),
+
+        // Text content
+        Text(mealPlan.name, style: Theme.of(context).textTheme.titleLarge),
+        if (mealPlan.description != null)
+          Padding(
+            padding: const EdgeInsets.only(top: AppTheme.defaultPadding / 4),
+            child: Text(
+              mealPlan.description!,
+              style: Theme.of(context).textTheme.bodyMedium,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+
+        const SizedBox(height: AppTheme.defaultPadding),
+        Text(
+          '\$${_calculateTotalPrice().toStringAsFixed(2)}/day',
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: AppTheme.primaryColor,
+                fontWeight: FontWeight.w600,
+              ),
+        ),
+
+        const SizedBox(height: AppTheme.defaultPadding),
+        ...mealPlan.meals.map((meal) => Padding(
+              padding: const EdgeInsets.symmetric(
+                  vertical: AppTheme.defaultPadding / 4),
+              child: Text('• ${meal.name}',
+                  style: Theme.of(context).textTheme.bodyMedium),
+            )),
+
+        const SizedBox(height: AppTheme.defaultPadding),
+        _buildSelectButton(true),
+      ],
+    );
+  }
+
+  Widget _buildDesktopLayout(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Left column - image
+        NetworkImageWidget(
+          filename: mealPlan.imageFile,
+          size: 300,
+        ),
+        const SizedBox(width: AppTheme.defaultPadding),
+
+        // Right column - text content
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildHeader(isMobile),
+              Text(mealPlan.name,
+                  style: Theme.of(context).textTheme.titleLarge),
+              if (mealPlan.description != null)
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: AppTheme.defaultPadding / 4),
+                  child: Text(
+                    mealPlan.description!,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              const SizedBox(height: AppTheme.defaultPadding),
+              Text(
+                '\$${_calculateTotalPrice().toStringAsFixed(2)}/day',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: AppTheme.primaryColor,
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
               const SizedBox(height: AppTheme.defaultPadding),
               ...mealPlan.meals.map((meal) => Padding(
                     padding: const EdgeInsets.symmetric(
@@ -425,11 +490,11 @@ class HomeMealPlanCard extends StatelessWidget {
                         style: Theme.of(context).textTheme.bodyMedium),
                   )),
               const SizedBox(height: AppTheme.defaultPadding),
-              _buildSelectButton(isMobile),
+              _buildSelectButton(false),
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 
@@ -437,9 +502,15 @@ class HomeMealPlanCard extends StatelessWidget {
     return Align(
       alignment: isMobile ? Alignment.center : Alignment.centerRight,
       child: SizedBox(
-          width: isMobile ? double.infinity : null,
-          child: cardButton('Order Meal Plan', onSelect, Icons.shopping_cart,
-              AppTheme.primaryColor, isMobile)),
+        width: isMobile ? double.infinity : null,
+        child: cardButton(
+          'Order Meal Plan',
+          onSelect,
+          Icons.shopping_cart,
+          AppTheme.primaryColor,
+          isMobile,
+        ),
+      ),
     );
   }
 

@@ -338,13 +338,48 @@ class _OrderCardState extends State<OrderCard> {
   }
 
   Widget _buildDeliveryDays() {
-    return InfoRow(
-      icon: Icons.local_shipping_outlined,
-      label: 'Delivery Days',
-      value: widget.order.deliveryDays
-          .map((day) => DateRangePicker.dayOfWeekToString(day))
-          .join(', '),
-    );
+    // Check if the screen width is mobile size
+    final bool isMobile = MediaQuery.of(context).size.width < 600;
+
+    if (isMobile) {
+      // Mobile layout - each day on new line
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: AppTheme.defaultPadding / 2),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.local_shipping_outlined,
+              size: 20,
+              color: AppTheme.primaryColor,
+            ),
+            const SizedBox(width: AppTheme.defaultPadding),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Delivery Days:",
+                  style: TextStyle(fontWeight: FontWeight.w500),
+                ),
+                ...widget.order.deliveryDays.map((day) => Text(
+                  DateRangePicker.dayOfWeekToString(day),
+                  style: const TextStyle(color: Colors.black54),
+                )).toList(),
+              ],
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Desktop layout - single line with commas
+      return InfoRow(
+        icon: Icons.local_shipping_outlined,
+        label: 'Delivery Days',
+        value: widget.order.deliveryDays
+            .map((day) => DateRangePicker.dayOfWeekToString(day))
+            .join(', '),
+      );
+    }
   }
 
   Widget _buildStatusSection() {

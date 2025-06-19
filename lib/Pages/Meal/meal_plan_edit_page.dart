@@ -64,7 +64,9 @@ class _MealPlanEditPageState extends State<MealPlanEditPage> {
       id: widget.mealPlan?.id,
       name: _nameController.text,
       description: _descController.text,
-      imageFile: _imageController.text.isEmpty ? null : _imageController.text,
+      imageFile: _imageController.text.isEmpty
+          ? 'placeholder.png'
+          : _imageController.text,
       meals: selectedMeals,
     );
 

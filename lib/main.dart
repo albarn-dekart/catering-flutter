@@ -11,6 +11,7 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Authorization.init();
   UserManager().updateUserFromToken(await Authorization.getValidToken());
   runApp(MyApp());
 }

@@ -1,10 +1,12 @@
-import 'dart:html';
-import 'dart:convert';
-import 'package:catering_app/Classes/user_manager.dart';
-import 'package:catering_app/Pages/login_page.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+import 'package:catering_app/Classes/user_manager.dart';
+import 'package:catering_app/Pages/login_page.dart';
 import 'package:catering_app/main.dart';
 import 'package:catering_app/Classes/api_config.dart';
 import 'package:catering_app/Classes/notification_bar.dart';
@@ -14,6 +16,17 @@ class Authorization {
   static const _keyToken = 'token';
   static const _keyRefreshToken = 'refresh_token';
   static const _keyRefreshTokenExpiration = 'refresh_token_expiration';
+
+  // Secure storage for tokens
+  static const _secureStorage = FlutterSecureStorage();
+
+  // Shared preferences for non-sensitive data
+  static late SharedPreferences _prefs;
+
+  // Initialize shared preferences
+  static Future<void> init() async {
+    _prefs = await SharedPreferences.getInstance();
+  }
 
   static Future<void> register(String email, String password, String passwordRepeat) async {
     // Email validation
@@ -196,24 +209,26 @@ class Authorization {
   }
 
   static Future<void> saveToken(String key, String token) async {
-    window.localStorage[key] = token;
+    await _secureStorage.write(key: key, value: token);
   }
 
   static Future<void> saveRefreshTokenExpiration(int expirationTime) async {
-    window.localStorage[_keyRefreshTokenExpiration] = expirationTime.toString();
+    await _prefs.setInt(_keyRefreshTokenExpiration, expirationTime);
   }
 
   static Future<int?> getRefreshTokenExpiration() async {
-    final expiration = window.localStorage[_keyRefreshTokenExpiration];
-    return expiration != null ? int.tryParse(expiration) : null;
+    return _prefs.getInt(_keyRefreshTokenExpiration);
   }
 
   static Future<String?> getToken(String key) async {
-    return window.localStorage[key];
+    return await _secureStorage.read(key: key);
   }
 
   static Future<void> deleteToken(String key) async {
-    window.localStorage.remove(key);
+    await _secureStorage.delete(key: key);
+    if (key == _keyRefreshTokenExpiration) {
+      await _prefs.remove(key);
+    }
   }
 
   static Future<String?> refreshJwtToken() async {

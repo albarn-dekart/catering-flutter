@@ -69,7 +69,7 @@ class _CateringAppBarState extends State<CateringAppBar> {
             ),
           _buildUserMenu(), // UserMenu comes after the username
         ] else ...[
-          _buildAppBarButton('Login', LoginPage()),
+          _buildAppBarButton('Log In', LoginPage()),
           _buildAppBarButton('Register', RegisterPage()),
         ],
       ],

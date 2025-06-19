@@ -47,6 +47,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
+
     return Scaffold(
       appBar: const CateringAppBar(title: 'Home', showBackButton: false),
       body: Container(
@@ -67,28 +69,44 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(AppTheme.defaultPadding),
               child: Text(
                 'Meal Plans',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white70,
-                ),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
             ),
             Expanded(
-              child: GridView.builder(
-                padding: const EdgeInsets.all(AppTheme.defaultPadding),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: AppTheme.defaultPadding,
-                  mainAxisSpacing: AppTheme.defaultPadding,
-                  childAspectRatio: 2,
-                ),
-                itemCount: mealPlans.length,
-                itemBuilder: (context, index) => HomeMealPlanCard(
-                  mealPlan: mealPlans[index],
-                  onSelect: () => _navigateToNewOrder(mealPlans[index]),
-                ),
-              ),
+              child: isMobile
+                  ? ListView.builder(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppTheme.defaultPadding,
+                      ),
+                      itemCount: mealPlans.length,
+                      itemBuilder: (context, index) => Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: AppTheme.defaultPadding),
+                        child: HomeMealPlanCard(
+                          mealPlan: mealPlans[index],
+                          onSelect: () => _navigateToNewOrder(mealPlans[index]),
+                        ),
+                      ),
+                    )
+                  : GridView.builder(
+                      padding: const EdgeInsets.all(AppTheme.defaultPadding),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: AppTheme.defaultPadding,
+                        mainAxisSpacing: AppTheme.defaultPadding,
+                        childAspectRatio:
+                            1.5, // Adjusted for better proportions
+                      ),
+                      itemCount: mealPlans.length,
+                      itemBuilder: (context, index) => HomeMealPlanCard(
+                        mealPlan: mealPlans[index],
+                        onSelect: () => _navigateToNewOrder(mealPlans[index]),
+                      ),
+                    ),
             ),
           ],
         ),
