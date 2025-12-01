@@ -996,397 +996,6 @@ class _CopyWithStubImpl$Input$deleteAddressInput<TRes>
   call({String? id, String? clientMutationId}) => _res;
 }
 
-class Input$createCategoryInput {
-  factory Input$createCategoryInput({
-    required String name,
-    String? clientMutationId,
-  }) => Input$createCategoryInput._({
-    r'name': name,
-    if (clientMutationId != null) r'clientMutationId': clientMutationId,
-  });
-
-  Input$createCategoryInput._(this._$data);
-
-  factory Input$createCategoryInput.fromJson(Map<String, dynamic> data) {
-    final result$data = <String, dynamic>{};
-    final l$name = data['name'];
-    result$data['name'] = (l$name as String);
-    if (data.containsKey('clientMutationId')) {
-      final l$clientMutationId = data['clientMutationId'];
-      result$data['clientMutationId'] = (l$clientMutationId as String?);
-    }
-    return Input$createCategoryInput._(result$data);
-  }
-
-  Map<String, dynamic> _$data;
-
-  String get name => (_$data['name'] as String);
-
-  String? get clientMutationId => (_$data['clientMutationId'] as String?);
-
-  Map<String, dynamic> toJson() {
-    final result$data = <String, dynamic>{};
-    final l$name = name;
-    result$data['name'] = l$name;
-    if (_$data.containsKey('clientMutationId')) {
-      final l$clientMutationId = clientMutationId;
-      result$data['clientMutationId'] = l$clientMutationId;
-    }
-    return result$data;
-  }
-
-  CopyWith$Input$createCategoryInput<Input$createCategoryInput> get copyWith =>
-      CopyWith$Input$createCategoryInput(this, (i) => i);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Input$createCategoryInput ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$clientMutationId = clientMutationId;
-    final lOther$clientMutationId = other.clientMutationId;
-    if (_$data.containsKey('clientMutationId') !=
-        other._$data.containsKey('clientMutationId')) {
-      return false;
-    }
-    if (l$clientMutationId != lOther$clientMutationId) {
-      return false;
-    }
-    return true;
-  }
-
-  @override
-  int get hashCode {
-    final l$name = name;
-    final l$clientMutationId = clientMutationId;
-    return Object.hashAll([
-      l$name,
-      _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
-    ]);
-  }
-}
-
-abstract class CopyWith$Input$createCategoryInput<TRes> {
-  factory CopyWith$Input$createCategoryInput(
-    Input$createCategoryInput instance,
-    TRes Function(Input$createCategoryInput) then,
-  ) = _CopyWithImpl$Input$createCategoryInput;
-
-  factory CopyWith$Input$createCategoryInput.stub(TRes res) =
-      _CopyWithStubImpl$Input$createCategoryInput;
-
-  TRes call({String? name, String? clientMutationId});
-}
-
-class _CopyWithImpl$Input$createCategoryInput<TRes>
-    implements CopyWith$Input$createCategoryInput<TRes> {
-  _CopyWithImpl$Input$createCategoryInput(this._instance, this._then);
-
-  final Input$createCategoryInput _instance;
-
-  final TRes Function(Input$createCategoryInput) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? name = _undefined,
-    Object? clientMutationId = _undefined,
-  }) => _then(
-    Input$createCategoryInput._({
-      ..._instance._$data,
-      if (name != _undefined && name != null) 'name': (name as String),
-      if (clientMutationId != _undefined)
-        'clientMutationId': (clientMutationId as String?),
-    }),
-  );
-}
-
-class _CopyWithStubImpl$Input$createCategoryInput<TRes>
-    implements CopyWith$Input$createCategoryInput<TRes> {
-  _CopyWithStubImpl$Input$createCategoryInput(this._res);
-
-  TRes _res;
-
-  call({String? name, String? clientMutationId}) => _res;
-}
-
-class Input$updateCategoryInput {
-  factory Input$updateCategoryInput({
-    required String id,
-    String? name,
-    String? clientMutationId,
-  }) => Input$updateCategoryInput._({
-    r'id': id,
-    if (name != null) r'name': name,
-    if (clientMutationId != null) r'clientMutationId': clientMutationId,
-  });
-
-  Input$updateCategoryInput._(this._$data);
-
-  factory Input$updateCategoryInput.fromJson(Map<String, dynamic> data) {
-    final result$data = <String, dynamic>{};
-    final l$id = data['id'];
-    result$data['id'] = (l$id as String);
-    if (data.containsKey('name')) {
-      final l$name = data['name'];
-      result$data['name'] = (l$name as String?);
-    }
-    if (data.containsKey('clientMutationId')) {
-      final l$clientMutationId = data['clientMutationId'];
-      result$data['clientMutationId'] = (l$clientMutationId as String?);
-    }
-    return Input$updateCategoryInput._(result$data);
-  }
-
-  Map<String, dynamic> _$data;
-
-  String get id => (_$data['id'] as String);
-
-  String? get name => (_$data['name'] as String?);
-
-  String? get clientMutationId => (_$data['clientMutationId'] as String?);
-
-  Map<String, dynamic> toJson() {
-    final result$data = <String, dynamic>{};
-    final l$id = id;
-    result$data['id'] = l$id;
-    if (_$data.containsKey('name')) {
-      final l$name = name;
-      result$data['name'] = l$name;
-    }
-    if (_$data.containsKey('clientMutationId')) {
-      final l$clientMutationId = clientMutationId;
-      result$data['clientMutationId'] = l$clientMutationId;
-    }
-    return result$data;
-  }
-
-  CopyWith$Input$updateCategoryInput<Input$updateCategoryInput> get copyWith =>
-      CopyWith$Input$updateCategoryInput(this, (i) => i);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Input$updateCategoryInput ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (_$data.containsKey('name') != other._$data.containsKey('name')) {
-      return false;
-    }
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$clientMutationId = clientMutationId;
-    final lOther$clientMutationId = other.clientMutationId;
-    if (_$data.containsKey('clientMutationId') !=
-        other._$data.containsKey('clientMutationId')) {
-      return false;
-    }
-    if (l$clientMutationId != lOther$clientMutationId) {
-      return false;
-    }
-    return true;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$clientMutationId = clientMutationId;
-    return Object.hashAll([
-      l$id,
-      _$data.containsKey('name') ? l$name : const {},
-      _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
-    ]);
-  }
-}
-
-abstract class CopyWith$Input$updateCategoryInput<TRes> {
-  factory CopyWith$Input$updateCategoryInput(
-    Input$updateCategoryInput instance,
-    TRes Function(Input$updateCategoryInput) then,
-  ) = _CopyWithImpl$Input$updateCategoryInput;
-
-  factory CopyWith$Input$updateCategoryInput.stub(TRes res) =
-      _CopyWithStubImpl$Input$updateCategoryInput;
-
-  TRes call({String? id, String? name, String? clientMutationId});
-}
-
-class _CopyWithImpl$Input$updateCategoryInput<TRes>
-    implements CopyWith$Input$updateCategoryInput<TRes> {
-  _CopyWithImpl$Input$updateCategoryInput(this._instance, this._then);
-
-  final Input$updateCategoryInput _instance;
-
-  final TRes Function(Input$updateCategoryInput) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? clientMutationId = _undefined,
-  }) => _then(
-    Input$updateCategoryInput._({
-      ..._instance._$data,
-      if (id != _undefined && id != null) 'id': (id as String),
-      if (name != _undefined) 'name': (name as String?),
-      if (clientMutationId != _undefined)
-        'clientMutationId': (clientMutationId as String?),
-    }),
-  );
-}
-
-class _CopyWithStubImpl$Input$updateCategoryInput<TRes>
-    implements CopyWith$Input$updateCategoryInput<TRes> {
-  _CopyWithStubImpl$Input$updateCategoryInput(this._res);
-
-  TRes _res;
-
-  call({String? id, String? name, String? clientMutationId}) => _res;
-}
-
-class Input$deleteCategoryInput {
-  factory Input$deleteCategoryInput({
-    required String id,
-    String? clientMutationId,
-  }) => Input$deleteCategoryInput._({
-    r'id': id,
-    if (clientMutationId != null) r'clientMutationId': clientMutationId,
-  });
-
-  Input$deleteCategoryInput._(this._$data);
-
-  factory Input$deleteCategoryInput.fromJson(Map<String, dynamic> data) {
-    final result$data = <String, dynamic>{};
-    final l$id = data['id'];
-    result$data['id'] = (l$id as String);
-    if (data.containsKey('clientMutationId')) {
-      final l$clientMutationId = data['clientMutationId'];
-      result$data['clientMutationId'] = (l$clientMutationId as String?);
-    }
-    return Input$deleteCategoryInput._(result$data);
-  }
-
-  Map<String, dynamic> _$data;
-
-  String get id => (_$data['id'] as String);
-
-  String? get clientMutationId => (_$data['clientMutationId'] as String?);
-
-  Map<String, dynamic> toJson() {
-    final result$data = <String, dynamic>{};
-    final l$id = id;
-    result$data['id'] = l$id;
-    if (_$data.containsKey('clientMutationId')) {
-      final l$clientMutationId = clientMutationId;
-      result$data['clientMutationId'] = l$clientMutationId;
-    }
-    return result$data;
-  }
-
-  CopyWith$Input$deleteCategoryInput<Input$deleteCategoryInput> get copyWith =>
-      CopyWith$Input$deleteCategoryInput(this, (i) => i);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Input$deleteCategoryInput ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$clientMutationId = clientMutationId;
-    final lOther$clientMutationId = other.clientMutationId;
-    if (_$data.containsKey('clientMutationId') !=
-        other._$data.containsKey('clientMutationId')) {
-      return false;
-    }
-    if (l$clientMutationId != lOther$clientMutationId) {
-      return false;
-    }
-    return true;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$clientMutationId = clientMutationId;
-    return Object.hashAll([
-      l$id,
-      _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
-    ]);
-  }
-}
-
-abstract class CopyWith$Input$deleteCategoryInput<TRes> {
-  factory CopyWith$Input$deleteCategoryInput(
-    Input$deleteCategoryInput instance,
-    TRes Function(Input$deleteCategoryInput) then,
-  ) = _CopyWithImpl$Input$deleteCategoryInput;
-
-  factory CopyWith$Input$deleteCategoryInput.stub(TRes res) =
-      _CopyWithStubImpl$Input$deleteCategoryInput;
-
-  TRes call({String? id, String? clientMutationId});
-}
-
-class _CopyWithImpl$Input$deleteCategoryInput<TRes>
-    implements CopyWith$Input$deleteCategoryInput<TRes> {
-  _CopyWithImpl$Input$deleteCategoryInput(this._instance, this._then);
-
-  final Input$deleteCategoryInput _instance;
-
-  final TRes Function(Input$deleteCategoryInput) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({Object? id = _undefined, Object? clientMutationId = _undefined}) =>
-      _then(
-        Input$deleteCategoryInput._({
-          ..._instance._$data,
-          if (id != _undefined && id != null) 'id': (id as String),
-          if (clientMutationId != _undefined)
-            'clientMutationId': (clientMutationId as String?),
-        }),
-      );
-}
-
-class _CopyWithStubImpl$Input$deleteCategoryInput<TRes>
-    implements CopyWith$Input$deleteCategoryInput<TRes> {
-  _CopyWithStubImpl$Input$deleteCategoryInput(this._res);
-
-  TRes _res;
-
-  call({String? id, String? clientMutationId}) => _res;
-}
-
 class Input$updateDeliveryInput {
   factory Input$updateDeliveryInput({
     required String id,
@@ -1714,6 +1323,397 @@ class _CopyWithImpl$Input$deleteDeliveryInput<TRes>
 class _CopyWithStubImpl$Input$deleteDeliveryInput<TRes>
     implements CopyWith$Input$deleteDeliveryInput<TRes> {
   _CopyWithStubImpl$Input$deleteDeliveryInput(this._res);
+
+  TRes _res;
+
+  call({String? id, String? clientMutationId}) => _res;
+}
+
+class Input$createDietCategoryInput {
+  factory Input$createDietCategoryInput({
+    required String name,
+    String? clientMutationId,
+  }) => Input$createDietCategoryInput._({
+    r'name': name,
+    if (clientMutationId != null) r'clientMutationId': clientMutationId,
+  });
+
+  Input$createDietCategoryInput._(this._$data);
+
+  factory Input$createDietCategoryInput.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    final l$name = data['name'];
+    result$data['name'] = (l$name as String);
+    if (data.containsKey('clientMutationId')) {
+      final l$clientMutationId = data['clientMutationId'];
+      result$data['clientMutationId'] = (l$clientMutationId as String?);
+    }
+    return Input$createDietCategoryInput._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String get name => (_$data['name'] as String);
+
+  String? get clientMutationId => (_$data['clientMutationId'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    final l$name = name;
+    result$data['name'] = l$name;
+    if (_$data.containsKey('clientMutationId')) {
+      final l$clientMutationId = clientMutationId;
+      result$data['clientMutationId'] = l$clientMutationId;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$createDietCategoryInput<Input$createDietCategoryInput>
+  get copyWith => CopyWith$Input$createDietCategoryInput(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$createDietCategoryInput ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$clientMutationId = clientMutationId;
+    final lOther$clientMutationId = other.clientMutationId;
+    if (_$data.containsKey('clientMutationId') !=
+        other._$data.containsKey('clientMutationId')) {
+      return false;
+    }
+    if (l$clientMutationId != lOther$clientMutationId) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$name = name;
+    final l$clientMutationId = clientMutationId;
+    return Object.hashAll([
+      l$name,
+      _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$createDietCategoryInput<TRes> {
+  factory CopyWith$Input$createDietCategoryInput(
+    Input$createDietCategoryInput instance,
+    TRes Function(Input$createDietCategoryInput) then,
+  ) = _CopyWithImpl$Input$createDietCategoryInput;
+
+  factory CopyWith$Input$createDietCategoryInput.stub(TRes res) =
+      _CopyWithStubImpl$Input$createDietCategoryInput;
+
+  TRes call({String? name, String? clientMutationId});
+}
+
+class _CopyWithImpl$Input$createDietCategoryInput<TRes>
+    implements CopyWith$Input$createDietCategoryInput<TRes> {
+  _CopyWithImpl$Input$createDietCategoryInput(this._instance, this._then);
+
+  final Input$createDietCategoryInput _instance;
+
+  final TRes Function(Input$createDietCategoryInput) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? name = _undefined,
+    Object? clientMutationId = _undefined,
+  }) => _then(
+    Input$createDietCategoryInput._({
+      ..._instance._$data,
+      if (name != _undefined && name != null) 'name': (name as String),
+      if (clientMutationId != _undefined)
+        'clientMutationId': (clientMutationId as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$createDietCategoryInput<TRes>
+    implements CopyWith$Input$createDietCategoryInput<TRes> {
+  _CopyWithStubImpl$Input$createDietCategoryInput(this._res);
+
+  TRes _res;
+
+  call({String? name, String? clientMutationId}) => _res;
+}
+
+class Input$updateDietCategoryInput {
+  factory Input$updateDietCategoryInput({
+    required String id,
+    String? name,
+    String? clientMutationId,
+  }) => Input$updateDietCategoryInput._({
+    r'id': id,
+    if (name != null) r'name': name,
+    if (clientMutationId != null) r'clientMutationId': clientMutationId,
+  });
+
+  Input$updateDietCategoryInput._(this._$data);
+
+  factory Input$updateDietCategoryInput.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    final l$id = data['id'];
+    result$data['id'] = (l$id as String);
+    if (data.containsKey('name')) {
+      final l$name = data['name'];
+      result$data['name'] = (l$name as String?);
+    }
+    if (data.containsKey('clientMutationId')) {
+      final l$clientMutationId = data['clientMutationId'];
+      result$data['clientMutationId'] = (l$clientMutationId as String?);
+    }
+    return Input$updateDietCategoryInput._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String get id => (_$data['id'] as String);
+
+  String? get name => (_$data['name'] as String?);
+
+  String? get clientMutationId => (_$data['clientMutationId'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    final l$id = id;
+    result$data['id'] = l$id;
+    if (_$data.containsKey('name')) {
+      final l$name = name;
+      result$data['name'] = l$name;
+    }
+    if (_$data.containsKey('clientMutationId')) {
+      final l$clientMutationId = clientMutationId;
+      result$data['clientMutationId'] = l$clientMutationId;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$updateDietCategoryInput<Input$updateDietCategoryInput>
+  get copyWith => CopyWith$Input$updateDietCategoryInput(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$updateDietCategoryInput ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (_$data.containsKey('name') != other._$data.containsKey('name')) {
+      return false;
+    }
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$clientMutationId = clientMutationId;
+    final lOther$clientMutationId = other.clientMutationId;
+    if (_$data.containsKey('clientMutationId') !=
+        other._$data.containsKey('clientMutationId')) {
+      return false;
+    }
+    if (l$clientMutationId != lOther$clientMutationId) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$clientMutationId = clientMutationId;
+    return Object.hashAll([
+      l$id,
+      _$data.containsKey('name') ? l$name : const {},
+      _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$updateDietCategoryInput<TRes> {
+  factory CopyWith$Input$updateDietCategoryInput(
+    Input$updateDietCategoryInput instance,
+    TRes Function(Input$updateDietCategoryInput) then,
+  ) = _CopyWithImpl$Input$updateDietCategoryInput;
+
+  factory CopyWith$Input$updateDietCategoryInput.stub(TRes res) =
+      _CopyWithStubImpl$Input$updateDietCategoryInput;
+
+  TRes call({String? id, String? name, String? clientMutationId});
+}
+
+class _CopyWithImpl$Input$updateDietCategoryInput<TRes>
+    implements CopyWith$Input$updateDietCategoryInput<TRes> {
+  _CopyWithImpl$Input$updateDietCategoryInput(this._instance, this._then);
+
+  final Input$updateDietCategoryInput _instance;
+
+  final TRes Function(Input$updateDietCategoryInput) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? clientMutationId = _undefined,
+  }) => _then(
+    Input$updateDietCategoryInput._({
+      ..._instance._$data,
+      if (id != _undefined && id != null) 'id': (id as String),
+      if (name != _undefined) 'name': (name as String?),
+      if (clientMutationId != _undefined)
+        'clientMutationId': (clientMutationId as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$updateDietCategoryInput<TRes>
+    implements CopyWith$Input$updateDietCategoryInput<TRes> {
+  _CopyWithStubImpl$Input$updateDietCategoryInput(this._res);
+
+  TRes _res;
+
+  call({String? id, String? name, String? clientMutationId}) => _res;
+}
+
+class Input$deleteDietCategoryInput {
+  factory Input$deleteDietCategoryInput({
+    required String id,
+    String? clientMutationId,
+  }) => Input$deleteDietCategoryInput._({
+    r'id': id,
+    if (clientMutationId != null) r'clientMutationId': clientMutationId,
+  });
+
+  Input$deleteDietCategoryInput._(this._$data);
+
+  factory Input$deleteDietCategoryInput.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    final l$id = data['id'];
+    result$data['id'] = (l$id as String);
+    if (data.containsKey('clientMutationId')) {
+      final l$clientMutationId = data['clientMutationId'];
+      result$data['clientMutationId'] = (l$clientMutationId as String?);
+    }
+    return Input$deleteDietCategoryInput._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String get id => (_$data['id'] as String);
+
+  String? get clientMutationId => (_$data['clientMutationId'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    final l$id = id;
+    result$data['id'] = l$id;
+    if (_$data.containsKey('clientMutationId')) {
+      final l$clientMutationId = clientMutationId;
+      result$data['clientMutationId'] = l$clientMutationId;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$deleteDietCategoryInput<Input$deleteDietCategoryInput>
+  get copyWith => CopyWith$Input$deleteDietCategoryInput(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$deleteDietCategoryInput ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$clientMutationId = clientMutationId;
+    final lOther$clientMutationId = other.clientMutationId;
+    if (_$data.containsKey('clientMutationId') !=
+        other._$data.containsKey('clientMutationId')) {
+      return false;
+    }
+    if (l$clientMutationId != lOther$clientMutationId) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$clientMutationId = clientMutationId;
+    return Object.hashAll([
+      l$id,
+      _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$deleteDietCategoryInput<TRes> {
+  factory CopyWith$Input$deleteDietCategoryInput(
+    Input$deleteDietCategoryInput instance,
+    TRes Function(Input$deleteDietCategoryInput) then,
+  ) = _CopyWithImpl$Input$deleteDietCategoryInput;
+
+  factory CopyWith$Input$deleteDietCategoryInput.stub(TRes res) =
+      _CopyWithStubImpl$Input$deleteDietCategoryInput;
+
+  TRes call({String? id, String? clientMutationId});
+}
+
+class _CopyWithImpl$Input$deleteDietCategoryInput<TRes>
+    implements CopyWith$Input$deleteDietCategoryInput<TRes> {
+  _CopyWithImpl$Input$deleteDietCategoryInput(this._instance, this._then);
+
+  final Input$deleteDietCategoryInput _instance;
+
+  final TRes Function(Input$deleteDietCategoryInput) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? id = _undefined, Object? clientMutationId = _undefined}) =>
+      _then(
+        Input$deleteDietCategoryInput._({
+          ..._instance._$data,
+          if (id != _undefined && id != null) 'id': (id as String),
+          if (clientMutationId != _undefined)
+            'clientMutationId': (clientMutationId as String?),
+        }),
+      );
+}
+
+class _CopyWithStubImpl$Input$deleteDietCategoryInput<TRes>
+    implements CopyWith$Input$deleteDietCategoryInput<TRes> {
+  _CopyWithStubImpl$Input$deleteDietCategoryInput(this._res);
 
   TRes _res;
 
@@ -2454,14 +2454,14 @@ class _CopyWithStubImpl$Input$deleteMealInput<TRes>
 class Input$createMealPlanInput {
   factory Input$createMealPlanInput({
     List<String?>? meals,
-    List<String?>? categories,
+    List<String?>? dietCategories,
     required String name,
     String? description,
     String? restaurant,
     String? clientMutationId,
   }) => Input$createMealPlanInput._({
     if (meals != null) r'meals': meals,
-    if (categories != null) r'categories': categories,
+    if (dietCategories != null) r'dietCategories': dietCategories,
     r'name': name,
     if (description != null) r'description': description,
     if (restaurant != null) r'restaurant': restaurant,
@@ -2478,9 +2478,9 @@ class Input$createMealPlanInput {
           ?.map((e) => (e as String?))
           .toList();
     }
-    if (data.containsKey('categories')) {
-      final l$categories = data['categories'];
-      result$data['categories'] = (l$categories as List<dynamic>?)
+    if (data.containsKey('dietCategories')) {
+      final l$dietCategories = data['dietCategories'];
+      result$data['dietCategories'] = (l$dietCategories as List<dynamic>?)
           ?.map((e) => (e as String?))
           .toList();
     }
@@ -2505,7 +2505,8 @@ class Input$createMealPlanInput {
 
   List<String?>? get meals => (_$data['meals'] as List<String?>?);
 
-  List<String?>? get categories => (_$data['categories'] as List<String?>?);
+  List<String?>? get dietCategories =>
+      (_$data['dietCategories'] as List<String?>?);
 
   String get name => (_$data['name'] as String);
 
@@ -2521,9 +2522,9 @@ class Input$createMealPlanInput {
       final l$meals = meals;
       result$data['meals'] = l$meals?.map((e) => e).toList();
     }
-    if (_$data.containsKey('categories')) {
-      final l$categories = categories;
-      result$data['categories'] = l$categories?.map((e) => e).toList();
+    if (_$data.containsKey('dietCategories')) {
+      final l$dietCategories = dietCategories;
+      result$data['dietCategories'] = l$dietCategories?.map((e) => e).toList();
     }
     final l$name = name;
     result$data['name'] = l$name;
@@ -2573,24 +2574,24 @@ class Input$createMealPlanInput {
     } else if (l$meals != lOther$meals) {
       return false;
     }
-    final l$categories = categories;
-    final lOther$categories = other.categories;
-    if (_$data.containsKey('categories') !=
-        other._$data.containsKey('categories')) {
+    final l$dietCategories = dietCategories;
+    final lOther$dietCategories = other.dietCategories;
+    if (_$data.containsKey('dietCategories') !=
+        other._$data.containsKey('dietCategories')) {
       return false;
     }
-    if (l$categories != null && lOther$categories != null) {
-      if (l$categories.length != lOther$categories.length) {
+    if (l$dietCategories != null && lOther$dietCategories != null) {
+      if (l$dietCategories.length != lOther$dietCategories.length) {
         return false;
       }
-      for (int i = 0; i < l$categories.length; i++) {
-        final l$categories$entry = l$categories[i];
-        final lOther$categories$entry = lOther$categories[i];
-        if (l$categories$entry != lOther$categories$entry) {
+      for (int i = 0; i < l$dietCategories.length; i++) {
+        final l$dietCategories$entry = l$dietCategories[i];
+        final lOther$dietCategories$entry = lOther$dietCategories[i];
+        if (l$dietCategories$entry != lOther$dietCategories$entry) {
           return false;
         }
       }
-    } else if (l$categories != lOther$categories) {
+    } else if (l$dietCategories != lOther$dietCategories) {
       return false;
     }
     final l$name = name;
@@ -2631,7 +2632,7 @@ class Input$createMealPlanInput {
   @override
   int get hashCode {
     final l$meals = meals;
-    final l$categories = categories;
+    final l$dietCategories = dietCategories;
     final l$name = name;
     final l$description = description;
     final l$restaurant = restaurant;
@@ -2642,10 +2643,10 @@ class Input$createMealPlanInput {
                 ? null
                 : Object.hashAll(l$meals.map((v) => v))
           : const {},
-      _$data.containsKey('categories')
-          ? l$categories == null
+      _$data.containsKey('dietCategories')
+          ? l$dietCategories == null
                 ? null
-                : Object.hashAll(l$categories.map((v) => v))
+                : Object.hashAll(l$dietCategories.map((v) => v))
           : const {},
       l$name,
       _$data.containsKey('description') ? l$description : const {},
@@ -2666,7 +2667,7 @@ abstract class CopyWith$Input$createMealPlanInput<TRes> {
 
   TRes call({
     List<String?>? meals,
-    List<String?>? categories,
+    List<String?>? dietCategories,
     String? name,
     String? description,
     String? restaurant,
@@ -2686,7 +2687,7 @@ class _CopyWithImpl$Input$createMealPlanInput<TRes>
 
   TRes call({
     Object? meals = _undefined,
-    Object? categories = _undefined,
+    Object? dietCategories = _undefined,
     Object? name = _undefined,
     Object? description = _undefined,
     Object? restaurant = _undefined,
@@ -2695,8 +2696,8 @@ class _CopyWithImpl$Input$createMealPlanInput<TRes>
     Input$createMealPlanInput._({
       ..._instance._$data,
       if (meals != _undefined) 'meals': (meals as List<String?>?),
-      if (categories != _undefined)
-        'categories': (categories as List<String?>?),
+      if (dietCategories != _undefined)
+        'dietCategories': (dietCategories as List<String?>?),
       if (name != _undefined && name != null) 'name': (name as String),
       if (description != _undefined) 'description': (description as String?),
       if (restaurant != _undefined) 'restaurant': (restaurant as String?),
@@ -2714,7 +2715,7 @@ class _CopyWithStubImpl$Input$createMealPlanInput<TRes>
 
   call({
     List<String?>? meals,
-    List<String?>? categories,
+    List<String?>? dietCategories,
     String? name,
     String? description,
     String? restaurant,
@@ -2726,7 +2727,7 @@ class Input$updateMealPlanInput {
   factory Input$updateMealPlanInput({
     required String id,
     List<String?>? meals,
-    List<String?>? categories,
+    List<String?>? dietCategories,
     String? name,
     String? description,
     String? restaurant,
@@ -2734,7 +2735,7 @@ class Input$updateMealPlanInput {
   }) => Input$updateMealPlanInput._({
     r'id': id,
     if (meals != null) r'meals': meals,
-    if (categories != null) r'categories': categories,
+    if (dietCategories != null) r'dietCategories': dietCategories,
     if (name != null) r'name': name,
     if (description != null) r'description': description,
     if (restaurant != null) r'restaurant': restaurant,
@@ -2753,9 +2754,9 @@ class Input$updateMealPlanInput {
           ?.map((e) => (e as String?))
           .toList();
     }
-    if (data.containsKey('categories')) {
-      final l$categories = data['categories'];
-      result$data['categories'] = (l$categories as List<dynamic>?)
+    if (data.containsKey('dietCategories')) {
+      final l$dietCategories = data['dietCategories'];
+      result$data['dietCategories'] = (l$dietCategories as List<dynamic>?)
           ?.map((e) => (e as String?))
           .toList();
     }
@@ -2784,7 +2785,8 @@ class Input$updateMealPlanInput {
 
   List<String?>? get meals => (_$data['meals'] as List<String?>?);
 
-  List<String?>? get categories => (_$data['categories'] as List<String?>?);
+  List<String?>? get dietCategories =>
+      (_$data['dietCategories'] as List<String?>?);
 
   String? get name => (_$data['name'] as String?);
 
@@ -2802,9 +2804,9 @@ class Input$updateMealPlanInput {
       final l$meals = meals;
       result$data['meals'] = l$meals?.map((e) => e).toList();
     }
-    if (_$data.containsKey('categories')) {
-      final l$categories = categories;
-      result$data['categories'] = l$categories?.map((e) => e).toList();
+    if (_$data.containsKey('dietCategories')) {
+      final l$dietCategories = dietCategories;
+      result$data['dietCategories'] = l$dietCategories?.map((e) => e).toList();
     }
     if (_$data.containsKey('name')) {
       final l$name = name;
@@ -2861,24 +2863,24 @@ class Input$updateMealPlanInput {
     } else if (l$meals != lOther$meals) {
       return false;
     }
-    final l$categories = categories;
-    final lOther$categories = other.categories;
-    if (_$data.containsKey('categories') !=
-        other._$data.containsKey('categories')) {
+    final l$dietCategories = dietCategories;
+    final lOther$dietCategories = other.dietCategories;
+    if (_$data.containsKey('dietCategories') !=
+        other._$data.containsKey('dietCategories')) {
       return false;
     }
-    if (l$categories != null && lOther$categories != null) {
-      if (l$categories.length != lOther$categories.length) {
+    if (l$dietCategories != null && lOther$dietCategories != null) {
+      if (l$dietCategories.length != lOther$dietCategories.length) {
         return false;
       }
-      for (int i = 0; i < l$categories.length; i++) {
-        final l$categories$entry = l$categories[i];
-        final lOther$categories$entry = lOther$categories[i];
-        if (l$categories$entry != lOther$categories$entry) {
+      for (int i = 0; i < l$dietCategories.length; i++) {
+        final l$dietCategories$entry = l$dietCategories[i];
+        final lOther$dietCategories$entry = lOther$dietCategories[i];
+        if (l$dietCategories$entry != lOther$dietCategories$entry) {
           return false;
         }
       }
-    } else if (l$categories != lOther$categories) {
+    } else if (l$dietCategories != lOther$dietCategories) {
       return false;
     }
     final l$name = name;
@@ -2923,7 +2925,7 @@ class Input$updateMealPlanInput {
   int get hashCode {
     final l$id = id;
     final l$meals = meals;
-    final l$categories = categories;
+    final l$dietCategories = dietCategories;
     final l$name = name;
     final l$description = description;
     final l$restaurant = restaurant;
@@ -2935,10 +2937,10 @@ class Input$updateMealPlanInput {
                 ? null
                 : Object.hashAll(l$meals.map((v) => v))
           : const {},
-      _$data.containsKey('categories')
-          ? l$categories == null
+      _$data.containsKey('dietCategories')
+          ? l$dietCategories == null
                 ? null
-                : Object.hashAll(l$categories.map((v) => v))
+                : Object.hashAll(l$dietCategories.map((v) => v))
           : const {},
       _$data.containsKey('name') ? l$name : const {},
       _$data.containsKey('description') ? l$description : const {},
@@ -2960,7 +2962,7 @@ abstract class CopyWith$Input$updateMealPlanInput<TRes> {
   TRes call({
     String? id,
     List<String?>? meals,
-    List<String?>? categories,
+    List<String?>? dietCategories,
     String? name,
     String? description,
     String? restaurant,
@@ -2981,7 +2983,7 @@ class _CopyWithImpl$Input$updateMealPlanInput<TRes>
   TRes call({
     Object? id = _undefined,
     Object? meals = _undefined,
-    Object? categories = _undefined,
+    Object? dietCategories = _undefined,
     Object? name = _undefined,
     Object? description = _undefined,
     Object? restaurant = _undefined,
@@ -2991,8 +2993,8 @@ class _CopyWithImpl$Input$updateMealPlanInput<TRes>
       ..._instance._$data,
       if (id != _undefined && id != null) 'id': (id as String),
       if (meals != _undefined) 'meals': (meals as List<String?>?),
-      if (categories != _undefined)
-        'categories': (categories as List<String?>?),
+      if (dietCategories != _undefined)
+        'dietCategories': (dietCategories as List<String?>?),
       if (name != _undefined) 'name': (name as String?),
       if (description != _undefined) 'description': (description as String?),
       if (restaurant != _undefined) 'restaurant': (restaurant as String?),
@@ -3011,7 +3013,7 @@ class _CopyWithStubImpl$Input$updateMealPlanInput<TRes>
   call({
     String? id,
     List<String?>? meals,
-    List<String?>? categories,
+    List<String?>? dietCategories,
     String? name,
     String? description,
     String? restaurant,
@@ -5484,12 +5486,13 @@ class Input$createRestaurantInput {
   factory Input$createRestaurantInput({
     required String name,
     String? description,
-    List<String?>? categories,
+    List<String?>? restaurantCategories,
     String? clientMutationId,
   }) => Input$createRestaurantInput._({
     r'name': name,
     if (description != null) r'description': description,
-    if (categories != null) r'categories': categories,
+    if (restaurantCategories != null)
+      r'restaurantCategories': restaurantCategories,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
   });
 
@@ -5503,11 +5506,12 @@ class Input$createRestaurantInput {
       final l$description = data['description'];
       result$data['description'] = (l$description as String?);
     }
-    if (data.containsKey('categories')) {
-      final l$categories = data['categories'];
-      result$data['categories'] = (l$categories as List<dynamic>?)
-          ?.map((e) => (e as String?))
-          .toList();
+    if (data.containsKey('restaurantCategories')) {
+      final l$restaurantCategories = data['restaurantCategories'];
+      result$data['restaurantCategories'] =
+          (l$restaurantCategories as List<dynamic>?)
+              ?.map((e) => (e as String?))
+              .toList();
     }
     if (data.containsKey('clientMutationId')) {
       final l$clientMutationId = data['clientMutationId'];
@@ -5522,7 +5526,8 @@ class Input$createRestaurantInput {
 
   String? get description => (_$data['description'] as String?);
 
-  List<String?>? get categories => (_$data['categories'] as List<String?>?);
+  List<String?>? get restaurantCategories =>
+      (_$data['restaurantCategories'] as List<String?>?);
 
   String? get clientMutationId => (_$data['clientMutationId'] as String?);
 
@@ -5534,9 +5539,11 @@ class Input$createRestaurantInput {
       final l$description = description;
       result$data['description'] = l$description;
     }
-    if (_$data.containsKey('categories')) {
-      final l$categories = categories;
-      result$data['categories'] = l$categories?.map((e) => e).toList();
+    if (_$data.containsKey('restaurantCategories')) {
+      final l$restaurantCategories = restaurantCategories;
+      result$data['restaurantCategories'] = l$restaurantCategories
+          ?.map((e) => e)
+          .toList();
     }
     if (_$data.containsKey('clientMutationId')) {
       final l$clientMutationId = clientMutationId;
@@ -5571,24 +5578,25 @@ class Input$createRestaurantInput {
     if (l$description != lOther$description) {
       return false;
     }
-    final l$categories = categories;
-    final lOther$categories = other.categories;
-    if (_$data.containsKey('categories') !=
-        other._$data.containsKey('categories')) {
+    final l$restaurantCategories = restaurantCategories;
+    final lOther$restaurantCategories = other.restaurantCategories;
+    if (_$data.containsKey('restaurantCategories') !=
+        other._$data.containsKey('restaurantCategories')) {
       return false;
     }
-    if (l$categories != null && lOther$categories != null) {
-      if (l$categories.length != lOther$categories.length) {
+    if (l$restaurantCategories != null && lOther$restaurantCategories != null) {
+      if (l$restaurantCategories.length != lOther$restaurantCategories.length) {
         return false;
       }
-      for (int i = 0; i < l$categories.length; i++) {
-        final l$categories$entry = l$categories[i];
-        final lOther$categories$entry = lOther$categories[i];
-        if (l$categories$entry != lOther$categories$entry) {
+      for (int i = 0; i < l$restaurantCategories.length; i++) {
+        final l$restaurantCategories$entry = l$restaurantCategories[i];
+        final lOther$restaurantCategories$entry =
+            lOther$restaurantCategories[i];
+        if (l$restaurantCategories$entry != lOther$restaurantCategories$entry) {
           return false;
         }
       }
-    } else if (l$categories != lOther$categories) {
+    } else if (l$restaurantCategories != lOther$restaurantCategories) {
       return false;
     }
     final l$clientMutationId = clientMutationId;
@@ -5607,15 +5615,15 @@ class Input$createRestaurantInput {
   int get hashCode {
     final l$name = name;
     final l$description = description;
-    final l$categories = categories;
+    final l$restaurantCategories = restaurantCategories;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
       l$name,
       _$data.containsKey('description') ? l$description : const {},
-      _$data.containsKey('categories')
-          ? l$categories == null
+      _$data.containsKey('restaurantCategories')
+          ? l$restaurantCategories == null
                 ? null
-                : Object.hashAll(l$categories.map((v) => v))
+                : Object.hashAll(l$restaurantCategories.map((v) => v))
           : const {},
       _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
     ]);
@@ -5634,7 +5642,7 @@ abstract class CopyWith$Input$createRestaurantInput<TRes> {
   TRes call({
     String? name,
     String? description,
-    List<String?>? categories,
+    List<String?>? restaurantCategories,
     String? clientMutationId,
   });
 }
@@ -5652,15 +5660,15 @@ class _CopyWithImpl$Input$createRestaurantInput<TRes>
   TRes call({
     Object? name = _undefined,
     Object? description = _undefined,
-    Object? categories = _undefined,
+    Object? restaurantCategories = _undefined,
     Object? clientMutationId = _undefined,
   }) => _then(
     Input$createRestaurantInput._({
       ..._instance._$data,
       if (name != _undefined && name != null) 'name': (name as String),
       if (description != _undefined) 'description': (description as String?),
-      if (categories != _undefined)
-        'categories': (categories as List<String?>?),
+      if (restaurantCategories != _undefined)
+        'restaurantCategories': (restaurantCategories as List<String?>?),
       if (clientMutationId != _undefined)
         'clientMutationId': (clientMutationId as String?),
     }),
@@ -5676,7 +5684,7 @@ class _CopyWithStubImpl$Input$createRestaurantInput<TRes>
   call({
     String? name,
     String? description,
-    List<String?>? categories,
+    List<String?>? restaurantCategories,
     String? clientMutationId,
   }) => _res;
 }
@@ -5686,13 +5694,14 @@ class Input$updateRestaurantInput {
     required String id,
     String? name,
     String? description,
-    List<String?>? categories,
+    List<String?>? restaurantCategories,
     String? clientMutationId,
   }) => Input$updateRestaurantInput._({
     r'id': id,
     if (name != null) r'name': name,
     if (description != null) r'description': description,
-    if (categories != null) r'categories': categories,
+    if (restaurantCategories != null)
+      r'restaurantCategories': restaurantCategories,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
   });
 
@@ -5710,11 +5719,12 @@ class Input$updateRestaurantInput {
       final l$description = data['description'];
       result$data['description'] = (l$description as String?);
     }
-    if (data.containsKey('categories')) {
-      final l$categories = data['categories'];
-      result$data['categories'] = (l$categories as List<dynamic>?)
-          ?.map((e) => (e as String?))
-          .toList();
+    if (data.containsKey('restaurantCategories')) {
+      final l$restaurantCategories = data['restaurantCategories'];
+      result$data['restaurantCategories'] =
+          (l$restaurantCategories as List<dynamic>?)
+              ?.map((e) => (e as String?))
+              .toList();
     }
     if (data.containsKey('clientMutationId')) {
       final l$clientMutationId = data['clientMutationId'];
@@ -5731,7 +5741,8 @@ class Input$updateRestaurantInput {
 
   String? get description => (_$data['description'] as String?);
 
-  List<String?>? get categories => (_$data['categories'] as List<String?>?);
+  List<String?>? get restaurantCategories =>
+      (_$data['restaurantCategories'] as List<String?>?);
 
   String? get clientMutationId => (_$data['clientMutationId'] as String?);
 
@@ -5747,9 +5758,11 @@ class Input$updateRestaurantInput {
       final l$description = description;
       result$data['description'] = l$description;
     }
-    if (_$data.containsKey('categories')) {
-      final l$categories = categories;
-      result$data['categories'] = l$categories?.map((e) => e).toList();
+    if (_$data.containsKey('restaurantCategories')) {
+      final l$restaurantCategories = restaurantCategories;
+      result$data['restaurantCategories'] = l$restaurantCategories
+          ?.map((e) => e)
+          .toList();
     }
     if (_$data.containsKey('clientMutationId')) {
       final l$clientMutationId = clientMutationId;
@@ -5792,24 +5805,25 @@ class Input$updateRestaurantInput {
     if (l$description != lOther$description) {
       return false;
     }
-    final l$categories = categories;
-    final lOther$categories = other.categories;
-    if (_$data.containsKey('categories') !=
-        other._$data.containsKey('categories')) {
+    final l$restaurantCategories = restaurantCategories;
+    final lOther$restaurantCategories = other.restaurantCategories;
+    if (_$data.containsKey('restaurantCategories') !=
+        other._$data.containsKey('restaurantCategories')) {
       return false;
     }
-    if (l$categories != null && lOther$categories != null) {
-      if (l$categories.length != lOther$categories.length) {
+    if (l$restaurantCategories != null && lOther$restaurantCategories != null) {
+      if (l$restaurantCategories.length != lOther$restaurantCategories.length) {
         return false;
       }
-      for (int i = 0; i < l$categories.length; i++) {
-        final l$categories$entry = l$categories[i];
-        final lOther$categories$entry = lOther$categories[i];
-        if (l$categories$entry != lOther$categories$entry) {
+      for (int i = 0; i < l$restaurantCategories.length; i++) {
+        final l$restaurantCategories$entry = l$restaurantCategories[i];
+        final lOther$restaurantCategories$entry =
+            lOther$restaurantCategories[i];
+        if (l$restaurantCategories$entry != lOther$restaurantCategories$entry) {
           return false;
         }
       }
-    } else if (l$categories != lOther$categories) {
+    } else if (l$restaurantCategories != lOther$restaurantCategories) {
       return false;
     }
     final l$clientMutationId = clientMutationId;
@@ -5829,16 +5843,16 @@ class Input$updateRestaurantInput {
     final l$id = id;
     final l$name = name;
     final l$description = description;
-    final l$categories = categories;
+    final l$restaurantCategories = restaurantCategories;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
       l$id,
       _$data.containsKey('name') ? l$name : const {},
       _$data.containsKey('description') ? l$description : const {},
-      _$data.containsKey('categories')
-          ? l$categories == null
+      _$data.containsKey('restaurantCategories')
+          ? l$restaurantCategories == null
                 ? null
-                : Object.hashAll(l$categories.map((v) => v))
+                : Object.hashAll(l$restaurantCategories.map((v) => v))
           : const {},
       _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
     ]);
@@ -5858,7 +5872,7 @@ abstract class CopyWith$Input$updateRestaurantInput<TRes> {
     String? id,
     String? name,
     String? description,
-    List<String?>? categories,
+    List<String?>? restaurantCategories,
     String? clientMutationId,
   });
 }
@@ -5877,7 +5891,7 @@ class _CopyWithImpl$Input$updateRestaurantInput<TRes>
     Object? id = _undefined,
     Object? name = _undefined,
     Object? description = _undefined,
-    Object? categories = _undefined,
+    Object? restaurantCategories = _undefined,
     Object? clientMutationId = _undefined,
   }) => _then(
     Input$updateRestaurantInput._({
@@ -5885,8 +5899,8 @@ class _CopyWithImpl$Input$updateRestaurantInput<TRes>
       if (id != _undefined && id != null) 'id': (id as String),
       if (name != _undefined) 'name': (name as String?),
       if (description != _undefined) 'description': (description as String?),
-      if (categories != _undefined)
-        'categories': (categories as List<String?>?),
+      if (restaurantCategories != _undefined)
+        'restaurantCategories': (restaurantCategories as List<String?>?),
       if (clientMutationId != _undefined)
         'clientMutationId': (clientMutationId as String?),
     }),
@@ -5903,7 +5917,7 @@ class _CopyWithStubImpl$Input$updateRestaurantInput<TRes>
     String? id,
     String? name,
     String? description,
-    List<String?>? categories,
+    List<String?>? restaurantCategories,
     String? clientMutationId,
   }) => _res;
 }
@@ -6023,6 +6037,409 @@ class _CopyWithImpl$Input$deleteRestaurantInput<TRes>
 class _CopyWithStubImpl$Input$deleteRestaurantInput<TRes>
     implements CopyWith$Input$deleteRestaurantInput<TRes> {
   _CopyWithStubImpl$Input$deleteRestaurantInput(this._res);
+
+  TRes _res;
+
+  call({String? id, String? clientMutationId}) => _res;
+}
+
+class Input$createRestaurantCategoryInput {
+  factory Input$createRestaurantCategoryInput({
+    required String name,
+    String? clientMutationId,
+  }) => Input$createRestaurantCategoryInput._({
+    r'name': name,
+    if (clientMutationId != null) r'clientMutationId': clientMutationId,
+  });
+
+  Input$createRestaurantCategoryInput._(this._$data);
+
+  factory Input$createRestaurantCategoryInput.fromJson(
+    Map<String, dynamic> data,
+  ) {
+    final result$data = <String, dynamic>{};
+    final l$name = data['name'];
+    result$data['name'] = (l$name as String);
+    if (data.containsKey('clientMutationId')) {
+      final l$clientMutationId = data['clientMutationId'];
+      result$data['clientMutationId'] = (l$clientMutationId as String?);
+    }
+    return Input$createRestaurantCategoryInput._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String get name => (_$data['name'] as String);
+
+  String? get clientMutationId => (_$data['clientMutationId'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    final l$name = name;
+    result$data['name'] = l$name;
+    if (_$data.containsKey('clientMutationId')) {
+      final l$clientMutationId = clientMutationId;
+      result$data['clientMutationId'] = l$clientMutationId;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$createRestaurantCategoryInput<
+    Input$createRestaurantCategoryInput
+  >
+  get copyWith => CopyWith$Input$createRestaurantCategoryInput(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$createRestaurantCategoryInput ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$clientMutationId = clientMutationId;
+    final lOther$clientMutationId = other.clientMutationId;
+    if (_$data.containsKey('clientMutationId') !=
+        other._$data.containsKey('clientMutationId')) {
+      return false;
+    }
+    if (l$clientMutationId != lOther$clientMutationId) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$name = name;
+    final l$clientMutationId = clientMutationId;
+    return Object.hashAll([
+      l$name,
+      _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$createRestaurantCategoryInput<TRes> {
+  factory CopyWith$Input$createRestaurantCategoryInput(
+    Input$createRestaurantCategoryInput instance,
+    TRes Function(Input$createRestaurantCategoryInput) then,
+  ) = _CopyWithImpl$Input$createRestaurantCategoryInput;
+
+  factory CopyWith$Input$createRestaurantCategoryInput.stub(TRes res) =
+      _CopyWithStubImpl$Input$createRestaurantCategoryInput;
+
+  TRes call({String? name, String? clientMutationId});
+}
+
+class _CopyWithImpl$Input$createRestaurantCategoryInput<TRes>
+    implements CopyWith$Input$createRestaurantCategoryInput<TRes> {
+  _CopyWithImpl$Input$createRestaurantCategoryInput(this._instance, this._then);
+
+  final Input$createRestaurantCategoryInput _instance;
+
+  final TRes Function(Input$createRestaurantCategoryInput) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? name = _undefined,
+    Object? clientMutationId = _undefined,
+  }) => _then(
+    Input$createRestaurantCategoryInput._({
+      ..._instance._$data,
+      if (name != _undefined && name != null) 'name': (name as String),
+      if (clientMutationId != _undefined)
+        'clientMutationId': (clientMutationId as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$createRestaurantCategoryInput<TRes>
+    implements CopyWith$Input$createRestaurantCategoryInput<TRes> {
+  _CopyWithStubImpl$Input$createRestaurantCategoryInput(this._res);
+
+  TRes _res;
+
+  call({String? name, String? clientMutationId}) => _res;
+}
+
+class Input$updateRestaurantCategoryInput {
+  factory Input$updateRestaurantCategoryInput({
+    required String id,
+    String? name,
+    String? clientMutationId,
+  }) => Input$updateRestaurantCategoryInput._({
+    r'id': id,
+    if (name != null) r'name': name,
+    if (clientMutationId != null) r'clientMutationId': clientMutationId,
+  });
+
+  Input$updateRestaurantCategoryInput._(this._$data);
+
+  factory Input$updateRestaurantCategoryInput.fromJson(
+    Map<String, dynamic> data,
+  ) {
+    final result$data = <String, dynamic>{};
+    final l$id = data['id'];
+    result$data['id'] = (l$id as String);
+    if (data.containsKey('name')) {
+      final l$name = data['name'];
+      result$data['name'] = (l$name as String?);
+    }
+    if (data.containsKey('clientMutationId')) {
+      final l$clientMutationId = data['clientMutationId'];
+      result$data['clientMutationId'] = (l$clientMutationId as String?);
+    }
+    return Input$updateRestaurantCategoryInput._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String get id => (_$data['id'] as String);
+
+  String? get name => (_$data['name'] as String?);
+
+  String? get clientMutationId => (_$data['clientMutationId'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    final l$id = id;
+    result$data['id'] = l$id;
+    if (_$data.containsKey('name')) {
+      final l$name = name;
+      result$data['name'] = l$name;
+    }
+    if (_$data.containsKey('clientMutationId')) {
+      final l$clientMutationId = clientMutationId;
+      result$data['clientMutationId'] = l$clientMutationId;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$updateRestaurantCategoryInput<
+    Input$updateRestaurantCategoryInput
+  >
+  get copyWith => CopyWith$Input$updateRestaurantCategoryInput(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$updateRestaurantCategoryInput ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (_$data.containsKey('name') != other._$data.containsKey('name')) {
+      return false;
+    }
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$clientMutationId = clientMutationId;
+    final lOther$clientMutationId = other.clientMutationId;
+    if (_$data.containsKey('clientMutationId') !=
+        other._$data.containsKey('clientMutationId')) {
+      return false;
+    }
+    if (l$clientMutationId != lOther$clientMutationId) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$clientMutationId = clientMutationId;
+    return Object.hashAll([
+      l$id,
+      _$data.containsKey('name') ? l$name : const {},
+      _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$updateRestaurantCategoryInput<TRes> {
+  factory CopyWith$Input$updateRestaurantCategoryInput(
+    Input$updateRestaurantCategoryInput instance,
+    TRes Function(Input$updateRestaurantCategoryInput) then,
+  ) = _CopyWithImpl$Input$updateRestaurantCategoryInput;
+
+  factory CopyWith$Input$updateRestaurantCategoryInput.stub(TRes res) =
+      _CopyWithStubImpl$Input$updateRestaurantCategoryInput;
+
+  TRes call({String? id, String? name, String? clientMutationId});
+}
+
+class _CopyWithImpl$Input$updateRestaurantCategoryInput<TRes>
+    implements CopyWith$Input$updateRestaurantCategoryInput<TRes> {
+  _CopyWithImpl$Input$updateRestaurantCategoryInput(this._instance, this._then);
+
+  final Input$updateRestaurantCategoryInput _instance;
+
+  final TRes Function(Input$updateRestaurantCategoryInput) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? clientMutationId = _undefined,
+  }) => _then(
+    Input$updateRestaurantCategoryInput._({
+      ..._instance._$data,
+      if (id != _undefined && id != null) 'id': (id as String),
+      if (name != _undefined) 'name': (name as String?),
+      if (clientMutationId != _undefined)
+        'clientMutationId': (clientMutationId as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$updateRestaurantCategoryInput<TRes>
+    implements CopyWith$Input$updateRestaurantCategoryInput<TRes> {
+  _CopyWithStubImpl$Input$updateRestaurantCategoryInput(this._res);
+
+  TRes _res;
+
+  call({String? id, String? name, String? clientMutationId}) => _res;
+}
+
+class Input$deleteRestaurantCategoryInput {
+  factory Input$deleteRestaurantCategoryInput({
+    required String id,
+    String? clientMutationId,
+  }) => Input$deleteRestaurantCategoryInput._({
+    r'id': id,
+    if (clientMutationId != null) r'clientMutationId': clientMutationId,
+  });
+
+  Input$deleteRestaurantCategoryInput._(this._$data);
+
+  factory Input$deleteRestaurantCategoryInput.fromJson(
+    Map<String, dynamic> data,
+  ) {
+    final result$data = <String, dynamic>{};
+    final l$id = data['id'];
+    result$data['id'] = (l$id as String);
+    if (data.containsKey('clientMutationId')) {
+      final l$clientMutationId = data['clientMutationId'];
+      result$data['clientMutationId'] = (l$clientMutationId as String?);
+    }
+    return Input$deleteRestaurantCategoryInput._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String get id => (_$data['id'] as String);
+
+  String? get clientMutationId => (_$data['clientMutationId'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    final l$id = id;
+    result$data['id'] = l$id;
+    if (_$data.containsKey('clientMutationId')) {
+      final l$clientMutationId = clientMutationId;
+      result$data['clientMutationId'] = l$clientMutationId;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$deleteRestaurantCategoryInput<
+    Input$deleteRestaurantCategoryInput
+  >
+  get copyWith => CopyWith$Input$deleteRestaurantCategoryInput(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$deleteRestaurantCategoryInput ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$clientMutationId = clientMutationId;
+    final lOther$clientMutationId = other.clientMutationId;
+    if (_$data.containsKey('clientMutationId') !=
+        other._$data.containsKey('clientMutationId')) {
+      return false;
+    }
+    if (l$clientMutationId != lOther$clientMutationId) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$clientMutationId = clientMutationId;
+    return Object.hashAll([
+      l$id,
+      _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$deleteRestaurantCategoryInput<TRes> {
+  factory CopyWith$Input$deleteRestaurantCategoryInput(
+    Input$deleteRestaurantCategoryInput instance,
+    TRes Function(Input$deleteRestaurantCategoryInput) then,
+  ) = _CopyWithImpl$Input$deleteRestaurantCategoryInput;
+
+  factory CopyWith$Input$deleteRestaurantCategoryInput.stub(TRes res) =
+      _CopyWithStubImpl$Input$deleteRestaurantCategoryInput;
+
+  TRes call({String? id, String? clientMutationId});
+}
+
+class _CopyWithImpl$Input$deleteRestaurantCategoryInput<TRes>
+    implements CopyWith$Input$deleteRestaurantCategoryInput<TRes> {
+  _CopyWithImpl$Input$deleteRestaurantCategoryInput(this._instance, this._then);
+
+  final Input$deleteRestaurantCategoryInput _instance;
+
+  final TRes Function(Input$deleteRestaurantCategoryInput) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? id = _undefined, Object? clientMutationId = _undefined}) =>
+      _then(
+        Input$deleteRestaurantCategoryInput._({
+          ..._instance._$data,
+          if (id != _undefined && id != null) 'id': (id as String),
+          if (clientMutationId != _undefined)
+            'clientMutationId': (clientMutationId as String?),
+        }),
+      );
+}
+
+class _CopyWithStubImpl$Input$deleteRestaurantCategoryInput<TRes>
+    implements CopyWith$Input$deleteRestaurantCategoryInput<TRes> {
+  _CopyWithStubImpl$Input$deleteRestaurantCategoryInput(this._res);
 
   TRes _res;
 
@@ -6862,14 +7279,15 @@ Enum$__DirectiveLocation fromJson$Enum$__DirectiveLocation(String value) {
 const possibleTypesMap = <String, Set<String>>{
   'Node': {
     'Address',
-    'Category',
+    'Delivery',
     'Restaurant',
     'User',
     'Order',
     'OrderItem',
     'MealPlan',
     'Meal',
-    'Delivery',
+    'DietCategory',
+    'RestaurantCategory',
     'Payment',
   },
 };

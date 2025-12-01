@@ -92,20 +92,20 @@ class MealPlanService extends ChangeNotifier {
               Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node
             >()
             .map((e) {
-              final categoriesNode = e.categories;
+              final dietCategoriesNode = e.dietCategories;
               return MealPlan(
                 id: e.id,
                 name: e.name,
                 description: e.description,
                 price: e.price,
                 imageUrl: e.imageUrl,
-                categories: categoriesNode != null
-                    ? Query$GetMealPlans$mealPlans$edges$node$categories(
-                        edges: categoriesNode.edges?.map((edge) {
+                dietCategories: dietCategoriesNode != null
+                    ? Query$GetMealPlans$mealPlans$edges$node$dietCategories(
+                        edges: dietCategoriesNode.edges?.map((edge) {
                           if (edge?.node == null) return null;
-                          return Query$GetMealPlans$mealPlans$edges$node$categories$edges(
+                          return Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges(
                             node:
-                                Query$GetMealPlans$mealPlans$edges$node$categories$edges$node(
+                                Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node(
                                   id: edge!.node!.id,
                                   name: edge.node!.name,
                                   $__typename: edge.node!.$__typename,
@@ -113,7 +113,7 @@ class MealPlanService extends ChangeNotifier {
                             $__typename: edge.$__typename,
                           );
                         }).toList(),
-                        $__typename: categoriesNode.$__typename,
+                        $__typename: dietCategoriesNode.$__typename,
                       )
                     : null,
                 $__typename: e.$__typename,
@@ -175,7 +175,7 @@ class MealPlanService extends ChangeNotifier {
             name: name,
             description: description,
             meals: mealIds,
-            categories: categoryIds,
+            dietCategories: categoryIds,
           ),
         ).toJson(),
       );
@@ -218,7 +218,7 @@ class MealPlanService extends ChangeNotifier {
             name: name,
             description: description,
             meals: mealIds,
-            categories: categoryIds,
+            dietCategories: categoryIds,
           ),
         ).toJson(),
       );

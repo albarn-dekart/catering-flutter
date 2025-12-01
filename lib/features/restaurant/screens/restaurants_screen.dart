@@ -47,7 +47,9 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
             uniqueCategories = restaurantService.restaurants
                 .expand(
                   (restaurant) =>
-                      restaurant.categories?.edges?.map((e) => e?.node?.name) ??
+                      restaurant.restaurantCategories?.edges?.map(
+                        (e) => e?.node?.name,
+                      ) ??
                       [],
                 )
                 .whereType<String>()
@@ -68,7 +70,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                       final filteredRestaurants = _selectedCategory == null
                           ? restaurantService.restaurants
                           : restaurantService.restaurants.where((r) {
-                              return r.categories?.edges?.any(
+                              return r.restaurantCategories?.edges?.any(
                                     (e) => e?.node?.name == _selectedCategory,
                                   ) ??
                                   false;
@@ -76,11 +78,11 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
 
                       return ResponsiveGridBuilder(
                         itemCount: filteredRestaurants.length,
-                        childAspectRatio: 0.8,
+                        childAspectRatio: 0.7,
                         itemBuilder: (context, index) {
                           final restaurant = filteredRestaurants[index];
                           final categories =
-                              restaurant.categories?.edges
+                              restaurant.restaurantCategories?.edges
                                   ?.map((e) => e?.node)
                                   .where((n) => n != null)
                                   .toList() ??
@@ -96,7 +98,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                               onTap: () {
                                 context.push(
                                   Uri(
-                                    path: AppRoutes.restaurantMealPlans,
+                                    path: AppRoutes.MealPlansByRestaurant,
                                     queryParameters: {
                                       'restaurantId': IriHelper.getId(
                                         restaurant.id,

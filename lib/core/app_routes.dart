@@ -2,29 +2,40 @@ class AppRoutes {
   static const String home = '/';
   static const String login = '/login';
   static const String register = '/register';
-  static const String restaurantForm = '/restaurant-form';
-  static const String manageMealPlans = '/manage-meal-plans';
-  static const String manageMeals = '/manage-meals';
-  static const String mealForm = '/meal-form';
-  static const String mealPlanForm = '/meal-plan-form';
-  static const String createRestaurant = '/create-restaurant';
   static const String changePassword = '/change-password';
-  static const String receipt = '/user/receipt';
-  static const String cart = '/cart';
-  static const String restaurantMealPlans = '/meal-plans';
-  static const String orders = '/orders';
-  static const String profile = '/profile';
-  static const String orderConfirm = '/order-confirm';
-  static const String driverDashboard = '/driver-dashboard';
-  static const String restaurantDashboard = '/restaurant-dashboard';
-  static const String adminDashboard = '/admin-dashboard';
+
+  //Customer
+  static const String customerDashboard = '/customer-dashboard';
+  static const String MealPlansByRestaurant = '/meal-plans';
   static const String mealPlanDetails = '/meal-plan';
-  static const String manageDeliveries = '/manage-deliveries';
-  static const String manageOrders = '/manage-orders';
-  static const String manageCategories = '/manage-categories';
-  static const String manageDrivers = '/manage-drivers';
+  static const String cart = '/cart';
+  static const String orders = '/orders';
   static const String orderDetail = '/order';
+  static const String receipt = '/user/receipt';
+  static const String orderConfirm = '/order-confirm';
   static const String addressList = '/addresses';
   static const String addressForm = '/address-form';
-  static const String customerDashboard = '/customer-dashboard';
+
+  //Admin
+  static const String adminDashboard = '/admin/dashboard';
+  static const String adminRestaurants = '/admin/restaurants';
+  static const String adminRestaurantCreate = '/admin/restaurant/create';
+  static const String adminUsers = '/admin/users';
+  static const String adminRestaurantCategories = '/admin/categories/restaurant';
+  static const String adminDietCategories = '/admin/categories/diet';
+
+  //Restaurant
+  static const String restaurantDashboard = '/restaurant/dashboard';
+  static const String restaurantCategories = '/restaurant/categories';
+  static const String restaurantOrders = '/restaurant/orders';
+  static const String restaurantDeliveries = '/restaurant/deliveries';
+  static const String restaurantDrivers = '/restaurant/drivers';
+  static const String restaurantForm = '/restaurant/edit';
+  static const String restaurantMealPlans = '/restaurant/meal-plans';
+  static const String restaurantMeals = '/restaurant/meals';
+  static const String restaurantMealForm = '/restaurant/meal';
+  static const String restaurantMealPlanForm = '/restaurant/meal-plan';
+
+  //Driver
+  static const String driverDashboard = '/driver/dashboard';
 }

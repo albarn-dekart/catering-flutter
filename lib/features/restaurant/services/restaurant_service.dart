@@ -183,7 +183,7 @@ class RestaurantService extends ChangeNotifier {
         variables: Variables$Mutation$UpdateRestaurant(
           input: Input$updateRestaurantInput(
             id: restaurantId,
-            categories: categoryIds,
+            restaurantCategories: categoryIds,
           ),
         ).toJson(),
       );

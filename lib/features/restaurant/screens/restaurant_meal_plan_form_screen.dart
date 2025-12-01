@@ -9,21 +9,21 @@ import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 
 import 'package:catering_flutter/core/utils/image_helper.dart';
 
-class SaveMealPlanScreen extends StatefulWidget {
+class RestaurantMealPlanFormScreen extends StatefulWidget {
   final String? mealPlanId;
   final String restaurantIri;
 
-  const SaveMealPlanScreen({
+  const RestaurantMealPlanFormScreen({
     super.key,
     this.mealPlanId,
     required this.restaurantIri,
   });
 
   @override
-  State<SaveMealPlanScreen> createState() => _SaveMealPlanScreenState();
+  State<RestaurantMealPlanFormScreen> createState() => _RestaurantMealPlanFormScreenState();
 }
 
-class _SaveMealPlanScreenState extends State<SaveMealPlanScreen> {
+class _RestaurantMealPlanFormScreenState extends State<RestaurantMealPlanFormScreen> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _nameController;
   late TextEditingController _descriptionController;
@@ -325,7 +325,7 @@ class _SaveMealPlanScreenState extends State<SaveMealPlanScreen> {
                                     )
                                   : null,
                               secondary: Text(
-                                '${(meal.price).toStringAsFixed(2)} PLN',
+                                '${(meal.price / 100.0).toStringAsFixed(2)} PLN',
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                               value: isSelected,

@@ -11,16 +11,16 @@ import 'package:catering_flutter/core/auth_service.dart';
 import 'package:catering_flutter/core/utils/image_helper.dart';
 import 'package:catering_flutter/core/widgets/responsive_grid.dart';
 
-class MealPlansScreen extends StatefulWidget {
+class MealPlansByRestaurant extends StatefulWidget {
   final String restaurantIri;
 
-  const MealPlansScreen({super.key, required this.restaurantIri});
+  const MealPlansByRestaurant({super.key, required this.restaurantIri});
 
   @override
-  State<MealPlansScreen> createState() => _MealPlansScreenState();
+  State<MealPlansByRestaurant> createState() => _MealPlansByRestaurantState();
 }
 
-class _MealPlansScreenState extends State<MealPlansScreen> {
+class _MealPlansByRestaurantState extends State<MealPlansByRestaurant> {
   String? _selectedCategory;
 
   @override
@@ -52,7 +52,9 @@ class _MealPlansScreenState extends State<MealPlansScreen> {
               uniqueCategories = mealPlanService.mealPlans
                   .expand(
                     (mealPlan) =>
-                        mealPlan.categories?.edges?.map((e) => e?.node?.name) ??
+                        mealPlan.dietCategories?.edges?.map(
+                          (e) => e?.node?.name,
+                        ) ??
                         [],
                   )
                   .whereType<String>()
@@ -64,7 +66,7 @@ class _MealPlansScreenState extends State<MealPlansScreen> {
             final filteredMealPlans = _selectedCategory == null
                 ? mealPlanService.mealPlans
                 : mealPlanService.mealPlans.where((mealPlan) {
-                    return mealPlan.categories?.edges?.any(
+                    return mealPlan.dietCategories?.edges?.any(
                           (e) => e?.node?.name == _selectedCategory,
                         ) ??
                         false;
@@ -197,16 +199,19 @@ class _MealPlansScreenState extends State<MealPlansScreen> {
                                       ),
                                     ],
                                     // Category labels
-                                    if (mealPlan.categories?.edges != null &&
+                                    if (mealPlan.dietCategories?.edges !=
+                                            null &&
                                         mealPlan
-                                            .categories!
+                                            .dietCategories!
                                             .edges!
                                             .isNotEmpty) ...[
                                       const SizedBox(height: 12),
                                       Wrap(
                                         spacing: 8,
                                         runSpacing: 4,
-                                        children: mealPlan.categories!.edges!
+                                        children: mealPlan
+                                            .dietCategories!
+                                            .edges!
                                             .where((e) => e?.node != null)
                                             .map((e) {
                                               return Container(

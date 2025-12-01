@@ -21,7 +21,8 @@ import 'features/order/services/order_service.dart';
 import 'features/driver/services/delivery_service.dart';
 import 'features/restaurant/services/meal_service.dart';
 import 'features/restaurant/services/meal_plan_service.dart';
-import 'features/restaurant/services/category_service.dart';
+import 'features/restaurant/services/restaurant_category_service.dart';
+import 'features/restaurant/services/diet_category_service.dart';
 import 'package:flutter/foundation.dart';
 
 void main() async {
@@ -150,11 +151,21 @@ class _MyAppState extends State<MyApp> {
             context.read<TokenStorageService>(),
           ),
         ),
-        ChangeNotifierProvider<CategoryService>(
-          create: (context) => CategoryService(context.read<GraphQLClient>()),
+        ChangeNotifierProvider<RestaurantCategoryService>(
+          create: (context) =>
+              RestaurantCategoryService(context.read<GraphQLClient>()),
         ),
-        ChangeNotifierProvider<CartService>(
+        ChangeNotifierProvider<DietCategoryService>(
+          create: (context) =>
+              DietCategoryService(context.read<GraphQLClient>()),
+        ),
+        ChangeNotifierProxyProvider<AuthService, CartService>(
           create: (context) => CartService(widget.initialSharedPreferences),
+          update: (context, auth, cart) {
+            if (cart == null) throw ArgumentError.notNull('cart');
+            cart.updateAuth(auth);
+            return cart;
+          },
         ),
         ChangeNotifierProvider<PaymentService>(
           create: (context) => PaymentService(context.read<GraphQLClient>()),

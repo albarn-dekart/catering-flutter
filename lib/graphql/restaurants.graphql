@@ -6,7 +6,7 @@ query GetRestaurants($first: Int, $after: String) {
                 name
                 description
                 imageUrl
-                categories {
+                restaurantCategories {
                     edges {
                         node {
                             id
@@ -42,7 +42,7 @@ query GetRestaurant($id: ID!) {
         name
         description
         imageUrl
-        categories {
+        restaurantCategories {
             edges {
                 node {
                     id

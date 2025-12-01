@@ -9,6 +9,7 @@ import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/features/order/services/cart_service.dart';
 import 'package:catering_flutter/features/order/services/order_service.dart';
 import 'package:catering_flutter/features/user/services/address_service.dart';
+import 'package:catering_flutter/core/utils/iri_helper.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
   const ConfirmOrderScreen({super.key});
@@ -39,9 +40,23 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   @override
   void initState() {
     super.initState();
+    final cartService = context.read<CartService>();
+
     // Set initial dates
-    _startDate = _initialStartDate;
-    _endDate = _initialEndDate;
+    if (cartService.startDate != null && cartService.endDate != null) {
+      _startDate = cartService.startDate;
+      _endDate = cartService.endDate;
+    } else {
+      _startDate = _initialStartDate;
+      _endDate = _initialEndDate;
+    }
+
+    // Set initial delivery days
+    if (cartService.deliveryDays.isNotEmpty) {
+      _selectedDeliveryDays.clear();
+      _selectedDeliveryDays.addAll(cartService.deliveryDays);
+    }
+
     // Update the cart service with the initial delivery days and date range
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _updateCartDeliveryDetails();
@@ -67,7 +82,12 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     if (_startDate == null ||
         _endDate == null ||
         _selectedDeliveryDays.isEmpty) {
-      cartService.updateDeliveryDetails([], []);
+      cartService.updateDeliveryDetails(
+        [],
+        [],
+        startDate: _startDate,
+        endDate: _endDate,
+      );
       return;
     }
 
@@ -85,6 +105,8 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     cartService.updateDeliveryDetails(
       actualDeliveryDates,
       _selectedDeliveryDays.toList(),
+      startDate: _startDate,
+      endDate: _endDate,
     );
   }
 
@@ -434,6 +456,26 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                           deliveryZipCode:
                                               _selectedAddress!.zipCode,
                                         );
+
+                                        if (!context.mounted) return;
+
+                                        // Clear cart after successful order
+                                        cartService.clearCart();
+
+                                        // Navigate to order details
+                                        if (orderService.createdOrder != null) {
+                                          context.go(
+                                            Uri(
+                                              path: AppRoutes.orderDetail,
+                                              queryParameters: {
+                                                'id': IriHelper.getId(
+                                                  orderService.createdOrder!.id,
+                                                ),
+                                              },
+                                            ).toString(),
+                                            extra: orderService.createdOrder,
+                                          );
+                                        }
                                       } catch (e) {
                                         if (!context.mounted) return;
                                         UIErrorHandler.showSnackBar(

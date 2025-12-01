@@ -1,20 +1,23 @@
-import 'package:catering_flutter/graphql/categories.graphql.dart';
+import 'package:catering_flutter/graphql/restaurant_categories.graphql.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:catering_flutter/core/api_exception.dart';
 
-typedef Category = Query$GetCategories$categories$edges$node;
-typedef CategoryDetails = Query$GetCategory$category;
+typedef RestaurantCategory =
+    Query$GetRestaurantCategories$restaurantCategories$edges$node;
+typedef RestaurantCategoryDetails =
+    Query$GetRestaurantCategory$restaurantCategory;
 
-class CategoryService extends ChangeNotifier {
+class RestaurantCategoryService extends ChangeNotifier {
   final GraphQLClient _client;
 
-  List<Category> _categories = [];
-  List<Category> get categories => _categories;
+  List<RestaurantCategory> _restaurantCategories = [];
+  List<RestaurantCategory> get restaurantCategories => _restaurantCategories;
 
-  CategoryDetails? _currentCategory;
-  CategoryDetails? get currentCategory => _currentCategory;
+  RestaurantCategoryDetails? _currentRestaurantCategory;
+  RestaurantCategoryDetails? get currentRestaurantCategory =>
+      _currentRestaurantCategory;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -24,17 +27,17 @@ class CategoryService extends ChangeNotifier {
 
   bool get hasError => _errorMessage != null;
 
-  CategoryService(this._client);
+  RestaurantCategoryService(this._client);
 
-  Future<void> getCategories() async {
+  Future<void> getRestaurantCategories() async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
       final options = QueryOptions(
-        document: documentNodeQueryGetCategories,
-        variables: Variables$Query$GetCategories(first: 100).toJson(),
+        document: documentNodeQueryGetRestaurantCategories,
+        variables: Variables$Query$GetRestaurantCategories(first: 100).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
@@ -43,11 +46,11 @@ class CategoryService extends ChangeNotifier {
         throw ApiException(result.exception.toString());
       }
 
-      final data = Query$GetCategories.fromJson(result.data!);
-      if (data.categories?.edges != null) {
-        _categories = data.categories!.edges!
+      final data = Query$GetRestaurantCategories.fromJson(result.data!);
+      if (data.restaurantCategories?.edges != null) {
+        _restaurantCategories = data.restaurantCategories!.edges!
             .map((e) => e?.node)
-            .whereType<Category>()
+            .whereType<RestaurantCategory>()
             .toList();
       }
     } catch (e) {
@@ -58,15 +61,15 @@ class CategoryService extends ChangeNotifier {
     }
   }
 
-  Future<void> getCategoryById(String id) async {
+  Future<void> getRestaurantCategoryById(String id) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
       final options = QueryOptions(
-        document: documentNodeQueryGetCategory,
-        variables: Variables$Query$GetCategory(id: id).toJson(),
+        document: documentNodeQueryGetRestaurantCategory,
+        variables: Variables$Query$GetRestaurantCategory(id: id).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
@@ -75,7 +78,9 @@ class CategoryService extends ChangeNotifier {
         throw ApiException(result.exception.toString());
       }
 
-      _currentCategory = Query$GetCategory.fromJson(result.data!).category;
+      _currentRestaurantCategory = Query$GetRestaurantCategory.fromJson(
+        result.data!,
+      ).restaurantCategory;
     } catch (e) {
       _errorMessage = e.toString();
     } finally {
@@ -84,16 +89,16 @@ class CategoryService extends ChangeNotifier {
     }
   }
 
-  Future<void> createCategory(String name) async {
+  Future<void> createRestaurantCategory(String name) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
       final options = MutationOptions(
-        document: documentNodeMutationCreateCategory,
-        variables: Variables$Mutation$CreateCategory(
-          input: Input$createCategoryInput(name: name),
+        document: documentNodeMutationCreateRestaurantCategory,
+        variables: Variables$Mutation$CreateRestaurantCategory(
+          input: Input$createRestaurantCategoryInput(name: name),
         ).toJson(),
       );
       final result = await _client.mutate(options);
@@ -110,16 +115,16 @@ class CategoryService extends ChangeNotifier {
     }
   }
 
-  Future<void> updateCategory(String id, String name) async {
+  Future<void> updateRestaurantCategory(String id, String name) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
       final options = MutationOptions(
-        document: documentNodeMutationUpdateCategory,
-        variables: Variables$Mutation$UpdateCategory(
-          input: Input$updateCategoryInput(id: id, name: name),
+        document: documentNodeMutationUpdateRestaurantCategory,
+        variables: Variables$Mutation$UpdateRestaurantCategory(
+          input: Input$updateRestaurantCategoryInput(id: id, name: name),
         ).toJson(),
       );
       final result = await _client.mutate(options);
@@ -136,16 +141,16 @@ class CategoryService extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteCategory(String id) async {
+  Future<void> deleteRestaurantCategory(String id) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
       final options = MutationOptions(
-        document: documentNodeMutationDeleteCategory,
-        variables: Variables$Mutation$DeleteCategory(
-          input: Input$deleteCategoryInput(id: id),
+        document: documentNodeMutationDeleteRestaurantCategory,
+        variables: Variables$Mutation$DeleteRestaurantCategory(
+          input: Input$deleteRestaurantCategoryInput(id: id),
         ).toJson(),
       );
       final result = await _client.mutate(options);
@@ -154,7 +159,7 @@ class CategoryService extends ChangeNotifier {
         throw ApiException(result.exception.toString());
       }
 
-      _categories.removeWhere((c) => c.id == id);
+      _restaurantCategories.removeWhere((c) => c.id == id);
     } catch (e) {
       _errorMessage = e.toString();
       rethrow;

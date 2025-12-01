@@ -1,0 +1,47 @@
+query GetRestaurantCategories($first: Int, $after: String) {
+    restaurantCategories(first: $first, after: $after) {
+        edges {
+            node {
+                id
+                name
+            }
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+    }
+}
+
+query GetRestaurantCategory($id: ID!) {
+    restaurantCategory(id: $id) {
+        id
+        name
+    }
+}
+
+mutation CreateRestaurantCategory($input: createRestaurantCategoryInput!) {
+    createRestaurantCategory(input: $input) {
+        restaurantCategory {
+            id
+            name
+        }
+    }
+}
+
+mutation UpdateRestaurantCategory($input: updateRestaurantCategoryInput!) {
+    updateRestaurantCategory(input: $input) {
+        restaurantCategory {
+            id
+            name
+        }
+    }
+}
+
+mutation DeleteRestaurantCategory($input: deleteRestaurantCategoryInput!) {
+    deleteRestaurantCategory(input: $input) {
+        restaurantCategory {
+            id
+        }
+    }
+}

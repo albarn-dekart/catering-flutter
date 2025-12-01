@@ -8,6 +8,7 @@ import 'package:catering_flutter/features/user/services/user_service.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/widgets/responsive_grid.dart';
+import 'package:catering_flutter/core/widgets/dashboard_card.dart';
 
 class RestaurantDashboardScreen extends StatefulWidget {
   final String? restaurantIri;
@@ -79,7 +80,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
               const Text('No restaurant found for this account.'),
               const SizedBox(height: 16),
               FilledButton(
-                onPressed: () => context.push(AppRoutes.createRestaurant),
+                onPressed: () => context.push(AppRoutes.adminRestaurantCreate),
                 child: const Text('Create Restaurant'),
               ),
             ],
@@ -115,16 +116,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                     children: [
                       Icon(Icons.dashboard),
                       SizedBox(width: 8),
-                      Text('Quick Actions'),
-                    ],
-                  ),
-                ),
-                Tab(
-                  child: Row(
-                    children: [
-                      Icon(Icons.restaurant_menu),
-                      SizedBox(width: 8),
-                      Text('Menu'),
+                      Text('Main Actions'),
                     ],
                   ),
                 ),
@@ -137,38 +129,34 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                     ],
                   ),
                 ),
+                Tab(
+                  child: Row(
+                    children: [
+                      Icon(Icons.restaurant_menu),
+                      SizedBox(width: 8),
+                      Text('Menu'),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
         ),
         child: TabBarView(
           children: [
-            _buildQuickActionsTab(context, restaurant),
-            _buildMenuTab(context, restaurant),
+            _buildMainActionsTab(context, restaurant),
             _buildOperationsTab(context, restaurant),
+            _buildMenuTab(context, restaurant),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildQuickActionsTab(BuildContext context, dynamic restaurant) {
+  Widget _buildMainActionsTab(BuildContext context, dynamic restaurant) {
     return ResponsiveGrid(
       children: [
-        _buildActionCard(
-          context,
-          title: 'Edit Details',
-          icon: Icons.edit_note,
-          color: Colors.blue,
-          onTap: () => context.push(
-            Uri(
-              path: AppRoutes.restaurantForm,
-              queryParameters: {'id': IriHelper.getId(restaurant.id)},
-            ).toString(),
-          ),
-        ),
-        _buildActionCard(
-          context,
+        DashboardCard(
           title: 'Analytics',
           icon: Icons.bar_chart,
           color: Colors.purple,
@@ -180,45 +168,24 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
             );
           },
         ),
-      ],
-    );
-  }
-
-  Widget _buildMenuTab(BuildContext context, dynamic restaurant) {
-    return ResponsiveGrid(
-      children: [
-        _buildActionCard(
-          context,
-          title: 'Manage Meals',
-          icon: Icons.fastfood,
-          color: Colors.orange,
+        DashboardCard(
+          title: 'Edit Details',
+          icon: Icons.edit_note,
+          color: Colors.blue,
           onTap: () => context.push(
             Uri(
-              path: AppRoutes.manageMeals,
-              queryParameters: {'restaurantId': IriHelper.getId(restaurant.id)},
+              path: AppRoutes.restaurantForm,
+              queryParameters: {'id': IriHelper.getId(restaurant.id)},
             ).toString(),
           ),
         ),
-        _buildActionCard(
-          context,
-          title: 'Meal Plans',
-          icon: Icons.restaurant_menu,
-          color: Colors.pink,
-          onTap: () => context.push(
-            Uri(
-              path: AppRoutes.manageMealPlans,
-              queryParameters: {'restaurantId': IriHelper.getId(restaurant.id)},
-            ).toString(),
-          ),
-        ),
-        _buildActionCard(
-          context,
-          title: 'Categories',
-          icon: Icons.category,
+        DashboardCard(
+          title: 'Restaurant Categories',
+          icon: Icons.restaurant,
           color: Colors.teal,
           onTap: () => context.push(
             Uri(
-              path: AppRoutes.manageCategories,
+              path: AppRoutes.restaurantCategories,
               queryParameters: {'restaurantId': IriHelper.getId(restaurant.id)},
             ).toString(),
           ),
@@ -230,38 +197,35 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
   Widget _buildOperationsTab(BuildContext context, dynamic restaurant) {
     return ResponsiveGrid(
       children: [
-        _buildActionCard(
-          context,
+        DashboardCard(
           title: 'Manage Orders',
           icon: Icons.receipt_long,
           color: Colors.green,
           onTap: () => context.push(
             Uri(
-              path: AppRoutes.manageOrders,
+              path: AppRoutes.restaurantOrders,
               queryParameters: {'restaurantId': IriHelper.getId(restaurant.id)},
             ).toString(),
           ),
         ),
-        _buildActionCard(
-          context,
+        DashboardCard(
           title: 'Manage Deliveries',
           icon: Icons.local_shipping,
           color: Colors.orange,
           onTap: () => context.push(
             Uri(
-              path: AppRoutes.manageDeliveries,
+              path: AppRoutes.restaurantDeliveries,
               queryParameters: {'restaurantId': IriHelper.getId(restaurant.id)},
             ).toString(),
           ),
         ),
-        _buildActionCard(
-          context,
+        DashboardCard(
           title: 'Drivers',
           icon: Icons.delivery_dining,
           color: Colors.deepPurple,
           onTap: () => context.push(
             Uri(
-              path: AppRoutes.manageDrivers,
+              path: AppRoutes.restaurantDrivers,
               queryParameters: {'restaurantId': IriHelper.getId(restaurant.id)},
             ).toString(),
           ),
@@ -270,44 +234,32 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
     );
   }
 
-  Widget _buildActionCard(
-    BuildContext context, {
-    required String title,
-    required IconData icon,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return Card(
-      elevation: 2,
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 150),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(icon, size: 40, color: color),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                title,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-            ],
+  Widget _buildMenuTab(BuildContext context, dynamic restaurant) {
+    return ResponsiveGrid(
+      children: [
+        DashboardCard(
+          title: 'Meal Plans',
+          icon: Icons.restaurant_menu,
+          color: Colors.pink,
+          onTap: () => context.push(
+            Uri(
+              path: AppRoutes.restaurantMealPlans,
+              queryParameters: {'restaurantId': IriHelper.getId(restaurant.id)},
+            ).toString(),
           ),
         ),
-      ),
+        DashboardCard(
+          title: 'Manage Meals',
+          icon: Icons.fastfood,
+          color: Colors.orange,
+          onTap: () => context.push(
+            Uri(
+              path: AppRoutes.restaurantMeals,
+              queryParameters: {'restaurantId': IriHelper.getId(restaurant.id)},
+            ).toString(),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -8,17 +8,17 @@ import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 
 import 'package:catering_flutter/core/utils/image_helper.dart';
 
-class MealFormScreen extends StatefulWidget {
+class RestaurantMealFormScreen extends StatefulWidget {
   final String? mealId;
   final String restaurantIri;
 
-  const MealFormScreen({super.key, this.mealId, required this.restaurantIri});
+  const RestaurantMealFormScreen({super.key, this.mealId, required this.restaurantIri});
 
   @override
-  State<MealFormScreen> createState() => _MealFormScreenState();
+  State<RestaurantMealFormScreen> createState() => _RestaurantMealFormScreenState();
 }
 
-class _MealFormScreenState extends State<MealFormScreen> {
+class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _nameController;
   late TextEditingController _descriptionController;

@@ -106,7 +106,7 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
                               ),
                             ),
                             Text(
-                              '${(mealPlan.price ?? 0).toStringAsFixed(2)} PLN',
+                              '${((mealPlan.price ?? 0) / 100.0).toStringAsFixed(2)} PLN',
                               style: Theme.of(context).textTheme.headlineSmall
                                   ?.copyWith(
                                     color: Theme.of(
@@ -200,7 +200,7 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
                       ),
                     ),
                     Text(
-                      '${(meal.price ?? 0).toStringAsFixed(2)} PLN',
+                      '${(meal.price / 100.0).toStringAsFixed(2)} PLN',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.bold,

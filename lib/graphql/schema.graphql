@@ -14,20 +14,6 @@
     after: String
   ): AddressCursorConnection
   address(id: ID!): Address
-  categories(
-    "Returns the first n elements from the list."
-    first: Int
-
-    "Returns the last n elements from the list."
-    last: Int
-
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-  ): CategoryCursorConnection
-  category(id: ID!): Category
   deliveries(
     "Returns the first n elements from the list."
     first: Int
@@ -42,6 +28,20 @@
     after: String
   ): DeliveryCursorConnection
   delivery(id: ID!): Delivery
+  dietCategories(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): DietCategoryCursorConnection
+  dietCategory(id: ID!): DietCategory
   meals(
     "Returns the first n elements from the list."
     first: Int
@@ -112,6 +112,20 @@
     after: String
   ): RestaurantCursorConnection
   restaurant(id: ID!): Restaurant
+  restaurantCategories(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): RestaurantCategoryCursorConnection
+  restaurantCategory(id: ID!): RestaurantCategory
   users(
     "Returns the first n elements from the list."
     first: Int
@@ -167,61 +181,26 @@ type AddressPageInfo {
   hasPreviousPage: Boolean!
 }
 
-"Cursor connection for Category."
-type CategoryCursorConnection {
-  edges: [CategoryEdge]
-  pageInfo: CategoryPageInfo!
+"Cursor connection for Delivery."
+type DeliveryCursorConnection {
+  edges: [DeliveryEdge]
+  pageInfo: DeliveryPageInfo!
   totalCount: Int!
 }
 
-"Edge of Category."
-type CategoryEdge {
-  node: Category
+"Edge of Delivery."
+type DeliveryEdge {
+  node: Delivery
   cursor: String!
 }
 
-type Category implements Node {
+type Delivery implements Node {
   id: ID!
-  name: String!
-  restaurants(
-    "Returns the first n elements from the list."
-    first: Int
-
-    "Returns the last n elements from the list."
-    last: Int
-
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-  ): RestaurantCursorConnection
-  mealPlans(
-    "Returns the first n elements from the list."
-    first: Int
-
-    "Returns the last n elements from the list."
-    last: Int
-
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-  ): MealPlanCursorConnection
-}
-
-"Cursor connection for Restaurant."
-type RestaurantCursorConnection {
-  edges: [RestaurantEdge]
-  pageInfo: RestaurantPageInfo!
-  totalCount: Int!
-}
-
-"Edge of Restaurant."
-type RestaurantEdge {
-  node: Restaurant
-  cursor: String!
+  restaurant: Restaurant
+  driver: User
+  status: DeliveryStatus!
+  deliveryDate: String!
+  order: Order
 }
 
 type Restaurant implements Node {
@@ -248,7 +227,7 @@ type Restaurant implements Node {
     after: String
   ): UserCursorConnection
 
-  categories(
+  restaurantCategories(
     "Returns the first n elements from the list."
     first: Int
 
@@ -260,7 +239,7 @@ type Restaurant implements Node {
 
     "Returns the elements in the list that come after the specified cursor."
     after: String
-  ): CategoryCursorConnection
+  ): RestaurantCategoryCursorConnection
   meals(
     "Returns the first n elements from the list."
     first: Int
@@ -483,7 +462,7 @@ type MealPlan implements Node {
     "Returns the elements in the list that come after the specified cursor."
     after: String
   ): MealCursorConnection
-  categories(
+  dietCategories(
     "Returns the first n elements from the list."
     first: Int
 
@@ -495,7 +474,7 @@ type MealPlan implements Node {
 
     "Returns the elements in the list that come after the specified cursor."
     after: String
-  ): CategoryCursorConnection
+  ): DietCategoryCursorConnection
   name: String!
   description: String
   restaurant: Restaurant
@@ -539,65 +518,35 @@ type MealPageInfo {
   hasPreviousPage: Boolean!
 }
 
-"Information about the current page."
-type OrderItemPageInfo {
-  endCursor: String
-  startCursor: String
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-}
-
-"Cursor connection for Delivery."
-type DeliveryCursorConnection {
-  edges: [DeliveryEdge]
-  pageInfo: DeliveryPageInfo!
+"Cursor connection for DietCategory."
+type DietCategoryCursorConnection {
+  edges: [DietCategoryEdge]
+  pageInfo: DietCategoryPageInfo!
   totalCount: Int!
 }
 
-"Edge of Delivery."
-type DeliveryEdge {
-  node: Delivery
+"Edge of DietCategory."
+type DietCategoryEdge {
+  node: DietCategory
   cursor: String!
 }
 
-type Delivery implements Node {
+type DietCategory implements Node {
   id: ID!
-  restaurant: Restaurant
-  driver: User
-  status: DeliveryStatus!
-  deliveryDate: String!
-  order: Order
-}
+  name: String!
+  mealPlans(
+    "Returns the first n elements from the list."
+    first: Int
 
-enum DeliveryStatus {
-  Pending
-  Assigned
-  Picked_up
-  Delivered
-}
+    "Returns the last n elements from the list."
+    last: Int
 
-"Information about the current page."
-type DeliveryPageInfo {
-  endCursor: String
-  startCursor: String
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-}
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
 
-"Information about the current page."
-type OrderPageInfo {
-  endCursor: String
-  startCursor: String
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-}
-
-"Information about the current page."
-type UserPageInfo {
-  endCursor: String
-  startCursor: String
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): MealPlanCursorConnection
 }
 
 "Cursor connection for MealPlan."
@@ -622,6 +571,82 @@ type MealPlanPageInfo {
 }
 
 "Information about the current page."
+type DietCategoryPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"Information about the current page."
+type OrderItemPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"Information about the current page."
+type OrderPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"Information about the current page."
+type UserPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"Cursor connection for RestaurantCategory."
+type RestaurantCategoryCursorConnection {
+  edges: [RestaurantCategoryEdge]
+  pageInfo: RestaurantCategoryPageInfo!
+  totalCount: Int!
+}
+
+"Edge of RestaurantCategory."
+type RestaurantCategoryEdge {
+  node: RestaurantCategory
+  cursor: String!
+}
+
+type RestaurantCategory implements Node {
+  id: ID!
+  name: String!
+  restaurants(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): RestaurantCursorConnection
+}
+
+"Cursor connection for Restaurant."
+type RestaurantCursorConnection {
+  edges: [RestaurantEdge]
+  pageInfo: RestaurantPageInfo!
+  totalCount: Int!
+}
+
+"Edge of Restaurant."
+type RestaurantEdge {
+  node: Restaurant
+  cursor: String!
+}
+
+"Information about the current page."
 type RestaurantPageInfo {
   endCursor: String
   startCursor: String
@@ -630,7 +655,22 @@ type RestaurantPageInfo {
 }
 
 "Information about the current page."
-type CategoryPageInfo {
+type RestaurantCategoryPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+enum DeliveryStatus {
+  Pending
+  Assigned
+  Picked_up
+  Delivered
+}
+
+"Information about the current page."
+type DeliveryPageInfo {
   endCursor: String
   startCursor: String
   hasNextPage: Boolean!
@@ -650,20 +690,20 @@ type Mutation {
   "Deletes a Address."
   deleteAddress(input: deleteAddressInput!): deleteAddressPayload
 
-  "Creates a Category."
-  createCategory(input: createCategoryInput!): createCategoryPayload
-
-  "Updates a Category."
-  updateCategory(input: updateCategoryInput!): updateCategoryPayload
-
-  "Deletes a Category."
-  deleteCategory(input: deleteCategoryInput!): deleteCategoryPayload
-
   "Updates a Delivery."
   updateDelivery(input: updateDeliveryInput!): updateDeliveryPayload
 
   "Deletes a Delivery."
   deleteDelivery(input: deleteDeliveryInput!): deleteDeliveryPayload
+
+  "Creates a DietCategory."
+  createDietCategory(input: createDietCategoryInput!): createDietCategoryPayload
+
+  "Updates a DietCategory."
+  updateDietCategory(input: updateDietCategoryInput!): updateDietCategoryPayload
+
+  "Deletes a DietCategory."
+  deleteDietCategory(input: deleteDietCategoryInput!): deleteDietCategoryPayload
 
   "Creates a Meal."
   createMeal(input: createMealInput!): createMealPayload
@@ -706,6 +746,15 @@ type Mutation {
 
   "Deletes a Restaurant."
   deleteRestaurant(input: deleteRestaurantInput!): deleteRestaurantPayload
+
+  "Creates a RestaurantCategory."
+  createRestaurantCategory(input: createRestaurantCategoryInput!): createRestaurantCategoryPayload
+
+  "Updates a RestaurantCategory."
+  updateRestaurantCategory(input: updateRestaurantCategoryInput!): updateRestaurantCategoryPayload
+
+  "Deletes a RestaurantCategory."
+  deleteRestaurantCategory(input: deleteRestaurantCategoryInput!): deleteRestaurantCategoryPayload
 
   "Creates a User."
   createUser(input: createUserInput!): createUserPayload
@@ -793,43 +842,6 @@ type deleteAddressPayload {
   clientMutationId: String
 }
 
-"Creates a Category."
-input createCategoryInput {
-  name: String!
-  clientMutationId: String
-}
-
-"Creates a Category."
-type createCategoryPayload {
-  category: Category
-  clientMutationId: String
-}
-
-"Updates a Category."
-input updateCategoryInput {
-  id: ID!
-  name: String
-  clientMutationId: String
-}
-
-"Updates a Category."
-type updateCategoryPayload {
-  category: Category
-  clientMutationId: String
-}
-
-"Deletes a Category."
-input deleteCategoryInput {
-  id: ID!
-  clientMutationId: String
-}
-
-"Deletes a Category."
-type deleteCategoryPayload {
-  category: Category
-  clientMutationId: String
-}
-
 "Updates a Delivery."
 input updateDeliveryInput {
   id: ID!
@@ -854,6 +866,43 @@ input deleteDeliveryInput {
 "Deletes a Delivery."
 type deleteDeliveryPayload {
   delivery: Delivery
+  clientMutationId: String
+}
+
+"Creates a DietCategory."
+input createDietCategoryInput {
+  name: String!
+  clientMutationId: String
+}
+
+"Creates a DietCategory."
+type createDietCategoryPayload {
+  dietCategory: DietCategory
+  clientMutationId: String
+}
+
+"Updates a DietCategory."
+input updateDietCategoryInput {
+  id: ID!
+  name: String
+  clientMutationId: String
+}
+
+"Updates a DietCategory."
+type updateDietCategoryPayload {
+  dietCategory: DietCategory
+  clientMutationId: String
+}
+
+"Deletes a DietCategory."
+input deleteDietCategoryInput {
+  id: ID!
+  clientMutationId: String
+}
+
+"Deletes a DietCategory."
+type deleteDietCategoryPayload {
+  dietCategory: DietCategory
   clientMutationId: String
 }
 
@@ -911,7 +960,7 @@ type deleteMealPayload {
 "Creates a MealPlan."
 input createMealPlanInput {
   meals: [String]
-  categories: [String]
+  dietCategories: [String]
   name: String!
   description: String
   restaurant: String
@@ -928,7 +977,7 @@ type createMealPlanPayload {
 input updateMealPlanInput {
   id: ID!
   meals: [String]
-  categories: [String]
+  dietCategories: [String]
   name: String
   description: String
   restaurant: String
@@ -1075,7 +1124,7 @@ type deleteOrderItemPayload {
 input createRestaurantInput {
   name: String!
   description: String
-  categories: [String]
+  restaurantCategories: [String]
   clientMutationId: String
 }
 
@@ -1090,7 +1139,7 @@ input updateRestaurantInput {
   id: ID!
   name: String
   description: String
-  categories: [String]
+  restaurantCategories: [String]
   clientMutationId: String
 }
 
@@ -1109,6 +1158,43 @@ input deleteRestaurantInput {
 "Deletes a Restaurant."
 type deleteRestaurantPayload {
   restaurant: Restaurant
+  clientMutationId: String
+}
+
+"Creates a RestaurantCategory."
+input createRestaurantCategoryInput {
+  name: String!
+  clientMutationId: String
+}
+
+"Creates a RestaurantCategory."
+type createRestaurantCategoryPayload {
+  restaurantCategory: RestaurantCategory
+  clientMutationId: String
+}
+
+"Updates a RestaurantCategory."
+input updateRestaurantCategoryInput {
+  id: ID!
+  name: String
+  clientMutationId: String
+}
+
+"Updates a RestaurantCategory."
+type updateRestaurantCategoryPayload {
+  restaurantCategory: RestaurantCategory
+  clientMutationId: String
+}
+
+"Deletes a RestaurantCategory."
+input deleteRestaurantCategoryInput {
+  id: ID!
+  clientMutationId: String
+}
+
+"Deletes a RestaurantCategory."
+type deleteRestaurantCategoryPayload {
+  restaurantCategory: RestaurantCategory
   clientMutationId: String
 }
 

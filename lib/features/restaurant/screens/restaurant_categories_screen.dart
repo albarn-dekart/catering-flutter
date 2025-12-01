@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
-import 'package:catering_flutter/features/restaurant/services/category_service.dart';
+import 'package:catering_flutter/features/restaurant/services/restaurant_category_service.dart';
 import 'package:catering_flutter/features/restaurant/services/restaurant_service.dart';
 import 'package:catering_flutter/features/user/services/user_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 
-class ManageCategoriesScreen extends StatefulWidget {
+class RestaurantCategoriesScreen extends StatefulWidget {
   final String restaurantIri;
 
-  const ManageCategoriesScreen({super.key, required this.restaurantIri});
+  const RestaurantCategoriesScreen({super.key, required this.restaurantIri});
 
   @override
-  State<ManageCategoriesScreen> createState() => _ManageCategoriesScreenState();
+  State<RestaurantCategoriesScreen> createState() => _RestaurantCategoriesScreenState();
 }
 
-class _ManageCategoriesScreenState extends State<ManageCategoriesScreen> {
+class _RestaurantCategoriesScreenState extends State<RestaurantCategoriesScreen> {
   List<String> _selectedCategoryIds = [];
   bool _isInitialized = false;
 
@@ -28,11 +28,11 @@ class _ManageCategoriesScreenState extends State<ManageCategoriesScreen> {
   }
 
   Future<void> _loadData() async {
-    final categoryService = context.read<CategoryService>();
+    final categoryService = context.read<RestaurantCategoryService>();
     final restaurantService = context.read<RestaurantService>();
 
-    // Fetch categories
-    await categoryService.getCategories();
+    // Fetch restaurant categories
+    await categoryService.getRestaurantCategories();
 
     // Get current restaurant categories
     final restaurant = restaurantService.currentRestaurant;
@@ -40,7 +40,7 @@ class _ManageCategoriesScreenState extends State<ManageCategoriesScreen> {
       setState(() {
         // Extract category IDs from GraphQL edges/nodes structure
         _selectedCategoryIds =
-            restaurant.categories?.edges
+            restaurant.restaurantCategories?.edges
                 ?.map((e) => e?.node?.id)
                 .whereType<String>()
                 .toList() ??
@@ -92,7 +92,7 @@ class _ManageCategoriesScreenState extends State<ManageCategoriesScreen> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: 'Manage Categories',
-      child: Consumer2<CategoryService, RestaurantService>(
+      child: Consumer2<RestaurantCategoryService, RestaurantService>(
         builder: (context, categoryService, restaurantService, child) {
           if (categoryService.isLoading || restaurantService.isLoading) {
             return const Center(child: CircularProgressIndicator());
@@ -119,7 +119,9 @@ class _ManageCategoriesScreenState extends State<ManageCategoriesScreen> {
                       Wrap(
                         spacing: 12,
                         runSpacing: 12,
-                        children: categoryService.categories.map((category) {
+                        children: categoryService.restaurantCategories.map((
+                          category,
+                        ) {
                           final isSelected = _selectedCategoryIds.contains(
                             category.id,
                           );

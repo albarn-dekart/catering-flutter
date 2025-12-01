@@ -4,10 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:catering_flutter/core/app_routes.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
-import 'package:catering_flutter/core/utils/ui_error_handler.dart';
-import 'package:catering_flutter/features/order/services/order_service.dart';
 import 'package:catering_flutter/features/order/services/cart_service.dart';
-import 'package:catering_flutter/core/utils/iri_helper.dart';
 import 'package:catering_flutter/core/utils/image_helper.dart';
 
 class CartScreen extends StatefulWidget {
@@ -22,30 +19,8 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: 'Cart',
-      child: Consumer2<CartService, OrderService>(
-        builder: (context, cartService, orderService, child) {
-          if (orderService.createdOrder != null) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              if (context.mounted) {
-                // Convert CreatedOrder to OrderDetails-compatible type
-                final createdOrder = orderService.createdOrder!;
-
-                // Pass the order data to avoid re-fetching
-                context.push(
-                  Uri(
-                    path: AppRoutes.orderDetail,
-                    queryParameters: {'id': IriHelper.getId(createdOrder.id)},
-                  ).toString(),
-                  extra: createdOrder, // Pass the order data
-                );
-              }
-            });
-          } else if (orderService.hasError) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              UIErrorHandler.showSnackBar(context, orderService.errorMessage!);
-            });
-          }
-
+      child: Consumer<CartService>(
+        builder: (context, cartService, child) {
           if (cartService.cartItems.isEmpty) {
             return const Center(child: Text('Your cart is empty.'));
           }

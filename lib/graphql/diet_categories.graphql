@@ -1,0 +1,47 @@
+query GetDietCategories($first: Int, $after: String) {
+    dietCategories(first: $first, after: $after) {
+        edges {
+            node {
+                id
+                name
+            }
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+    }
+}
+
+query GetDietCategory($id: ID!) {
+    dietCategory(id: $id) {
+        id
+        name
+    }
+}
+
+mutation CreateDietCategory($input: createDietCategoryInput!) {
+    createDietCategory(input: $input) {
+        dietCategory {
+            id
+            name
+        }
+    }
+}
+
+mutation UpdateDietCategory($input: updateDietCategoryInput!) {
+    updateDietCategory(input: $input) {
+        dietCategory {
+            id
+            name
+        }
+    }
+}
+
+mutation DeleteDietCategory($input: deleteDietCategoryInput!) {
+    deleteDietCategory(input: $input) {
+        dietCategory {
+            id
+        }
+    }
+}

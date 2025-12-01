@@ -2,24 +2,23 @@ import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
 import 'package:catering_flutter/features/driver/services/delivery_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/features/user/services/user_service.dart';
 import 'package:catering_flutter/core/utils/status_extensions.dart';
-import 'package:catering_flutter/core/widgets/responsive_grid.dart';
+import 'package:catering_flutter/core/widgets/searchable_list_screen.dart';
 
-class ManageDeliveriesScreen extends StatefulWidget {
+class RestaurantDeliveriesScreen extends StatefulWidget {
   final String restaurantIri;
 
-  const ManageDeliveriesScreen({super.key, required this.restaurantIri});
+  const RestaurantDeliveriesScreen({super.key, required this.restaurantIri});
 
   @override
-  State<ManageDeliveriesScreen> createState() => _ManageDeliveriesScreenState();
+  State<RestaurantDeliveriesScreen> createState() => _RestaurantDeliveriesScreenState();
 }
 
-class _ManageDeliveriesScreenState extends State<ManageDeliveriesScreen> {
+class _RestaurantDeliveriesScreenState extends State<RestaurantDeliveriesScreen> {
   Enum$DeliveryStatus? _selectedStatusFilter;
 
   @override
@@ -49,139 +48,50 @@ class _ManageDeliveriesScreenState extends State<ManageDeliveriesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      title: 'Manage Deliveries',
-      child: Column(
-        children: [
-          // Status filter chips
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  _buildFilterChip(null, 'All'),
-                  ...Enum$DeliveryStatus.values
-                      .where((status) => status != Enum$DeliveryStatus.$unknown)
-                      .map((status) {
-                        return _buildFilterChip(status, status.label);
-                      }),
-                ],
-              ),
-            ),
-          ),
-          // Deliveries list
-          Expanded(
-            child: Consumer2<DeliveryService, UserService>(
-              builder: (context, deliveryService, userService, child) {
-                if (deliveryService.isLoading || userService.isLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (deliveryService.hasError) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Error: ${deliveryService.errorMessage}',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.error,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        ElevatedButton.icon(
-                          onPressed: _fetchDeliveries,
-                          icon: const Icon(Icons.refresh),
-                          label: const Text('Retry'),
-                        ),
-                      ],
-                    ),
-                  );
-                } else if (deliveryService.deliveries.isEmpty) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.local_shipping_outlined,
-                          size: 64,
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onSurface.withValues(alpha: 77),
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'No deliveries found',
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurface.withValues(alpha: 153),
-                              ),
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
-                  final drivers = userService.restaurantDrivers;
+    return Consumer2<DeliveryService, UserService>(
+      builder: (context, deliveryService, userService, child) {
+        // Apply status filter
+        final filteredDeliveries = _selectedStatusFilter == null
+            ? deliveryService.deliveries
+            : deliveryService.deliveries
+                  .where((d) => d.status == _selectedStatusFilter)
+                  .toList();
 
-                  // Apply status filter
-                  final filteredDeliveries = _selectedStatusFilter == null
-                      ? deliveryService.deliveries
-                      : deliveryService.deliveries
-                            .where((d) => d.status == _selectedStatusFilter)
-                            .toList();
+        return SearchableListScreen<Delivery>(
+          title: 'Manage Deliveries',
+          items: filteredDeliveries,
+          isLoading: deliveryService.isLoading || userService.isLoading,
+          searchHint: 'Search by order number...',
+          filter: (delivery, query) {
+            final orderId = IriHelper.getId(delivery.order?.id ?? '');
+            return orderId.toLowerCase().contains(query);
+          },
+          onRefresh: _fetchDeliveriesAndDrivers,
+          customFilters: _buildFilterChips(),
+          itemBuilder: (context, delivery) {
+            final drivers = userService.restaurantDrivers;
+            return _buildDeliveryCard(context, delivery, drivers);
+          },
+        );
+      },
+    );
+  }
 
-                  if (filteredDeliveries.isEmpty) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.filter_alt_off,
-                            size: 64,
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurface.withValues(alpha: 77),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            'No deliveries with status "${_selectedStatusFilter!.label}"',
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(
-                                  color: Theme.of(context).colorScheme.onSurface
-                                      .withValues(alpha: 153),
-                                ),
-                          ),
-                          const SizedBox(height: 8),
-                          TextButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectedStatusFilter = null;
-                              });
-                            },
-                            child: const Text('Clear filter'),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-
-                  return RefreshIndicator(
-                    onRefresh: () async => _fetchDeliveries(),
-                    child: ResponsiveGridBuilder(
-                      itemCount: filteredDeliveries.length,
-                      childAspectRatio: 1.3,
-                      itemBuilder: (context, index) {
-                        final delivery = filteredDeliveries[index];
-                        return _buildDeliveryCard(context, delivery, drivers);
-                      },
-                    ),
-                  );
-                }
-              },
-            ),
-          ),
-        ],
+  Widget _buildFilterChips() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            _buildFilterChip(null, 'All'),
+            ...Enum$DeliveryStatus.values
+                .where((status) => status != Enum$DeliveryStatus.$unknown)
+                .map((status) {
+                  return _buildFilterChip(status, status.label);
+                }),
+          ],
+        ),
       ),
     );
   }
