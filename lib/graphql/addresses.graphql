@@ -1,0 +1,61 @@
+# For customers - includes their addresses
+query GetUserAddresses($id: ID!) {
+    user(id: $id) {
+        id
+        addresses(first: 100) {
+            edges {
+                node {
+                    id
+                    firstName
+                    lastName
+                    phoneNumber
+                    street
+                    apartment
+                    city
+                    zipCode
+                    isDefault
+                }
+            }
+        }
+    }
+}
+
+mutation CreateAddress($input: createAddressInput!) {
+    createAddress(input: $input) {
+        address {
+            id
+            firstName
+            lastName
+            phoneNumber
+            street
+            apartment
+            city
+            zipCode
+            isDefault
+        }
+    }
+}
+
+mutation UpdateAddress($input: updateAddressInput!) {
+    updateAddress(input: $input) {
+        address {
+            id
+            firstName
+            lastName
+            phoneNumber
+            street
+            apartment
+            city
+            zipCode
+            isDefault
+        }
+    }
+}
+
+mutation DeleteAddress($input: deleteAddressInput!) {
+    deleteAddress(input: $input) {
+        address {
+            id
+        }
+    }
+}

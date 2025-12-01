@@ -1,0 +1,4 @@
+schema: lib/graphql/schema.graphql
+scalars:
+  Iterable:
+    type: List<String>

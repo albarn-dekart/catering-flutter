@@ -1,124 +1,170 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
-
-import 'core/config.dart';
-import 'core/api_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:developer';
+import 'core/app_theme.dart';
+import 'core/api_config.dart';
 import 'core/app_router.dart';
 import 'core/token_storage_service.dart';
-import 'features/authentication/services/auth_service.dart';
-import 'features/owner/services/restaurant_service.dart';
-import 'features/owner/services/meal_plan_service.dart';
-import 'features/owner/services/meal_service.dart';
-import 'features/customer/services/order_service.dart';
-import 'features/customer/services/payment_service.dart';
-import 'features/owner/services/category_service.dart';
-import 'features/authentication/services/user_service.dart';
+import 'core/graphql_client.dart' as graphql_client;
+import 'core/widgets/global_error_widget.dart';
+import 'features/order/services/cart_service.dart';
+import 'features/order/services/payment_service.dart';
+import 'core/auth_service.dart';
+import 'features/restaurant/services/restaurant_service.dart';
+import 'features/user/services/user_service.dart';
+import 'features/user/services/address_service.dart';
+import 'features/order/services/order_service.dart';
 import 'features/driver/services/delivery_service.dart';
-import 'features/customer/services/profile_api_service.dart';
-import 'features/customer/services/profile_service.dart';
-import 'features/customer/services/cart_service.dart';
-import 'features/authentication/services/change_password_service.dart';
+import 'features/restaurant/services/meal_service.dart';
+import 'features/restaurant/services/meal_plan_service.dart';
+import 'features/restaurant/services/category_service.dart';
+import 'package:flutter/foundation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // 2. Initialize Hive for caching (REQUIRED for graphql_flutter)
+  await initHiveForFlutter();
+
   usePathUrlStrategy();
   GoRouter.optionURLReflectsImperativeAPIs = true;
 
-  runApp(const MyApp());
+  // Global Error Handling
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return GlobalErrorWidget(details: details);
+  };
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    log(
+      'Async Error',
+      error: error,
+      stackTrace: stack,
+      name: 'MainErrorHandler',
+    );
+    return true;
+  };
+
+  // 1. Initialize SharedPreferences for cart persistence
+  final prefs = await SharedPreferences.getInstance();
+
+  // 2. Initialize TokenStorageService
+  final tokenStorageService = TokenStorageService();
+
+  // 3. Initialize AuthService and trigger the asynchronous status check
+  final authService = AuthService(
+    tokenStorageService,
+    baseUrl: ApiConfig.baseUrl,
+  );
+
+  runApp(
+    MyApp(
+      initialAuthService: authService,
+      initialTokenStorage: tokenStorageService,
+      initialSharedPreferences: prefs,
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  final AuthService initialAuthService;
+  final TokenStorageService initialTokenStorage;
+  final SharedPreferences initialSharedPreferences;
+
+  const MyApp({
+    super.key,
+    required this.initialAuthService,
+    required this.initialTokenStorage,
+    required this.initialSharedPreferences,
+  });
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late final AppRouter _appRouter;
+
+  @override
+  void initState() {
+    super.initState();
+    _appRouter = AppRouter(widget.initialAuthService);
+  }
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<TokenStorageService>(create: (_) => TokenStorageService()),
-        Provider<ApiService>(
-          create: (context) => ApiService(
-            baseUrl: AppConfig.baseUrl,
-            tokenStorage: context.read<TokenStorageService>(),
+        // 1. Core Services (Use initial instance via .value)
+        Provider<TokenStorageService>.value(value: widget.initialTokenStorage),
+
+        // 2. AuthService (Use initial instance via .value)
+        ChangeNotifierProvider<AuthService>.value(
+          value: widget.initialAuthService,
+        ),
+
+        // 3. GraphQLClient (Now depends on AuthService)
+        Provider<GraphQLClient>(
+          create: (context) => graphql_client.initClient(
+            ApiConfig.baseUrl,
+            context.read<TokenStorageService>(),
+            // Pass the AuthService instance here
+            context.read<AuthService>(),
           ),
         ),
-        ChangeNotifierProvider<AuthService>(
-          create: (context) => AuthService(
-            apiService: context.read<ApiService>(),
-            tokenStorage: context.read<TokenStorageService>(),
-          ),
-        ),
+
+        // 4. Other Services (Most depend on GraphQLClient/TokenStorageService)
         ChangeNotifierProvider<RestaurantService>(
-          create: (context) => RestaurantService(context.read<ApiService>()),
-        ),
-        ChangeNotifierProvider<MealPlanService>(
-          create: (context) =>
-              MealPlanService(apiService: context.read<ApiService>()),
-        ),
-        ChangeNotifierProvider<MealService>(
-          create: (context) =>
-              MealService(apiService: context.read<ApiService>()),
-        ),
-        ChangeNotifierProvider<OrderService>(
-          create: (context) => OrderService(
-            apiService: context.read<ApiService>(),
-            authService: context.read<AuthService>(),
+          create: (context) => RestaurantService(
+            context.read<GraphQLClient>(),
+            context.read<TokenStorageService>(),
           ),
-        ),
-        ChangeNotifierProvider<PaymentService>(
-          create: (context) =>
-              PaymentService(apiService: context.read<ApiService>()),
-        ),
-        Provider<CategoryService>(
-          create: (context) => CategoryService(context.read<ApiService>()),
         ),
         ChangeNotifierProvider<UserService>(
-          create: (context) =>
-              UserService(apiService: context.read<ApiService>()),
+          create: (context) => UserService(
+            context.read<GraphQLClient>(),
+            context.read<TokenStorageService>(),
+          ),
+        ),
+        ChangeNotifierProvider<AddressService>(
+          create: (context) => AddressService(context.read<GraphQLClient>()),
+        ),
+        ChangeNotifierProvider<OrderService>(
+          create: (context) => OrderService(context.read<GraphQLClient>()),
         ),
         ChangeNotifierProvider<DeliveryService>(
-          create: (context) =>
-              DeliveryService(apiService: context.read<ApiService>()),
+          create: (context) => DeliveryService(context.read<GraphQLClient>()),
         ),
-        Provider<ProfileApiService>(
-          create: (context) =>
-              ProfileApiService(apiService: context.read<ApiService>()),
-        ),
-        ChangeNotifierProvider<ProfileService>(
-          create: (context) => ProfileService(
-            authService: context.read<AuthService>(),
-            profileApiService: context.read<ProfileApiService>(),
+        ChangeNotifierProvider<MealService>(
+          create: (context) => MealService(
+            context.read<GraphQLClient>(),
+            context.read<TokenStorageService>(),
           ),
         ),
-        ChangeNotifierProvider<CartService>(create: (context) => CartService()),
-        ChangeNotifierProvider<ChangePasswordService>(
-          create: (context) => ChangePasswordService(
-            apiService: context.read<ApiService>(),
-            authService: context.read<AuthService>(),
+        ChangeNotifierProvider<MealPlanService>(
+          create: (context) => MealPlanService(
+            context.read<GraphQLClient>(),
+            context.read<TokenStorageService>(),
           ),
+        ),
+        ChangeNotifierProvider<CategoryService>(
+          create: (context) => CategoryService(context.read<GraphQLClient>()),
+        ),
+        ChangeNotifierProvider<CartService>(
+          create: (context) => CartService(widget.initialSharedPreferences),
+        ),
+        ChangeNotifierProvider<PaymentService>(
+          create: (context) => PaymentService(context.read<GraphQLClient>()),
         ),
       ],
-      child: Builder(
-        builder: (context) {
-          final appRouter = AppRouter(
-            authService: context.read<AuthService>(),
-            restaurantService: context.read<RestaurantService>(),
-          );
-
-          return MaterialApp.router(
-            title: 'Catering App',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-              appBarTheme: const AppBarTheme(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-              ),
-            ),
-            routerConfig: appRouter.router,
-          );
-        },
+      // Since loading is handled in main(), we use MaterialApp.router directly.
+      child: MaterialApp.router(
+        title: 'Catering App',
+        theme: AppTheme.lightTheme,
+        routerConfig: _appRouter.router,
       ),
     );
   }

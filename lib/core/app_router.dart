@@ -1,43 +1,54 @@
+import 'package:catering_flutter/core/auth_service.dart';
+import 'package:catering_flutter/core/utils/iri_helper.dart';
+import 'package:catering_flutter/core/widgets/global_error_widget.dart';
+import 'package:catering_flutter/features/restaurant/services/meal_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:catering_flutter/core/app_routes.dart';
-import 'package:catering_flutter/features/authentication/services/auth_service.dart';
-import 'package:catering_flutter/features/owner/services/restaurant_service.dart';
-import 'package:catering_flutter/features/owner/models/meal_plan_model.dart';
-import 'package:catering_flutter/features/owner/models/meal_model.dart';
-
-// Import all screens
-import 'package:catering_flutter/features/authentication/screens/home_screen.dart';
 import 'package:catering_flutter/features/driver/screens/driver_dashboard_screen.dart';
-import 'package:catering_flutter/features/owner/screens/restaurant_dashboard_screen.dart';
+import 'package:catering_flutter/features/restaurant/screens/restaurant_dashboard_screen.dart';
 import 'package:catering_flutter/features/admin/screens/admin_dashboard_screen.dart';
-import 'package:catering_flutter/features/authentication/screens/login_screen.dart';
-import 'package:catering_flutter/features/authentication/screens/register_screen.dart';
-import 'package:catering_flutter/features/owner/screens/manage_restaurant_screen.dart';
-import 'package:catering_flutter/features/owner/screens/manage_meal_plans_screen.dart';
-import 'package:catering_flutter/features/owner/screens/manage_meals_screen.dart';
-import 'package:catering_flutter/features/owner/screens/save_meal_plan_screen.dart';
-import 'package:catering_flutter/features/owner/screens/save_meal_screen.dart';
-import 'package:catering_flutter/features/admin/screens/create_restaurant_screen.dart';
-import 'package:catering_flutter/features/authentication/screens/change_password_screen.dart';
-import 'package:catering_flutter/features/customer/screens/receipt_screen.dart';
-import 'package:catering_flutter/features/customer/screens/cart_screen.dart';
-import 'package:catering_flutter/features/customer/screens/confirm_delivery_screen.dart';
-import 'package:catering_flutter/features/owner/screens/restaurants_screen.dart';
-import 'package:catering_flutter/features/owner/screens/meal_plans_screen.dart';
-import 'package:catering_flutter/features/owner/screens/meal_plan_detail_screen.dart';
-import 'package:catering_flutter/features/customer/screens/order_list_screen.dart';
-import 'package:catering_flutter/features/customer/screens/profile_screen.dart';
-import 'package:catering_flutter/features/owner/screens/manage_deliveries_screen.dart';
+import 'package:catering_flutter/features/user/screens/login_screen.dart';
+import 'package:catering_flutter/features/user/screens/register_screen.dart';
+import 'package:catering_flutter/features/restaurant/screens/restaurant_form_screen.dart';
+import 'package:catering_flutter/features/restaurant/screens/manage_meal_plans_screen.dart';
+import 'package:catering_flutter/features/restaurant/screens/manage_meals_screen.dart';
+import 'package:catering_flutter/features/restaurant/screens/meal_form_screen.dart';
+import 'package:catering_flutter/features/user/screens/change_password_screen.dart';
+import 'package:catering_flutter/features/order/screens/cart_screen.dart';
+import 'package:catering_flutter/features/order/screens/confirm_order_screen.dart';
+import 'package:catering_flutter/features/restaurant/screens/restaurants_screen.dart';
+import 'package:catering_flutter/features/restaurant/screens/meal_plans_screen.dart';
+import 'package:catering_flutter/features/restaurant/screens/meal_plan_detail_screen.dart';
+import 'package:catering_flutter/features/order/screens/order_list_screen.dart';
+import 'package:catering_flutter/features/restaurant/screens/manage_deliveries_screen.dart';
+import 'package:catering_flutter/features/restaurant/screens/manage_orders_screen.dart';
+import 'package:catering_flutter/features/restaurant/screens/manage_categories_screen.dart';
+import 'package:catering_flutter/features/restaurant/screens/manage_drivers_screen.dart';
+import 'package:catering_flutter/features/order/screens/order_detail_screen.dart';
+import 'package:catering_flutter/features/user/screens/address_list_screen.dart';
+import 'package:catering_flutter/features/user/screens/address_form_screen.dart';
+import 'package:catering_flutter/features/user/services/address_service.dart';
+import 'package:catering_flutter/features/user/screens/customer_dashboard_screen.dart';
+import 'package:catering_flutter/features/order/services/order_service.dart';
 
 class AppRouter {
   final AuthService authService;
-  final RestaurantService restaurantService;
 
-  AppRouter({required this.authService, required this.restaurantService});
+  AppRouter(this.authService);
 
   late final GoRouter router = GoRouter(
+    refreshListenable: authService,
+    errorBuilder: (context, state) {
+      return GlobalErrorWidget(
+        withScaffold: true,
+        details: FlutterErrorDetails(
+          exception: state.error ?? Exception('Unknown Router Error'),
+          library: 'GoRouter',
+        ),
+      );
+    },
     routes: <RouteBase>[
       ShellRoute(
         builder: (context, state, child) {
@@ -47,7 +58,7 @@ class AppRouter {
           GoRoute(
             path: AppRoutes.home,
             builder: (BuildContext context, GoRouterState state) {
-              return const HomeScreen();
+              return const RestaurantsScreen();
             },
           ),
           GoRoute(
@@ -59,7 +70,11 @@ class AppRouter {
           GoRoute(
             path: AppRoutes.restaurantDashboard,
             builder: (BuildContext context, GoRouterState state) {
-              return const RestaurantDashboardScreen();
+              final restaurantId = state.uri.queryParameters['id'];
+              final restaurantIri = restaurantId != null
+                  ? IriHelper.buildIri('restaurants', restaurantId)
+                  : null;
+              return RestaurantDashboardScreen(restaurantIri: restaurantIri);
             },
           ),
           GoRoute(
@@ -81,50 +96,53 @@ class AppRouter {
             },
           ),
           GoRoute(
-            path: AppRoutes.myRestaurant,
+            path: AppRoutes.restaurantForm,
             builder: (BuildContext context, GoRouterState state) {
-              return const ManageRestaurantScreen();
-            },
-          ),
-          GoRoute(
-            path: AppRoutes.editRestaurant,
-            builder: (BuildContext context, GoRouterState state) {
-              final restaurantId = int.parse(
-                state.pathParameters['restaurantId']!,
+              final restaurantIri = IriHelper.buildIri(
+                'restaurants',
+                state.uri.queryParameters['id']!,
               );
-              return ManageRestaurantScreen(restaurantId: restaurantId);
+              return RestaurantFormScreen(restaurantIri: restaurantIri);
             },
           ),
           GoRoute(
             path: AppRoutes.manageMealPlans,
             builder: (context, state) {
-              return const ManageMealPlansScreen();
+              final restaurantIri = IriHelper.buildIri(
+                'restaurants',
+                state.uri.queryParameters['restaurantId']!,
+              );
+              return ManageMealPlansScreen(restaurantIri: restaurantIri);
             },
           ),
           GoRoute(
             path: AppRoutes.manageMeals,
             builder: (context, state) {
-              return const ManageMealsScreen();
+              final restaurantIri = IriHelper.buildIri(
+                'restaurants',
+                state.uri.queryParameters['restaurantId']!,
+              );
+              return ManageMealsScreen(restaurantIri: restaurantIri);
             },
           ),
           GoRoute(
-            path: AppRoutes.saveMealPlan,
+            path: AppRoutes.mealForm,
             builder: (context, state) {
-              final mealPlan = state.extra as MealPlan?;
-              return SaveMealPlanScreen(mealPlan: mealPlan);
-            },
-          ),
-          GoRoute(
-            path: AppRoutes.saveMeal,
-            builder: (context, state) {
-              final meal = state.extra as Meal?;
-              return SaveMealScreen(meal: meal);
+              final restaurantIri = IriHelper.buildIri(
+                'restaurants',
+                state.uri.queryParameters['restaurantId']!,
+              );
+              final mealNode = state.extra as Meal?;
+              return MealFormScreen(
+                mealId: mealNode?.id,
+                restaurantIri: restaurantIri,
+              );
             },
           ),
           GoRoute(
             path: AppRoutes.createRestaurant,
             builder: (BuildContext context, GoRouterState state) {
-              return const CreateRestaurantScreen();
+              return const RestaurantFormScreen();
             },
           ),
           GoRoute(
@@ -134,50 +152,35 @@ class AppRouter {
             },
           ),
           GoRoute(
-            path: AppRoutes.receipt,
-            builder: (BuildContext context, GoRouterState state) {
-              final orderIdString = state.uri.queryParameters['orderId'];
-              if (orderIdString == null) {
-                return const Scaffold(
-                  body: Center(child: Text('Order ID is missing.')),
-                );
-              }
-              final orderId = int.parse(orderIdString);
-              return ReceiptScreen(orderId: orderId);
-            },
-          ),
-          GoRoute(
             path: AppRoutes.cart,
             builder: (BuildContext context, GoRouterState state) {
               return const CartScreen();
             },
           ),
           GoRoute(
-            path: AppRoutes.deliveryDetails,
+            path: AppRoutes.orderConfirm,
             builder: (BuildContext context, GoRouterState state) {
-              return const ConfirmDeliveryScreen();
-            },
-          ),
-          GoRoute(
-            path: AppRoutes.restaurants,
-            builder: (BuildContext context, GoRouterState state) {
-              return const RestaurantsScreen();
+              return const ConfirmOrderScreen();
             },
           ),
           GoRoute(
             path: AppRoutes.restaurantMealPlans,
             builder: (BuildContext context, GoRouterState state) {
-              final restaurantId = int.parse(
-                state.pathParameters['restaurantId']!,
+              final restaurantIri = IriHelper.buildIri(
+                'restaurants',
+                state.uri.queryParameters['restaurantId']!,
               );
-              return MealPlansScreen(restaurantId: restaurantId);
+              return MealPlansScreen(restaurantIri: restaurantIri);
             },
           ),
           GoRoute(
             path: AppRoutes.mealPlanDetails,
             builder: (BuildContext context, GoRouterState state) {
-              final mealPlanId = int.parse(state.pathParameters['mealPlanId']!);
-              return MealPlanDetailScreen(mealPlanId: mealPlanId);
+              final mealPlanIri = IriHelper.buildIri(
+                'meal_plans',
+                state.uri.queryParameters['id']!,
+              );
+              return MealPlanDetailScreen(mealPlanIri: mealPlanIri);
             },
           ),
           GoRoute(
@@ -189,60 +192,128 @@ class AppRouter {
           GoRoute(
             path: AppRoutes.manageDeliveries,
             builder: (context, state) {
-              return const ManageDeliveriesScreen();
+              final restaurantIri = IriHelper.buildIri(
+                'restaurants',
+                state.uri.queryParameters['restaurantId']!,
+              );
+              return ManageDeliveriesScreen(restaurantIri: restaurantIri);
             },
           ),
           GoRoute(
-            path: AppRoutes.profile,
+            path: AppRoutes.manageOrders,
+            builder: (context, state) {
+              final restaurantIri = IriHelper.buildIri(
+                'restaurants',
+                state.uri.queryParameters['restaurantId']!,
+              );
+              return ManageOrdersScreen(restaurantIri: restaurantIri);
+            },
+          ),
+          GoRoute(
+            path: AppRoutes.manageCategories,
+            builder: (context, state) {
+              final restaurantIri = IriHelper.buildIri(
+                'restaurants',
+                state.uri.queryParameters['restaurantId']!,
+              );
+              return ManageCategoriesScreen(restaurantIri: restaurantIri);
+            },
+          ),
+          GoRoute(
+            path: AppRoutes.manageDrivers,
+            builder: (context, state) {
+              final restaurantIri = IriHelper.buildIri(
+                'restaurants',
+                state.uri.queryParameters['restaurantId']!,
+              );
+              return ManageDriversScreen(restaurantIri: restaurantIri);
+            },
+          ),
+          GoRoute(
+            path: AppRoutes.orderDetail,
             builder: (BuildContext context, GoRouterState state) {
-              return const ProfileScreen();
+              final orderIri = IriHelper.buildIri(
+                'orders',
+                state.uri.queryParameters['id']!,
+              );
+              // Extract the order data if passed via extra
+              final orderData = state.extra as CreatedOrder?;
+              return OrderDetailScreen(
+                orderIri: orderIri,
+                initialOrderData: orderData,
+              );
+            },
+          ),
+          GoRoute(
+            path: AppRoutes.addressList,
+            builder: (BuildContext context, GoRouterState state) {
+              final isSelectionMode =
+                  state.uri.queryParameters['selection'] == 'true';
+              return AddressListScreen(isSelectionMode: isSelectionMode);
+            },
+          ),
+          GoRoute(
+            path: AppRoutes.addressForm,
+            builder: (BuildContext context, GoRouterState state) {
+              final address = state.extra as Address?;
+              return AddressFormScreen(address: address);
+            },
+          ),
+          GoRoute(
+            path: AppRoutes.customerDashboard,
+            builder: (BuildContext context, GoRouterState state) {
+              return const CustomerDashboardScreen();
             },
           ),
         ],
       ),
     ],
-    redirect: (BuildContext context, GoRouterState state) async {
-      final loggedIn = await authService.isLoggedIn();
-      final loggingIn =
-          state.matchedLocation == AppRoutes.login ||
-          state.matchedLocation == AppRoutes.register;
+    redirect: (BuildContext context, GoRouterState state) {
+      final loggedIn = authService.isAuthenticated;
+      final location = state.matchedLocation;
+      final requestedPath = state.uri.path;
 
+      const publicRoutes = {
+        AppRoutes.home,
+        AppRoutes.login,
+        AppRoutes.register,
+        AppRoutes.restaurantMealPlans,
+        AppRoutes.mealPlanDetails,
+      };
+      final isPublic = publicRoutes.contains(location);
 
-      final isPublicRoute =
-          state.uri.path == AppRoutes.home ||
-          state.uri.path == AppRoutes.restaurants ||
-          state.uri.path.startsWith(
-            AppRoutes.restaurantMealPlans.split('/:').first,
-          ) ||
-          state.uri.path.startsWith(
-            AppRoutes.mealPlanDetails.split('/:').first,
-          );
-
-      if (!loggedIn && !loggingIn && !isPublicRoute) {
+      if (!loggedIn && !isPublic) {
         return AppRoutes.login;
       }
 
-      // This is the block that *should* be redirecting based on roles
-      if (loggedIn && state.matchedLocation == AppRoutes.home) {
-        final userRoles = await authService.getUserRoles();
-        String? targetRoute;
-        if (userRoles.contains('ROLE_ADMIN')) {
-          targetRoute = AppRoutes.adminDashboard;
-        } else if (userRoles.contains('ROLE_RESTAURANT')) {
-          targetRoute = AppRoutes.restaurantDashboard;
-        } else if (userRoles.contains('ROLE_DRIVER')) {
-          targetRoute = AppRoutes.driverDashboard;
-        }
-
-        if (targetRoute != null && state.matchedLocation != targetRoute) {
-          return targetRoute;
+      if (loggedIn &&
+          (location == AppRoutes.login || location == AppRoutes.register)) {
+        if (!isPublic) {
+          return requestedPath;
         }
         return AppRoutes.home;
       }
 
-      // If logged in and trying to access login/register, redirect to home
-      if (loggedIn && loggingIn && state.matchedLocation != AppRoutes.home) {
-        return AppRoutes.home;
+      if (loggedIn && location == AppRoutes.home) {
+        if (requestedPath != AppRoutes.home) {
+          if (!publicRoutes.contains(requestedPath)) {
+            return requestedPath;
+          }
+        }
+
+        String? targetRoute;
+
+        if (authService.hasRole('ROLE_ADMIN')) {
+          targetRoute = AppRoutes.adminDashboard;
+        } else if (authService.hasRole('ROLE_RESTAURANT')) {
+          targetRoute = AppRoutes.restaurantDashboard;
+        } else if (authService.hasRole('ROLE_DRIVER')) {
+          targetRoute = AppRoutes.driverDashboard;
+        }
+
+        if (targetRoute != null) {
+          return targetRoute;
+        }
       }
 
       return null;

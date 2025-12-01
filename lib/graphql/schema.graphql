@@ -1,0 +1,1169 @@
+﻿type Query {
+  node(id: ID!): Node
+  addresses(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): AddressCursorConnection
+  address(id: ID!): Address
+  categories(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): CategoryCursorConnection
+  category(id: ID!): Category
+  deliveries(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): DeliveryCursorConnection
+  delivery(id: ID!): Delivery
+  meals(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): MealCursorConnection
+  meal(id: ID!): Meal
+  mealPlans(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): MealPlanCursorConnection
+  mealPlan(id: ID!): MealPlan
+  orders(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): OrderCursorConnection
+  order(id: ID!): Order
+  orderItems(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): OrderItemCursorConnection
+  orderItem(id: ID!): OrderItem
+  restaurants(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): RestaurantCursorConnection
+  restaurant(id: ID!): Restaurant
+  users(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): UserCursorConnection
+  user(id: ID!): User
+}
+
+"A node, according to the Relay specification."
+interface Node {
+  "The id of this node."
+  id: ID!
+}
+
+"Cursor connection for Address."
+type AddressCursorConnection {
+  edges: [AddressEdge]
+  pageInfo: AddressPageInfo!
+  totalCount: Int!
+}
+
+"Edge of Address."
+type AddressEdge {
+  node: Address
+  cursor: String!
+}
+
+type Address implements Node {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+  street: String!
+  apartment: String
+  city: String!
+  zipCode: String!
+  isDefault: Boolean!
+}
+
+"Information about the current page."
+type AddressPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"Cursor connection for Category."
+type CategoryCursorConnection {
+  edges: [CategoryEdge]
+  pageInfo: CategoryPageInfo!
+  totalCount: Int!
+}
+
+"Edge of Category."
+type CategoryEdge {
+  node: Category
+  cursor: String!
+}
+
+type Category implements Node {
+  id: ID!
+  name: String!
+  restaurants(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): RestaurantCursorConnection
+  mealPlans(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): MealPlanCursorConnection
+}
+
+"Cursor connection for Restaurant."
+type RestaurantCursorConnection {
+  edges: [RestaurantEdge]
+  pageInfo: RestaurantPageInfo!
+  totalCount: Int!
+}
+
+"Edge of Restaurant."
+type RestaurantEdge {
+  node: Restaurant
+  cursor: String!
+}
+
+type Restaurant implements Node {
+  id: ID!
+  name: String!
+  description: String
+
+  """
+  Collection of users associated with this restaurant
+  - Owner: User with ROLE_RESTAURANT
+  - Drivers: Users with ROLE_DRIVER
+  """
+  users(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): UserCursorConnection
+
+  categories(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): CategoryCursorConnection
+  meals(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): MealCursorConnection
+  mealPlans(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): MealPlanCursorConnection
+  deliveries(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): DeliveryCursorConnection
+  orders(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): OrderCursorConnection
+  imageUrl: String
+}
+
+"Cursor connection for User."
+type UserCursorConnection {
+  edges: [UserEdge]
+  pageInfo: UserPageInfo!
+  totalCount: Int!
+}
+
+"Edge of User."
+type UserEdge {
+  node: User
+  cursor: String!
+}
+
+type User implements Node {
+  id: ID!
+  email: String!
+  roles: Iterable!
+
+  """
+  For ROLE_RESTAURANT: their owned restaurant
+  For ROLE_DRIVER: the restaurant they work for
+  Null for customers and admins
+  """
+  restaurant: Restaurant
+
+  orders(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): OrderCursorConnection
+  deliveries(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): DeliveryCursorConnection
+  addresses(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): AddressCursorConnection
+}
+
+"The `Iterable` scalar type represents an array or a Traversable with any kind of data."
+scalar Iterable
+
+"Cursor connection for Order."
+type OrderCursorConnection {
+  edges: [OrderEdge]
+  pageInfo: OrderPageInfo!
+  totalCount: Int!
+}
+
+"Edge of Order."
+type OrderEdge {
+  node: Order
+  cursor: String!
+}
+
+type Order implements Node {
+  id: ID!
+  customer: User
+  status: OrderStatus!
+  orderItems(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): OrderItemCursorConnection
+  restaurant: Restaurant
+  deliveries(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): DeliveryCursorConnection
+  total: Int!
+  paymentIntentId: String
+  deliveryFirstName: String
+  deliveryLastName: String
+  deliveryPhoneNumber: String
+  deliveryStreet: String
+  deliveryApartment: String
+  deliveryCity: String
+  deliveryZipCode: String
+}
+
+enum OrderStatus {
+  Unpaid
+  Paid
+  Active
+  Completed
+  Cancelled
+}
+
+"Cursor connection for OrderItem."
+type OrderItemCursorConnection {
+  edges: [OrderItemEdge]
+  pageInfo: OrderItemPageInfo!
+  totalCount: Int!
+}
+
+"Edge of OrderItem."
+type OrderItemEdge {
+  node: OrderItem
+  cursor: String!
+}
+
+type OrderItem implements Node {
+  id: ID!
+  order: Order
+  mealPlan: MealPlan!
+  quantity: Int!
+}
+
+type MealPlan implements Node {
+  id: ID!
+  meals(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): MealCursorConnection
+  categories(
+    "Returns the first n elements from the list."
+    first: Int
+
+    "Returns the last n elements from the list."
+    last: Int
+
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+  ): CategoryCursorConnection
+  name: String!
+  description: String
+  restaurant: Restaurant
+  imageUrl: String
+
+  "The total price of the meal plan, calculated from the sum of the prices of its meals."
+  price: Int
+}
+
+"Cursor connection for Meal."
+type MealCursorConnection {
+  edges: [MealEdge]
+  pageInfo: MealPageInfo!
+  totalCount: Int!
+}
+
+"Edge of Meal."
+type MealEdge {
+  node: Meal
+  cursor: String!
+}
+
+type Meal implements Node {
+  id: ID!
+  name: String!
+  description: String
+  calories: Float!
+  protein: Float!
+  fat: Float!
+  carbs: Float!
+  price: Int!
+  restaurant: Restaurant!
+  imageUrl: String
+}
+
+"Information about the current page."
+type MealPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"Information about the current page."
+type OrderItemPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"Cursor connection for Delivery."
+type DeliveryCursorConnection {
+  edges: [DeliveryEdge]
+  pageInfo: DeliveryPageInfo!
+  totalCount: Int!
+}
+
+"Edge of Delivery."
+type DeliveryEdge {
+  node: Delivery
+  cursor: String!
+}
+
+type Delivery implements Node {
+  id: ID!
+  restaurant: Restaurant
+  driver: User
+  status: DeliveryStatus!
+  deliveryDate: String!
+  order: Order
+}
+
+enum DeliveryStatus {
+  Pending
+  Assigned
+  Picked_up
+  Delivered
+}
+
+"Information about the current page."
+type DeliveryPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"Information about the current page."
+type OrderPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"Information about the current page."
+type UserPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"Cursor connection for MealPlan."
+type MealPlanCursorConnection {
+  edges: [MealPlanEdge]
+  pageInfo: MealPlanPageInfo!
+  totalCount: Int!
+}
+
+"Edge of MealPlan."
+type MealPlanEdge {
+  node: MealPlan
+  cursor: String!
+}
+
+"Information about the current page."
+type MealPlanPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"Information about the current page."
+type RestaurantPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"Information about the current page."
+type CategoryPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type Mutation {
+  "Creates a Payment."
+  createPayment(input: createPaymentInput!): createPaymentPayload
+
+  "Creates a Address."
+  createAddress(input: createAddressInput!): createAddressPayload
+
+  "Updates a Address."
+  updateAddress(input: updateAddressInput!): updateAddressPayload
+
+  "Deletes a Address."
+  deleteAddress(input: deleteAddressInput!): deleteAddressPayload
+
+  "Creates a Category."
+  createCategory(input: createCategoryInput!): createCategoryPayload
+
+  "Updates a Category."
+  updateCategory(input: updateCategoryInput!): updateCategoryPayload
+
+  "Deletes a Category."
+  deleteCategory(input: deleteCategoryInput!): deleteCategoryPayload
+
+  "Updates a Delivery."
+  updateDelivery(input: updateDeliveryInput!): updateDeliveryPayload
+
+  "Deletes a Delivery."
+  deleteDelivery(input: deleteDeliveryInput!): deleteDeliveryPayload
+
+  "Creates a Meal."
+  createMeal(input: createMealInput!): createMealPayload
+
+  "Updates a Meal."
+  updateMeal(input: updateMealInput!): updateMealPayload
+
+  "Deletes a Meal."
+  deleteMeal(input: deleteMealInput!): deleteMealPayload
+
+  "Creates a MealPlan."
+  createMealPlan(input: createMealPlanInput!): createMealPlanPayload
+
+  "Updates a MealPlan."
+  updateMealPlan(input: updateMealPlanInput!): updateMealPlanPayload
+
+  "Deletes a MealPlan."
+  deleteMealPlan(input: deleteMealPlanInput!): deleteMealPlanPayload
+
+  "Creates a Order."
+  createOrder(input: createOrderInput!): createOrderPayload
+
+  "Updates a Order."
+  updateOrder(input: updateOrderInput!): updateOrderPayload
+
+  "Deletes a Order."
+  deleteOrder(input: deleteOrderInput!): deleteOrderPayload
+
+  "Updates a OrderItem."
+  updateOrderItem(input: updateOrderItemInput!): updateOrderItemPayload
+
+  "Deletes a OrderItem."
+  deleteOrderItem(input: deleteOrderItemInput!): deleteOrderItemPayload
+
+  "Creates a Restaurant."
+  createRestaurant(input: createRestaurantInput!): createRestaurantPayload
+
+  "Updates a Restaurant."
+  updateRestaurant(input: updateRestaurantInput!): updateRestaurantPayload
+
+  "Deletes a Restaurant."
+  deleteRestaurant(input: deleteRestaurantInput!): deleteRestaurantPayload
+
+  "Creates a User."
+  createUser(input: createUserInput!): createUserPayload
+
+  "Updates a User."
+  updateUser(input: updateUserInput!): updateUserPayload
+
+  "Deletes a User."
+  deleteUser(input: deleteUserInput!): deleteUserPayload
+}
+
+"Creates a Payment."
+input createPaymentInput {
+  _id: String
+  order: String
+  sessionId: String
+  url: String
+  clientMutationId: String
+}
+
+"Creates a Payment."
+type createPaymentPayload {
+  payment: Payment
+  clientMutationId: String
+}
+
+type Payment implements Node {
+  id: ID!
+  _id: String
+  order: Order
+  sessionId: String
+  url: String
+}
+
+"Creates a Address."
+input createAddressInput {
+  user: String!
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+  street: String!
+  apartment: String
+  city: String!
+  zipCode: String!
+  isDefault: Boolean!
+  clientMutationId: String
+}
+
+"Creates a Address."
+type createAddressPayload {
+  address: Address
+  clientMutationId: String
+}
+
+"Updates a Address."
+input updateAddressInput {
+  id: ID!
+  user: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  street: String
+  apartment: String
+  city: String
+  zipCode: String
+  isDefault: Boolean
+  clientMutationId: String
+}
+
+"Updates a Address."
+type updateAddressPayload {
+  address: Address
+  clientMutationId: String
+}
+
+"Deletes a Address."
+input deleteAddressInput {
+  id: ID!
+  clientMutationId: String
+}
+
+"Deletes a Address."
+type deleteAddressPayload {
+  address: Address
+  clientMutationId: String
+}
+
+"Creates a Category."
+input createCategoryInput {
+  name: String!
+  clientMutationId: String
+}
+
+"Creates a Category."
+type createCategoryPayload {
+  category: Category
+  clientMutationId: String
+}
+
+"Updates a Category."
+input updateCategoryInput {
+  id: ID!
+  name: String
+  clientMutationId: String
+}
+
+"Updates a Category."
+type updateCategoryPayload {
+  category: Category
+  clientMutationId: String
+}
+
+"Deletes a Category."
+input deleteCategoryInput {
+  id: ID!
+  clientMutationId: String
+}
+
+"Deletes a Category."
+type deleteCategoryPayload {
+  category: Category
+  clientMutationId: String
+}
+
+"Updates a Delivery."
+input updateDeliveryInput {
+  id: ID!
+  driver: String
+  status: DeliveryStatus
+  deliveryDate: String
+  clientMutationId: String
+}
+
+"Updates a Delivery."
+type updateDeliveryPayload {
+  delivery: Delivery
+  clientMutationId: String
+}
+
+"Deletes a Delivery."
+input deleteDeliveryInput {
+  id: ID!
+  clientMutationId: String
+}
+
+"Deletes a Delivery."
+type deleteDeliveryPayload {
+  delivery: Delivery
+  clientMutationId: String
+}
+
+"Creates a Meal."
+input createMealInput {
+  name: String!
+  description: String
+  calories: Float!
+  protein: Float!
+  fat: Float!
+  carbs: Float!
+  price: Int!
+  restaurant: String!
+  clientMutationId: String
+}
+
+"Creates a Meal."
+type createMealPayload {
+  meal: Meal
+  clientMutationId: String
+}
+
+"Updates a Meal."
+input updateMealInput {
+  id: ID!
+  name: String
+  description: String
+  calories: Float
+  protein: Float
+  fat: Float
+  carbs: Float
+  price: Int
+  restaurant: String
+  clientMutationId: String
+}
+
+"Updates a Meal."
+type updateMealPayload {
+  meal: Meal
+  clientMutationId: String
+}
+
+"Deletes a Meal."
+input deleteMealInput {
+  id: ID!
+  clientMutationId: String
+}
+
+"Deletes a Meal."
+type deleteMealPayload {
+  meal: Meal
+  clientMutationId: String
+}
+
+"Creates a MealPlan."
+input createMealPlanInput {
+  meals: [String]
+  categories: [String]
+  name: String!
+  description: String
+  restaurant: String
+  clientMutationId: String
+}
+
+"Creates a MealPlan."
+type createMealPlanPayload {
+  mealPlan: MealPlan
+  clientMutationId: String
+}
+
+"Updates a MealPlan."
+input updateMealPlanInput {
+  id: ID!
+  meals: [String]
+  categories: [String]
+  name: String
+  description: String
+  restaurant: String
+  clientMutationId: String
+}
+
+"Updates a MealPlan."
+type updateMealPlanPayload {
+  mealPlan: MealPlan
+  clientMutationId: String
+}
+
+"Deletes a MealPlan."
+input deleteMealPlanInput {
+  id: ID!
+  clientMutationId: String
+}
+
+"Deletes a MealPlan."
+type deleteMealPlanPayload {
+  mealPlan: MealPlan
+  clientMutationId: String
+}
+
+"Creates a Order."
+input createOrderInput {
+  customer: String
+  status: OrderStatus!
+  orderItems: [OrderItemNestedInput]
+  restaurant: String
+  deliveries: [DeliveryNestedInput]
+  deliveryFirstName: String
+  deliveryLastName: String
+  deliveryPhoneNumber: String
+  deliveryStreet: String
+  deliveryApartment: String
+  deliveryCity: String
+  deliveryZipCode: String
+  clientMutationId: String
+}
+
+input OrderItemNestedInput {
+  id: ID
+  order: String
+  mealPlan: String!
+  quantity: Int!
+}
+
+input DeliveryNestedInput {
+  id: ID
+  driver: String
+  status: DeliveryStatus!
+  deliveryDate: String!
+}
+
+"Creates a Order."
+type createOrderPayload {
+  order: Order
+  clientMutationId: String
+}
+
+"Updates a Order."
+input updateOrderInput {
+  id: ID!
+  customer: String
+  status: OrderStatus
+  orderItems: [updateOrderItemNestedInput]
+  restaurant: String
+  deliveries: [updateDeliveryNestedInput]
+  deliveryFirstName: String
+  deliveryLastName: String
+  deliveryPhoneNumber: String
+  deliveryStreet: String
+  deliveryApartment: String
+  deliveryCity: String
+  deliveryZipCode: String
+  clientMutationId: String
+}
+
+"Updates a OrderItem."
+input updateOrderItemNestedInput {
+  id: ID
+  order: String
+  mealPlan: String
+  quantity: Int
+  clientMutationId: String
+}
+
+"Updates a Delivery."
+input updateDeliveryNestedInput {
+  id: ID
+  driver: String
+  status: DeliveryStatus
+  deliveryDate: String
+  clientMutationId: String
+}
+
+"Updates a Order."
+type updateOrderPayload {
+  order: Order
+  clientMutationId: String
+}
+
+"Deletes a Order."
+input deleteOrderInput {
+  id: ID!
+  clientMutationId: String
+}
+
+"Deletes a Order."
+type deleteOrderPayload {
+  order: Order
+  clientMutationId: String
+}
+
+"Updates a OrderItem."
+input updateOrderItemInput {
+  id: ID!
+  order: String
+  mealPlan: String
+  quantity: Int
+  clientMutationId: String
+}
+
+"Updates a OrderItem."
+type updateOrderItemPayload {
+  orderItem: OrderItem
+  clientMutationId: String
+}
+
+"Deletes a OrderItem."
+input deleteOrderItemInput {
+  id: ID!
+  clientMutationId: String
+}
+
+"Deletes a OrderItem."
+type deleteOrderItemPayload {
+  orderItem: OrderItem
+  clientMutationId: String
+}
+
+"Creates a Restaurant."
+input createRestaurantInput {
+  name: String!
+  description: String
+  categories: [String]
+  clientMutationId: String
+}
+
+"Creates a Restaurant."
+type createRestaurantPayload {
+  restaurant: Restaurant
+  clientMutationId: String
+}
+
+"Updates a Restaurant."
+input updateRestaurantInput {
+  id: ID!
+  name: String
+  description: String
+  categories: [String]
+  clientMutationId: String
+}
+
+"Updates a Restaurant."
+type updateRestaurantPayload {
+  restaurant: Restaurant
+  clientMutationId: String
+}
+
+"Deletes a Restaurant."
+input deleteRestaurantInput {
+  id: ID!
+  clientMutationId: String
+}
+
+"Deletes a Restaurant."
+type deleteRestaurantPayload {
+  restaurant: Restaurant
+  clientMutationId: String
+}
+
+"Creates a User."
+input createUserInput {
+  email: String!
+  plainPassword: String
+  roles: Iterable!
+
+  """
+  For ROLE_RESTAURANT: their owned restaurant
+  For ROLE_DRIVER: the restaurant they work for
+  Null for customers and admins
+  """
+  restaurant: String
+  clientMutationId: String
+}
+
+"Creates a User."
+type createUserPayload {
+  user: User
+  clientMutationId: String
+}
+
+"Updates a User."
+input updateUserInput {
+  id: ID!
+  email: String
+  plainPassword: String
+  roles: Iterable
+
+  """
+  For ROLE_RESTAURANT: their owned restaurant
+  For ROLE_DRIVER: the restaurant they work for
+  Null for customers and admins
+  """
+  restaurant: String
+  clientMutationId: String
+}
+
+"Updates a User."
+type updateUserPayload {
+  user: User
+  clientMutationId: String
+}
+
+"Deletes a User."
+input deleteUserInput {
+  id: ID!
+  clientMutationId: String
+}
+
+"Deletes a User."
+type deleteUserPayload {
+  user: User
+  clientMutationId: String
+}
+

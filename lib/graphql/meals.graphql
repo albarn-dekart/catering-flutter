@@ -1,0 +1,168 @@
+query GetMeals($first: Int, $after: String) {
+    meals(first: $first, after: $after) {
+        edges {
+            node {
+                id
+                name
+                description
+                price
+                imageUrl
+            }
+        }
+    }
+}
+
+query GetMeal($id: ID!) {
+    meal(id: $id) {
+        id
+        name
+        description
+        price
+        calories
+        protein
+        fat
+        carbs
+        imageUrl
+    }
+}
+
+query GetMealsByRestaurant($restaurantId: ID!, $first: Int) {
+    restaurant(id: $restaurantId) {
+        id
+        meals(first: $first) {
+            edges {
+                node {
+                    id
+                    name
+                    description
+                    price
+                    imageUrl
+                }
+            }
+        }
+    }
+}
+
+mutation CreateMeal($input: createMealInput!) {
+    createMeal(input: $input) {
+        meal {
+            id
+            name
+        }
+    }
+}
+
+mutation UpdateMeal($input: updateMealInput!) {
+    updateMeal(input: $input) {
+        meal {
+            id
+            name
+        }
+    }
+}
+
+mutation DeleteMeal($input: deleteMealInput!) {
+    deleteMeal(input: $input) {
+        meal {
+            id
+        }
+    }
+}
+
+query GetMealPlans($first: Int, $after: String) {
+    mealPlans(first: $first, after: $after) {
+        edges {
+            node {
+                id
+                name
+                description
+                price
+                imageUrl
+                categories {
+                    edges {
+                        node {
+                            id
+                            name
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+query GetMealPlan($id: ID!) {
+    mealPlan(id: $id) {
+        id
+        name
+        description
+        price
+        imageUrl
+        meals {
+            edges {
+                node {
+                    id
+                    name
+                    imageUrl
+                    description
+                    price
+                    calories
+                    protein
+                    carbs
+                    fat
+                }
+            }
+        }
+    }
+}
+
+query GetMealPlansByRestaurant($restaurantId: ID!, $first: Int) {
+    restaurant(id: $restaurantId) {
+        id
+        mealPlans(first: $first) {
+            edges {
+                node {
+                    id
+                    name
+                    description
+                    price
+                    imageUrl
+                    categories {
+                        edges {
+                            node {
+                                id
+                                name
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+mutation CreateMealPlan($input: createMealPlanInput!) {
+    createMealPlan(input: $input) {
+        mealPlan {
+            id
+            name
+        }
+    }
+}
+
+mutation UpdateMealPlan($input: updateMealPlanInput!) {
+    updateMealPlan(input: $input) {
+        mealPlan {
+            id
+            name
+        }
+    }
+}
+
+mutation DeleteMealPlan($input: deleteMealPlanInput!) {
+    deleteMealPlan(input: $input) {
+        mealPlan {
+            id
+        }
+    }
+}

@@ -1,0 +1,211 @@
+query GetOrders($first: Int, $after: String) {
+    orders(first: $first, after: $after) {
+        edges {
+            node {
+                id
+                status
+                total
+                customer {
+                    id
+                    email
+                }
+                restaurant {
+                    id
+                    name
+                }
+                orderItems {
+                    edges {
+                        node {
+                            id
+                            quantity
+                            mealPlan {
+                                id
+                                name
+                                price
+                            }
+                        }
+                    }
+                }
+                deliveries {
+                    edges {
+                        node {
+                            id
+                            status
+                            deliveryDate
+                            driver {
+                                id
+                                email
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+    }
+}
+
+query GetOrder($id: ID!) {
+    order(id: $id) {
+        id
+        status
+        total
+        paymentIntentId
+        deliveryFirstName
+        deliveryLastName
+        deliveryPhoneNumber
+        deliveryStreet
+        deliveryApartment
+        deliveryCity
+        deliveryZipCode
+        customer {
+            id
+            email
+        }
+        restaurant {
+            id
+            name
+        }
+        orderItems {
+            edges {
+                node {
+                    id
+                    quantity
+                    mealPlan {
+                        id
+                        name
+                        price
+                    }
+                }
+            }
+        }
+        deliveries {
+            edges {
+                node {
+                    id
+                    status
+                    deliveryDate
+                    driver {
+                        id
+                        email
+                    }
+                }
+            }
+        }
+    }
+}
+
+mutation CreateOrder($input: createOrderInput!) {
+    createOrder(input: $input) {
+        order {
+            id
+            status
+            total
+            paymentIntentId
+            deliveryFirstName
+            deliveryLastName
+            deliveryPhoneNumber
+            deliveryStreet
+            deliveryApartment
+            deliveryCity
+            deliveryZipCode
+            customer {
+                id
+                email
+            }
+            restaurant {
+                id
+                name
+            }
+            orderItems {
+                edges {
+                    node {
+                        id
+                        quantity
+                        mealPlan {
+                            id
+                            name
+                            price
+                        }
+                    }
+                }
+            }
+            deliveries {
+                edges {
+                    node {
+                        id
+                        status
+                        deliveryDate
+                        driver {
+                            id
+                            email
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+mutation UpdateOrder($input: updateOrderInput!) {
+    updateOrder(input: $input) {
+        order {
+            id
+            status
+            total
+            paymentIntentId
+            deliveryFirstName
+            deliveryLastName
+            deliveryPhoneNumber
+            deliveryStreet
+            deliveryApartment
+            deliveryCity
+            deliveryZipCode
+            customer {
+                id
+                email
+            }
+            restaurant {
+                id
+                name
+            }
+            orderItems {
+                edges {
+                    node {
+                        id
+                        quantity
+                        mealPlan {
+                            id
+                            name
+                            price
+                        }
+                    }
+                }
+            }
+            deliveries {
+                edges {
+                    node {
+                        id
+                        status
+                        deliveryDate
+                        driver {
+                            id
+                            email
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+mutation DeleteOrder($input: deleteOrderInput!) {
+    deleteOrder(input: $input) {
+        order {
+            id
+        }
+    }
+}

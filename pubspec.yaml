@@ -22,12 +22,17 @@ dependencies:
   go_router: ^17.0.0
   json_annotation: ^4.9.0
   url_launcher: ^6.3.0
+  google_fonts: ^6.3.2
+
+  graphql_flutter: ^5.2.1
+  flutter_hooks: ^0.21.3+1
+  jwt_decoder: ^2.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  json_serializable: ^6.8.0
   build_runner: ^2.4.9
+  graphql_codegen: ^3.0.0
 
   # rules and activating additional ones.
   flutter_lints: ^6.0.0

@@ -1,0 +1,110 @@
+query GetRestaurants($first: Int, $after: String) {
+    restaurants(first: $first, after: $after) {
+        edges {
+            node {
+                id
+                name
+                description
+                imageUrl
+                categories {
+                    edges {
+                        node {
+                            id
+                            name
+                        }
+                    }
+                }
+            }
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+    }
+}
+
+# For restaurant owners - includes restaurant data
+query GetUserRestaurant($id: ID!) {
+    user(id: $id) {
+        id
+        restaurant {
+            id
+            name
+            description
+            imageUrl
+        }
+    }
+}
+
+query GetRestaurant($id: ID!) {
+    restaurant(id: $id) {
+        id
+        name
+        description
+        imageUrl
+        categories {
+            edges {
+                node {
+                    id
+                    name
+                }
+            }
+        }
+        users{
+            edges {
+                node {
+                    id
+                    email
+                    roles
+                }
+            }
+        }
+        meals {
+            edges {
+                node {
+                    id
+                    name
+                    price
+                    imageUrl
+                }
+            }
+        }
+        mealPlans {
+            edges {
+                node {
+                    id
+                    name
+                    price
+                    imageUrl
+                }
+            }
+        }
+    }
+}
+
+mutation CreateRestaurant($input: createRestaurantInput!) {
+    createRestaurant(input: $input) {
+        restaurant {
+            id
+            name
+        }
+    }
+}
+
+mutation UpdateRestaurant($input: updateRestaurantInput!) {
+    updateRestaurant(input: $input) {
+        restaurant {
+            id
+            name
+            description
+        }
+    }
+}
+
+mutation DeleteRestaurant($input: deleteRestaurantInput!) {
+    deleteRestaurant(input: $input) {
+        restaurant {
+            id
+        }
+    }
+}

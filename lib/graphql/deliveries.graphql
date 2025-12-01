@@ -1,0 +1,130 @@
+query GetDeliveries($first: Int, $after: String) {
+    deliveries(first: $first, after: $after) {
+        edges {
+            node {
+                id
+                status
+                deliveryDate
+                order {
+                    id
+                    total
+                    customer {
+                        id
+                        email
+                    }
+                }
+                driver {
+                    id
+                    email
+                }
+            }
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+    }
+}
+
+# For drivers - includes their deliveries
+query GetUserDeliveries($id: ID!) {
+    user(id: $id) {
+        id
+        restaurant {
+            id
+            name
+        }
+        deliveries(first: 100) {
+            edges {
+                node {
+                    id
+                    status
+                    deliveryDate
+                    restaurant {
+                        id
+                        name
+                    }
+                    order {
+                        id
+                        total
+                        customer {
+                            id
+                            email
+                        }
+                        deliveryFirstName
+                        deliveryLastName
+                        deliveryPhoneNumber
+                        deliveryStreet
+                        deliveryApartment
+                        deliveryCity
+                        deliveryZipCode
+                    }
+                }
+            }
+        }
+    }
+}
+
+query GetDelivery($id: ID!) {
+    delivery(id: $id) {
+        id
+        status
+        deliveryDate
+        order {
+            id
+            total
+            customer {
+                id
+                email
+            }
+        }
+        driver {
+            id
+            email
+        }
+    }
+}
+
+query GetDeliveriesByRestaurant($restaurantId: ID!, $first: Int) {
+    restaurant(id: $restaurantId) {
+        id
+        deliveries(first: $first) {
+            edges {
+                node {
+                    id
+                    status
+                    deliveryDate
+                    order {
+                        id
+                        total
+                        customer {
+                            id
+                            email
+                        }
+                    }
+                    driver {
+                        id
+                        email
+                    }
+                }
+            }
+        }
+    }
+}
+
+mutation UpdateDelivery($input: updateDeliveryInput!) {
+    updateDelivery(input: $input) {
+        delivery {
+            id
+            status
+        }
+    }
+}
+
+mutation DeleteDelivery($input: deleteDeliveryInput!) {
+    deleteDelivery(input: $input) {
+        delivery {
+            id
+        }
+    }
+}

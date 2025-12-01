@@ -1,0 +1,62 @@
+query GetUsersByRestaurant($id: ID!) {
+    restaurant(id: $id) {
+        id
+        users{
+            edges {
+                node {
+                    id
+                    email
+                    roles
+                }
+            }
+        }
+    }
+}
+
+query GetUsers($first: Int, $after: String) {
+    users(first: $first, after: $after) {
+        edges {
+            node {
+                id
+                email
+                roles
+            }
+        }
+    }
+}
+
+# Basic user info for all roles (especially customers)
+query GetUser($id: ID!) {
+    user(id: $id) {
+        id
+        email
+        roles
+    }
+}
+
+mutation CreateUser($input: createUserInput!) {
+    createUser(input: $input) {
+        user {
+            id
+            email
+        }
+    }
+}
+
+mutation UpdateUser($input: updateUserInput!) {
+    updateUser(input: $input) {
+        user {
+            id
+            email
+            roles
+        }
+    }
+}
+
+mutation DeleteUser($input: deleteUserInput!) {
+    deleteUser(input: $input) {
+        user {
+            id
+        }
+    }
+}
