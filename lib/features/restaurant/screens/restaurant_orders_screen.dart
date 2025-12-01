@@ -22,13 +22,22 @@ class _RestaurantOrdersScreenState extends State<RestaurantOrdersScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _fetchOrders();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _fetchOrders();
+      if (!mounted) return;
+      final service = context.read<OrderService>();
+      if (service.hasError) {
+        UIErrorHandler.showSnackBar(
+          context,
+          service.errorMessage!,
+          isError: true,
+        );
+      }
     });
   }
 
-  void _fetchOrders() {
-    context.read<OrderService>().fetchAllOrders();
+  Future<void> _fetchOrders() async {
+    await context.read<OrderService>().fetchAllOrders();
   }
 
   @override
@@ -39,10 +48,8 @@ class _RestaurantOrdersScreenState extends State<RestaurantOrdersScreen> {
         final filteredOrders = _selectedStatusFilter == null
             ? orderService.orders
             : orderService.orders
-            .where(
-              (order) => order.status == _selectedStatusFilter,
-        )
-            .toList();
+                  .where((order) => order.status == _selectedStatusFilter)
+                  .toList();
 
         return SearchableListScreen<Order>(
           title: 'Manage Orders',
@@ -74,8 +81,8 @@ class _RestaurantOrdersScreenState extends State<RestaurantOrdersScreen> {
             ...Enum$OrderStatus.values
                 .where((status) => status != Enum$OrderStatus.$unknown)
                 .map((status) {
-              return _buildFilterChip(status, status.label);
-            }),
+                  return _buildFilterChip(status, status.label);
+                }),
           ],
         ),
       ),
@@ -137,9 +144,9 @@ class _RestaurantOrdersScreenState extends State<RestaurantOrdersScreen> {
           const SizedBox(width: 8),
           Text(
             'Total: ${(order.total / 100.0).toStringAsFixed(2)} PLN',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
         ],
       ),
@@ -149,9 +156,9 @@ class _RestaurantOrdersScreenState extends State<RestaurantOrdersScreen> {
         const Divider(height: 24),
         Text(
           'Order Items (${order.orderItems!.edges!.length})',
-          style: Theme.of(context).textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),
         ...order.orderItems!.edges!.map((edge) {
@@ -194,15 +201,13 @@ class _RestaurantOrdersScreenState extends State<RestaurantOrdersScreen> {
               ),
               initialValue: order.status,
               items: Enum$OrderStatus.values
-                  .where(
-                    (status) => status != Enum$OrderStatus.$unknown,
-              )
+                  .where((status) => status != Enum$OrderStatus.$unknown)
                   .map((status) {
-                return DropdownMenuItem(
-                  value: status,
-                  child: Text(status.label),
-                );
-              })
+                    return DropdownMenuItem(
+                      value: status,
+                      child: Text(status.label),
+                    );
+                  })
                   .toList(),
               onChanged: (newStatus) async {
                 if (newStatus != null && newStatus != order.status) {
@@ -213,10 +218,7 @@ class _RestaurantOrdersScreenState extends State<RestaurantOrdersScreen> {
                     newStatus,
                   );
                   if (confirmed == true && context.mounted) {
-                    await _updateOrderStatus(
-                      order.id,
-                      newStatus,
-                    );
+                    await _updateOrderStatus(order.id, newStatus);
                   }
                 }
               },
@@ -226,18 +228,19 @@ class _RestaurantOrdersScreenState extends State<RestaurantOrdersScreen> {
       ),
     ];
 
-
     // Use a Card wrapper to maintain the styling, but use ExpansionTile inside
     return Card(
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       // Use ExpansionTile's key properties to construct the card
       child: ExpansionTile(
         tilePadding: const EdgeInsets.all(16.0), // Padding for the header
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)), // Ensure shape applies
-        collapsedShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ), // Ensure shape applies
+        collapsedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
 
         // Title Row - This is now the header of the ExpansionTile
         title: Row(
@@ -245,15 +248,12 @@ class _RestaurantOrdersScreenState extends State<RestaurantOrdersScreen> {
           children: [
             Text(
               'Order #${IriHelper.getId(order.id)}',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 6,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: order.status.containerColor(context),
                 borderRadius: BorderRadius.circular(8),
@@ -272,7 +272,11 @@ class _RestaurantOrdersScreenState extends State<RestaurantOrdersScreen> {
         // The rest of the content goes into children
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+            padding: const EdgeInsets.only(
+              left: 16.0,
+              right: 16.0,
+              bottom: 16.0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: orderItemsContent,
@@ -284,11 +288,11 @@ class _RestaurantOrdersScreenState extends State<RestaurantOrdersScreen> {
   }
 
   Future<bool?> _showStatusChangeConfirmation(
-      BuildContext context,
-      String orderId,
-      Enum$OrderStatus currentStatus,
-      Enum$OrderStatus newStatus,
-      ) {
+    BuildContext context,
+    String orderId,
+    Enum$OrderStatus currentStatus,
+    Enum$OrderStatus newStatus,
+  ) {
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -311,9 +315,9 @@ class _RestaurantOrdersScreenState extends State<RestaurantOrdersScreen> {
   }
 
   Future<void> _updateOrderStatus(
-      String orderId,
-      Enum$OrderStatus newStatus,
-      ) async {
+    String orderId,
+    Enum$OrderStatus newStatus,
+  ) async {
     final orderService = context.read<OrderService>();
     try {
       await orderService.updateOrderStatus(

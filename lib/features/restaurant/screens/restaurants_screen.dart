@@ -98,7 +98,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                               onTap: () {
                                 context.push(
                                   Uri(
-                                    path: AppRoutes.MealPlansByRestaurant,
+                                    path: AppRoutes.mealPlansByRestaurant,
                                     queryParameters: {
                                       'restaurantId': IriHelper.getId(
                                         restaurant.id,

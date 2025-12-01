@@ -44,7 +44,7 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
   @override
   void didUpdateWidget(SearchableListScreen<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.items != oldWidget.items) {
+    if (widget.items != oldWidget.items || widget.filter != oldWidget.filter) {
       _onSearchChanged();
     }
   }

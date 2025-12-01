@@ -8,6 +8,7 @@ import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 
 import 'package:catering_flutter/core/utils/image_helper.dart';
+import 'package:catering_flutter/features/restaurant/screens/restaurant_meal_selection_screen.dart';
 
 class RestaurantMealPlanFormScreen extends StatefulWidget {
   final String? mealPlanId;
@@ -20,10 +21,12 @@ class RestaurantMealPlanFormScreen extends StatefulWidget {
   });
 
   @override
-  State<RestaurantMealPlanFormScreen> createState() => _RestaurantMealPlanFormScreenState();
+  State<RestaurantMealPlanFormScreen> createState() =>
+      _RestaurantMealPlanFormScreenState();
 }
 
-class _RestaurantMealPlanFormScreenState extends State<RestaurantMealPlanFormScreen> {
+class _RestaurantMealPlanFormScreenState
+    extends State<RestaurantMealPlanFormScreen> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _nameController;
   late TextEditingController _descriptionController;
@@ -270,7 +273,7 @@ class _RestaurantMealPlanFormScreenState extends State<RestaurantMealPlanFormScr
 
                     // Meals selection section
                     Text(
-                      'Select Meals',
+                      'Selected Meals',
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     const SizedBox(height: 8),
@@ -294,54 +297,66 @@ class _RestaurantMealPlanFormScreenState extends State<RestaurantMealPlanFormScr
                           ],
                         ),
                       )
-                    else if (mealService.meals.isEmpty)
-                      const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: Text(
-                            'No meals available. Create some meals first.',
-                          ),
-                        ),
-                      )
-                    else
-                      Card(
-                        child: ListView.builder(
+                    else ...[
+                      OutlinedButton.icon(
+                        onPressed: () async {
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  RestaurantMealSelectionScreen(
+                                    restaurantIri: widget.restaurantIri,
+                                    initiallySelectedIds: _selectedMealIds,
+                                  ),
+                            ),
+                          );
+
+                          if (result != null && result is List<String>) {
+                            setState(() {
+                              _selectedMealIds = result;
+                            });
+                          }
+                        },
+                        icon: const Icon(Icons.add),
+                        label: const Text('Add/Remove Meals'),
+                      ),
+                      const SizedBox(height: 16),
+                      if (_selectedMealIds.isEmpty)
+                        const Text('No meals selected.')
+                      else
+                        ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: mealService.meals.length,
+                          itemCount: _selectedMealIds.length,
                           itemBuilder: (context, index) {
-                            final meal = mealService.meals[index];
-                            final isSelected = _selectedMealIds.contains(
-                              meal.id,
-                            );
+                            final mealId = _selectedMealIds[index];
+                            final meals = mealService.meals
+                                .where((m) => m.id == mealId)
+                                .toList();
 
-                            return CheckboxListTile(
-                              title: Text(meal.name),
-                              subtitle: meal.description != null
-                                  ? Text(
-                                      meal.description!,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    )
-                                  : null,
-                              secondary: Text(
-                                '${(meal.price / 100.0).toStringAsFixed(2)} PLN',
-                                style: Theme.of(context).textTheme.titleMedium,
+                            if (meals.isEmpty) return const SizedBox.shrink();
+                            final meal = meals.first;
+
+                            return Card(
+                              margin: const EdgeInsets.only(bottom: 8),
+                              child: ListTile(
+                                title: Text(meal.name),
+                                subtitle: Text(
+                                  '${(meal.price / 100.0).toStringAsFixed(2)} PLN',
+                                ),
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    setState(() {
+                                      _selectedMealIds.remove(mealId);
+                                    });
+                                  },
+                                ),
                               ),
-                              value: isSelected,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  if (value == true) {
-                                    _selectedMealIds.add(meal.id);
-                                  } else {
-                                    _selectedMealIds.remove(meal.id);
-                                  }
-                                });
-                              },
                             );
                           },
                         ),
-                      ),
+                    ],
                     const SizedBox(height: 24),
 
                     // Save button

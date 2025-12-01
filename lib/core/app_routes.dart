@@ -6,7 +6,7 @@ class AppRoutes {
 
   //Customer
   static const String customerDashboard = '/customer-dashboard';
-  static const String MealPlansByRestaurant = '/meal-plans';
+  static const String mealPlansByRestaurant = '/meal-plans';
   static const String mealPlanDetails = '/meal-plan';
   static const String cart = '/cart';
   static const String orders = '/orders';

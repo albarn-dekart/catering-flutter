@@ -5,9 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
 import 'package:catering_flutter/features/driver/services/delivery_service.dart';
 import 'package:catering_flutter/features/user/services/user_service.dart';
-import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/utils/status_extensions.dart';
+import 'package:catering_flutter/core/widgets/searchable_list_screen.dart';
 
 class DriverDashboardScreen extends StatefulWidget {
   const DriverDashboardScreen({super.key});
@@ -17,114 +17,101 @@ class DriverDashboardScreen extends StatefulWidget {
 }
 
 class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
+  int _selectedTabIndex = 0;
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<UserService>().fetchCurrentUserWithDeliveries();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await context.read<UserService>().fetchCurrentUserWithDeliveries();
+      if (!mounted) return;
+      final service = context.read<UserService>();
+      if (service.hasError) {
+        UIErrorHandler.showSnackBar(
+          context,
+          service.errorMessage!,
+          isError: true,
+        );
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: CustomScaffold(
-        title: 'Driver Dashboard',
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
-          child: Container(
-            margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
-            child: TabBar(
-              isScrollable: true,
-              tabAlignment: TabAlignment.start,
-              indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                color: Colors.white,
+    return Consumer<UserService>(
+      builder: (context, userService, child) {
+        final deliveries =
+            userService.currentUser?.deliveries?.edges
+                ?.map((e) => e?.node)
+                .whereType<dynamic>()
+                .toList() ??
+            [];
+
+        final activeDeliveries = deliveries.where((d) {
+          final status = d?.status as Enum$DeliveryStatus?;
+          return status == Enum$DeliveryStatus.Pending ||
+              status == Enum$DeliveryStatus.Picked_up;
+        }).toList();
+
+        final historyDeliveries = deliveries.where((d) {
+          final status = d?.status as Enum$DeliveryStatus?;
+          return status == Enum$DeliveryStatus.Delivered;
+        }).toList();
+
+        final currentItems = _selectedTabIndex == 0
+            ? activeDeliveries
+            : historyDeliveries;
+
+        return SearchableListScreen<dynamic>(
+          title: 'Driver Dashboard',
+          items: currentItems,
+          isLoading: userService.isLoading,
+          searchHint: 'Search by order ID, customer, or address...',
+          filter: (delivery, query) {
+            final orderId = IriHelper.getId(delivery.order.id);
+            final customerName =
+                '${delivery.order.deliveryFirstName ?? ''} ${delivery.order.deliveryLastName ?? ''}'
+                    .toLowerCase();
+            final address =
+                '${delivery.order.deliveryStreet ?? ''} ${delivery.order.deliveryCity ?? ''}'
+                    .toLowerCase();
+            return orderId.contains(query) ||
+                customerName.contains(query) ||
+                address.contains(query);
+          },
+          onRefresh: () async {
+            await userService.fetchCurrentUserWithDeliveries();
+          },
+          customFilters: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
+            ),
+            child: SizedBox(
+              width: double.infinity,
+              child: SegmentedButton<int>(
+                segments: const [
+                  ButtonSegment<int>(
+                    value: 0,
+                    label: Text('Active'),
+                    icon: Icon(Icons.local_shipping),
+                  ),
+                  ButtonSegment<int>(
+                    value: 1,
+                    label: Text('History'),
+                    icon: Icon(Icons.history),
+                  ),
+                ],
+                selected: {_selectedTabIndex},
+                onSelectionChanged: (Set<int> newSelection) {
+                  setState(() {
+                    _selectedTabIndex = newSelection.first;
+                  });
+                },
               ),
-              labelColor: Theme.of(context).primaryColor,
-              unselectedLabelColor: Colors.white,
-              indicatorSize: TabBarIndicatorSize.tab,
-              dividerColor: Colors.transparent,
-              labelPadding: const EdgeInsets.symmetric(horizontal: 24),
-              tabs: const [
-                Tab(
-                  child: Row(
-                    children: [
-                      Icon(Icons.local_shipping),
-                      SizedBox(width: 8),
-                      Text('Active'),
-                    ],
-                  ),
-                ),
-                Tab(
-                  child: Row(
-                    children: [
-                      Icon(Icons.history),
-                      SizedBox(width: 8),
-                      Text('History'),
-                    ],
-                  ),
-                ),
-              ],
             ),
           ),
-        ),
-        child: Consumer<UserService>(
-          builder: (context, userService, child) {
-            if (userService.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (userService.hasError) {
-              return Center(child: Text(userService.errorMessage!));
-            }
-
-            final deliveries =
-                userService.currentUser?.deliveries?.edges
-                    ?.map((e) => e?.node)
-                    .whereType<dynamic>()
-                    .toList() ??
-                [];
-
-            final activeDeliveries = deliveries.where((d) {
-              final status = d?.status as Enum$DeliveryStatus?;
-              return status == Enum$DeliveryStatus.Pending ||
-                  status == Enum$DeliveryStatus.Picked_up;
-            }).toList();
-            final historyDeliveries = deliveries.where((d) {
-              final status = d?.status as Enum$DeliveryStatus?;
-              return status == Enum$DeliveryStatus.Delivered;
-            }).toList();
-
-            return TabBarView(
-              children: [
-                _buildDeliveryList(context, activeDeliveries, userService),
-                _buildDeliveryList(context, historyDeliveries, userService),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDeliveryList(
-    BuildContext context,
-    List<dynamic> deliveries,
-    UserService userService,
-  ) {
-    if (deliveries.isEmpty) {
-      return const Center(child: Text('No deliveries found.'));
-    }
-
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 800),
-        child: ListView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: deliveries.length,
-          itemBuilder: (context, index) {
-            final delivery = deliveries[index];
+          itemBuilder: (context, delivery) {
             final deliveryStatus = delivery.status as Enum$DeliveryStatus;
 
             return Card(
@@ -368,8 +355,8 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
               ),
             );
           },
-        ),
-      ),
+        );
+      },
     );
   }
 }

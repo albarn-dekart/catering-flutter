@@ -187,7 +187,7 @@ class AppRouter {
             },
           ),
           GoRoute(
-            path: AppRoutes.MealPlansByRestaurant,
+            path: AppRoutes.mealPlansByRestaurant,
             builder: (BuildContext context, GoRouterState state) {
               final restaurantIri = IriHelper.buildIri(
                 'restaurants',
@@ -325,7 +325,7 @@ class AppRouter {
         AppRoutes.home,
         AppRoutes.login,
         AppRoutes.register,
-        AppRoutes.MealPlansByRestaurant,
+        AppRoutes.mealPlansByRestaurant,
         AppRoutes.mealPlanDetails,
       };
       final isPublic = publicRoutes.contains(location);

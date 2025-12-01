@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
+import 'package:catering_flutter/core/widgets/searchable_list_screen.dart';
 import 'package:catering_flutter/features/restaurant/services/restaurant_category_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 
@@ -19,8 +19,17 @@ class _ManageRestaurantCategoriesScreenState
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<RestaurantCategoryService>().getRestaurantCategories();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await context.read<RestaurantCategoryService>().getRestaurantCategories();
+      if (!mounted) return;
+      final service = context.read<RestaurantCategoryService>();
+      if (service.hasError) {
+        UIErrorHandler.showSnackBar(
+          context,
+          service.errorMessage!,
+          isError: true,
+        );
+      }
     });
   }
 
@@ -32,135 +41,117 @@ class _ManageRestaurantCategoriesScreenState
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      title: 'Manage Restaurant Categories',
-      child: Consumer<RestaurantCategoryService>(
-        builder: (context, service, child) {
-          if (service.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          return Column(
-            children: [
-              // Add category section
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Consumer<RestaurantCategoryService>(
+      builder: (context, service, child) {
+        return SearchableListScreen<dynamic>(
+          title: 'Manage Restaurant Categories',
+          items: service.restaurantCategories,
+          isLoading: service.isLoading,
+          searchHint: 'Search categories...',
+          filter: (category, query) =>
+              category.name.toLowerCase().contains(query),
+          onRefresh: () async {
+            await service.getRestaurantCategories();
+          },
+          customFilters: Container(
+            padding: const EdgeInsets.all(16.0),
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'Add New Restaurant Category',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 12),
+                Row(
                   children: [
-                    Text(
-                      'Add New Restaurant Category',
-                      style: Theme.of(context).textTheme.titleMedium,
+                    Expanded(
+                      child: TextField(
+                        controller: _nameController,
+                        decoration: const InputDecoration(
+                          labelText: 'Category Name',
+                          hintText: 'e.g., Italian, Chinese, Mexican',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: _nameController,
-                            decoration: const InputDecoration(
-                              labelText: 'Category Name',
-                              hintText: 'e.g., Italian, Chinese, Mexican',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        FilledButton.icon(
-                          onPressed: service.isLoading
-                              ? null
-                              : () async {
-                                  if (_nameController.text.trim().isEmpty) {
-                                    UIErrorHandler.showSnackBar(
-                                      context,
-                                      'Please enter a category name',
-                                      isError: true,
-                                    );
-                                    return;
-                                  }
+                    const SizedBox(width: 12),
+                    FilledButton.icon(
+                      onPressed: service.isLoading
+                          ? null
+                          : () async {
+                              if (_nameController.text.trim().isEmpty) {
+                                UIErrorHandler.showSnackBar(
+                                  context,
+                                  'Please enter a category name',
+                                  isError: true,
+                                );
+                                return;
+                              }
 
-                                  try {
-                                    await service.createRestaurantCategory(
-                                      _nameController.text.trim(),
-                                    );
-                                    _nameController.clear();
-                                    if (!context.mounted) return;
-                                    UIErrorHandler.showSnackBar(
-                                      context,
-                                      'Category created successfully',
-                                      isError: false,
-                                    );
-                                    await service.getRestaurantCategories();
-                                  } catch (e) {
-                                    if (!context.mounted) return;
-                                    UIErrorHandler.handleError(
-                                      context,
-                                      e,
-                                      customMessage:
-                                          'Failed to create category',
-                                    );
-                                  }
-                                },
-                          icon: const Icon(Icons.add),
-                          label: const Text('Add'),
-                        ),
-                      ],
+                              try {
+                                await service.createRestaurantCategory(
+                                  _nameController.text.trim(),
+                                );
+                                _nameController.clear();
+                                if (!context.mounted) return;
+                                UIErrorHandler.showSnackBar(
+                                  context,
+                                  'Category created successfully',
+                                  isError: false,
+                                );
+                                await service.getRestaurantCategories();
+                              } catch (e) {
+                                if (!context.mounted) return;
+                                UIErrorHandler.handleError(
+                                  context,
+                                  e,
+                                  customMessage: 'Failed to create category',
+                                );
+                              }
+                            },
+                      icon: const Icon(Icons.add),
+                      label: const Text('Add'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          itemBuilder: (context, category) {
+            return Card(
+              margin: const EdgeInsets.only(bottom: 8),
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: Theme.of(
+                    context,
+                  ).colorScheme.primaryContainer,
+                  child: Icon(
+                    Icons.restaurant,
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  ),
+                ),
+                title: Text(category.name),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.edit),
+                      onPressed: () => _showEditDialog(context, category),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      color: Theme.of(context).colorScheme.error,
+                      onPressed: () => _showDeleteDialog(context, category),
                     ),
                   ],
                 ),
               ),
-              // Categories list
-              Expanded(
-                child: service.restaurantCategories.isEmpty
-                    ? const Center(
-                        child: Text('No restaurant categories found'),
-                      )
-                    : ListView.builder(
-                        padding: const EdgeInsets.all(16.0),
-                        itemCount: service.restaurantCategories.length,
-                        itemBuilder: (context, index) {
-                          final category = service.restaurantCategories[index];
-                          return Card(
-                            margin: const EdgeInsets.only(bottom: 8),
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                backgroundColor: Theme.of(
-                                  context,
-                                ).colorScheme.primaryContainer,
-                                child: Icon(
-                                  Icons.restaurant,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onPrimaryContainer,
-                                ),
-                              ),
-                              title: Text(category.name),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.edit),
-                                    onPressed: () =>
-                                        _showEditDialog(context, category),
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    color: Theme.of(context).colorScheme.error,
-                                    onPressed: () =>
-                                        _showDeleteDialog(context, category),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-              ),
-            ],
-          );
-        },
-      ),
+            );
+          },
+        );
+      },
     );
   }
 

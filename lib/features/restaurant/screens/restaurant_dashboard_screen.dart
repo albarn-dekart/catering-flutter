@@ -24,13 +24,25 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (widget.restaurantIri != null) {
-        context.read<RestaurantService>().getRestaurantById(
+        await context.read<RestaurantService>().getRestaurantById(
           widget.restaurantIri!,
         );
       } else {
-        context.read<UserService>().fetchCurrentRestaurant();
+        await context.read<UserService>().fetchCurrentRestaurant();
+      }
+
+      if (!mounted) return;
+      final restaurantService = context.read<RestaurantService>();
+      final userService = context.read<UserService>();
+
+      final errorMessage = widget.restaurantIri != null
+          ? restaurantService.errorMessage
+          : userService.errorMessage;
+
+      if (errorMessage != null) {
+        UIErrorHandler.showSnackBar(context, errorMessage, isError: true);
       }
     });
   }
@@ -47,47 +59,9 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
         ? restaurantService.isLoading
         : userService.isLoading;
 
-    if (isLoading) {
-      return const CustomScaffold(
-        title: 'Restaurant Dashboard',
-        child: Center(child: CircularProgressIndicator()),
-      );
-    }
-
     final errorMessage = widget.restaurantIri != null
         ? restaurantService.errorMessage
         : userService.errorMessage;
-
-    if (errorMessage != null) {
-      return CustomScaffold(
-        title: 'Restaurant Dashboard',
-        child: Center(
-          child: Text(
-            'Error: $errorMessage',
-            style: TextStyle(color: Theme.of(context).colorScheme.error),
-          ),
-        ),
-      );
-    }
-
-    if (restaurant == null) {
-      return CustomScaffold(
-        title: 'Restaurant Dashboard',
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('No restaurant found for this account.'),
-              const SizedBox(height: 16),
-              FilledButton(
-                onPressed: () => context.push(AppRoutes.adminRestaurantCreate),
-                child: const Text('Create Restaurant'),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
 
     return DefaultTabController(
       length: 3,
@@ -142,12 +116,46 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
             ),
           ),
         ),
-        child: TabBarView(
-          children: [
-            _buildMainActionsTab(context, restaurant),
-            _buildOperationsTab(context, restaurant),
-            _buildMenuTab(context, restaurant),
-          ],
+        child: Builder(
+          builder: (context) {
+            if (isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (errorMessage != null) {
+              return Center(
+                child: Text(
+                  'Error: $errorMessage',
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+              );
+            }
+
+            if (restaurant == null) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('No restaurant found for this account.'),
+                    const SizedBox(height: 16),
+                    FilledButton(
+                      onPressed: () =>
+                          context.push(AppRoutes.adminRestaurantCreate),
+                      child: const Text('Create Restaurant'),
+                    ),
+                  ],
+                ),
+              );
+            }
+
+            return TabBarView(
+              children: [
+                _buildMainActionsTab(context, restaurant),
+                _buildOperationsTab(context, restaurant),
+                _buildMenuTab(context, restaurant),
+              ],
+            );
+          },
         ),
       ),
     );
