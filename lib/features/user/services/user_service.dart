@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'package:catering_flutter/core/api_config.dart';
+import 'package:catering_flutter/core/utils/iri_helper.dart';
+import 'package:http/http.dart' as http;
 import 'package:catering_flutter/graphql/deliveries.graphql.dart';
 import 'package:catering_flutter/graphql/restaurants.graphql.dart';
 import 'package:flutter/foundation.dart';
@@ -375,6 +379,44 @@ class UserService extends ChangeNotifier {
       }
     } catch (e) {
       _errorMessage = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> createDriver(String email, String password) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final token = await _tokenStorage.getToken();
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}/invite-driver'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({'email': email, 'plainPassword': password}),
+      );
+
+      if (response.statusCode == 201) {
+        final data = jsonDecode(response.body);
+        final newNode = RestaurantUserNode(
+          id: IriHelper.buildIri('users', (data['id'] as int).toString()),
+          email: data['email'],
+          roles: List<String>.from(data['roles']),
+        );
+        _restaurantDrivers.add(newNode);
+      } else {
+        final error =
+            jsonDecode(response.body)['error'] ?? 'Failed to invite driver';
+        throw ApiException(error);
+      }
+    } catch (e) {
+      _errorMessage = e.toString();
+      rethrow;
     } finally {
       _isLoading = false;
       notifyListeners();

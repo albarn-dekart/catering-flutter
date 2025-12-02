@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:catering_flutter/core/token_storage_service.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
+import 'package:catering_flutter/core/api_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AuthService extends ChangeNotifier {
   final TokenStorageService _tokenStorage;
-  final String baseUrl;
 
   bool _isAuthenticated = false;
   List<String> _roles = [];
@@ -21,7 +21,7 @@ class AuthService extends ChangeNotifier {
   String? get email => _email;
   bool get isLoading => _isLoading;
 
-  AuthService(this._tokenStorage, {required this.baseUrl}) {
+  AuthService(this._tokenStorage) {
     _checkAuthStatus();
   }
 
@@ -58,7 +58,7 @@ class AuthService extends ChangeNotifier {
 
   Future<void> login(String email, String password) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/login'),
+      Uri.parse('${ApiConfig.baseUrl}/login'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': email, 'password': password}),
     );
@@ -161,12 +161,12 @@ class AuthService extends ChangeNotifier {
 
   Future<void> register(String email, String password) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/register'),
+      Uri.parse('${ApiConfig.baseUrl}/register'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': email, 'password': password}),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       await login(email, password);
     } else {
       throw Exception('Registration failed: ${response.body}');

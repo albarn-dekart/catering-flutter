@@ -756,9 +756,6 @@ type Mutation {
   "Deletes a RestaurantCategory."
   deleteRestaurantCategory(input: deleteRestaurantCategoryInput!): deleteRestaurantCategoryPayload
 
-  "Creates a User."
-  createUser(input: createUserInput!): createUserPayload
-
   "Updates a User."
   updateUser(input: updateUserInput!): updateUserPayload
 
@@ -1195,27 +1192,6 @@ input deleteRestaurantCategoryInput {
 "Deletes a RestaurantCategory."
 type deleteRestaurantCategoryPayload {
   restaurantCategory: RestaurantCategory
-  clientMutationId: String
-}
-
-"Creates a User."
-input createUserInput {
-  email: String!
-  plainPassword: String
-  roles: Iterable!
-
-  """
-  For ROLE_RESTAURANT: their owned restaurant
-  For ROLE_DRIVER: the restaurant they work for
-  Null for customers and admins
-  """
-  restaurant: String
-  clientMutationId: String
-}
-
-"Creates a User."
-type createUserPayload {
-  user: User
   clientMutationId: String
 }
 

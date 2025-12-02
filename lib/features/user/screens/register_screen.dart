@@ -1,9 +1,7 @@
 import 'package:catering_flutter/core/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import 'package:catering_flutter/core/app_routes.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 
@@ -44,16 +42,14 @@ class _RegisterViewState extends State<RegisterView> {
 
       UIErrorHandler.showSnackBar(
         context,
-        'Registration successful! Please login.',
+        'Registration successful!',
         isError: false,
       );
-      context.go(AppRoutes.login);
     } catch (e) {
       if (mounted) {
         UIErrorHandler.handleError(
           context,
-          e,
-          customMessage: 'Registration failed',
+          e
         );
       }
     } finally {

@@ -56,10 +56,7 @@ void main() async {
   final tokenStorageService = TokenStorageService();
 
   // 3. Initialize AuthService and trigger the asynchronous status check
-  final authService = AuthService(
-    tokenStorageService,
-    baseUrl: ApiConfig.baseUrl,
-  );
+  final authService = AuthService(tokenStorageService);
 
   runApp(
     MyApp(

@@ -34,15 +34,6 @@ query GetUser($id: ID!) {
     }
 }
 
-mutation CreateUser($input: createUserInput!) {
-    createUser(input: $input) {
-        user {
-            id
-            email
-        }
-    }
-}
-
 mutation UpdateUser($input: updateUserInput!) {
     updateUser(input: $input) {
         user {
