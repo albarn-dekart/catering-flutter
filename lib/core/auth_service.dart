@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:catering_flutter/core/api_client.dart';
 import 'package:catering_flutter/core/token_storage_service.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
-import 'package:catering_flutter/core/api_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -54,11 +54,15 @@ class AuthService extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<String?> getToken() => _tokenStorage.getToken();
+
+  Future<String?> getUserIriFromStorage() => _tokenStorage.getUserIri();
+
   bool hasRole(String role) => _roles.contains(role);
 
   Future<void> login(String email, String password) async {
     final response = await http.post(
-      Uri.parse('${ApiConfig.baseUrl}/login'),
+      Uri.parse('${ApiClient.baseUrl}/api/login'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': email, 'password': password}),
     );
@@ -161,7 +165,7 @@ class AuthService extends ChangeNotifier {
 
   Future<void> register(String email, String password) async {
     final response = await http.post(
-      Uri.parse('${ApiConfig.baseUrl}/register'),
+      Uri.parse('${ApiClient.baseUrl}/api/register'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': email, 'password': password}),
     );
@@ -170,6 +174,34 @@ class AuthService extends ChangeNotifier {
       await login(email, password);
     } else {
       throw Exception('Registration failed: ${response.body}');
+    }
+  }
+
+  /// Changes the current user's password
+  /// Throws an exception if the old password is incorrect or the request fails
+  Future<void> changePassword(String oldPassword, String newPassword) async {
+    final token = await _tokenStorage.getToken();
+    if (token == null) {
+      throw Exception('Not authenticated');
+    }
+
+    final response = await http.post(
+      Uri.parse('${ApiClient.baseUrl}/api/change-password'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'oldPassword': oldPassword,
+        'newPassword': newPassword,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      final data = jsonDecode(response.body);
+      throw Exception(data['error'] ?? 'Failed to change password');
     }
   }
 }

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/features/user/services/user_service.dart';
 import 'package:catering_flutter/core/widgets/searchable_list_screen.dart';
+import 'package:catering_flutter/core/services/export_service.dart';
 
 class AdminUsersScreen extends StatefulWidget {
   const AdminUsersScreen({super.key});
@@ -13,6 +14,8 @@ class AdminUsersScreen extends StatefulWidget {
 }
 
 class _AdminUsersScreenState extends State<AdminUsersScreen> {
+  bool _isExporting = false;
+
   @override
   void initState() {
     super.initState();
@@ -38,6 +41,20 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
       builder: (context, userService, child) {
         return SearchableListScreen<UserNode>(
           title: 'Manage Users',
+          floatingActionButton: FloatingActionButton(
+            onPressed: _isExporting ? null : _exportUsers,
+            tooltip: 'Export to CSV',
+            child: _isExporting
+                ? const SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                : const Icon(Icons.download),
+          ),
           items: userService.users,
           isLoading: userService.isLoading,
           searchHint: 'Search users by email...',
@@ -51,41 +68,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
           onRefresh: () async {
             await userService.fetchAllUsers();
           },
-          customFilters: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 8.0,
-            ),
-            child: DropdownButtonFormField<String>(
-              decoration: const InputDecoration(
-                labelText: 'Filter by Role',
-                border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-              ),
-              initialValue: _selectedRoleFilter,
-              items: const [
-                DropdownMenuItem(value: null, child: Text('All Roles')),
-                DropdownMenuItem(value: 'ROLE_ADMIN', child: Text('Admin')),
-                DropdownMenuItem(
-                  value: 'ROLE_RESTAURANT',
-                  child: Text('Restaurant'),
-                ),
-                DropdownMenuItem(value: 'ROLE_DRIVER', child: Text('Driver')),
-                DropdownMenuItem(
-                  value: 'ROLE_CUSTOMER',
-                  child: Text('Customer'),
-                ),
-              ],
-              onChanged: (value) {
-                setState(() {
-                  _selectedRoleFilter = value;
-                });
-              },
-            ),
-          ),
+          customFilters: _buildRoleFilterChips(),
           itemBuilder: (context, user) {
             // Determine primary role (first match or default to Customer)
             String currentRole = 'ROLE_CUSTOMER';
@@ -182,5 +165,85 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
         );
       },
     );
+  }
+
+  Widget _buildRoleFilterChips() {
+    final roles = [
+      {'value': null, 'label': 'All'},
+      {'value': 'ROLE_ADMIN', 'label': 'Admin'},
+      {'value': 'ROLE_RESTAURANT', 'label': 'Restaurant'},
+      {'value': 'ROLE_DRIVER', 'label': 'Driver'},
+      {'value': 'ROLE_CUSTOMER', 'label': 'Customer'},
+    ];
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: roles.map((role) {
+            return _buildFilterChip(role['value'], role['label'] as String);
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFilterChip(String? role, String label) {
+    final isSelected = _selectedRoleFilter == role;
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: FilterChip(
+        label: Text(label),
+        selected: isSelected,
+        onSelected: (selected) {
+          setState(() {
+            _selectedRoleFilter = role;
+          });
+        },
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        selectedColor: Theme.of(context).colorScheme.primaryContainer,
+        checkmarkColor: Theme.of(context).colorScheme.onPrimaryContainer,
+        labelStyle: TextStyle(
+          color: isSelected
+              ? Theme.of(context).colorScheme.onPrimaryContainer
+              : Theme.of(context).colorScheme.onSurface,
+          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _exportUsers() async {
+    setState(() {
+      _isExporting = true;
+    });
+
+    try {
+      final exportService = context.read<ExportService>();
+
+      await exportService.exportUsersToCsv(roleFilter: _selectedRoleFilter);
+
+      if (!mounted) return;
+
+      UIErrorHandler.showSnackBar(
+        context,
+        'Users exported successfully',
+        isError: false,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      UIErrorHandler.showSnackBar(
+        context,
+        'Failed to export users: ${e.toString()}',
+        isError: true,
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isExporting = false;
+        });
+      }
+    }
   }
 }

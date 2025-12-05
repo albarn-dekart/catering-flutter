@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,7 +9,8 @@ import 'package:catering_flutter/features/restaurant/services/restaurant_service
 import 'package:catering_flutter/features/user/services/user_service.dart';
 import 'package:catering_flutter/graphql/users.graphql.dart';
 import 'package:catering_flutter/core/auth_service.dart';
-import 'package:catering_flutter/core/utils/image_helper.dart';
+import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
+import 'package:catering_flutter/features/restaurant/services/restaurant_category_service.dart';
 
 class RestaurantFormScreen extends StatefulWidget {
   final String? restaurantIri;
@@ -29,12 +29,16 @@ class _RestaurantFormScreenState extends State<RestaurantFormScreen> {
       final authService = context.read<AuthService>();
       final userService = context.read<UserService>();
       final restaurantService = context.read<RestaurantService>();
+      final categoryService = context.read<RestaurantCategoryService>();
 
       if (widget.restaurantIri != null) {
         restaurantService.getRestaurantById(widget.restaurantIri!);
       } else {
         restaurantService.clearCurrentRestaurant();
       }
+
+      // Fetch categories for selection
+      categoryService.getRestaurantCategories();
 
       if (authService.hasRole("ROLE_ADMIN")) {
         userService.fetchRestaurantOwners();
@@ -71,6 +75,9 @@ class _RestaurantFormScreenState extends State<RestaurantFormScreen> {
   }
 }
 
+/// Enum to represent owner selection mode
+enum OwnerMode { existing, createNew }
+
 class RestaurantForm extends StatefulWidget {
   final dynamic restaurant; // GraphQL type
   final bool isCreateMode;
@@ -92,6 +99,15 @@ class _RestaurantFormState extends State<RestaurantForm> {
   final ImagePicker _picker = ImagePicker();
   Query$GetUsers$users$edges$node? _selectedOwner;
   XFile? _imageFile;
+  List<RestaurantCategory> _selectedCategories = [];
+
+  // New owner creation fields
+  OwnerMode _ownerMode = OwnerMode.existing;
+  final TextEditingController _newOwnerEmailController =
+      TextEditingController();
+  final TextEditingController _newOwnerPasswordController =
+      TextEditingController();
+  bool _isSaving = false;
 
   @override
   void initState() {
@@ -102,12 +118,22 @@ class _RestaurantFormState extends State<RestaurantForm> {
     _descriptionController = TextEditingController(
       text: widget.restaurant?.description ?? '',
     );
+
+    // Initialize selected categories if editing
+    if (widget.restaurant?.restaurantCategories?.edges != null) {
+      _selectedCategories = widget.restaurant!.restaurantCategories!.edges!
+          .map((e) => e?.node)
+          .whereType<RestaurantCategory>()
+          .toList();
+    }
   }
 
   @override
   void dispose() {
     _nameController.dispose();
     _descriptionController.dispose();
+    _newOwnerEmailController.dispose();
+    _newOwnerPasswordController.dispose();
     super.dispose();
   }
 
@@ -125,34 +151,57 @@ class _RestaurantFormState extends State<RestaurantForm> {
   void _saveRestaurant() async {
     if (!_formKey.currentState!.validate()) return;
 
+    setState(() {
+      _isSaving = true;
+    });
+
     final authService = context.read<AuthService>();
     final userService = context.read<UserService>();
     final restaurantService = context.read<RestaurantService>();
 
     try {
       String? restaurantIri;
+      final categoryIris = _selectedCategories.map((c) => c.id).toList();
 
       if (widget.isCreateMode) {
-        restaurantIri = await restaurantService.createRestaurant(
-          name: _nameController.text,
-          description: _descriptionController.text,
-        );
+        // Check if admin is creating with new owner
+        if (authService.hasRole("ROLE_ADMIN") &&
+            _ownerMode == OwnerMode.createNew) {
+          // Use RestaurantService.inviteRestaurantOwner to create user + restaurant
+          restaurantIri = await restaurantService.inviteRestaurantOwner(
+            email: _newOwnerEmailController.text,
+            password: _newOwnerPasswordController.text,
+            restaurantName: _nameController.text,
+            description: _descriptionController.text.isNotEmpty
+                ? _descriptionController.text
+                : null,
+            categoryIds: categoryIris,
+          );
+        } else {
+          // Standard create restaurant flow
+          restaurantIri = await restaurantService.createRestaurant(
+            name: _nameController.text,
+            description: _descriptionController.text,
+            categoryIris: categoryIris,
+          );
+
+          // Assign Owner (Admin Only with existing user)
+          if (authService.hasRole("ROLE_ADMIN") &&
+              _selectedOwner != null &&
+              restaurantIri != null) {
+            await userService.updateUserRestaurant(
+              _selectedOwner!.id,
+              restaurantIri,
+            );
+          }
+        }
       } else {
         restaurantIri = widget.restaurant.id;
         await restaurantService.updateRestaurant(
           id: restaurantIri!,
           name: _nameController.text,
           description: _descriptionController.text,
-        );
-      }
-
-      // Assign Owner (Admin Only)
-      if (authService.hasRole("ROLE_ADMIN") &&
-          _selectedOwner != null &&
-          restaurantIri != null) {
-        await userService.updateUserRestaurant(
-          _selectedOwner!.id,
-          restaurantIri,
+          categoryIris: categoryIris,
         );
       }
 
@@ -204,6 +253,8 @@ class _RestaurantFormState extends State<RestaurantForm> {
           isError: false,
         );
         if (widget.isCreateMode) {
+          // Refresh the restaurant list
+          restaurantService.fetchAllRestaurants();
           context.pop();
         }
       }
@@ -214,6 +265,12 @@ class _RestaurantFormState extends State<RestaurantForm> {
           e,
           customMessage: 'Failed to save restaurant',
         );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSaving = false;
+        });
       }
     }
   }
@@ -285,11 +342,204 @@ class _RestaurantFormState extends State<RestaurantForm> {
     }
   }
 
+  Future<void> _showCategorySelectionDialog() async {
+    final categoryService = context.read<RestaurantCategoryService>();
+    final allCategories = categoryService.restaurantCategories;
+
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text('Select Categories'),
+              content: SizedBox(
+                width: double.maxFinite,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (allCategories.isEmpty)
+                      const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text('No categories available'),
+                      )
+                    else
+                      Flexible(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: allCategories.length,
+                          itemBuilder: (context, index) {
+                            final category = allCategories[index];
+                            final isSelected = _selectedCategories.any(
+                              (c) => c.id == category.id,
+                            );
+                            return CheckboxListTile(
+                              title: Text(category.name),
+                              value: isSelected,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  if (value == true) {
+                                    _selectedCategories.add(category);
+                                  } else {
+                                    _selectedCategories.removeWhere(
+                                      (c) => c.id == category.id,
+                                    );
+                                  }
+                                });
+                                // Update parent state to reflect changes in chips
+                                this.setState(() {});
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Done'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildOwnerSection(AuthService authService, UserService userService) {
+    if (!authService.hasRole("ROLE_ADMIN") || !widget.isCreateMode) {
+      return const SizedBox.shrink();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Restaurant Owner',
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 12),
+
+        // Owner mode toggle
+        SegmentedButton<OwnerMode>(
+          segments: const [
+            ButtonSegment(
+              value: OwnerMode.existing,
+              label: Text('Select Existing'),
+              icon: Icon(Icons.person_search),
+            ),
+            ButtonSegment(
+              value: OwnerMode.createNew,
+              label: Text('Create New'),
+              icon: Icon(Icons.person_add),
+            ),
+          ],
+          selected: {_ownerMode},
+          onSelectionChanged: (Set<OwnerMode> selection) {
+            setState(() {
+              _ownerMode = selection.first;
+              // Clear selections when switching modes
+              if (_ownerMode == OwnerMode.existing) {
+                _newOwnerEmailController.clear();
+                _newOwnerPasswordController.clear();
+              } else {
+                _selectedOwner = null;
+              }
+            });
+          },
+        ),
+        const SizedBox(height: 16),
+
+        // Show appropriate input based on mode
+        if (_ownerMode == OwnerMode.existing) ...[
+          if (userService.isLoading)
+            const Center(child: CircularProgressIndicator())
+          else
+            DropdownButtonFormField<Query$GetUsers$users$edges$node>(
+              decoration: const InputDecoration(
+                labelText: 'Select Owner',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.person),
+              ),
+              initialValue: _selectedOwner,
+              items: userService.restaurantOwners
+                  .map(
+                    (user) =>
+                        DropdownMenuItem(value: user, child: Text(user.email)),
+                  )
+                  .toList(),
+              onChanged: (value) {
+                setState(() {
+                  _selectedOwner = value;
+                });
+              },
+              validator: (value) {
+                if (_ownerMode == OwnerMode.existing && value == null) {
+                  return 'Please select an owner';
+                }
+                return null;
+              },
+            ),
+        ] else ...[
+          TextFormField(
+            controller: _newOwnerEmailController,
+            decoration: const InputDecoration(
+              labelText: 'Owner Email',
+              border: OutlineInputBorder(),
+              prefixIcon: Icon(Icons.email),
+            ),
+            keyboardType: TextInputType.emailAddress,
+            validator: (value) {
+              if (_ownerMode == OwnerMode.createNew) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter an email';
+                }
+                if (!value.contains('@')) {
+                  return 'Please enter a valid email';
+                }
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _newOwnerPasswordController,
+            decoration: const InputDecoration(
+              labelText: 'Owner Password',
+              border: OutlineInputBorder(),
+              prefixIcon: Icon(Icons.lock),
+            ),
+            obscureText: true,
+            validator: (value) {
+              if (_ownerMode == OwnerMode.createNew) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a password';
+                }
+                if (value.length < 8) {
+                  return 'Password must be at least 8 characters';
+                }
+              }
+              return null;
+            },
+          ),
+        ],
+        const SizedBox(height: 24),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final authService = context.watch<AuthService>();
     final restaurantService = context.watch<RestaurantService>();
     final userService = context.watch<UserService>();
+
+    final isLoading = restaurantService.isLoading || _isSaving;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24.0),
@@ -297,34 +547,35 @@ class _RestaurantFormState extends State<RestaurantForm> {
         children: [
           // Image Section (Always visible now)
           GestureDetector(
-            onTap: restaurantService.isLoading ? null : _pickImage,
+            onTap: isLoading ? null : _pickImage,
             child: Container(
               height: 200,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(24),
-                image: _imageFile != null
-                    ? DecorationImage(
-                        image: kIsWeb
-                            ? NetworkImage(_imageFile!.path)
-                            : FileImage(File(_imageFile!.path))
-                                  as ImageProvider,
-                        fit: BoxFit.cover,
-                      )
-                    : widget.restaurant?.imageUrl != null
-                    ? DecorationImage(
-                        image: NetworkImage(
-                          ImageHelper.getFullImageUrl(
-                            widget.restaurant!.imageUrl!,
-                          )!,
-                        ),
-                        fit: BoxFit.cover,
-                      )
-                    : null,
               ),
-              child: (_imageFile == null && widget.restaurant?.imageUrl == null)
-                  ? Column(
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  if (_imageFile != null)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(24),
+                      child: Image.file(
+                        File(_imageFile!.path),
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  else if (widget.restaurant?.imageUrl != null)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(24),
+                      child: CustomCachedImage(
+                        imageUrl: widget.restaurant!.imageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  if (_imageFile == null && widget.restaurant?.imageUrl == null)
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
@@ -343,7 +594,8 @@ class _RestaurantFormState extends State<RestaurantForm> {
                         ),
                       ],
                     )
-                  : Stack(
+                  else
+                    Stack(
                       children: [
                         Positioned(
                           bottom: 16,
@@ -361,10 +613,12 @@ class _RestaurantFormState extends State<RestaurantForm> {
                             ),
                           ),
                         ),
-                        if (restaurantService.isLoading)
+                        if (isLoading)
                           const Center(child: CircularProgressIndicator()),
                       ],
                     ),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 24),
@@ -421,48 +675,44 @@ class _RestaurantFormState extends State<RestaurantForm> {
                     ),
                     const SizedBox(height: 16),
 
-                    // Owner Selection (Admin Only)
-                    if (authService.hasRole("ROLE_ADMIN")) ...{
-                      if (userService.isLoading)
-                        const Center(child: CircularProgressIndicator())
-                      else
-                        DropdownButtonFormField<
-                          Query$GetUsers$users$edges$node
-                        >(
-                          decoration: const InputDecoration(
-                            labelText: 'Owner',
-                            border: OutlineInputBorder(),
-                            prefixIcon: Icon(Icons.person),
+                    // Categories Section
+                    Text(
+                      'Categories',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        ..._selectedCategories.map(
+                          (category) => Chip(
+                            label: Text(category.name),
+                            onDeleted: () {
+                              setState(() {
+                                _selectedCategories.removeWhere(
+                                  (c) => c.id == category.id,
+                                );
+                              });
+                            },
                           ),
-                          initialValue: _selectedOwner,
-                          items: userService.restaurantOwners
-                              .map(
-                                (user) => DropdownMenuItem(
-                                  value: user,
-                                  child: Text(user.email),
-                                ),
-                              )
-                              .toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedOwner = value;
-                            });
-                          },
-                          validator: (value) {
-                            if (widget.isCreateMode && value == null) {
-                              return 'Please select an owner';
-                            }
-                            return null;
-                          },
                         ),
-                      const SizedBox(height: 24),
-                    },
+                        ActionChip(
+                          avatar: const Icon(Icons.add, size: 16),
+                          label: const Text('Add'),
+                          onPressed: _showCategorySelectionDialog,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Owner Selection (Admin Only in create mode)
+                    _buildOwnerSection(authService, userService),
+
                     FilledButton.icon(
-                      onPressed: restaurantService.isLoading
-                          ? null
-                          : _saveRestaurant,
+                      onPressed: isLoading ? null : _saveRestaurant,
                       icon: const Icon(Icons.save),
-                      label: restaurantService.isLoading
+                      label: isLoading
                           ? const SizedBox(
                               width: 20,
                               height: 20,

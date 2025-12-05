@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:graphql_flutter/graphql_flutter.dart';
-// Import AuthService to use its token expiration check
 import 'package:catering_flutter/core/auth_service.dart';
-import 'package:catering_flutter/core/token_storage_service.dart';
 
 class TimeoutClient extends http.BaseClient {
   final http.Client _inner;
@@ -17,20 +15,16 @@ class TimeoutClient extends http.BaseClient {
   }
 }
 
-GraphQLClient initClient(
-  String baseUrl,
-  TokenStorageService tokenStorage,
-  AuthService authService,
-) {
+GraphQLClient initClient(AuthService authService) {
   final httpLink = HttpLink(
-    '$baseUrl/graphql',
+    'https://localhost:8000/api/graphql',
     defaultHeaders: {'Accept': 'application/json'},
     httpClient: TimeoutClient(http.Client(), const Duration(seconds: 30)),
   );
 
   final authLink = AuthLink(
     getToken: () async {
-      final token = await tokenStorage.getToken();
+      final token = await authService.getToken();
 
       if (token != null) {
         final isExpired = await authService.isTokenExpired();

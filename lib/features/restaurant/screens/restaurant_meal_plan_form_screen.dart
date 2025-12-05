@@ -6,8 +6,7 @@ import 'package:catering_flutter/features/restaurant/services/meal_plan_service.
 import 'package:catering_flutter/features/restaurant/services/meal_service.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
-
-import 'package:catering_flutter/core/utils/image_helper.dart';
+import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 import 'package:catering_flutter/features/restaurant/screens/restaurant_meal_selection_screen.dart';
 
 class RestaurantMealPlanFormScreen extends StatefulWidget {
@@ -211,8 +210,8 @@ class _RestaurantMealPlanFormScreenState
                     if (mealPlan?.imageUrl != null && widget.mealPlanId != null)
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          ImageHelper.getFullImageUrl(mealPlan!.imageUrl!)!,
+                        child: CustomCachedImage(
+                          imageUrl: mealPlan!.imageUrl,
                           height: 200,
                           width: double.infinity,
                           fit: BoxFit.cover,

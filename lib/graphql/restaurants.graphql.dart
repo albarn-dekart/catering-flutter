@@ -6099,6 +6099,78 @@ const documentNodeMutationCreateRestaurant = DocumentNode(
                         selectionSet: null,
                       ),
                       FieldNode(
+                        name: NameNode(value: 'description'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null,
+                      ),
+                      FieldNode(
+                        name: NameNode(value: 'restaurantCategories'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(
+                          selections: [
+                            FieldNode(
+                              name: NameNode(value: 'edges'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: SelectionSetNode(
+                                selections: [
+                                  FieldNode(
+                                    name: NameNode(value: 'node'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: SelectionSetNode(
+                                      selections: [
+                                        FieldNode(
+                                          name: NameNode(value: 'id'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null,
+                                        ),
+                                        FieldNode(
+                                          name: NameNode(value: 'name'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null,
+                                        ),
+                                        FieldNode(
+                                          name: NameNode(value: '__typename'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  FieldNode(
+                                    name: NameNode(value: '__typename'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            FieldNode(
+                              name: NameNode(value: '__typename'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null,
+                            ),
+                          ],
+                        ),
+                      ),
+                      FieldNode(
                         name: NameNode(value: '__typename'),
                         alias: null,
                         arguments: [],
@@ -6486,6 +6558,8 @@ class Mutation$CreateRestaurant$createRestaurant$restaurant {
   Mutation$CreateRestaurant$createRestaurant$restaurant({
     required this.id,
     required this.name,
+    this.description,
+    this.restaurantCategories,
     this.$__typename = 'Restaurant',
   });
 
@@ -6494,8 +6568,651 @@ class Mutation$CreateRestaurant$createRestaurant$restaurant {
   ) {
     final l$id = json['id'];
     final l$name = json['name'];
+    final l$description = json['description'];
+    final l$restaurantCategories = json['restaurantCategories'];
     final l$$__typename = json['__typename'];
     return Mutation$CreateRestaurant$createRestaurant$restaurant(
+      id: (l$id as String),
+      name: (l$name as String),
+      description: (l$description as String?),
+      restaurantCategories: l$restaurantCategories == null
+          ? null
+          : Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories.fromJson(
+              (l$restaurantCategories as Map<String, dynamic>),
+            ),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String name;
+
+  final String? description;
+
+  final Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories?
+  restaurantCategories;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$description = description;
+    _resultData['description'] = l$description;
+    final l$restaurantCategories = restaurantCategories;
+    _resultData['restaurantCategories'] = l$restaurantCategories?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$description = description;
+    final l$restaurantCategories = restaurantCategories;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$description,
+      l$restaurantCategories,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Mutation$CreateRestaurant$createRestaurant$restaurant ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$description = description;
+    final lOther$description = other.description;
+    if (l$description != lOther$description) {
+      return false;
+    }
+    final l$restaurantCategories = restaurantCategories;
+    final lOther$restaurantCategories = other.restaurantCategories;
+    if (l$restaurantCategories != lOther$restaurantCategories) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$CreateRestaurant$createRestaurant$restaurant
+    on Mutation$CreateRestaurant$createRestaurant$restaurant {
+  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant<
+    Mutation$CreateRestaurant$createRestaurant$restaurant
+  >
+  get copyWith =>
+      CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant<
+  TRes
+> {
+  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant(
+    Mutation$CreateRestaurant$createRestaurant$restaurant instance,
+    TRes Function(Mutation$CreateRestaurant$createRestaurant$restaurant) then,
+  ) = _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant;
+
+  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant;
+
+  TRes call({
+    String? id,
+    String? name,
+    String? description,
+    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories?
+    restaurantCategories,
+    String? $__typename,
+  });
+  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
+    TRes
+  >
+  get restaurantCategories;
+}
+
+class _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant<TRes>
+    implements
+        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant<TRes> {
+  _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$CreateRestaurant$createRestaurant$restaurant _instance;
+
+  final TRes Function(Mutation$CreateRestaurant$createRestaurant$restaurant)
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? description = _undefined,
+    Object? restaurantCategories = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Mutation$CreateRestaurant$createRestaurant$restaurant(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      name: name == _undefined || name == null
+          ? _instance.name
+          : (name as String),
+      description: description == _undefined
+          ? _instance.description
+          : (description as String?),
+      restaurantCategories: restaurantCategories == _undefined
+          ? _instance.restaurantCategories
+          : (restaurantCategories
+                as Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
+    TRes
+  >
+  get restaurantCategories {
+    final local$restaurantCategories = _instance.restaurantCategories;
+    return local$restaurantCategories == null
+        ? CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories.stub(
+            _then(_instance),
+          )
+        : CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories(
+            local$restaurantCategories,
+            (e) => call(restaurantCategories: e),
+          );
+  }
+}
+
+class _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant<
+  TRes
+>
+    implements
+        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant<TRes> {
+  _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({
+    String? id,
+    String? name,
+    String? description,
+    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories?
+    restaurantCategories,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
+    TRes
+  >
+  get restaurantCategories =>
+      CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories.stub(
+        _res,
+      );
+}
+
+class Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories {
+  Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories({
+    this.edges,
+    this.$__typename = 'RestaurantCategoryCursorConnection',
+  });
+
+  factory Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$edges = json['edges'];
+    final l$$__typename = json['__typename'];
+    return Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories(
+      edges: (l$edges as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList(),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final List<
+    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges?
+  >?
+  edges;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$edges = edges;
+    _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$edges = edges;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other
+            is! Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$edges = edges;
+    final lOther$edges = other.edges;
+    if (l$edges != null && lOther$edges != null) {
+      if (l$edges.length != lOther$edges.length) {
+        return false;
+      }
+      for (int i = 0; i < l$edges.length; i++) {
+        final l$edges$entry = l$edges[i];
+        final lOther$edges$entry = lOther$edges[i];
+        if (l$edges$entry != lOther$edges$entry) {
+          return false;
+        }
+      }
+    } else if (l$edges != lOther$edges) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories
+    on Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories {
+  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
+    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories
+  >
+  get copyWith =>
+      CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
+  TRes
+> {
+  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories(
+    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories
+    instance,
+    TRes Function(
+      Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories,
+    )
+    then,
+  ) = _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories;
+
+  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories;
+
+  TRes call({
+    List<
+      Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges?
+    >?
+    edges,
+    String? $__typename,
+  });
+  TRes edges(
+    Iterable<
+      Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges?
+    >?
+    Function(
+      Iterable<
+        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges<
+          Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges
+        >?
+      >?,
+    )
+    _fn,
+  );
+}
+
+class _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
+  TRes
+>
+    implements
+        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
+          TRes
+        > {
+  _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories
+  _instance;
+
+  final TRes Function(
+    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories,
+  )
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? edges = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories(
+      edges: edges == _undefined
+          ? _instance.edges
+          : (edges
+                as List<
+                  Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges?
+                >?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  TRes edges(
+    Iterable<
+      Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges?
+    >?
+    Function(
+      Iterable<
+        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges<
+          Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges
+        >?
+      >?,
+    )
+    _fn,
+  ) => call(
+    edges: _fn(
+      _instance.edges?.map(
+        (e) => e == null
+            ? null
+            : CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges(
+                e,
+                (i) => i,
+              ),
+      ),
+    )?.toList(),
+  );
+}
+
+class _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
+  TRes
+>
+    implements
+        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
+          TRes
+        > {
+  _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({
+    List<
+      Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges?
+    >?
+    edges,
+    String? $__typename,
+  }) => _res;
+
+  edges(_fn) => _res;
+}
+
+class Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges {
+  Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges({
+    this.node,
+    this.$__typename = 'RestaurantCategoryEdge',
+  });
+
+  factory Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$node = json['node'];
+    final l$$__typename = json['__typename'];
+    return Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges(
+      node: l$node == null
+          ? null
+          : Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node.fromJson(
+              (l$node as Map<String, dynamic>),
+            ),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node?
+  node;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$node = node;
+    _resultData['node'] = l$node?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$node = node;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$node, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other
+            is! Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$node = node;
+    final lOther$node = other.node;
+    if (l$node != lOther$node) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges
+    on
+        Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges {
+  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges<
+    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges
+  >
+  get copyWith =>
+      CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges<
+  TRes
+> {
+  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges(
+    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges
+    instance,
+    TRes Function(
+      Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges,
+    )
+    then,
+  ) = _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges;
+
+  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges;
+
+  TRes call({
+    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node?
+    node,
+    String? $__typename,
+  });
+  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
+    TRes
+  >
+  get node;
+}
+
+class _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges<
+  TRes
+>
+    implements
+        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges<
+          TRes
+        > {
+  _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges
+  _instance;
+
+  final TRes Function(
+    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges,
+  )
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? node = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges(
+      node: node == _undefined
+          ? _instance.node
+          : (node
+                as Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
+    TRes
+  >
+  get node {
+    final local$node = _instance.node;
+    return local$node == null
+        ? CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node.stub(
+            _then(_instance),
+          )
+        : CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node(
+            local$node,
+            (e) => call(node: e),
+          );
+  }
+}
+
+class _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges<
+  TRes
+>
+    implements
+        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges<
+          TRes
+        > {
+  _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({
+    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node?
+    node,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
+    TRes
+  >
+  get node =>
+      CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node.stub(
+        _res,
+      );
+}
+
+class Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node {
+  Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node({
+    required this.id,
+    required this.name,
+    this.$__typename = 'RestaurantCategory',
+  });
+
+  factory Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$name = json['name'];
+    final l$$__typename = json['__typename'];
+    return Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node(
       id: (l$id as String),
       name: (l$name as String),
       $__typename: (l$$__typename as String),
@@ -6532,7 +7249,8 @@ class Mutation$CreateRestaurant$createRestaurant$restaurant {
     if (identical(this, other)) {
       return true;
     }
-    if (other is! Mutation$CreateRestaurant$createRestaurant$restaurant ||
+    if (other
+            is! Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node ||
         runtimeType != other.runtimeType) {
       return false;
     }
@@ -6555,44 +7273,56 @@ class Mutation$CreateRestaurant$createRestaurant$restaurant {
   }
 }
 
-extension UtilityExtension$Mutation$CreateRestaurant$createRestaurant$restaurant
-    on Mutation$CreateRestaurant$createRestaurant$restaurant {
-  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant<
-    Mutation$CreateRestaurant$createRestaurant$restaurant
+extension UtilityExtension$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node
+    on
+        Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node {
+  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
+    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node
   >
   get copyWith =>
-      CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant(
+      CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node(
         this,
         (i) => i,
       );
 }
 
-abstract class CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant<
+abstract class CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
   TRes
 > {
-  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant(
-    Mutation$CreateRestaurant$createRestaurant$restaurant instance,
-    TRes Function(Mutation$CreateRestaurant$createRestaurant$restaurant) then,
-  ) = _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant;
+  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node(
+    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node
+    instance,
+    TRes Function(
+      Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node,
+    )
+    then,
+  ) = _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node;
 
-  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant.stub(
+  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node.stub(
     TRes res,
-  ) = _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant;
+  ) = _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node;
 
   TRes call({String? id, String? name, String? $__typename});
 }
 
-class _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant<TRes>
+class _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
+  TRes
+>
     implements
-        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant<TRes> {
-  _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant(
+        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
+          TRes
+        > {
+  _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node(
     this._instance,
     this._then,
   );
 
-  final Mutation$CreateRestaurant$createRestaurant$restaurant _instance;
+  final Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node
+  _instance;
 
-  final TRes Function(Mutation$CreateRestaurant$createRestaurant$restaurant)
+  final TRes Function(
+    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node,
+  )
   _then;
 
   static const _undefined = <dynamic, dynamic>{};
@@ -6602,7 +7332,7 @@ class _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant<TRes>
     Object? name = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
-    Mutation$CreateRestaurant$createRestaurant$restaurant(
+    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node(
       id: id == _undefined || id == null ? _instance.id : (id as String),
       name: name == _undefined || name == null
           ? _instance.name
@@ -6614,12 +7344,14 @@ class _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant<TRes>
   );
 }
 
-class _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant<
+class _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
   TRes
 >
     implements
-        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant<TRes> {
-  _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant(
+        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
+          TRes
+        > {
+  _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node(
     this._res,
   );
 
@@ -6924,6 +7656,71 @@ const documentNodeMutationUpdateRestaurant = DocumentNode(
                         arguments: [],
                         directives: [],
                         selectionSet: null,
+                      ),
+                      FieldNode(
+                        name: NameNode(value: 'restaurantCategories'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(
+                          selections: [
+                            FieldNode(
+                              name: NameNode(value: 'edges'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: SelectionSetNode(
+                                selections: [
+                                  FieldNode(
+                                    name: NameNode(value: 'node'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: SelectionSetNode(
+                                      selections: [
+                                        FieldNode(
+                                          name: NameNode(value: 'id'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null,
+                                        ),
+                                        FieldNode(
+                                          name: NameNode(value: 'name'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null,
+                                        ),
+                                        FieldNode(
+                                          name: NameNode(value: '__typename'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  FieldNode(
+                                    name: NameNode(value: '__typename'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            FieldNode(
+                              name: NameNode(value: '__typename'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null,
+                            ),
+                          ],
+                        ),
                       ),
                       FieldNode(
                         name: NameNode(value: '__typename'),
@@ -7314,6 +8111,7 @@ class Mutation$UpdateRestaurant$updateRestaurant$restaurant {
     required this.id,
     required this.name,
     this.description,
+    this.restaurantCategories,
     this.$__typename = 'Restaurant',
   });
 
@@ -7323,11 +8121,17 @@ class Mutation$UpdateRestaurant$updateRestaurant$restaurant {
     final l$id = json['id'];
     final l$name = json['name'];
     final l$description = json['description'];
+    final l$restaurantCategories = json['restaurantCategories'];
     final l$$__typename = json['__typename'];
     return Mutation$UpdateRestaurant$updateRestaurant$restaurant(
       id: (l$id as String),
       name: (l$name as String),
       description: (l$description as String?),
+      restaurantCategories: l$restaurantCategories == null
+          ? null
+          : Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories.fromJson(
+              (l$restaurantCategories as Map<String, dynamic>),
+            ),
       $__typename: (l$$__typename as String),
     );
   }
@@ -7337,6 +8141,9 @@ class Mutation$UpdateRestaurant$updateRestaurant$restaurant {
   final String name;
 
   final String? description;
+
+  final Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories?
+  restaurantCategories;
 
   final String $__typename;
 
@@ -7348,6 +8155,8 @@ class Mutation$UpdateRestaurant$updateRestaurant$restaurant {
     _resultData['name'] = l$name;
     final l$description = description;
     _resultData['description'] = l$description;
+    final l$restaurantCategories = restaurantCategories;
+    _resultData['restaurantCategories'] = l$restaurantCategories?.toJson();
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -7358,8 +8167,15 @@ class Mutation$UpdateRestaurant$updateRestaurant$restaurant {
     final l$id = id;
     final l$name = name;
     final l$description = description;
+    final l$restaurantCategories = restaurantCategories;
     final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$name, l$description, l$$__typename]);
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$description,
+      l$restaurantCategories,
+      l$$__typename,
+    ]);
   }
 
   @override
@@ -7384,6 +8200,11 @@ class Mutation$UpdateRestaurant$updateRestaurant$restaurant {
     final l$description = description;
     final lOther$description = other.description;
     if (l$description != lOther$description) {
+      return false;
+    }
+    final l$restaurantCategories = restaurantCategories;
+    final lOther$restaurantCategories = other.restaurantCategories;
+    if (l$restaurantCategories != lOther$restaurantCategories) {
       return false;
     }
     final l$$__typename = $__typename;
@@ -7423,8 +8244,14 @@ abstract class CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant<
     String? id,
     String? name,
     String? description,
+    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories?
+    restaurantCategories,
     String? $__typename,
   });
+  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
+    TRes
+  >
+  get restaurantCategories;
 }
 
 class _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant<TRes>
@@ -7446,6 +8273,7 @@ class _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant<TRes>
     Object? id = _undefined,
     Object? name = _undefined,
     Object? description = _undefined,
+    Object? restaurantCategories = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
     Mutation$UpdateRestaurant$updateRestaurant$restaurant(
@@ -7456,11 +8284,30 @@ class _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant<TRes>
       description: description == _undefined
           ? _instance.description
           : (description as String?),
+      restaurantCategories: restaurantCategories == _undefined
+          ? _instance.restaurantCategories
+          : (restaurantCategories
+                as Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
     ),
   );
+
+  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
+    TRes
+  >
+  get restaurantCategories {
+    final local$restaurantCategories = _instance.restaurantCategories;
+    return local$restaurantCategories == null
+        ? CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories.stub(
+            _then(_instance),
+          )
+        : CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories(
+            local$restaurantCategories,
+            (e) => call(restaurantCategories: e),
+          );
+  }
 }
 
 class _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant<
@@ -7474,8 +8321,595 @@ class _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant<
 
   TRes _res;
 
-  call({String? id, String? name, String? description, String? $__typename}) =>
-      _res;
+  call({
+    String? id,
+    String? name,
+    String? description,
+    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories?
+    restaurantCategories,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
+    TRes
+  >
+  get restaurantCategories =>
+      CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories.stub(
+        _res,
+      );
+}
+
+class Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories {
+  Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories({
+    this.edges,
+    this.$__typename = 'RestaurantCategoryCursorConnection',
+  });
+
+  factory Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$edges = json['edges'];
+    final l$$__typename = json['__typename'];
+    return Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories(
+      edges: (l$edges as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList(),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final List<
+    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges?
+  >?
+  edges;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$edges = edges;
+    _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$edges = edges;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other
+            is! Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$edges = edges;
+    final lOther$edges = other.edges;
+    if (l$edges != null && lOther$edges != null) {
+      if (l$edges.length != lOther$edges.length) {
+        return false;
+      }
+      for (int i = 0; i < l$edges.length; i++) {
+        final l$edges$entry = l$edges[i];
+        final lOther$edges$entry = lOther$edges[i];
+        if (l$edges$entry != lOther$edges$entry) {
+          return false;
+        }
+      }
+    } else if (l$edges != lOther$edges) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories
+    on Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories {
+  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
+    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories
+  >
+  get copyWith =>
+      CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
+  TRes
+> {
+  factory CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories(
+    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories
+    instance,
+    TRes Function(
+      Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories,
+    )
+    then,
+  ) = _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories;
+
+  factory CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories;
+
+  TRes call({
+    List<
+      Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges?
+    >?
+    edges,
+    String? $__typename,
+  });
+  TRes edges(
+    Iterable<
+      Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges?
+    >?
+    Function(
+      Iterable<
+        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges<
+          Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges
+        >?
+      >?,
+    )
+    _fn,
+  );
+}
+
+class _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
+  TRes
+>
+    implements
+        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
+          TRes
+        > {
+  _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories
+  _instance;
+
+  final TRes Function(
+    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories,
+  )
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? edges = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories(
+      edges: edges == _undefined
+          ? _instance.edges
+          : (edges
+                as List<
+                  Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges?
+                >?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  TRes edges(
+    Iterable<
+      Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges?
+    >?
+    Function(
+      Iterable<
+        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges<
+          Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges
+        >?
+      >?,
+    )
+    _fn,
+  ) => call(
+    edges: _fn(
+      _instance.edges?.map(
+        (e) => e == null
+            ? null
+            : CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges(
+                e,
+                (i) => i,
+              ),
+      ),
+    )?.toList(),
+  );
+}
+
+class _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
+  TRes
+>
+    implements
+        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
+          TRes
+        > {
+  _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({
+    List<
+      Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges?
+    >?
+    edges,
+    String? $__typename,
+  }) => _res;
+
+  edges(_fn) => _res;
+}
+
+class Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges {
+  Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges({
+    this.node,
+    this.$__typename = 'RestaurantCategoryEdge',
+  });
+
+  factory Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$node = json['node'];
+    final l$$__typename = json['__typename'];
+    return Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges(
+      node: l$node == null
+          ? null
+          : Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node.fromJson(
+              (l$node as Map<String, dynamic>),
+            ),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node?
+  node;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$node = node;
+    _resultData['node'] = l$node?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$node = node;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$node, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other
+            is! Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$node = node;
+    final lOther$node = other.node;
+    if (l$node != lOther$node) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges
+    on
+        Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges {
+  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges<
+    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges
+  >
+  get copyWith =>
+      CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges<
+  TRes
+> {
+  factory CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges(
+    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges
+    instance,
+    TRes Function(
+      Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges,
+    )
+    then,
+  ) = _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges;
+
+  factory CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges;
+
+  TRes call({
+    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node?
+    node,
+    String? $__typename,
+  });
+  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
+    TRes
+  >
+  get node;
+}
+
+class _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges<
+  TRes
+>
+    implements
+        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges<
+          TRes
+        > {
+  _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges
+  _instance;
+
+  final TRes Function(
+    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges,
+  )
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? node = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges(
+      node: node == _undefined
+          ? _instance.node
+          : (node
+                as Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
+    TRes
+  >
+  get node {
+    final local$node = _instance.node;
+    return local$node == null
+        ? CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node.stub(
+            _then(_instance),
+          )
+        : CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node(
+            local$node,
+            (e) => call(node: e),
+          );
+  }
+}
+
+class _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges<
+  TRes
+>
+    implements
+        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges<
+          TRes
+        > {
+  _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({
+    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node?
+    node,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
+    TRes
+  >
+  get node =>
+      CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node.stub(
+        _res,
+      );
+}
+
+class Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node {
+  Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node({
+    required this.id,
+    required this.name,
+    this.$__typename = 'RestaurantCategory',
+  });
+
+  factory Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$name = json['name'];
+    final l$$__typename = json['__typename'];
+    return Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node(
+      id: (l$id as String),
+      name: (l$name as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String name;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$name, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other
+            is! Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node
+    on
+        Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node {
+  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
+    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node
+  >
+  get copyWith =>
+      CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
+  TRes
+> {
+  factory CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node(
+    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node
+    instance,
+    TRes Function(
+      Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node,
+    )
+    then,
+  ) = _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node;
+
+  factory CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node;
+
+  TRes call({String? id, String? name, String? $__typename});
+}
+
+class _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
+  TRes
+>
+    implements
+        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
+          TRes
+        > {
+  _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node
+  _instance;
+
+  final TRes Function(
+    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node,
+  )
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      name: name == _undefined || name == null
+          ? _instance.name
+          : (name as String),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
+  TRes
+>
+    implements
+        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
+          TRes
+        > {
+  _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({String? id, String? name, String? $__typename}) => _res;
 }
 
 class Variables$Mutation$DeleteRestaurant {

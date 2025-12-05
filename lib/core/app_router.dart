@@ -27,14 +27,14 @@ import 'package:catering_flutter/features/restaurant/screens/meal_plan_detail_sc
 import 'package:catering_flutter/features/order/screens/order_list_screen.dart';
 import 'package:catering_flutter/features/restaurant/screens/restaurant_deliveries_screen.dart';
 import 'package:catering_flutter/features/restaurant/screens/restaurant_orders_screen.dart';
-import 'package:catering_flutter/features/restaurant/screens/restaurant_categories_screen.dart';
 
 import 'package:catering_flutter/features/restaurant/screens/restaurant_drivers_screen.dart';
 import 'package:catering_flutter/features/order/screens/order_detail_screen.dart';
 import 'package:catering_flutter/features/user/screens/address_list_screen.dart';
 import 'package:catering_flutter/features/user/screens/address_form_screen.dart';
 import 'package:catering_flutter/features/user/services/address_service.dart';
-import 'package:catering_flutter/features/user/screens/customer_dashboard_screen.dart';
+import 'package:catering_flutter/features/user/screens/profile_screen.dart';
+import 'package:catering_flutter/features/user/screens/customer_home_screen.dart';
 import 'package:catering_flutter/features/order/services/order_service.dart';
 
 import 'package:catering_flutter/features/admin/screens/admin_restaurants_screen.dart';
@@ -66,6 +66,12 @@ class AppRouter {
         routes: [
           GoRoute(
             path: AppRoutes.home,
+            builder: (BuildContext context, GoRouterState state) {
+              return const CustomerHomeScreen();
+            },
+          ),
+          GoRoute(
+            path: AppRoutes.restaurants,
             builder: (BuildContext context, GoRouterState state) {
               return const RestaurantsScreen();
             },
@@ -232,16 +238,7 @@ class AppRouter {
               return RestaurantOrdersScreen(restaurantIri: restaurantIri);
             },
           ),
-          GoRoute(
-            path: AppRoutes.restaurantCategories,
-            builder: (context, state) {
-              final restaurantIri = IriHelper.buildIri(
-                'restaurants',
-                state.uri.queryParameters['restaurantId']!,
-              );
-              return RestaurantCategoriesScreen(restaurantIri: restaurantIri);
-            },
-          ),
+
           GoRoute(
             path: AppRoutes.restaurantDrivers,
             builder: (context, state) {
@@ -260,7 +257,7 @@ class AppRouter {
                 state.uri.queryParameters['id']!,
               );
               // Extract the order data if passed via extra
-              final orderData = state.extra as CreatedOrder?;
+              final orderData = state.extra as OrderDetails?;
               return OrderDetailScreen(
                 orderIri: orderIri,
                 initialOrderData: orderData,
@@ -283,9 +280,9 @@ class AppRouter {
             },
           ),
           GoRoute(
-            path: AppRoutes.customerDashboard,
+            path: AppRoutes.profile,
             builder: (BuildContext context, GoRouterState state) {
-              return const CustomerDashboardScreen();
+              return const ProfileScreen();
             },
           ),
 
@@ -323,6 +320,7 @@ class AppRouter {
 
       const publicRoutes = {
         AppRoutes.home,
+        AppRoutes.restaurants,
         AppRoutes.login,
         AppRoutes.register,
         AppRoutes.mealPlansByRestaurant,

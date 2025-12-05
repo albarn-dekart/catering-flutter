@@ -26,10 +26,10 @@ query GetMeal($id: ID!) {
     }
 }
 
-query GetMealsByRestaurant($restaurantId: ID!, $first: Int) {
+query GetMealsByRestaurant($restaurantId: ID!, $first: Int, $after: String) {
     restaurant(id: $restaurantId) {
         id
-        meals(first: $first) {
+        meals(first: $first, after: $after) {
             edges {
                 node {
                     id
@@ -38,6 +38,10 @@ query GetMealsByRestaurant($restaurantId: ID!, $first: Int) {
                     price
                     imageUrl
                 }
+            }
+            pageInfo {
+                hasNextPage
+                endCursor
             }
         }
     }
@@ -98,6 +102,9 @@ query GetMealPlan($id: ID!) {
         description
         price
         imageUrl
+        restaurant {
+            id
+        }
         meals {
             edges {
                 node {
@@ -116,10 +123,10 @@ query GetMealPlan($id: ID!) {
     }
 }
 
-query GetMealPlansByRestaurant($restaurantId: ID!, $first: Int) {
+query GetMealPlansByRestaurant($restaurantId: ID!, $first: Int, $after: String) {
     restaurant(id: $restaurantId) {
         id
-        mealPlans(first: $first) {
+        mealPlans(first: $first, after: $after) {
             edges {
                 node {
                     id
@@ -136,6 +143,10 @@ query GetMealPlansByRestaurant($restaurantId: ID!, $first: Int) {
                         }
                     }
                 }
+            }
+            pageInfo {
+                hasNextPage
+                endCursor
             }
         }
     }

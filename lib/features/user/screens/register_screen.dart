@@ -47,10 +47,7 @@ class _RegisterViewState extends State<RegisterView> {
       );
     } catch (e) {
       if (mounted) {
-        UIErrorHandler.handleError(
-          context,
-          e
-        );
+        UIErrorHandler.handleError(context, e);
       }
     } finally {
       if (mounted) {

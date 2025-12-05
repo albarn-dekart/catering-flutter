@@ -1,211 +1,113 @@
-query GetOrders($first: Int, $after: String) {
-    orders(first: $first, after: $after) {
-        edges {
-            node {
-                id
-                status
-                total
-                customer {
-                    id
-                    email
-                }
-                restaurant {
-                    id
-                    name
-                }
-                orderItems {
-                    edges {
-                        node {
-                            id
-                            quantity
-                            mealPlan {
-                                id
-                                name
-                                price
-                            }
-                        }
-                    }
-                }
-                deliveries {
-                    edges {
-                        node {
-                            id
-                            status
-                            deliveryDate
-                            driver {
-                                id
-                                email
-                            }
-                        }
-                    }
-                }
-            }
+fragment OrderSummary on Order {
+  id
+  status
+  total
+  customer {
+    id
+    email
+  }
+  restaurant {
+    id
+    name
+  }
+  orderItems {
+    edges {
+      node {
+        id
+        quantity
+        mealPlan {
+          id
+          name
+          price
         }
-        pageInfo {
-            hasNextPage
-            endCursor
-        }
+      }
     }
+  }
+  deliveries {
+    edges {
+      node {
+        id
+        status
+        deliveryDate
+        driver {
+          id
+          email
+        }
+      }
+    }
+  }
+}
+
+fragment OrderDetails on Order {
+  ...OrderSummary
+  paymentIntentId
+  deliveryFirstName
+  deliveryLastName
+  deliveryPhoneNumber
+  deliveryStreet
+  deliveryApartment
+  deliveryCity
+  deliveryZipCode
+}
+
+query GetOrders($first: Int, $after: String) {
+  orders(first: $first, after: $after) {
+    edges {
+      node {
+        ...OrderSummary
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+
+# For customers - includes their orders
+query GetUserOrders($id: ID!, $first: Int, $after: String) {
+  user(id: $id) {
+    id
+    orders(first: $first, after: $after) {
+      edges {
+        node {
+          ...OrderSummary
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
 }
 
 query GetOrder($id: ID!) {
-    order(id: $id) {
-        id
-        status
-        total
-        paymentIntentId
-        deliveryFirstName
-        deliveryLastName
-        deliveryPhoneNumber
-        deliveryStreet
-        deliveryApartment
-        deliveryCity
-        deliveryZipCode
-        customer {
-            id
-            email
-        }
-        restaurant {
-            id
-            name
-        }
-        orderItems {
-            edges {
-                node {
-                    id
-                    quantity
-                    mealPlan {
-                        id
-                        name
-                        price
-                    }
-                }
-            }
-        }
-        deliveries {
-            edges {
-                node {
-                    id
-                    status
-                    deliveryDate
-                    driver {
-                        id
-                        email
-                    }
-                }
-            }
-        }
-    }
+  order(id: $id) {
+    ...OrderDetails
+  }
 }
 
 mutation CreateOrder($input: createOrderInput!) {
-    createOrder(input: $input) {
-        order {
-            id
-            status
-            total
-            paymentIntentId
-            deliveryFirstName
-            deliveryLastName
-            deliveryPhoneNumber
-            deliveryStreet
-            deliveryApartment
-            deliveryCity
-            deliveryZipCode
-            customer {
-                id
-                email
-            }
-            restaurant {
-                id
-                name
-            }
-            orderItems {
-                edges {
-                    node {
-                        id
-                        quantity
-                        mealPlan {
-                            id
-                            name
-                            price
-                        }
-                    }
-                }
-            }
-            deliveries {
-                edges {
-                    node {
-                        id
-                        status
-                        deliveryDate
-                        driver {
-                            id
-                            email
-                        }
-                    }
-                }
-            }
-        }
+  createOrder(input: $input) {
+    order {
+      ...OrderDetails
     }
+  }
 }
 
 mutation UpdateOrder($input: updateOrderInput!) {
-    updateOrder(input: $input) {
-        order {
-            id
-            status
-            total
-            paymentIntentId
-            deliveryFirstName
-            deliveryLastName
-            deliveryPhoneNumber
-            deliveryStreet
-            deliveryApartment
-            deliveryCity
-            deliveryZipCode
-            customer {
-                id
-                email
-            }
-            restaurant {
-                id
-                name
-            }
-            orderItems {
-                edges {
-                    node {
-                        id
-                        quantity
-                        mealPlan {
-                            id
-                            name
-                            price
-                        }
-                    }
-                }
-            }
-            deliveries {
-                edges {
-                    node {
-                        id
-                        status
-                        deliveryDate
-                        driver {
-                            id
-                            email
-                        }
-                    }
-                }
-            }
-        }
+  updateOrder(input: $input) {
+    order {
+      ...OrderDetails
     }
+  }
 }
 
 mutation DeleteOrder($input: deleteOrderInput!) {
-    deleteOrder(input: $input) {
-        order {
-            id
-        }
+  deleteOrder(input: $input) {
+    order {
+      id
     }
+  }
 }

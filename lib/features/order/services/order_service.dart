@@ -6,9 +6,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:catering_flutter/core/api_exception.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 
-typedef Order = Query$GetOrders$orders$edges$node;
-typedef OrderDetails = Query$GetOrder$order;
-typedef CreatedOrder = Mutation$CreateOrder$createOrder$order;
+typedef Order = Fragment$OrderSummary;
+typedef OrderDetails = Fragment$OrderDetails;
 
 class OrderService extends ChangeNotifier {
   final GraphQLClient _client;
@@ -19,8 +18,8 @@ class OrderService extends ChangeNotifier {
   OrderDetails? _currentOrder;
   OrderDetails? get currentOrder => _currentOrder;
 
-  CreatedOrder? _createdOrder;
-  CreatedOrder? get createdOrder => _createdOrder;
+  OrderDetails? _createdOrder;
+  OrderDetails? get createdOrder => _createdOrder;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -30,9 +29,18 @@ class OrderService extends ChangeNotifier {
 
   bool get hasError => _errorMessage != null;
 
+  String? _endCursor;
+  bool _hasNextPage = false;
+  bool get hasNextPage => _hasNextPage;
+  bool _isFetchingMore = false;
+  bool get isFetchingMore => _isFetchingMore;
+
   OrderService(this._client);
 
+  String? _currentUserId;
+
   Future<void> fetchAllOrders() async {
+    _currentUserId = null;
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -40,7 +48,7 @@ class OrderService extends ChangeNotifier {
     try {
       final options = QueryOptions(
         document: documentNodeQueryGetOrders,
-        variables: Variables$Query$GetOrders(first: 100).toJson(),
+        variables: Variables$Query$GetOrders(first: 20).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
@@ -55,6 +63,8 @@ class OrderService extends ChangeNotifier {
             .map((e) => e?.node)
             .whereType<Order>()
             .toList();
+        _endCursor = data.orders?.pageInfo.endCursor;
+        _hasNextPage = data.orders?.pageInfo.hasNextPage ?? false;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -64,8 +74,111 @@ class OrderService extends ChangeNotifier {
     }
   }
 
-  Future<void> getMyOrders() async {
-    await fetchAllOrders();
+  Future<void> loadMoreOrders() async {
+    if (_isFetchingMore || !_hasNextPage || _endCursor == null) return;
+
+    _isFetchingMore = true;
+    notifyListeners();
+
+    try {
+      final QueryOptions options;
+      if (_currentUserId != null) {
+        options = QueryOptions(
+          document: documentNodeQueryGetUserOrders,
+          variables: Variables$Query$GetUserOrders(
+            id: _currentUserId!,
+            first: 20,
+            after: _endCursor,
+          ).toJson(),
+          fetchPolicy: FetchPolicy.networkOnly,
+        );
+      } else {
+        options = QueryOptions(
+          document: documentNodeQueryGetOrders,
+          variables: Variables$Query$GetOrders(
+            first: 20,
+            after: _endCursor,
+          ).toJson(),
+          fetchPolicy: FetchPolicy.networkOnly,
+        );
+      }
+
+      final result = await _client.query(options);
+
+      if (result.hasException) {
+        throw ApiException(result.exception.toString());
+      }
+
+      if (_currentUserId != null) {
+        final data = Query$GetUserOrders.fromJson(result.data!);
+        if (data.user?.orders?.edges != null) {
+          final newOrders = data.user!.orders!.edges!
+              .map((e) => e?.node)
+              .whereType<Order>()
+              .toList();
+          _orders.addAll(newOrders);
+          _endCursor = data.user?.orders?.pageInfo.endCursor;
+          _hasNextPage = data.user?.orders?.pageInfo.hasNextPage ?? false;
+        }
+      } else {
+        final data = Query$GetOrders.fromJson(result.data!);
+        if (data.orders?.edges != null) {
+          final newOrders = data.orders!.edges!
+              .map((e) => e?.node)
+              .whereType<Order>()
+              .toList();
+          _orders.addAll(newOrders);
+          _endCursor = data.orders?.pageInfo.endCursor;
+          _hasNextPage = data.orders?.pageInfo.hasNextPage ?? false;
+        }
+      }
+    } catch (e) {
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
+    } finally {
+      _isFetchingMore = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> getMyOrders(String userIri) async {
+    _currentUserId = userIri;
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final options = QueryOptions(
+        document: documentNodeQueryGetUserOrders,
+        variables: Variables$Query$GetUserOrders(
+          id: userIri,
+          first: 20,
+        ).toJson(),
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
+      final result = await _client.query(options);
+
+      if (result.hasException) {
+        throw ApiException(result.exception.toString());
+      }
+
+      final data = Query$GetUserOrders.fromJson(result.data!);
+      if (data.user?.orders?.edges != null) {
+        _orders = data.user!.orders!.edges!
+            .map((e) => e?.node)
+            .whereType<Order>()
+            .toList();
+        _endCursor = data.user?.orders?.pageInfo.endCursor;
+        _hasNextPage = data.user?.orders?.pageInfo.hasNextPage ?? false;
+      } else {
+        _orders = [];
+        _hasNextPage = false;
+      }
+    } catch (e) {
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 
   Future<void> getOrderById(String id) async {
@@ -157,74 +270,9 @@ class OrderService extends ChangeNotifier {
       ).createOrder?.order;
 
       if (_createdOrder != null) {
-        final newOrder = Query$GetOrders$orders$edges$node(
-          id: _createdOrder!.id,
-          status: _createdOrder!.status,
-          total: _createdOrder!.total,
-          customer: _createdOrder!.customer != null
-              ? Query$GetOrders$orders$edges$node$customer(
-                  id: _createdOrder!.customer!.id,
-                  email: _createdOrder!.customer!.email,
-                  $__typename: 'User',
-                )
-              : null,
-          restaurant: _createdOrder!.restaurant != null
-              ? Query$GetOrders$orders$edges$node$restaurant(
-                  id: _createdOrder!.restaurant!.id,
-                  name: _createdOrder!.restaurant!.name,
-                  $__typename: 'Restaurant',
-                )
-              : null,
-          orderItems: _createdOrder!.orderItems != null
-              ? Query$GetOrders$orders$edges$node$orderItems(
-                  edges: _createdOrder!.orderItems!.edges?.map((e) {
-                    if (e?.node == null) return null;
-                    return Query$GetOrders$orders$edges$node$orderItems$edges(
-                      node: Query$GetOrders$orders$edges$node$orderItems$edges$node(
-                        id: e!.node!.id,
-                        quantity: e.node!.quantity,
-                        mealPlan:
-                            Query$GetOrders$orders$edges$node$orderItems$edges$node$mealPlan(
-                              id: e.node!.mealPlan.id,
-                              name: e.node!.mealPlan.name,
-                              price: e.node!.mealPlan.price,
-                              $__typename: 'MealPlan',
-                            ),
-                        $__typename: 'OrderItem',
-                      ),
-                      $__typename: 'OrderItemEdge',
-                    );
-                  }).toList(),
-                  $__typename: 'OrderItemConnection',
-                )
-              : null,
-          deliveries: _createdOrder!.deliveries != null
-              ? Query$GetOrders$orders$edges$node$deliveries(
-                  edges: _createdOrder!.deliveries!.edges?.map((e) {
-                    if (e?.node == null) return null;
-                    return Query$GetOrders$orders$edges$node$deliveries$edges(
-                      node: Query$GetOrders$orders$edges$node$deliveries$edges$node(
-                        id: e!.node!.id,
-                        status: e.node!.status,
-                        deliveryDate: e.node!.deliveryDate,
-                        driver: e.node!.driver != null
-                            ? Query$GetOrders$orders$edges$node$deliveries$edges$node$driver(
-                                id: e.node!.driver!.id,
-                                email: e.node!.driver!.email,
-                                $__typename: 'User',
-                              )
-                            : null,
-                        $__typename: 'Delivery',
-                      ),
-                      $__typename: 'DeliveryEdge',
-                    );
-                  }).toList(),
-                  $__typename: 'DeliveryConnection',
-                )
-              : null,
-          $__typename: 'Order',
-        );
-        _orders.add(newOrder);
+        // Since Fragment$OrderDetails (CreatedOrder) implements Fragment$OrderSummary (Order),
+        // we can add it directly to the list.
+        _orders.add(_createdOrder!);
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -267,16 +315,8 @@ class OrderService extends ChangeNotifier {
         final index = _orders.indexWhere((o) => o.id == updatedOrder.id);
         if (index != -1) {
           // Update the status in the existing order
-          _orders[index] = Query$GetOrders$orders$edges$node(
-            id: _orders[index].id,
-            status: updatedOrder.status,
-            total: _orders[index].total,
-            customer: _orders[index].customer,
-            restaurant: _orders[index].restaurant,
-            orderItems: _orders[index].orderItems,
-            deliveries: _orders[index].deliveries,
-            $__typename: _orders[index].$__typename,
-          );
+          // Since updatedOrder is OrderDetails which implements OrderSummary, we can just replace it
+          _orders[index] = updatedOrder;
         }
       }
     } catch (e) {

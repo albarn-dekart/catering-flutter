@@ -5,10 +5,14 @@ import 'package:catering_flutter/core/app_routes.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
 import 'package:catering_flutter/features/restaurant/services/restaurant_service.dart';
 import 'package:catering_flutter/features/user/services/user_service.dart';
+import 'package:catering_flutter/features/admin/services/statistics_service.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/widgets/responsive_grid.dart';
 import 'package:catering_flutter/core/widgets/dashboard_card.dart';
+import 'package:catering_flutter/core/widgets/charts/revenue_line_chart.dart';
+import 'package:catering_flutter/core/widgets/charts/horizontal_bar_chart.dart';
+import 'package:catering_flutter/core/services/export_service.dart';
 
 class RestaurantDashboardScreen extends StatefulWidget {
   final String? restaurantIri;
@@ -21,6 +25,8 @@ class RestaurantDashboardScreen extends StatefulWidget {
 }
 
 class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
+  bool _isExporting = false;
+
   @override
   void initState() {
     super.initState();
@@ -29,8 +35,21 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
         await context.read<RestaurantService>().getRestaurantById(
           widget.restaurantIri!,
         );
+        if (!mounted) return;
+        // Fetch restaurant statistics
+        await context.read<StatisticsService>().fetchRestaurantStatistics(
+          widget.restaurantIri!,
+        );
       } else {
         await context.read<UserService>().fetchCurrentRestaurant();
+        if (!mounted) return;
+        // Fetch statistics for current restaurant
+        final userService = context.read<UserService>();
+        if (userService.currentUser?.restaurant != null) {
+          await context.read<StatisticsService>().fetchRestaurantStatistics(
+            userService.currentUser!.restaurant!.id,
+          );
+        }
       }
 
       if (!mounted) return;
@@ -88,9 +107,9 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                 Tab(
                   child: Row(
                     children: [
-                      Icon(Icons.dashboard),
+                      Icon(Icons.bar_chart),
                       SizedBox(width: 8),
-                      Text('Main Actions'),
+                      Text('Statistics'),
                     ],
                   ),
                 ),
@@ -150,7 +169,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
 
             return TabBarView(
               children: [
-                _buildMainActionsTab(context, restaurant),
+                _buildStatisticsTab(context, restaurant),
                 _buildOperationsTab(context, restaurant),
                 _buildMenuTab(context, restaurant),
               ],
@@ -161,44 +180,73 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
     );
   }
 
-  Widget _buildMainActionsTab(BuildContext context, dynamic restaurant) {
-    return ResponsiveGrid(
-      children: [
-        DashboardCard(
-          title: 'Analytics',
-          icon: Icons.bar_chart,
-          color: Colors.purple,
-          onTap: () {
-            UIErrorHandler.showSnackBar(
-              context,
-              'Analytics coming soon!',
-              isError: false,
-            );
-          },
-        ),
-        DashboardCard(
-          title: 'Edit Details',
-          icon: Icons.edit_note,
-          color: Colors.blue,
-          onTap: () => context.push(
-            Uri(
-              path: AppRoutes.restaurantForm,
-              queryParameters: {'id': IriHelper.getId(restaurant.id)},
-            ).toString(),
-          ),
-        ),
-        DashboardCard(
-          title: 'Restaurant Categories',
-          icon: Icons.restaurant,
-          color: Colors.teal,
-          onTap: () => context.push(
-            Uri(
-              path: AppRoutes.restaurantCategories,
-              queryParameters: {'restaurantId': IriHelper.getId(restaurant.id)},
-            ).toString(),
-          ),
-        ),
-      ],
+  Widget _buildStatisticsTab(BuildContext context, dynamic restaurant) {
+    final statisticsService = context.watch<StatisticsService>();
+    final stats = statisticsService.restaurantStatistics;
+
+    // Build the complete layout with charts
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (stats != null) ...[
+            ResponsiveGrid(
+              childAspectRatio: 1.3,
+              children: [
+                DashboardCard(
+                  title: 'Total Revenue',
+                  subtitle: '${stats.totalRevenue.toStringAsFixed(2)} PLN',
+                  icon: Icons.euro,
+                  color: Colors.green,
+                  onTap: () {},
+                ),
+                DashboardCard(
+                  title: 'Total Orders',
+                  subtitle: '${stats.totalOrders} orders',
+                  icon: Icons.receipt_long,
+                  color: Colors.blue,
+                  onTap: () {},
+                ),
+                DashboardCard(
+                  title: 'Active Orders',
+                  subtitle: '${stats.activeOrders} active',
+                  icon: Icons.pending_actions,
+                  color: Colors.orange,
+                  onTap: () {},
+                ),
+                DashboardCard(
+                  title: 'Delivery Success',
+                  subtitle: '${stats.deliverySuccessRate.toStringAsFixed(1)}%',
+                  icon: Icons.check_circle,
+                  color: Colors.teal,
+                  onTap: () {},
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            RevenueLineChart(
+              revenueTimeSeries: stats.revenueTimeSeries,
+              title: 'Restaurant Revenue (Last 30 Days)',
+            ),
+            const SizedBox(height: 16),
+            if (stats.popularMealPlans.isNotEmpty)
+              HorizontalBarChartWidget(
+                data: stats.popularMealPlans
+                    .map(
+                      (mp) => MapEntry(
+                        mp['name'] as String,
+                        mp['orderCount'] as int,
+                      ),
+                    )
+                    .toList(),
+                title: 'Popular Meal Plans',
+                valueLabel: 'Orders',
+                barColor: Colors.pink,
+              ),
+          ],
+        ],
+      ),
     );
   }
 
@@ -238,6 +286,12 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
             ).toString(),
           ),
         ),
+        DashboardCard(
+          title: 'Export Statistics',
+          icon: Icons.download,
+          color: Colors.indigo,
+          onTap: _isExporting ? () {} : _exportStatistics,
+        ),
       ],
     );
   }
@@ -245,6 +299,17 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
   Widget _buildMenuTab(BuildContext context, dynamic restaurant) {
     return ResponsiveGrid(
       children: [
+        DashboardCard(
+          title: 'Restaurant Details',
+          icon: Icons.edit_note,
+          color: Colors.blue,
+          onTap: () => context.push(
+            Uri(
+              path: AppRoutes.restaurantForm,
+              queryParameters: {'id': IriHelper.getId(restaurant.id)},
+            ).toString(),
+          ),
+        ),
         DashboardCard(
           title: 'Meal Plans',
           icon: Icons.restaurant_menu,
@@ -269,5 +334,38 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
         ),
       ],
     );
+  }
+
+  Future<void> _exportStatistics() async {
+    setState(() {
+      _isExporting = true;
+    });
+
+    try {
+      final exportService = context.read<ExportService>();
+
+      await exportService.exportStatisticsToCsv();
+
+      if (!mounted) return;
+
+      UIErrorHandler.showSnackBar(
+        context,
+        'Statistics exported successfully',
+        isError: false,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      UIErrorHandler.showSnackBar(
+        context,
+        'Failed to export statistics: ${e.toString()}',
+        isError: true,
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isExporting = false;
+        });
+      }
+    }
   }
 }

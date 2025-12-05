@@ -177,6 +177,7 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
                   await context.read<UserService>().createDriver(
                     emailController.text,
                     passwordController.text,
+                    restaurantIri: widget.restaurantIri,
                   );
                   if (!context.mounted) return;
                   UIErrorHandler.showSnackBar(

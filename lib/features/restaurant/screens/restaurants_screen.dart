@@ -1,6 +1,6 @@
 import 'package:catering_flutter/core/app_routes.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
-import 'package:catering_flutter/core/utils/image_helper.dart';
+import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -18,10 +18,12 @@ class RestaurantsScreen extends StatefulWidget {
 
 class _RestaurantsScreenState extends State<RestaurantsScreen> {
   String? _selectedCategory;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await context.read<RestaurantService>().fetchAllRestaurants();
       if (!mounted) return;
@@ -34,6 +36,24 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
         );
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      final service = context.read<RestaurantService>();
+      if (!service.isLoading &&
+          !service.isFetchingMore &&
+          service.hasNextPage) {
+        service.loadMoreRestaurants();
+      }
+    }
   }
 
   @override
@@ -77,9 +97,20 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                             }).toList();
 
                       return ResponsiveGridBuilder(
-                        itemCount: filteredRestaurants.length,
+                        controller: _scrollController,
+                        itemCount:
+                            filteredRestaurants.length +
+                            (restaurantService.isFetchingMore ? 1 : 0),
                         childAspectRatio: 0.7,
                         itemBuilder: (context, index) {
+                          if (index >= filteredRestaurants.length) {
+                            return const Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          }
                           final restaurant = filteredRestaurants[index];
                           final categories =
                               restaurant.restaurantCategories?.edges
@@ -118,28 +149,9 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
                                     child:
                                         restaurant.imageUrl != null &&
                                             restaurant.imageUrl!.isNotEmpty
-                                        ? Image.network(
-                                            ImageHelper.getFullImageUrl(
-                                              restaurant.imageUrl!,
-                                            )!,
+                                        ? CustomCachedImage(
+                                            imageUrl: restaurant.imageUrl,
                                             fit: BoxFit.cover,
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
-                                                  return Container(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .surfaceContainerHighest,
-                                                    child: Center(
-                                                      child: Icon(
-                                                        Icons.restaurant,
-                                                        size: 48,
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .onSurfaceVariant,
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
                                           )
                                         : Container(
                                             color: Theme.of(context)

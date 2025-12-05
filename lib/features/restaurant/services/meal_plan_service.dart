@@ -2,18 +2,18 @@ import 'package:catering_flutter/graphql/meals.graphql.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:http/http.dart' as http;
 import 'package:catering_flutter/core/api_exception.dart';
-import 'package:catering_flutter/core/api_config.dart';
-import 'package:catering_flutter/core/token_storage_service.dart';
+
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
+import 'package:catering_flutter/core/api_client.dart';
 
 typedef MealPlan = Query$GetMealPlans$mealPlans$edges$node;
 typedef MealPlanDetails = Query$GetMealPlan$mealPlan;
 
 class MealPlanService extends ChangeNotifier {
   final GraphQLClient _client;
-  final TokenStorageService _tokenStorage;
+
+  final ApiClient _apiClient;
 
   List<MealPlan> _mealPlans = [];
   List<MealPlan> get mealPlans => _mealPlans;
@@ -29,7 +29,13 @@ class MealPlanService extends ChangeNotifier {
 
   bool get hasError => _errorMessage != null;
 
-  MealPlanService(this._client, this._tokenStorage);
+  String? _endCursor;
+  bool _hasNextPage = false;
+  bool get hasNextPage => _hasNextPage;
+  bool _isFetchingMore = false;
+  bool get isFetchingMore => _isFetchingMore;
+
+  MealPlanService(this._client, this._apiClient);
 
   Future<void> fetchAllMealPlans() async {
     _isLoading = true;
@@ -73,7 +79,7 @@ class MealPlanService extends ChangeNotifier {
         document: documentNodeQueryGetMealPlansByRestaurant,
         variables: Variables$Query$GetMealPlansByRestaurant(
           restaurantId: restaurantIri,
-          first: 100,
+          first: 20,
         ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
@@ -120,11 +126,86 @@ class MealPlanService extends ChangeNotifier {
               );
             })
             .toList();
+        _endCursor = data.restaurant?.mealPlans?.pageInfo.endCursor;
+        _hasNextPage =
+            data.restaurant?.mealPlans?.pageInfo.hasNextPage ?? false;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
       _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> loadMoreMealPlans(String restaurantIri) async {
+    if (_isFetchingMore || !_hasNextPage || _endCursor == null) return;
+
+    _isFetchingMore = true;
+    notifyListeners();
+
+    try {
+      final options = QueryOptions(
+        document: documentNodeQueryGetMealPlansByRestaurant,
+        variables: Variables$Query$GetMealPlansByRestaurant(
+          restaurantId: restaurantIri,
+          first: 20,
+          after: _endCursor,
+        ).toJson(),
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
+      final result = await _client.query(options);
+
+      if (result.hasException) {
+        throw ApiException(result.exception.toString());
+      }
+
+      final data = Query$GetMealPlansByRestaurant.fromJson(result.data!);
+
+      if (data.restaurant?.mealPlans?.edges != null) {
+        final newMealPlans = data.restaurant!.mealPlans!.edges!
+            .map((e) => e?.node)
+            .whereType<
+              Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node
+            >()
+            .map((e) {
+              final dietCategoriesNode = e.dietCategories;
+              return MealPlan(
+                id: e.id,
+                name: e.name,
+                description: e.description,
+                price: e.price,
+                imageUrl: e.imageUrl,
+                dietCategories: dietCategoriesNode != null
+                    ? Query$GetMealPlans$mealPlans$edges$node$dietCategories(
+                        edges: dietCategoriesNode.edges?.map((edge) {
+                          if (edge?.node == null) return null;
+                          return Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges(
+                            node:
+                                Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node(
+                                  id: edge!.node!.id,
+                                  name: edge.node!.name,
+                                  $__typename: edge.node!.$__typename,
+                                ),
+                            $__typename: edge.$__typename,
+                          );
+                        }).toList(),
+                        $__typename: dietCategoriesNode.$__typename,
+                      )
+                    : null,
+                $__typename: e.$__typename,
+              );
+            })
+            .toList();
+        _mealPlans.addAll(newMealPlans);
+        _endCursor = data.restaurant?.mealPlans?.pageInfo.endCursor;
+        _hasNextPage =
+            data.restaurant?.mealPlans?.pageInfo.hasNextPage ?? false;
+      }
+    } catch (e) {
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
+    } finally {
+      _isFetchingMore = false;
       notifyListeners();
     }
   }
@@ -282,24 +363,11 @@ class MealPlanService extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final baseUrl = ApiConfig.baseUrl;
-
-      final uri = Uri.parse(
-        '${baseUrl.replaceFirst('/api', '')}$mealPlanIri/image',
+      final response = await _apiClient.postMultipart(
+        '$mealPlanIri/image',
+        imageBytes,
+        filename,
       );
-      final request = http.MultipartRequest('POST', uri);
-
-      final token = await _tokenStorage.getToken();
-      if (token != null) {
-        request.headers['Authorization'] = 'Bearer $token';
-      }
-
-      request.files.add(
-        http.MultipartFile.fromBytes('file', imageBytes, filename: filename),
-      );
-
-      final streamedResponse = await request.send();
-      final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
         await getMealPlanById(mealPlanIri);

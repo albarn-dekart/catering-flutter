@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'package:catering_flutter/core/api_config.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
-import 'package:http/http.dart' as http;
 import 'package:catering_flutter/graphql/deliveries.graphql.dart';
 import 'package:catering_flutter/graphql/restaurants.graphql.dart';
 import 'package:flutter/foundation.dart';
@@ -9,8 +7,9 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:catering_flutter/graphql/users.graphql.dart';
 import 'package:catering_flutter/core/api_exception.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
+import 'package:catering_flutter/core/api_client.dart';
 
-import 'package:catering_flutter/core/token_storage_service.dart';
+import 'package:catering_flutter/core/auth_service.dart';
 
 typedef UserNode = Query$GetUsers$users$edges$node;
 typedef RestaurantUserNode =
@@ -19,7 +18,8 @@ typedef CurrentUserData = Query$GetUser$user;
 
 class UserService extends ChangeNotifier {
   final GraphQLClient _client;
-  final TokenStorageService _tokenStorage;
+  final AuthService _authService;
+  final ApiClient _apiClient;
 
   List<UserNode> _users = [];
 
@@ -40,7 +40,7 @@ class UserService extends ChangeNotifier {
 
   bool get hasError => _errorMessage != null;
 
-  UserService(this._client, this._tokenStorage);
+  UserService(this._client, this._authService, this._apiClient);
 
   Future<void> fetchAllUsers() async {
     _isLoading = true;
@@ -108,7 +108,7 @@ class UserService extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final userIri = await _tokenStorage.getUserIri();
+      final userIri = await _authService.getUserIriFromStorage();
       if (userIri == null) {
         throw ApiException('User ID not found in storage');
       }
@@ -141,7 +141,7 @@ class UserService extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final userIri = await _tokenStorage.getUserIri();
+      final userIri = await _authService.getUserIriFromStorage();
       if (userIri == null) {
         throw ApiException('User ID not found in storage');
       }
@@ -173,7 +173,7 @@ class UserService extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final userIri = await _tokenStorage.getUserIri();
+      final userIri = await _authService.getUserIriFromStorage();
       if (userIri == null) {
         throw ApiException('User ID not found in storage');
       }
@@ -385,21 +385,22 @@ class UserService extends ChangeNotifier {
     }
   }
 
-  Future<void> createDriver(String email, String password) async {
+  Future<void> createDriver(
+    String email,
+    String password, {
+    String? restaurantIri,
+  }) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      final token = await _tokenStorage.getToken();
-      final response = await http.post(
-        Uri.parse('${ApiConfig.baseUrl}/invite-driver'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: jsonEncode({'email': email, 'plainPassword': password}),
-      );
+      final body = <String, dynamic>{'email': email, 'plainPassword': password};
+      if (restaurantIri != null) {
+        body['restaurantId'] = IriHelper.getId(restaurantIri);
+      }
+
+      final response = await _apiClient.post('/api/invite-driver', body: body);
 
       if (response.statusCode == 201) {
         final data = jsonDecode(response.body);

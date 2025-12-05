@@ -47,6 +47,24 @@ extension OrderStatusUI on Enum$OrderStatus {
         return colorScheme.onSurface;
     }
   }
+
+  /// Returns solid colors for charts (e.g., pie charts)
+  Color get chartColor {
+    switch (this) {
+      case Enum$OrderStatus.Unpaid:
+        return Colors.grey;
+      case Enum$OrderStatus.Paid:
+        return Colors.blue;
+      case Enum$OrderStatus.Active:
+        return Colors.orange;
+      case Enum$OrderStatus.Completed:
+        return Colors.green;
+      case Enum$OrderStatus.Cancelled:
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
+  }
 }
 
 // Extension for Delivery Status (Reuse the same logic pattern)

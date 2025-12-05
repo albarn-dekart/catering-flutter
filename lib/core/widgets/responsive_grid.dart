@@ -26,6 +26,8 @@ class ResponsiveGrid extends StatelessWidget {
             ? 2
             : 1;
         return GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           padding: padding,
           crossAxisCount: crossAxisCount,
           mainAxisSpacing: mainAxisSpacing,
@@ -46,6 +48,8 @@ class ResponsiveGridBuilder extends StatelessWidget {
   final double crossAxisSpacing;
   final EdgeInsetsGeometry padding;
 
+  final ScrollController? controller;
+
   const ResponsiveGridBuilder({
     super.key,
     required this.itemCount,
@@ -54,6 +58,7 @@ class ResponsiveGridBuilder extends StatelessWidget {
     this.mainAxisSpacing = 16,
     this.crossAxisSpacing = 16,
     this.padding = const EdgeInsets.all(24),
+    this.controller,
   });
 
   @override
@@ -66,6 +71,11 @@ class ResponsiveGridBuilder extends StatelessWidget {
             ? 2
             : 1;
         return GridView.builder(
+          shrinkWrap: true,
+          physics: controller == null
+              ? const NeverScrollableScrollPhysics()
+              : null,
+          controller: controller,
           padding: padding,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: crossAxisCount,

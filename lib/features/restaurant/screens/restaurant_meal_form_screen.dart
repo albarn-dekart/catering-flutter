@@ -5,17 +5,21 @@ import 'package:provider/provider.dart';
 import 'package:catering_flutter/features/restaurant/services/meal_service.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
-
-import 'package:catering_flutter/core/utils/image_helper.dart';
+import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 
 class RestaurantMealFormScreen extends StatefulWidget {
   final String? mealId;
   final String restaurantIri;
 
-  const RestaurantMealFormScreen({super.key, this.mealId, required this.restaurantIri});
+  const RestaurantMealFormScreen({
+    super.key,
+    this.mealId,
+    required this.restaurantIri,
+  });
 
   @override
-  State<RestaurantMealFormScreen> createState() => _RestaurantMealFormScreenState();
+  State<RestaurantMealFormScreen> createState() =>
+      _RestaurantMealFormScreenState();
 }
 
 class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
@@ -207,8 +211,8 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
                     if (meal?.imageUrl != null && widget.mealId != null)
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          ImageHelper.getFullImageUrl(meal!.imageUrl!)!,
+                        child: CustomCachedImage(
+                          imageUrl: meal!.imageUrl,
                           height: 200,
                           width: double.infinity,
                           fit: BoxFit.cover,

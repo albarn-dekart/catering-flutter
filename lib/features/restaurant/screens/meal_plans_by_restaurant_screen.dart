@@ -3,13 +3,11 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:catering_flutter/core/app_routes.dart';
 import 'package:catering_flutter/features/restaurant/services/meal_plan_service.dart';
-import 'package:catering_flutter/features/order/services/cart_service.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
-import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
-import 'package:catering_flutter/core/auth_service.dart';
-import 'package:catering_flutter/core/utils/image_helper.dart';
+
 import 'package:catering_flutter/core/widgets/responsive_grid.dart';
+import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 
 class MealPlansByRestaurant extends StatefulWidget {
   final String restaurantIri;
@@ -22,10 +20,12 @@ class MealPlansByRestaurant extends StatefulWidget {
 
 class _MealPlansByRestaurantState extends State<MealPlansByRestaurant> {
   String? _selectedCategory;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<MealPlanService>().fetchMealPlansByRestaurant(
         widget.restaurantIri,
@@ -34,11 +34,29 @@ class _MealPlansByRestaurantState extends State<MealPlansByRestaurant> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      final service = context.read<MealPlanService>();
+      if (!service.isLoading &&
+          !service.isFetchingMore &&
+          service.hasNextPage) {
+        service.loadMoreMealPlans(widget.restaurantIri);
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: 'Meal Plans',
-      child: Consumer2<MealPlanService, CartService>(
-        builder: (context, mealPlanService, cartService, child) {
+      child: Consumer<MealPlanService>(
+        builder: (context, mealPlanService, child) {
           if (mealPlanService.isLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (mealPlanService.hasError) {
@@ -77,9 +95,20 @@ class _MealPlansByRestaurantState extends State<MealPlansByRestaurant> {
                 _buildCategoryFilters(uniqueCategories),
                 Expanded(
                   child: ResponsiveGridBuilder(
-                    itemCount: filteredMealPlans.length,
-                    childAspectRatio: 0.85,
+                    controller: _scrollController,
+                    itemCount:
+                        filteredMealPlans.length +
+                        (mealPlanService.isFetchingMore ? 1 : 0),
+                    childAspectRatio: 0.5,
                     itemBuilder: (context, index) {
+                      if (index >= filteredMealPlans.length) {
+                        return const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      }
                       final mealPlan = filteredMealPlans[index];
                       return Card(
                         elevation: 2,
@@ -94,6 +123,7 @@ class _MealPlansByRestaurantState extends State<MealPlansByRestaurant> {
                                 path: AppRoutes.mealPlanDetails,
                                 queryParameters: {
                                   'id': IriHelper.getId(mealPlan.id),
+                                  'restaurantIri': widget.restaurantIri,
                                 },
                               ).toString(),
                             );
@@ -108,27 +138,9 @@ class _MealPlansByRestaurantState extends State<MealPlansByRestaurant> {
                                 child:
                                     mealPlan.imageUrl != null &&
                                         mealPlan.imageUrl!.isNotEmpty
-                                    ? Image.network(
-                                        ImageHelper.getFullImageUrl(
-                                          mealPlan.imageUrl!,
-                                        )!,
+                                    ? CustomCachedImage(
+                                        imageUrl: mealPlan.imageUrl,
                                         fit: BoxFit.cover,
-                                        errorBuilder:
-                                            (context, error, stackTrace) =>
-                                                Container(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .surfaceContainerHighest,
-                                                  child: Center(
-                                                    child: Icon(
-                                                      Icons.fastfood,
-                                                      size: 48,
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .onSurfaceVariant,
-                                                    ),
-                                                  ),
-                                                ),
                                       )
                                     : Container(
                                         color: Theme.of(
@@ -243,32 +255,6 @@ class _MealPlansByRestaurantState extends State<MealPlansByRestaurant> {
                                             .toList(),
                                       ),
                                     ],
-                                    const SizedBox(height: 16),
-                                    if (context.watch<AuthService>().hasRole(
-                                      "ROLE_CUSTOMER",
-                                    ))
-                                      SizedBox(
-                                        width: double.infinity,
-                                        child: FilledButton.icon(
-                                          onPressed: () {
-                                            // Add the meal plan directly to cart
-                                            cartService.addToCart(
-                                              mealPlan,
-                                              widget.restaurantIri,
-                                              quantity: 1,
-                                            );
-                                            UIErrorHandler.showSnackBar(
-                                              context,
-                                              '${mealPlan.name} added to cart!',
-                                              isError: false,
-                                            );
-                                          },
-                                          icon: const Icon(
-                                            Icons.add_shopping_cart,
-                                          ),
-                                          label: const Text('Add to Cart'),
-                                        ),
-                                      ),
                                   ],
                                 ),
                               ),

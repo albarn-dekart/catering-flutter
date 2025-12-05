@@ -5,7 +5,8 @@ class AppRoutes {
   static const String changePassword = '/change-password';
 
   //Customer
-  static const String customerDashboard = '/customer-dashboard';
+  static const String profile = '/profile';
+  static const String restaurants = '/restaurants';
   static const String mealPlansByRestaurant = '/meal-plans';
   static const String mealPlanDetails = '/meal-plan';
   static const String cart = '/cart';
@@ -21,12 +22,13 @@ class AppRoutes {
   static const String adminRestaurants = '/admin/restaurants';
   static const String adminRestaurantCreate = '/admin/restaurant/create';
   static const String adminUsers = '/admin/users';
-  static const String adminRestaurantCategories = '/admin/categories/restaurant';
+  static const String adminRestaurantCategories =
+      '/admin/categories/restaurant';
   static const String adminDietCategories = '/admin/categories/diet';
 
   //Restaurant
   static const String restaurantDashboard = '/restaurant/dashboard';
-  static const String restaurantCategories = '/restaurant/categories';
+
   static const String restaurantOrders = '/restaurant/orders';
   static const String restaurantDeliveries = '/restaurant/deliveries';
   static const String restaurantDrivers = '/restaurant/drivers';

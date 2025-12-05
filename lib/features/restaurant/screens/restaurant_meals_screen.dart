@@ -1,5 +1,5 @@
 import 'package:catering_flutter/core/utils/iri_helper.dart';
-import 'package:catering_flutter/core/utils/image_helper.dart';
+import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +33,8 @@ class _RestaurantMealsScreenState extends State<RestaurantMealsScreen> {
         return SearchableListScreen<Meal>(
           title: 'Manage Meals',
           items: mealService.meals,
-          isLoading: mealService.isLoading,
+          isLoading: mealService.isLoading || mealService.isFetchingMore,
+          onLoadMore: () => mealService.loadMoreMeals(widget.restaurantIri),
           searchHint: 'Search meals...',
           filter: (meal, query) =>
               meal.name.toLowerCase().contains(query) ||
@@ -76,15 +77,9 @@ class _RestaurantMealsScreenState extends State<RestaurantMealsScreen> {
                   child: meal.imageUrl != null && meal.imageUrl!.isNotEmpty
                       ? ClipRRect(
                           borderRadius: BorderRadius.circular(12),
-                          child: Image.network(
-                            ImageHelper.getFullImageUrl(meal.imageUrl!)!,
+                          child: CustomCachedImage(
+                            imageUrl: meal.imageUrl,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => Icon(
-                              Icons.fastfood,
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onSurfaceVariant,
-                            ),
                           ),
                         )
                       : Icon(

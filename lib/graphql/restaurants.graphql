@@ -87,6 +87,15 @@ mutation CreateRestaurant($input: createRestaurantInput!) {
         restaurant {
             id
             name
+            description
+            restaurantCategories {
+                edges {
+                    node {
+                        id
+                        name
+                    }
+                }
+            }
         }
     }
 }
@@ -97,6 +106,14 @@ mutation UpdateRestaurant($input: updateRestaurantInput!) {
             id
             name
             description
+            restaurantCategories {
+                edges {
+                    node {
+                        id
+                        name
+                    }
+                }
+            }
         }
     }
 }

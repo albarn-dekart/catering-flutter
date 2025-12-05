@@ -87,7 +87,7 @@ class CustomScaffold extends StatelessWidget {
                   } else if (authService.hasRole("ROLE_DRIVER")) {
                     innerContext.push(AppRoutes.driverDashboard);
                   } else if (authService.hasRole("ROLE_CUSTOMER")) {
-                    innerContext.push(AppRoutes.customerDashboard);
+                    innerContext.push(AppRoutes.profile);
                   }
                 } else if (value == 'logout') {
                   authService.logout();

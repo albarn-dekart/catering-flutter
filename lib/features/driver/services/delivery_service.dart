@@ -24,6 +24,12 @@ class DeliveryService extends ChangeNotifier {
 
   bool get hasError => _errorMessage != null;
 
+  String? _endCursor;
+  bool _hasNextPage = false;
+  bool get hasNextPage => _hasNextPage;
+  bool _isFetchingMore = false;
+  bool get isFetchingMore => _isFetchingMore;
+
   DeliveryService(this._client);
 
   Future<void> fetchAllDeliveries() async {
@@ -34,7 +40,7 @@ class DeliveryService extends ChangeNotifier {
     try {
       final options = QueryOptions(
         document: documentNodeQueryGetDeliveries,
-        variables: Variables$Query$GetDeliveries(first: 100).toJson(),
+        variables: Variables$Query$GetDeliveries(first: 20).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
@@ -94,7 +100,7 @@ class DeliveryService extends ChangeNotifier {
         document: documentNodeQueryGetDeliveriesByRestaurant,
         variables: Variables$Query$GetDeliveriesByRestaurant(
           restaurantId: restaurantIri,
-          first: 100,
+          first: 20,
         ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
@@ -147,6 +153,104 @@ class DeliveryService extends ChangeNotifier {
       _errorMessage = e.toString();
     } finally {
       _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> loadMoreDeliveries({String? restaurantIri}) async {
+    if (_isFetchingMore || !_hasNextPage || _endCursor == null) return;
+
+    _isFetchingMore = true;
+    notifyListeners();
+
+    try {
+      final QueryOptions options;
+      if (restaurantIri != null) {
+        options = QueryOptions(
+          document: documentNodeQueryGetDeliveriesByRestaurant,
+          variables: Variables$Query$GetDeliveriesByRestaurant(
+            restaurantId: restaurantIri,
+            first: 20,
+            after: _endCursor,
+          ).toJson(),
+          fetchPolicy: FetchPolicy.networkOnly,
+        );
+      } else {
+        options = QueryOptions(
+          document: documentNodeQueryGetDeliveries,
+          variables: Variables$Query$GetDeliveries(
+            first: 20,
+            after: _endCursor,
+          ).toJson(),
+          fetchPolicy: FetchPolicy.networkOnly,
+        );
+      }
+
+      final result = await _client.query(options);
+
+      if (result.hasException) {
+        throw ApiException(result.exception.toString());
+      }
+
+      if (restaurantIri != null) {
+        final data = Query$GetDeliveriesByRestaurant.fromJson(result.data!);
+        if (data.restaurant?.deliveries?.edges != null) {
+          final newDeliveries = data.restaurant!.deliveries!.edges!
+              .map((e) => e?.node)
+              .whereType<
+                Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node
+              >()
+              .map((e) {
+                final orderNode = e.order;
+                final driverNode = e.driver;
+                return Delivery(
+                  id: e.id,
+                  status: e.status,
+                  deliveryDate: e.deliveryDate,
+                  order: Query$GetDeliveries$deliveries$edges$node$order(
+                    id: orderNode?.id ?? '',
+                    total: orderNode?.total ?? 0,
+                    customer: orderNode?.customer != null
+                        ? Query$GetDeliveries$deliveries$edges$node$order$customer(
+                            id: orderNode!.customer!.id,
+                            email: orderNode.customer!.email,
+                            $__typename: orderNode.customer!.$__typename,
+                          )
+                        : null,
+                    $__typename: orderNode?.$__typename ?? 'Order',
+                  ),
+                  driver: driverNode != null
+                      ? Query$GetDeliveries$deliveries$edges$node$driver(
+                          id: driverNode.id,
+                          email: driverNode.email,
+                          $__typename: driverNode.$__typename,
+                        )
+                      : null,
+                  $__typename: e.$__typename,
+                );
+              })
+              .toList();
+          _deliveries.addAll(newDeliveries);
+          _endCursor = data.restaurant?.deliveries?.pageInfo.endCursor;
+          _hasNextPage =
+              data.restaurant?.deliveries?.pageInfo.hasNextPage ?? false;
+        }
+      } else {
+        final data = Query$GetDeliveries.fromJson(result.data!);
+        if (data.deliveries?.edges != null) {
+          final newDeliveries = data.deliveries!.edges!
+              .map((e) => e?.node)
+              .whereType<Delivery>()
+              .toList();
+          _deliveries.addAll(newDeliveries);
+          _endCursor = data.deliveries?.pageInfo.endCursor;
+          _hasNextPage = data.deliveries?.pageInfo.hasNextPage ?? false;
+        }
+      }
+    } catch (e) {
+      _errorMessage = e.toString();
+    } finally {
+      _isFetchingMore = false;
       notifyListeners();
     }
   }

@@ -1,4 +1,4 @@
-import 'package:catering_flutter/core/api_config.dart';
+import 'package:catering_flutter/core/api_client.dart';
 import 'package:catering_flutter/core/utils/status_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -231,7 +231,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                   _,
                                 ) {
                                   paymentService.redirectToStripeCheckout(
-                                    apiKey: ApiConfig.stripePubKey,
+                                    apiKey: ApiClient.stripePubKey,
                                     sessionId:
                                         paymentService.checkoutSessionId!,
                                   );

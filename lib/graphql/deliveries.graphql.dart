@@ -1846,8 +1846,15 @@ class _CopyWithStubImpl$Query$GetDeliveries$deliveries$pageInfo<TRes>
 }
 
 class Variables$Query$GetUserDeliveries {
-  factory Variables$Query$GetUserDeliveries({required String id}) =>
-      Variables$Query$GetUserDeliveries._({r'id': id});
+  factory Variables$Query$GetUserDeliveries({
+    required String id,
+    int? first,
+    String? after,
+  }) => Variables$Query$GetUserDeliveries._({
+    r'id': id,
+    if (first != null) r'first': first,
+    if (after != null) r'after': after,
+  });
 
   Variables$Query$GetUserDeliveries._(this._$data);
 
@@ -1857,6 +1864,14 @@ class Variables$Query$GetUserDeliveries {
     final result$data = <String, dynamic>{};
     final l$id = data['id'];
     result$data['id'] = (l$id as String);
+    if (data.containsKey('first')) {
+      final l$first = data['first'];
+      result$data['first'] = (l$first as int?);
+    }
+    if (data.containsKey('after')) {
+      final l$after = data['after'];
+      result$data['after'] = (l$after as String?);
+    }
     return Variables$Query$GetUserDeliveries._(result$data);
   }
 
@@ -1864,10 +1879,22 @@ class Variables$Query$GetUserDeliveries {
 
   String get id => (_$data['id'] as String);
 
+  int? get first => (_$data['first'] as int?);
+
+  String? get after => (_$data['after'] as String?);
+
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
     final l$id = id;
     result$data['id'] = l$id;
+    if (_$data.containsKey('first')) {
+      final l$first = first;
+      result$data['first'] = l$first;
+    }
+    if (_$data.containsKey('after')) {
+      final l$after = after;
+      result$data['after'] = l$after;
+    }
     return result$data;
   }
 
@@ -1888,13 +1915,35 @@ class Variables$Query$GetUserDeliveries {
     if (l$id != lOther$id) {
       return false;
     }
+    final l$first = first;
+    final lOther$first = other.first;
+    if (_$data.containsKey('first') != other._$data.containsKey('first')) {
+      return false;
+    }
+    if (l$first != lOther$first) {
+      return false;
+    }
+    final l$after = after;
+    final lOther$after = other.after;
+    if (_$data.containsKey('after') != other._$data.containsKey('after')) {
+      return false;
+    }
+    if (l$after != lOther$after) {
+      return false;
+    }
     return true;
   }
 
   @override
   int get hashCode {
     final l$id = id;
-    return Object.hashAll([l$id]);
+    final l$first = first;
+    final l$after = after;
+    return Object.hashAll([
+      l$id,
+      _$data.containsKey('first') ? l$first : const {},
+      _$data.containsKey('after') ? l$after : const {},
+    ]);
   }
 }
 
@@ -1907,7 +1956,7 @@ abstract class CopyWith$Variables$Query$GetUserDeliveries<TRes> {
   factory CopyWith$Variables$Query$GetUserDeliveries.stub(TRes res) =
       _CopyWithStubImpl$Variables$Query$GetUserDeliveries;
 
-  TRes call({String? id});
+  TRes call({String? id, int? first, String? after});
 }
 
 class _CopyWithImpl$Variables$Query$GetUserDeliveries<TRes>
@@ -1920,10 +1969,16 @@ class _CopyWithImpl$Variables$Query$GetUserDeliveries<TRes>
 
   static const _undefined = <dynamic, dynamic>{};
 
-  TRes call({Object? id = _undefined}) => _then(
+  TRes call({
+    Object? id = _undefined,
+    Object? first = _undefined,
+    Object? after = _undefined,
+  }) => _then(
     Variables$Query$GetUserDeliveries._({
       ..._instance._$data,
       if (id != _undefined && id != null) 'id': (id as String),
+      if (first != _undefined) 'first': (first as int?),
+      if (after != _undefined) 'after': (after as String?),
     }),
   );
 }
@@ -1934,7 +1989,7 @@ class _CopyWithStubImpl$Variables$Query$GetUserDeliveries<TRes>
 
   TRes _res;
 
-  call({String? id}) => _res;
+  call({String? id, int? first, String? after}) => _res;
 }
 
 class Query$GetUserDeliveries {
@@ -2070,6 +2125,21 @@ const documentNodeQueryGetUserDeliveries = DocumentNode(
           defaultValue: DefaultValueNode(value: null),
           directives: [],
         ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'first')),
+          type: NamedTypeNode(name: NameNode(value: 'Int'), isNonNull: false),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'after')),
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
       ],
       directives: [],
       selectionSet: SelectionSetNode(
@@ -2094,43 +2164,16 @@ const documentNodeQueryGetUserDeliveries = DocumentNode(
                   selectionSet: null,
                 ),
                 FieldNode(
-                  name: NameNode(value: 'restaurant'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(
-                    selections: [
-                      FieldNode(
-                        name: NameNode(value: 'id'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'name'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: '__typename'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                    ],
-                  ),
-                ),
-                FieldNode(
                   name: NameNode(value: 'deliveries'),
                   alias: null,
                   arguments: [
                     ArgumentNode(
                       name: NameNode(value: 'first'),
-                      value: IntValueNode(value: '100'),
+                      value: VariableNode(name: NameNode(value: 'first')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'after'),
+                      value: VariableNode(name: NameNode(value: 'after')),
                     ),
                   ],
                   directives: [],
@@ -2348,6 +2391,37 @@ const documentNodeQueryGetUserDeliveries = DocumentNode(
                         ),
                       ),
                       FieldNode(
+                        name: NameNode(value: 'pageInfo'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(
+                          selections: [
+                            FieldNode(
+                              name: NameNode(value: 'hasNextPage'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null,
+                            ),
+                            FieldNode(
+                              name: NameNode(value: 'endCursor'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null,
+                            ),
+                            FieldNode(
+                              name: NameNode(value: '__typename'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null,
+                            ),
+                          ],
+                        ),
+                      ),
+                      FieldNode(
                         name: NameNode(value: '__typename'),
                         alias: null,
                         arguments: [],
@@ -2535,23 +2609,16 @@ class Query$GetUserDeliveries$Widget
 class Query$GetUserDeliveries$user {
   Query$GetUserDeliveries$user({
     required this.id,
-    this.restaurant,
     this.deliveries,
     this.$__typename = 'User',
   });
 
   factory Query$GetUserDeliveries$user.fromJson(Map<String, dynamic> json) {
     final l$id = json['id'];
-    final l$restaurant = json['restaurant'];
     final l$deliveries = json['deliveries'];
     final l$$__typename = json['__typename'];
     return Query$GetUserDeliveries$user(
       id: (l$id as String),
-      restaurant: l$restaurant == null
-          ? null
-          : Query$GetUserDeliveries$user$restaurant.fromJson(
-              (l$restaurant as Map<String, dynamic>),
-            ),
       deliveries: l$deliveries == null
           ? null
           : Query$GetUserDeliveries$user$deliveries.fromJson(
@@ -2563,8 +2630,6 @@ class Query$GetUserDeliveries$user {
 
   final String id;
 
-  final Query$GetUserDeliveries$user$restaurant? restaurant;
-
   final Query$GetUserDeliveries$user$deliveries? deliveries;
 
   final String $__typename;
@@ -2573,8 +2638,6 @@ class Query$GetUserDeliveries$user {
     final _resultData = <String, dynamic>{};
     final l$id = id;
     _resultData['id'] = l$id;
-    final l$restaurant = restaurant;
-    _resultData['restaurant'] = l$restaurant?.toJson();
     final l$deliveries = deliveries;
     _resultData['deliveries'] = l$deliveries?.toJson();
     final l$$__typename = $__typename;
@@ -2585,10 +2648,9 @@ class Query$GetUserDeliveries$user {
   @override
   int get hashCode {
     final l$id = id;
-    final l$restaurant = restaurant;
     final l$deliveries = deliveries;
     final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$restaurant, l$deliveries, l$$__typename]);
+    return Object.hashAll([l$id, l$deliveries, l$$__typename]);
   }
 
   @override
@@ -2603,11 +2665,6 @@ class Query$GetUserDeliveries$user {
     final l$id = id;
     final lOther$id = other.id;
     if (l$id != lOther$id) {
-      return false;
-    }
-    final l$restaurant = restaurant;
-    final lOther$restaurant = other.restaurant;
-    if (l$restaurant != lOther$restaurant) {
       return false;
     }
     final l$deliveries = deliveries;
@@ -2641,11 +2698,9 @@ abstract class CopyWith$Query$GetUserDeliveries$user<TRes> {
 
   TRes call({
     String? id,
-    Query$GetUserDeliveries$user$restaurant? restaurant,
     Query$GetUserDeliveries$user$deliveries? deliveries,
     String? $__typename,
   });
-  CopyWith$Query$GetUserDeliveries$user$restaurant<TRes> get restaurant;
   CopyWith$Query$GetUserDeliveries$user$deliveries<TRes> get deliveries;
 }
 
@@ -2661,15 +2716,11 @@ class _CopyWithImpl$Query$GetUserDeliveries$user<TRes>
 
   TRes call({
     Object? id = _undefined,
-    Object? restaurant = _undefined,
     Object? deliveries = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
     Query$GetUserDeliveries$user(
       id: id == _undefined || id == null ? _instance.id : (id as String),
-      restaurant: restaurant == _undefined
-          ? _instance.restaurant
-          : (restaurant as Query$GetUserDeliveries$user$restaurant?),
       deliveries: deliveries == _undefined
           ? _instance.deliveries
           : (deliveries as Query$GetUserDeliveries$user$deliveries?),
@@ -2678,18 +2729,6 @@ class _CopyWithImpl$Query$GetUserDeliveries$user<TRes>
           : ($__typename as String),
     ),
   );
-
-  CopyWith$Query$GetUserDeliveries$user$restaurant<TRes> get restaurant {
-    final local$restaurant = _instance.restaurant;
-    return local$restaurant == null
-        ? CopyWith$Query$GetUserDeliveries$user$restaurant.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetUserDeliveries$user$restaurant(
-            local$restaurant,
-            (e) => call(restaurant: e),
-          );
-  }
 
   CopyWith$Query$GetUserDeliveries$user$deliveries<TRes> get deliveries {
     final local$deliveries = _instance.deliveries;
@@ -2712,154 +2751,18 @@ class _CopyWithStubImpl$Query$GetUserDeliveries$user<TRes>
 
   call({
     String? id,
-    Query$GetUserDeliveries$user$restaurant? restaurant,
     Query$GetUserDeliveries$user$deliveries? deliveries,
     String? $__typename,
   }) => _res;
-
-  CopyWith$Query$GetUserDeliveries$user$restaurant<TRes> get restaurant =>
-      CopyWith$Query$GetUserDeliveries$user$restaurant.stub(_res);
 
   CopyWith$Query$GetUserDeliveries$user$deliveries<TRes> get deliveries =>
       CopyWith$Query$GetUserDeliveries$user$deliveries.stub(_res);
 }
 
-class Query$GetUserDeliveries$user$restaurant {
-  Query$GetUserDeliveries$user$restaurant({
-    required this.id,
-    required this.name,
-    this.$__typename = 'Restaurant',
-  });
-
-  factory Query$GetUserDeliveries$user$restaurant.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$$__typename = json['__typename'];
-    return Query$GetUserDeliveries$user$restaurant(
-      id: (l$id as String),
-      name: (l$name as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$name, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetUserDeliveries$user$restaurant ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetUserDeliveries$user$restaurant
-    on Query$GetUserDeliveries$user$restaurant {
-  CopyWith$Query$GetUserDeliveries$user$restaurant<
-    Query$GetUserDeliveries$user$restaurant
-  >
-  get copyWith =>
-      CopyWith$Query$GetUserDeliveries$user$restaurant(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetUserDeliveries$user$restaurant<TRes> {
-  factory CopyWith$Query$GetUserDeliveries$user$restaurant(
-    Query$GetUserDeliveries$user$restaurant instance,
-    TRes Function(Query$GetUserDeliveries$user$restaurant) then,
-  ) = _CopyWithImpl$Query$GetUserDeliveries$user$restaurant;
-
-  factory CopyWith$Query$GetUserDeliveries$user$restaurant.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetUserDeliveries$user$restaurant;
-
-  TRes call({String? id, String? name, String? $__typename});
-}
-
-class _CopyWithImpl$Query$GetUserDeliveries$user$restaurant<TRes>
-    implements CopyWith$Query$GetUserDeliveries$user$restaurant<TRes> {
-  _CopyWithImpl$Query$GetUserDeliveries$user$restaurant(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetUserDeliveries$user$restaurant _instance;
-
-  final TRes Function(Query$GetUserDeliveries$user$restaurant) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetUserDeliveries$user$restaurant(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetUserDeliveries$user$restaurant<TRes>
-    implements CopyWith$Query$GetUserDeliveries$user$restaurant<TRes> {
-  _CopyWithStubImpl$Query$GetUserDeliveries$user$restaurant(this._res);
-
-  TRes _res;
-
-  call({String? id, String? name, String? $__typename}) => _res;
-}
-
 class Query$GetUserDeliveries$user$deliveries {
   Query$GetUserDeliveries$user$deliveries({
     this.edges,
+    required this.pageInfo,
     this.$__typename = 'DeliveryCursorConnection',
   });
 
@@ -2867,6 +2770,7 @@ class Query$GetUserDeliveries$user$deliveries {
     Map<String, dynamic> json,
   ) {
     final l$edges = json['edges'];
+    final l$pageInfo = json['pageInfo'];
     final l$$__typename = json['__typename'];
     return Query$GetUserDeliveries$user$deliveries(
       edges: (l$edges as List<dynamic>?)
@@ -2878,11 +2782,16 @@ class Query$GetUserDeliveries$user$deliveries {
                   ),
           )
           .toList(),
+      pageInfo: Query$GetUserDeliveries$user$deliveries$pageInfo.fromJson(
+        (l$pageInfo as Map<String, dynamic>),
+      ),
       $__typename: (l$$__typename as String),
     );
   }
 
   final List<Query$GetUserDeliveries$user$deliveries$edges?>? edges;
+
+  final Query$GetUserDeliveries$user$deliveries$pageInfo pageInfo;
 
   final String $__typename;
 
@@ -2890,6 +2799,8 @@ class Query$GetUserDeliveries$user$deliveries {
     final _resultData = <String, dynamic>{};
     final l$edges = edges;
     _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
+    final l$pageInfo = pageInfo;
+    _resultData['pageInfo'] = l$pageInfo.toJson();
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -2898,9 +2809,11 @@ class Query$GetUserDeliveries$user$deliveries {
   @override
   int get hashCode {
     final l$edges = edges;
+    final l$pageInfo = pageInfo;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
+      l$pageInfo,
       l$$__typename,
     ]);
   }
@@ -2928,6 +2841,11 @@ class Query$GetUserDeliveries$user$deliveries {
         }
       }
     } else if (l$edges != lOther$edges) {
+      return false;
+    }
+    final l$pageInfo = pageInfo;
+    final lOther$pageInfo = other.pageInfo;
+    if (l$pageInfo != lOther$pageInfo) {
       return false;
     }
     final l$$__typename = $__typename;
@@ -2959,6 +2877,7 @@ abstract class CopyWith$Query$GetUserDeliveries$user$deliveries<TRes> {
 
   TRes call({
     List<Query$GetUserDeliveries$user$deliveries$edges?>? edges,
+    Query$GetUserDeliveries$user$deliveries$pageInfo? pageInfo,
     String? $__typename,
   });
   TRes edges(
@@ -2971,6 +2890,7 @@ abstract class CopyWith$Query$GetUserDeliveries$user$deliveries<TRes> {
     )
     _fn,
   );
+  CopyWith$Query$GetUserDeliveries$user$deliveries$pageInfo<TRes> get pageInfo;
 }
 
 class _CopyWithImpl$Query$GetUserDeliveries$user$deliveries<TRes>
@@ -2986,18 +2906,23 @@ class _CopyWithImpl$Query$GetUserDeliveries$user$deliveries<TRes>
 
   static const _undefined = <dynamic, dynamic>{};
 
-  TRes call({Object? edges = _undefined, Object? $__typename = _undefined}) =>
-      _then(
-        Query$GetUserDeliveries$user$deliveries(
-          edges: edges == _undefined
-              ? _instance.edges
-              : (edges
-                    as List<Query$GetUserDeliveries$user$deliveries$edges?>?),
-          $__typename: $__typename == _undefined || $__typename == null
-              ? _instance.$__typename
-              : ($__typename as String),
-        ),
-      );
+  TRes call({
+    Object? edges = _undefined,
+    Object? pageInfo = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Query$GetUserDeliveries$user$deliveries(
+      edges: edges == _undefined
+          ? _instance.edges
+          : (edges as List<Query$GetUserDeliveries$user$deliveries$edges?>?),
+      pageInfo: pageInfo == _undefined || pageInfo == null
+          ? _instance.pageInfo
+          : (pageInfo as Query$GetUserDeliveries$user$deliveries$pageInfo),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
 
   TRes edges(
     Iterable<Query$GetUserDeliveries$user$deliveries$edges?>? Function(
@@ -3020,6 +2945,14 @@ class _CopyWithImpl$Query$GetUserDeliveries$user$deliveries<TRes>
       ),
     )?.toList(),
   );
+
+  CopyWith$Query$GetUserDeliveries$user$deliveries$pageInfo<TRes> get pageInfo {
+    final local$pageInfo = _instance.pageInfo;
+    return CopyWith$Query$GetUserDeliveries$user$deliveries$pageInfo(
+      local$pageInfo,
+      (e) => call(pageInfo: e),
+    );
+  }
 }
 
 class _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries<TRes>
@@ -3030,10 +2963,15 @@ class _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries<TRes>
 
   call({
     List<Query$GetUserDeliveries$user$deliveries$edges?>? edges,
+    Query$GetUserDeliveries$user$deliveries$pageInfo? pageInfo,
     String? $__typename,
   }) => _res;
 
   edges(_fn) => _res;
+
+  CopyWith$Query$GetUserDeliveries$user$deliveries$pageInfo<TRes>
+  get pageInfo =>
+      CopyWith$Query$GetUserDeliveries$user$deliveries$pageInfo.stub(_res);
 }
 
 class Query$GetUserDeliveries$user$deliveries$edges {
@@ -4117,6 +4055,142 @@ class _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$edges$node$order
   TRes _res;
 
   call({String? id, String? email, String? $__typename}) => _res;
+}
+
+class Query$GetUserDeliveries$user$deliveries$pageInfo {
+  Query$GetUserDeliveries$user$deliveries$pageInfo({
+    required this.hasNextPage,
+    this.endCursor,
+    this.$__typename = 'DeliveryPageInfo',
+  });
+
+  factory Query$GetUserDeliveries$user$deliveries$pageInfo.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$hasNextPage = json['hasNextPage'];
+    final l$endCursor = json['endCursor'];
+    final l$$__typename = json['__typename'];
+    return Query$GetUserDeliveries$user$deliveries$pageInfo(
+      hasNextPage: (l$hasNextPage as bool),
+      endCursor: (l$endCursor as String?),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final bool hasNextPage;
+
+  final String? endCursor;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$hasNextPage = hasNextPage;
+    _resultData['hasNextPage'] = l$hasNextPage;
+    final l$endCursor = endCursor;
+    _resultData['endCursor'] = l$endCursor;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$hasNextPage = hasNextPage;
+    final l$endCursor = endCursor;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$hasNextPage, l$endCursor, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Query$GetUserDeliveries$user$deliveries$pageInfo ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$hasNextPage = hasNextPage;
+    final lOther$hasNextPage = other.hasNextPage;
+    if (l$hasNextPage != lOther$hasNextPage) {
+      return false;
+    }
+    final l$endCursor = endCursor;
+    final lOther$endCursor = other.endCursor;
+    if (l$endCursor != lOther$endCursor) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$GetUserDeliveries$user$deliveries$pageInfo
+    on Query$GetUserDeliveries$user$deliveries$pageInfo {
+  CopyWith$Query$GetUserDeliveries$user$deliveries$pageInfo<
+    Query$GetUserDeliveries$user$deliveries$pageInfo
+  >
+  get copyWith =>
+      CopyWith$Query$GetUserDeliveries$user$deliveries$pageInfo(this, (i) => i);
+}
+
+abstract class CopyWith$Query$GetUserDeliveries$user$deliveries$pageInfo<TRes> {
+  factory CopyWith$Query$GetUserDeliveries$user$deliveries$pageInfo(
+    Query$GetUserDeliveries$user$deliveries$pageInfo instance,
+    TRes Function(Query$GetUserDeliveries$user$deliveries$pageInfo) then,
+  ) = _CopyWithImpl$Query$GetUserDeliveries$user$deliveries$pageInfo;
+
+  factory CopyWith$Query$GetUserDeliveries$user$deliveries$pageInfo.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$pageInfo;
+
+  TRes call({bool? hasNextPage, String? endCursor, String? $__typename});
+}
+
+class _CopyWithImpl$Query$GetUserDeliveries$user$deliveries$pageInfo<TRes>
+    implements CopyWith$Query$GetUserDeliveries$user$deliveries$pageInfo<TRes> {
+  _CopyWithImpl$Query$GetUserDeliveries$user$deliveries$pageInfo(
+    this._instance,
+    this._then,
+  );
+
+  final Query$GetUserDeliveries$user$deliveries$pageInfo _instance;
+
+  final TRes Function(Query$GetUserDeliveries$user$deliveries$pageInfo) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? hasNextPage = _undefined,
+    Object? endCursor = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Query$GetUserDeliveries$user$deliveries$pageInfo(
+      hasNextPage: hasNextPage == _undefined || hasNextPage == null
+          ? _instance.hasNextPage
+          : (hasNextPage as bool),
+      endCursor: endCursor == _undefined
+          ? _instance.endCursor
+          : (endCursor as String?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$pageInfo<TRes>
+    implements CopyWith$Query$GetUserDeliveries$user$deliveries$pageInfo<TRes> {
+  _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$pageInfo(this._res);
+
+  TRes _res;
+
+  call({bool? hasNextPage, String? endCursor, String? $__typename}) => _res;
 }
 
 class Variables$Query$GetDelivery {
@@ -5312,9 +5386,11 @@ class Variables$Query$GetDeliveriesByRestaurant {
   factory Variables$Query$GetDeliveriesByRestaurant({
     required String restaurantId,
     int? first,
+    String? after,
   }) => Variables$Query$GetDeliveriesByRestaurant._({
     r'restaurantId': restaurantId,
     if (first != null) r'first': first,
+    if (after != null) r'after': after,
   });
 
   Variables$Query$GetDeliveriesByRestaurant._(this._$data);
@@ -5329,6 +5405,10 @@ class Variables$Query$GetDeliveriesByRestaurant {
       final l$first = data['first'];
       result$data['first'] = (l$first as int?);
     }
+    if (data.containsKey('after')) {
+      final l$after = data['after'];
+      result$data['after'] = (l$after as String?);
+    }
     return Variables$Query$GetDeliveriesByRestaurant._(result$data);
   }
 
@@ -5338,6 +5418,8 @@ class Variables$Query$GetDeliveriesByRestaurant {
 
   int? get first => (_$data['first'] as int?);
 
+  String? get after => (_$data['after'] as String?);
+
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
     final l$restaurantId = restaurantId;
@@ -5345,6 +5427,10 @@ class Variables$Query$GetDeliveriesByRestaurant {
     if (_$data.containsKey('first')) {
       final l$first = first;
       result$data['first'] = l$first;
+    }
+    if (_$data.containsKey('after')) {
+      final l$after = after;
+      result$data['after'] = l$after;
     }
     return result$data;
   }
@@ -5377,6 +5463,14 @@ class Variables$Query$GetDeliveriesByRestaurant {
     if (l$first != lOther$first) {
       return false;
     }
+    final l$after = after;
+    final lOther$after = other.after;
+    if (_$data.containsKey('after') != other._$data.containsKey('after')) {
+      return false;
+    }
+    if (l$after != lOther$after) {
+      return false;
+    }
     return true;
   }
 
@@ -5384,9 +5478,11 @@ class Variables$Query$GetDeliveriesByRestaurant {
   int get hashCode {
     final l$restaurantId = restaurantId;
     final l$first = first;
+    final l$after = after;
     return Object.hashAll([
       l$restaurantId,
       _$data.containsKey('first') ? l$first : const {},
+      _$data.containsKey('after') ? l$after : const {},
     ]);
   }
 }
@@ -5400,7 +5496,7 @@ abstract class CopyWith$Variables$Query$GetDeliveriesByRestaurant<TRes> {
   factory CopyWith$Variables$Query$GetDeliveriesByRestaurant.stub(TRes res) =
       _CopyWithStubImpl$Variables$Query$GetDeliveriesByRestaurant;
 
-  TRes call({String? restaurantId, int? first});
+  TRes call({String? restaurantId, int? first, String? after});
 }
 
 class _CopyWithImpl$Variables$Query$GetDeliveriesByRestaurant<TRes>
@@ -5416,15 +5512,19 @@ class _CopyWithImpl$Variables$Query$GetDeliveriesByRestaurant<TRes>
 
   static const _undefined = <dynamic, dynamic>{};
 
-  TRes call({Object? restaurantId = _undefined, Object? first = _undefined}) =>
-      _then(
-        Variables$Query$GetDeliveriesByRestaurant._({
-          ..._instance._$data,
-          if (restaurantId != _undefined && restaurantId != null)
-            'restaurantId': (restaurantId as String),
-          if (first != _undefined) 'first': (first as int?),
-        }),
-      );
+  TRes call({
+    Object? restaurantId = _undefined,
+    Object? first = _undefined,
+    Object? after = _undefined,
+  }) => _then(
+    Variables$Query$GetDeliveriesByRestaurant._({
+      ..._instance._$data,
+      if (restaurantId != _undefined && restaurantId != null)
+        'restaurantId': (restaurantId as String),
+      if (first != _undefined) 'first': (first as int?),
+      if (after != _undefined) 'after': (after as String?),
+    }),
+  );
 }
 
 class _CopyWithStubImpl$Variables$Query$GetDeliveriesByRestaurant<TRes>
@@ -5433,7 +5533,7 @@ class _CopyWithStubImpl$Variables$Query$GetDeliveriesByRestaurant<TRes>
 
   TRes _res;
 
-  call({String? restaurantId, int? first}) => _res;
+  call({String? restaurantId, int? first, String? after}) => _res;
 }
 
 class Query$GetDeliveriesByRestaurant {
@@ -5590,6 +5690,15 @@ const documentNodeQueryGetDeliveriesByRestaurant = DocumentNode(
           defaultValue: DefaultValueNode(value: null),
           directives: [],
         ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'after')),
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
       ],
       directives: [],
       selectionSet: SelectionSetNode(
@@ -5620,6 +5729,10 @@ const documentNodeQueryGetDeliveriesByRestaurant = DocumentNode(
                     ArgumentNode(
                       name: NameNode(value: 'first'),
                       value: VariableNode(name: NameNode(value: 'first')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'after'),
+                      value: VariableNode(name: NameNode(value: 'after')),
                     ),
                   ],
                   directives: [],
@@ -5764,6 +5877,37 @@ const documentNodeQueryGetDeliveriesByRestaurant = DocumentNode(
                                   ),
                                 ],
                               ),
+                            ),
+                            FieldNode(
+                              name: NameNode(value: '__typename'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null,
+                            ),
+                          ],
+                        ),
+                      ),
+                      FieldNode(
+                        name: NameNode(value: 'pageInfo'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(
+                          selections: [
+                            FieldNode(
+                              name: NameNode(value: 'hasNextPage'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null,
+                            ),
+                            FieldNode(
+                              name: NameNode(value: 'endCursor'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null,
                             ),
                             FieldNode(
                               name: NameNode(value: '__typename'),
@@ -6141,6 +6285,7 @@ class _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant<TRes>
 class Query$GetDeliveriesByRestaurant$restaurant$deliveries {
   Query$GetDeliveriesByRestaurant$restaurant$deliveries({
     this.edges,
+    required this.pageInfo,
     this.$__typename = 'DeliveryCursorConnection',
   });
 
@@ -6148,6 +6293,7 @@ class Query$GetDeliveriesByRestaurant$restaurant$deliveries {
     Map<String, dynamic> json,
   ) {
     final l$edges = json['edges'];
+    final l$pageInfo = json['pageInfo'];
     final l$$__typename = json['__typename'];
     return Query$GetDeliveriesByRestaurant$restaurant$deliveries(
       edges: (l$edges as List<dynamic>?)
@@ -6159,6 +6305,10 @@ class Query$GetDeliveriesByRestaurant$restaurant$deliveries {
                   ),
           )
           .toList(),
+      pageInfo:
+          Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo.fromJson(
+            (l$pageInfo as Map<String, dynamic>),
+          ),
       $__typename: (l$$__typename as String),
     );
   }
@@ -6166,12 +6316,16 @@ class Query$GetDeliveriesByRestaurant$restaurant$deliveries {
   final List<Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges?>?
   edges;
 
+  final Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo pageInfo;
+
   final String $__typename;
 
   Map<String, dynamic> toJson() {
     final _resultData = <String, dynamic>{};
     final l$edges = edges;
     _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
+    final l$pageInfo = pageInfo;
+    _resultData['pageInfo'] = l$pageInfo.toJson();
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -6180,9 +6334,11 @@ class Query$GetDeliveriesByRestaurant$restaurant$deliveries {
   @override
   int get hashCode {
     final l$edges = edges;
+    final l$pageInfo = pageInfo;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
+      l$pageInfo,
       l$$__typename,
     ]);
   }
@@ -6210,6 +6366,11 @@ class Query$GetDeliveriesByRestaurant$restaurant$deliveries {
         }
       }
     } else if (l$edges != lOther$edges) {
+      return false;
+    }
+    final l$pageInfo = pageInfo;
+    final lOther$pageInfo = other.pageInfo;
+    if (l$pageInfo != lOther$pageInfo) {
       return false;
     }
     final l$$__typename = $__typename;
@@ -6247,6 +6408,7 @@ abstract class CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries<
 
   TRes call({
     List<Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges?>? edges,
+    Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo? pageInfo,
     String? $__typename,
   });
   TRes edges(
@@ -6260,6 +6422,8 @@ abstract class CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries<
     )
     _fn,
   );
+  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo<TRes>
+  get pageInfo;
 }
 
 class _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries<TRes>
@@ -6279,6 +6443,7 @@ class _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries<TRes>
 
   TRes call({
     Object? edges = _undefined,
+    Object? pageInfo = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
     Query$GetDeliveriesByRestaurant$restaurant$deliveries(
@@ -6288,6 +6453,10 @@ class _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries<TRes>
                 as List<
                   Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges?
                 >?),
+      pageInfo: pageInfo == _undefined || pageInfo == null
+          ? _instance.pageInfo
+          : (pageInfo
+                as Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
@@ -6316,6 +6485,15 @@ class _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries<TRes>
       ),
     )?.toList(),
   );
+
+  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo<TRes>
+  get pageInfo {
+    final local$pageInfo = _instance.pageInfo;
+    return CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo(
+      local$pageInfo,
+      (e) => call(pageInfo: e),
+    );
+  }
 }
 
 class _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries<
@@ -6331,10 +6509,17 @@ class _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries<
 
   call({
     List<Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges?>? edges,
+    Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo? pageInfo,
     String? $__typename,
   }) => _res;
 
   edges(_fn) => _res;
+
+  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo<TRes>
+  get pageInfo =>
+      CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo.stub(
+        _res,
+      );
 }
 
 class Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges {
@@ -7357,6 +7542,167 @@ class _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$ed
   TRes _res;
 
   call({String? id, String? email, String? $__typename}) => _res;
+}
+
+class Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo {
+  Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo({
+    required this.hasNextPage,
+    this.endCursor,
+    this.$__typename = 'DeliveryPageInfo',
+  });
+
+  factory Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$hasNextPage = json['hasNextPage'];
+    final l$endCursor = json['endCursor'];
+    final l$$__typename = json['__typename'];
+    return Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo(
+      hasNextPage: (l$hasNextPage as bool),
+      endCursor: (l$endCursor as String?),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final bool hasNextPage;
+
+  final String? endCursor;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$hasNextPage = hasNextPage;
+    _resultData['hasNextPage'] = l$hasNextPage;
+    final l$endCursor = endCursor;
+    _resultData['endCursor'] = l$endCursor;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$hasNextPage = hasNextPage;
+    final l$endCursor = endCursor;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$hasNextPage, l$endCursor, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other
+            is! Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$hasNextPage = hasNextPage;
+    final lOther$hasNextPage = other.hasNextPage;
+    if (l$hasNextPage != lOther$hasNextPage) {
+      return false;
+    }
+    final l$endCursor = endCursor;
+    final lOther$endCursor = other.endCursor;
+    if (l$endCursor != lOther$endCursor) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo
+    on Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo {
+  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo<
+    Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo
+  >
+  get copyWith =>
+      CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo<
+  TRes
+> {
+  factory CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo(
+    Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo instance,
+    TRes Function(
+      Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo,
+    )
+    then,
+  ) = _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo;
+
+  factory CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo;
+
+  TRes call({bool? hasNextPage, String? endCursor, String? $__typename});
+}
+
+class _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo<
+  TRes
+>
+    implements
+        CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo<
+          TRes
+        > {
+  _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo(
+    this._instance,
+    this._then,
+  );
+
+  final Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo
+  _instance;
+
+  final TRes Function(
+    Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo,
+  )
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? hasNextPage = _undefined,
+    Object? endCursor = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo(
+      hasNextPage: hasNextPage == _undefined || hasNextPage == null
+          ? _instance.hasNextPage
+          : (hasNextPage as bool),
+      endCursor: endCursor == _undefined
+          ? _instance.endCursor
+          : (endCursor as String?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo<
+  TRes
+>
+    implements
+        CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo<
+          TRes
+        > {
+  _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({bool? hasNextPage, String? endCursor, String? $__typename}) => _res;
 }
 
 class Variables$Mutation$UpdateDelivery {

@@ -4,9 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:catering_flutter/core/app_routes.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
-import 'package:catering_flutter/core/utils/image_helper.dart';
+
 import 'package:catering_flutter/features/restaurant/services/restaurant_service.dart';
 import 'package:catering_flutter/core/widgets/searchable_list_screen.dart';
+import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 
 class AdminRestaurantsScreen extends StatefulWidget {
   const AdminRestaurantsScreen({super.key});
@@ -79,7 +80,7 @@ class _AdminRestaurantsScreenState extends State<AdminRestaurantsScreen> {
               restaurant.name.toLowerCase().contains(query),
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () => context.push(AppRoutes.adminRestaurantCreate),
-            icon: const Icon(Icons.add),
+            icon: const Icon(Icons.add_business),
             label: const Text('Add Restaurant'),
           ),
           onRefresh: () async {
@@ -101,20 +102,18 @@ class _AdminRestaurantsScreenState extends State<AdminRestaurantsScreen> {
                       context,
                     ).colorScheme.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(16),
-                    image: restaurant.imageUrl != null
-                        ? DecorationImage(
-                            image: NetworkImage(
-                              ImageHelper.getFullImageUrl(
-                                restaurant.imageUrl!,
-                              )!,
-                            ),
-                            fit: BoxFit.cover,
-                          )
-                        : null,
                   ),
-                  child: restaurant.imageUrl == null
-                      ? const Icon(Icons.store)
-                      : null,
+                  child: restaurant.imageUrl != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: CustomCachedImage(
+                            imageUrl: restaurant.imageUrl,
+                            fit: BoxFit.cover,
+                            width: 60,
+                            height: 60,
+                          ),
+                        )
+                      : const Icon(Icons.store),
                 ),
                 title: Text(
                   restaurant.name,

@@ -1,6 +1,8 @@
 import 'package:catering_flutter/core/widgets/custom_text_field.dart';
+import 'package:catering_flutter/core/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 
@@ -46,18 +48,52 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   }
 
   void _changePassword() async {
+    final newPassword = _newPasswordController.text;
+    final confirmedPassword = _confirmedPasswordController.text;
+    final oldPassword = _oldPasswordController.text;
+
+    // Validate inputs
+    if (oldPassword.isEmpty ||
+        newPassword.isEmpty ||
+        confirmedPassword.isEmpty) {
+      UIErrorHandler.showSnackBar(
+        context,
+        'Please fill in all fields',
+        isError: true,
+      );
+      return;
+    }
+
+    if (newPassword != confirmedPassword) {
+      UIErrorHandler.showSnackBar(
+        context,
+        'New passwords do not match',
+        isError: true,
+      );
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      UIErrorHandler.showSnackBar(
+        context,
+        'New password must be at least 8 characters',
+        isError: true,
+      );
+      return;
+    }
+
     setState(() {
       _isLoading = true;
     });
     try {
-      // Placeholder for GraphQL change password logic
-      await Future.delayed(const Duration(seconds: 2));
+      final authService = context.read<AuthService>();
+      await authService.changePassword(oldPassword, newPassword);
 
       if (!mounted) return;
 
       UIErrorHandler.showSnackBar(
         context,
-        'Password changed successfully! (Placeholder)',
+        'Password changed successfully!',
         isError: false,
       );
       context.pop();
@@ -83,12 +119,15 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Card(
-          elevation: 4,
+          elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(24),
+            side: BorderSide(
+              color: Theme.of(context).colorScheme.outlineVariant,
+            ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(32.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

@@ -5,7 +5,7 @@ import 'package:catering_flutter/core/app_routes.dart';
 import 'package:catering_flutter/features/restaurant/services/meal_plan_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
-import 'package:catering_flutter/core/utils/image_helper.dart';
+import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 import 'package:catering_flutter/core/widgets/searchable_list_screen.dart';
 
 class RestaurantMealPlansScreen extends StatefulWidget {
@@ -14,7 +14,8 @@ class RestaurantMealPlansScreen extends StatefulWidget {
   const RestaurantMealPlansScreen({super.key, required this.restaurantIri});
 
   @override
-  State<RestaurantMealPlansScreen> createState() => _RestaurantMealPlansScreenState();
+  State<RestaurantMealPlansScreen> createState() =>
+      _RestaurantMealPlansScreenState();
 }
 
 class _RestaurantMealPlansScreenState extends State<RestaurantMealPlansScreen> {
@@ -36,6 +37,12 @@ class _RestaurantMealPlansScreenState extends State<RestaurantMealPlansScreen> {
           title: 'Manage Meal Plans',
           items: mealPlanService.mealPlans,
           isLoading: mealPlanService.isLoading,
+          onLoadMore: () async {
+            if (!mealPlanService.isFetchingMore &&
+                mealPlanService.hasNextPage) {
+              await mealPlanService.loadMoreMealPlans(widget.restaurantIri);
+            }
+          },
           searchHint: 'Search meal plans...',
           filter: (mealPlan, query) =>
               mealPlan.name.toLowerCase().contains(query) ||
@@ -81,15 +88,9 @@ class _RestaurantMealPlansScreenState extends State<RestaurantMealPlansScreen> {
                       mealPlan.imageUrl != null && mealPlan.imageUrl!.isNotEmpty
                       ? ClipRRect(
                           borderRadius: BorderRadius.circular(12),
-                          child: Image.network(
-                            ImageHelper.getFullImageUrl(mealPlan.imageUrl!)!,
+                          child: CustomCachedImage(
+                            imageUrl: mealPlan.imageUrl,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => Icon(
-                              Icons.restaurant_menu,
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onSurfaceVariant,
-                            ),
                           ),
                         )
                       : Icon(

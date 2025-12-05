@@ -110,28 +110,37 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: _firstNameController,
-                      decoration: const InputDecoration(
-                        labelText: 'First Name',
-                      ),
-                      validator: (value) =>
-                          value?.isEmpty ?? true ? 'Required' : null,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: TextFormField(
-                      controller: _lastNameController,
-                      decoration: const InputDecoration(labelText: 'Last Name'),
-                      validator: (value) =>
-                          value?.isEmpty ?? true ? 'Required' : null,
-                    ),
-                  ),
-                ],
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final isWide = constraints.maxWidth > 500;
+                  final firstNameField = TextFormField(
+                    controller: _firstNameController,
+                    decoration: const InputDecoration(labelText: 'First Name'),
+                    validator: (value) =>
+                        value?.isEmpty ?? true ? 'Required' : null,
+                  );
+                  final lastNameField = TextFormField(
+                    controller: _lastNameController,
+                    decoration: const InputDecoration(labelText: 'Last Name'),
+                    validator: (value) =>
+                        value?.isEmpty ?? true ? 'Required' : null,
+                  );
+                  return isWide
+                      ? Row(
+                          children: [
+                            Expanded(child: firstNameField),
+                            const SizedBox(width: 16),
+                            Expanded(child: lastNameField),
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            firstNameField,
+                            const SizedBox(height: 16),
+                            lastNameField,
+                          ],
+                        );
+                },
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -156,26 +165,37 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: _cityController,
-                      decoration: const InputDecoration(labelText: 'City'),
-                      validator: (value) =>
-                          value?.isEmpty ?? true ? 'Required' : null,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: TextFormField(
-                      controller: _zipCodeController,
-                      decoration: const InputDecoration(labelText: 'Zip Code'),
-                      validator: (value) =>
-                          value?.isEmpty ?? true ? 'Required' : null,
-                    ),
-                  ),
-                ],
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final isWide = constraints.maxWidth > 500;
+                  final cityField = TextFormField(
+                    controller: _cityController,
+                    decoration: const InputDecoration(labelText: 'City'),
+                    validator: (value) =>
+                        value?.isEmpty ?? true ? 'Required' : null,
+                  );
+                  final zipCodeField = TextFormField(
+                    controller: _zipCodeController,
+                    decoration: const InputDecoration(labelText: 'Zip Code'),
+                    validator: (value) =>
+                        value?.isEmpty ?? true ? 'Required' : null,
+                  );
+                  return isWide
+                      ? Row(
+                          children: [
+                            Expanded(child: cityField),
+                            const SizedBox(width: 16),
+                            Expanded(child: zipCodeField),
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            cityField,
+                            const SizedBox(height: 16),
+                            zipCodeField,
+                          ],
+                        );
+                },
               ),
               const SizedBox(height: 16),
               SwitchListTile(

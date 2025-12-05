@@ -9,6 +9,7 @@ class SearchableListScreen<T> extends StatefulWidget {
   final Widget? floatingActionButton;
   final bool isLoading;
   final Future<void> Function()? onRefresh;
+  final Future<void> Function()? onLoadMore;
   final String searchHint;
   final Widget? customFilters;
 
@@ -21,6 +22,7 @@ class SearchableListScreen<T> extends StatefulWidget {
     this.floatingActionButton,
     this.isLoading = false,
     this.onRefresh,
+    this.onLoadMore,
     this.searchHint = 'Search...',
     this.customFilters,
   });
@@ -32,13 +34,17 @@ class SearchableListScreen<T> extends StatefulWidget {
 
 class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
   final TextEditingController _searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   List<T> _filteredItems = [];
 
   @override
   void initState() {
     super.initState();
-    _filteredItems = widget.items;
     _searchController.addListener(_onSearchChanged);
+    _scrollController.addListener(_onScroll);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _onSearchChanged();
+    });
   }
 
   @override
@@ -52,19 +58,25 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
   @override
   void dispose() {
     _searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      if (widget.onLoadMore != null && !widget.isLoading) {
+        widget.onLoadMore!();
+      }
+    }
   }
 
   void _onSearchChanged() {
     final query = _searchController.text.toLowerCase();
     setState(() {
-      if (query.isEmpty) {
-        _filteredItems = widget.items;
-      } else {
-        _filteredItems = widget.items
-            .where((item) => widget.filter(item, query))
-            .toList();
-      }
+      _filteredItems = widget.items
+          .where((item) => widget.filter(item, query))
+          .toList();
     });
   }
 
@@ -134,11 +146,28 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
                     onRefresh: widget.onRefresh ?? () async {},
                     child: ListView.separated(
                       padding: const EdgeInsets.all(16),
-                      itemCount: _filteredItems.length,
+                      controller: _scrollController,
+                      itemCount:
+                          _filteredItems.length +
+                          (widget.isLoading && widget.onLoadMore != null
+                              ? 1
+                              : 0),
                       separatorBuilder: (context, index) =>
                           const SizedBox(height: 12),
-                      itemBuilder: (context, index) =>
-                          widget.itemBuilder(context, _filteredItems[index]),
+                      itemBuilder: (context, index) {
+                        if (index == _filteredItems.length) {
+                          return const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        }
+                        return widget.itemBuilder(
+                          context,
+                          _filteredItems[index],
+                        );
+                      },
                     ),
                   ),
           ),

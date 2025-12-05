@@ -1736,9 +1736,11 @@ class Variables$Query$GetMealsByRestaurant {
   factory Variables$Query$GetMealsByRestaurant({
     required String restaurantId,
     int? first,
+    String? after,
   }) => Variables$Query$GetMealsByRestaurant._({
     r'restaurantId': restaurantId,
     if (first != null) r'first': first,
+    if (after != null) r'after': after,
   });
 
   Variables$Query$GetMealsByRestaurant._(this._$data);
@@ -1753,6 +1755,10 @@ class Variables$Query$GetMealsByRestaurant {
       final l$first = data['first'];
       result$data['first'] = (l$first as int?);
     }
+    if (data.containsKey('after')) {
+      final l$after = data['after'];
+      result$data['after'] = (l$after as String?);
+    }
     return Variables$Query$GetMealsByRestaurant._(result$data);
   }
 
@@ -1762,6 +1768,8 @@ class Variables$Query$GetMealsByRestaurant {
 
   int? get first => (_$data['first'] as int?);
 
+  String? get after => (_$data['after'] as String?);
+
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
     final l$restaurantId = restaurantId;
@@ -1769,6 +1777,10 @@ class Variables$Query$GetMealsByRestaurant {
     if (_$data.containsKey('first')) {
       final l$first = first;
       result$data['first'] = l$first;
+    }
+    if (_$data.containsKey('after')) {
+      final l$after = after;
+      result$data['after'] = l$after;
     }
     return result$data;
   }
@@ -1800,6 +1812,14 @@ class Variables$Query$GetMealsByRestaurant {
     if (l$first != lOther$first) {
       return false;
     }
+    final l$after = after;
+    final lOther$after = other.after;
+    if (_$data.containsKey('after') != other._$data.containsKey('after')) {
+      return false;
+    }
+    if (l$after != lOther$after) {
+      return false;
+    }
     return true;
   }
 
@@ -1807,9 +1827,11 @@ class Variables$Query$GetMealsByRestaurant {
   int get hashCode {
     final l$restaurantId = restaurantId;
     final l$first = first;
+    final l$after = after;
     return Object.hashAll([
       l$restaurantId,
       _$data.containsKey('first') ? l$first : const {},
+      _$data.containsKey('after') ? l$after : const {},
     ]);
   }
 }
@@ -1823,7 +1845,7 @@ abstract class CopyWith$Variables$Query$GetMealsByRestaurant<TRes> {
   factory CopyWith$Variables$Query$GetMealsByRestaurant.stub(TRes res) =
       _CopyWithStubImpl$Variables$Query$GetMealsByRestaurant;
 
-  TRes call({String? restaurantId, int? first});
+  TRes call({String? restaurantId, int? first, String? after});
 }
 
 class _CopyWithImpl$Variables$Query$GetMealsByRestaurant<TRes>
@@ -1839,15 +1861,19 @@ class _CopyWithImpl$Variables$Query$GetMealsByRestaurant<TRes>
 
   static const _undefined = <dynamic, dynamic>{};
 
-  TRes call({Object? restaurantId = _undefined, Object? first = _undefined}) =>
-      _then(
-        Variables$Query$GetMealsByRestaurant._({
-          ..._instance._$data,
-          if (restaurantId != _undefined && restaurantId != null)
-            'restaurantId': (restaurantId as String),
-          if (first != _undefined) 'first': (first as int?),
-        }),
-      );
+  TRes call({
+    Object? restaurantId = _undefined,
+    Object? first = _undefined,
+    Object? after = _undefined,
+  }) => _then(
+    Variables$Query$GetMealsByRestaurant._({
+      ..._instance._$data,
+      if (restaurantId != _undefined && restaurantId != null)
+        'restaurantId': (restaurantId as String),
+      if (first != _undefined) 'first': (first as int?),
+      if (after != _undefined) 'after': (after as String?),
+    }),
+  );
 }
 
 class _CopyWithStubImpl$Variables$Query$GetMealsByRestaurant<TRes>
@@ -1856,7 +1882,7 @@ class _CopyWithStubImpl$Variables$Query$GetMealsByRestaurant<TRes>
 
   TRes _res;
 
-  call({String? restaurantId, int? first}) => _res;
+  call({String? restaurantId, int? first, String? after}) => _res;
 }
 
 class Query$GetMealsByRestaurant {
@@ -2008,6 +2034,15 @@ const documentNodeQueryGetMealsByRestaurant = DocumentNode(
           defaultValue: DefaultValueNode(value: null),
           directives: [],
         ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'after')),
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
       ],
       directives: [],
       selectionSet: SelectionSetNode(
@@ -2038,6 +2073,10 @@ const documentNodeQueryGetMealsByRestaurant = DocumentNode(
                     ArgumentNode(
                       name: NameNode(value: 'first'),
                       value: VariableNode(name: NameNode(value: 'first')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'after'),
+                      value: VariableNode(name: NameNode(value: 'after')),
                     ),
                   ],
                   directives: [],
@@ -2101,6 +2140,37 @@ const documentNodeQueryGetMealsByRestaurant = DocumentNode(
                                   ),
                                 ],
                               ),
+                            ),
+                            FieldNode(
+                              name: NameNode(value: '__typename'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null,
+                            ),
+                          ],
+                        ),
+                      ),
+                      FieldNode(
+                        name: NameNode(value: 'pageInfo'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(
+                          selections: [
+                            FieldNode(
+                              name: NameNode(value: 'hasNextPage'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null,
+                            ),
+                            FieldNode(
+                              name: NameNode(value: 'endCursor'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null,
                             ),
                             FieldNode(
                               name: NameNode(value: '__typename'),
@@ -2466,6 +2536,7 @@ class _CopyWithStubImpl$Query$GetMealsByRestaurant$restaurant<TRes>
 class Query$GetMealsByRestaurant$restaurant$meals {
   Query$GetMealsByRestaurant$restaurant$meals({
     this.edges,
+    required this.pageInfo,
     this.$__typename = 'MealCursorConnection',
   });
 
@@ -2473,6 +2544,7 @@ class Query$GetMealsByRestaurant$restaurant$meals {
     Map<String, dynamic> json,
   ) {
     final l$edges = json['edges'];
+    final l$pageInfo = json['pageInfo'];
     final l$$__typename = json['__typename'];
     return Query$GetMealsByRestaurant$restaurant$meals(
       edges: (l$edges as List<dynamic>?)
@@ -2484,11 +2556,16 @@ class Query$GetMealsByRestaurant$restaurant$meals {
                   ),
           )
           .toList(),
+      pageInfo: Query$GetMealsByRestaurant$restaurant$meals$pageInfo.fromJson(
+        (l$pageInfo as Map<String, dynamic>),
+      ),
       $__typename: (l$$__typename as String),
     );
   }
 
   final List<Query$GetMealsByRestaurant$restaurant$meals$edges?>? edges;
+
+  final Query$GetMealsByRestaurant$restaurant$meals$pageInfo pageInfo;
 
   final String $__typename;
 
@@ -2496,6 +2573,8 @@ class Query$GetMealsByRestaurant$restaurant$meals {
     final _resultData = <String, dynamic>{};
     final l$edges = edges;
     _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
+    final l$pageInfo = pageInfo;
+    _resultData['pageInfo'] = l$pageInfo.toJson();
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -2504,9 +2583,11 @@ class Query$GetMealsByRestaurant$restaurant$meals {
   @override
   int get hashCode {
     final l$edges = edges;
+    final l$pageInfo = pageInfo;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
+      l$pageInfo,
       l$$__typename,
     ]);
   }
@@ -2534,6 +2615,11 @@ class Query$GetMealsByRestaurant$restaurant$meals {
         }
       }
     } else if (l$edges != lOther$edges) {
+      return false;
+    }
+    final l$pageInfo = pageInfo;
+    final lOther$pageInfo = other.pageInfo;
+    if (l$pageInfo != lOther$pageInfo) {
       return false;
     }
     final l$$__typename = $__typename;
@@ -2565,6 +2651,7 @@ abstract class CopyWith$Query$GetMealsByRestaurant$restaurant$meals<TRes> {
 
   TRes call({
     List<Query$GetMealsByRestaurant$restaurant$meals$edges?>? edges,
+    Query$GetMealsByRestaurant$restaurant$meals$pageInfo? pageInfo,
     String? $__typename,
   });
   TRes edges(
@@ -2577,6 +2664,8 @@ abstract class CopyWith$Query$GetMealsByRestaurant$restaurant$meals<TRes> {
     )
     _fn,
   );
+  CopyWith$Query$GetMealsByRestaurant$restaurant$meals$pageInfo<TRes>
+  get pageInfo;
 }
 
 class _CopyWithImpl$Query$GetMealsByRestaurant$restaurant$meals<TRes>
@@ -2594,6 +2683,7 @@ class _CopyWithImpl$Query$GetMealsByRestaurant$restaurant$meals<TRes>
 
   TRes call({
     Object? edges = _undefined,
+    Object? pageInfo = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
     Query$GetMealsByRestaurant$restaurant$meals(
@@ -2601,6 +2691,9 @@ class _CopyWithImpl$Query$GetMealsByRestaurant$restaurant$meals<TRes>
           ? _instance.edges
           : (edges
                 as List<Query$GetMealsByRestaurant$restaurant$meals$edges?>?),
+      pageInfo: pageInfo == _undefined || pageInfo == null
+          ? _instance.pageInfo
+          : (pageInfo as Query$GetMealsByRestaurant$restaurant$meals$pageInfo),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
@@ -2628,6 +2721,15 @@ class _CopyWithImpl$Query$GetMealsByRestaurant$restaurant$meals<TRes>
       ),
     )?.toList(),
   );
+
+  CopyWith$Query$GetMealsByRestaurant$restaurant$meals$pageInfo<TRes>
+  get pageInfo {
+    final local$pageInfo = _instance.pageInfo;
+    return CopyWith$Query$GetMealsByRestaurant$restaurant$meals$pageInfo(
+      local$pageInfo,
+      (e) => call(pageInfo: e),
+    );
+  }
 }
 
 class _CopyWithStubImpl$Query$GetMealsByRestaurant$restaurant$meals<TRes>
@@ -2638,10 +2740,15 @@ class _CopyWithStubImpl$Query$GetMealsByRestaurant$restaurant$meals<TRes>
 
   call({
     List<Query$GetMealsByRestaurant$restaurant$meals$edges?>? edges,
+    Query$GetMealsByRestaurant$restaurant$meals$pageInfo? pageInfo,
     String? $__typename,
   }) => _res;
 
   edges(_fn) => _res;
+
+  CopyWith$Query$GetMealsByRestaurant$restaurant$meals$pageInfo<TRes>
+  get pageInfo =>
+      CopyWith$Query$GetMealsByRestaurant$restaurant$meals$pageInfo.stub(_res);
 }
 
 class Query$GetMealsByRestaurant$restaurant$meals$edges {
@@ -3017,6 +3124,153 @@ class _CopyWithStubImpl$Query$GetMealsByRestaurant$restaurant$meals$edges$node<
     String? imageUrl,
     String? $__typename,
   }) => _res;
+}
+
+class Query$GetMealsByRestaurant$restaurant$meals$pageInfo {
+  Query$GetMealsByRestaurant$restaurant$meals$pageInfo({
+    required this.hasNextPage,
+    this.endCursor,
+    this.$__typename = 'MealPageInfo',
+  });
+
+  factory Query$GetMealsByRestaurant$restaurant$meals$pageInfo.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$hasNextPage = json['hasNextPage'];
+    final l$endCursor = json['endCursor'];
+    final l$$__typename = json['__typename'];
+    return Query$GetMealsByRestaurant$restaurant$meals$pageInfo(
+      hasNextPage: (l$hasNextPage as bool),
+      endCursor: (l$endCursor as String?),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final bool hasNextPage;
+
+  final String? endCursor;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$hasNextPage = hasNextPage;
+    _resultData['hasNextPage'] = l$hasNextPage;
+    final l$endCursor = endCursor;
+    _resultData['endCursor'] = l$endCursor;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$hasNextPage = hasNextPage;
+    final l$endCursor = endCursor;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$hasNextPage, l$endCursor, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Query$GetMealsByRestaurant$restaurant$meals$pageInfo ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$hasNextPage = hasNextPage;
+    final lOther$hasNextPage = other.hasNextPage;
+    if (l$hasNextPage != lOther$hasNextPage) {
+      return false;
+    }
+    final l$endCursor = endCursor;
+    final lOther$endCursor = other.endCursor;
+    if (l$endCursor != lOther$endCursor) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$GetMealsByRestaurant$restaurant$meals$pageInfo
+    on Query$GetMealsByRestaurant$restaurant$meals$pageInfo {
+  CopyWith$Query$GetMealsByRestaurant$restaurant$meals$pageInfo<
+    Query$GetMealsByRestaurant$restaurant$meals$pageInfo
+  >
+  get copyWith => CopyWith$Query$GetMealsByRestaurant$restaurant$meals$pageInfo(
+    this,
+    (i) => i,
+  );
+}
+
+abstract class CopyWith$Query$GetMealsByRestaurant$restaurant$meals$pageInfo<
+  TRes
+> {
+  factory CopyWith$Query$GetMealsByRestaurant$restaurant$meals$pageInfo(
+    Query$GetMealsByRestaurant$restaurant$meals$pageInfo instance,
+    TRes Function(Query$GetMealsByRestaurant$restaurant$meals$pageInfo) then,
+  ) = _CopyWithImpl$Query$GetMealsByRestaurant$restaurant$meals$pageInfo;
+
+  factory CopyWith$Query$GetMealsByRestaurant$restaurant$meals$pageInfo.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Query$GetMealsByRestaurant$restaurant$meals$pageInfo;
+
+  TRes call({bool? hasNextPage, String? endCursor, String? $__typename});
+}
+
+class _CopyWithImpl$Query$GetMealsByRestaurant$restaurant$meals$pageInfo<TRes>
+    implements
+        CopyWith$Query$GetMealsByRestaurant$restaurant$meals$pageInfo<TRes> {
+  _CopyWithImpl$Query$GetMealsByRestaurant$restaurant$meals$pageInfo(
+    this._instance,
+    this._then,
+  );
+
+  final Query$GetMealsByRestaurant$restaurant$meals$pageInfo _instance;
+
+  final TRes Function(Query$GetMealsByRestaurant$restaurant$meals$pageInfo)
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? hasNextPage = _undefined,
+    Object? endCursor = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Query$GetMealsByRestaurant$restaurant$meals$pageInfo(
+      hasNextPage: hasNextPage == _undefined || hasNextPage == null
+          ? _instance.hasNextPage
+          : (hasNextPage as bool),
+      endCursor: endCursor == _undefined
+          ? _instance.endCursor
+          : (endCursor as String?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Query$GetMealsByRestaurant$restaurant$meals$pageInfo<
+  TRes
+>
+    implements
+        CopyWith$Query$GetMealsByRestaurant$restaurant$meals$pageInfo<TRes> {
+  _CopyWithStubImpl$Query$GetMealsByRestaurant$restaurant$meals$pageInfo(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({bool? hasNextPage, String? endCursor, String? $__typename}) => _res;
 }
 
 class Variables$Mutation$CreateMeal {
@@ -7221,6 +7475,30 @@ const documentNodeQueryGetMealPlan = DocumentNode(
                   selectionSet: null,
                 ),
                 FieldNode(
+                  name: NameNode(value: 'restaurant'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(
+                    selections: [
+                      FieldNode(
+                        name: NameNode(value: 'id'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null,
+                      ),
+                      FieldNode(
+                        name: NameNode(value: '__typename'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null,
+                      ),
+                    ],
+                  ),
+                ),
+                FieldNode(
                   name: NameNode(value: 'meals'),
                   alias: null,
                   arguments: [],
@@ -7510,6 +7788,7 @@ class Query$GetMealPlan$mealPlan {
     this.description,
     this.price,
     this.imageUrl,
+    this.restaurant,
     this.meals,
     this.$__typename = 'MealPlan',
   });
@@ -7520,6 +7799,7 @@ class Query$GetMealPlan$mealPlan {
     final l$description = json['description'];
     final l$price = json['price'];
     final l$imageUrl = json['imageUrl'];
+    final l$restaurant = json['restaurant'];
     final l$meals = json['meals'];
     final l$$__typename = json['__typename'];
     return Query$GetMealPlan$mealPlan(
@@ -7528,6 +7808,11 @@ class Query$GetMealPlan$mealPlan {
       description: (l$description as String?),
       price: (l$price as int?),
       imageUrl: (l$imageUrl as String?),
+      restaurant: l$restaurant == null
+          ? null
+          : Query$GetMealPlan$mealPlan$restaurant.fromJson(
+              (l$restaurant as Map<String, dynamic>),
+            ),
       meals: l$meals == null
           ? null
           : Query$GetMealPlan$mealPlan$meals.fromJson(
@@ -7547,6 +7832,8 @@ class Query$GetMealPlan$mealPlan {
 
   final String? imageUrl;
 
+  final Query$GetMealPlan$mealPlan$restaurant? restaurant;
+
   final Query$GetMealPlan$mealPlan$meals? meals;
 
   final String $__typename;
@@ -7563,6 +7850,8 @@ class Query$GetMealPlan$mealPlan {
     _resultData['price'] = l$price;
     final l$imageUrl = imageUrl;
     _resultData['imageUrl'] = l$imageUrl;
+    final l$restaurant = restaurant;
+    _resultData['restaurant'] = l$restaurant?.toJson();
     final l$meals = meals;
     _resultData['meals'] = l$meals?.toJson();
     final l$$__typename = $__typename;
@@ -7577,6 +7866,7 @@ class Query$GetMealPlan$mealPlan {
     final l$description = description;
     final l$price = price;
     final l$imageUrl = imageUrl;
+    final l$restaurant = restaurant;
     final l$meals = meals;
     final l$$__typename = $__typename;
     return Object.hashAll([
@@ -7585,6 +7875,7 @@ class Query$GetMealPlan$mealPlan {
       l$description,
       l$price,
       l$imageUrl,
+      l$restaurant,
       l$meals,
       l$$__typename,
     ]);
@@ -7624,6 +7915,11 @@ class Query$GetMealPlan$mealPlan {
     if (l$imageUrl != lOther$imageUrl) {
       return false;
     }
+    final l$restaurant = restaurant;
+    final lOther$restaurant = other.restaurant;
+    if (l$restaurant != lOther$restaurant) {
+      return false;
+    }
     final l$meals = meals;
     final lOther$meals = other.meals;
     if (l$meals != lOther$meals) {
@@ -7659,9 +7955,11 @@ abstract class CopyWith$Query$GetMealPlan$mealPlan<TRes> {
     String? description,
     int? price,
     String? imageUrl,
+    Query$GetMealPlan$mealPlan$restaurant? restaurant,
     Query$GetMealPlan$mealPlan$meals? meals,
     String? $__typename,
   });
+  CopyWith$Query$GetMealPlan$mealPlan$restaurant<TRes> get restaurant;
   CopyWith$Query$GetMealPlan$mealPlan$meals<TRes> get meals;
 }
 
@@ -7681,6 +7979,7 @@ class _CopyWithImpl$Query$GetMealPlan$mealPlan<TRes>
     Object? description = _undefined,
     Object? price = _undefined,
     Object? imageUrl = _undefined,
+    Object? restaurant = _undefined,
     Object? meals = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
@@ -7696,6 +7995,9 @@ class _CopyWithImpl$Query$GetMealPlan$mealPlan<TRes>
       imageUrl: imageUrl == _undefined
           ? _instance.imageUrl
           : (imageUrl as String?),
+      restaurant: restaurant == _undefined
+          ? _instance.restaurant
+          : (restaurant as Query$GetMealPlan$mealPlan$restaurant?),
       meals: meals == _undefined
           ? _instance.meals
           : (meals as Query$GetMealPlan$mealPlan$meals?),
@@ -7704,6 +8006,16 @@ class _CopyWithImpl$Query$GetMealPlan$mealPlan<TRes>
           : ($__typename as String),
     ),
   );
+
+  CopyWith$Query$GetMealPlan$mealPlan$restaurant<TRes> get restaurant {
+    final local$restaurant = _instance.restaurant;
+    return local$restaurant == null
+        ? CopyWith$Query$GetMealPlan$mealPlan$restaurant.stub(_then(_instance))
+        : CopyWith$Query$GetMealPlan$mealPlan$restaurant(
+            local$restaurant,
+            (e) => call(restaurant: e),
+          );
+  }
 
   CopyWith$Query$GetMealPlan$mealPlan$meals<TRes> get meals {
     final local$meals = _instance.meals;
@@ -7728,12 +8040,130 @@ class _CopyWithStubImpl$Query$GetMealPlan$mealPlan<TRes>
     String? description,
     int? price,
     String? imageUrl,
+    Query$GetMealPlan$mealPlan$restaurant? restaurant,
     Query$GetMealPlan$mealPlan$meals? meals,
     String? $__typename,
   }) => _res;
 
+  CopyWith$Query$GetMealPlan$mealPlan$restaurant<TRes> get restaurant =>
+      CopyWith$Query$GetMealPlan$mealPlan$restaurant.stub(_res);
+
   CopyWith$Query$GetMealPlan$mealPlan$meals<TRes> get meals =>
       CopyWith$Query$GetMealPlan$mealPlan$meals.stub(_res);
+}
+
+class Query$GetMealPlan$mealPlan$restaurant {
+  Query$GetMealPlan$mealPlan$restaurant({
+    required this.id,
+    this.$__typename = 'Restaurant',
+  });
+
+  factory Query$GetMealPlan$mealPlan$restaurant.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$$__typename = json['__typename'];
+    return Query$GetMealPlan$mealPlan$restaurant(
+      id: (l$id as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Query$GetMealPlan$mealPlan$restaurant ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$GetMealPlan$mealPlan$restaurant
+    on Query$GetMealPlan$mealPlan$restaurant {
+  CopyWith$Query$GetMealPlan$mealPlan$restaurant<
+    Query$GetMealPlan$mealPlan$restaurant
+  >
+  get copyWith =>
+      CopyWith$Query$GetMealPlan$mealPlan$restaurant(this, (i) => i);
+}
+
+abstract class CopyWith$Query$GetMealPlan$mealPlan$restaurant<TRes> {
+  factory CopyWith$Query$GetMealPlan$mealPlan$restaurant(
+    Query$GetMealPlan$mealPlan$restaurant instance,
+    TRes Function(Query$GetMealPlan$mealPlan$restaurant) then,
+  ) = _CopyWithImpl$Query$GetMealPlan$mealPlan$restaurant;
+
+  factory CopyWith$Query$GetMealPlan$mealPlan$restaurant.stub(TRes res) =
+      _CopyWithStubImpl$Query$GetMealPlan$mealPlan$restaurant;
+
+  TRes call({String? id, String? $__typename});
+}
+
+class _CopyWithImpl$Query$GetMealPlan$mealPlan$restaurant<TRes>
+    implements CopyWith$Query$GetMealPlan$mealPlan$restaurant<TRes> {
+  _CopyWithImpl$Query$GetMealPlan$mealPlan$restaurant(
+    this._instance,
+    this._then,
+  );
+
+  final Query$GetMealPlan$mealPlan$restaurant _instance;
+
+  final TRes Function(Query$GetMealPlan$mealPlan$restaurant) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? id = _undefined, Object? $__typename = _undefined}) =>
+      _then(
+        Query$GetMealPlan$mealPlan$restaurant(
+          id: id == _undefined || id == null ? _instance.id : (id as String),
+          $__typename: $__typename == _undefined || $__typename == null
+              ? _instance.$__typename
+              : ($__typename as String),
+        ),
+      );
+}
+
+class _CopyWithStubImpl$Query$GetMealPlan$mealPlan$restaurant<TRes>
+    implements CopyWith$Query$GetMealPlan$mealPlan$restaurant<TRes> {
+  _CopyWithStubImpl$Query$GetMealPlan$mealPlan$restaurant(this._res);
+
+  TRes _res;
+
+  call({String? id, String? $__typename}) => _res;
 }
 
 class Query$GetMealPlan$mealPlan$meals {
@@ -8332,9 +8762,11 @@ class Variables$Query$GetMealPlansByRestaurant {
   factory Variables$Query$GetMealPlansByRestaurant({
     required String restaurantId,
     int? first,
+    String? after,
   }) => Variables$Query$GetMealPlansByRestaurant._({
     r'restaurantId': restaurantId,
     if (first != null) r'first': first,
+    if (after != null) r'after': after,
   });
 
   Variables$Query$GetMealPlansByRestaurant._(this._$data);
@@ -8349,6 +8781,10 @@ class Variables$Query$GetMealPlansByRestaurant {
       final l$first = data['first'];
       result$data['first'] = (l$first as int?);
     }
+    if (data.containsKey('after')) {
+      final l$after = data['after'];
+      result$data['after'] = (l$after as String?);
+    }
     return Variables$Query$GetMealPlansByRestaurant._(result$data);
   }
 
@@ -8358,6 +8794,8 @@ class Variables$Query$GetMealPlansByRestaurant {
 
   int? get first => (_$data['first'] as int?);
 
+  String? get after => (_$data['after'] as String?);
+
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
     final l$restaurantId = restaurantId;
@@ -8365,6 +8803,10 @@ class Variables$Query$GetMealPlansByRestaurant {
     if (_$data.containsKey('first')) {
       final l$first = first;
       result$data['first'] = l$first;
+    }
+    if (_$data.containsKey('after')) {
+      final l$after = after;
+      result$data['after'] = l$after;
     }
     return result$data;
   }
@@ -8397,6 +8839,14 @@ class Variables$Query$GetMealPlansByRestaurant {
     if (l$first != lOther$first) {
       return false;
     }
+    final l$after = after;
+    final lOther$after = other.after;
+    if (_$data.containsKey('after') != other._$data.containsKey('after')) {
+      return false;
+    }
+    if (l$after != lOther$after) {
+      return false;
+    }
     return true;
   }
 
@@ -8404,9 +8854,11 @@ class Variables$Query$GetMealPlansByRestaurant {
   int get hashCode {
     final l$restaurantId = restaurantId;
     final l$first = first;
+    final l$after = after;
     return Object.hashAll([
       l$restaurantId,
       _$data.containsKey('first') ? l$first : const {},
+      _$data.containsKey('after') ? l$after : const {},
     ]);
   }
 }
@@ -8420,7 +8872,7 @@ abstract class CopyWith$Variables$Query$GetMealPlansByRestaurant<TRes> {
   factory CopyWith$Variables$Query$GetMealPlansByRestaurant.stub(TRes res) =
       _CopyWithStubImpl$Variables$Query$GetMealPlansByRestaurant;
 
-  TRes call({String? restaurantId, int? first});
+  TRes call({String? restaurantId, int? first, String? after});
 }
 
 class _CopyWithImpl$Variables$Query$GetMealPlansByRestaurant<TRes>
@@ -8436,15 +8888,19 @@ class _CopyWithImpl$Variables$Query$GetMealPlansByRestaurant<TRes>
 
   static const _undefined = <dynamic, dynamic>{};
 
-  TRes call({Object? restaurantId = _undefined, Object? first = _undefined}) =>
-      _then(
-        Variables$Query$GetMealPlansByRestaurant._({
-          ..._instance._$data,
-          if (restaurantId != _undefined && restaurantId != null)
-            'restaurantId': (restaurantId as String),
-          if (first != _undefined) 'first': (first as int?),
-        }),
-      );
+  TRes call({
+    Object? restaurantId = _undefined,
+    Object? first = _undefined,
+    Object? after = _undefined,
+  }) => _then(
+    Variables$Query$GetMealPlansByRestaurant._({
+      ..._instance._$data,
+      if (restaurantId != _undefined && restaurantId != null)
+        'restaurantId': (restaurantId as String),
+      if (first != _undefined) 'first': (first as int?),
+      if (after != _undefined) 'after': (after as String?),
+    }),
+  );
 }
 
 class _CopyWithStubImpl$Variables$Query$GetMealPlansByRestaurant<TRes>
@@ -8453,7 +8909,7 @@ class _CopyWithStubImpl$Variables$Query$GetMealPlansByRestaurant<TRes>
 
   TRes _res;
 
-  call({String? restaurantId, int? first}) => _res;
+  call({String? restaurantId, int? first, String? after}) => _res;
 }
 
 class Query$GetMealPlansByRestaurant {
@@ -8607,6 +9063,15 @@ const documentNodeQueryGetMealPlansByRestaurant = DocumentNode(
           defaultValue: DefaultValueNode(value: null),
           directives: [],
         ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'after')),
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
       ],
       directives: [],
       selectionSet: SelectionSetNode(
@@ -8637,6 +9102,10 @@ const documentNodeQueryGetMealPlansByRestaurant = DocumentNode(
                     ArgumentNode(
                       name: NameNode(value: 'first'),
                       value: VariableNode(name: NameNode(value: 'first')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'after'),
+                      value: VariableNode(name: NameNode(value: 'after')),
                     ),
                   ],
                   directives: [],
@@ -8773,6 +9242,37 @@ const documentNodeQueryGetMealPlansByRestaurant = DocumentNode(
                                   ),
                                 ],
                               ),
+                            ),
+                            FieldNode(
+                              name: NameNode(value: '__typename'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null,
+                            ),
+                          ],
+                        ),
+                      ),
+                      FieldNode(
+                        name: NameNode(value: 'pageInfo'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(
+                          selections: [
+                            FieldNode(
+                              name: NameNode(value: 'hasNextPage'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null,
+                            ),
+                            FieldNode(
+                              name: NameNode(value: 'endCursor'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null,
                             ),
                             FieldNode(
                               name: NameNode(value: '__typename'),
@@ -9149,6 +9649,7 @@ class _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant<TRes>
 class Query$GetMealPlansByRestaurant$restaurant$mealPlans {
   Query$GetMealPlansByRestaurant$restaurant$mealPlans({
     this.edges,
+    required this.pageInfo,
     this.$__typename = 'MealPlanCursorConnection',
   });
 
@@ -9156,6 +9657,7 @@ class Query$GetMealPlansByRestaurant$restaurant$mealPlans {
     Map<String, dynamic> json,
   ) {
     final l$edges = json['edges'];
+    final l$pageInfo = json['pageInfo'];
     final l$$__typename = json['__typename'];
     return Query$GetMealPlansByRestaurant$restaurant$mealPlans(
       edges: (l$edges as List<dynamic>?)
@@ -9167,11 +9669,17 @@ class Query$GetMealPlansByRestaurant$restaurant$mealPlans {
                   ),
           )
           .toList(),
+      pageInfo:
+          Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo.fromJson(
+            (l$pageInfo as Map<String, dynamic>),
+          ),
       $__typename: (l$$__typename as String),
     );
   }
 
   final List<Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges?>? edges;
+
+  final Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo pageInfo;
 
   final String $__typename;
 
@@ -9179,6 +9687,8 @@ class Query$GetMealPlansByRestaurant$restaurant$mealPlans {
     final _resultData = <String, dynamic>{};
     final l$edges = edges;
     _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
+    final l$pageInfo = pageInfo;
+    _resultData['pageInfo'] = l$pageInfo.toJson();
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -9187,9 +9697,11 @@ class Query$GetMealPlansByRestaurant$restaurant$mealPlans {
   @override
   int get hashCode {
     final l$edges = edges;
+    final l$pageInfo = pageInfo;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
+      l$pageInfo,
       l$$__typename,
     ]);
   }
@@ -9217,6 +9729,11 @@ class Query$GetMealPlansByRestaurant$restaurant$mealPlans {
         }
       }
     } else if (l$edges != lOther$edges) {
+      return false;
+    }
+    final l$pageInfo = pageInfo;
+    final lOther$pageInfo = other.pageInfo;
+    if (l$pageInfo != lOther$pageInfo) {
       return false;
     }
     final l$$__typename = $__typename;
@@ -9253,6 +9770,7 @@ abstract class CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans<
 
   TRes call({
     List<Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges?>? edges,
+    Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo? pageInfo,
     String? $__typename,
   });
   TRes edges(
@@ -9266,6 +9784,8 @@ abstract class CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans<
     )
     _fn,
   );
+  CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo<TRes>
+  get pageInfo;
 }
 
 class _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans<TRes>
@@ -9283,20 +9803,27 @@ class _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans<TRes>
 
   static const _undefined = <dynamic, dynamic>{};
 
-  TRes call({Object? edges = _undefined, Object? $__typename = _undefined}) =>
-      _then(
-        Query$GetMealPlansByRestaurant$restaurant$mealPlans(
-          edges: edges == _undefined
-              ? _instance.edges
-              : (edges
-                    as List<
-                      Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges?
-                    >?),
-          $__typename: $__typename == _undefined || $__typename == null
-              ? _instance.$__typename
-              : ($__typename as String),
-        ),
-      );
+  TRes call({
+    Object? edges = _undefined,
+    Object? pageInfo = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Query$GetMealPlansByRestaurant$restaurant$mealPlans(
+      edges: edges == _undefined
+          ? _instance.edges
+          : (edges
+                as List<
+                  Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges?
+                >?),
+      pageInfo: pageInfo == _undefined || pageInfo == null
+          ? _instance.pageInfo
+          : (pageInfo
+                as Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
 
   TRes edges(
     Iterable<Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges?>?
@@ -9320,6 +9847,15 @@ class _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans<TRes>
       ),
     )?.toList(),
   );
+
+  CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo<TRes>
+  get pageInfo {
+    final local$pageInfo = _instance.pageInfo;
+    return CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo(
+      local$pageInfo,
+      (e) => call(pageInfo: e),
+    );
+  }
 }
 
 class _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans<
@@ -9335,10 +9871,17 @@ class _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans<
 
   call({
     List<Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges?>? edges,
+    Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo? pageInfo,
     String? $__typename,
   }) => _res;
 
   edges(_fn) => _res;
+
+  CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo<TRes>
+  get pageInfo =>
+      CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo.stub(
+        _res,
+      );
 }
 
 class Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges {
@@ -10366,6 +10909,164 @@ class _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edge
   TRes _res;
 
   call({String? id, String? name, String? $__typename}) => _res;
+}
+
+class Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo {
+  Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo({
+    required this.hasNextPage,
+    this.endCursor,
+    this.$__typename = 'MealPlanPageInfo',
+  });
+
+  factory Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$hasNextPage = json['hasNextPage'];
+    final l$endCursor = json['endCursor'];
+    final l$$__typename = json['__typename'];
+    return Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo(
+      hasNextPage: (l$hasNextPage as bool),
+      endCursor: (l$endCursor as String?),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final bool hasNextPage;
+
+  final String? endCursor;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$hasNextPage = hasNextPage;
+    _resultData['hasNextPage'] = l$hasNextPage;
+    final l$endCursor = endCursor;
+    _resultData['endCursor'] = l$endCursor;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$hasNextPage = hasNextPage;
+    final l$endCursor = endCursor;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$hasNextPage, l$endCursor, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other
+            is! Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$hasNextPage = hasNextPage;
+    final lOther$hasNextPage = other.hasNextPage;
+    if (l$hasNextPage != lOther$hasNextPage) {
+      return false;
+    }
+    final l$endCursor = endCursor;
+    final lOther$endCursor = other.endCursor;
+    if (l$endCursor != lOther$endCursor) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo
+    on Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo {
+  CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo<
+    Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo
+  >
+  get copyWith =>
+      CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo<
+  TRes
+> {
+  factory CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo(
+    Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo instance,
+    TRes Function(Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo)
+    then,
+  ) = _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo;
+
+  factory CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo;
+
+  TRes call({bool? hasNextPage, String? endCursor, String? $__typename});
+}
+
+class _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo<
+  TRes
+>
+    implements
+        CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo<
+          TRes
+        > {
+  _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo(
+    this._instance,
+    this._then,
+  );
+
+  final Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo _instance;
+
+  final TRes Function(
+    Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo,
+  )
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? hasNextPage = _undefined,
+    Object? endCursor = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo(
+      hasNextPage: hasNextPage == _undefined || hasNextPage == null
+          ? _instance.hasNextPage
+          : (hasNextPage as bool),
+      endCursor: endCursor == _undefined
+          ? _instance.endCursor
+          : (endCursor as String?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo<
+  TRes
+>
+    implements
+        CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo<
+          TRes
+        > {
+  _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({bool? hasNextPage, String? endCursor, String? $__typename}) => _res;
 }
 
 class Variables$Mutation$CreateMealPlan {

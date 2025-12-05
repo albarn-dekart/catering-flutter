@@ -35,7 +35,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
       onChanged: widget.onChanged,
       decoration: InputDecoration(
         hintText: widget.hintText,
-        border: const OutlineInputBorder(),
         suffixIcon: widget.obscureText
             ? IconButton(
                 icon: Icon(

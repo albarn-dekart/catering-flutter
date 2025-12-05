@@ -1,19 +1,18 @@
+import 'dart:convert';
 import 'package:catering_flutter/graphql/restaurants.graphql.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:http/http.dart' as http;
 import 'package:catering_flutter/core/api_exception.dart';
-import 'package:catering_flutter/core/api_config.dart';
-import 'package:catering_flutter/core/token_storage_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
+import 'package:catering_flutter/core/api_client.dart';
 
 typedef Restaurant = Query$GetRestaurants$restaurants$edges$node;
 typedef RestaurantDetails = Query$GetRestaurant$restaurant;
 
 class RestaurantService extends ChangeNotifier {
   final GraphQLClient _client;
-  final TokenStorageService _tokenStorage;
+  final ApiClient _apiClient;
 
   List<Restaurant> _restaurants = [];
   List<Restaurant> get restaurants => _restaurants;
@@ -29,7 +28,13 @@ class RestaurantService extends ChangeNotifier {
 
   bool get hasError => _errorMessage != null;
 
-  RestaurantService(this._client, this._tokenStorage);
+  String? _endCursor;
+  bool _hasNextPage = false;
+  bool get hasNextPage => _hasNextPage;
+  bool _isFetchingMore = false;
+  bool get isFetchingMore => _isFetchingMore;
+
+  RestaurantService(this._client, this._apiClient);
 
   Future<void> fetchAllRestaurants() async {
     _isLoading = true;
@@ -54,11 +59,52 @@ class RestaurantService extends ChangeNotifier {
             .map((e) => e?.node)
             .whereType<Restaurant>()
             .toList();
+        _endCursor = data.restaurants?.pageInfo.endCursor;
+        _hasNextPage = data.restaurants?.pageInfo.hasNextPage ?? false;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
       _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> loadMoreRestaurants() async {
+    if (_isFetchingMore || !_hasNextPage || _endCursor == null) return;
+
+    _isFetchingMore = true;
+    notifyListeners();
+
+    try {
+      final options = QueryOptions(
+        document: documentNodeQueryGetRestaurants,
+        variables: Variables$Query$GetRestaurants(
+          first: 50,
+          after: _endCursor,
+        ).toJson(),
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
+      final result = await _client.query(options);
+
+      if (result.hasException) {
+        throw ApiException(result.exception.toString());
+      }
+
+      final data = Query$GetRestaurants.fromJson(result.data!);
+      if (data.restaurants?.edges != null) {
+        final newRestaurants = data.restaurants!.edges!
+            .map((e) => e?.node)
+            .whereType<Restaurant>()
+            .toList();
+        _restaurants.addAll(newRestaurants);
+        _endCursor = data.restaurants?.pageInfo.endCursor;
+        _hasNextPage = data.restaurants?.pageInfo.hasNextPage ?? false;
+      }
+    } catch (e) {
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
+    } finally {
+      _isFetchingMore = false;
       notifyListeners();
     }
   }
@@ -94,6 +140,7 @@ class RestaurantService extends ChangeNotifier {
   Future<String?> createRestaurant({
     required String name,
     required String description,
+    List<String>? categoryIris,
   }) async {
     _isLoading = true;
     _errorMessage = null;
@@ -106,6 +153,7 @@ class RestaurantService extends ChangeNotifier {
           input: Input$createRestaurantInput(
             name: name,
             description: description,
+            restaurantCategories: categoryIris,
           ),
         ).toJson(),
       );
@@ -136,6 +184,7 @@ class RestaurantService extends ChangeNotifier {
     required String id,
     String? name,
     String? description,
+    List<String>? categoryIris,
   }) async {
     _isLoading = true;
     _errorMessage = null;
@@ -149,6 +198,7 @@ class RestaurantService extends ChangeNotifier {
             id: id,
             name: name,
             description: description,
+            restaurantCategories: categoryIris,
           ),
         ).toJson(),
       );
@@ -247,29 +297,63 @@ class RestaurantService extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final baseUrl = ApiConfig.baseUrl;
-
-      final uri = Uri.parse(
-        '${baseUrl.replaceFirst('/api', '')}$restaurantIri/image',
+      final response = await _apiClient.postMultipart(
+        '$restaurantIri/image',
+        imageBytes,
+        filename,
       );
-      final request = http.MultipartRequest('POST', uri);
-
-      final token = await _tokenStorage.getToken();
-      if (token != null) {
-        request.headers['Authorization'] = 'Bearer $token';
-      }
-
-      request.files.add(
-        http.MultipartFile.fromBytes('file', imageBytes, filename: filename),
-      );
-
-      final streamedResponse = await request.send();
-      final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
         await getRestaurantById(restaurantIri);
       } else {
         throw ApiException('Failed to upload image: ${response.body}');
+      }
+    } catch (e) {
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
+      rethrow;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  /// Invites a new restaurant owner by creating a user and restaurant atomically.
+  /// Uses InviteRestaurantController on backend (/api/invite-restaurant).
+  /// Returns the restaurant IRI on success.
+  Future<String?> inviteRestaurantOwner({
+    required String email,
+    required String password,
+    required String restaurantName,
+    String? description,
+    List<String>? categoryIds,
+  }) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final response = await _apiClient.post(
+        '/api/invite-restaurant',
+        body: {
+          'email': email,
+          'plainPassword': password,
+          'restaurantName': restaurantName,
+          'restaurantDescription': description,
+          'categoryIds': categoryIds ?? [],
+        },
+      );
+
+      if (response.statusCode == 201) {
+        final data = jsonDecode(response.body);
+        final restaurantIri = '/api/restaurants/${data['restaurant']['id']}';
+
+        // Refresh the restaurant list
+        await fetchAllRestaurants();
+
+        return restaurantIri;
+      } else {
+        final error = jsonDecode(response.body);
+        throw ApiException(error['error'] ?? 'Failed to create restaurant');
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);

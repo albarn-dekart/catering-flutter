@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:catering_flutter/core/app_routes.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/features/order/services/cart_service.dart';
-import 'package:catering_flutter/core/utils/image_helper.dart';
+import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -57,18 +57,9 @@ class _CartScreenState extends State<CartScreen> {
                               child:
                                   cartItem.mealPlan.imageUrl != null &&
                                       cartItem.mealPlan.imageUrl!.isNotEmpty
-                                  ? Image.network(
-                                      ImageHelper.getFullImageUrl(
-                                        cartItem.mealPlan.imageUrl!,
-                                      )!,
+                                  ? CustomCachedImage(
+                                      imageUrl: cartItem.mealPlan.imageUrl,
                                       fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) => Icon(
-                                            Icons.fastfood,
-                                            color: Theme.of(
-                                              context,
-                                            ).colorScheme.onSurfaceVariant,
-                                          ),
                                     )
                                   : Icon(
                                       Icons.fastfood,
@@ -202,7 +193,7 @@ class _CartScreenState extends State<CartScreen> {
                   color: Theme.of(context).colorScheme.surface,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 150),
+                      color: Colors.black.withValues(alpha: 0.05),
                       blurRadius: 10,
                       offset: const Offset(0, -5),
                     ),

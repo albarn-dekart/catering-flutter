@@ -1,4 +1,4 @@
-import 'package:catering_flutter/core/api_config.dart';
+import 'package:catering_flutter/core/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:provider/provider.dart';
@@ -7,10 +7,11 @@ import 'package:catering_flutter/core/app_routes.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
-import 'package:catering_flutter/core/widgets/responsive_grid.dart';
 import 'package:catering_flutter/features/order/services/order_service.dart';
 import 'package:catering_flutter/features/order/services/payment_service.dart';
 import 'package:catering_flutter/core/utils/status_extensions.dart';
+import 'package:catering_flutter/core/services/export_service.dart';
+import 'package:catering_flutter/core/auth_service.dart';
 
 class OrderListScreen extends StatefulWidget {
   const OrderListScreen({super.key});
@@ -21,12 +22,19 @@ class OrderListScreen extends StatefulWidget {
 
 class _OrderListScreenState extends State<OrderListScreen> {
   Enum$OrderStatus? _selectedStatusFilter;
+  bool _isExporting = false;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await context.read<OrderService>().getMyOrders();
+      final authService = context.read<AuthService>();
+      final userIri = authService.userIri;
+      if (userIri != null) {
+        await context.read<OrderService>().getMyOrders(userIri);
+      }
       if (!mounted) return;
       final service = context.read<OrderService>();
       if (service.hasError) {
@@ -40,9 +48,41 @@ class _OrderListScreenState extends State<OrderListScreen> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      final service = context.read<OrderService>();
+      if (!service.isLoading &&
+          !service.isFetchingMore &&
+          service.hasNextPage) {
+        service.loadMoreOrders();
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: 'Orders',
+      floatingActionButton: FloatingActionButton(
+        onPressed: _isExporting ? null : _exportOrders,
+        tooltip: 'Export to CSV',
+        child: _isExporting
+            ? const SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
+                ),
+              )
+            : const Icon(Icons.download),
+      ),
       child: Column(
         children: [
           // Status filter chips
@@ -68,7 +108,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
                 if (paymentService.checkoutSessionCreated) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     paymentService.redirectToStripeCheckout(
-                      apiKey: ApiConfig.stripePubKey,
+                      apiKey: ApiClient.stripePubKey,
                       sessionId: paymentService.checkoutSessionId!,
                     );
                     paymentService.clearCheckoutSessionStatus();
@@ -137,17 +177,29 @@ class _OrderListScreenState extends State<OrderListScreen> {
                     );
                   }
 
-                  return ResponsiveGridBuilder(
-                    itemCount: filteredOrders.length,
-                    childAspectRatio: 1.6,
+                  return ListView.separated(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.all(16),
+                    itemCount:
+                        filteredOrders.length +
+                        (orderService.isFetchingMore ? 1 : 0),
+                    separatorBuilder: (_, a) => const SizedBox(height: 12),
                     itemBuilder: (context, index) {
+                      if (index >= filteredOrders.length) {
+                        return const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      }
                       final order = filteredOrders[index];
 
                       return Card(
                         elevation: 2,
                         clipBehavior: Clip.antiAlias,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(24),
                         ),
                         child: InkWell(
                           onTap: () {
@@ -302,5 +354,40 @@ class _OrderListScreenState extends State<OrderListScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _exportOrders() async {
+    setState(() {
+      _isExporting = true;
+    });
+
+    try {
+      final exportService = context.read<ExportService>();
+
+      await exportService.exportOrdersToCsv(
+        statusFilter: _selectedStatusFilter,
+      );
+
+      if (!mounted) return;
+
+      UIErrorHandler.showSnackBar(
+        context,
+        'Orders exported successfully',
+        isError: false,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      UIErrorHandler.showSnackBar(
+        context,
+        'Failed to export orders: ${e.toString()}',
+        isError: true,
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isExporting = false;
+        });
+      }
+    }
   }
 }

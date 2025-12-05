@@ -8,6 +8,7 @@ import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/features/user/services/user_service.dart';
 import 'package:catering_flutter/core/utils/status_extensions.dart';
 import 'package:catering_flutter/core/widgets/searchable_list_screen.dart';
+import 'package:catering_flutter/core/services/export_service.dart';
 
 class RestaurantDeliveriesScreen extends StatefulWidget {
   final String restaurantIri;
@@ -15,11 +16,14 @@ class RestaurantDeliveriesScreen extends StatefulWidget {
   const RestaurantDeliveriesScreen({super.key, required this.restaurantIri});
 
   @override
-  State<RestaurantDeliveriesScreen> createState() => _RestaurantDeliveriesScreenState();
+  State<RestaurantDeliveriesScreen> createState() =>
+      _RestaurantDeliveriesScreenState();
 }
 
-class _RestaurantDeliveriesScreenState extends State<RestaurantDeliveriesScreen> {
+class _RestaurantDeliveriesScreenState
+    extends State<RestaurantDeliveriesScreen> {
   Enum$DeliveryStatus? _selectedStatusFilter;
+  bool _isExporting = false;
 
   @override
   void initState() {
@@ -59,8 +63,30 @@ class _RestaurantDeliveriesScreenState extends State<RestaurantDeliveriesScreen>
 
         return SearchableListScreen<Delivery>(
           title: 'Manage Deliveries',
+          floatingActionButton: FloatingActionButton(
+            onPressed: _isExporting ? null : _exportDeliveries,
+            tooltip: 'Export to CSV',
+            child: _isExporting
+                ? const SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                : const Icon(Icons.download),
+          ),
           items: filteredDeliveries,
           isLoading: deliveryService.isLoading || userService.isLoading,
+          onLoadMore: () async {
+            if (!deliveryService.isFetchingMore &&
+                deliveryService.hasNextPage) {
+              await deliveryService.loadMoreDeliveries(
+                restaurantIri: widget.restaurantIri,
+              );
+            }
+          },
           searchHint: 'Search by order number...',
           filter: (delivery, query) {
             final orderId = IriHelper.getId(delivery.order?.id ?? '');
@@ -299,6 +325,41 @@ class _RestaurantDeliveriesScreenState extends State<RestaurantDeliveriesScreen>
         e,
         customMessage: 'Failed to update status',
       );
+    }
+  }
+
+  Future<void> _exportDeliveries() async {
+    setState(() {
+      _isExporting = true;
+    });
+
+    try {
+      final exportService = context.read<ExportService>();
+
+      await exportService.exportDeliveriesToCsv(
+        statusFilter: _selectedStatusFilter,
+      );
+
+      if (!mounted) return;
+
+      UIErrorHandler.showSnackBar(
+        context,
+        'Deliveries exported successfully',
+        isError: false,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      UIErrorHandler.showSnackBar(
+        context,
+        'Failed to export deliveries: ${e.toString()}',
+        isError: true,
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isExporting = false;
+        });
+      }
     }
   }
 }
