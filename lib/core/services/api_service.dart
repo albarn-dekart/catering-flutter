@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'package:catering_flutter/core/api_exception.dart';
-import 'package:catering_flutter/core/auth_service.dart';
+import 'package:catering_flutter/core/services/auth_service.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:http/http.dart' as http;
 
-class ApiClient {
+class ApiService {
   final AuthService _authService;
   final http.Client _client;
 
@@ -15,7 +15,7 @@ class ApiClient {
     return 'pk_test_51RpVMYJtourcXV011H2zSESBpx0aPvgECcwnpH6iJnuOk6MeCKCpuzpkyFsoaaiPQWc117CIwMVXz2GnVZUWGzBX00Es7TkDMx';
   }
 
-  ApiClient(this._authService, [http.Client? client])
+  ApiService(this._authService, [http.Client? client])
     : _client = client ?? http.Client();
 
   /// Performs a GET request.
@@ -109,4 +109,30 @@ class ApiClient {
       throw ApiException(message);
     }
   }
+}
+
+class ApiException implements Exception {
+  final String message;
+
+  ApiException(this.message);
+
+  /// Static helper to check QueryResult and throw ApiException if there's an error
+  static void check(QueryResult result) {
+    if (result.hasException) {
+      final exception = result.exception!;
+      String errorMessage = 'An error occurred';
+
+      // Extract error message from GraphQL errors
+      if (exception.graphqlErrors.isNotEmpty) {
+        errorMessage = exception.graphqlErrors.map((e) => e.message).join(', ');
+      } else if (exception.linkException != null) {
+        errorMessage = exception.linkException.toString();
+      }
+
+      throw ApiException(errorMessage);
+    }
+  }
+
+  @override
+  String toString() => message;
 }

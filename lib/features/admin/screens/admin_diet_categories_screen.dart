@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/features/restaurant/services/diet_category_service.dart';
 import 'package:catering_flutter/features/restaurant/widgets/category_management_tab.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
 
 class AdminDietCategoriesScreen extends StatelessWidget {
   const AdminDietCategoriesScreen({super.key});
@@ -10,12 +11,12 @@ class AdminDietCategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      title: 'Diet Categories',
+      title: AppLocalizations.of(context)!.dietCategories,
       child: Consumer<DietCategoryService>(
         builder: (context, service, _) {
           return CategoryManagementTab(
-            title: 'Diet Categories',
-            categoryType: 'Diet',
+            title: AppLocalizations.of(context)!.dietCategories,
+            categoryType: AppLocalizations.of(context)!.diet,
             fetchCategories: () async {
               await service.getDietCategories();
               return service.dietCategories

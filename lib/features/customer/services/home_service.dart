@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:catering_flutter/core/api_exception.dart';
+import 'package:catering_flutter/core/services/api_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
-import 'package:catering_flutter/core/api_client.dart';
 
 class PopularMealPlan {
   final String id;
@@ -30,7 +29,7 @@ class PopularMealPlan {
       id: json['id'].toString(),
       name: json['name'] as String,
       description: json['description'] as String?,
-      price: (json['price'] ?? 0).toDouble() / 100,
+      price: (json['price'] ?? 0).toDouble(),
       imageUrl: json['imageUrl'] as String?,
       restaurantId: json['restaurantId'].toString(),
       restaurantName: json['restaurantName'] as String,
@@ -90,7 +89,7 @@ class HomeData {
 }
 
 class HomeService extends ChangeNotifier {
-  final ApiClient _apiClient;
+  final ApiService _apiClient;
   HomeData? _homeData;
   HomeData? get homeData => _homeData;
 

@@ -1,3 +1,2196 @@
+class Input$MealFilter_price {
+  factory Input$MealFilter_price({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  }) => Input$MealFilter_price._({
+    if (between != null) r'between': between,
+    if (gt != null) r'gt': gt,
+    if (gte != null) r'gte': gte,
+    if (lt != null) r'lt': lt,
+    if (lte != null) r'lte': lte,
+  });
+
+  Input$MealFilter_price._(this._$data);
+
+  factory Input$MealFilter_price.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('between')) {
+      final l$between = data['between'];
+      result$data['between'] = (l$between as String?);
+    }
+    if (data.containsKey('gt')) {
+      final l$gt = data['gt'];
+      result$data['gt'] = (l$gt as String?);
+    }
+    if (data.containsKey('gte')) {
+      final l$gte = data['gte'];
+      result$data['gte'] = (l$gte as String?);
+    }
+    if (data.containsKey('lt')) {
+      final l$lt = data['lt'];
+      result$data['lt'] = (l$lt as String?);
+    }
+    if (data.containsKey('lte')) {
+      final l$lte = data['lte'];
+      result$data['lte'] = (l$lte as String?);
+    }
+    return Input$MealFilter_price._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String? get between => (_$data['between'] as String?);
+
+  String? get gt => (_$data['gt'] as String?);
+
+  String? get gte => (_$data['gte'] as String?);
+
+  String? get lt => (_$data['lt'] as String?);
+
+  String? get lte => (_$data['lte'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('between')) {
+      final l$between = between;
+      result$data['between'] = l$between;
+    }
+    if (_$data.containsKey('gt')) {
+      final l$gt = gt;
+      result$data['gt'] = l$gt;
+    }
+    if (_$data.containsKey('gte')) {
+      final l$gte = gte;
+      result$data['gte'] = l$gte;
+    }
+    if (_$data.containsKey('lt')) {
+      final l$lt = lt;
+      result$data['lt'] = l$lt;
+    }
+    if (_$data.containsKey('lte')) {
+      final l$lte = lte;
+      result$data['lte'] = l$lte;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$MealFilter_price<Input$MealFilter_price> get copyWith =>
+      CopyWith$Input$MealFilter_price(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$MealFilter_price || runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$between = between;
+    final lOther$between = other.between;
+    if (_$data.containsKey('between') != other._$data.containsKey('between')) {
+      return false;
+    }
+    if (l$between != lOther$between) {
+      return false;
+    }
+    final l$gt = gt;
+    final lOther$gt = other.gt;
+    if (_$data.containsKey('gt') != other._$data.containsKey('gt')) {
+      return false;
+    }
+    if (l$gt != lOther$gt) {
+      return false;
+    }
+    final l$gte = gte;
+    final lOther$gte = other.gte;
+    if (_$data.containsKey('gte') != other._$data.containsKey('gte')) {
+      return false;
+    }
+    if (l$gte != lOther$gte) {
+      return false;
+    }
+    final l$lt = lt;
+    final lOther$lt = other.lt;
+    if (_$data.containsKey('lt') != other._$data.containsKey('lt')) {
+      return false;
+    }
+    if (l$lt != lOther$lt) {
+      return false;
+    }
+    final l$lte = lte;
+    final lOther$lte = other.lte;
+    if (_$data.containsKey('lte') != other._$data.containsKey('lte')) {
+      return false;
+    }
+    if (l$lte != lOther$lte) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$between = between;
+    final l$gt = gt;
+    final l$gte = gte;
+    final l$lt = lt;
+    final l$lte = lte;
+    return Object.hashAll([
+      _$data.containsKey('between') ? l$between : const {},
+      _$data.containsKey('gt') ? l$gt : const {},
+      _$data.containsKey('gte') ? l$gte : const {},
+      _$data.containsKey('lt') ? l$lt : const {},
+      _$data.containsKey('lte') ? l$lte : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$MealFilter_price<TRes> {
+  factory CopyWith$Input$MealFilter_price(
+    Input$MealFilter_price instance,
+    TRes Function(Input$MealFilter_price) then,
+  ) = _CopyWithImpl$Input$MealFilter_price;
+
+  factory CopyWith$Input$MealFilter_price.stub(TRes res) =
+      _CopyWithStubImpl$Input$MealFilter_price;
+
+  TRes call({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  });
+}
+
+class _CopyWithImpl$Input$MealFilter_price<TRes>
+    implements CopyWith$Input$MealFilter_price<TRes> {
+  _CopyWithImpl$Input$MealFilter_price(this._instance, this._then);
+
+  final Input$MealFilter_price _instance;
+
+  final TRes Function(Input$MealFilter_price) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? between = _undefined,
+    Object? gt = _undefined,
+    Object? gte = _undefined,
+    Object? lt = _undefined,
+    Object? lte = _undefined,
+  }) => _then(
+    Input$MealFilter_price._({
+      ..._instance._$data,
+      if (between != _undefined) 'between': (between as String?),
+      if (gt != _undefined) 'gt': (gt as String?),
+      if (gte != _undefined) 'gte': (gte as String?),
+      if (lt != _undefined) 'lt': (lt as String?),
+      if (lte != _undefined) 'lte': (lte as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$MealFilter_price<TRes>
+    implements CopyWith$Input$MealFilter_price<TRes> {
+  _CopyWithStubImpl$Input$MealFilter_price(this._res);
+
+  TRes _res;
+
+  call({String? between, String? gt, String? gte, String? lt, String? lte}) =>
+      _res;
+}
+
+class Input$MealFilter_calories {
+  factory Input$MealFilter_calories({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  }) => Input$MealFilter_calories._({
+    if (between != null) r'between': between,
+    if (gt != null) r'gt': gt,
+    if (gte != null) r'gte': gte,
+    if (lt != null) r'lt': lt,
+    if (lte != null) r'lte': lte,
+  });
+
+  Input$MealFilter_calories._(this._$data);
+
+  factory Input$MealFilter_calories.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('between')) {
+      final l$between = data['between'];
+      result$data['between'] = (l$between as String?);
+    }
+    if (data.containsKey('gt')) {
+      final l$gt = data['gt'];
+      result$data['gt'] = (l$gt as String?);
+    }
+    if (data.containsKey('gte')) {
+      final l$gte = data['gte'];
+      result$data['gte'] = (l$gte as String?);
+    }
+    if (data.containsKey('lt')) {
+      final l$lt = data['lt'];
+      result$data['lt'] = (l$lt as String?);
+    }
+    if (data.containsKey('lte')) {
+      final l$lte = data['lte'];
+      result$data['lte'] = (l$lte as String?);
+    }
+    return Input$MealFilter_calories._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String? get between => (_$data['between'] as String?);
+
+  String? get gt => (_$data['gt'] as String?);
+
+  String? get gte => (_$data['gte'] as String?);
+
+  String? get lt => (_$data['lt'] as String?);
+
+  String? get lte => (_$data['lte'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('between')) {
+      final l$between = between;
+      result$data['between'] = l$between;
+    }
+    if (_$data.containsKey('gt')) {
+      final l$gt = gt;
+      result$data['gt'] = l$gt;
+    }
+    if (_$data.containsKey('gte')) {
+      final l$gte = gte;
+      result$data['gte'] = l$gte;
+    }
+    if (_$data.containsKey('lt')) {
+      final l$lt = lt;
+      result$data['lt'] = l$lt;
+    }
+    if (_$data.containsKey('lte')) {
+      final l$lte = lte;
+      result$data['lte'] = l$lte;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$MealFilter_calories<Input$MealFilter_calories> get copyWith =>
+      CopyWith$Input$MealFilter_calories(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$MealFilter_calories ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$between = between;
+    final lOther$between = other.between;
+    if (_$data.containsKey('between') != other._$data.containsKey('between')) {
+      return false;
+    }
+    if (l$between != lOther$between) {
+      return false;
+    }
+    final l$gt = gt;
+    final lOther$gt = other.gt;
+    if (_$data.containsKey('gt') != other._$data.containsKey('gt')) {
+      return false;
+    }
+    if (l$gt != lOther$gt) {
+      return false;
+    }
+    final l$gte = gte;
+    final lOther$gte = other.gte;
+    if (_$data.containsKey('gte') != other._$data.containsKey('gte')) {
+      return false;
+    }
+    if (l$gte != lOther$gte) {
+      return false;
+    }
+    final l$lt = lt;
+    final lOther$lt = other.lt;
+    if (_$data.containsKey('lt') != other._$data.containsKey('lt')) {
+      return false;
+    }
+    if (l$lt != lOther$lt) {
+      return false;
+    }
+    final l$lte = lte;
+    final lOther$lte = other.lte;
+    if (_$data.containsKey('lte') != other._$data.containsKey('lte')) {
+      return false;
+    }
+    if (l$lte != lOther$lte) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$between = between;
+    final l$gt = gt;
+    final l$gte = gte;
+    final l$lt = lt;
+    final l$lte = lte;
+    return Object.hashAll([
+      _$data.containsKey('between') ? l$between : const {},
+      _$data.containsKey('gt') ? l$gt : const {},
+      _$data.containsKey('gte') ? l$gte : const {},
+      _$data.containsKey('lt') ? l$lt : const {},
+      _$data.containsKey('lte') ? l$lte : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$MealFilter_calories<TRes> {
+  factory CopyWith$Input$MealFilter_calories(
+    Input$MealFilter_calories instance,
+    TRes Function(Input$MealFilter_calories) then,
+  ) = _CopyWithImpl$Input$MealFilter_calories;
+
+  factory CopyWith$Input$MealFilter_calories.stub(TRes res) =
+      _CopyWithStubImpl$Input$MealFilter_calories;
+
+  TRes call({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  });
+}
+
+class _CopyWithImpl$Input$MealFilter_calories<TRes>
+    implements CopyWith$Input$MealFilter_calories<TRes> {
+  _CopyWithImpl$Input$MealFilter_calories(this._instance, this._then);
+
+  final Input$MealFilter_calories _instance;
+
+  final TRes Function(Input$MealFilter_calories) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? between = _undefined,
+    Object? gt = _undefined,
+    Object? gte = _undefined,
+    Object? lt = _undefined,
+    Object? lte = _undefined,
+  }) => _then(
+    Input$MealFilter_calories._({
+      ..._instance._$data,
+      if (between != _undefined) 'between': (between as String?),
+      if (gt != _undefined) 'gt': (gt as String?),
+      if (gte != _undefined) 'gte': (gte as String?),
+      if (lt != _undefined) 'lt': (lt as String?),
+      if (lte != _undefined) 'lte': (lte as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$MealFilter_calories<TRes>
+    implements CopyWith$Input$MealFilter_calories<TRes> {
+  _CopyWithStubImpl$Input$MealFilter_calories(this._res);
+
+  TRes _res;
+
+  call({String? between, String? gt, String? gte, String? lt, String? lte}) =>
+      _res;
+}
+
+class Input$MealFilter_protein {
+  factory Input$MealFilter_protein({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  }) => Input$MealFilter_protein._({
+    if (between != null) r'between': between,
+    if (gt != null) r'gt': gt,
+    if (gte != null) r'gte': gte,
+    if (lt != null) r'lt': lt,
+    if (lte != null) r'lte': lte,
+  });
+
+  Input$MealFilter_protein._(this._$data);
+
+  factory Input$MealFilter_protein.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('between')) {
+      final l$between = data['between'];
+      result$data['between'] = (l$between as String?);
+    }
+    if (data.containsKey('gt')) {
+      final l$gt = data['gt'];
+      result$data['gt'] = (l$gt as String?);
+    }
+    if (data.containsKey('gte')) {
+      final l$gte = data['gte'];
+      result$data['gte'] = (l$gte as String?);
+    }
+    if (data.containsKey('lt')) {
+      final l$lt = data['lt'];
+      result$data['lt'] = (l$lt as String?);
+    }
+    if (data.containsKey('lte')) {
+      final l$lte = data['lte'];
+      result$data['lte'] = (l$lte as String?);
+    }
+    return Input$MealFilter_protein._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String? get between => (_$data['between'] as String?);
+
+  String? get gt => (_$data['gt'] as String?);
+
+  String? get gte => (_$data['gte'] as String?);
+
+  String? get lt => (_$data['lt'] as String?);
+
+  String? get lte => (_$data['lte'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('between')) {
+      final l$between = between;
+      result$data['between'] = l$between;
+    }
+    if (_$data.containsKey('gt')) {
+      final l$gt = gt;
+      result$data['gt'] = l$gt;
+    }
+    if (_$data.containsKey('gte')) {
+      final l$gte = gte;
+      result$data['gte'] = l$gte;
+    }
+    if (_$data.containsKey('lt')) {
+      final l$lt = lt;
+      result$data['lt'] = l$lt;
+    }
+    if (_$data.containsKey('lte')) {
+      final l$lte = lte;
+      result$data['lte'] = l$lte;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$MealFilter_protein<Input$MealFilter_protein> get copyWith =>
+      CopyWith$Input$MealFilter_protein(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$MealFilter_protein ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$between = between;
+    final lOther$between = other.between;
+    if (_$data.containsKey('between') != other._$data.containsKey('between')) {
+      return false;
+    }
+    if (l$between != lOther$between) {
+      return false;
+    }
+    final l$gt = gt;
+    final lOther$gt = other.gt;
+    if (_$data.containsKey('gt') != other._$data.containsKey('gt')) {
+      return false;
+    }
+    if (l$gt != lOther$gt) {
+      return false;
+    }
+    final l$gte = gte;
+    final lOther$gte = other.gte;
+    if (_$data.containsKey('gte') != other._$data.containsKey('gte')) {
+      return false;
+    }
+    if (l$gte != lOther$gte) {
+      return false;
+    }
+    final l$lt = lt;
+    final lOther$lt = other.lt;
+    if (_$data.containsKey('lt') != other._$data.containsKey('lt')) {
+      return false;
+    }
+    if (l$lt != lOther$lt) {
+      return false;
+    }
+    final l$lte = lte;
+    final lOther$lte = other.lte;
+    if (_$data.containsKey('lte') != other._$data.containsKey('lte')) {
+      return false;
+    }
+    if (l$lte != lOther$lte) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$between = between;
+    final l$gt = gt;
+    final l$gte = gte;
+    final l$lt = lt;
+    final l$lte = lte;
+    return Object.hashAll([
+      _$data.containsKey('between') ? l$between : const {},
+      _$data.containsKey('gt') ? l$gt : const {},
+      _$data.containsKey('gte') ? l$gte : const {},
+      _$data.containsKey('lt') ? l$lt : const {},
+      _$data.containsKey('lte') ? l$lte : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$MealFilter_protein<TRes> {
+  factory CopyWith$Input$MealFilter_protein(
+    Input$MealFilter_protein instance,
+    TRes Function(Input$MealFilter_protein) then,
+  ) = _CopyWithImpl$Input$MealFilter_protein;
+
+  factory CopyWith$Input$MealFilter_protein.stub(TRes res) =
+      _CopyWithStubImpl$Input$MealFilter_protein;
+
+  TRes call({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  });
+}
+
+class _CopyWithImpl$Input$MealFilter_protein<TRes>
+    implements CopyWith$Input$MealFilter_protein<TRes> {
+  _CopyWithImpl$Input$MealFilter_protein(this._instance, this._then);
+
+  final Input$MealFilter_protein _instance;
+
+  final TRes Function(Input$MealFilter_protein) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? between = _undefined,
+    Object? gt = _undefined,
+    Object? gte = _undefined,
+    Object? lt = _undefined,
+    Object? lte = _undefined,
+  }) => _then(
+    Input$MealFilter_protein._({
+      ..._instance._$data,
+      if (between != _undefined) 'between': (between as String?),
+      if (gt != _undefined) 'gt': (gt as String?),
+      if (gte != _undefined) 'gte': (gte as String?),
+      if (lt != _undefined) 'lt': (lt as String?),
+      if (lte != _undefined) 'lte': (lte as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$MealFilter_protein<TRes>
+    implements CopyWith$Input$MealFilter_protein<TRes> {
+  _CopyWithStubImpl$Input$MealFilter_protein(this._res);
+
+  TRes _res;
+
+  call({String? between, String? gt, String? gte, String? lt, String? lte}) =>
+      _res;
+}
+
+class Input$MealFilter_fat {
+  factory Input$MealFilter_fat({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  }) => Input$MealFilter_fat._({
+    if (between != null) r'between': between,
+    if (gt != null) r'gt': gt,
+    if (gte != null) r'gte': gte,
+    if (lt != null) r'lt': lt,
+    if (lte != null) r'lte': lte,
+  });
+
+  Input$MealFilter_fat._(this._$data);
+
+  factory Input$MealFilter_fat.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('between')) {
+      final l$between = data['between'];
+      result$data['between'] = (l$between as String?);
+    }
+    if (data.containsKey('gt')) {
+      final l$gt = data['gt'];
+      result$data['gt'] = (l$gt as String?);
+    }
+    if (data.containsKey('gte')) {
+      final l$gte = data['gte'];
+      result$data['gte'] = (l$gte as String?);
+    }
+    if (data.containsKey('lt')) {
+      final l$lt = data['lt'];
+      result$data['lt'] = (l$lt as String?);
+    }
+    if (data.containsKey('lte')) {
+      final l$lte = data['lte'];
+      result$data['lte'] = (l$lte as String?);
+    }
+    return Input$MealFilter_fat._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String? get between => (_$data['between'] as String?);
+
+  String? get gt => (_$data['gt'] as String?);
+
+  String? get gte => (_$data['gte'] as String?);
+
+  String? get lt => (_$data['lt'] as String?);
+
+  String? get lte => (_$data['lte'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('between')) {
+      final l$between = between;
+      result$data['between'] = l$between;
+    }
+    if (_$data.containsKey('gt')) {
+      final l$gt = gt;
+      result$data['gt'] = l$gt;
+    }
+    if (_$data.containsKey('gte')) {
+      final l$gte = gte;
+      result$data['gte'] = l$gte;
+    }
+    if (_$data.containsKey('lt')) {
+      final l$lt = lt;
+      result$data['lt'] = l$lt;
+    }
+    if (_$data.containsKey('lte')) {
+      final l$lte = lte;
+      result$data['lte'] = l$lte;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$MealFilter_fat<Input$MealFilter_fat> get copyWith =>
+      CopyWith$Input$MealFilter_fat(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$MealFilter_fat || runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$between = between;
+    final lOther$between = other.between;
+    if (_$data.containsKey('between') != other._$data.containsKey('between')) {
+      return false;
+    }
+    if (l$between != lOther$between) {
+      return false;
+    }
+    final l$gt = gt;
+    final lOther$gt = other.gt;
+    if (_$data.containsKey('gt') != other._$data.containsKey('gt')) {
+      return false;
+    }
+    if (l$gt != lOther$gt) {
+      return false;
+    }
+    final l$gte = gte;
+    final lOther$gte = other.gte;
+    if (_$data.containsKey('gte') != other._$data.containsKey('gte')) {
+      return false;
+    }
+    if (l$gte != lOther$gte) {
+      return false;
+    }
+    final l$lt = lt;
+    final lOther$lt = other.lt;
+    if (_$data.containsKey('lt') != other._$data.containsKey('lt')) {
+      return false;
+    }
+    if (l$lt != lOther$lt) {
+      return false;
+    }
+    final l$lte = lte;
+    final lOther$lte = other.lte;
+    if (_$data.containsKey('lte') != other._$data.containsKey('lte')) {
+      return false;
+    }
+    if (l$lte != lOther$lte) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$between = between;
+    final l$gt = gt;
+    final l$gte = gte;
+    final l$lt = lt;
+    final l$lte = lte;
+    return Object.hashAll([
+      _$data.containsKey('between') ? l$between : const {},
+      _$data.containsKey('gt') ? l$gt : const {},
+      _$data.containsKey('gte') ? l$gte : const {},
+      _$data.containsKey('lt') ? l$lt : const {},
+      _$data.containsKey('lte') ? l$lte : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$MealFilter_fat<TRes> {
+  factory CopyWith$Input$MealFilter_fat(
+    Input$MealFilter_fat instance,
+    TRes Function(Input$MealFilter_fat) then,
+  ) = _CopyWithImpl$Input$MealFilter_fat;
+
+  factory CopyWith$Input$MealFilter_fat.stub(TRes res) =
+      _CopyWithStubImpl$Input$MealFilter_fat;
+
+  TRes call({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  });
+}
+
+class _CopyWithImpl$Input$MealFilter_fat<TRes>
+    implements CopyWith$Input$MealFilter_fat<TRes> {
+  _CopyWithImpl$Input$MealFilter_fat(this._instance, this._then);
+
+  final Input$MealFilter_fat _instance;
+
+  final TRes Function(Input$MealFilter_fat) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? between = _undefined,
+    Object? gt = _undefined,
+    Object? gte = _undefined,
+    Object? lt = _undefined,
+    Object? lte = _undefined,
+  }) => _then(
+    Input$MealFilter_fat._({
+      ..._instance._$data,
+      if (between != _undefined) 'between': (between as String?),
+      if (gt != _undefined) 'gt': (gt as String?),
+      if (gte != _undefined) 'gte': (gte as String?),
+      if (lt != _undefined) 'lt': (lt as String?),
+      if (lte != _undefined) 'lte': (lte as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$MealFilter_fat<TRes>
+    implements CopyWith$Input$MealFilter_fat<TRes> {
+  _CopyWithStubImpl$Input$MealFilter_fat(this._res);
+
+  TRes _res;
+
+  call({String? between, String? gt, String? gte, String? lt, String? lte}) =>
+      _res;
+}
+
+class Input$MealFilter_carbs {
+  factory Input$MealFilter_carbs({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  }) => Input$MealFilter_carbs._({
+    if (between != null) r'between': between,
+    if (gt != null) r'gt': gt,
+    if (gte != null) r'gte': gte,
+    if (lt != null) r'lt': lt,
+    if (lte != null) r'lte': lte,
+  });
+
+  Input$MealFilter_carbs._(this._$data);
+
+  factory Input$MealFilter_carbs.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('between')) {
+      final l$between = data['between'];
+      result$data['between'] = (l$between as String?);
+    }
+    if (data.containsKey('gt')) {
+      final l$gt = data['gt'];
+      result$data['gt'] = (l$gt as String?);
+    }
+    if (data.containsKey('gte')) {
+      final l$gte = data['gte'];
+      result$data['gte'] = (l$gte as String?);
+    }
+    if (data.containsKey('lt')) {
+      final l$lt = data['lt'];
+      result$data['lt'] = (l$lt as String?);
+    }
+    if (data.containsKey('lte')) {
+      final l$lte = data['lte'];
+      result$data['lte'] = (l$lte as String?);
+    }
+    return Input$MealFilter_carbs._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String? get between => (_$data['between'] as String?);
+
+  String? get gt => (_$data['gt'] as String?);
+
+  String? get gte => (_$data['gte'] as String?);
+
+  String? get lt => (_$data['lt'] as String?);
+
+  String? get lte => (_$data['lte'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('between')) {
+      final l$between = between;
+      result$data['between'] = l$between;
+    }
+    if (_$data.containsKey('gt')) {
+      final l$gt = gt;
+      result$data['gt'] = l$gt;
+    }
+    if (_$data.containsKey('gte')) {
+      final l$gte = gte;
+      result$data['gte'] = l$gte;
+    }
+    if (_$data.containsKey('lt')) {
+      final l$lt = lt;
+      result$data['lt'] = l$lt;
+    }
+    if (_$data.containsKey('lte')) {
+      final l$lte = lte;
+      result$data['lte'] = l$lte;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$MealFilter_carbs<Input$MealFilter_carbs> get copyWith =>
+      CopyWith$Input$MealFilter_carbs(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$MealFilter_carbs || runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$between = between;
+    final lOther$between = other.between;
+    if (_$data.containsKey('between') != other._$data.containsKey('between')) {
+      return false;
+    }
+    if (l$between != lOther$between) {
+      return false;
+    }
+    final l$gt = gt;
+    final lOther$gt = other.gt;
+    if (_$data.containsKey('gt') != other._$data.containsKey('gt')) {
+      return false;
+    }
+    if (l$gt != lOther$gt) {
+      return false;
+    }
+    final l$gte = gte;
+    final lOther$gte = other.gte;
+    if (_$data.containsKey('gte') != other._$data.containsKey('gte')) {
+      return false;
+    }
+    if (l$gte != lOther$gte) {
+      return false;
+    }
+    final l$lt = lt;
+    final lOther$lt = other.lt;
+    if (_$data.containsKey('lt') != other._$data.containsKey('lt')) {
+      return false;
+    }
+    if (l$lt != lOther$lt) {
+      return false;
+    }
+    final l$lte = lte;
+    final lOther$lte = other.lte;
+    if (_$data.containsKey('lte') != other._$data.containsKey('lte')) {
+      return false;
+    }
+    if (l$lte != lOther$lte) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$between = between;
+    final l$gt = gt;
+    final l$gte = gte;
+    final l$lt = lt;
+    final l$lte = lte;
+    return Object.hashAll([
+      _$data.containsKey('between') ? l$between : const {},
+      _$data.containsKey('gt') ? l$gt : const {},
+      _$data.containsKey('gte') ? l$gte : const {},
+      _$data.containsKey('lt') ? l$lt : const {},
+      _$data.containsKey('lte') ? l$lte : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$MealFilter_carbs<TRes> {
+  factory CopyWith$Input$MealFilter_carbs(
+    Input$MealFilter_carbs instance,
+    TRes Function(Input$MealFilter_carbs) then,
+  ) = _CopyWithImpl$Input$MealFilter_carbs;
+
+  factory CopyWith$Input$MealFilter_carbs.stub(TRes res) =
+      _CopyWithStubImpl$Input$MealFilter_carbs;
+
+  TRes call({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  });
+}
+
+class _CopyWithImpl$Input$MealFilter_carbs<TRes>
+    implements CopyWith$Input$MealFilter_carbs<TRes> {
+  _CopyWithImpl$Input$MealFilter_carbs(this._instance, this._then);
+
+  final Input$MealFilter_carbs _instance;
+
+  final TRes Function(Input$MealFilter_carbs) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? between = _undefined,
+    Object? gt = _undefined,
+    Object? gte = _undefined,
+    Object? lt = _undefined,
+    Object? lte = _undefined,
+  }) => _then(
+    Input$MealFilter_carbs._({
+      ..._instance._$data,
+      if (between != _undefined) 'between': (between as String?),
+      if (gt != _undefined) 'gt': (gt as String?),
+      if (gte != _undefined) 'gte': (gte as String?),
+      if (lt != _undefined) 'lt': (lt as String?),
+      if (lte != _undefined) 'lte': (lte as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$MealFilter_carbs<TRes>
+    implements CopyWith$Input$MealFilter_carbs<TRes> {
+  _CopyWithStubImpl$Input$MealFilter_carbs(this._res);
+
+  TRes _res;
+
+  call({String? between, String? gt, String? gte, String? lt, String? lte}) =>
+      _res;
+}
+
+class Input$MealPlanFilter_price {
+  factory Input$MealPlanFilter_price({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  }) => Input$MealPlanFilter_price._({
+    if (between != null) r'between': between,
+    if (gt != null) r'gt': gt,
+    if (gte != null) r'gte': gte,
+    if (lt != null) r'lt': lt,
+    if (lte != null) r'lte': lte,
+  });
+
+  Input$MealPlanFilter_price._(this._$data);
+
+  factory Input$MealPlanFilter_price.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('between')) {
+      final l$between = data['between'];
+      result$data['between'] = (l$between as String?);
+    }
+    if (data.containsKey('gt')) {
+      final l$gt = data['gt'];
+      result$data['gt'] = (l$gt as String?);
+    }
+    if (data.containsKey('gte')) {
+      final l$gte = data['gte'];
+      result$data['gte'] = (l$gte as String?);
+    }
+    if (data.containsKey('lt')) {
+      final l$lt = data['lt'];
+      result$data['lt'] = (l$lt as String?);
+    }
+    if (data.containsKey('lte')) {
+      final l$lte = data['lte'];
+      result$data['lte'] = (l$lte as String?);
+    }
+    return Input$MealPlanFilter_price._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String? get between => (_$data['between'] as String?);
+
+  String? get gt => (_$data['gt'] as String?);
+
+  String? get gte => (_$data['gte'] as String?);
+
+  String? get lt => (_$data['lt'] as String?);
+
+  String? get lte => (_$data['lte'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('between')) {
+      final l$between = between;
+      result$data['between'] = l$between;
+    }
+    if (_$data.containsKey('gt')) {
+      final l$gt = gt;
+      result$data['gt'] = l$gt;
+    }
+    if (_$data.containsKey('gte')) {
+      final l$gte = gte;
+      result$data['gte'] = l$gte;
+    }
+    if (_$data.containsKey('lt')) {
+      final l$lt = lt;
+      result$data['lt'] = l$lt;
+    }
+    if (_$data.containsKey('lte')) {
+      final l$lte = lte;
+      result$data['lte'] = l$lte;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$MealPlanFilter_price<Input$MealPlanFilter_price>
+  get copyWith => CopyWith$Input$MealPlanFilter_price(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$MealPlanFilter_price ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$between = between;
+    final lOther$between = other.between;
+    if (_$data.containsKey('between') != other._$data.containsKey('between')) {
+      return false;
+    }
+    if (l$between != lOther$between) {
+      return false;
+    }
+    final l$gt = gt;
+    final lOther$gt = other.gt;
+    if (_$data.containsKey('gt') != other._$data.containsKey('gt')) {
+      return false;
+    }
+    if (l$gt != lOther$gt) {
+      return false;
+    }
+    final l$gte = gte;
+    final lOther$gte = other.gte;
+    if (_$data.containsKey('gte') != other._$data.containsKey('gte')) {
+      return false;
+    }
+    if (l$gte != lOther$gte) {
+      return false;
+    }
+    final l$lt = lt;
+    final lOther$lt = other.lt;
+    if (_$data.containsKey('lt') != other._$data.containsKey('lt')) {
+      return false;
+    }
+    if (l$lt != lOther$lt) {
+      return false;
+    }
+    final l$lte = lte;
+    final lOther$lte = other.lte;
+    if (_$data.containsKey('lte') != other._$data.containsKey('lte')) {
+      return false;
+    }
+    if (l$lte != lOther$lte) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$between = between;
+    final l$gt = gt;
+    final l$gte = gte;
+    final l$lt = lt;
+    final l$lte = lte;
+    return Object.hashAll([
+      _$data.containsKey('between') ? l$between : const {},
+      _$data.containsKey('gt') ? l$gt : const {},
+      _$data.containsKey('gte') ? l$gte : const {},
+      _$data.containsKey('lt') ? l$lt : const {},
+      _$data.containsKey('lte') ? l$lte : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$MealPlanFilter_price<TRes> {
+  factory CopyWith$Input$MealPlanFilter_price(
+    Input$MealPlanFilter_price instance,
+    TRes Function(Input$MealPlanFilter_price) then,
+  ) = _CopyWithImpl$Input$MealPlanFilter_price;
+
+  factory CopyWith$Input$MealPlanFilter_price.stub(TRes res) =
+      _CopyWithStubImpl$Input$MealPlanFilter_price;
+
+  TRes call({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  });
+}
+
+class _CopyWithImpl$Input$MealPlanFilter_price<TRes>
+    implements CopyWith$Input$MealPlanFilter_price<TRes> {
+  _CopyWithImpl$Input$MealPlanFilter_price(this._instance, this._then);
+
+  final Input$MealPlanFilter_price _instance;
+
+  final TRes Function(Input$MealPlanFilter_price) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? between = _undefined,
+    Object? gt = _undefined,
+    Object? gte = _undefined,
+    Object? lt = _undefined,
+    Object? lte = _undefined,
+  }) => _then(
+    Input$MealPlanFilter_price._({
+      ..._instance._$data,
+      if (between != _undefined) 'between': (between as String?),
+      if (gt != _undefined) 'gt': (gt as String?),
+      if (gte != _undefined) 'gte': (gte as String?),
+      if (lt != _undefined) 'lt': (lt as String?),
+      if (lte != _undefined) 'lte': (lte as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$MealPlanFilter_price<TRes>
+    implements CopyWith$Input$MealPlanFilter_price<TRes> {
+  _CopyWithStubImpl$Input$MealPlanFilter_price(this._res);
+
+  TRes _res;
+
+  call({String? between, String? gt, String? gte, String? lt, String? lte}) =>
+      _res;
+}
+
+class Input$MealPlanFilter_calories {
+  factory Input$MealPlanFilter_calories({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  }) => Input$MealPlanFilter_calories._({
+    if (between != null) r'between': between,
+    if (gt != null) r'gt': gt,
+    if (gte != null) r'gte': gte,
+    if (lt != null) r'lt': lt,
+    if (lte != null) r'lte': lte,
+  });
+
+  Input$MealPlanFilter_calories._(this._$data);
+
+  factory Input$MealPlanFilter_calories.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('between')) {
+      final l$between = data['between'];
+      result$data['between'] = (l$between as String?);
+    }
+    if (data.containsKey('gt')) {
+      final l$gt = data['gt'];
+      result$data['gt'] = (l$gt as String?);
+    }
+    if (data.containsKey('gte')) {
+      final l$gte = data['gte'];
+      result$data['gte'] = (l$gte as String?);
+    }
+    if (data.containsKey('lt')) {
+      final l$lt = data['lt'];
+      result$data['lt'] = (l$lt as String?);
+    }
+    if (data.containsKey('lte')) {
+      final l$lte = data['lte'];
+      result$data['lte'] = (l$lte as String?);
+    }
+    return Input$MealPlanFilter_calories._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String? get between => (_$data['between'] as String?);
+
+  String? get gt => (_$data['gt'] as String?);
+
+  String? get gte => (_$data['gte'] as String?);
+
+  String? get lt => (_$data['lt'] as String?);
+
+  String? get lte => (_$data['lte'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('between')) {
+      final l$between = between;
+      result$data['between'] = l$between;
+    }
+    if (_$data.containsKey('gt')) {
+      final l$gt = gt;
+      result$data['gt'] = l$gt;
+    }
+    if (_$data.containsKey('gte')) {
+      final l$gte = gte;
+      result$data['gte'] = l$gte;
+    }
+    if (_$data.containsKey('lt')) {
+      final l$lt = lt;
+      result$data['lt'] = l$lt;
+    }
+    if (_$data.containsKey('lte')) {
+      final l$lte = lte;
+      result$data['lte'] = l$lte;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$MealPlanFilter_calories<Input$MealPlanFilter_calories>
+  get copyWith => CopyWith$Input$MealPlanFilter_calories(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$MealPlanFilter_calories ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$between = between;
+    final lOther$between = other.between;
+    if (_$data.containsKey('between') != other._$data.containsKey('between')) {
+      return false;
+    }
+    if (l$between != lOther$between) {
+      return false;
+    }
+    final l$gt = gt;
+    final lOther$gt = other.gt;
+    if (_$data.containsKey('gt') != other._$data.containsKey('gt')) {
+      return false;
+    }
+    if (l$gt != lOther$gt) {
+      return false;
+    }
+    final l$gte = gte;
+    final lOther$gte = other.gte;
+    if (_$data.containsKey('gte') != other._$data.containsKey('gte')) {
+      return false;
+    }
+    if (l$gte != lOther$gte) {
+      return false;
+    }
+    final l$lt = lt;
+    final lOther$lt = other.lt;
+    if (_$data.containsKey('lt') != other._$data.containsKey('lt')) {
+      return false;
+    }
+    if (l$lt != lOther$lt) {
+      return false;
+    }
+    final l$lte = lte;
+    final lOther$lte = other.lte;
+    if (_$data.containsKey('lte') != other._$data.containsKey('lte')) {
+      return false;
+    }
+    if (l$lte != lOther$lte) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$between = between;
+    final l$gt = gt;
+    final l$gte = gte;
+    final l$lt = lt;
+    final l$lte = lte;
+    return Object.hashAll([
+      _$data.containsKey('between') ? l$between : const {},
+      _$data.containsKey('gt') ? l$gt : const {},
+      _$data.containsKey('gte') ? l$gte : const {},
+      _$data.containsKey('lt') ? l$lt : const {},
+      _$data.containsKey('lte') ? l$lte : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$MealPlanFilter_calories<TRes> {
+  factory CopyWith$Input$MealPlanFilter_calories(
+    Input$MealPlanFilter_calories instance,
+    TRes Function(Input$MealPlanFilter_calories) then,
+  ) = _CopyWithImpl$Input$MealPlanFilter_calories;
+
+  factory CopyWith$Input$MealPlanFilter_calories.stub(TRes res) =
+      _CopyWithStubImpl$Input$MealPlanFilter_calories;
+
+  TRes call({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  });
+}
+
+class _CopyWithImpl$Input$MealPlanFilter_calories<TRes>
+    implements CopyWith$Input$MealPlanFilter_calories<TRes> {
+  _CopyWithImpl$Input$MealPlanFilter_calories(this._instance, this._then);
+
+  final Input$MealPlanFilter_calories _instance;
+
+  final TRes Function(Input$MealPlanFilter_calories) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? between = _undefined,
+    Object? gt = _undefined,
+    Object? gte = _undefined,
+    Object? lt = _undefined,
+    Object? lte = _undefined,
+  }) => _then(
+    Input$MealPlanFilter_calories._({
+      ..._instance._$data,
+      if (between != _undefined) 'between': (between as String?),
+      if (gt != _undefined) 'gt': (gt as String?),
+      if (gte != _undefined) 'gte': (gte as String?),
+      if (lt != _undefined) 'lt': (lt as String?),
+      if (lte != _undefined) 'lte': (lte as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$MealPlanFilter_calories<TRes>
+    implements CopyWith$Input$MealPlanFilter_calories<TRes> {
+  _CopyWithStubImpl$Input$MealPlanFilter_calories(this._res);
+
+  TRes _res;
+
+  call({String? between, String? gt, String? gte, String? lt, String? lte}) =>
+      _res;
+}
+
+class Input$MealPlanFilter_protein {
+  factory Input$MealPlanFilter_protein({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  }) => Input$MealPlanFilter_protein._({
+    if (between != null) r'between': between,
+    if (gt != null) r'gt': gt,
+    if (gte != null) r'gte': gte,
+    if (lt != null) r'lt': lt,
+    if (lte != null) r'lte': lte,
+  });
+
+  Input$MealPlanFilter_protein._(this._$data);
+
+  factory Input$MealPlanFilter_protein.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('between')) {
+      final l$between = data['between'];
+      result$data['between'] = (l$between as String?);
+    }
+    if (data.containsKey('gt')) {
+      final l$gt = data['gt'];
+      result$data['gt'] = (l$gt as String?);
+    }
+    if (data.containsKey('gte')) {
+      final l$gte = data['gte'];
+      result$data['gte'] = (l$gte as String?);
+    }
+    if (data.containsKey('lt')) {
+      final l$lt = data['lt'];
+      result$data['lt'] = (l$lt as String?);
+    }
+    if (data.containsKey('lte')) {
+      final l$lte = data['lte'];
+      result$data['lte'] = (l$lte as String?);
+    }
+    return Input$MealPlanFilter_protein._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String? get between => (_$data['between'] as String?);
+
+  String? get gt => (_$data['gt'] as String?);
+
+  String? get gte => (_$data['gte'] as String?);
+
+  String? get lt => (_$data['lt'] as String?);
+
+  String? get lte => (_$data['lte'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('between')) {
+      final l$between = between;
+      result$data['between'] = l$between;
+    }
+    if (_$data.containsKey('gt')) {
+      final l$gt = gt;
+      result$data['gt'] = l$gt;
+    }
+    if (_$data.containsKey('gte')) {
+      final l$gte = gte;
+      result$data['gte'] = l$gte;
+    }
+    if (_$data.containsKey('lt')) {
+      final l$lt = lt;
+      result$data['lt'] = l$lt;
+    }
+    if (_$data.containsKey('lte')) {
+      final l$lte = lte;
+      result$data['lte'] = l$lte;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$MealPlanFilter_protein<Input$MealPlanFilter_protein>
+  get copyWith => CopyWith$Input$MealPlanFilter_protein(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$MealPlanFilter_protein ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$between = between;
+    final lOther$between = other.between;
+    if (_$data.containsKey('between') != other._$data.containsKey('between')) {
+      return false;
+    }
+    if (l$between != lOther$between) {
+      return false;
+    }
+    final l$gt = gt;
+    final lOther$gt = other.gt;
+    if (_$data.containsKey('gt') != other._$data.containsKey('gt')) {
+      return false;
+    }
+    if (l$gt != lOther$gt) {
+      return false;
+    }
+    final l$gte = gte;
+    final lOther$gte = other.gte;
+    if (_$data.containsKey('gte') != other._$data.containsKey('gte')) {
+      return false;
+    }
+    if (l$gte != lOther$gte) {
+      return false;
+    }
+    final l$lt = lt;
+    final lOther$lt = other.lt;
+    if (_$data.containsKey('lt') != other._$data.containsKey('lt')) {
+      return false;
+    }
+    if (l$lt != lOther$lt) {
+      return false;
+    }
+    final l$lte = lte;
+    final lOther$lte = other.lte;
+    if (_$data.containsKey('lte') != other._$data.containsKey('lte')) {
+      return false;
+    }
+    if (l$lte != lOther$lte) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$between = between;
+    final l$gt = gt;
+    final l$gte = gte;
+    final l$lt = lt;
+    final l$lte = lte;
+    return Object.hashAll([
+      _$data.containsKey('between') ? l$between : const {},
+      _$data.containsKey('gt') ? l$gt : const {},
+      _$data.containsKey('gte') ? l$gte : const {},
+      _$data.containsKey('lt') ? l$lt : const {},
+      _$data.containsKey('lte') ? l$lte : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$MealPlanFilter_protein<TRes> {
+  factory CopyWith$Input$MealPlanFilter_protein(
+    Input$MealPlanFilter_protein instance,
+    TRes Function(Input$MealPlanFilter_protein) then,
+  ) = _CopyWithImpl$Input$MealPlanFilter_protein;
+
+  factory CopyWith$Input$MealPlanFilter_protein.stub(TRes res) =
+      _CopyWithStubImpl$Input$MealPlanFilter_protein;
+
+  TRes call({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  });
+}
+
+class _CopyWithImpl$Input$MealPlanFilter_protein<TRes>
+    implements CopyWith$Input$MealPlanFilter_protein<TRes> {
+  _CopyWithImpl$Input$MealPlanFilter_protein(this._instance, this._then);
+
+  final Input$MealPlanFilter_protein _instance;
+
+  final TRes Function(Input$MealPlanFilter_protein) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? between = _undefined,
+    Object? gt = _undefined,
+    Object? gte = _undefined,
+    Object? lt = _undefined,
+    Object? lte = _undefined,
+  }) => _then(
+    Input$MealPlanFilter_protein._({
+      ..._instance._$data,
+      if (between != _undefined) 'between': (between as String?),
+      if (gt != _undefined) 'gt': (gt as String?),
+      if (gte != _undefined) 'gte': (gte as String?),
+      if (lt != _undefined) 'lt': (lt as String?),
+      if (lte != _undefined) 'lte': (lte as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$MealPlanFilter_protein<TRes>
+    implements CopyWith$Input$MealPlanFilter_protein<TRes> {
+  _CopyWithStubImpl$Input$MealPlanFilter_protein(this._res);
+
+  TRes _res;
+
+  call({String? between, String? gt, String? gte, String? lt, String? lte}) =>
+      _res;
+}
+
+class Input$MealPlanFilter_fat {
+  factory Input$MealPlanFilter_fat({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  }) => Input$MealPlanFilter_fat._({
+    if (between != null) r'between': between,
+    if (gt != null) r'gt': gt,
+    if (gte != null) r'gte': gte,
+    if (lt != null) r'lt': lt,
+    if (lte != null) r'lte': lte,
+  });
+
+  Input$MealPlanFilter_fat._(this._$data);
+
+  factory Input$MealPlanFilter_fat.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('between')) {
+      final l$between = data['between'];
+      result$data['between'] = (l$between as String?);
+    }
+    if (data.containsKey('gt')) {
+      final l$gt = data['gt'];
+      result$data['gt'] = (l$gt as String?);
+    }
+    if (data.containsKey('gte')) {
+      final l$gte = data['gte'];
+      result$data['gte'] = (l$gte as String?);
+    }
+    if (data.containsKey('lt')) {
+      final l$lt = data['lt'];
+      result$data['lt'] = (l$lt as String?);
+    }
+    if (data.containsKey('lte')) {
+      final l$lte = data['lte'];
+      result$data['lte'] = (l$lte as String?);
+    }
+    return Input$MealPlanFilter_fat._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String? get between => (_$data['between'] as String?);
+
+  String? get gt => (_$data['gt'] as String?);
+
+  String? get gte => (_$data['gte'] as String?);
+
+  String? get lt => (_$data['lt'] as String?);
+
+  String? get lte => (_$data['lte'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('between')) {
+      final l$between = between;
+      result$data['between'] = l$between;
+    }
+    if (_$data.containsKey('gt')) {
+      final l$gt = gt;
+      result$data['gt'] = l$gt;
+    }
+    if (_$data.containsKey('gte')) {
+      final l$gte = gte;
+      result$data['gte'] = l$gte;
+    }
+    if (_$data.containsKey('lt')) {
+      final l$lt = lt;
+      result$data['lt'] = l$lt;
+    }
+    if (_$data.containsKey('lte')) {
+      final l$lte = lte;
+      result$data['lte'] = l$lte;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$MealPlanFilter_fat<Input$MealPlanFilter_fat> get copyWith =>
+      CopyWith$Input$MealPlanFilter_fat(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$MealPlanFilter_fat ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$between = between;
+    final lOther$between = other.between;
+    if (_$data.containsKey('between') != other._$data.containsKey('between')) {
+      return false;
+    }
+    if (l$between != lOther$between) {
+      return false;
+    }
+    final l$gt = gt;
+    final lOther$gt = other.gt;
+    if (_$data.containsKey('gt') != other._$data.containsKey('gt')) {
+      return false;
+    }
+    if (l$gt != lOther$gt) {
+      return false;
+    }
+    final l$gte = gte;
+    final lOther$gte = other.gte;
+    if (_$data.containsKey('gte') != other._$data.containsKey('gte')) {
+      return false;
+    }
+    if (l$gte != lOther$gte) {
+      return false;
+    }
+    final l$lt = lt;
+    final lOther$lt = other.lt;
+    if (_$data.containsKey('lt') != other._$data.containsKey('lt')) {
+      return false;
+    }
+    if (l$lt != lOther$lt) {
+      return false;
+    }
+    final l$lte = lte;
+    final lOther$lte = other.lte;
+    if (_$data.containsKey('lte') != other._$data.containsKey('lte')) {
+      return false;
+    }
+    if (l$lte != lOther$lte) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$between = between;
+    final l$gt = gt;
+    final l$gte = gte;
+    final l$lt = lt;
+    final l$lte = lte;
+    return Object.hashAll([
+      _$data.containsKey('between') ? l$between : const {},
+      _$data.containsKey('gt') ? l$gt : const {},
+      _$data.containsKey('gte') ? l$gte : const {},
+      _$data.containsKey('lt') ? l$lt : const {},
+      _$data.containsKey('lte') ? l$lte : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$MealPlanFilter_fat<TRes> {
+  factory CopyWith$Input$MealPlanFilter_fat(
+    Input$MealPlanFilter_fat instance,
+    TRes Function(Input$MealPlanFilter_fat) then,
+  ) = _CopyWithImpl$Input$MealPlanFilter_fat;
+
+  factory CopyWith$Input$MealPlanFilter_fat.stub(TRes res) =
+      _CopyWithStubImpl$Input$MealPlanFilter_fat;
+
+  TRes call({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  });
+}
+
+class _CopyWithImpl$Input$MealPlanFilter_fat<TRes>
+    implements CopyWith$Input$MealPlanFilter_fat<TRes> {
+  _CopyWithImpl$Input$MealPlanFilter_fat(this._instance, this._then);
+
+  final Input$MealPlanFilter_fat _instance;
+
+  final TRes Function(Input$MealPlanFilter_fat) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? between = _undefined,
+    Object? gt = _undefined,
+    Object? gte = _undefined,
+    Object? lt = _undefined,
+    Object? lte = _undefined,
+  }) => _then(
+    Input$MealPlanFilter_fat._({
+      ..._instance._$data,
+      if (between != _undefined) 'between': (between as String?),
+      if (gt != _undefined) 'gt': (gt as String?),
+      if (gte != _undefined) 'gte': (gte as String?),
+      if (lt != _undefined) 'lt': (lt as String?),
+      if (lte != _undefined) 'lte': (lte as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$MealPlanFilter_fat<TRes>
+    implements CopyWith$Input$MealPlanFilter_fat<TRes> {
+  _CopyWithStubImpl$Input$MealPlanFilter_fat(this._res);
+
+  TRes _res;
+
+  call({String? between, String? gt, String? gte, String? lt, String? lte}) =>
+      _res;
+}
+
+class Input$MealPlanFilter_carbs {
+  factory Input$MealPlanFilter_carbs({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  }) => Input$MealPlanFilter_carbs._({
+    if (between != null) r'between': between,
+    if (gt != null) r'gt': gt,
+    if (gte != null) r'gte': gte,
+    if (lt != null) r'lt': lt,
+    if (lte != null) r'lte': lte,
+  });
+
+  Input$MealPlanFilter_carbs._(this._$data);
+
+  factory Input$MealPlanFilter_carbs.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('between')) {
+      final l$between = data['between'];
+      result$data['between'] = (l$between as String?);
+    }
+    if (data.containsKey('gt')) {
+      final l$gt = data['gt'];
+      result$data['gt'] = (l$gt as String?);
+    }
+    if (data.containsKey('gte')) {
+      final l$gte = data['gte'];
+      result$data['gte'] = (l$gte as String?);
+    }
+    if (data.containsKey('lt')) {
+      final l$lt = data['lt'];
+      result$data['lt'] = (l$lt as String?);
+    }
+    if (data.containsKey('lte')) {
+      final l$lte = data['lte'];
+      result$data['lte'] = (l$lte as String?);
+    }
+    return Input$MealPlanFilter_carbs._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String? get between => (_$data['between'] as String?);
+
+  String? get gt => (_$data['gt'] as String?);
+
+  String? get gte => (_$data['gte'] as String?);
+
+  String? get lt => (_$data['lt'] as String?);
+
+  String? get lte => (_$data['lte'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('between')) {
+      final l$between = between;
+      result$data['between'] = l$between;
+    }
+    if (_$data.containsKey('gt')) {
+      final l$gt = gt;
+      result$data['gt'] = l$gt;
+    }
+    if (_$data.containsKey('gte')) {
+      final l$gte = gte;
+      result$data['gte'] = l$gte;
+    }
+    if (_$data.containsKey('lt')) {
+      final l$lt = lt;
+      result$data['lt'] = l$lt;
+    }
+    if (_$data.containsKey('lte')) {
+      final l$lte = lte;
+      result$data['lte'] = l$lte;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$MealPlanFilter_carbs<Input$MealPlanFilter_carbs>
+  get copyWith => CopyWith$Input$MealPlanFilter_carbs(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$MealPlanFilter_carbs ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$between = between;
+    final lOther$between = other.between;
+    if (_$data.containsKey('between') != other._$data.containsKey('between')) {
+      return false;
+    }
+    if (l$between != lOther$between) {
+      return false;
+    }
+    final l$gt = gt;
+    final lOther$gt = other.gt;
+    if (_$data.containsKey('gt') != other._$data.containsKey('gt')) {
+      return false;
+    }
+    if (l$gt != lOther$gt) {
+      return false;
+    }
+    final l$gte = gte;
+    final lOther$gte = other.gte;
+    if (_$data.containsKey('gte') != other._$data.containsKey('gte')) {
+      return false;
+    }
+    if (l$gte != lOther$gte) {
+      return false;
+    }
+    final l$lt = lt;
+    final lOther$lt = other.lt;
+    if (_$data.containsKey('lt') != other._$data.containsKey('lt')) {
+      return false;
+    }
+    if (l$lt != lOther$lt) {
+      return false;
+    }
+    final l$lte = lte;
+    final lOther$lte = other.lte;
+    if (_$data.containsKey('lte') != other._$data.containsKey('lte')) {
+      return false;
+    }
+    if (l$lte != lOther$lte) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$between = between;
+    final l$gt = gt;
+    final l$gte = gte;
+    final l$lt = lt;
+    final l$lte = lte;
+    return Object.hashAll([
+      _$data.containsKey('between') ? l$between : const {},
+      _$data.containsKey('gt') ? l$gt : const {},
+      _$data.containsKey('gte') ? l$gte : const {},
+      _$data.containsKey('lt') ? l$lt : const {},
+      _$data.containsKey('lte') ? l$lte : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$MealPlanFilter_carbs<TRes> {
+  factory CopyWith$Input$MealPlanFilter_carbs(
+    Input$MealPlanFilter_carbs instance,
+    TRes Function(Input$MealPlanFilter_carbs) then,
+  ) = _CopyWithImpl$Input$MealPlanFilter_carbs;
+
+  factory CopyWith$Input$MealPlanFilter_carbs.stub(TRes res) =
+      _CopyWithStubImpl$Input$MealPlanFilter_carbs;
+
+  TRes call({
+    String? between,
+    String? gt,
+    String? gte,
+    String? lt,
+    String? lte,
+  });
+}
+
+class _CopyWithImpl$Input$MealPlanFilter_carbs<TRes>
+    implements CopyWith$Input$MealPlanFilter_carbs<TRes> {
+  _CopyWithImpl$Input$MealPlanFilter_carbs(this._instance, this._then);
+
+  final Input$MealPlanFilter_carbs _instance;
+
+  final TRes Function(Input$MealPlanFilter_carbs) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? between = _undefined,
+    Object? gt = _undefined,
+    Object? gte = _undefined,
+    Object? lt = _undefined,
+    Object? lte = _undefined,
+  }) => _then(
+    Input$MealPlanFilter_carbs._({
+      ..._instance._$data,
+      if (between != _undefined) 'between': (between as String?),
+      if (gt != _undefined) 'gt': (gt as String?),
+      if (gte != _undefined) 'gte': (gte as String?),
+      if (lt != _undefined) 'lt': (lt as String?),
+      if (lte != _undefined) 'lte': (lte as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$MealPlanFilter_carbs<TRes>
+    implements CopyWith$Input$MealPlanFilter_carbs<TRes> {
+  _CopyWithStubImpl$Input$MealPlanFilter_carbs(this._res);
+
+  TRes _res;
+
+  call({String? between, String? gt, String? gte, String? lt, String? lte}) =>
+      _res;
+}
+
+class Input$DeliveryFilter_order {
+  factory Input$DeliveryFilter_order({String? deliveryDate, String? id}) =>
+      Input$DeliveryFilter_order._({
+        if (deliveryDate != null) r'deliveryDate': deliveryDate,
+        if (id != null) r'id': id,
+      });
+
+  Input$DeliveryFilter_order._(this._$data);
+
+  factory Input$DeliveryFilter_order.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('deliveryDate')) {
+      final l$deliveryDate = data['deliveryDate'];
+      result$data['deliveryDate'] = (l$deliveryDate as String?);
+    }
+    if (data.containsKey('id')) {
+      final l$id = data['id'];
+      result$data['id'] = (l$id as String?);
+    }
+    return Input$DeliveryFilter_order._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String? get deliveryDate => (_$data['deliveryDate'] as String?);
+
+  String? get id => (_$data['id'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('deliveryDate')) {
+      final l$deliveryDate = deliveryDate;
+      result$data['deliveryDate'] = l$deliveryDate;
+    }
+    if (_$data.containsKey('id')) {
+      final l$id = id;
+      result$data['id'] = l$id;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$DeliveryFilter_order<Input$DeliveryFilter_order>
+  get copyWith => CopyWith$Input$DeliveryFilter_order(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$DeliveryFilter_order ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$deliveryDate = deliveryDate;
+    final lOther$deliveryDate = other.deliveryDate;
+    if (_$data.containsKey('deliveryDate') !=
+        other._$data.containsKey('deliveryDate')) {
+      return false;
+    }
+    if (l$deliveryDate != lOther$deliveryDate) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (_$data.containsKey('id') != other._$data.containsKey('id')) {
+      return false;
+    }
+    if (l$id != lOther$id) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$deliveryDate = deliveryDate;
+    final l$id = id;
+    return Object.hashAll([
+      _$data.containsKey('deliveryDate') ? l$deliveryDate : const {},
+      _$data.containsKey('id') ? l$id : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$DeliveryFilter_order<TRes> {
+  factory CopyWith$Input$DeliveryFilter_order(
+    Input$DeliveryFilter_order instance,
+    TRes Function(Input$DeliveryFilter_order) then,
+  ) = _CopyWithImpl$Input$DeliveryFilter_order;
+
+  factory CopyWith$Input$DeliveryFilter_order.stub(TRes res) =
+      _CopyWithStubImpl$Input$DeliveryFilter_order;
+
+  TRes call({String? deliveryDate, String? id});
+}
+
+class _CopyWithImpl$Input$DeliveryFilter_order<TRes>
+    implements CopyWith$Input$DeliveryFilter_order<TRes> {
+  _CopyWithImpl$Input$DeliveryFilter_order(this._instance, this._then);
+
+  final Input$DeliveryFilter_order _instance;
+
+  final TRes Function(Input$DeliveryFilter_order) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? deliveryDate = _undefined, Object? id = _undefined}) =>
+      _then(
+        Input$DeliveryFilter_order._({
+          ..._instance._$data,
+          if (deliveryDate != _undefined)
+            'deliveryDate': (deliveryDate as String?),
+          if (id != _undefined) 'id': (id as String?),
+        }),
+      );
+}
+
+class _CopyWithStubImpl$Input$DeliveryFilter_order<TRes>
+    implements CopyWith$Input$DeliveryFilter_order<TRes> {
+  _CopyWithStubImpl$Input$DeliveryFilter_order(this._res);
+
+  TRes _res;
+
+  call({String? deliveryDate, String? id}) => _res;
+}
+
 class Input$createPaymentInput {
   factory Input$createPaymentInput({
     String? $_id,
@@ -999,15 +3192,19 @@ class _CopyWithStubImpl$Input$deleteAddressInput<TRes>
 class Input$updateDeliveryInput {
   factory Input$updateDeliveryInput({
     required String id,
+    String? restaurant,
     String? driver,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
+    String? order,
     String? clientMutationId,
   }) => Input$updateDeliveryInput._({
     r'id': id,
+    if (restaurant != null) r'restaurant': restaurant,
     if (driver != null) r'driver': driver,
     if (status != null) r'status': status,
     if (deliveryDate != null) r'deliveryDate': deliveryDate,
+    if (order != null) r'order': order,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
   });
 
@@ -1017,6 +3214,10 @@ class Input$updateDeliveryInput {
     final result$data = <String, dynamic>{};
     final l$id = data['id'];
     result$data['id'] = (l$id as String);
+    if (data.containsKey('restaurant')) {
+      final l$restaurant = data['restaurant'];
+      result$data['restaurant'] = (l$restaurant as String?);
+    }
     if (data.containsKey('driver')) {
       final l$driver = data['driver'];
       result$data['driver'] = (l$driver as String?);
@@ -1031,6 +3232,10 @@ class Input$updateDeliveryInput {
       final l$deliveryDate = data['deliveryDate'];
       result$data['deliveryDate'] = (l$deliveryDate as String?);
     }
+    if (data.containsKey('order')) {
+      final l$order = data['order'];
+      result$data['order'] = (l$order as String?);
+    }
     if (data.containsKey('clientMutationId')) {
       final l$clientMutationId = data['clientMutationId'];
       result$data['clientMutationId'] = (l$clientMutationId as String?);
@@ -1042,11 +3247,15 @@ class Input$updateDeliveryInput {
 
   String get id => (_$data['id'] as String);
 
+  String? get restaurant => (_$data['restaurant'] as String?);
+
   String? get driver => (_$data['driver'] as String?);
 
   Enum$DeliveryStatus? get status => (_$data['status'] as Enum$DeliveryStatus?);
 
   String? get deliveryDate => (_$data['deliveryDate'] as String?);
+
+  String? get order => (_$data['order'] as String?);
 
   String? get clientMutationId => (_$data['clientMutationId'] as String?);
 
@@ -1054,6 +3263,10 @@ class Input$updateDeliveryInput {
     final result$data = <String, dynamic>{};
     final l$id = id;
     result$data['id'] = l$id;
+    if (_$data.containsKey('restaurant')) {
+      final l$restaurant = restaurant;
+      result$data['restaurant'] = l$restaurant;
+    }
     if (_$data.containsKey('driver')) {
       final l$driver = driver;
       result$data['driver'] = l$driver;
@@ -1067,6 +3280,10 @@ class Input$updateDeliveryInput {
     if (_$data.containsKey('deliveryDate')) {
       final l$deliveryDate = deliveryDate;
       result$data['deliveryDate'] = l$deliveryDate;
+    }
+    if (_$data.containsKey('order')) {
+      final l$order = order;
+      result$data['order'] = l$order;
     }
     if (_$data.containsKey('clientMutationId')) {
       final l$clientMutationId = clientMutationId;
@@ -1090,6 +3307,15 @@ class Input$updateDeliveryInput {
     final l$id = id;
     final lOther$id = other.id;
     if (l$id != lOther$id) {
+      return false;
+    }
+    final l$restaurant = restaurant;
+    final lOther$restaurant = other.restaurant;
+    if (_$data.containsKey('restaurant') !=
+        other._$data.containsKey('restaurant')) {
+      return false;
+    }
+    if (l$restaurant != lOther$restaurant) {
       return false;
     }
     final l$driver = driver;
@@ -1117,6 +3343,14 @@ class Input$updateDeliveryInput {
     if (l$deliveryDate != lOther$deliveryDate) {
       return false;
     }
+    final l$order = order;
+    final lOther$order = other.order;
+    if (_$data.containsKey('order') != other._$data.containsKey('order')) {
+      return false;
+    }
+    if (l$order != lOther$order) {
+      return false;
+    }
     final l$clientMutationId = clientMutationId;
     final lOther$clientMutationId = other.clientMutationId;
     if (_$data.containsKey('clientMutationId') !=
@@ -1132,15 +3366,19 @@ class Input$updateDeliveryInput {
   @override
   int get hashCode {
     final l$id = id;
+    final l$restaurant = restaurant;
     final l$driver = driver;
     final l$status = status;
     final l$deliveryDate = deliveryDate;
+    final l$order = order;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
       l$id,
+      _$data.containsKey('restaurant') ? l$restaurant : const {},
       _$data.containsKey('driver') ? l$driver : const {},
       _$data.containsKey('status') ? l$status : const {},
       _$data.containsKey('deliveryDate') ? l$deliveryDate : const {},
+      _$data.containsKey('order') ? l$order : const {},
       _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
     ]);
   }
@@ -1157,9 +3395,11 @@ abstract class CopyWith$Input$updateDeliveryInput<TRes> {
 
   TRes call({
     String? id,
+    String? restaurant,
     String? driver,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
+    String? order,
     String? clientMutationId,
   });
 }
@@ -1176,17 +3416,21 @@ class _CopyWithImpl$Input$updateDeliveryInput<TRes>
 
   TRes call({
     Object? id = _undefined,
+    Object? restaurant = _undefined,
     Object? driver = _undefined,
     Object? status = _undefined,
     Object? deliveryDate = _undefined,
+    Object? order = _undefined,
     Object? clientMutationId = _undefined,
   }) => _then(
     Input$updateDeliveryInput._({
       ..._instance._$data,
       if (id != _undefined && id != null) 'id': (id as String),
+      if (restaurant != _undefined) 'restaurant': (restaurant as String?),
       if (driver != _undefined) 'driver': (driver as String?),
       if (status != _undefined) 'status': (status as Enum$DeliveryStatus?),
       if (deliveryDate != _undefined) 'deliveryDate': (deliveryDate as String?),
+      if (order != _undefined) 'order': (order as String?),
       if (clientMutationId != _undefined)
         'clientMutationId': (clientMutationId as String?),
     }),
@@ -1201,9 +3445,11 @@ class _CopyWithStubImpl$Input$updateDeliveryInput<TRes>
 
   call({
     String? id,
+    String? restaurant,
     String? driver,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
+    String? order,
     String? clientMutationId,
   }) => _res;
 }
@@ -1327,6 +3573,235 @@ class _CopyWithStubImpl$Input$deleteDeliveryInput<TRes>
   TRes _res;
 
   call({String? id, String? clientMutationId}) => _res;
+}
+
+class Input$createDeliveryInput {
+  factory Input$createDeliveryInput({
+    String? restaurant,
+    String? driver,
+    required Enum$DeliveryStatus status,
+    required String deliveryDate,
+    String? order,
+    String? clientMutationId,
+  }) => Input$createDeliveryInput._({
+    if (restaurant != null) r'restaurant': restaurant,
+    if (driver != null) r'driver': driver,
+    r'status': status,
+    r'deliveryDate': deliveryDate,
+    if (order != null) r'order': order,
+    if (clientMutationId != null) r'clientMutationId': clientMutationId,
+  });
+
+  Input$createDeliveryInput._(this._$data);
+
+  factory Input$createDeliveryInput.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('restaurant')) {
+      final l$restaurant = data['restaurant'];
+      result$data['restaurant'] = (l$restaurant as String?);
+    }
+    if (data.containsKey('driver')) {
+      final l$driver = data['driver'];
+      result$data['driver'] = (l$driver as String?);
+    }
+    final l$status = data['status'];
+    result$data['status'] = fromJson$Enum$DeliveryStatus((l$status as String));
+    final l$deliveryDate = data['deliveryDate'];
+    result$data['deliveryDate'] = (l$deliveryDate as String);
+    if (data.containsKey('order')) {
+      final l$order = data['order'];
+      result$data['order'] = (l$order as String?);
+    }
+    if (data.containsKey('clientMutationId')) {
+      final l$clientMutationId = data['clientMutationId'];
+      result$data['clientMutationId'] = (l$clientMutationId as String?);
+    }
+    return Input$createDeliveryInput._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String? get restaurant => (_$data['restaurant'] as String?);
+
+  String? get driver => (_$data['driver'] as String?);
+
+  Enum$DeliveryStatus get status => (_$data['status'] as Enum$DeliveryStatus);
+
+  String get deliveryDate => (_$data['deliveryDate'] as String);
+
+  String? get order => (_$data['order'] as String?);
+
+  String? get clientMutationId => (_$data['clientMutationId'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('restaurant')) {
+      final l$restaurant = restaurant;
+      result$data['restaurant'] = l$restaurant;
+    }
+    if (_$data.containsKey('driver')) {
+      final l$driver = driver;
+      result$data['driver'] = l$driver;
+    }
+    final l$status = status;
+    result$data['status'] = toJson$Enum$DeliveryStatus(l$status);
+    final l$deliveryDate = deliveryDate;
+    result$data['deliveryDate'] = l$deliveryDate;
+    if (_$data.containsKey('order')) {
+      final l$order = order;
+      result$data['order'] = l$order;
+    }
+    if (_$data.containsKey('clientMutationId')) {
+      final l$clientMutationId = clientMutationId;
+      result$data['clientMutationId'] = l$clientMutationId;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$createDeliveryInput<Input$createDeliveryInput> get copyWith =>
+      CopyWith$Input$createDeliveryInput(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$createDeliveryInput ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$restaurant = restaurant;
+    final lOther$restaurant = other.restaurant;
+    if (_$data.containsKey('restaurant') !=
+        other._$data.containsKey('restaurant')) {
+      return false;
+    }
+    if (l$restaurant != lOther$restaurant) {
+      return false;
+    }
+    final l$driver = driver;
+    final lOther$driver = other.driver;
+    if (_$data.containsKey('driver') != other._$data.containsKey('driver')) {
+      return false;
+    }
+    if (l$driver != lOther$driver) {
+      return false;
+    }
+    final l$status = status;
+    final lOther$status = other.status;
+    if (l$status != lOther$status) {
+      return false;
+    }
+    final l$deliveryDate = deliveryDate;
+    final lOther$deliveryDate = other.deliveryDate;
+    if (l$deliveryDate != lOther$deliveryDate) {
+      return false;
+    }
+    final l$order = order;
+    final lOther$order = other.order;
+    if (_$data.containsKey('order') != other._$data.containsKey('order')) {
+      return false;
+    }
+    if (l$order != lOther$order) {
+      return false;
+    }
+    final l$clientMutationId = clientMutationId;
+    final lOther$clientMutationId = other.clientMutationId;
+    if (_$data.containsKey('clientMutationId') !=
+        other._$data.containsKey('clientMutationId')) {
+      return false;
+    }
+    if (l$clientMutationId != lOther$clientMutationId) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$restaurant = restaurant;
+    final l$driver = driver;
+    final l$status = status;
+    final l$deliveryDate = deliveryDate;
+    final l$order = order;
+    final l$clientMutationId = clientMutationId;
+    return Object.hashAll([
+      _$data.containsKey('restaurant') ? l$restaurant : const {},
+      _$data.containsKey('driver') ? l$driver : const {},
+      l$status,
+      l$deliveryDate,
+      _$data.containsKey('order') ? l$order : const {},
+      _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$createDeliveryInput<TRes> {
+  factory CopyWith$Input$createDeliveryInput(
+    Input$createDeliveryInput instance,
+    TRes Function(Input$createDeliveryInput) then,
+  ) = _CopyWithImpl$Input$createDeliveryInput;
+
+  factory CopyWith$Input$createDeliveryInput.stub(TRes res) =
+      _CopyWithStubImpl$Input$createDeliveryInput;
+
+  TRes call({
+    String? restaurant,
+    String? driver,
+    Enum$DeliveryStatus? status,
+    String? deliveryDate,
+    String? order,
+    String? clientMutationId,
+  });
+}
+
+class _CopyWithImpl$Input$createDeliveryInput<TRes>
+    implements CopyWith$Input$createDeliveryInput<TRes> {
+  _CopyWithImpl$Input$createDeliveryInput(this._instance, this._then);
+
+  final Input$createDeliveryInput _instance;
+
+  final TRes Function(Input$createDeliveryInput) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? restaurant = _undefined,
+    Object? driver = _undefined,
+    Object? status = _undefined,
+    Object? deliveryDate = _undefined,
+    Object? order = _undefined,
+    Object? clientMutationId = _undefined,
+  }) => _then(
+    Input$createDeliveryInput._({
+      ..._instance._$data,
+      if (restaurant != _undefined) 'restaurant': (restaurant as String?),
+      if (driver != _undefined) 'driver': (driver as String?),
+      if (status != _undefined && status != null)
+        'status': (status as Enum$DeliveryStatus),
+      if (deliveryDate != _undefined && deliveryDate != null)
+        'deliveryDate': (deliveryDate as String),
+      if (order != _undefined) 'order': (order as String?),
+      if (clientMutationId != _undefined)
+        'clientMutationId': (clientMutationId as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$createDeliveryInput<TRes>
+    implements CopyWith$Input$createDeliveryInput<TRes> {
+  _CopyWithStubImpl$Input$createDeliveryInput(this._res);
+
+  TRes _res;
+
+  call({
+    String? restaurant,
+    String? driver,
+    Enum$DeliveryStatus? status,
+    String? deliveryDate,
+    String? order,
+    String? clientMutationId,
+  }) => _res;
 }
 
 class Input$createDietCategoryInput {
@@ -1720,278 +4195,6 @@ class _CopyWithStubImpl$Input$deleteDietCategoryInput<TRes>
   call({String? id, String? clientMutationId}) => _res;
 }
 
-class Input$createMealInput {
-  factory Input$createMealInput({
-    required String name,
-    String? description,
-    required double calories,
-    required double protein,
-    required double fat,
-    required double carbs,
-    required int price,
-    required String restaurant,
-    String? clientMutationId,
-  }) => Input$createMealInput._({
-    r'name': name,
-    if (description != null) r'description': description,
-    r'calories': calories,
-    r'protein': protein,
-    r'fat': fat,
-    r'carbs': carbs,
-    r'price': price,
-    r'restaurant': restaurant,
-    if (clientMutationId != null) r'clientMutationId': clientMutationId,
-  });
-
-  Input$createMealInput._(this._$data);
-
-  factory Input$createMealInput.fromJson(Map<String, dynamic> data) {
-    final result$data = <String, dynamic>{};
-    final l$name = data['name'];
-    result$data['name'] = (l$name as String);
-    if (data.containsKey('description')) {
-      final l$description = data['description'];
-      result$data['description'] = (l$description as String?);
-    }
-    final l$calories = data['calories'];
-    result$data['calories'] = (l$calories as num).toDouble();
-    final l$protein = data['protein'];
-    result$data['protein'] = (l$protein as num).toDouble();
-    final l$fat = data['fat'];
-    result$data['fat'] = (l$fat as num).toDouble();
-    final l$carbs = data['carbs'];
-    result$data['carbs'] = (l$carbs as num).toDouble();
-    final l$price = data['price'];
-    result$data['price'] = (l$price as int);
-    final l$restaurant = data['restaurant'];
-    result$data['restaurant'] = (l$restaurant as String);
-    if (data.containsKey('clientMutationId')) {
-      final l$clientMutationId = data['clientMutationId'];
-      result$data['clientMutationId'] = (l$clientMutationId as String?);
-    }
-    return Input$createMealInput._(result$data);
-  }
-
-  Map<String, dynamic> _$data;
-
-  String get name => (_$data['name'] as String);
-
-  String? get description => (_$data['description'] as String?);
-
-  double get calories => (_$data['calories'] as double);
-
-  double get protein => (_$data['protein'] as double);
-
-  double get fat => (_$data['fat'] as double);
-
-  double get carbs => (_$data['carbs'] as double);
-
-  int get price => (_$data['price'] as int);
-
-  String get restaurant => (_$data['restaurant'] as String);
-
-  String? get clientMutationId => (_$data['clientMutationId'] as String?);
-
-  Map<String, dynamic> toJson() {
-    final result$data = <String, dynamic>{};
-    final l$name = name;
-    result$data['name'] = l$name;
-    if (_$data.containsKey('description')) {
-      final l$description = description;
-      result$data['description'] = l$description;
-    }
-    final l$calories = calories;
-    result$data['calories'] = l$calories;
-    final l$protein = protein;
-    result$data['protein'] = l$protein;
-    final l$fat = fat;
-    result$data['fat'] = l$fat;
-    final l$carbs = carbs;
-    result$data['carbs'] = l$carbs;
-    final l$price = price;
-    result$data['price'] = l$price;
-    final l$restaurant = restaurant;
-    result$data['restaurant'] = l$restaurant;
-    if (_$data.containsKey('clientMutationId')) {
-      final l$clientMutationId = clientMutationId;
-      result$data['clientMutationId'] = l$clientMutationId;
-    }
-    return result$data;
-  }
-
-  CopyWith$Input$createMealInput<Input$createMealInput> get copyWith =>
-      CopyWith$Input$createMealInput(this, (i) => i);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Input$createMealInput || runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$description = description;
-    final lOther$description = other.description;
-    if (_$data.containsKey('description') !=
-        other._$data.containsKey('description')) {
-      return false;
-    }
-    if (l$description != lOther$description) {
-      return false;
-    }
-    final l$calories = calories;
-    final lOther$calories = other.calories;
-    if (l$calories != lOther$calories) {
-      return false;
-    }
-    final l$protein = protein;
-    final lOther$protein = other.protein;
-    if (l$protein != lOther$protein) {
-      return false;
-    }
-    final l$fat = fat;
-    final lOther$fat = other.fat;
-    if (l$fat != lOther$fat) {
-      return false;
-    }
-    final l$carbs = carbs;
-    final lOther$carbs = other.carbs;
-    if (l$carbs != lOther$carbs) {
-      return false;
-    }
-    final l$price = price;
-    final lOther$price = other.price;
-    if (l$price != lOther$price) {
-      return false;
-    }
-    final l$restaurant = restaurant;
-    final lOther$restaurant = other.restaurant;
-    if (l$restaurant != lOther$restaurant) {
-      return false;
-    }
-    final l$clientMutationId = clientMutationId;
-    final lOther$clientMutationId = other.clientMutationId;
-    if (_$data.containsKey('clientMutationId') !=
-        other._$data.containsKey('clientMutationId')) {
-      return false;
-    }
-    if (l$clientMutationId != lOther$clientMutationId) {
-      return false;
-    }
-    return true;
-  }
-
-  @override
-  int get hashCode {
-    final l$name = name;
-    final l$description = description;
-    final l$calories = calories;
-    final l$protein = protein;
-    final l$fat = fat;
-    final l$carbs = carbs;
-    final l$price = price;
-    final l$restaurant = restaurant;
-    final l$clientMutationId = clientMutationId;
-    return Object.hashAll([
-      l$name,
-      _$data.containsKey('description') ? l$description : const {},
-      l$calories,
-      l$protein,
-      l$fat,
-      l$carbs,
-      l$price,
-      l$restaurant,
-      _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
-    ]);
-  }
-}
-
-abstract class CopyWith$Input$createMealInput<TRes> {
-  factory CopyWith$Input$createMealInput(
-    Input$createMealInput instance,
-    TRes Function(Input$createMealInput) then,
-  ) = _CopyWithImpl$Input$createMealInput;
-
-  factory CopyWith$Input$createMealInput.stub(TRes res) =
-      _CopyWithStubImpl$Input$createMealInput;
-
-  TRes call({
-    String? name,
-    String? description,
-    double? calories,
-    double? protein,
-    double? fat,
-    double? carbs,
-    int? price,
-    String? restaurant,
-    String? clientMutationId,
-  });
-}
-
-class _CopyWithImpl$Input$createMealInput<TRes>
-    implements CopyWith$Input$createMealInput<TRes> {
-  _CopyWithImpl$Input$createMealInput(this._instance, this._then);
-
-  final Input$createMealInput _instance;
-
-  final TRes Function(Input$createMealInput) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? name = _undefined,
-    Object? description = _undefined,
-    Object? calories = _undefined,
-    Object? protein = _undefined,
-    Object? fat = _undefined,
-    Object? carbs = _undefined,
-    Object? price = _undefined,
-    Object? restaurant = _undefined,
-    Object? clientMutationId = _undefined,
-  }) => _then(
-    Input$createMealInput._({
-      ..._instance._$data,
-      if (name != _undefined && name != null) 'name': (name as String),
-      if (description != _undefined) 'description': (description as String?),
-      if (calories != _undefined && calories != null)
-        'calories': (calories as double),
-      if (protein != _undefined && protein != null)
-        'protein': (protein as double),
-      if (fat != _undefined && fat != null) 'fat': (fat as double),
-      if (carbs != _undefined && carbs != null) 'carbs': (carbs as double),
-      if (price != _undefined && price != null) 'price': (price as int),
-      if (restaurant != _undefined && restaurant != null)
-        'restaurant': (restaurant as String),
-      if (clientMutationId != _undefined)
-        'clientMutationId': (clientMutationId as String?),
-    }),
-  );
-}
-
-class _CopyWithStubImpl$Input$createMealInput<TRes>
-    implements CopyWith$Input$createMealInput<TRes> {
-  _CopyWithStubImpl$Input$createMealInput(this._res);
-
-  TRes _res;
-
-  call({
-    String? name,
-    String? description,
-    double? calories,
-    double? protein,
-    double? fat,
-    double? carbs,
-    int? price,
-    String? restaurant,
-    String? clientMutationId,
-  }) => _res;
-}
-
 class Input$updateMealInput {
   factory Input$updateMealInput({
     required String id,
@@ -2003,6 +4206,7 @@ class Input$updateMealInput {
     double? carbs,
     int? price,
     String? restaurant,
+    String? imagePath,
     String? clientMutationId,
   }) => Input$updateMealInput._({
     r'id': id,
@@ -2014,6 +4218,7 @@ class Input$updateMealInput {
     if (carbs != null) r'carbs': carbs,
     if (price != null) r'price': price,
     if (restaurant != null) r'restaurant': restaurant,
+    if (imagePath != null) r'imagePath': imagePath,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
   });
 
@@ -2055,6 +4260,10 @@ class Input$updateMealInput {
       final l$restaurant = data['restaurant'];
       result$data['restaurant'] = (l$restaurant as String?);
     }
+    if (data.containsKey('imagePath')) {
+      final l$imagePath = data['imagePath'];
+      result$data['imagePath'] = (l$imagePath as String?);
+    }
     if (data.containsKey('clientMutationId')) {
       final l$clientMutationId = data['clientMutationId'];
       result$data['clientMutationId'] = (l$clientMutationId as String?);
@@ -2081,6 +4290,8 @@ class Input$updateMealInput {
   int? get price => (_$data['price'] as int?);
 
   String? get restaurant => (_$data['restaurant'] as String?);
+
+  String? get imagePath => (_$data['imagePath'] as String?);
 
   String? get clientMutationId => (_$data['clientMutationId'] as String?);
 
@@ -2119,6 +4330,10 @@ class Input$updateMealInput {
     if (_$data.containsKey('restaurant')) {
       final l$restaurant = restaurant;
       result$data['restaurant'] = l$restaurant;
+    }
+    if (_$data.containsKey('imagePath')) {
+      final l$imagePath = imagePath;
+      result$data['imagePath'] = l$imagePath;
     }
     if (_$data.containsKey('clientMutationId')) {
       final l$clientMutationId = clientMutationId;
@@ -2210,6 +4425,15 @@ class Input$updateMealInput {
     if (l$restaurant != lOther$restaurant) {
       return false;
     }
+    final l$imagePath = imagePath;
+    final lOther$imagePath = other.imagePath;
+    if (_$data.containsKey('imagePath') !=
+        other._$data.containsKey('imagePath')) {
+      return false;
+    }
+    if (l$imagePath != lOther$imagePath) {
+      return false;
+    }
     final l$clientMutationId = clientMutationId;
     final lOther$clientMutationId = other.clientMutationId;
     if (_$data.containsKey('clientMutationId') !=
@@ -2233,6 +4457,7 @@ class Input$updateMealInput {
     final l$carbs = carbs;
     final l$price = price;
     final l$restaurant = restaurant;
+    final l$imagePath = imagePath;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
       l$id,
@@ -2244,6 +4469,7 @@ class Input$updateMealInput {
       _$data.containsKey('carbs') ? l$carbs : const {},
       _$data.containsKey('price') ? l$price : const {},
       _$data.containsKey('restaurant') ? l$restaurant : const {},
+      _$data.containsKey('imagePath') ? l$imagePath : const {},
       _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
     ]);
   }
@@ -2268,6 +4494,7 @@ abstract class CopyWith$Input$updateMealInput<TRes> {
     double? carbs,
     int? price,
     String? restaurant,
+    String? imagePath,
     String? clientMutationId,
   });
 }
@@ -2292,6 +4519,7 @@ class _CopyWithImpl$Input$updateMealInput<TRes>
     Object? carbs = _undefined,
     Object? price = _undefined,
     Object? restaurant = _undefined,
+    Object? imagePath = _undefined,
     Object? clientMutationId = _undefined,
   }) => _then(
     Input$updateMealInput._({
@@ -2305,6 +4533,7 @@ class _CopyWithImpl$Input$updateMealInput<TRes>
       if (carbs != _undefined) 'carbs': (carbs as double?),
       if (price != _undefined) 'price': (price as int?),
       if (restaurant != _undefined) 'restaurant': (restaurant as String?),
+      if (imagePath != _undefined) 'imagePath': (imagePath as String?),
       if (clientMutationId != _undefined)
         'clientMutationId': (clientMutationId as String?),
     }),
@@ -2327,6 +4556,7 @@ class _CopyWithStubImpl$Input$updateMealInput<TRes>
     double? carbs,
     int? price,
     String? restaurant,
+    String? imagePath,
     String? clientMutationId,
   }) => _res;
 }
@@ -2451,90 +4681,109 @@ class _CopyWithStubImpl$Input$deleteMealInput<TRes>
   call({String? id, String? clientMutationId}) => _res;
 }
 
-class Input$createMealPlanInput {
-  factory Input$createMealPlanInput({
-    List<String?>? meals,
-    List<String?>? dietCategories,
+class Input$createMealInput {
+  factory Input$createMealInput({
     required String name,
     String? description,
-    String? restaurant,
+    required double calories,
+    required double protein,
+    required double fat,
+    required double carbs,
+    required int price,
+    required String restaurant,
+    String? imagePath,
     String? clientMutationId,
-  }) => Input$createMealPlanInput._({
-    if (meals != null) r'meals': meals,
-    if (dietCategories != null) r'dietCategories': dietCategories,
+  }) => Input$createMealInput._({
     r'name': name,
     if (description != null) r'description': description,
-    if (restaurant != null) r'restaurant': restaurant,
+    r'calories': calories,
+    r'protein': protein,
+    r'fat': fat,
+    r'carbs': carbs,
+    r'price': price,
+    r'restaurant': restaurant,
+    if (imagePath != null) r'imagePath': imagePath,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
   });
 
-  Input$createMealPlanInput._(this._$data);
+  Input$createMealInput._(this._$data);
 
-  factory Input$createMealPlanInput.fromJson(Map<String, dynamic> data) {
+  factory Input$createMealInput.fromJson(Map<String, dynamic> data) {
     final result$data = <String, dynamic>{};
-    if (data.containsKey('meals')) {
-      final l$meals = data['meals'];
-      result$data['meals'] = (l$meals as List<dynamic>?)
-          ?.map((e) => (e as String?))
-          .toList();
-    }
-    if (data.containsKey('dietCategories')) {
-      final l$dietCategories = data['dietCategories'];
-      result$data['dietCategories'] = (l$dietCategories as List<dynamic>?)
-          ?.map((e) => (e as String?))
-          .toList();
-    }
     final l$name = data['name'];
     result$data['name'] = (l$name as String);
     if (data.containsKey('description')) {
       final l$description = data['description'];
       result$data['description'] = (l$description as String?);
     }
-    if (data.containsKey('restaurant')) {
-      final l$restaurant = data['restaurant'];
-      result$data['restaurant'] = (l$restaurant as String?);
+    final l$calories = data['calories'];
+    result$data['calories'] = (l$calories as num).toDouble();
+    final l$protein = data['protein'];
+    result$data['protein'] = (l$protein as num).toDouble();
+    final l$fat = data['fat'];
+    result$data['fat'] = (l$fat as num).toDouble();
+    final l$carbs = data['carbs'];
+    result$data['carbs'] = (l$carbs as num).toDouble();
+    final l$price = data['price'];
+    result$data['price'] = (l$price as int);
+    final l$restaurant = data['restaurant'];
+    result$data['restaurant'] = (l$restaurant as String);
+    if (data.containsKey('imagePath')) {
+      final l$imagePath = data['imagePath'];
+      result$data['imagePath'] = (l$imagePath as String?);
     }
     if (data.containsKey('clientMutationId')) {
       final l$clientMutationId = data['clientMutationId'];
       result$data['clientMutationId'] = (l$clientMutationId as String?);
     }
-    return Input$createMealPlanInput._(result$data);
+    return Input$createMealInput._(result$data);
   }
 
   Map<String, dynamic> _$data;
-
-  List<String?>? get meals => (_$data['meals'] as List<String?>?);
-
-  List<String?>? get dietCategories =>
-      (_$data['dietCategories'] as List<String?>?);
 
   String get name => (_$data['name'] as String);
 
   String? get description => (_$data['description'] as String?);
 
-  String? get restaurant => (_$data['restaurant'] as String?);
+  double get calories => (_$data['calories'] as double);
+
+  double get protein => (_$data['protein'] as double);
+
+  double get fat => (_$data['fat'] as double);
+
+  double get carbs => (_$data['carbs'] as double);
+
+  int get price => (_$data['price'] as int);
+
+  String get restaurant => (_$data['restaurant'] as String);
+
+  String? get imagePath => (_$data['imagePath'] as String?);
 
   String? get clientMutationId => (_$data['clientMutationId'] as String?);
 
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
-    if (_$data.containsKey('meals')) {
-      final l$meals = meals;
-      result$data['meals'] = l$meals?.map((e) => e).toList();
-    }
-    if (_$data.containsKey('dietCategories')) {
-      final l$dietCategories = dietCategories;
-      result$data['dietCategories'] = l$dietCategories?.map((e) => e).toList();
-    }
     final l$name = name;
     result$data['name'] = l$name;
     if (_$data.containsKey('description')) {
       final l$description = description;
       result$data['description'] = l$description;
     }
-    if (_$data.containsKey('restaurant')) {
-      final l$restaurant = restaurant;
-      result$data['restaurant'] = l$restaurant;
+    final l$calories = calories;
+    result$data['calories'] = l$calories;
+    final l$protein = protein;
+    result$data['protein'] = l$protein;
+    final l$fat = fat;
+    result$data['fat'] = l$fat;
+    final l$carbs = carbs;
+    result$data['carbs'] = l$carbs;
+    final l$price = price;
+    result$data['price'] = l$price;
+    final l$restaurant = restaurant;
+    result$data['restaurant'] = l$restaurant;
+    if (_$data.containsKey('imagePath')) {
+      final l$imagePath = imagePath;
+      result$data['imagePath'] = l$imagePath;
     }
     if (_$data.containsKey('clientMutationId')) {
       final l$clientMutationId = clientMutationId;
@@ -2543,55 +4792,15 @@ class Input$createMealPlanInput {
     return result$data;
   }
 
-  CopyWith$Input$createMealPlanInput<Input$createMealPlanInput> get copyWith =>
-      CopyWith$Input$createMealPlanInput(this, (i) => i);
+  CopyWith$Input$createMealInput<Input$createMealInput> get copyWith =>
+      CopyWith$Input$createMealInput(this, (i) => i);
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) {
       return true;
     }
-    if (other is! Input$createMealPlanInput ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$meals = meals;
-    final lOther$meals = other.meals;
-    if (_$data.containsKey('meals') != other._$data.containsKey('meals')) {
-      return false;
-    }
-    if (l$meals != null && lOther$meals != null) {
-      if (l$meals.length != lOther$meals.length) {
-        return false;
-      }
-      for (int i = 0; i < l$meals.length; i++) {
-        final l$meals$entry = l$meals[i];
-        final lOther$meals$entry = lOther$meals[i];
-        if (l$meals$entry != lOther$meals$entry) {
-          return false;
-        }
-      }
-    } else if (l$meals != lOther$meals) {
-      return false;
-    }
-    final l$dietCategories = dietCategories;
-    final lOther$dietCategories = other.dietCategories;
-    if (_$data.containsKey('dietCategories') !=
-        other._$data.containsKey('dietCategories')) {
-      return false;
-    }
-    if (l$dietCategories != null && lOther$dietCategories != null) {
-      if (l$dietCategories.length != lOther$dietCategories.length) {
-        return false;
-      }
-      for (int i = 0; i < l$dietCategories.length; i++) {
-        final l$dietCategories$entry = l$dietCategories[i];
-        final lOther$dietCategories$entry = lOther$dietCategories[i];
-        if (l$dietCategories$entry != lOther$dietCategories$entry) {
-          return false;
-        }
-      }
-    } else if (l$dietCategories != lOther$dietCategories) {
+    if (other is! Input$createMealInput || runtimeType != other.runtimeType) {
       return false;
     }
     final l$name = name;
@@ -2608,13 +4817,43 @@ class Input$createMealPlanInput {
     if (l$description != lOther$description) {
       return false;
     }
-    final l$restaurant = restaurant;
-    final lOther$restaurant = other.restaurant;
-    if (_$data.containsKey('restaurant') !=
-        other._$data.containsKey('restaurant')) {
+    final l$calories = calories;
+    final lOther$calories = other.calories;
+    if (l$calories != lOther$calories) {
       return false;
     }
+    final l$protein = protein;
+    final lOther$protein = other.protein;
+    if (l$protein != lOther$protein) {
+      return false;
+    }
+    final l$fat = fat;
+    final lOther$fat = other.fat;
+    if (l$fat != lOther$fat) {
+      return false;
+    }
+    final l$carbs = carbs;
+    final lOther$carbs = other.carbs;
+    if (l$carbs != lOther$carbs) {
+      return false;
+    }
+    final l$price = price;
+    final lOther$price = other.price;
+    if (l$price != lOther$price) {
+      return false;
+    }
+    final l$restaurant = restaurant;
+    final lOther$restaurant = other.restaurant;
     if (l$restaurant != lOther$restaurant) {
+      return false;
+    }
+    final l$imagePath = imagePath;
+    final lOther$imagePath = other.imagePath;
+    if (_$data.containsKey('imagePath') !=
+        other._$data.containsKey('imagePath')) {
+      return false;
+    }
+    if (l$imagePath != lOther$imagePath) {
       return false;
     }
     final l$clientMutationId = clientMutationId;
@@ -2631,94 +4870,112 @@ class Input$createMealPlanInput {
 
   @override
   int get hashCode {
-    final l$meals = meals;
-    final l$dietCategories = dietCategories;
     final l$name = name;
     final l$description = description;
+    final l$calories = calories;
+    final l$protein = protein;
+    final l$fat = fat;
+    final l$carbs = carbs;
+    final l$price = price;
     final l$restaurant = restaurant;
+    final l$imagePath = imagePath;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
-      _$data.containsKey('meals')
-          ? l$meals == null
-                ? null
-                : Object.hashAll(l$meals.map((v) => v))
-          : const {},
-      _$data.containsKey('dietCategories')
-          ? l$dietCategories == null
-                ? null
-                : Object.hashAll(l$dietCategories.map((v) => v))
-          : const {},
       l$name,
       _$data.containsKey('description') ? l$description : const {},
-      _$data.containsKey('restaurant') ? l$restaurant : const {},
+      l$calories,
+      l$protein,
+      l$fat,
+      l$carbs,
+      l$price,
+      l$restaurant,
+      _$data.containsKey('imagePath') ? l$imagePath : const {},
       _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
     ]);
   }
 }
 
-abstract class CopyWith$Input$createMealPlanInput<TRes> {
-  factory CopyWith$Input$createMealPlanInput(
-    Input$createMealPlanInput instance,
-    TRes Function(Input$createMealPlanInput) then,
-  ) = _CopyWithImpl$Input$createMealPlanInput;
+abstract class CopyWith$Input$createMealInput<TRes> {
+  factory CopyWith$Input$createMealInput(
+    Input$createMealInput instance,
+    TRes Function(Input$createMealInput) then,
+  ) = _CopyWithImpl$Input$createMealInput;
 
-  factory CopyWith$Input$createMealPlanInput.stub(TRes res) =
-      _CopyWithStubImpl$Input$createMealPlanInput;
+  factory CopyWith$Input$createMealInput.stub(TRes res) =
+      _CopyWithStubImpl$Input$createMealInput;
 
   TRes call({
-    List<String?>? meals,
-    List<String?>? dietCategories,
     String? name,
     String? description,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
+    int? price,
     String? restaurant,
+    String? imagePath,
     String? clientMutationId,
   });
 }
 
-class _CopyWithImpl$Input$createMealPlanInput<TRes>
-    implements CopyWith$Input$createMealPlanInput<TRes> {
-  _CopyWithImpl$Input$createMealPlanInput(this._instance, this._then);
+class _CopyWithImpl$Input$createMealInput<TRes>
+    implements CopyWith$Input$createMealInput<TRes> {
+  _CopyWithImpl$Input$createMealInput(this._instance, this._then);
 
-  final Input$createMealPlanInput _instance;
+  final Input$createMealInput _instance;
 
-  final TRes Function(Input$createMealPlanInput) _then;
+  final TRes Function(Input$createMealInput) _then;
 
   static const _undefined = <dynamic, dynamic>{};
 
   TRes call({
-    Object? meals = _undefined,
-    Object? dietCategories = _undefined,
     Object? name = _undefined,
     Object? description = _undefined,
+    Object? calories = _undefined,
+    Object? protein = _undefined,
+    Object? fat = _undefined,
+    Object? carbs = _undefined,
+    Object? price = _undefined,
     Object? restaurant = _undefined,
+    Object? imagePath = _undefined,
     Object? clientMutationId = _undefined,
   }) => _then(
-    Input$createMealPlanInput._({
+    Input$createMealInput._({
       ..._instance._$data,
-      if (meals != _undefined) 'meals': (meals as List<String?>?),
-      if (dietCategories != _undefined)
-        'dietCategories': (dietCategories as List<String?>?),
       if (name != _undefined && name != null) 'name': (name as String),
       if (description != _undefined) 'description': (description as String?),
-      if (restaurant != _undefined) 'restaurant': (restaurant as String?),
+      if (calories != _undefined && calories != null)
+        'calories': (calories as double),
+      if (protein != _undefined && protein != null)
+        'protein': (protein as double),
+      if (fat != _undefined && fat != null) 'fat': (fat as double),
+      if (carbs != _undefined && carbs != null) 'carbs': (carbs as double),
+      if (price != _undefined && price != null) 'price': (price as int),
+      if (restaurant != _undefined && restaurant != null)
+        'restaurant': (restaurant as String),
+      if (imagePath != _undefined) 'imagePath': (imagePath as String?),
       if (clientMutationId != _undefined)
         'clientMutationId': (clientMutationId as String?),
     }),
   );
 }
 
-class _CopyWithStubImpl$Input$createMealPlanInput<TRes>
-    implements CopyWith$Input$createMealPlanInput<TRes> {
-  _CopyWithStubImpl$Input$createMealPlanInput(this._res);
+class _CopyWithStubImpl$Input$createMealInput<TRes>
+    implements CopyWith$Input$createMealInput<TRes> {
+  _CopyWithStubImpl$Input$createMealInput(this._res);
 
   TRes _res;
 
   call({
-    List<String?>? meals,
-    List<String?>? dietCategories,
     String? name,
     String? description,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
+    int? price,
     String? restaurant,
+    String? imagePath,
     String? clientMutationId,
   }) => _res;
 }
@@ -2730,7 +4987,14 @@ class Input$updateMealPlanInput {
     List<String?>? dietCategories,
     String? name,
     String? description,
+    int? price,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
     String? restaurant,
+    String? imagePath,
+    String? owner,
     String? clientMutationId,
   }) => Input$updateMealPlanInput._({
     r'id': id,
@@ -2738,7 +5002,14 @@ class Input$updateMealPlanInput {
     if (dietCategories != null) r'dietCategories': dietCategories,
     if (name != null) r'name': name,
     if (description != null) r'description': description,
+    if (price != null) r'price': price,
+    if (calories != null) r'calories': calories,
+    if (protein != null) r'protein': protein,
+    if (fat != null) r'fat': fat,
+    if (carbs != null) r'carbs': carbs,
     if (restaurant != null) r'restaurant': restaurant,
+    if (imagePath != null) r'imagePath': imagePath,
+    if (owner != null) r'owner': owner,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
   });
 
@@ -2768,9 +5039,37 @@ class Input$updateMealPlanInput {
       final l$description = data['description'];
       result$data['description'] = (l$description as String?);
     }
+    if (data.containsKey('price')) {
+      final l$price = data['price'];
+      result$data['price'] = (l$price as int?);
+    }
+    if (data.containsKey('calories')) {
+      final l$calories = data['calories'];
+      result$data['calories'] = (l$calories as num?)?.toDouble();
+    }
+    if (data.containsKey('protein')) {
+      final l$protein = data['protein'];
+      result$data['protein'] = (l$protein as num?)?.toDouble();
+    }
+    if (data.containsKey('fat')) {
+      final l$fat = data['fat'];
+      result$data['fat'] = (l$fat as num?)?.toDouble();
+    }
+    if (data.containsKey('carbs')) {
+      final l$carbs = data['carbs'];
+      result$data['carbs'] = (l$carbs as num?)?.toDouble();
+    }
     if (data.containsKey('restaurant')) {
       final l$restaurant = data['restaurant'];
       result$data['restaurant'] = (l$restaurant as String?);
+    }
+    if (data.containsKey('imagePath')) {
+      final l$imagePath = data['imagePath'];
+      result$data['imagePath'] = (l$imagePath as String?);
+    }
+    if (data.containsKey('owner')) {
+      final l$owner = data['owner'];
+      result$data['owner'] = (l$owner as String?);
     }
     if (data.containsKey('clientMutationId')) {
       final l$clientMutationId = data['clientMutationId'];
@@ -2792,7 +5091,21 @@ class Input$updateMealPlanInput {
 
   String? get description => (_$data['description'] as String?);
 
+  int? get price => (_$data['price'] as int?);
+
+  double? get calories => (_$data['calories'] as double?);
+
+  double? get protein => (_$data['protein'] as double?);
+
+  double? get fat => (_$data['fat'] as double?);
+
+  double? get carbs => (_$data['carbs'] as double?);
+
   String? get restaurant => (_$data['restaurant'] as String?);
+
+  String? get imagePath => (_$data['imagePath'] as String?);
+
+  String? get owner => (_$data['owner'] as String?);
 
   String? get clientMutationId => (_$data['clientMutationId'] as String?);
 
@@ -2816,9 +5129,37 @@ class Input$updateMealPlanInput {
       final l$description = description;
       result$data['description'] = l$description;
     }
+    if (_$data.containsKey('price')) {
+      final l$price = price;
+      result$data['price'] = l$price;
+    }
+    if (_$data.containsKey('calories')) {
+      final l$calories = calories;
+      result$data['calories'] = l$calories;
+    }
+    if (_$data.containsKey('protein')) {
+      final l$protein = protein;
+      result$data['protein'] = l$protein;
+    }
+    if (_$data.containsKey('fat')) {
+      final l$fat = fat;
+      result$data['fat'] = l$fat;
+    }
+    if (_$data.containsKey('carbs')) {
+      final l$carbs = carbs;
+      result$data['carbs'] = l$carbs;
+    }
     if (_$data.containsKey('restaurant')) {
       final l$restaurant = restaurant;
       result$data['restaurant'] = l$restaurant;
+    }
+    if (_$data.containsKey('imagePath')) {
+      final l$imagePath = imagePath;
+      result$data['imagePath'] = l$imagePath;
+    }
+    if (_$data.containsKey('owner')) {
+      final l$owner = owner;
+      result$data['owner'] = l$owner;
     }
     if (_$data.containsKey('clientMutationId')) {
       final l$clientMutationId = clientMutationId;
@@ -2900,6 +5241,47 @@ class Input$updateMealPlanInput {
     if (l$description != lOther$description) {
       return false;
     }
+    final l$price = price;
+    final lOther$price = other.price;
+    if (_$data.containsKey('price') != other._$data.containsKey('price')) {
+      return false;
+    }
+    if (l$price != lOther$price) {
+      return false;
+    }
+    final l$calories = calories;
+    final lOther$calories = other.calories;
+    if (_$data.containsKey('calories') !=
+        other._$data.containsKey('calories')) {
+      return false;
+    }
+    if (l$calories != lOther$calories) {
+      return false;
+    }
+    final l$protein = protein;
+    final lOther$protein = other.protein;
+    if (_$data.containsKey('protein') != other._$data.containsKey('protein')) {
+      return false;
+    }
+    if (l$protein != lOther$protein) {
+      return false;
+    }
+    final l$fat = fat;
+    final lOther$fat = other.fat;
+    if (_$data.containsKey('fat') != other._$data.containsKey('fat')) {
+      return false;
+    }
+    if (l$fat != lOther$fat) {
+      return false;
+    }
+    final l$carbs = carbs;
+    final lOther$carbs = other.carbs;
+    if (_$data.containsKey('carbs') != other._$data.containsKey('carbs')) {
+      return false;
+    }
+    if (l$carbs != lOther$carbs) {
+      return false;
+    }
     final l$restaurant = restaurant;
     final lOther$restaurant = other.restaurant;
     if (_$data.containsKey('restaurant') !=
@@ -2907,6 +5289,23 @@ class Input$updateMealPlanInput {
       return false;
     }
     if (l$restaurant != lOther$restaurant) {
+      return false;
+    }
+    final l$imagePath = imagePath;
+    final lOther$imagePath = other.imagePath;
+    if (_$data.containsKey('imagePath') !=
+        other._$data.containsKey('imagePath')) {
+      return false;
+    }
+    if (l$imagePath != lOther$imagePath) {
+      return false;
+    }
+    final l$owner = owner;
+    final lOther$owner = other.owner;
+    if (_$data.containsKey('owner') != other._$data.containsKey('owner')) {
+      return false;
+    }
+    if (l$owner != lOther$owner) {
       return false;
     }
     final l$clientMutationId = clientMutationId;
@@ -2928,7 +5327,14 @@ class Input$updateMealPlanInput {
     final l$dietCategories = dietCategories;
     final l$name = name;
     final l$description = description;
+    final l$price = price;
+    final l$calories = calories;
+    final l$protein = protein;
+    final l$fat = fat;
+    final l$carbs = carbs;
     final l$restaurant = restaurant;
+    final l$imagePath = imagePath;
+    final l$owner = owner;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
       l$id,
@@ -2944,7 +5350,14 @@ class Input$updateMealPlanInput {
           : const {},
       _$data.containsKey('name') ? l$name : const {},
       _$data.containsKey('description') ? l$description : const {},
+      _$data.containsKey('price') ? l$price : const {},
+      _$data.containsKey('calories') ? l$calories : const {},
+      _$data.containsKey('protein') ? l$protein : const {},
+      _$data.containsKey('fat') ? l$fat : const {},
+      _$data.containsKey('carbs') ? l$carbs : const {},
       _$data.containsKey('restaurant') ? l$restaurant : const {},
+      _$data.containsKey('imagePath') ? l$imagePath : const {},
+      _$data.containsKey('owner') ? l$owner : const {},
       _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
     ]);
   }
@@ -2965,7 +5378,14 @@ abstract class CopyWith$Input$updateMealPlanInput<TRes> {
     List<String?>? dietCategories,
     String? name,
     String? description,
+    int? price,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
     String? restaurant,
+    String? imagePath,
+    String? owner,
     String? clientMutationId,
   });
 }
@@ -2986,7 +5406,14 @@ class _CopyWithImpl$Input$updateMealPlanInput<TRes>
     Object? dietCategories = _undefined,
     Object? name = _undefined,
     Object? description = _undefined,
+    Object? price = _undefined,
+    Object? calories = _undefined,
+    Object? protein = _undefined,
+    Object? fat = _undefined,
+    Object? carbs = _undefined,
     Object? restaurant = _undefined,
+    Object? imagePath = _undefined,
+    Object? owner = _undefined,
     Object? clientMutationId = _undefined,
   }) => _then(
     Input$updateMealPlanInput._({
@@ -2997,7 +5424,14 @@ class _CopyWithImpl$Input$updateMealPlanInput<TRes>
         'dietCategories': (dietCategories as List<String?>?),
       if (name != _undefined) 'name': (name as String?),
       if (description != _undefined) 'description': (description as String?),
+      if (price != _undefined) 'price': (price as int?),
+      if (calories != _undefined) 'calories': (calories as double?),
+      if (protein != _undefined) 'protein': (protein as double?),
+      if (fat != _undefined) 'fat': (fat as double?),
+      if (carbs != _undefined) 'carbs': (carbs as double?),
       if (restaurant != _undefined) 'restaurant': (restaurant as String?),
+      if (imagePath != _undefined) 'imagePath': (imagePath as String?),
+      if (owner != _undefined) 'owner': (owner as String?),
       if (clientMutationId != _undefined)
         'clientMutationId': (clientMutationId as String?),
     }),
@@ -3016,7 +5450,14 @@ class _CopyWithStubImpl$Input$updateMealPlanInput<TRes>
     List<String?>? dietCategories,
     String? name,
     String? description,
+    int? price,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
     String? restaurant,
+    String? imagePath,
+    String? owner,
     String? clientMutationId,
   }) => _res;
 }
@@ -3142,192 +5583,174 @@ class _CopyWithStubImpl$Input$deleteMealPlanInput<TRes>
   call({String? id, String? clientMutationId}) => _res;
 }
 
-class Input$createOrderInput {
-  factory Input$createOrderInput({
-    String? customer,
-    required Enum$OrderStatus status,
-    List<Input$OrderItemNestedInput?>? orderItems,
+class Input$createMealPlanInput {
+  factory Input$createMealPlanInput({
+    List<String?>? meals,
+    List<String?>? dietCategories,
+    required String name,
+    String? description,
+    int? price,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
     String? restaurant,
-    List<Input$DeliveryNestedInput?>? deliveries,
-    String? deliveryFirstName,
-    String? deliveryLastName,
-    String? deliveryPhoneNumber,
-    String? deliveryStreet,
-    String? deliveryApartment,
-    String? deliveryCity,
-    String? deliveryZipCode,
+    String? imagePath,
+    String? owner,
     String? clientMutationId,
-  }) => Input$createOrderInput._({
-    if (customer != null) r'customer': customer,
-    r'status': status,
-    if (orderItems != null) r'orderItems': orderItems,
+  }) => Input$createMealPlanInput._({
+    if (meals != null) r'meals': meals,
+    if (dietCategories != null) r'dietCategories': dietCategories,
+    r'name': name,
+    if (description != null) r'description': description,
+    if (price != null) r'price': price,
+    if (calories != null) r'calories': calories,
+    if (protein != null) r'protein': protein,
+    if (fat != null) r'fat': fat,
+    if (carbs != null) r'carbs': carbs,
     if (restaurant != null) r'restaurant': restaurant,
-    if (deliveries != null) r'deliveries': deliveries,
-    if (deliveryFirstName != null) r'deliveryFirstName': deliveryFirstName,
-    if (deliveryLastName != null) r'deliveryLastName': deliveryLastName,
-    if (deliveryPhoneNumber != null)
-      r'deliveryPhoneNumber': deliveryPhoneNumber,
-    if (deliveryStreet != null) r'deliveryStreet': deliveryStreet,
-    if (deliveryApartment != null) r'deliveryApartment': deliveryApartment,
-    if (deliveryCity != null) r'deliveryCity': deliveryCity,
-    if (deliveryZipCode != null) r'deliveryZipCode': deliveryZipCode,
+    if (imagePath != null) r'imagePath': imagePath,
+    if (owner != null) r'owner': owner,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
   });
 
-  Input$createOrderInput._(this._$data);
+  Input$createMealPlanInput._(this._$data);
 
-  factory Input$createOrderInput.fromJson(Map<String, dynamic> data) {
+  factory Input$createMealPlanInput.fromJson(Map<String, dynamic> data) {
     final result$data = <String, dynamic>{};
-    if (data.containsKey('customer')) {
-      final l$customer = data['customer'];
-      result$data['customer'] = (l$customer as String?);
-    }
-    final l$status = data['status'];
-    result$data['status'] = fromJson$Enum$OrderStatus((l$status as String));
-    if (data.containsKey('orderItems')) {
-      final l$orderItems = data['orderItems'];
-      result$data['orderItems'] = (l$orderItems as List<dynamic>?)
-          ?.map(
-            (e) => e == null
-                ? null
-                : Input$OrderItemNestedInput.fromJson(
-                    (e as Map<String, dynamic>),
-                  ),
-          )
+    if (data.containsKey('meals')) {
+      final l$meals = data['meals'];
+      result$data['meals'] = (l$meals as List<dynamic>?)
+          ?.map((e) => (e as String?))
           .toList();
+    }
+    if (data.containsKey('dietCategories')) {
+      final l$dietCategories = data['dietCategories'];
+      result$data['dietCategories'] = (l$dietCategories as List<dynamic>?)
+          ?.map((e) => (e as String?))
+          .toList();
+    }
+    final l$name = data['name'];
+    result$data['name'] = (l$name as String);
+    if (data.containsKey('description')) {
+      final l$description = data['description'];
+      result$data['description'] = (l$description as String?);
+    }
+    if (data.containsKey('price')) {
+      final l$price = data['price'];
+      result$data['price'] = (l$price as int?);
+    }
+    if (data.containsKey('calories')) {
+      final l$calories = data['calories'];
+      result$data['calories'] = (l$calories as num?)?.toDouble();
+    }
+    if (data.containsKey('protein')) {
+      final l$protein = data['protein'];
+      result$data['protein'] = (l$protein as num?)?.toDouble();
+    }
+    if (data.containsKey('fat')) {
+      final l$fat = data['fat'];
+      result$data['fat'] = (l$fat as num?)?.toDouble();
+    }
+    if (data.containsKey('carbs')) {
+      final l$carbs = data['carbs'];
+      result$data['carbs'] = (l$carbs as num?)?.toDouble();
     }
     if (data.containsKey('restaurant')) {
       final l$restaurant = data['restaurant'];
       result$data['restaurant'] = (l$restaurant as String?);
     }
-    if (data.containsKey('deliveries')) {
-      final l$deliveries = data['deliveries'];
-      result$data['deliveries'] = (l$deliveries as List<dynamic>?)
-          ?.map(
-            (e) => e == null
-                ? null
-                : Input$DeliveryNestedInput.fromJson(
-                    (e as Map<String, dynamic>),
-                  ),
-          )
-          .toList();
+    if (data.containsKey('imagePath')) {
+      final l$imagePath = data['imagePath'];
+      result$data['imagePath'] = (l$imagePath as String?);
     }
-    if (data.containsKey('deliveryFirstName')) {
-      final l$deliveryFirstName = data['deliveryFirstName'];
-      result$data['deliveryFirstName'] = (l$deliveryFirstName as String?);
-    }
-    if (data.containsKey('deliveryLastName')) {
-      final l$deliveryLastName = data['deliveryLastName'];
-      result$data['deliveryLastName'] = (l$deliveryLastName as String?);
-    }
-    if (data.containsKey('deliveryPhoneNumber')) {
-      final l$deliveryPhoneNumber = data['deliveryPhoneNumber'];
-      result$data['deliveryPhoneNumber'] = (l$deliveryPhoneNumber as String?);
-    }
-    if (data.containsKey('deliveryStreet')) {
-      final l$deliveryStreet = data['deliveryStreet'];
-      result$data['deliveryStreet'] = (l$deliveryStreet as String?);
-    }
-    if (data.containsKey('deliveryApartment')) {
-      final l$deliveryApartment = data['deliveryApartment'];
-      result$data['deliveryApartment'] = (l$deliveryApartment as String?);
-    }
-    if (data.containsKey('deliveryCity')) {
-      final l$deliveryCity = data['deliveryCity'];
-      result$data['deliveryCity'] = (l$deliveryCity as String?);
-    }
-    if (data.containsKey('deliveryZipCode')) {
-      final l$deliveryZipCode = data['deliveryZipCode'];
-      result$data['deliveryZipCode'] = (l$deliveryZipCode as String?);
+    if (data.containsKey('owner')) {
+      final l$owner = data['owner'];
+      result$data['owner'] = (l$owner as String?);
     }
     if (data.containsKey('clientMutationId')) {
       final l$clientMutationId = data['clientMutationId'];
       result$data['clientMutationId'] = (l$clientMutationId as String?);
     }
-    return Input$createOrderInput._(result$data);
+    return Input$createMealPlanInput._(result$data);
   }
 
   Map<String, dynamic> _$data;
 
-  String? get customer => (_$data['customer'] as String?);
+  List<String?>? get meals => (_$data['meals'] as List<String?>?);
 
-  Enum$OrderStatus get status => (_$data['status'] as Enum$OrderStatus);
+  List<String?>? get dietCategories =>
+      (_$data['dietCategories'] as List<String?>?);
 
-  List<Input$OrderItemNestedInput?>? get orderItems =>
-      (_$data['orderItems'] as List<Input$OrderItemNestedInput?>?);
+  String get name => (_$data['name'] as String);
+
+  String? get description => (_$data['description'] as String?);
+
+  int? get price => (_$data['price'] as int?);
+
+  double? get calories => (_$data['calories'] as double?);
+
+  double? get protein => (_$data['protein'] as double?);
+
+  double? get fat => (_$data['fat'] as double?);
+
+  double? get carbs => (_$data['carbs'] as double?);
 
   String? get restaurant => (_$data['restaurant'] as String?);
 
-  List<Input$DeliveryNestedInput?>? get deliveries =>
-      (_$data['deliveries'] as List<Input$DeliveryNestedInput?>?);
+  String? get imagePath => (_$data['imagePath'] as String?);
 
-  String? get deliveryFirstName => (_$data['deliveryFirstName'] as String?);
-
-  String? get deliveryLastName => (_$data['deliveryLastName'] as String?);
-
-  String? get deliveryPhoneNumber => (_$data['deliveryPhoneNumber'] as String?);
-
-  String? get deliveryStreet => (_$data['deliveryStreet'] as String?);
-
-  String? get deliveryApartment => (_$data['deliveryApartment'] as String?);
-
-  String? get deliveryCity => (_$data['deliveryCity'] as String?);
-
-  String? get deliveryZipCode => (_$data['deliveryZipCode'] as String?);
+  String? get owner => (_$data['owner'] as String?);
 
   String? get clientMutationId => (_$data['clientMutationId'] as String?);
 
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
-    if (_$data.containsKey('customer')) {
-      final l$customer = customer;
-      result$data['customer'] = l$customer;
+    if (_$data.containsKey('meals')) {
+      final l$meals = meals;
+      result$data['meals'] = l$meals?.map((e) => e).toList();
     }
-    final l$status = status;
-    result$data['status'] = toJson$Enum$OrderStatus(l$status);
-    if (_$data.containsKey('orderItems')) {
-      final l$orderItems = orderItems;
-      result$data['orderItems'] = l$orderItems
-          ?.map((e) => e?.toJson())
-          .toList();
+    if (_$data.containsKey('dietCategories')) {
+      final l$dietCategories = dietCategories;
+      result$data['dietCategories'] = l$dietCategories?.map((e) => e).toList();
+    }
+    final l$name = name;
+    result$data['name'] = l$name;
+    if (_$data.containsKey('description')) {
+      final l$description = description;
+      result$data['description'] = l$description;
+    }
+    if (_$data.containsKey('price')) {
+      final l$price = price;
+      result$data['price'] = l$price;
+    }
+    if (_$data.containsKey('calories')) {
+      final l$calories = calories;
+      result$data['calories'] = l$calories;
+    }
+    if (_$data.containsKey('protein')) {
+      final l$protein = protein;
+      result$data['protein'] = l$protein;
+    }
+    if (_$data.containsKey('fat')) {
+      final l$fat = fat;
+      result$data['fat'] = l$fat;
+    }
+    if (_$data.containsKey('carbs')) {
+      final l$carbs = carbs;
+      result$data['carbs'] = l$carbs;
     }
     if (_$data.containsKey('restaurant')) {
       final l$restaurant = restaurant;
       result$data['restaurant'] = l$restaurant;
     }
-    if (_$data.containsKey('deliveries')) {
-      final l$deliveries = deliveries;
-      result$data['deliveries'] = l$deliveries
-          ?.map((e) => e?.toJson())
-          .toList();
+    if (_$data.containsKey('imagePath')) {
+      final l$imagePath = imagePath;
+      result$data['imagePath'] = l$imagePath;
     }
-    if (_$data.containsKey('deliveryFirstName')) {
-      final l$deliveryFirstName = deliveryFirstName;
-      result$data['deliveryFirstName'] = l$deliveryFirstName;
-    }
-    if (_$data.containsKey('deliveryLastName')) {
-      final l$deliveryLastName = deliveryLastName;
-      result$data['deliveryLastName'] = l$deliveryLastName;
-    }
-    if (_$data.containsKey('deliveryPhoneNumber')) {
-      final l$deliveryPhoneNumber = deliveryPhoneNumber;
-      result$data['deliveryPhoneNumber'] = l$deliveryPhoneNumber;
-    }
-    if (_$data.containsKey('deliveryStreet')) {
-      final l$deliveryStreet = deliveryStreet;
-      result$data['deliveryStreet'] = l$deliveryStreet;
-    }
-    if (_$data.containsKey('deliveryApartment')) {
-      final l$deliveryApartment = deliveryApartment;
-      result$data['deliveryApartment'] = l$deliveryApartment;
-    }
-    if (_$data.containsKey('deliveryCity')) {
-      final l$deliveryCity = deliveryCity;
-      result$data['deliveryCity'] = l$deliveryCity;
-    }
-    if (_$data.containsKey('deliveryZipCode')) {
-      final l$deliveryZipCode = deliveryZipCode;
-      result$data['deliveryZipCode'] = l$deliveryZipCode;
+    if (_$data.containsKey('owner')) {
+      final l$owner = owner;
+      result$data['owner'] = l$owner;
     }
     if (_$data.containsKey('clientMutationId')) {
       final l$clientMutationId = clientMutationId;
@@ -3336,49 +5759,110 @@ class Input$createOrderInput {
     return result$data;
   }
 
-  CopyWith$Input$createOrderInput<Input$createOrderInput> get copyWith =>
-      CopyWith$Input$createOrderInput(this, (i) => i);
+  CopyWith$Input$createMealPlanInput<Input$createMealPlanInput> get copyWith =>
+      CopyWith$Input$createMealPlanInput(this, (i) => i);
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) {
       return true;
     }
-    if (other is! Input$createOrderInput || runtimeType != other.runtimeType) {
+    if (other is! Input$createMealPlanInput ||
+        runtimeType != other.runtimeType) {
       return false;
     }
-    final l$customer = customer;
-    final lOther$customer = other.customer;
-    if (_$data.containsKey('customer') !=
-        other._$data.containsKey('customer')) {
+    final l$meals = meals;
+    final lOther$meals = other.meals;
+    if (_$data.containsKey('meals') != other._$data.containsKey('meals')) {
       return false;
     }
-    if (l$customer != lOther$customer) {
-      return false;
-    }
-    final l$status = status;
-    final lOther$status = other.status;
-    if (l$status != lOther$status) {
-      return false;
-    }
-    final l$orderItems = orderItems;
-    final lOther$orderItems = other.orderItems;
-    if (_$data.containsKey('orderItems') !=
-        other._$data.containsKey('orderItems')) {
-      return false;
-    }
-    if (l$orderItems != null && lOther$orderItems != null) {
-      if (l$orderItems.length != lOther$orderItems.length) {
+    if (l$meals != null && lOther$meals != null) {
+      if (l$meals.length != lOther$meals.length) {
         return false;
       }
-      for (int i = 0; i < l$orderItems.length; i++) {
-        final l$orderItems$entry = l$orderItems[i];
-        final lOther$orderItems$entry = lOther$orderItems[i];
-        if (l$orderItems$entry != lOther$orderItems$entry) {
+      for (int i = 0; i < l$meals.length; i++) {
+        final l$meals$entry = l$meals[i];
+        final lOther$meals$entry = lOther$meals[i];
+        if (l$meals$entry != lOther$meals$entry) {
           return false;
         }
       }
-    } else if (l$orderItems != lOther$orderItems) {
+    } else if (l$meals != lOther$meals) {
+      return false;
+    }
+    final l$dietCategories = dietCategories;
+    final lOther$dietCategories = other.dietCategories;
+    if (_$data.containsKey('dietCategories') !=
+        other._$data.containsKey('dietCategories')) {
+      return false;
+    }
+    if (l$dietCategories != null && lOther$dietCategories != null) {
+      if (l$dietCategories.length != lOther$dietCategories.length) {
+        return false;
+      }
+      for (int i = 0; i < l$dietCategories.length; i++) {
+        final l$dietCategories$entry = l$dietCategories[i];
+        final lOther$dietCategories$entry = lOther$dietCategories[i];
+        if (l$dietCategories$entry != lOther$dietCategories$entry) {
+          return false;
+        }
+      }
+    } else if (l$dietCategories != lOther$dietCategories) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$description = description;
+    final lOther$description = other.description;
+    if (_$data.containsKey('description') !=
+        other._$data.containsKey('description')) {
+      return false;
+    }
+    if (l$description != lOther$description) {
+      return false;
+    }
+    final l$price = price;
+    final lOther$price = other.price;
+    if (_$data.containsKey('price') != other._$data.containsKey('price')) {
+      return false;
+    }
+    if (l$price != lOther$price) {
+      return false;
+    }
+    final l$calories = calories;
+    final lOther$calories = other.calories;
+    if (_$data.containsKey('calories') !=
+        other._$data.containsKey('calories')) {
+      return false;
+    }
+    if (l$calories != lOther$calories) {
+      return false;
+    }
+    final l$protein = protein;
+    final lOther$protein = other.protein;
+    if (_$data.containsKey('protein') != other._$data.containsKey('protein')) {
+      return false;
+    }
+    if (l$protein != lOther$protein) {
+      return false;
+    }
+    final l$fat = fat;
+    final lOther$fat = other.fat;
+    if (_$data.containsKey('fat') != other._$data.containsKey('fat')) {
+      return false;
+    }
+    if (l$fat != lOther$fat) {
+      return false;
+    }
+    final l$carbs = carbs;
+    final lOther$carbs = other.carbs;
+    if (_$data.containsKey('carbs') != other._$data.containsKey('carbs')) {
+      return false;
+    }
+    if (l$carbs != lOther$carbs) {
       return false;
     }
     final l$restaurant = restaurant;
@@ -3390,87 +5874,21 @@ class Input$createOrderInput {
     if (l$restaurant != lOther$restaurant) {
       return false;
     }
-    final l$deliveries = deliveries;
-    final lOther$deliveries = other.deliveries;
-    if (_$data.containsKey('deliveries') !=
-        other._$data.containsKey('deliveries')) {
+    final l$imagePath = imagePath;
+    final lOther$imagePath = other.imagePath;
+    if (_$data.containsKey('imagePath') !=
+        other._$data.containsKey('imagePath')) {
       return false;
     }
-    if (l$deliveries != null && lOther$deliveries != null) {
-      if (l$deliveries.length != lOther$deliveries.length) {
-        return false;
-      }
-      for (int i = 0; i < l$deliveries.length; i++) {
-        final l$deliveries$entry = l$deliveries[i];
-        final lOther$deliveries$entry = lOther$deliveries[i];
-        if (l$deliveries$entry != lOther$deliveries$entry) {
-          return false;
-        }
-      }
-    } else if (l$deliveries != lOther$deliveries) {
+    if (l$imagePath != lOther$imagePath) {
       return false;
     }
-    final l$deliveryFirstName = deliveryFirstName;
-    final lOther$deliveryFirstName = other.deliveryFirstName;
-    if (_$data.containsKey('deliveryFirstName') !=
-        other._$data.containsKey('deliveryFirstName')) {
+    final l$owner = owner;
+    final lOther$owner = other.owner;
+    if (_$data.containsKey('owner') != other._$data.containsKey('owner')) {
       return false;
     }
-    if (l$deliveryFirstName != lOther$deliveryFirstName) {
-      return false;
-    }
-    final l$deliveryLastName = deliveryLastName;
-    final lOther$deliveryLastName = other.deliveryLastName;
-    if (_$data.containsKey('deliveryLastName') !=
-        other._$data.containsKey('deliveryLastName')) {
-      return false;
-    }
-    if (l$deliveryLastName != lOther$deliveryLastName) {
-      return false;
-    }
-    final l$deliveryPhoneNumber = deliveryPhoneNumber;
-    final lOther$deliveryPhoneNumber = other.deliveryPhoneNumber;
-    if (_$data.containsKey('deliveryPhoneNumber') !=
-        other._$data.containsKey('deliveryPhoneNumber')) {
-      return false;
-    }
-    if (l$deliveryPhoneNumber != lOther$deliveryPhoneNumber) {
-      return false;
-    }
-    final l$deliveryStreet = deliveryStreet;
-    final lOther$deliveryStreet = other.deliveryStreet;
-    if (_$data.containsKey('deliveryStreet') !=
-        other._$data.containsKey('deliveryStreet')) {
-      return false;
-    }
-    if (l$deliveryStreet != lOther$deliveryStreet) {
-      return false;
-    }
-    final l$deliveryApartment = deliveryApartment;
-    final lOther$deliveryApartment = other.deliveryApartment;
-    if (_$data.containsKey('deliveryApartment') !=
-        other._$data.containsKey('deliveryApartment')) {
-      return false;
-    }
-    if (l$deliveryApartment != lOther$deliveryApartment) {
-      return false;
-    }
-    final l$deliveryCity = deliveryCity;
-    final lOther$deliveryCity = other.deliveryCity;
-    if (_$data.containsKey('deliveryCity') !=
-        other._$data.containsKey('deliveryCity')) {
-      return false;
-    }
-    if (l$deliveryCity != lOther$deliveryCity) {
-      return false;
-    }
-    final l$deliveryZipCode = deliveryZipCode;
-    final lOther$deliveryZipCode = other.deliveryZipCode;
-    if (_$data.containsKey('deliveryZipCode') !=
-        other._$data.containsKey('deliveryZipCode')) {
-      return false;
-    }
-    if (l$deliveryZipCode != lOther$deliveryZipCode) {
+    if (l$owner != lOther$owner) {
       return false;
     }
     final l$clientMutationId = clientMutationId;
@@ -3487,533 +5905,137 @@ class Input$createOrderInput {
 
   @override
   int get hashCode {
-    final l$customer = customer;
-    final l$status = status;
-    final l$orderItems = orderItems;
+    final l$meals = meals;
+    final l$dietCategories = dietCategories;
+    final l$name = name;
+    final l$description = description;
+    final l$price = price;
+    final l$calories = calories;
+    final l$protein = protein;
+    final l$fat = fat;
+    final l$carbs = carbs;
     final l$restaurant = restaurant;
-    final l$deliveries = deliveries;
-    final l$deliveryFirstName = deliveryFirstName;
-    final l$deliveryLastName = deliveryLastName;
-    final l$deliveryPhoneNumber = deliveryPhoneNumber;
-    final l$deliveryStreet = deliveryStreet;
-    final l$deliveryApartment = deliveryApartment;
-    final l$deliveryCity = deliveryCity;
-    final l$deliveryZipCode = deliveryZipCode;
+    final l$imagePath = imagePath;
+    final l$owner = owner;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
-      _$data.containsKey('customer') ? l$customer : const {},
-      l$status,
-      _$data.containsKey('orderItems')
-          ? l$orderItems == null
+      _$data.containsKey('meals')
+          ? l$meals == null
                 ? null
-                : Object.hashAll(l$orderItems.map((v) => v))
+                : Object.hashAll(l$meals.map((v) => v))
           : const {},
+      _$data.containsKey('dietCategories')
+          ? l$dietCategories == null
+                ? null
+                : Object.hashAll(l$dietCategories.map((v) => v))
+          : const {},
+      l$name,
+      _$data.containsKey('description') ? l$description : const {},
+      _$data.containsKey('price') ? l$price : const {},
+      _$data.containsKey('calories') ? l$calories : const {},
+      _$data.containsKey('protein') ? l$protein : const {},
+      _$data.containsKey('fat') ? l$fat : const {},
+      _$data.containsKey('carbs') ? l$carbs : const {},
       _$data.containsKey('restaurant') ? l$restaurant : const {},
-      _$data.containsKey('deliveries')
-          ? l$deliveries == null
-                ? null
-                : Object.hashAll(l$deliveries.map((v) => v))
-          : const {},
-      _$data.containsKey('deliveryFirstName') ? l$deliveryFirstName : const {},
-      _$data.containsKey('deliveryLastName') ? l$deliveryLastName : const {},
-      _$data.containsKey('deliveryPhoneNumber')
-          ? l$deliveryPhoneNumber
-          : const {},
-      _$data.containsKey('deliveryStreet') ? l$deliveryStreet : const {},
-      _$data.containsKey('deliveryApartment') ? l$deliveryApartment : const {},
-      _$data.containsKey('deliveryCity') ? l$deliveryCity : const {},
-      _$data.containsKey('deliveryZipCode') ? l$deliveryZipCode : const {},
+      _$data.containsKey('imagePath') ? l$imagePath : const {},
+      _$data.containsKey('owner') ? l$owner : const {},
       _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
     ]);
   }
 }
 
-abstract class CopyWith$Input$createOrderInput<TRes> {
-  factory CopyWith$Input$createOrderInput(
-    Input$createOrderInput instance,
-    TRes Function(Input$createOrderInput) then,
-  ) = _CopyWithImpl$Input$createOrderInput;
+abstract class CopyWith$Input$createMealPlanInput<TRes> {
+  factory CopyWith$Input$createMealPlanInput(
+    Input$createMealPlanInput instance,
+    TRes Function(Input$createMealPlanInput) then,
+  ) = _CopyWithImpl$Input$createMealPlanInput;
 
-  factory CopyWith$Input$createOrderInput.stub(TRes res) =
-      _CopyWithStubImpl$Input$createOrderInput;
+  factory CopyWith$Input$createMealPlanInput.stub(TRes res) =
+      _CopyWithStubImpl$Input$createMealPlanInput;
 
   TRes call({
-    String? customer,
-    Enum$OrderStatus? status,
-    List<Input$OrderItemNestedInput?>? orderItems,
+    List<String?>? meals,
+    List<String?>? dietCategories,
+    String? name,
+    String? description,
+    int? price,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
     String? restaurant,
-    List<Input$DeliveryNestedInput?>? deliveries,
-    String? deliveryFirstName,
-    String? deliveryLastName,
-    String? deliveryPhoneNumber,
-    String? deliveryStreet,
-    String? deliveryApartment,
-    String? deliveryCity,
-    String? deliveryZipCode,
+    String? imagePath,
+    String? owner,
     String? clientMutationId,
   });
-  TRes orderItems(
-    Iterable<Input$OrderItemNestedInput?>? Function(
-      Iterable<
-        CopyWith$Input$OrderItemNestedInput<Input$OrderItemNestedInput>?
-      >?,
-    )
-    _fn,
-  );
-  TRes deliveries(
-    Iterable<Input$DeliveryNestedInput?>? Function(
-      Iterable<CopyWith$Input$DeliveryNestedInput<Input$DeliveryNestedInput>?>?,
-    )
-    _fn,
-  );
 }
 
-class _CopyWithImpl$Input$createOrderInput<TRes>
-    implements CopyWith$Input$createOrderInput<TRes> {
-  _CopyWithImpl$Input$createOrderInput(this._instance, this._then);
+class _CopyWithImpl$Input$createMealPlanInput<TRes>
+    implements CopyWith$Input$createMealPlanInput<TRes> {
+  _CopyWithImpl$Input$createMealPlanInput(this._instance, this._then);
 
-  final Input$createOrderInput _instance;
+  final Input$createMealPlanInput _instance;
 
-  final TRes Function(Input$createOrderInput) _then;
+  final TRes Function(Input$createMealPlanInput) _then;
 
   static const _undefined = <dynamic, dynamic>{};
 
   TRes call({
-    Object? customer = _undefined,
-    Object? status = _undefined,
-    Object? orderItems = _undefined,
+    Object? meals = _undefined,
+    Object? dietCategories = _undefined,
+    Object? name = _undefined,
+    Object? description = _undefined,
+    Object? price = _undefined,
+    Object? calories = _undefined,
+    Object? protein = _undefined,
+    Object? fat = _undefined,
+    Object? carbs = _undefined,
     Object? restaurant = _undefined,
-    Object? deliveries = _undefined,
-    Object? deliveryFirstName = _undefined,
-    Object? deliveryLastName = _undefined,
-    Object? deliveryPhoneNumber = _undefined,
-    Object? deliveryStreet = _undefined,
-    Object? deliveryApartment = _undefined,
-    Object? deliveryCity = _undefined,
-    Object? deliveryZipCode = _undefined,
+    Object? imagePath = _undefined,
+    Object? owner = _undefined,
     Object? clientMutationId = _undefined,
   }) => _then(
-    Input$createOrderInput._({
+    Input$createMealPlanInput._({
       ..._instance._$data,
-      if (customer != _undefined) 'customer': (customer as String?),
-      if (status != _undefined && status != null)
-        'status': (status as Enum$OrderStatus),
-      if (orderItems != _undefined)
-        'orderItems': (orderItems as List<Input$OrderItemNestedInput?>?),
+      if (meals != _undefined) 'meals': (meals as List<String?>?),
+      if (dietCategories != _undefined)
+        'dietCategories': (dietCategories as List<String?>?),
+      if (name != _undefined && name != null) 'name': (name as String),
+      if (description != _undefined) 'description': (description as String?),
+      if (price != _undefined) 'price': (price as int?),
+      if (calories != _undefined) 'calories': (calories as double?),
+      if (protein != _undefined) 'protein': (protein as double?),
+      if (fat != _undefined) 'fat': (fat as double?),
+      if (carbs != _undefined) 'carbs': (carbs as double?),
       if (restaurant != _undefined) 'restaurant': (restaurant as String?),
-      if (deliveries != _undefined)
-        'deliveries': (deliveries as List<Input$DeliveryNestedInput?>?),
-      if (deliveryFirstName != _undefined)
-        'deliveryFirstName': (deliveryFirstName as String?),
-      if (deliveryLastName != _undefined)
-        'deliveryLastName': (deliveryLastName as String?),
-      if (deliveryPhoneNumber != _undefined)
-        'deliveryPhoneNumber': (deliveryPhoneNumber as String?),
-      if (deliveryStreet != _undefined)
-        'deliveryStreet': (deliveryStreet as String?),
-      if (deliveryApartment != _undefined)
-        'deliveryApartment': (deliveryApartment as String?),
-      if (deliveryCity != _undefined) 'deliveryCity': (deliveryCity as String?),
-      if (deliveryZipCode != _undefined)
-        'deliveryZipCode': (deliveryZipCode as String?),
+      if (imagePath != _undefined) 'imagePath': (imagePath as String?),
+      if (owner != _undefined) 'owner': (owner as String?),
       if (clientMutationId != _undefined)
         'clientMutationId': (clientMutationId as String?),
     }),
   );
-
-  TRes orderItems(
-    Iterable<Input$OrderItemNestedInput?>? Function(
-      Iterable<
-        CopyWith$Input$OrderItemNestedInput<Input$OrderItemNestedInput>?
-      >?,
-    )
-    _fn,
-  ) => call(
-    orderItems: _fn(
-      _instance.orderItems?.map(
-        (e) =>
-            e == null ? null : CopyWith$Input$OrderItemNestedInput(e, (i) => i),
-      ),
-    )?.toList(),
-  );
-
-  TRes deliveries(
-    Iterable<Input$DeliveryNestedInput?>? Function(
-      Iterable<CopyWith$Input$DeliveryNestedInput<Input$DeliveryNestedInput>?>?,
-    )
-    _fn,
-  ) => call(
-    deliveries: _fn(
-      _instance.deliveries?.map(
-        (e) =>
-            e == null ? null : CopyWith$Input$DeliveryNestedInput(e, (i) => i),
-      ),
-    )?.toList(),
-  );
 }
 
-class _CopyWithStubImpl$Input$createOrderInput<TRes>
-    implements CopyWith$Input$createOrderInput<TRes> {
-  _CopyWithStubImpl$Input$createOrderInput(this._res);
+class _CopyWithStubImpl$Input$createMealPlanInput<TRes>
+    implements CopyWith$Input$createMealPlanInput<TRes> {
+  _CopyWithStubImpl$Input$createMealPlanInput(this._res);
 
   TRes _res;
 
   call({
-    String? customer,
-    Enum$OrderStatus? status,
-    List<Input$OrderItemNestedInput?>? orderItems,
+    List<String?>? meals,
+    List<String?>? dietCategories,
+    String? name,
+    String? description,
+    int? price,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
     String? restaurant,
-    List<Input$DeliveryNestedInput?>? deliveries,
-    String? deliveryFirstName,
-    String? deliveryLastName,
-    String? deliveryPhoneNumber,
-    String? deliveryStreet,
-    String? deliveryApartment,
-    String? deliveryCity,
-    String? deliveryZipCode,
+    String? imagePath,
+    String? owner,
     String? clientMutationId,
-  }) => _res;
-
-  orderItems(_fn) => _res;
-
-  deliveries(_fn) => _res;
-}
-
-class Input$OrderItemNestedInput {
-  factory Input$OrderItemNestedInput({
-    String? id,
-    String? order,
-    required String mealPlan,
-    required int quantity,
-  }) => Input$OrderItemNestedInput._({
-    if (id != null) r'id': id,
-    if (order != null) r'order': order,
-    r'mealPlan': mealPlan,
-    r'quantity': quantity,
-  });
-
-  Input$OrderItemNestedInput._(this._$data);
-
-  factory Input$OrderItemNestedInput.fromJson(Map<String, dynamic> data) {
-    final result$data = <String, dynamic>{};
-    if (data.containsKey('id')) {
-      final l$id = data['id'];
-      result$data['id'] = (l$id as String?);
-    }
-    if (data.containsKey('order')) {
-      final l$order = data['order'];
-      result$data['order'] = (l$order as String?);
-    }
-    final l$mealPlan = data['mealPlan'];
-    result$data['mealPlan'] = (l$mealPlan as String);
-    final l$quantity = data['quantity'];
-    result$data['quantity'] = (l$quantity as int);
-    return Input$OrderItemNestedInput._(result$data);
-  }
-
-  Map<String, dynamic> _$data;
-
-  String? get id => (_$data['id'] as String?);
-
-  String? get order => (_$data['order'] as String?);
-
-  String get mealPlan => (_$data['mealPlan'] as String);
-
-  int get quantity => (_$data['quantity'] as int);
-
-  Map<String, dynamic> toJson() {
-    final result$data = <String, dynamic>{};
-    if (_$data.containsKey('id')) {
-      final l$id = id;
-      result$data['id'] = l$id;
-    }
-    if (_$data.containsKey('order')) {
-      final l$order = order;
-      result$data['order'] = l$order;
-    }
-    final l$mealPlan = mealPlan;
-    result$data['mealPlan'] = l$mealPlan;
-    final l$quantity = quantity;
-    result$data['quantity'] = l$quantity;
-    return result$data;
-  }
-
-  CopyWith$Input$OrderItemNestedInput<Input$OrderItemNestedInput>
-  get copyWith => CopyWith$Input$OrderItemNestedInput(this, (i) => i);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Input$OrderItemNestedInput ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (_$data.containsKey('id') != other._$data.containsKey('id')) {
-      return false;
-    }
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$order = order;
-    final lOther$order = other.order;
-    if (_$data.containsKey('order') != other._$data.containsKey('order')) {
-      return false;
-    }
-    if (l$order != lOther$order) {
-      return false;
-    }
-    final l$mealPlan = mealPlan;
-    final lOther$mealPlan = other.mealPlan;
-    if (l$mealPlan != lOther$mealPlan) {
-      return false;
-    }
-    final l$quantity = quantity;
-    final lOther$quantity = other.quantity;
-    if (l$quantity != lOther$quantity) {
-      return false;
-    }
-    return true;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$order = order;
-    final l$mealPlan = mealPlan;
-    final l$quantity = quantity;
-    return Object.hashAll([
-      _$data.containsKey('id') ? l$id : const {},
-      _$data.containsKey('order') ? l$order : const {},
-      l$mealPlan,
-      l$quantity,
-    ]);
-  }
-}
-
-abstract class CopyWith$Input$OrderItemNestedInput<TRes> {
-  factory CopyWith$Input$OrderItemNestedInput(
-    Input$OrderItemNestedInput instance,
-    TRes Function(Input$OrderItemNestedInput) then,
-  ) = _CopyWithImpl$Input$OrderItemNestedInput;
-
-  factory CopyWith$Input$OrderItemNestedInput.stub(TRes res) =
-      _CopyWithStubImpl$Input$OrderItemNestedInput;
-
-  TRes call({String? id, String? order, String? mealPlan, int? quantity});
-}
-
-class _CopyWithImpl$Input$OrderItemNestedInput<TRes>
-    implements CopyWith$Input$OrderItemNestedInput<TRes> {
-  _CopyWithImpl$Input$OrderItemNestedInput(this._instance, this._then);
-
-  final Input$OrderItemNestedInput _instance;
-
-  final TRes Function(Input$OrderItemNestedInput) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? order = _undefined,
-    Object? mealPlan = _undefined,
-    Object? quantity = _undefined,
-  }) => _then(
-    Input$OrderItemNestedInput._({
-      ..._instance._$data,
-      if (id != _undefined) 'id': (id as String?),
-      if (order != _undefined) 'order': (order as String?),
-      if (mealPlan != _undefined && mealPlan != null)
-        'mealPlan': (mealPlan as String),
-      if (quantity != _undefined && quantity != null)
-        'quantity': (quantity as int),
-    }),
-  );
-}
-
-class _CopyWithStubImpl$Input$OrderItemNestedInput<TRes>
-    implements CopyWith$Input$OrderItemNestedInput<TRes> {
-  _CopyWithStubImpl$Input$OrderItemNestedInput(this._res);
-
-  TRes _res;
-
-  call({String? id, String? order, String? mealPlan, int? quantity}) => _res;
-}
-
-class Input$DeliveryNestedInput {
-  factory Input$DeliveryNestedInput({
-    String? id,
-    String? driver,
-    required Enum$DeliveryStatus status,
-    required String deliveryDate,
-  }) => Input$DeliveryNestedInput._({
-    if (id != null) r'id': id,
-    if (driver != null) r'driver': driver,
-    r'status': status,
-    r'deliveryDate': deliveryDate,
-  });
-
-  Input$DeliveryNestedInput._(this._$data);
-
-  factory Input$DeliveryNestedInput.fromJson(Map<String, dynamic> data) {
-    final result$data = <String, dynamic>{};
-    if (data.containsKey('id')) {
-      final l$id = data['id'];
-      result$data['id'] = (l$id as String?);
-    }
-    if (data.containsKey('driver')) {
-      final l$driver = data['driver'];
-      result$data['driver'] = (l$driver as String?);
-    }
-    final l$status = data['status'];
-    result$data['status'] = fromJson$Enum$DeliveryStatus((l$status as String));
-    final l$deliveryDate = data['deliveryDate'];
-    result$data['deliveryDate'] = (l$deliveryDate as String);
-    return Input$DeliveryNestedInput._(result$data);
-  }
-
-  Map<String, dynamic> _$data;
-
-  String? get id => (_$data['id'] as String?);
-
-  String? get driver => (_$data['driver'] as String?);
-
-  Enum$DeliveryStatus get status => (_$data['status'] as Enum$DeliveryStatus);
-
-  String get deliveryDate => (_$data['deliveryDate'] as String);
-
-  Map<String, dynamic> toJson() {
-    final result$data = <String, dynamic>{};
-    if (_$data.containsKey('id')) {
-      final l$id = id;
-      result$data['id'] = l$id;
-    }
-    if (_$data.containsKey('driver')) {
-      final l$driver = driver;
-      result$data['driver'] = l$driver;
-    }
-    final l$status = status;
-    result$data['status'] = toJson$Enum$DeliveryStatus(l$status);
-    final l$deliveryDate = deliveryDate;
-    result$data['deliveryDate'] = l$deliveryDate;
-    return result$data;
-  }
-
-  CopyWith$Input$DeliveryNestedInput<Input$DeliveryNestedInput> get copyWith =>
-      CopyWith$Input$DeliveryNestedInput(this, (i) => i);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Input$DeliveryNestedInput ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (_$data.containsKey('id') != other._$data.containsKey('id')) {
-      return false;
-    }
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$driver = driver;
-    final lOther$driver = other.driver;
-    if (_$data.containsKey('driver') != other._$data.containsKey('driver')) {
-      return false;
-    }
-    if (l$driver != lOther$driver) {
-      return false;
-    }
-    final l$status = status;
-    final lOther$status = other.status;
-    if (l$status != lOther$status) {
-      return false;
-    }
-    final l$deliveryDate = deliveryDate;
-    final lOther$deliveryDate = other.deliveryDate;
-    if (l$deliveryDate != lOther$deliveryDate) {
-      return false;
-    }
-    return true;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$driver = driver;
-    final l$status = status;
-    final l$deliveryDate = deliveryDate;
-    return Object.hashAll([
-      _$data.containsKey('id') ? l$id : const {},
-      _$data.containsKey('driver') ? l$driver : const {},
-      l$status,
-      l$deliveryDate,
-    ]);
-  }
-}
-
-abstract class CopyWith$Input$DeliveryNestedInput<TRes> {
-  factory CopyWith$Input$DeliveryNestedInput(
-    Input$DeliveryNestedInput instance,
-    TRes Function(Input$DeliveryNestedInput) then,
-  ) = _CopyWithImpl$Input$DeliveryNestedInput;
-
-  factory CopyWith$Input$DeliveryNestedInput.stub(TRes res) =
-      _CopyWithStubImpl$Input$DeliveryNestedInput;
-
-  TRes call({
-    String? id,
-    String? driver,
-    Enum$DeliveryStatus? status,
-    String? deliveryDate,
-  });
-}
-
-class _CopyWithImpl$Input$DeliveryNestedInput<TRes>
-    implements CopyWith$Input$DeliveryNestedInput<TRes> {
-  _CopyWithImpl$Input$DeliveryNestedInput(this._instance, this._then);
-
-  final Input$DeliveryNestedInput _instance;
-
-  final TRes Function(Input$DeliveryNestedInput) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? driver = _undefined,
-    Object? status = _undefined,
-    Object? deliveryDate = _undefined,
-  }) => _then(
-    Input$DeliveryNestedInput._({
-      ..._instance._$data,
-      if (id != _undefined) 'id': (id as String?),
-      if (driver != _undefined) 'driver': (driver as String?),
-      if (status != _undefined && status != null)
-        'status': (status as Enum$DeliveryStatus),
-      if (deliveryDate != _undefined && deliveryDate != null)
-        'deliveryDate': (deliveryDate as String),
-    }),
-  );
-}
-
-class _CopyWithStubImpl$Input$DeliveryNestedInput<TRes>
-    implements CopyWith$Input$DeliveryNestedInput<TRes> {
-  _CopyWithStubImpl$Input$DeliveryNestedInput(this._res);
-
-  TRes _res;
-
-  call({
-    String? id,
-    String? driver,
-    Enum$DeliveryStatus? status,
-    String? deliveryDate,
   }) => _res;
 }
 
@@ -4025,6 +6047,8 @@ class Input$updateOrderInput {
     List<Input$updateOrderItemNestedInput?>? orderItems,
     String? restaurant,
     List<Input$updateDeliveryNestedInput?>? deliveries,
+    int? total,
+    String? paymentIntentId,
     String? deliveryFirstName,
     String? deliveryLastName,
     String? deliveryPhoneNumber,
@@ -4032,6 +6056,7 @@ class Input$updateOrderInput {
     String? deliveryApartment,
     String? deliveryCity,
     String? deliveryZipCode,
+    String? createdAt,
     String? clientMutationId,
   }) => Input$updateOrderInput._({
     r'id': id,
@@ -4040,6 +6065,8 @@ class Input$updateOrderInput {
     if (orderItems != null) r'orderItems': orderItems,
     if (restaurant != null) r'restaurant': restaurant,
     if (deliveries != null) r'deliveries': deliveries,
+    if (total != null) r'total': total,
+    if (paymentIntentId != null) r'paymentIntentId': paymentIntentId,
     if (deliveryFirstName != null) r'deliveryFirstName': deliveryFirstName,
     if (deliveryLastName != null) r'deliveryLastName': deliveryLastName,
     if (deliveryPhoneNumber != null)
@@ -4048,6 +6075,7 @@ class Input$updateOrderInput {
     if (deliveryApartment != null) r'deliveryApartment': deliveryApartment,
     if (deliveryCity != null) r'deliveryCity': deliveryCity,
     if (deliveryZipCode != null) r'deliveryZipCode': deliveryZipCode,
+    if (createdAt != null) r'createdAt': createdAt,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
   });
 
@@ -4095,6 +6123,14 @@ class Input$updateOrderInput {
           )
           .toList();
     }
+    if (data.containsKey('total')) {
+      final l$total = data['total'];
+      result$data['total'] = (l$total as int?);
+    }
+    if (data.containsKey('paymentIntentId')) {
+      final l$paymentIntentId = data['paymentIntentId'];
+      result$data['paymentIntentId'] = (l$paymentIntentId as String?);
+    }
     if (data.containsKey('deliveryFirstName')) {
       final l$deliveryFirstName = data['deliveryFirstName'];
       result$data['deliveryFirstName'] = (l$deliveryFirstName as String?);
@@ -4123,6 +6159,10 @@ class Input$updateOrderInput {
       final l$deliveryZipCode = data['deliveryZipCode'];
       result$data['deliveryZipCode'] = (l$deliveryZipCode as String?);
     }
+    if (data.containsKey('createdAt')) {
+      final l$createdAt = data['createdAt'];
+      result$data['createdAt'] = (l$createdAt as String?);
+    }
     if (data.containsKey('clientMutationId')) {
       final l$clientMutationId = data['clientMutationId'];
       result$data['clientMutationId'] = (l$clientMutationId as String?);
@@ -4146,6 +6186,10 @@ class Input$updateOrderInput {
   List<Input$updateDeliveryNestedInput?>? get deliveries =>
       (_$data['deliveries'] as List<Input$updateDeliveryNestedInput?>?);
 
+  int? get total => (_$data['total'] as int?);
+
+  String? get paymentIntentId => (_$data['paymentIntentId'] as String?);
+
   String? get deliveryFirstName => (_$data['deliveryFirstName'] as String?);
 
   String? get deliveryLastName => (_$data['deliveryLastName'] as String?);
@@ -4159,6 +6203,8 @@ class Input$updateOrderInput {
   String? get deliveryCity => (_$data['deliveryCity'] as String?);
 
   String? get deliveryZipCode => (_$data['deliveryZipCode'] as String?);
+
+  String? get createdAt => (_$data['createdAt'] as String?);
 
   String? get clientMutationId => (_$data['clientMutationId'] as String?);
 
@@ -4192,6 +6238,14 @@ class Input$updateOrderInput {
           ?.map((e) => e?.toJson())
           .toList();
     }
+    if (_$data.containsKey('total')) {
+      final l$total = total;
+      result$data['total'] = l$total;
+    }
+    if (_$data.containsKey('paymentIntentId')) {
+      final l$paymentIntentId = paymentIntentId;
+      result$data['paymentIntentId'] = l$paymentIntentId;
+    }
     if (_$data.containsKey('deliveryFirstName')) {
       final l$deliveryFirstName = deliveryFirstName;
       result$data['deliveryFirstName'] = l$deliveryFirstName;
@@ -4219,6 +6273,10 @@ class Input$updateOrderInput {
     if (_$data.containsKey('deliveryZipCode')) {
       final l$deliveryZipCode = deliveryZipCode;
       result$data['deliveryZipCode'] = l$deliveryZipCode;
+    }
+    if (_$data.containsKey('createdAt')) {
+      final l$createdAt = createdAt;
+      result$data['createdAt'] = l$createdAt;
     }
     if (_$data.containsKey('clientMutationId')) {
       final l$clientMutationId = clientMutationId;
@@ -4309,6 +6367,23 @@ class Input$updateOrderInput {
     } else if (l$deliveries != lOther$deliveries) {
       return false;
     }
+    final l$total = total;
+    final lOther$total = other.total;
+    if (_$data.containsKey('total') != other._$data.containsKey('total')) {
+      return false;
+    }
+    if (l$total != lOther$total) {
+      return false;
+    }
+    final l$paymentIntentId = paymentIntentId;
+    final lOther$paymentIntentId = other.paymentIntentId;
+    if (_$data.containsKey('paymentIntentId') !=
+        other._$data.containsKey('paymentIntentId')) {
+      return false;
+    }
+    if (l$paymentIntentId != lOther$paymentIntentId) {
+      return false;
+    }
     final l$deliveryFirstName = deliveryFirstName;
     final lOther$deliveryFirstName = other.deliveryFirstName;
     if (_$data.containsKey('deliveryFirstName') !=
@@ -4372,6 +6447,15 @@ class Input$updateOrderInput {
     if (l$deliveryZipCode != lOther$deliveryZipCode) {
       return false;
     }
+    final l$createdAt = createdAt;
+    final lOther$createdAt = other.createdAt;
+    if (_$data.containsKey('createdAt') !=
+        other._$data.containsKey('createdAt')) {
+      return false;
+    }
+    if (l$createdAt != lOther$createdAt) {
+      return false;
+    }
     final l$clientMutationId = clientMutationId;
     final lOther$clientMutationId = other.clientMutationId;
     if (_$data.containsKey('clientMutationId') !=
@@ -4392,6 +6476,8 @@ class Input$updateOrderInput {
     final l$orderItems = orderItems;
     final l$restaurant = restaurant;
     final l$deliveries = deliveries;
+    final l$total = total;
+    final l$paymentIntentId = paymentIntentId;
     final l$deliveryFirstName = deliveryFirstName;
     final l$deliveryLastName = deliveryLastName;
     final l$deliveryPhoneNumber = deliveryPhoneNumber;
@@ -4399,6 +6485,7 @@ class Input$updateOrderInput {
     final l$deliveryApartment = deliveryApartment;
     final l$deliveryCity = deliveryCity;
     final l$deliveryZipCode = deliveryZipCode;
+    final l$createdAt = createdAt;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
       l$id,
@@ -4415,6 +6502,8 @@ class Input$updateOrderInput {
                 ? null
                 : Object.hashAll(l$deliveries.map((v) => v))
           : const {},
+      _$data.containsKey('total') ? l$total : const {},
+      _$data.containsKey('paymentIntentId') ? l$paymentIntentId : const {},
       _$data.containsKey('deliveryFirstName') ? l$deliveryFirstName : const {},
       _$data.containsKey('deliveryLastName') ? l$deliveryLastName : const {},
       _$data.containsKey('deliveryPhoneNumber')
@@ -4424,6 +6513,7 @@ class Input$updateOrderInput {
       _$data.containsKey('deliveryApartment') ? l$deliveryApartment : const {},
       _$data.containsKey('deliveryCity') ? l$deliveryCity : const {},
       _$data.containsKey('deliveryZipCode') ? l$deliveryZipCode : const {},
+      _$data.containsKey('createdAt') ? l$createdAt : const {},
       _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
     ]);
   }
@@ -4445,6 +6535,8 @@ abstract class CopyWith$Input$updateOrderInput<TRes> {
     List<Input$updateOrderItemNestedInput?>? orderItems,
     String? restaurant,
     List<Input$updateDeliveryNestedInput?>? deliveries,
+    int? total,
+    String? paymentIntentId,
     String? deliveryFirstName,
     String? deliveryLastName,
     String? deliveryPhoneNumber,
@@ -4452,6 +6544,7 @@ abstract class CopyWith$Input$updateOrderInput<TRes> {
     String? deliveryApartment,
     String? deliveryCity,
     String? deliveryZipCode,
+    String? createdAt,
     String? clientMutationId,
   });
   TRes orderItems(
@@ -4493,6 +6586,8 @@ class _CopyWithImpl$Input$updateOrderInput<TRes>
     Object? orderItems = _undefined,
     Object? restaurant = _undefined,
     Object? deliveries = _undefined,
+    Object? total = _undefined,
+    Object? paymentIntentId = _undefined,
     Object? deliveryFirstName = _undefined,
     Object? deliveryLastName = _undefined,
     Object? deliveryPhoneNumber = _undefined,
@@ -4500,6 +6595,7 @@ class _CopyWithImpl$Input$updateOrderInput<TRes>
     Object? deliveryApartment = _undefined,
     Object? deliveryCity = _undefined,
     Object? deliveryZipCode = _undefined,
+    Object? createdAt = _undefined,
     Object? clientMutationId = _undefined,
   }) => _then(
     Input$updateOrderInput._({
@@ -4512,6 +6608,9 @@ class _CopyWithImpl$Input$updateOrderInput<TRes>
       if (restaurant != _undefined) 'restaurant': (restaurant as String?),
       if (deliveries != _undefined)
         'deliveries': (deliveries as List<Input$updateDeliveryNestedInput?>?),
+      if (total != _undefined) 'total': (total as int?),
+      if (paymentIntentId != _undefined)
+        'paymentIntentId': (paymentIntentId as String?),
       if (deliveryFirstName != _undefined)
         'deliveryFirstName': (deliveryFirstName as String?),
       if (deliveryLastName != _undefined)
@@ -4525,6 +6624,7 @@ class _CopyWithImpl$Input$updateOrderInput<TRes>
       if (deliveryCity != _undefined) 'deliveryCity': (deliveryCity as String?),
       if (deliveryZipCode != _undefined)
         'deliveryZipCode': (deliveryZipCode as String?),
+      if (createdAt != _undefined) 'createdAt': (createdAt as String?),
       if (clientMutationId != _undefined)
         'clientMutationId': (clientMutationId as String?),
     }),
@@ -4582,6 +6682,8 @@ class _CopyWithStubImpl$Input$updateOrderInput<TRes>
     List<Input$updateOrderItemNestedInput?>? orderItems,
     String? restaurant,
     List<Input$updateDeliveryNestedInput?>? deliveries,
+    int? total,
+    String? paymentIntentId,
     String? deliveryFirstName,
     String? deliveryLastName,
     String? deliveryPhoneNumber,
@@ -4589,6 +6691,7 @@ class _CopyWithStubImpl$Input$updateOrderInput<TRes>
     String? deliveryApartment,
     String? deliveryCity,
     String? deliveryZipCode,
+    String? createdAt,
     String? clientMutationId,
   }) => _res;
 
@@ -4816,15 +6919,19 @@ class _CopyWithStubImpl$Input$updateOrderItemNestedInput<TRes>
 class Input$updateDeliveryNestedInput {
   factory Input$updateDeliveryNestedInput({
     String? id,
+    String? restaurant,
     String? driver,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
+    String? order,
     String? clientMutationId,
   }) => Input$updateDeliveryNestedInput._({
     if (id != null) r'id': id,
+    if (restaurant != null) r'restaurant': restaurant,
     if (driver != null) r'driver': driver,
     if (status != null) r'status': status,
     if (deliveryDate != null) r'deliveryDate': deliveryDate,
+    if (order != null) r'order': order,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
   });
 
@@ -4835,6 +6942,10 @@ class Input$updateDeliveryNestedInput {
     if (data.containsKey('id')) {
       final l$id = data['id'];
       result$data['id'] = (l$id as String?);
+    }
+    if (data.containsKey('restaurant')) {
+      final l$restaurant = data['restaurant'];
+      result$data['restaurant'] = (l$restaurant as String?);
     }
     if (data.containsKey('driver')) {
       final l$driver = data['driver'];
@@ -4850,6 +6961,10 @@ class Input$updateDeliveryNestedInput {
       final l$deliveryDate = data['deliveryDate'];
       result$data['deliveryDate'] = (l$deliveryDate as String?);
     }
+    if (data.containsKey('order')) {
+      final l$order = data['order'];
+      result$data['order'] = (l$order as String?);
+    }
     if (data.containsKey('clientMutationId')) {
       final l$clientMutationId = data['clientMutationId'];
       result$data['clientMutationId'] = (l$clientMutationId as String?);
@@ -4861,11 +6976,15 @@ class Input$updateDeliveryNestedInput {
 
   String? get id => (_$data['id'] as String?);
 
+  String? get restaurant => (_$data['restaurant'] as String?);
+
   String? get driver => (_$data['driver'] as String?);
 
   Enum$DeliveryStatus? get status => (_$data['status'] as Enum$DeliveryStatus?);
 
   String? get deliveryDate => (_$data['deliveryDate'] as String?);
+
+  String? get order => (_$data['order'] as String?);
 
   String? get clientMutationId => (_$data['clientMutationId'] as String?);
 
@@ -4874,6 +6993,10 @@ class Input$updateDeliveryNestedInput {
     if (_$data.containsKey('id')) {
       final l$id = id;
       result$data['id'] = l$id;
+    }
+    if (_$data.containsKey('restaurant')) {
+      final l$restaurant = restaurant;
+      result$data['restaurant'] = l$restaurant;
     }
     if (_$data.containsKey('driver')) {
       final l$driver = driver;
@@ -4888,6 +7011,10 @@ class Input$updateDeliveryNestedInput {
     if (_$data.containsKey('deliveryDate')) {
       final l$deliveryDate = deliveryDate;
       result$data['deliveryDate'] = l$deliveryDate;
+    }
+    if (_$data.containsKey('order')) {
+      final l$order = order;
+      result$data['order'] = l$order;
     }
     if (_$data.containsKey('clientMutationId')) {
       final l$clientMutationId = clientMutationId;
@@ -4916,6 +7043,15 @@ class Input$updateDeliveryNestedInput {
     if (l$id != lOther$id) {
       return false;
     }
+    final l$restaurant = restaurant;
+    final lOther$restaurant = other.restaurant;
+    if (_$data.containsKey('restaurant') !=
+        other._$data.containsKey('restaurant')) {
+      return false;
+    }
+    if (l$restaurant != lOther$restaurant) {
+      return false;
+    }
     final l$driver = driver;
     final lOther$driver = other.driver;
     if (_$data.containsKey('driver') != other._$data.containsKey('driver')) {
@@ -4941,6 +7077,14 @@ class Input$updateDeliveryNestedInput {
     if (l$deliveryDate != lOther$deliveryDate) {
       return false;
     }
+    final l$order = order;
+    final lOther$order = other.order;
+    if (_$data.containsKey('order') != other._$data.containsKey('order')) {
+      return false;
+    }
+    if (l$order != lOther$order) {
+      return false;
+    }
     final l$clientMutationId = clientMutationId;
     final lOther$clientMutationId = other.clientMutationId;
     if (_$data.containsKey('clientMutationId') !=
@@ -4956,15 +7100,19 @@ class Input$updateDeliveryNestedInput {
   @override
   int get hashCode {
     final l$id = id;
+    final l$restaurant = restaurant;
     final l$driver = driver;
     final l$status = status;
     final l$deliveryDate = deliveryDate;
+    final l$order = order;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
       _$data.containsKey('id') ? l$id : const {},
+      _$data.containsKey('restaurant') ? l$restaurant : const {},
       _$data.containsKey('driver') ? l$driver : const {},
       _$data.containsKey('status') ? l$status : const {},
       _$data.containsKey('deliveryDate') ? l$deliveryDate : const {},
+      _$data.containsKey('order') ? l$order : const {},
       _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
     ]);
   }
@@ -4981,9 +7129,11 @@ abstract class CopyWith$Input$updateDeliveryNestedInput<TRes> {
 
   TRes call({
     String? id,
+    String? restaurant,
     String? driver,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
+    String? order,
     String? clientMutationId,
   });
 }
@@ -5000,17 +7150,21 @@ class _CopyWithImpl$Input$updateDeliveryNestedInput<TRes>
 
   TRes call({
     Object? id = _undefined,
+    Object? restaurant = _undefined,
     Object? driver = _undefined,
     Object? status = _undefined,
     Object? deliveryDate = _undefined,
+    Object? order = _undefined,
     Object? clientMutationId = _undefined,
   }) => _then(
     Input$updateDeliveryNestedInput._({
       ..._instance._$data,
       if (id != _undefined) 'id': (id as String?),
+      if (restaurant != _undefined) 'restaurant': (restaurant as String?),
       if (driver != _undefined) 'driver': (driver as String?),
       if (status != _undefined) 'status': (status as Enum$DeliveryStatus?),
       if (deliveryDate != _undefined) 'deliveryDate': (deliveryDate as String?),
+      if (order != _undefined) 'order': (order as String?),
       if (clientMutationId != _undefined)
         'clientMutationId': (clientMutationId as String?),
     }),
@@ -5025,9 +7179,11 @@ class _CopyWithStubImpl$Input$updateDeliveryNestedInput<TRes>
 
   call({
     String? id,
+    String? restaurant,
     String? driver,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
+    String? order,
     String? clientMutationId,
   }) => _res;
 }
@@ -5150,6 +7306,1038 @@ class _CopyWithStubImpl$Input$deleteOrderInput<TRes>
   TRes _res;
 
   call({String? id, String? clientMutationId}) => _res;
+}
+
+class Input$createOrderInput {
+  factory Input$createOrderInput({
+    String? customer,
+    required Enum$OrderStatus status,
+    List<Input$OrderItemNestedInput?>? orderItems,
+    String? restaurant,
+    List<Input$createDeliveryNestedInput?>? deliveries,
+    required int total,
+    String? paymentIntentId,
+    String? deliveryFirstName,
+    String? deliveryLastName,
+    String? deliveryPhoneNumber,
+    String? deliveryStreet,
+    String? deliveryApartment,
+    String? deliveryCity,
+    String? deliveryZipCode,
+    required String createdAt,
+    String? clientMutationId,
+  }) => Input$createOrderInput._({
+    if (customer != null) r'customer': customer,
+    r'status': status,
+    if (orderItems != null) r'orderItems': orderItems,
+    if (restaurant != null) r'restaurant': restaurant,
+    if (deliveries != null) r'deliveries': deliveries,
+    r'total': total,
+    if (paymentIntentId != null) r'paymentIntentId': paymentIntentId,
+    if (deliveryFirstName != null) r'deliveryFirstName': deliveryFirstName,
+    if (deliveryLastName != null) r'deliveryLastName': deliveryLastName,
+    if (deliveryPhoneNumber != null)
+      r'deliveryPhoneNumber': deliveryPhoneNumber,
+    if (deliveryStreet != null) r'deliveryStreet': deliveryStreet,
+    if (deliveryApartment != null) r'deliveryApartment': deliveryApartment,
+    if (deliveryCity != null) r'deliveryCity': deliveryCity,
+    if (deliveryZipCode != null) r'deliveryZipCode': deliveryZipCode,
+    r'createdAt': createdAt,
+    if (clientMutationId != null) r'clientMutationId': clientMutationId,
+  });
+
+  Input$createOrderInput._(this._$data);
+
+  factory Input$createOrderInput.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('customer')) {
+      final l$customer = data['customer'];
+      result$data['customer'] = (l$customer as String?);
+    }
+    final l$status = data['status'];
+    result$data['status'] = fromJson$Enum$OrderStatus((l$status as String));
+    if (data.containsKey('orderItems')) {
+      final l$orderItems = data['orderItems'];
+      result$data['orderItems'] = (l$orderItems as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$OrderItemNestedInput.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
+    if (data.containsKey('restaurant')) {
+      final l$restaurant = data['restaurant'];
+      result$data['restaurant'] = (l$restaurant as String?);
+    }
+    if (data.containsKey('deliveries')) {
+      final l$deliveries = data['deliveries'];
+      result$data['deliveries'] = (l$deliveries as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$createDeliveryNestedInput.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
+    final l$total = data['total'];
+    result$data['total'] = (l$total as int);
+    if (data.containsKey('paymentIntentId')) {
+      final l$paymentIntentId = data['paymentIntentId'];
+      result$data['paymentIntentId'] = (l$paymentIntentId as String?);
+    }
+    if (data.containsKey('deliveryFirstName')) {
+      final l$deliveryFirstName = data['deliveryFirstName'];
+      result$data['deliveryFirstName'] = (l$deliveryFirstName as String?);
+    }
+    if (data.containsKey('deliveryLastName')) {
+      final l$deliveryLastName = data['deliveryLastName'];
+      result$data['deliveryLastName'] = (l$deliveryLastName as String?);
+    }
+    if (data.containsKey('deliveryPhoneNumber')) {
+      final l$deliveryPhoneNumber = data['deliveryPhoneNumber'];
+      result$data['deliveryPhoneNumber'] = (l$deliveryPhoneNumber as String?);
+    }
+    if (data.containsKey('deliveryStreet')) {
+      final l$deliveryStreet = data['deliveryStreet'];
+      result$data['deliveryStreet'] = (l$deliveryStreet as String?);
+    }
+    if (data.containsKey('deliveryApartment')) {
+      final l$deliveryApartment = data['deliveryApartment'];
+      result$data['deliveryApartment'] = (l$deliveryApartment as String?);
+    }
+    if (data.containsKey('deliveryCity')) {
+      final l$deliveryCity = data['deliveryCity'];
+      result$data['deliveryCity'] = (l$deliveryCity as String?);
+    }
+    if (data.containsKey('deliveryZipCode')) {
+      final l$deliveryZipCode = data['deliveryZipCode'];
+      result$data['deliveryZipCode'] = (l$deliveryZipCode as String?);
+    }
+    final l$createdAt = data['createdAt'];
+    result$data['createdAt'] = (l$createdAt as String);
+    if (data.containsKey('clientMutationId')) {
+      final l$clientMutationId = data['clientMutationId'];
+      result$data['clientMutationId'] = (l$clientMutationId as String?);
+    }
+    return Input$createOrderInput._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String? get customer => (_$data['customer'] as String?);
+
+  Enum$OrderStatus get status => (_$data['status'] as Enum$OrderStatus);
+
+  List<Input$OrderItemNestedInput?>? get orderItems =>
+      (_$data['orderItems'] as List<Input$OrderItemNestedInput?>?);
+
+  String? get restaurant => (_$data['restaurant'] as String?);
+
+  List<Input$createDeliveryNestedInput?>? get deliveries =>
+      (_$data['deliveries'] as List<Input$createDeliveryNestedInput?>?);
+
+  int get total => (_$data['total'] as int);
+
+  String? get paymentIntentId => (_$data['paymentIntentId'] as String?);
+
+  String? get deliveryFirstName => (_$data['deliveryFirstName'] as String?);
+
+  String? get deliveryLastName => (_$data['deliveryLastName'] as String?);
+
+  String? get deliveryPhoneNumber => (_$data['deliveryPhoneNumber'] as String?);
+
+  String? get deliveryStreet => (_$data['deliveryStreet'] as String?);
+
+  String? get deliveryApartment => (_$data['deliveryApartment'] as String?);
+
+  String? get deliveryCity => (_$data['deliveryCity'] as String?);
+
+  String? get deliveryZipCode => (_$data['deliveryZipCode'] as String?);
+
+  String get createdAt => (_$data['createdAt'] as String);
+
+  String? get clientMutationId => (_$data['clientMutationId'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('customer')) {
+      final l$customer = customer;
+      result$data['customer'] = l$customer;
+    }
+    final l$status = status;
+    result$data['status'] = toJson$Enum$OrderStatus(l$status);
+    if (_$data.containsKey('orderItems')) {
+      final l$orderItems = orderItems;
+      result$data['orderItems'] = l$orderItems
+          ?.map((e) => e?.toJson())
+          .toList();
+    }
+    if (_$data.containsKey('restaurant')) {
+      final l$restaurant = restaurant;
+      result$data['restaurant'] = l$restaurant;
+    }
+    if (_$data.containsKey('deliveries')) {
+      final l$deliveries = deliveries;
+      result$data['deliveries'] = l$deliveries
+          ?.map((e) => e?.toJson())
+          .toList();
+    }
+    final l$total = total;
+    result$data['total'] = l$total;
+    if (_$data.containsKey('paymentIntentId')) {
+      final l$paymentIntentId = paymentIntentId;
+      result$data['paymentIntentId'] = l$paymentIntentId;
+    }
+    if (_$data.containsKey('deliveryFirstName')) {
+      final l$deliveryFirstName = deliveryFirstName;
+      result$data['deliveryFirstName'] = l$deliveryFirstName;
+    }
+    if (_$data.containsKey('deliveryLastName')) {
+      final l$deliveryLastName = deliveryLastName;
+      result$data['deliveryLastName'] = l$deliveryLastName;
+    }
+    if (_$data.containsKey('deliveryPhoneNumber')) {
+      final l$deliveryPhoneNumber = deliveryPhoneNumber;
+      result$data['deliveryPhoneNumber'] = l$deliveryPhoneNumber;
+    }
+    if (_$data.containsKey('deliveryStreet')) {
+      final l$deliveryStreet = deliveryStreet;
+      result$data['deliveryStreet'] = l$deliveryStreet;
+    }
+    if (_$data.containsKey('deliveryApartment')) {
+      final l$deliveryApartment = deliveryApartment;
+      result$data['deliveryApartment'] = l$deliveryApartment;
+    }
+    if (_$data.containsKey('deliveryCity')) {
+      final l$deliveryCity = deliveryCity;
+      result$data['deliveryCity'] = l$deliveryCity;
+    }
+    if (_$data.containsKey('deliveryZipCode')) {
+      final l$deliveryZipCode = deliveryZipCode;
+      result$data['deliveryZipCode'] = l$deliveryZipCode;
+    }
+    final l$createdAt = createdAt;
+    result$data['createdAt'] = l$createdAt;
+    if (_$data.containsKey('clientMutationId')) {
+      final l$clientMutationId = clientMutationId;
+      result$data['clientMutationId'] = l$clientMutationId;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$createOrderInput<Input$createOrderInput> get copyWith =>
+      CopyWith$Input$createOrderInput(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$createOrderInput || runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$customer = customer;
+    final lOther$customer = other.customer;
+    if (_$data.containsKey('customer') !=
+        other._$data.containsKey('customer')) {
+      return false;
+    }
+    if (l$customer != lOther$customer) {
+      return false;
+    }
+    final l$status = status;
+    final lOther$status = other.status;
+    if (l$status != lOther$status) {
+      return false;
+    }
+    final l$orderItems = orderItems;
+    final lOther$orderItems = other.orderItems;
+    if (_$data.containsKey('orderItems') !=
+        other._$data.containsKey('orderItems')) {
+      return false;
+    }
+    if (l$orderItems != null && lOther$orderItems != null) {
+      if (l$orderItems.length != lOther$orderItems.length) {
+        return false;
+      }
+      for (int i = 0; i < l$orderItems.length; i++) {
+        final l$orderItems$entry = l$orderItems[i];
+        final lOther$orderItems$entry = lOther$orderItems[i];
+        if (l$orderItems$entry != lOther$orderItems$entry) {
+          return false;
+        }
+      }
+    } else if (l$orderItems != lOther$orderItems) {
+      return false;
+    }
+    final l$restaurant = restaurant;
+    final lOther$restaurant = other.restaurant;
+    if (_$data.containsKey('restaurant') !=
+        other._$data.containsKey('restaurant')) {
+      return false;
+    }
+    if (l$restaurant != lOther$restaurant) {
+      return false;
+    }
+    final l$deliveries = deliveries;
+    final lOther$deliveries = other.deliveries;
+    if (_$data.containsKey('deliveries') !=
+        other._$data.containsKey('deliveries')) {
+      return false;
+    }
+    if (l$deliveries != null && lOther$deliveries != null) {
+      if (l$deliveries.length != lOther$deliveries.length) {
+        return false;
+      }
+      for (int i = 0; i < l$deliveries.length; i++) {
+        final l$deliveries$entry = l$deliveries[i];
+        final lOther$deliveries$entry = lOther$deliveries[i];
+        if (l$deliveries$entry != lOther$deliveries$entry) {
+          return false;
+        }
+      }
+    } else if (l$deliveries != lOther$deliveries) {
+      return false;
+    }
+    final l$total = total;
+    final lOther$total = other.total;
+    if (l$total != lOther$total) {
+      return false;
+    }
+    final l$paymentIntentId = paymentIntentId;
+    final lOther$paymentIntentId = other.paymentIntentId;
+    if (_$data.containsKey('paymentIntentId') !=
+        other._$data.containsKey('paymentIntentId')) {
+      return false;
+    }
+    if (l$paymentIntentId != lOther$paymentIntentId) {
+      return false;
+    }
+    final l$deliveryFirstName = deliveryFirstName;
+    final lOther$deliveryFirstName = other.deliveryFirstName;
+    if (_$data.containsKey('deliveryFirstName') !=
+        other._$data.containsKey('deliveryFirstName')) {
+      return false;
+    }
+    if (l$deliveryFirstName != lOther$deliveryFirstName) {
+      return false;
+    }
+    final l$deliveryLastName = deliveryLastName;
+    final lOther$deliveryLastName = other.deliveryLastName;
+    if (_$data.containsKey('deliveryLastName') !=
+        other._$data.containsKey('deliveryLastName')) {
+      return false;
+    }
+    if (l$deliveryLastName != lOther$deliveryLastName) {
+      return false;
+    }
+    final l$deliveryPhoneNumber = deliveryPhoneNumber;
+    final lOther$deliveryPhoneNumber = other.deliveryPhoneNumber;
+    if (_$data.containsKey('deliveryPhoneNumber') !=
+        other._$data.containsKey('deliveryPhoneNumber')) {
+      return false;
+    }
+    if (l$deliveryPhoneNumber != lOther$deliveryPhoneNumber) {
+      return false;
+    }
+    final l$deliveryStreet = deliveryStreet;
+    final lOther$deliveryStreet = other.deliveryStreet;
+    if (_$data.containsKey('deliveryStreet') !=
+        other._$data.containsKey('deliveryStreet')) {
+      return false;
+    }
+    if (l$deliveryStreet != lOther$deliveryStreet) {
+      return false;
+    }
+    final l$deliveryApartment = deliveryApartment;
+    final lOther$deliveryApartment = other.deliveryApartment;
+    if (_$data.containsKey('deliveryApartment') !=
+        other._$data.containsKey('deliveryApartment')) {
+      return false;
+    }
+    if (l$deliveryApartment != lOther$deliveryApartment) {
+      return false;
+    }
+    final l$deliveryCity = deliveryCity;
+    final lOther$deliveryCity = other.deliveryCity;
+    if (_$data.containsKey('deliveryCity') !=
+        other._$data.containsKey('deliveryCity')) {
+      return false;
+    }
+    if (l$deliveryCity != lOther$deliveryCity) {
+      return false;
+    }
+    final l$deliveryZipCode = deliveryZipCode;
+    final lOther$deliveryZipCode = other.deliveryZipCode;
+    if (_$data.containsKey('deliveryZipCode') !=
+        other._$data.containsKey('deliveryZipCode')) {
+      return false;
+    }
+    if (l$deliveryZipCode != lOther$deliveryZipCode) {
+      return false;
+    }
+    final l$createdAt = createdAt;
+    final lOther$createdAt = other.createdAt;
+    if (l$createdAt != lOther$createdAt) {
+      return false;
+    }
+    final l$clientMutationId = clientMutationId;
+    final lOther$clientMutationId = other.clientMutationId;
+    if (_$data.containsKey('clientMutationId') !=
+        other._$data.containsKey('clientMutationId')) {
+      return false;
+    }
+    if (l$clientMutationId != lOther$clientMutationId) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$customer = customer;
+    final l$status = status;
+    final l$orderItems = orderItems;
+    final l$restaurant = restaurant;
+    final l$deliveries = deliveries;
+    final l$total = total;
+    final l$paymentIntentId = paymentIntentId;
+    final l$deliveryFirstName = deliveryFirstName;
+    final l$deliveryLastName = deliveryLastName;
+    final l$deliveryPhoneNumber = deliveryPhoneNumber;
+    final l$deliveryStreet = deliveryStreet;
+    final l$deliveryApartment = deliveryApartment;
+    final l$deliveryCity = deliveryCity;
+    final l$deliveryZipCode = deliveryZipCode;
+    final l$createdAt = createdAt;
+    final l$clientMutationId = clientMutationId;
+    return Object.hashAll([
+      _$data.containsKey('customer') ? l$customer : const {},
+      l$status,
+      _$data.containsKey('orderItems')
+          ? l$orderItems == null
+                ? null
+                : Object.hashAll(l$orderItems.map((v) => v))
+          : const {},
+      _$data.containsKey('restaurant') ? l$restaurant : const {},
+      _$data.containsKey('deliveries')
+          ? l$deliveries == null
+                ? null
+                : Object.hashAll(l$deliveries.map((v) => v))
+          : const {},
+      l$total,
+      _$data.containsKey('paymentIntentId') ? l$paymentIntentId : const {},
+      _$data.containsKey('deliveryFirstName') ? l$deliveryFirstName : const {},
+      _$data.containsKey('deliveryLastName') ? l$deliveryLastName : const {},
+      _$data.containsKey('deliveryPhoneNumber')
+          ? l$deliveryPhoneNumber
+          : const {},
+      _$data.containsKey('deliveryStreet') ? l$deliveryStreet : const {},
+      _$data.containsKey('deliveryApartment') ? l$deliveryApartment : const {},
+      _$data.containsKey('deliveryCity') ? l$deliveryCity : const {},
+      _$data.containsKey('deliveryZipCode') ? l$deliveryZipCode : const {},
+      l$createdAt,
+      _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$createOrderInput<TRes> {
+  factory CopyWith$Input$createOrderInput(
+    Input$createOrderInput instance,
+    TRes Function(Input$createOrderInput) then,
+  ) = _CopyWithImpl$Input$createOrderInput;
+
+  factory CopyWith$Input$createOrderInput.stub(TRes res) =
+      _CopyWithStubImpl$Input$createOrderInput;
+
+  TRes call({
+    String? customer,
+    Enum$OrderStatus? status,
+    List<Input$OrderItemNestedInput?>? orderItems,
+    String? restaurant,
+    List<Input$createDeliveryNestedInput?>? deliveries,
+    int? total,
+    String? paymentIntentId,
+    String? deliveryFirstName,
+    String? deliveryLastName,
+    String? deliveryPhoneNumber,
+    String? deliveryStreet,
+    String? deliveryApartment,
+    String? deliveryCity,
+    String? deliveryZipCode,
+    String? createdAt,
+    String? clientMutationId,
+  });
+  TRes orderItems(
+    Iterable<Input$OrderItemNestedInput?>? Function(
+      Iterable<
+        CopyWith$Input$OrderItemNestedInput<Input$OrderItemNestedInput>?
+      >?,
+    )
+    _fn,
+  );
+  TRes deliveries(
+    Iterable<Input$createDeliveryNestedInput?>? Function(
+      Iterable<
+        CopyWith$Input$createDeliveryNestedInput<
+          Input$createDeliveryNestedInput
+        >?
+      >?,
+    )
+    _fn,
+  );
+}
+
+class _CopyWithImpl$Input$createOrderInput<TRes>
+    implements CopyWith$Input$createOrderInput<TRes> {
+  _CopyWithImpl$Input$createOrderInput(this._instance, this._then);
+
+  final Input$createOrderInput _instance;
+
+  final TRes Function(Input$createOrderInput) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? customer = _undefined,
+    Object? status = _undefined,
+    Object? orderItems = _undefined,
+    Object? restaurant = _undefined,
+    Object? deliveries = _undefined,
+    Object? total = _undefined,
+    Object? paymentIntentId = _undefined,
+    Object? deliveryFirstName = _undefined,
+    Object? deliveryLastName = _undefined,
+    Object? deliveryPhoneNumber = _undefined,
+    Object? deliveryStreet = _undefined,
+    Object? deliveryApartment = _undefined,
+    Object? deliveryCity = _undefined,
+    Object? deliveryZipCode = _undefined,
+    Object? createdAt = _undefined,
+    Object? clientMutationId = _undefined,
+  }) => _then(
+    Input$createOrderInput._({
+      ..._instance._$data,
+      if (customer != _undefined) 'customer': (customer as String?),
+      if (status != _undefined && status != null)
+        'status': (status as Enum$OrderStatus),
+      if (orderItems != _undefined)
+        'orderItems': (orderItems as List<Input$OrderItemNestedInput?>?),
+      if (restaurant != _undefined) 'restaurant': (restaurant as String?),
+      if (deliveries != _undefined)
+        'deliveries': (deliveries as List<Input$createDeliveryNestedInput?>?),
+      if (total != _undefined && total != null) 'total': (total as int),
+      if (paymentIntentId != _undefined)
+        'paymentIntentId': (paymentIntentId as String?),
+      if (deliveryFirstName != _undefined)
+        'deliveryFirstName': (deliveryFirstName as String?),
+      if (deliveryLastName != _undefined)
+        'deliveryLastName': (deliveryLastName as String?),
+      if (deliveryPhoneNumber != _undefined)
+        'deliveryPhoneNumber': (deliveryPhoneNumber as String?),
+      if (deliveryStreet != _undefined)
+        'deliveryStreet': (deliveryStreet as String?),
+      if (deliveryApartment != _undefined)
+        'deliveryApartment': (deliveryApartment as String?),
+      if (deliveryCity != _undefined) 'deliveryCity': (deliveryCity as String?),
+      if (deliveryZipCode != _undefined)
+        'deliveryZipCode': (deliveryZipCode as String?),
+      if (createdAt != _undefined && createdAt != null)
+        'createdAt': (createdAt as String),
+      if (clientMutationId != _undefined)
+        'clientMutationId': (clientMutationId as String?),
+    }),
+  );
+
+  TRes orderItems(
+    Iterable<Input$OrderItemNestedInput?>? Function(
+      Iterable<
+        CopyWith$Input$OrderItemNestedInput<Input$OrderItemNestedInput>?
+      >?,
+    )
+    _fn,
+  ) => call(
+    orderItems: _fn(
+      _instance.orderItems?.map(
+        (e) =>
+            e == null ? null : CopyWith$Input$OrderItemNestedInput(e, (i) => i),
+      ),
+    )?.toList(),
+  );
+
+  TRes deliveries(
+    Iterable<Input$createDeliveryNestedInput?>? Function(
+      Iterable<
+        CopyWith$Input$createDeliveryNestedInput<
+          Input$createDeliveryNestedInput
+        >?
+      >?,
+    )
+    _fn,
+  ) => call(
+    deliveries: _fn(
+      _instance.deliveries?.map(
+        (e) => e == null
+            ? null
+            : CopyWith$Input$createDeliveryNestedInput(e, (i) => i),
+      ),
+    )?.toList(),
+  );
+}
+
+class _CopyWithStubImpl$Input$createOrderInput<TRes>
+    implements CopyWith$Input$createOrderInput<TRes> {
+  _CopyWithStubImpl$Input$createOrderInput(this._res);
+
+  TRes _res;
+
+  call({
+    String? customer,
+    Enum$OrderStatus? status,
+    List<Input$OrderItemNestedInput?>? orderItems,
+    String? restaurant,
+    List<Input$createDeliveryNestedInput?>? deliveries,
+    int? total,
+    String? paymentIntentId,
+    String? deliveryFirstName,
+    String? deliveryLastName,
+    String? deliveryPhoneNumber,
+    String? deliveryStreet,
+    String? deliveryApartment,
+    String? deliveryCity,
+    String? deliveryZipCode,
+    String? createdAt,
+    String? clientMutationId,
+  }) => _res;
+
+  orderItems(_fn) => _res;
+
+  deliveries(_fn) => _res;
+}
+
+class Input$OrderItemNestedInput {
+  factory Input$OrderItemNestedInput({
+    String? id,
+    String? order,
+    required String mealPlan,
+    required int quantity,
+  }) => Input$OrderItemNestedInput._({
+    if (id != null) r'id': id,
+    if (order != null) r'order': order,
+    r'mealPlan': mealPlan,
+    r'quantity': quantity,
+  });
+
+  Input$OrderItemNestedInput._(this._$data);
+
+  factory Input$OrderItemNestedInput.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('id')) {
+      final l$id = data['id'];
+      result$data['id'] = (l$id as String?);
+    }
+    if (data.containsKey('order')) {
+      final l$order = data['order'];
+      result$data['order'] = (l$order as String?);
+    }
+    final l$mealPlan = data['mealPlan'];
+    result$data['mealPlan'] = (l$mealPlan as String);
+    final l$quantity = data['quantity'];
+    result$data['quantity'] = (l$quantity as int);
+    return Input$OrderItemNestedInput._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String? get id => (_$data['id'] as String?);
+
+  String? get order => (_$data['order'] as String?);
+
+  String get mealPlan => (_$data['mealPlan'] as String);
+
+  int get quantity => (_$data['quantity'] as int);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('id')) {
+      final l$id = id;
+      result$data['id'] = l$id;
+    }
+    if (_$data.containsKey('order')) {
+      final l$order = order;
+      result$data['order'] = l$order;
+    }
+    final l$mealPlan = mealPlan;
+    result$data['mealPlan'] = l$mealPlan;
+    final l$quantity = quantity;
+    result$data['quantity'] = l$quantity;
+    return result$data;
+  }
+
+  CopyWith$Input$OrderItemNestedInput<Input$OrderItemNestedInput>
+  get copyWith => CopyWith$Input$OrderItemNestedInput(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$OrderItemNestedInput ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (_$data.containsKey('id') != other._$data.containsKey('id')) {
+      return false;
+    }
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$order = order;
+    final lOther$order = other.order;
+    if (_$data.containsKey('order') != other._$data.containsKey('order')) {
+      return false;
+    }
+    if (l$order != lOther$order) {
+      return false;
+    }
+    final l$mealPlan = mealPlan;
+    final lOther$mealPlan = other.mealPlan;
+    if (l$mealPlan != lOther$mealPlan) {
+      return false;
+    }
+    final l$quantity = quantity;
+    final lOther$quantity = other.quantity;
+    if (l$quantity != lOther$quantity) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$order = order;
+    final l$mealPlan = mealPlan;
+    final l$quantity = quantity;
+    return Object.hashAll([
+      _$data.containsKey('id') ? l$id : const {},
+      _$data.containsKey('order') ? l$order : const {},
+      l$mealPlan,
+      l$quantity,
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$OrderItemNestedInput<TRes> {
+  factory CopyWith$Input$OrderItemNestedInput(
+    Input$OrderItemNestedInput instance,
+    TRes Function(Input$OrderItemNestedInput) then,
+  ) = _CopyWithImpl$Input$OrderItemNestedInput;
+
+  factory CopyWith$Input$OrderItemNestedInput.stub(TRes res) =
+      _CopyWithStubImpl$Input$OrderItemNestedInput;
+
+  TRes call({String? id, String? order, String? mealPlan, int? quantity});
+}
+
+class _CopyWithImpl$Input$OrderItemNestedInput<TRes>
+    implements CopyWith$Input$OrderItemNestedInput<TRes> {
+  _CopyWithImpl$Input$OrderItemNestedInput(this._instance, this._then);
+
+  final Input$OrderItemNestedInput _instance;
+
+  final TRes Function(Input$OrderItemNestedInput) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? order = _undefined,
+    Object? mealPlan = _undefined,
+    Object? quantity = _undefined,
+  }) => _then(
+    Input$OrderItemNestedInput._({
+      ..._instance._$data,
+      if (id != _undefined) 'id': (id as String?),
+      if (order != _undefined) 'order': (order as String?),
+      if (mealPlan != _undefined && mealPlan != null)
+        'mealPlan': (mealPlan as String),
+      if (quantity != _undefined && quantity != null)
+        'quantity': (quantity as int),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$OrderItemNestedInput<TRes>
+    implements CopyWith$Input$OrderItemNestedInput<TRes> {
+  _CopyWithStubImpl$Input$OrderItemNestedInput(this._res);
+
+  TRes _res;
+
+  call({String? id, String? order, String? mealPlan, int? quantity}) => _res;
+}
+
+class Input$createDeliveryNestedInput {
+  factory Input$createDeliveryNestedInput({
+    String? id,
+    String? restaurant,
+    String? driver,
+    required Enum$DeliveryStatus status,
+    required String deliveryDate,
+    String? order,
+    String? clientMutationId,
+  }) => Input$createDeliveryNestedInput._({
+    if (id != null) r'id': id,
+    if (restaurant != null) r'restaurant': restaurant,
+    if (driver != null) r'driver': driver,
+    r'status': status,
+    r'deliveryDate': deliveryDate,
+    if (order != null) r'order': order,
+    if (clientMutationId != null) r'clientMutationId': clientMutationId,
+  });
+
+  Input$createDeliveryNestedInput._(this._$data);
+
+  factory Input$createDeliveryNestedInput.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('id')) {
+      final l$id = data['id'];
+      result$data['id'] = (l$id as String?);
+    }
+    if (data.containsKey('restaurant')) {
+      final l$restaurant = data['restaurant'];
+      result$data['restaurant'] = (l$restaurant as String?);
+    }
+    if (data.containsKey('driver')) {
+      final l$driver = data['driver'];
+      result$data['driver'] = (l$driver as String?);
+    }
+    final l$status = data['status'];
+    result$data['status'] = fromJson$Enum$DeliveryStatus((l$status as String));
+    final l$deliveryDate = data['deliveryDate'];
+    result$data['deliveryDate'] = (l$deliveryDate as String);
+    if (data.containsKey('order')) {
+      final l$order = data['order'];
+      result$data['order'] = (l$order as String?);
+    }
+    if (data.containsKey('clientMutationId')) {
+      final l$clientMutationId = data['clientMutationId'];
+      result$data['clientMutationId'] = (l$clientMutationId as String?);
+    }
+    return Input$createDeliveryNestedInput._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String? get id => (_$data['id'] as String?);
+
+  String? get restaurant => (_$data['restaurant'] as String?);
+
+  String? get driver => (_$data['driver'] as String?);
+
+  Enum$DeliveryStatus get status => (_$data['status'] as Enum$DeliveryStatus);
+
+  String get deliveryDate => (_$data['deliveryDate'] as String);
+
+  String? get order => (_$data['order'] as String?);
+
+  String? get clientMutationId => (_$data['clientMutationId'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('id')) {
+      final l$id = id;
+      result$data['id'] = l$id;
+    }
+    if (_$data.containsKey('restaurant')) {
+      final l$restaurant = restaurant;
+      result$data['restaurant'] = l$restaurant;
+    }
+    if (_$data.containsKey('driver')) {
+      final l$driver = driver;
+      result$data['driver'] = l$driver;
+    }
+    final l$status = status;
+    result$data['status'] = toJson$Enum$DeliveryStatus(l$status);
+    final l$deliveryDate = deliveryDate;
+    result$data['deliveryDate'] = l$deliveryDate;
+    if (_$data.containsKey('order')) {
+      final l$order = order;
+      result$data['order'] = l$order;
+    }
+    if (_$data.containsKey('clientMutationId')) {
+      final l$clientMutationId = clientMutationId;
+      result$data['clientMutationId'] = l$clientMutationId;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$createDeliveryNestedInput<Input$createDeliveryNestedInput>
+  get copyWith => CopyWith$Input$createDeliveryNestedInput(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$createDeliveryNestedInput ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (_$data.containsKey('id') != other._$data.containsKey('id')) {
+      return false;
+    }
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$restaurant = restaurant;
+    final lOther$restaurant = other.restaurant;
+    if (_$data.containsKey('restaurant') !=
+        other._$data.containsKey('restaurant')) {
+      return false;
+    }
+    if (l$restaurant != lOther$restaurant) {
+      return false;
+    }
+    final l$driver = driver;
+    final lOther$driver = other.driver;
+    if (_$data.containsKey('driver') != other._$data.containsKey('driver')) {
+      return false;
+    }
+    if (l$driver != lOther$driver) {
+      return false;
+    }
+    final l$status = status;
+    final lOther$status = other.status;
+    if (l$status != lOther$status) {
+      return false;
+    }
+    final l$deliveryDate = deliveryDate;
+    final lOther$deliveryDate = other.deliveryDate;
+    if (l$deliveryDate != lOther$deliveryDate) {
+      return false;
+    }
+    final l$order = order;
+    final lOther$order = other.order;
+    if (_$data.containsKey('order') != other._$data.containsKey('order')) {
+      return false;
+    }
+    if (l$order != lOther$order) {
+      return false;
+    }
+    final l$clientMutationId = clientMutationId;
+    final lOther$clientMutationId = other.clientMutationId;
+    if (_$data.containsKey('clientMutationId') !=
+        other._$data.containsKey('clientMutationId')) {
+      return false;
+    }
+    if (l$clientMutationId != lOther$clientMutationId) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$restaurant = restaurant;
+    final l$driver = driver;
+    final l$status = status;
+    final l$deliveryDate = deliveryDate;
+    final l$order = order;
+    final l$clientMutationId = clientMutationId;
+    return Object.hashAll([
+      _$data.containsKey('id') ? l$id : const {},
+      _$data.containsKey('restaurant') ? l$restaurant : const {},
+      _$data.containsKey('driver') ? l$driver : const {},
+      l$status,
+      l$deliveryDate,
+      _$data.containsKey('order') ? l$order : const {},
+      _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$createDeliveryNestedInput<TRes> {
+  factory CopyWith$Input$createDeliveryNestedInput(
+    Input$createDeliveryNestedInput instance,
+    TRes Function(Input$createDeliveryNestedInput) then,
+  ) = _CopyWithImpl$Input$createDeliveryNestedInput;
+
+  factory CopyWith$Input$createDeliveryNestedInput.stub(TRes res) =
+      _CopyWithStubImpl$Input$createDeliveryNestedInput;
+
+  TRes call({
+    String? id,
+    String? restaurant,
+    String? driver,
+    Enum$DeliveryStatus? status,
+    String? deliveryDate,
+    String? order,
+    String? clientMutationId,
+  });
+}
+
+class _CopyWithImpl$Input$createDeliveryNestedInput<TRes>
+    implements CopyWith$Input$createDeliveryNestedInput<TRes> {
+  _CopyWithImpl$Input$createDeliveryNestedInput(this._instance, this._then);
+
+  final Input$createDeliveryNestedInput _instance;
+
+  final TRes Function(Input$createDeliveryNestedInput) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? restaurant = _undefined,
+    Object? driver = _undefined,
+    Object? status = _undefined,
+    Object? deliveryDate = _undefined,
+    Object? order = _undefined,
+    Object? clientMutationId = _undefined,
+  }) => _then(
+    Input$createDeliveryNestedInput._({
+      ..._instance._$data,
+      if (id != _undefined) 'id': (id as String?),
+      if (restaurant != _undefined) 'restaurant': (restaurant as String?),
+      if (driver != _undefined) 'driver': (driver as String?),
+      if (status != _undefined && status != null)
+        'status': (status as Enum$DeliveryStatus),
+      if (deliveryDate != _undefined && deliveryDate != null)
+        'deliveryDate': (deliveryDate as String),
+      if (order != _undefined) 'order': (order as String?),
+      if (clientMutationId != _undefined)
+        'clientMutationId': (clientMutationId as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$createDeliveryNestedInput<TRes>
+    implements CopyWith$Input$createDeliveryNestedInput<TRes> {
+  _CopyWithStubImpl$Input$createDeliveryNestedInput(this._res);
+
+  TRes _res;
+
+  call({
+    String? id,
+    String? restaurant,
+    String? driver,
+    Enum$DeliveryStatus? status,
+    String? deliveryDate,
+    String? order,
+    String? clientMutationId,
+  }) => _res;
 }
 
 class Input$updateOrderItemInput {
@@ -5486,11 +8674,25 @@ class Input$createRestaurantInput {
   factory Input$createRestaurantInput({
     required String name,
     String? description,
+    required int deliveryPrice,
+    String? phoneNumber,
+    String? email,
+    String? city,
+    String? street,
+    String? zipCode,
+    String? nip,
     List<String?>? restaurantCategories,
     String? clientMutationId,
   }) => Input$createRestaurantInput._({
     r'name': name,
     if (description != null) r'description': description,
+    r'deliveryPrice': deliveryPrice,
+    if (phoneNumber != null) r'phoneNumber': phoneNumber,
+    if (email != null) r'email': email,
+    if (city != null) r'city': city,
+    if (street != null) r'street': street,
+    if (zipCode != null) r'zipCode': zipCode,
+    if (nip != null) r'nip': nip,
     if (restaurantCategories != null)
       r'restaurantCategories': restaurantCategories,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
@@ -5505,6 +8707,32 @@ class Input$createRestaurantInput {
     if (data.containsKey('description')) {
       final l$description = data['description'];
       result$data['description'] = (l$description as String?);
+    }
+    final l$deliveryPrice = data['deliveryPrice'];
+    result$data['deliveryPrice'] = (l$deliveryPrice as int);
+    if (data.containsKey('phoneNumber')) {
+      final l$phoneNumber = data['phoneNumber'];
+      result$data['phoneNumber'] = (l$phoneNumber as String?);
+    }
+    if (data.containsKey('email')) {
+      final l$email = data['email'];
+      result$data['email'] = (l$email as String?);
+    }
+    if (data.containsKey('city')) {
+      final l$city = data['city'];
+      result$data['city'] = (l$city as String?);
+    }
+    if (data.containsKey('street')) {
+      final l$street = data['street'];
+      result$data['street'] = (l$street as String?);
+    }
+    if (data.containsKey('zipCode')) {
+      final l$zipCode = data['zipCode'];
+      result$data['zipCode'] = (l$zipCode as String?);
+    }
+    if (data.containsKey('nip')) {
+      final l$nip = data['nip'];
+      result$data['nip'] = (l$nip as String?);
     }
     if (data.containsKey('restaurantCategories')) {
       final l$restaurantCategories = data['restaurantCategories'];
@@ -5526,6 +8754,20 @@ class Input$createRestaurantInput {
 
   String? get description => (_$data['description'] as String?);
 
+  int get deliveryPrice => (_$data['deliveryPrice'] as int);
+
+  String? get phoneNumber => (_$data['phoneNumber'] as String?);
+
+  String? get email => (_$data['email'] as String?);
+
+  String? get city => (_$data['city'] as String?);
+
+  String? get street => (_$data['street'] as String?);
+
+  String? get zipCode => (_$data['zipCode'] as String?);
+
+  String? get nip => (_$data['nip'] as String?);
+
   List<String?>? get restaurantCategories =>
       (_$data['restaurantCategories'] as List<String?>?);
 
@@ -5538,6 +8780,32 @@ class Input$createRestaurantInput {
     if (_$data.containsKey('description')) {
       final l$description = description;
       result$data['description'] = l$description;
+    }
+    final l$deliveryPrice = deliveryPrice;
+    result$data['deliveryPrice'] = l$deliveryPrice;
+    if (_$data.containsKey('phoneNumber')) {
+      final l$phoneNumber = phoneNumber;
+      result$data['phoneNumber'] = l$phoneNumber;
+    }
+    if (_$data.containsKey('email')) {
+      final l$email = email;
+      result$data['email'] = l$email;
+    }
+    if (_$data.containsKey('city')) {
+      final l$city = city;
+      result$data['city'] = l$city;
+    }
+    if (_$data.containsKey('street')) {
+      final l$street = street;
+      result$data['street'] = l$street;
+    }
+    if (_$data.containsKey('zipCode')) {
+      final l$zipCode = zipCode;
+      result$data['zipCode'] = l$zipCode;
+    }
+    if (_$data.containsKey('nip')) {
+      final l$nip = nip;
+      result$data['nip'] = l$nip;
     }
     if (_$data.containsKey('restaurantCategories')) {
       final l$restaurantCategories = restaurantCategories;
@@ -5578,6 +8846,60 @@ class Input$createRestaurantInput {
     if (l$description != lOther$description) {
       return false;
     }
+    final l$deliveryPrice = deliveryPrice;
+    final lOther$deliveryPrice = other.deliveryPrice;
+    if (l$deliveryPrice != lOther$deliveryPrice) {
+      return false;
+    }
+    final l$phoneNumber = phoneNumber;
+    final lOther$phoneNumber = other.phoneNumber;
+    if (_$data.containsKey('phoneNumber') !=
+        other._$data.containsKey('phoneNumber')) {
+      return false;
+    }
+    if (l$phoneNumber != lOther$phoneNumber) {
+      return false;
+    }
+    final l$email = email;
+    final lOther$email = other.email;
+    if (_$data.containsKey('email') != other._$data.containsKey('email')) {
+      return false;
+    }
+    if (l$email != lOther$email) {
+      return false;
+    }
+    final l$city = city;
+    final lOther$city = other.city;
+    if (_$data.containsKey('city') != other._$data.containsKey('city')) {
+      return false;
+    }
+    if (l$city != lOther$city) {
+      return false;
+    }
+    final l$street = street;
+    final lOther$street = other.street;
+    if (_$data.containsKey('street') != other._$data.containsKey('street')) {
+      return false;
+    }
+    if (l$street != lOther$street) {
+      return false;
+    }
+    final l$zipCode = zipCode;
+    final lOther$zipCode = other.zipCode;
+    if (_$data.containsKey('zipCode') != other._$data.containsKey('zipCode')) {
+      return false;
+    }
+    if (l$zipCode != lOther$zipCode) {
+      return false;
+    }
+    final l$nip = nip;
+    final lOther$nip = other.nip;
+    if (_$data.containsKey('nip') != other._$data.containsKey('nip')) {
+      return false;
+    }
+    if (l$nip != lOther$nip) {
+      return false;
+    }
     final l$restaurantCategories = restaurantCategories;
     final lOther$restaurantCategories = other.restaurantCategories;
     if (_$data.containsKey('restaurantCategories') !=
@@ -5615,11 +8937,25 @@ class Input$createRestaurantInput {
   int get hashCode {
     final l$name = name;
     final l$description = description;
+    final l$deliveryPrice = deliveryPrice;
+    final l$phoneNumber = phoneNumber;
+    final l$email = email;
+    final l$city = city;
+    final l$street = street;
+    final l$zipCode = zipCode;
+    final l$nip = nip;
     final l$restaurantCategories = restaurantCategories;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
       l$name,
       _$data.containsKey('description') ? l$description : const {},
+      l$deliveryPrice,
+      _$data.containsKey('phoneNumber') ? l$phoneNumber : const {},
+      _$data.containsKey('email') ? l$email : const {},
+      _$data.containsKey('city') ? l$city : const {},
+      _$data.containsKey('street') ? l$street : const {},
+      _$data.containsKey('zipCode') ? l$zipCode : const {},
+      _$data.containsKey('nip') ? l$nip : const {},
       _$data.containsKey('restaurantCategories')
           ? l$restaurantCategories == null
                 ? null
@@ -5642,6 +8978,13 @@ abstract class CopyWith$Input$createRestaurantInput<TRes> {
   TRes call({
     String? name,
     String? description,
+    int? deliveryPrice,
+    String? phoneNumber,
+    String? email,
+    String? city,
+    String? street,
+    String? zipCode,
+    String? nip,
     List<String?>? restaurantCategories,
     String? clientMutationId,
   });
@@ -5660,6 +9003,13 @@ class _CopyWithImpl$Input$createRestaurantInput<TRes>
   TRes call({
     Object? name = _undefined,
     Object? description = _undefined,
+    Object? deliveryPrice = _undefined,
+    Object? phoneNumber = _undefined,
+    Object? email = _undefined,
+    Object? city = _undefined,
+    Object? street = _undefined,
+    Object? zipCode = _undefined,
+    Object? nip = _undefined,
     Object? restaurantCategories = _undefined,
     Object? clientMutationId = _undefined,
   }) => _then(
@@ -5667,6 +9017,14 @@ class _CopyWithImpl$Input$createRestaurantInput<TRes>
       ..._instance._$data,
       if (name != _undefined && name != null) 'name': (name as String),
       if (description != _undefined) 'description': (description as String?),
+      if (deliveryPrice != _undefined && deliveryPrice != null)
+        'deliveryPrice': (deliveryPrice as int),
+      if (phoneNumber != _undefined) 'phoneNumber': (phoneNumber as String?),
+      if (email != _undefined) 'email': (email as String?),
+      if (city != _undefined) 'city': (city as String?),
+      if (street != _undefined) 'street': (street as String?),
+      if (zipCode != _undefined) 'zipCode': (zipCode as String?),
+      if (nip != _undefined) 'nip': (nip as String?),
       if (restaurantCategories != _undefined)
         'restaurantCategories': (restaurantCategories as List<String?>?),
       if (clientMutationId != _undefined)
@@ -5684,6 +9042,13 @@ class _CopyWithStubImpl$Input$createRestaurantInput<TRes>
   call({
     String? name,
     String? description,
+    int? deliveryPrice,
+    String? phoneNumber,
+    String? email,
+    String? city,
+    String? street,
+    String? zipCode,
+    String? nip,
     List<String?>? restaurantCategories,
     String? clientMutationId,
   }) => _res;
@@ -5694,12 +9059,26 @@ class Input$updateRestaurantInput {
     required String id,
     String? name,
     String? description,
+    int? deliveryPrice,
+    String? phoneNumber,
+    String? email,
+    String? city,
+    String? street,
+    String? zipCode,
+    String? nip,
     List<String?>? restaurantCategories,
     String? clientMutationId,
   }) => Input$updateRestaurantInput._({
     r'id': id,
     if (name != null) r'name': name,
     if (description != null) r'description': description,
+    if (deliveryPrice != null) r'deliveryPrice': deliveryPrice,
+    if (phoneNumber != null) r'phoneNumber': phoneNumber,
+    if (email != null) r'email': email,
+    if (city != null) r'city': city,
+    if (street != null) r'street': street,
+    if (zipCode != null) r'zipCode': zipCode,
+    if (nip != null) r'nip': nip,
     if (restaurantCategories != null)
       r'restaurantCategories': restaurantCategories,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
@@ -5718,6 +9097,34 @@ class Input$updateRestaurantInput {
     if (data.containsKey('description')) {
       final l$description = data['description'];
       result$data['description'] = (l$description as String?);
+    }
+    if (data.containsKey('deliveryPrice')) {
+      final l$deliveryPrice = data['deliveryPrice'];
+      result$data['deliveryPrice'] = (l$deliveryPrice as int?);
+    }
+    if (data.containsKey('phoneNumber')) {
+      final l$phoneNumber = data['phoneNumber'];
+      result$data['phoneNumber'] = (l$phoneNumber as String?);
+    }
+    if (data.containsKey('email')) {
+      final l$email = data['email'];
+      result$data['email'] = (l$email as String?);
+    }
+    if (data.containsKey('city')) {
+      final l$city = data['city'];
+      result$data['city'] = (l$city as String?);
+    }
+    if (data.containsKey('street')) {
+      final l$street = data['street'];
+      result$data['street'] = (l$street as String?);
+    }
+    if (data.containsKey('zipCode')) {
+      final l$zipCode = data['zipCode'];
+      result$data['zipCode'] = (l$zipCode as String?);
+    }
+    if (data.containsKey('nip')) {
+      final l$nip = data['nip'];
+      result$data['nip'] = (l$nip as String?);
     }
     if (data.containsKey('restaurantCategories')) {
       final l$restaurantCategories = data['restaurantCategories'];
@@ -5741,6 +9148,20 @@ class Input$updateRestaurantInput {
 
   String? get description => (_$data['description'] as String?);
 
+  int? get deliveryPrice => (_$data['deliveryPrice'] as int?);
+
+  String? get phoneNumber => (_$data['phoneNumber'] as String?);
+
+  String? get email => (_$data['email'] as String?);
+
+  String? get city => (_$data['city'] as String?);
+
+  String? get street => (_$data['street'] as String?);
+
+  String? get zipCode => (_$data['zipCode'] as String?);
+
+  String? get nip => (_$data['nip'] as String?);
+
   List<String?>? get restaurantCategories =>
       (_$data['restaurantCategories'] as List<String?>?);
 
@@ -5757,6 +9178,34 @@ class Input$updateRestaurantInput {
     if (_$data.containsKey('description')) {
       final l$description = description;
       result$data['description'] = l$description;
+    }
+    if (_$data.containsKey('deliveryPrice')) {
+      final l$deliveryPrice = deliveryPrice;
+      result$data['deliveryPrice'] = l$deliveryPrice;
+    }
+    if (_$data.containsKey('phoneNumber')) {
+      final l$phoneNumber = phoneNumber;
+      result$data['phoneNumber'] = l$phoneNumber;
+    }
+    if (_$data.containsKey('email')) {
+      final l$email = email;
+      result$data['email'] = l$email;
+    }
+    if (_$data.containsKey('city')) {
+      final l$city = city;
+      result$data['city'] = l$city;
+    }
+    if (_$data.containsKey('street')) {
+      final l$street = street;
+      result$data['street'] = l$street;
+    }
+    if (_$data.containsKey('zipCode')) {
+      final l$zipCode = zipCode;
+      result$data['zipCode'] = l$zipCode;
+    }
+    if (_$data.containsKey('nip')) {
+      final l$nip = nip;
+      result$data['nip'] = l$nip;
     }
     if (_$data.containsKey('restaurantCategories')) {
       final l$restaurantCategories = restaurantCategories;
@@ -5805,6 +9254,64 @@ class Input$updateRestaurantInput {
     if (l$description != lOther$description) {
       return false;
     }
+    final l$deliveryPrice = deliveryPrice;
+    final lOther$deliveryPrice = other.deliveryPrice;
+    if (_$data.containsKey('deliveryPrice') !=
+        other._$data.containsKey('deliveryPrice')) {
+      return false;
+    }
+    if (l$deliveryPrice != lOther$deliveryPrice) {
+      return false;
+    }
+    final l$phoneNumber = phoneNumber;
+    final lOther$phoneNumber = other.phoneNumber;
+    if (_$data.containsKey('phoneNumber') !=
+        other._$data.containsKey('phoneNumber')) {
+      return false;
+    }
+    if (l$phoneNumber != lOther$phoneNumber) {
+      return false;
+    }
+    final l$email = email;
+    final lOther$email = other.email;
+    if (_$data.containsKey('email') != other._$data.containsKey('email')) {
+      return false;
+    }
+    if (l$email != lOther$email) {
+      return false;
+    }
+    final l$city = city;
+    final lOther$city = other.city;
+    if (_$data.containsKey('city') != other._$data.containsKey('city')) {
+      return false;
+    }
+    if (l$city != lOther$city) {
+      return false;
+    }
+    final l$street = street;
+    final lOther$street = other.street;
+    if (_$data.containsKey('street') != other._$data.containsKey('street')) {
+      return false;
+    }
+    if (l$street != lOther$street) {
+      return false;
+    }
+    final l$zipCode = zipCode;
+    final lOther$zipCode = other.zipCode;
+    if (_$data.containsKey('zipCode') != other._$data.containsKey('zipCode')) {
+      return false;
+    }
+    if (l$zipCode != lOther$zipCode) {
+      return false;
+    }
+    final l$nip = nip;
+    final lOther$nip = other.nip;
+    if (_$data.containsKey('nip') != other._$data.containsKey('nip')) {
+      return false;
+    }
+    if (l$nip != lOther$nip) {
+      return false;
+    }
     final l$restaurantCategories = restaurantCategories;
     final lOther$restaurantCategories = other.restaurantCategories;
     if (_$data.containsKey('restaurantCategories') !=
@@ -5843,12 +9350,26 @@ class Input$updateRestaurantInput {
     final l$id = id;
     final l$name = name;
     final l$description = description;
+    final l$deliveryPrice = deliveryPrice;
+    final l$phoneNumber = phoneNumber;
+    final l$email = email;
+    final l$city = city;
+    final l$street = street;
+    final l$zipCode = zipCode;
+    final l$nip = nip;
     final l$restaurantCategories = restaurantCategories;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
       l$id,
       _$data.containsKey('name') ? l$name : const {},
       _$data.containsKey('description') ? l$description : const {},
+      _$data.containsKey('deliveryPrice') ? l$deliveryPrice : const {},
+      _$data.containsKey('phoneNumber') ? l$phoneNumber : const {},
+      _$data.containsKey('email') ? l$email : const {},
+      _$data.containsKey('city') ? l$city : const {},
+      _$data.containsKey('street') ? l$street : const {},
+      _$data.containsKey('zipCode') ? l$zipCode : const {},
+      _$data.containsKey('nip') ? l$nip : const {},
       _$data.containsKey('restaurantCategories')
           ? l$restaurantCategories == null
                 ? null
@@ -5872,6 +9393,13 @@ abstract class CopyWith$Input$updateRestaurantInput<TRes> {
     String? id,
     String? name,
     String? description,
+    int? deliveryPrice,
+    String? phoneNumber,
+    String? email,
+    String? city,
+    String? street,
+    String? zipCode,
+    String? nip,
     List<String?>? restaurantCategories,
     String? clientMutationId,
   });
@@ -5891,6 +9419,13 @@ class _CopyWithImpl$Input$updateRestaurantInput<TRes>
     Object? id = _undefined,
     Object? name = _undefined,
     Object? description = _undefined,
+    Object? deliveryPrice = _undefined,
+    Object? phoneNumber = _undefined,
+    Object? email = _undefined,
+    Object? city = _undefined,
+    Object? street = _undefined,
+    Object? zipCode = _undefined,
+    Object? nip = _undefined,
     Object? restaurantCategories = _undefined,
     Object? clientMutationId = _undefined,
   }) => _then(
@@ -5899,6 +9434,13 @@ class _CopyWithImpl$Input$updateRestaurantInput<TRes>
       if (id != _undefined && id != null) 'id': (id as String),
       if (name != _undefined) 'name': (name as String?),
       if (description != _undefined) 'description': (description as String?),
+      if (deliveryPrice != _undefined) 'deliveryPrice': (deliveryPrice as int?),
+      if (phoneNumber != _undefined) 'phoneNumber': (phoneNumber as String?),
+      if (email != _undefined) 'email': (email as String?),
+      if (city != _undefined) 'city': (city as String?),
+      if (street != _undefined) 'street': (street as String?),
+      if (zipCode != _undefined) 'zipCode': (zipCode as String?),
+      if (nip != _undefined) 'nip': (nip as String?),
       if (restaurantCategories != _undefined)
         'restaurantCategories': (restaurantCategories as List<String?>?),
       if (clientMutationId != _undefined)
@@ -5917,6 +9459,13 @@ class _CopyWithStubImpl$Input$updateRestaurantInput<TRes>
     String? id,
     String? name,
     String? description,
+    int? deliveryPrice,
+    String? phoneNumber,
+    String? email,
+    String? city,
+    String? street,
+    String? zipCode,
+    String? nip,
     List<String?>? restaurantCategories,
     String? clientMutationId,
   }) => _res;
@@ -6450,14 +9999,12 @@ class Input$updateUserInput {
   factory Input$updateUserInput({
     required String id,
     String? email,
-    String? plainPassword,
     List<dynamic>? roles,
     String? restaurant,
     String? clientMutationId,
   }) => Input$updateUserInput._({
     r'id': id,
     if (email != null) r'email': email,
-    if (plainPassword != null) r'plainPassword': plainPassword,
     if (roles != null) r'roles': roles,
     if (restaurant != null) r'restaurant': restaurant,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
@@ -6472,10 +10019,6 @@ class Input$updateUserInput {
     if (data.containsKey('email')) {
       final l$email = data['email'];
       result$data['email'] = (l$email as String?);
-    }
-    if (data.containsKey('plainPassword')) {
-      final l$plainPassword = data['plainPassword'];
-      result$data['plainPassword'] = (l$plainPassword as String?);
     }
     if (data.containsKey('roles')) {
       final l$roles = data['roles'];
@@ -6498,8 +10041,6 @@ class Input$updateUserInput {
 
   String? get email => (_$data['email'] as String?);
 
-  String? get plainPassword => (_$data['plainPassword'] as String?);
-
   List<dynamic>? get roles => (_$data['roles'] as List<dynamic>?);
 
   String? get restaurant => (_$data['restaurant'] as String?);
@@ -6513,10 +10054,6 @@ class Input$updateUserInput {
     if (_$data.containsKey('email')) {
       final l$email = email;
       result$data['email'] = l$email;
-    }
-    if (_$data.containsKey('plainPassword')) {
-      final l$plainPassword = plainPassword;
-      result$data['plainPassword'] = l$plainPassword;
     }
     if (_$data.containsKey('roles')) {
       final l$roles = roles;
@@ -6557,15 +10094,6 @@ class Input$updateUserInput {
     if (l$email != lOther$email) {
       return false;
     }
-    final l$plainPassword = plainPassword;
-    final lOther$plainPassword = other.plainPassword;
-    if (_$data.containsKey('plainPassword') !=
-        other._$data.containsKey('plainPassword')) {
-      return false;
-    }
-    if (l$plainPassword != lOther$plainPassword) {
-      return false;
-    }
     final l$roles = roles;
     final lOther$roles = other.roles;
     if (_$data.containsKey('roles') != other._$data.containsKey('roles')) {
@@ -6599,14 +10127,12 @@ class Input$updateUserInput {
   int get hashCode {
     final l$id = id;
     final l$email = email;
-    final l$plainPassword = plainPassword;
     final l$roles = roles;
     final l$restaurant = restaurant;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
       l$id,
       _$data.containsKey('email') ? l$email : const {},
-      _$data.containsKey('plainPassword') ? l$plainPassword : const {},
       _$data.containsKey('roles') ? l$roles : const {},
       _$data.containsKey('restaurant') ? l$restaurant : const {},
       _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
@@ -6626,7 +10152,6 @@ abstract class CopyWith$Input$updateUserInput<TRes> {
   TRes call({
     String? id,
     String? email,
-    String? plainPassword,
     List<dynamic>? roles,
     String? restaurant,
     String? clientMutationId,
@@ -6646,7 +10171,6 @@ class _CopyWithImpl$Input$updateUserInput<TRes>
   TRes call({
     Object? id = _undefined,
     Object? email = _undefined,
-    Object? plainPassword = _undefined,
     Object? roles = _undefined,
     Object? restaurant = _undefined,
     Object? clientMutationId = _undefined,
@@ -6655,8 +10179,6 @@ class _CopyWithImpl$Input$updateUserInput<TRes>
       ..._instance._$data,
       if (id != _undefined && id != null) 'id': (id as String),
       if (email != _undefined) 'email': (email as String?),
-      if (plainPassword != _undefined)
-        'plainPassword': (plainPassword as String?),
       if (roles != _undefined) 'roles': (roles as List<dynamic>?),
       if (restaurant != _undefined) 'restaurant': (restaurant as String?),
       if (clientMutationId != _undefined)
@@ -6674,7 +10196,6 @@ class _CopyWithStubImpl$Input$updateUserInput<TRes>
   call({
     String? id,
     String? email,
-    String? plainPassword,
     List<dynamic>? roles,
     String? restaurant,
     String? clientMutationId,
@@ -6854,6 +10375,8 @@ enum Enum$DeliveryStatus {
   Assigned,
   Picked_up,
   Delivered,
+  Failed,
+  Returned,
   $unknown;
 
   factory Enum$DeliveryStatus.fromJson(String value) =>
@@ -6872,6 +10395,10 @@ String toJson$Enum$DeliveryStatus(Enum$DeliveryStatus e) {
       return r'Picked_up';
     case Enum$DeliveryStatus.Delivered:
       return r'Delivered';
+    case Enum$DeliveryStatus.Failed:
+      return r'Failed';
+    case Enum$DeliveryStatus.Returned:
+      return r'Returned';
     case Enum$DeliveryStatus.$unknown:
       return r'$unknown';
   }
@@ -6887,6 +10414,10 @@ Enum$DeliveryStatus fromJson$Enum$DeliveryStatus(String value) {
       return Enum$DeliveryStatus.Picked_up;
     case r'Delivered':
       return Enum$DeliveryStatus.Delivered;
+    case r'Failed':
+      return Enum$DeliveryStatus.Failed;
+    case r'Returned':
+      return Enum$DeliveryStatus.Returned;
     default:
       return Enum$DeliveryStatus.$unknown;
   }

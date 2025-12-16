@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
 
 class GlobalErrorWidget extends StatelessWidget {
   final FlutterErrorDetails details;
@@ -8,7 +9,7 @@ class GlobalErrorWidget extends StatelessWidget {
   const GlobalErrorWidget({
     super.key,
     required this.details,
-    this.withScaffold = false,
+    this.withScaffold = true,
   });
 
   @override
@@ -22,7 +23,7 @@ class GlobalErrorWidget extends StatelessWidget {
             const Icon(Icons.error_outline, color: Colors.red, size: 64),
             const SizedBox(height: 16),
             Text(
-              'Something went wrong',
+              AppLocalizations.of(context)!.somethingWentWrong,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 8),
@@ -38,7 +39,10 @@ class GlobalErrorWidget extends StatelessWidget {
     );
 
     if (withScaffold) {
-      return CustomScaffold(title: 'Error', child: content);
+      return CustomScaffold(
+        title: AppLocalizations.of(context)!.error,
+        child: content,
+      );
     }
 
     return content;

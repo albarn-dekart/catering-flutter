@@ -1,10 +1,19 @@
+import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:catering_flutter/core/api_exception.dart';
+import 'package:catering_flutter/core/services/api_service.dart';
 
 class UIErrorHandler {
-  static String mapExceptionToMessage(dynamic exception) {
+  static String mapExceptionToMessage(
+    dynamic exception, [
+    BuildContext? context,
+  ]) {
     if (exception is ApiException) {
       return exception.message;
+    }
+    if (context != null) {
+      return AppLocalizations.of(
+        context,
+      )!.unexpectedError(exception.toString());
     }
     return 'An unexpected error occurred: ${exception.toString()}';
   }
@@ -15,9 +24,9 @@ class UIErrorHandler {
     bool showDialog = false,
     String? customMessage,
   }) {
-    final message = customMessage ?? mapExceptionToMessage(exception);
+    final message = customMessage ?? mapExceptionToMessage(exception, context);
     if (showDialog) {
-      showErrorDialog(context, 'Error', message);
+      showErrorDialog(context, AppLocalizations.of(context)!.error, message);
     } else {
       showSnackBar(context, message, isError: true);
     }
@@ -32,8 +41,10 @@ class UIErrorHandler {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: isError ? Theme.of(context).colorScheme.error : null,
-        behavior: SnackBarBehavior.floating,
+        backgroundColor: isError
+            ? Theme.of(context).colorScheme.error
+            : Theme.of(context).colorScheme.inverseSurface,
+        behavior: SnackBarBehavior.fixed, // Fixed at bottom, below FAB
         action: action,
       ),
     );
@@ -52,7 +63,7 @@ class UIErrorHandler {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+            child: Text(AppLocalizations.of(context)!.ok),
           ),
         ],
       ),

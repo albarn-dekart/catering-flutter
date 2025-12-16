@@ -1,7 +1,8 @@
 import 'package:catering_flutter/graphql/schema.graphql.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
+import 'package:catering_flutter/core/utils/date_formatter.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
 import 'package:catering_flutter/features/driver/services/delivery_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
@@ -23,6 +24,7 @@ class RestaurantDeliveriesScreen extends StatefulWidget {
 class _RestaurantDeliveriesScreenState
     extends State<RestaurantDeliveriesScreen> {
   Enum$DeliveryStatus? _selectedStatusFilter;
+  String _currentSearchQuery = '';
   bool _isExporting = false;
 
   @override
@@ -35,49 +37,58 @@ class _RestaurantDeliveriesScreenState
 
   Future<void> _fetchDeliveriesAndDrivers() async {
     await Future.wait([
-      context.read<DeliveryService>().fetchRestaurantDeliveries(
-        widget.restaurantIri,
-      ),
+      _fetchDeliveries(),
       context.read<UserService>().fetchDriversByRestaurant(
         widget.restaurantIri,
       ),
     ]);
   }
 
-  void _fetchDeliveries() {
-    context.read<DeliveryService>().fetchRestaurantDeliveries(
+  Future<void> _fetchDeliveries() async {
+    await context.read<DeliveryService>().fetchRestaurantDeliveries(
       widget.restaurantIri,
+      status: _selectedStatusFilter,
+      searchQuery: _currentSearchQuery,
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final isNarrow = MediaQuery.of(context).size.width < 700;
     return Consumer2<DeliveryService, UserService>(
       builder: (context, deliveryService, userService, child) {
-        // Apply status filter
-        final filteredDeliveries = _selectedStatusFilter == null
-            ? deliveryService.deliveries
-            : deliveryService.deliveries
-                  .where((d) => d.status == _selectedStatusFilter)
-                  .toList();
-
         return SearchableListScreen<Delivery>(
-          title: 'Manage Deliveries',
-          floatingActionButton: FloatingActionButton(
-            onPressed: _isExporting ? null : _exportDeliveries,
-            tooltip: 'Export to CSV',
-            child: _isExporting
-                ? const SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Colors.white,
-                    ),
-                  )
-                : const Icon(Icons.download),
-          ),
-          items: filteredDeliveries,
+          title: AppLocalizations.of(context)!.manageDeliveries,
+          floatingActionButton: isNarrow
+              ? FloatingActionButton(
+                  onPressed: _isExporting ? null : _exportDeliveries,
+                  tooltip: AppLocalizations.of(context)!.exportToCsv,
+                  child: _isExporting
+                      ? const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Icon(Icons.download),
+                )
+              : FloatingActionButton.extended(
+                  onPressed: _isExporting ? null : _exportDeliveries,
+                  icon: _isExporting
+                      ? const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Icon(Icons.download),
+                  label: Text(AppLocalizations.of(context)!.exportToCsv),
+                ),
+          items: deliveryService.deliveries,
           isLoading: deliveryService.isLoading || userService.isLoading,
           onLoadMore: () async {
             if (!deliveryService.isFetchingMore &&
@@ -87,63 +98,33 @@ class _RestaurantDeliveriesScreenState
               );
             }
           },
-          searchHint: 'Search by order number...',
-          filter: (delivery, query) {
-            final orderId = IriHelper.getId(delivery.order?.id ?? '');
-            return orderId.toLowerCase().contains(query);
+          searchHint: AppLocalizations.of(context)!.searchByOrderNumber,
+
+          onSearch: (query) {
+            _currentSearchQuery = query;
+            _fetchDeliveries();
           },
           onRefresh: _fetchDeliveriesAndDrivers,
-          customFilters: _buildFilterChips(),
+          customFilters: FilterChipsBar<Enum$DeliveryStatus>(
+            values: Enum$DeliveryStatus.values
+                .where((status) => status != Enum$DeliveryStatus.$unknown)
+                .toList(),
+            selectedValue: _selectedStatusFilter,
+            allLabel: AppLocalizations.of(context)!.all,
+            labelBuilder: (status) => status.getLabel(context),
+            onSelected: (status) {
+              setState(() {
+                _selectedStatusFilter = status;
+              });
+              _fetchDeliveries();
+            },
+          ),
           itemBuilder: (context, delivery) {
             final drivers = userService.restaurantDrivers;
             return _buildDeliveryCard(context, delivery, drivers);
           },
         );
       },
-    );
-  }
-
-  Widget _buildFilterChips() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            _buildFilterChip(null, 'All'),
-            ...Enum$DeliveryStatus.values
-                .where((status) => status != Enum$DeliveryStatus.$unknown)
-                .map((status) {
-                  return _buildFilterChip(status, status.label);
-                }),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFilterChip(Enum$DeliveryStatus? status, String label) {
-    final isSelected = _selectedStatusFilter == status;
-    return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: FilterChip(
-        label: Text(label),
-        selected: isSelected,
-        onSelected: (selected) {
-          setState(() {
-            _selectedStatusFilter = status;
-          });
-        },
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        selectedColor: Theme.of(context).colorScheme.primaryContainer,
-        checkmarkColor: Theme.of(context).colorScheme.onPrimaryContainer,
-        labelStyle: TextStyle(
-          color: isSelected
-              ? Theme.of(context).colorScheme.onPrimaryContainer
-              : Theme.of(context).colorScheme.onSurface,
-          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-        ),
-      ),
     );
   }
 
@@ -164,7 +145,9 @@ class _RestaurantDeliveriesScreenState
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Order #${IriHelper.getId(delivery.order?.id ?? '')}',
+                  AppLocalizations.of(
+                    context,
+                  )!.orderNumber(IriHelper.getId(delivery.order!.id)),
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -175,13 +158,13 @@ class _RestaurantDeliveriesScreenState
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: delivery.status.containerColor(context),
+                    color: delivery.status.containerColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    delivery.status.label,
+                    delivery.status.getLabel(context),
                     style: TextStyle(
-                      color: delivery.status.onContainerColor(context),
+                      color: delivery.status.onContainerColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
                     ),
@@ -199,7 +182,12 @@ class _RestaurantDeliveriesScreenState
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'Delivery Date: ${DateFormat('dd MMM yyyy').format(DateTime.parse(delivery.deliveryDate))}',
+                  AppLocalizations.of(context)!.deliveryDateWithDate(
+                    AppDateFormatter.shortDate(
+                      context,
+                      DateTime.parse(delivery.deliveryDate),
+                    ),
+                  ),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
@@ -214,7 +202,10 @@ class _RestaurantDeliveriesScreenState
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'Driver: ${delivery.driver?.email ?? 'Unassigned'}',
+                  AppLocalizations.of(context)!.driverWithName(
+                    delivery.driver?.email ??
+                        AppLocalizations.of(context)!.unassigned,
+                  ),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
@@ -222,20 +213,24 @@ class _RestaurantDeliveriesScreenState
             const SizedBox(height: 16),
             if (drivers.isNotEmpty)
               DropdownButtonFormField<String>(
-                decoration: const InputDecoration(
-                  labelText: 'Assign Driver',
-                  border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.symmetric(
+                decoration: InputDecoration(
+                  labelText: (delivery.order?.status == Enum$OrderStatus.Unpaid)
+                      ? '${AppLocalizations.of(context)!.assignDriver} (${AppLocalizations.of(context)!.statusUnpaid})'
+                      : AppLocalizations.of(context)!.assignDriver,
+                  border: const OutlineInputBorder(),
+                  contentPadding: const EdgeInsets.symmetric(
                     horizontal: 12,
                     vertical: 8,
                   ),
                 ),
                 initialValue: delivery.driver?.id,
-                onChanged: (String? newDriverId) async {
-                  if (newDriverId != null) {
-                    await _assignDriver(delivery, newDriverId);
-                  }
-                },
+                onChanged: (delivery.order?.status == Enum$OrderStatus.Unpaid)
+                    ? null
+                    : (String? newDriverId) async {
+                        if (newDriverId != null) {
+                          await _assignDriver(delivery, newDriverId);
+                        }
+                      },
                 items: drivers.map((driver) {
                   return DropdownMenuItem<String>(
                     value: driver.id,
@@ -252,7 +247,7 @@ class _RestaurantDeliveriesScreenState
                   onPressed: () =>
                       _updateStatus(delivery.id, Enum$DeliveryStatus.Picked_up),
                   icon: const Icon(Icons.shopping_bag),
-                  label: const Text('Mark as Picked Up'),
+                  label: Text(AppLocalizations.of(context)!.markAsPickedUp),
                 ),
               ),
             if (delivery.status == Enum$DeliveryStatus.Picked_up)
@@ -263,7 +258,9 @@ class _RestaurantDeliveriesScreenState
                       _updateStatus(delivery.id, Enum$DeliveryStatus.Delivered),
                   style: FilledButton.styleFrom(backgroundColor: Colors.green),
                   icon: const Icon(Icons.check_circle),
-                  label: const Text('Mark as Delivered'),
+                  label: Text(
+                    AppLocalizations.of(context)!.markAsDeliveredAction,
+                  ),
                 ),
               ),
           ],
@@ -277,14 +274,14 @@ class _RestaurantDeliveriesScreenState
     try {
       await deliveryService.updateDeliveryStatus(
         delivery.id, // Use string ID for mutations
-        delivery.status, // Keep current status
+        // Let backend handle status update
         driverIri: driverId,
       );
       if (!mounted) return;
 
       UIErrorHandler.showSnackBar(
         context,
-        'Driver assigned successfully.',
+        AppLocalizations.of(context)!.driverAssignedSuccess,
         isError: false,
       );
       _fetchDeliveries();
@@ -292,10 +289,10 @@ class _RestaurantDeliveriesScreenState
       if (!mounted) return;
       UIErrorHandler.showSnackBar(
         context,
-        'Failed to assign driver. Please retry.',
+        AppLocalizations.of(context)!.driverAssignFailed,
         isError: true,
         action: SnackBarAction(
-          label: 'Retry',
+          label: AppLocalizations.of(context)!.retry,
           onPressed: () => _assignDriver(delivery, driverId),
         ),
       );
@@ -308,13 +305,13 @@ class _RestaurantDeliveriesScreenState
   ) async {
     final deliveryService = context.read<DeliveryService>();
     try {
-      await deliveryService.updateDeliveryStatus(deliveryId, newStatus);
+      await deliveryService.updateDeliveryStatus(deliveryId, status: newStatus);
 
       if (!mounted) return;
 
       UIErrorHandler.showSnackBar(
         context,
-        'Delivery status updated successfully',
+        AppLocalizations.of(context)!.deliveryStatusUpdated,
         isError: false,
       );
       _fetchDeliveries();
@@ -323,7 +320,7 @@ class _RestaurantDeliveriesScreenState
       UIErrorHandler.handleError(
         context,
         e,
-        customMessage: 'Failed to update status',
+        customMessage: AppLocalizations.of(context)!.failedToUpdateStatus,
       );
     }
   }
@@ -344,14 +341,14 @@ class _RestaurantDeliveriesScreenState
 
       UIErrorHandler.showSnackBar(
         context,
-        'Deliveries exported successfully',
+        AppLocalizations.of(context)!.deliveriesExportedSuccess,
         isError: false,
       );
     } catch (e) {
       if (!mounted) return;
       UIErrorHandler.showSnackBar(
         context,
-        'Failed to export deliveries: ${e.toString()}',
+        AppLocalizations.of(context)!.deliveriesExportFailed(e.toString()),
         isError: true,
       );
     } finally {

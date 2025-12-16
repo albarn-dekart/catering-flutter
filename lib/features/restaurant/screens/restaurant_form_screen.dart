@@ -8,9 +8,10 @@ import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/features/restaurant/services/restaurant_service.dart';
 import 'package:catering_flutter/features/user/services/user_service.dart';
 import 'package:catering_flutter/graphql/users.graphql.dart';
-import 'package:catering_flutter/core/auth_service.dart';
+import 'package:catering_flutter/core/services/auth_service.dart';
 import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 import 'package:catering_flutter/features/restaurant/services/restaurant_category_service.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
 
 class RestaurantFormScreen extends StatefulWidget {
   final String? restaurantIri;
@@ -50,7 +51,9 @@ class _RestaurantFormScreenState extends State<RestaurantFormScreen> {
   Widget build(BuildContext context) {
     final isCreateMode = widget.restaurantIri == null;
     return CustomScaffold(
-      title: isCreateMode ? 'Create Restaurant' : 'Edit Details',
+      title: isCreateMode
+          ? AppLocalizations.of(context)!.createRestaurant
+          : AppLocalizations.of(context)!.editDetails,
       child: Consumer<RestaurantService>(
         builder: (context, restaurantService, child) {
           if (restaurantService.isLoading) {
@@ -59,7 +62,9 @@ class _RestaurantFormScreenState extends State<RestaurantFormScreen> {
             return Center(child: Text(restaurantService.errorMessage!));
           } else if (!isCreateMode &&
               restaurantService.currentRestaurant == null) {
-            return const Center(child: Text('No restaurant data.'));
+            return Center(
+              child: Text(AppLocalizations.of(context)!.noRestaurantData),
+            );
           }
 
           // Use GraphQL type directly
@@ -96,6 +101,13 @@ class _RestaurantFormState extends State<RestaurantForm> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _nameController;
   late final TextEditingController _descriptionController;
+  late final TextEditingController _deliveryPriceController;
+  late final TextEditingController _phoneNumberController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _cityController;
+  late final TextEditingController _streetController;
+  late final TextEditingController _zipCodeController;
+  late final TextEditingController _nipController;
   final ImagePicker _picker = ImagePicker();
   Query$GetUsers$users$edges$node? _selectedOwner;
   XFile? _imageFile;
@@ -118,12 +130,40 @@ class _RestaurantFormState extends State<RestaurantForm> {
     _descriptionController = TextEditingController(
       text: widget.restaurant?.description ?? '',
     );
+    _deliveryPriceController = TextEditingController(
+      text: widget.restaurant?.deliveryPrice != null
+          ? (widget.restaurant!.deliveryPrice / 100).toStringAsFixed(2)
+          : '',
+    );
+    _phoneNumberController = TextEditingController(
+      text: widget.restaurant?.phoneNumber ?? '',
+    );
+    _emailController = TextEditingController(
+      text: widget.restaurant?.email ?? '',
+    );
+    _cityController = TextEditingController(
+      text: widget.restaurant?.city ?? '',
+    );
+    _streetController = TextEditingController(
+      text: widget.restaurant?.street ?? '',
+    );
+    _zipCodeController = TextEditingController(
+      text: widget.restaurant?.zipCode ?? '',
+    );
+    _nipController = TextEditingController(text: widget.restaurant?.nip ?? '');
 
     // Initialize selected categories if editing
     if (widget.restaurant?.restaurantCategories?.edges != null) {
       _selectedCategories = widget.restaurant!.restaurantCategories!.edges!
           .map((e) => e?.node)
-          .whereType<RestaurantCategory>()
+          .where((node) => node != null)
+          .map(
+            (node) => RestaurantCategory(
+              id: node!.id,
+              name: node.name,
+              $__typename: 'RestaurantCategory',
+            ),
+          )
           .toList();
     }
   }
@@ -132,8 +172,15 @@ class _RestaurantFormState extends State<RestaurantForm> {
   void dispose() {
     _nameController.dispose();
     _descriptionController.dispose();
+    _deliveryPriceController.dispose();
+    _phoneNumberController.dispose();
+    _emailController.dispose();
+    _cityController.dispose();
+    _streetController.dispose();
+    _zipCodeController.dispose();
+    _nipController.dispose();
     _newOwnerEmailController.dispose();
-    _newOwnerPasswordController.dispose();
+
     super.dispose();
   }
 
@@ -170,7 +217,6 @@ class _RestaurantFormState extends State<RestaurantForm> {
           // Use RestaurantService.inviteRestaurantOwner to create user + restaurant
           restaurantIri = await restaurantService.inviteRestaurantOwner(
             email: _newOwnerEmailController.text,
-            password: _newOwnerPasswordController.text,
             restaurantName: _nameController.text,
             description: _descriptionController.text.isNotEmpty
                 ? _descriptionController.text
@@ -182,7 +228,21 @@ class _RestaurantFormState extends State<RestaurantForm> {
           restaurantIri = await restaurantService.createRestaurant(
             name: _nameController.text,
             description: _descriptionController.text,
+            deliveryPrice:
+                (double.parse(
+                          _deliveryPriceController.text.isEmpty
+                              ? '0'
+                              : _deliveryPriceController.text,
+                        ) *
+                        100)
+                    .toInt(),
             categoryIris: categoryIris,
+            phoneNumber: _phoneNumberController.text,
+            email: _emailController.text,
+            city: _cityController.text,
+            street: _streetController.text,
+            zipCode: _zipCodeController.text,
+            nip: _nipController.text,
           );
 
           // Assign Owner (Admin Only with existing user)
@@ -201,7 +261,21 @@ class _RestaurantFormState extends State<RestaurantForm> {
           id: restaurantIri!,
           name: _nameController.text,
           description: _descriptionController.text,
+          deliveryPrice:
+              (double.parse(
+                        _deliveryPriceController.text.isEmpty
+                            ? '0'
+                            : _deliveryPriceController.text,
+                      ) *
+                      100)
+                  .toInt(),
           categoryIris: categoryIris,
+          phoneNumber: _phoneNumberController.text,
+          email: _emailController.text,
+          city: _cityController.text,
+          street: _streetController.text,
+          zipCode: _zipCodeController.text,
+          nip: _nipController.text,
         );
       }
 
@@ -213,17 +287,17 @@ class _RestaurantFormState extends State<RestaurantForm> {
           if (mounted) {
             UIErrorHandler.showSnackBar(
               context,
-              'Restaurant created, but image upload failed. Please retry.',
+              AppLocalizations.of(context)!.restaurantCreatedImageFailed,
               isError: true,
               action: SnackBarAction(
-                label: 'Retry Upload',
+                label: AppLocalizations.of(context)!.retryUpload,
                 onPressed: () async {
                   try {
                     await _uploadImage(restaurantIri!);
                     if (mounted) {
                       UIErrorHandler.showSnackBar(
                         context,
-                        'Image uploaded successfully!',
+                        AppLocalizations.of(context)!.imageUploadedSuccess,
                         isError: false,
                       );
                       context.pop();
@@ -232,7 +306,9 @@ class _RestaurantFormState extends State<RestaurantForm> {
                     if (mounted) {
                       UIErrorHandler.showSnackBar(
                         context,
-                        'Retry failed: $retryError',
+                        AppLocalizations.of(
+                          context,
+                        )!.retryFailed(retryError.toString()),
                       );
                     }
                   }
@@ -248,8 +324,8 @@ class _RestaurantFormState extends State<RestaurantForm> {
         UIErrorHandler.showSnackBar(
           context,
           widget.isCreateMode
-              ? 'Restaurant created successfully!'
-              : 'Restaurant updated successfully!',
+              ? AppLocalizations.of(context)!.restaurantCreatedSuccess
+              : AppLocalizations.of(context)!.restaurantUpdatedSuccess,
           isError: false,
         );
         if (widget.isCreateMode) {
@@ -263,7 +339,7 @@ class _RestaurantFormState extends State<RestaurantForm> {
         UIErrorHandler.handleError(
           context,
           e,
-          customMessage: 'Failed to save restaurant',
+          customMessage: AppLocalizations.of(context)!.failedToSaveRestaurant,
         );
       }
     } finally {
@@ -297,7 +373,7 @@ class _RestaurantFormState extends State<RestaurantForm> {
           if (mounted) {
             UIErrorHandler.showSnackBar(
               context,
-              'Image updated successfully!',
+              AppLocalizations.of(context)!.imageUpdatedSuccess,
               isError: false,
             );
           }
@@ -305,10 +381,10 @@ class _RestaurantFormState extends State<RestaurantForm> {
           if (mounted) {
             UIErrorHandler.showSnackBar(
               context,
-              'Image upload failed. Please retry.',
+              AppLocalizations.of(context)!.imageUploadFailed,
               isError: true,
               action: SnackBarAction(
-                label: 'Retry Upload',
+                label: AppLocalizations.of(context)!.retryUpload,
                 onPressed: () async {
                   try {
                     final restaurantService = context.read<RestaurantService>();
@@ -321,7 +397,7 @@ class _RestaurantFormState extends State<RestaurantForm> {
                     if (mounted) {
                       UIErrorHandler.showSnackBar(
                         context,
-                        'Image uploaded successfully!',
+                        AppLocalizations.of(context)!.imageUploadedSuccess,
                         isError: false,
                       );
                     }
@@ -329,7 +405,9 @@ class _RestaurantFormState extends State<RestaurantForm> {
                     if (mounted) {
                       UIErrorHandler.showSnackBar(
                         context,
-                        'Retry failed: $retryError',
+                        AppLocalizations.of(
+                          context,
+                        )!.retryFailed(retryError.toString()),
                       );
                     }
                   }
@@ -352,16 +430,18 @@ class _RestaurantFormState extends State<RestaurantForm> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text('Select Categories'),
+              title: Text(AppLocalizations.of(context)!.selectCategories),
               content: SizedBox(
                 width: double.maxFinite,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (allCategories.isEmpty)
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Text('No categories available'),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          AppLocalizations.of(context)!.noCategoriesAvailable,
+                        ),
                       )
                     else
                       Flexible(
@@ -399,7 +479,7 @@ class _RestaurantFormState extends State<RestaurantForm> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('Done'),
+                  child: Text(AppLocalizations.of(context)!.done),
                 ),
               ],
             );
@@ -418,7 +498,7 @@ class _RestaurantFormState extends State<RestaurantForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Restaurant Owner',
+          AppLocalizations.of(context)!.restaurantOwner,
           style: Theme.of(
             context,
           ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
@@ -427,16 +507,34 @@ class _RestaurantFormState extends State<RestaurantForm> {
 
         // Owner mode toggle
         SegmentedButton<OwnerMode>(
-          segments: const [
+          segments: [
             ButtonSegment(
               value: OwnerMode.existing,
-              label: Text('Select Existing'),
-              icon: Icon(Icons.person_search),
+              label: Expanded(
+                child: Center(
+                  child: Text(
+                    AppLocalizations.of(context)!.selectExisting,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+              icon: const Icon(Icons.person_search),
             ),
             ButtonSegment(
               value: OwnerMode.createNew,
-              label: Text('Create New'),
-              icon: Icon(Icons.person_add),
+              label: Expanded(
+                child: Center(
+                  child: Text(
+                    AppLocalizations.of(context)!.createNew,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+              icon: const Icon(Icons.person_add),
             ),
           ],
           selected: {_ownerMode},
@@ -461,16 +559,19 @@ class _RestaurantFormState extends State<RestaurantForm> {
             const Center(child: CircularProgressIndicator())
           else
             DropdownButtonFormField<Query$GetUsers$users$edges$node>(
-              decoration: const InputDecoration(
-                labelText: 'Select Owner',
+              isExpanded: true,
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.selectOwner,
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.person),
               ),
               initialValue: _selectedOwner,
               items: userService.restaurantOwners
                   .map(
-                    (user) =>
-                        DropdownMenuItem(value: user, child: Text(user.email)),
+                    (user) => DropdownMenuItem(
+                      value: user,
+                      child: Text(user.email, overflow: TextOverflow.ellipsis),
+                    ),
                   )
                   .toList(),
               onChanged: (value) {
@@ -480,7 +581,7 @@ class _RestaurantFormState extends State<RestaurantForm> {
               },
               validator: (value) {
                 if (_ownerMode == OwnerMode.existing && value == null) {
-                  return 'Please select an owner';
+                  return AppLocalizations.of(context)!.pleaseSelectOwner;
                 }
                 return null;
               },
@@ -488,8 +589,8 @@ class _RestaurantFormState extends State<RestaurantForm> {
         ] else ...[
           TextFormField(
             controller: _newOwnerEmailController,
-            decoration: const InputDecoration(
-              labelText: 'Owner Email',
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.ownerEmail,
               border: OutlineInputBorder(),
               prefixIcon: Icon(Icons.email),
             ),
@@ -497,35 +598,21 @@ class _RestaurantFormState extends State<RestaurantForm> {
             validator: (value) {
               if (_ownerMode == OwnerMode.createNew) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter an email';
+                  return AppLocalizations.of(context)!.pleaseEnterEmail;
                 }
-                if (!value.contains('@')) {
-                  return 'Please enter a valid email';
+                // Simple email regex
+                final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                if (!emailRegex.hasMatch(value)) {
+                  return AppLocalizations.of(context)!.pleaseEnterValidEmail;
                 }
               }
               return null;
             },
           ),
-          const SizedBox(height: 16),
-          TextFormField(
-            controller: _newOwnerPasswordController,
-            decoration: const InputDecoration(
-              labelText: 'Owner Password',
-              border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.lock),
-            ),
-            obscureText: true,
-            validator: (value) {
-              if (_ownerMode == OwnerMode.createNew) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter a password';
-                }
-                if (value.length < 8) {
-                  return 'Password must be at least 8 characters';
-                }
-              }
-              return null;
-            },
+          const SizedBox(height: 12),
+          Text(
+            AppLocalizations.of(context)!.driverPasswordWillBeEmailed,
+            style: Theme.of(context).textTheme.bodySmall,
           ),
         ],
         const SizedBox(height: 24),
@@ -542,6 +629,7 @@ class _RestaurantFormState extends State<RestaurantForm> {
     final isLoading = restaurantService.isLoading || _isSaving;
 
     return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.all(24.0),
       child: Column(
         children: [
@@ -585,12 +673,13 @@ class _RestaurantFormState extends State<RestaurantForm> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Tap to add cover image',
-                          style: TextStyle(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurfaceVariant,
-                          ),
+                          AppLocalizations.of(context)!.tapToAddCoverImage,
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
+                              ),
                         ),
                       ],
                     )
@@ -641,8 +730,8 @@ class _RestaurantFormState extends State<RestaurantForm> {
                   children: [
                     Text(
                       widget.isCreateMode
-                          ? 'New Restaurant Details'
-                          : 'Restaurant Details',
+                          ? AppLocalizations.of(context)!.newRestaurantDetails
+                          : AppLocalizations.of(context)!.restaurantDetails,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -650,14 +739,14 @@ class _RestaurantFormState extends State<RestaurantForm> {
                     const SizedBox(height: 24),
                     TextFormField(
                       controller: _nameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Restaurant Name',
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.restaurantName,
                         border: OutlineInputBorder(),
                         prefixIcon: Icon(Icons.store),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter a name';
+                          return AppLocalizations.of(context)!.pleaseEnterName;
                         }
                         return null;
                       },
@@ -665,8 +754,8 @@ class _RestaurantFormState extends State<RestaurantForm> {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _descriptionController,
-                      decoration: const InputDecoration(
-                        labelText: 'Description',
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.description,
                         border: OutlineInputBorder(),
                         prefixIcon: Icon(Icons.description),
                         alignLabelWithHint: true,
@@ -674,10 +763,159 @@ class _RestaurantFormState extends State<RestaurantForm> {
                       maxLines: 4,
                     ),
                     const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _deliveryPriceController,
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(
+                          context,
+                        )!.deliveryPricePLN,
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.attach_money),
+                        suffixText: "PLN",
+                      ),
+                      keyboardType: TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          if (double.tryParse(value) == null) {
+                            return AppLocalizations.of(context)!.invalidFormat;
+                          }
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      AppLocalizations.of(context)!.contactDetails,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _phoneNumberController,
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.phoneNumber,
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.phone),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return null;
+                        }
+
+                        if (value.isEmpty) {
+                          return AppLocalizations.of(context)!.fieldRequired;
+                        }
+                        final phoneRegex = RegExp(
+                          r'^(\+?48)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}$',
+                        );
+                        if (!phoneRegex.hasMatch(value)) {
+                          return AppLocalizations.of(
+                            context,
+                          )!.invalidPhoneNumber;
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.email,
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.email),
+                      ),
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          // Simple email regex or use standard validator package if available, but here simple is fine or just required.
+                          // Address entity has no email, but Restaurant does.
+                          // AddressFormScreen doesn't validate email.
+                          // I'll make it required since I'm making phone required.
+                          if (!value.contains('@')) {
+                            return AppLocalizations.of(context)!.invalidEmail;
+                          }
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: TextFormField(
+                            controller: _cityController,
+                            decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)!.city,
+                              border: OutlineInputBorder(),
+                              prefixIcon: Icon(Icons.location_city),
+                            ),
+                            validator: (value) => value?.isEmpty ?? true
+                                ? AppLocalizations.of(context)!.fieldRequired
+                                : null,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: TextFormField(
+                            controller: _zipCodeController,
+                            decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)!.zipCode,
+                              border: OutlineInputBorder(),
+                              prefixIcon: Icon(Icons.numbers),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return AppLocalizations.of(
+                                  context,
+                                )!.fieldRequired;
+                              }
+                              if (!RegExp(r'^\d{2}-\d{3}$').hasMatch(value)) {
+                                return AppLocalizations.of(
+                                  context,
+                                )!.invalidZipCode;
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _streetController,
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.street,
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.home),
+                      ),
+                      validator: (value) => value?.isEmpty ?? true
+                          ? AppLocalizations.of(context)!.fieldRequired
+                          : null,
+                    ),
+                    const SizedBox(height: 16),
+
+                    TextFormField(
+                      controller: _nipController,
+                      decoration: InputDecoration(
+                        labelText: "NIP",
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.confirmation_number),
+                      ),
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+                            return "Invalid NIP (10 digits)";
+                          }
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
 
                     // Categories Section
                     Text(
-                      'Categories',
+                      AppLocalizations.of(context)!.categories,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
@@ -699,7 +937,7 @@ class _RestaurantFormState extends State<RestaurantForm> {
                         ),
                         ActionChip(
                           avatar: const Icon(Icons.add, size: 16),
-                          label: const Text('Add'),
+                          label: Text(AppLocalizations.of(context)!.add),
                           onPressed: _showCategorySelectionDialog,
                         ),
                       ],

@@ -1,19 +1,34 @@
-query GetRestaurants($first: Int, $after: String) {
-    restaurants(first: $first, after: $after) {
+fragment RestaurantSummaryFragment on Restaurant {
+    id
+    name
+    description
+    deliveryPrice
+    imageUrl
+    restaurantCategories {
         edges {
             node {
                 id
                 name
-                description
-                imageUrl
-                restaurantCategories {
-                    edges {
-                        node {
-                            id
-                            name
-                        }
-                    }
-                }
+            }
+        }
+    }
+}
+
+fragment RestaurantDetailFragment on Restaurant {
+    ...RestaurantSummaryFragment
+    phoneNumber
+    email
+    city
+    street
+    zipCode
+    nip
+}
+
+query GetRestaurants($first: Int, $after: String, $search: String, $category: String) {
+    restaurants(first: $first, after: $after, search: $search, restaurantCategories_name: $category) {
+        edges {
+            node {
+                ...RestaurantSummaryFragment
             }
         }
         pageInfo {
@@ -28,28 +43,14 @@ query GetUserRestaurant($id: ID!) {
     user(id: $id) {
         id
         restaurant {
-            id
-            name
-            description
-            imageUrl
+            ...RestaurantDetailFragment
         }
     }
 }
 
 query GetRestaurant($id: ID!) {
     restaurant(id: $id) {
-        id
-        name
-        description
-        imageUrl
-        restaurantCategories {
-            edges {
-                node {
-                    id
-                    name
-                }
-            }
-        }
+        ...RestaurantDetailFragment
         users{
             edges {
                 node {
@@ -59,43 +60,13 @@ query GetRestaurant($id: ID!) {
                 }
             }
         }
-        meals {
-            edges {
-                node {
-                    id
-                    name
-                    price
-                    imageUrl
-                }
-            }
-        }
-        mealPlans {
-            edges {
-                node {
-                    id
-                    name
-                    price
-                    imageUrl
-                }
-            }
-        }
     }
 }
 
 mutation CreateRestaurant($input: createRestaurantInput!) {
     createRestaurant(input: $input) {
         restaurant {
-            id
-            name
-            description
-            restaurantCategories {
-                edges {
-                    node {
-                        id
-                        name
-                    }
-                }
-            }
+            ...RestaurantDetailFragment
         }
     }
 }
@@ -103,17 +74,7 @@ mutation CreateRestaurant($input: createRestaurantInput!) {
 mutation UpdateRestaurant($input: updateRestaurantInput!) {
     updateRestaurant(input: $input) {
         restaurant {
-            id
-            name
-            description
-            restaurantCategories {
-                edges {
-                    node {
-                        id
-                        name
-                    }
-                }
-            }
+            ...RestaurantDetailFragment
         }
     }
 }

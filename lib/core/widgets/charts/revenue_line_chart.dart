@@ -1,19 +1,23 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
 
 class RevenueLineChart extends StatelessWidget {
   final List<dynamic> revenueTimeSeries;
-  final String title;
+  final String? title;
 
   const RevenueLineChart({
     super.key,
     required this.revenueTimeSeries,
-    this.title = 'Revenue Trend (Last 30 Days)',
+    this.title,
   });
 
   @override
   Widget build(BuildContext context) {
+    final chartTitle =
+        title ?? AppLocalizations.of(context)!.revenueTrendLast30Days;
+
     if (revenueTimeSeries.isEmpty) {
       return Card(
         child: Padding(
@@ -21,9 +25,9 @@ class RevenueLineChart extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(title, style: Theme.of(context).textTheme.titleMedium),
+              Text(chartTitle, style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 16),
-              const Text('No revenue data available'),
+              Text(AppLocalizations.of(context)!.noRevenueDataAvailable),
             ],
           ),
         ),
@@ -50,7 +54,7 @@ class RevenueLineChart extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              title,
+              chartTitle,
               style: Theme.of(
                 context,
               ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
@@ -121,13 +125,21 @@ class RevenueLineChart extends StatelessWidget {
                       ),
                     ),
                     leftTitles: AxisTitles(
+                      axisNameWidget: const Text(
+                        'PLN',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      axisNameSize: 20,
                       sideTitles: SideTitles(
                         showTitles: true,
                         interval: (maxRevenue - minRevenue) / 5,
-                        reservedSize: 50,
+                        reservedSize: 45,
                         getTitlesWidget: (value, meta) {
                           return Text(
-                            '${value.toStringAsFixed(0)} PLN',
+                            value.toStringAsFixed(0),
                             style: const TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
@@ -191,7 +203,7 @@ class RevenueLineChart extends StatelessWidget {
                           final revenue = touchedSpot.y;
 
                           return LineTooltipItem(
-                            '$dateStr\n${revenue.toStringAsFixed(2)} PLN',
+                            '$dateStr\n$revenue PLN',
                             const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

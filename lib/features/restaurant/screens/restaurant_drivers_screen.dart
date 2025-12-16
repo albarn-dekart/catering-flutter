@@ -1,3 +1,4 @@
+import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
@@ -40,16 +41,21 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isNarrow = MediaQuery.of(context).size.width < 700;
     return Consumer<UserService>(
       builder: (context, userService, child) {
         return Scaffold(
           body: SearchableListScreen<RestaurantUserNode>(
-            title: 'Manage Drivers',
+            title: AppLocalizations.of(context)!.manageDrivers,
             items: userService.restaurantDrivers,
             isLoading: userService.isLoading,
-            searchHint: 'Search drivers by email...',
-            filter: (driver, query) =>
-                driver.email.toLowerCase().contains(query),
+            searchHint: AppLocalizations.of(context)!.searchDriversByEmail,
+            onSearch: (query) {
+              userService.fetchDriversByRestaurant(
+                widget.restaurantIri,
+                searchQuery: query,
+              );
+            },
             onRefresh: _loadDrivers,
             itemBuilder: (context, driver) {
               return Card(
@@ -74,54 +80,105 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
                     driver.email,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  subtitle: Container(
-                    margin: const EdgeInsets.only(top: 8),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.blue),
-                    ),
-                    child: const Text(
-                      'DRIVER',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 11,
+                  subtitle: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.blue),
+                      ),
+                      child: Text(
+                        AppLocalizations.of(context)!.driverRoleLabel,
+                        style: const TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 11,
+                        ),
                       ),
                     ),
                   ),
-                  trailing: const Icon(
-                    Icons.check_circle,
-                    color: Colors.green,
-                    size: 32,
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () =>
+                        _confirmDeleteDriver(context, userService, driver),
                   ),
                 ),
               );
             },
           ),
-          floatingActionButton: FloatingActionButton.extended(
-            onPressed: _showInviteDriverDialog,
-            icon: const Icon(Icons.person_add),
-            label: const Text('Invite Driver'),
-          ),
+          floatingActionButton: isNarrow
+              ? FloatingActionButton(
+                  onPressed: _showInviteDriverDialog,
+                  tooltip: AppLocalizations.of(context)!.inviteDriver,
+                  child: const Icon(Icons.person_add),
+                )
+              : FloatingActionButton.extended(
+                  onPressed: _showInviteDriverDialog,
+                  icon: const Icon(Icons.person_add),
+                  label: Text(AppLocalizations.of(context)!.inviteDriver),
+                ),
         );
       },
     );
   }
 
+  Future<void> _confirmDeleteDriver(
+    BuildContext context,
+    UserService userService,
+    RestaurantUserNode driver,
+  ) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(AppLocalizations.of(context)!.confirmDelete),
+        content: Text(
+          AppLocalizations.of(context)!.confirmDeleteDriver(driver.email),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(AppLocalizations.of(context)!.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: Text(AppLocalizations.of(context)!.delete),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true && context.mounted) {
+      try {
+        await userService.deleteUser(driver.id);
+        if (context.mounted) {
+          UIErrorHandler.showSnackBar(
+            context,
+            AppLocalizations.of(context)!.driverDeleted,
+          );
+        }
+      } catch (e) {
+        if (context.mounted) {
+          UIErrorHandler.handleError(context, e);
+        }
+      }
+    }
+  }
+
   void _showInviteDriverDialog() {
     final emailController = TextEditingController();
-    final passwordController = TextEditingController();
     final formKey = GlobalKey<FormState>();
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Invite New Driver'),
+        title: Text(AppLocalizations.of(context)!.inviteNewDriver),
         content: Form(
           key: formKey,
           child: Column(
@@ -129,37 +186,25 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
             children: [
               TextFormField(
                 controller: emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  prefixIcon: Icon(Icons.email),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.email,
+                  prefixIcon: const Icon(Icons.email),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter an email';
+                    return AppLocalizations.of(context)!.pleaseEnterEmail;
                   }
                   if (!value.contains('@')) {
-                    return 'Please enter a valid email';
+                    return AppLocalizations.of(context)!.pleaseEnterValidEmail;
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 16),
-              TextFormField(
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  labelText: 'Temporary Password',
-                  prefixIcon: Icon(Icons.lock),
-                ),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a password';
-                  }
-                  if (value.length < 8) {
-                    return 'Password must be at least 8 characters';
-                  }
-                  return null;
-                },
+              Text(
+                AppLocalizations.of(context)!.driverPasswordWillBeEmailed,
+                style: Theme.of(context).textTheme.bodySmall,
+                textAlign: TextAlign.center,
               ),
             ],
           ),
@@ -167,7 +212,7 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           FilledButton(
             onPressed: () async {
@@ -176,26 +221,27 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
                   Navigator.pop(context); // Close dialog first
                   await context.read<UserService>().createDriver(
                     emailController.text,
-                    passwordController.text,
                     restaurantIri: widget.restaurantIri,
                   );
                   if (!context.mounted) return;
                   UIErrorHandler.showSnackBar(
                     context,
-                    'Driver invited successfully',
+                    AppLocalizations.of(context)!.driverInvitedSuccess,
                   );
                   _loadDrivers(); // Refresh list
                 } catch (e) {
                   if (!context.mounted) return;
                   UIErrorHandler.showSnackBar(
                     context,
-                    'Failed to invite driver: $e',
+                    AppLocalizations.of(
+                      context,
+                    )!.driverInviteFailed(e.toString()),
                     isError: true,
                   );
                 }
               }
             },
-            child: const Text('Invite'),
+            child: Text(AppLocalizations.of(context)!.invite),
           ),
         ],
       ),

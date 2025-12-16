@@ -1,50 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
 
 // Extension for Order Status
 extension OrderStatusUI on Enum$OrderStatus {
   /// Returns a human-readable label (e.g., "In Progress" instead of "IN_PROGRESS")
-  String get label {
-    // Basic formatting: replace underscores and Title Case if needed
-    // You can also add a switch statement here for specific translations
-    return name.replaceAll('_', ' ');
+  /// Returns a human-readable label
+  String getLabel(BuildContext context) {
+    switch (this) {
+      case Enum$OrderStatus.Unpaid:
+        return AppLocalizations.of(context)!.statusUnpaid;
+      case Enum$OrderStatus.Paid:
+        return AppLocalizations.of(context)!.statusPaid;
+      case Enum$OrderStatus.Active:
+        return AppLocalizations.of(context)!.statusActive;
+      case Enum$OrderStatus.Completed:
+        return AppLocalizations.of(context)!.statusCompleted;
+      case Enum$OrderStatus.Cancelled:
+        return AppLocalizations.of(context)!.statusCancelled;
+      default:
+        return name.replaceAll('_', ' ');
+    }
   }
 
   /// Returns the background color for the status chip
-  Color containerColor(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+  Color get containerColor {
     switch (this) {
       case Enum$OrderStatus.Unpaid:
-        return colorScheme.errorContainer;
+        return Colors.amber[100]!;
       case Enum$OrderStatus.Paid:
-        return colorScheme.primaryContainer;
+        return Colors.blue[100]!;
       case Enum$OrderStatus.Active:
-        return colorScheme.tertiaryContainer;
+        return Colors.orange[100]!;
       case Enum$OrderStatus.Completed:
-        return colorScheme.secondaryContainer;
+        return Colors.green[100]!;
       case Enum$OrderStatus.Cancelled:
-        return colorScheme.errorContainer;
+        return Colors.red[100]!;
       default:
-        return colorScheme.surfaceContainerHighest;
+        return Colors.grey[100]!;
     }
   }
 
   /// Returns the text/icon color for the status chip
-  Color onContainerColor(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+  Color get onContainerColor {
     switch (this) {
       case Enum$OrderStatus.Unpaid:
-        return colorScheme.onErrorContainer;
+        return Colors.amber[900]!;
       case Enum$OrderStatus.Paid:
-        return colorScheme.onPrimaryContainer;
+        return Colors.blue[900]!;
       case Enum$OrderStatus.Active:
-        return colorScheme.onTertiaryContainer;
+        return Colors.orange[900]!;
       case Enum$OrderStatus.Completed:
-        return colorScheme.onSecondaryContainer;
+        return Colors.green[900]!;
       case Enum$OrderStatus.Cancelled:
-        return colorScheme.onErrorContainer;
+        return Colors.red[900]!;
       default:
-        return colorScheme.onSurface;
+        return Colors.grey[900]!;
     }
   }
 
@@ -52,7 +63,7 @@ extension OrderStatusUI on Enum$OrderStatus {
   Color get chartColor {
     switch (this) {
       case Enum$OrderStatus.Unpaid:
-        return Colors.grey;
+        return Colors.amber;
       case Enum$OrderStatus.Paid:
         return Colors.blue;
       case Enum$OrderStatus.Active:
@@ -69,39 +80,60 @@ extension OrderStatusUI on Enum$OrderStatus {
 
 // Extension for Delivery Status (Reuse the same logic pattern)
 extension DeliveryStatusUI on Enum$DeliveryStatus {
-  String get label {
-    return name.replaceAll('_', ' ');
-  }
-
-  Color containerColor(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+  String getLabel(BuildContext context) {
     switch (this) {
       case Enum$DeliveryStatus.Pending:
-        return colorScheme.tertiaryContainer;
+        return AppLocalizations.of(context)!.statusPending;
       case Enum$DeliveryStatus.Assigned:
-        return colorScheme.primaryContainer;
+        return AppLocalizations.of(context)!.statusAssigned;
       case Enum$DeliveryStatus.Picked_up:
-        return colorScheme.secondaryContainer;
+        return AppLocalizations.of(context)!.statusPickedUp;
       case Enum$DeliveryStatus.Delivered:
-        return colorScheme.secondaryContainer;
+        return AppLocalizations.of(context)!.statusDelivered;
+      case Enum$DeliveryStatus.Failed:
+        return AppLocalizations.of(context)!.statusFailed;
+      case Enum$DeliveryStatus.Returned:
+        return AppLocalizations.of(context)!.statusReturned;
       default:
-        return colorScheme.surfaceContainerHighest;
+        return name.replaceAll('_', ' ');
     }
   }
 
-  Color onContainerColor(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+  Color get containerColor {
     switch (this) {
       case Enum$DeliveryStatus.Pending:
-        return colorScheme.onTertiaryContainer;
+        return Colors.orange[100]!;
       case Enum$DeliveryStatus.Assigned:
-        return colorScheme.onPrimaryContainer;
+        return Colors.blue[100]!;
       case Enum$DeliveryStatus.Picked_up:
-        return colorScheme.onSecondaryContainer;
+        return Colors.purple[100]!;
       case Enum$DeliveryStatus.Delivered:
-        return colorScheme.onSecondaryContainer;
+        return Colors.green[100]!;
+      case Enum$DeliveryStatus.Failed:
+        return Colors.red[100]!;
+      case Enum$DeliveryStatus.Returned:
+        return Colors.grey[100]!;
       default:
-        return colorScheme.onSurface;
+        return Colors.grey[100]!;
+    }
+  }
+
+  Color get onContainerColor {
+    switch (this) {
+      case Enum$DeliveryStatus.Pending:
+        return Colors.orange[900]!;
+      case Enum$DeliveryStatus.Assigned:
+        return Colors.blue[900]!;
+      case Enum$DeliveryStatus.Picked_up:
+        return Colors.purple[900]!;
+      case Enum$DeliveryStatus.Delivered:
+        return Colors.green[900]!;
+      case Enum$DeliveryStatus.Failed:
+        return Colors.red[900]!;
+      case Enum$DeliveryStatus.Returned:
+        return Colors.grey[900]!;
+      default:
+        return Colors.grey[900]!;
     }
   }
 

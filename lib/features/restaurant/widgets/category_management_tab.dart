@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
 
 class CategoryItem {
   final String id;
@@ -68,7 +69,7 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
         UIErrorHandler.handleError(
           context,
           e,
-          customMessage: 'Failed to load categories',
+          customMessage: AppLocalizations.of(context)!.failedToLoadCategories,
         );
       }
     }
@@ -92,7 +93,7 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
     if (name.isEmpty) {
       UIErrorHandler.showSnackBar(
         context,
-        'Please enter a name',
+        AppLocalizations.of(context)!.pleaseEnterCategoryName,
         isError: true,
       );
       return;
@@ -105,7 +106,7 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
       if (mounted) {
         UIErrorHandler.showSnackBar(
           context,
-          '${widget.categoryType} category created',
+          AppLocalizations.of(context)!.categoryCreated(widget.categoryType),
           isError: false,
         );
         await _loadCategories();
@@ -116,7 +117,7 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
         UIErrorHandler.handleError(
           context,
           e,
-          customMessage: 'Failed to create category',
+          customMessage: AppLocalizations.of(context)!.failedToCreateCategory,
         );
       }
     }
@@ -127,25 +128,27 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Edit ${widget.categoryType} Category'),
+        title: Text(
+          AppLocalizations.of(context)!.editCategory(widget.categoryType),
+        ),
         content: TextField(
           controller: controller,
-          decoration: const InputDecoration(
-            labelText: 'Category Name',
-            border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            labelText: AppLocalizations.of(context)!.categoryName,
+            border: const OutlineInputBorder(),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           FilledButton(
             onPressed: () async {
               if (controller.text.trim().isEmpty) {
                 UIErrorHandler.showSnackBar(
                   context,
-                  'Please enter a category name',
+                  AppLocalizations.of(context)!.pleaseEnterCategoryName,
                   isError: true,
                 );
                 return;
@@ -160,7 +163,7 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
                 Navigator.pop(context);
                 UIErrorHandler.showSnackBar(
                   context,
-                  'Category updated successfully',
+                  AppLocalizations.of(context)!.categoryUpdated,
                   isError: false,
                 );
                 _loadCategories();
@@ -169,11 +172,13 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
                 UIErrorHandler.handleError(
                   context,
                   e,
-                  customMessage: 'Failed to update category',
+                  customMessage: AppLocalizations.of(
+                    context,
+                  )!.failedToUpdateCategory,
                 );
               }
             },
-            child: const Text('Save'),
+            child: Text(AppLocalizations.of(context)!.save),
           ),
         ],
       ),
@@ -184,14 +189,20 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Delete ${widget.categoryType} Category'),
-        content: Text('Are you sure you want to delete "${category.name}"?'),
+        title: Text(
+          AppLocalizations.of(context)!.deleteCategory(widget.categoryType),
+        ),
+        content: Text(
+          AppLocalizations.of(
+            context,
+          )!.deleteCategoryConfirmation(category.name),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
-          FilledButton(
+          TextButton(
             onPressed: () async {
               try {
                 await widget.deleteCategory(category.id);
@@ -199,7 +210,7 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
                 Navigator.pop(context);
                 UIErrorHandler.showSnackBar(
                   context,
-                  'Category deleted successfully',
+                  AppLocalizations.of(context)!.categoryDeleted,
                   isError: false,
                 );
                 _loadCategories();
@@ -209,14 +220,14 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
                 UIErrorHandler.handleError(
                   context,
                   e,
-                  customMessage: 'Failed to delete category',
+                  customMessage: AppLocalizations.of(
+                    context,
+                  )!.failedToDeleteCategory,
                 );
               }
             },
-            style: FilledButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.error,
-            ),
-            child: const Text('Delete'),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: Text(AppLocalizations.of(context)!.delete),
           ),
         ],
       ),
@@ -254,8 +265,10 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
                     child: TextField(
                       controller: _createController,
                       decoration: InputDecoration(
-                        labelText: 'New ${widget.categoryType} Category',
-                        hintText: 'Enter name...',
+                        labelText: AppLocalizations.of(
+                          context,
+                        )!.newCategory(widget.categoryType),
+                        hintText: AppLocalizations.of(context)!.enterName,
                         prefixIcon: const Icon(Icons.add_circle_outline),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -284,7 +297,7 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
                               color: Colors.white,
                             ),
                           )
-                        : const Text('Add'),
+                        : Text(AppLocalizations.of(context)!.add),
                   ),
                 ],
               ),
@@ -293,7 +306,7 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
               TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
-                  labelText: 'Search Categories',
+                  labelText: AppLocalizations.of(context)!.searchCategories,
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -319,7 +332,7 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'No categories found',
+                        AppLocalizations.of(context)!.noCategoriesFound,
                         style: Theme.of(context).textTheme.titleMedium
                             ?.copyWith(
                               color: Theme.of(context).colorScheme.outline,
@@ -328,61 +341,65 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
                     ],
                   ),
                 )
-              : ListView.separated(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: _filteredCategories.length,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 8),
-                  itemBuilder: (context, index) {
-                    final category = _filteredCategories[index];
-                    return Card(
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        side: BorderSide(
-                          color: Theme.of(context).colorScheme.outlineVariant,
-                        ),
-                      ),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: Theme.of(
-                            context,
-                          ).colorScheme.primaryContainer,
-                          child: Text(
-                            category.name.isNotEmpty
-                                ? category.name[0].toUpperCase()
-                                : '?',
-                            style: TextStyle(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onPrimaryContainer,
-                              fontWeight: FontWeight.bold,
-                            ),
+              : RefreshIndicator(
+                  onRefresh: _loadCategories,
+                  child: ListView.separated(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(16),
+                    itemCount: _filteredCategories.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 8),
+                    itemBuilder: (context, index) {
+                      final category = _filteredCategories[index];
+                      return Card(
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: BorderSide(
+                            color: Theme.of(context).colorScheme.outlineVariant,
                           ),
                         ),
-                        title: Text(
-                          category.name,
-                          style: const TextStyle(fontWeight: FontWeight.w500),
-                        ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit_outlined),
-                              onPressed: () => _showEditDialog(category),
-                              tooltip: 'Edit',
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.primaryContainer,
+                            child: Text(
+                              category.name[0].toUpperCase(),
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onPrimaryContainer,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.delete_outline),
-                              color: Theme.of(context).colorScheme.error,
-                              onPressed: () => _showDeleteDialog(category),
-                              tooltip: 'Delete',
-                            ),
-                          ],
+                          ),
+                          title: Text(
+                            category.name,
+                            style: Theme.of(context).textTheme.bodyLarge
+                                ?.copyWith(fontWeight: FontWeight.w500),
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.edit_outlined),
+                                onPressed: () => _showEditDialog(category),
+                                tooltip: AppLocalizations.of(context)!.edit,
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete_outline),
+                                color: Theme.of(context).colorScheme.error,
+                                onPressed: () => _showDeleteDialog(category),
+                                tooltip: AppLocalizations.of(context)!.delete,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
         ),
       ],

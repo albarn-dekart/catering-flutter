@@ -5,11 +5,9 @@ import 'package:catering_flutter/graphql/restaurants.graphql.dart';
 import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:catering_flutter/graphql/users.graphql.dart';
-import 'package:catering_flutter/core/api_exception.dart';
+import 'package:catering_flutter/core/services/api_service.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
-import 'package:catering_flutter/core/api_client.dart';
-
-import 'package:catering_flutter/core/auth_service.dart';
+import 'package:catering_flutter/core/services/auth_service.dart';
 
 typedef UserNode = Query$GetUsers$users$edges$node;
 typedef RestaurantUserNode =
@@ -19,11 +17,21 @@ typedef CurrentUserData = Query$GetUser$user;
 class UserService extends ChangeNotifier {
   final GraphQLClient _client;
   final AuthService _authService;
-  final ApiClient _apiClient;
+  final ApiService _apiClient;
 
   List<UserNode> _users = [];
-
   List<UserNode> get users => _users;
+
+  // Pagination state
+  String? _endCursor;
+  bool _hasNextPage = false;
+  bool get hasNextPage => _hasNextPage;
+  bool _isFetchingMore = false;
+  bool get isFetchingMore => _isFetchingMore;
+
+  // Filters state
+  String? _currentSearchQuery;
+  String? _currentRoleFilter;
 
   // Using dynamic for currentUser to accommodate different query results
   dynamic _currentUser;
@@ -42,15 +50,21 @@ class UserService extends ChangeNotifier {
 
   UserService(this._client, this._authService, this._apiClient);
 
-  Future<void> fetchAllUsers() async {
+  Future<void> fetchAllUsers({String? searchQuery, String? roleFilter}) async {
     _isLoading = true;
     _errorMessage = null;
+    _currentSearchQuery = searchQuery;
+    _currentRoleFilter = roleFilter;
     notifyListeners();
 
     try {
       final options = QueryOptions(
         document: documentNodeQueryGetUsers,
-        variables: Variables$Query$GetUsers(first: 100).toJson(),
+        variables: Variables$Query$GetUsers(
+          first: 20,
+          search: searchQuery,
+          role: roleFilter,
+        ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
 
@@ -66,11 +80,55 @@ class UserService extends ChangeNotifier {
             .map((e) => e?.node)
             .whereType<UserNode>()
             .toList();
+        _endCursor = data.users?.pageInfo.endCursor;
+        _hasNextPage = data.users?.pageInfo.hasNextPage ?? false;
       }
     } catch (e) {
       _errorMessage = e.toString();
     } finally {
       _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> loadMoreUsers() async {
+    if (_isFetchingMore || !_hasNextPage || _endCursor == null) return;
+
+    _isFetchingMore = true;
+    notifyListeners();
+
+    try {
+      final options = QueryOptions(
+        document: documentNodeQueryGetUsers,
+        variables: Variables$Query$GetUsers(
+          first: 20,
+          after: _endCursor,
+          search: _currentSearchQuery,
+          role: _currentRoleFilter,
+        ).toJson(),
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
+
+      final result = await _client.query(options);
+
+      if (result.hasException) {
+        throw ApiException(result.exception.toString());
+      }
+
+      final data = Query$GetUsers.fromJson(result.data!);
+      if (data.users?.edges != null) {
+        final newUsers = data.users!.edges!
+            .map((e) => e?.node)
+            .whereType<UserNode>()
+            .toList();
+        _users = [..._users, ...newUsers];
+        _endCursor = data.users?.pageInfo.endCursor;
+        _hasNextPage = data.users?.pageInfo.hasNextPage ?? false;
+      }
+    } catch (e) {
+      _errorMessage = e.toString();
+    } finally {
+      _isFetchingMore = false;
       notifyListeners();
     }
   }
@@ -167,9 +225,34 @@ class UserService extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchCurrentUserWithDeliveries() async {
+  // Specific pagination for user deliveries
+  List<Fragment$DriverDeliveryFragment> _userDeliveries = [];
+  List<Fragment$DriverDeliveryFragment> get userDeliveries => _userDeliveries;
+  String? _userDeliveriesEndCursor;
+  bool _userDeliveriesHasNextPage = false;
+  bool get userDeliveriesHasNextPage => _userDeliveriesHasNextPage;
+  bool _isFetchingMoreUserDeliveries = false;
+  bool get isFetchingMoreUserDeliveries => _isFetchingMoreUserDeliveries;
+
+  List<Enum$DeliveryStatus>? _currentDeliveryStatuses;
+  Input$DeliveryFilter_order? _currentSortOrder;
+
+  Future<void> fetchCurrentUserWithDeliveries({
+    List<Enum$DeliveryStatus>? statuses,
+    String? searchQuery,
+    Input$DeliveryFilter_order? sortOrder,
+  }) async {
     _isLoading = true;
     _errorMessage = null;
+    _currentDeliveryStatuses = statuses;
+    _currentSearchQuery = searchQuery;
+    _currentSortOrder = sortOrder;
+    _userDeliveriesEndCursor = null;
+    _userDeliveriesHasNextPage = false;
+
+    // Clear existing list to ensure loading state is visible and old data is removed
+    _userDeliveries = [];
+
     notifyListeners();
 
     try {
@@ -180,7 +263,13 @@ class UserService extends ChangeNotifier {
 
       final options = QueryOptions(
         document: documentNodeQueryGetUserDeliveries,
-        variables: Variables$Query$GetUserDeliveries(id: userIri).toJson(),
+        variables: Variables$Query$GetUserDeliveries(
+          id: userIri,
+          first: 20,
+          status: statuses?.map((e) => e.name).toList(),
+          search: searchQuery,
+          order: sortOrder != null ? [sortOrder] : null,
+        ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
@@ -189,12 +278,64 @@ class UserService extends ChangeNotifier {
         throw ApiException(result.exception.toString());
       }
 
-      _currentUser = Query$GetUserDeliveries.fromJson(result.data!).user;
+      final data = Query$GetUserDeliveries.fromJson(result.data!);
+      _currentUser = data.user;
+
+      if (data.user?.deliveries?.edges != null) {
+        _userDeliveries = data.user!.deliveries!.edges!
+            .map((e) => e?.node)
+            .whereType<Fragment$DriverDeliveryFragment>()
+            .toList();
+        _userDeliveriesEndCursor = data.user!.deliveries!.pageInfo.endCursor;
+        _userDeliveriesHasNextPage =
+            data.user!.deliveries!.pageInfo.hasNextPage;
+      } else {
+        _userDeliveries = [];
+      }
     } catch (e) {
       _errorMessage = e.toString();
       rethrow;
     } finally {
       _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> loadMoreCurrentUserDeliveries() async {
+    if (_isFetchingMoreUserDeliveries ||
+        !_userDeliveriesHasNextPage ||
+        _userDeliveriesEndCursor == null) {
+      return;
+    }
+
+    _isFetchingMoreUserDeliveries = true;
+    notifyListeners();
+
+    try {
+      final userIri = await _authService.getUserIriFromStorage();
+      if (userIri == null) return;
+
+      final options = QueryOptions(
+        document: documentNodeQueryGetUserDeliveries,
+        variables: Variables$Query$GetUserDeliveries(
+          id: userIri,
+          first: 20,
+          after: _userDeliveriesEndCursor,
+          status: _currentDeliveryStatuses?.map((e) => e.name).toList(),
+          search: _currentSearchQuery,
+          order: _currentSortOrder != null ? [_currentSortOrder!] : null,
+        ).toJson(),
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
+      final result = await _client.query(options);
+
+      if (result.hasException) {
+        throw ApiException(result.exception.toString());
+      }
+    } catch (e) {
+      _errorMessage = e.toString();
+    } finally {
+      _isFetchingMoreUserDeliveries = false;
       notifyListeners();
     }
   }
@@ -291,6 +432,7 @@ class UserService extends ChangeNotifier {
         throw ApiException(result.exception.toString());
       }
       _users.removeWhere((u) => u.id == userIri);
+      _restaurantDrivers.removeWhere((u) => u.id == userIri);
     } catch (e) {
       _errorMessage = e.toString();
       rethrow;
@@ -304,7 +446,10 @@ class UserService extends ChangeNotifier {
 
   List<RestaurantUserNode> get restaurantDrivers => _restaurantDrivers;
 
-  Future<void> fetchDriversByRestaurant(String restaurantIri) async {
+  Future<void> fetchDriversByRestaurant(
+    String restaurantIri, {
+    String? searchQuery,
+  }) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -314,6 +459,8 @@ class UserService extends ChangeNotifier {
         document: documentNodeQueryGetUsersByRestaurant,
         variables: Variables$Query$GetUsersByRestaurant(
           id: restaurantIri,
+          search: searchQuery,
+          role: 'ROLE_DRIVER',
         ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
@@ -328,14 +475,12 @@ class UserService extends ChangeNotifier {
       final edges = data.restaurant?.users?.edges;
 
       if (edges != null) {
-        final allRestaurantUsers = edges
+        _restaurantDrivers = edges
             .map((e) => e?.node)
             .whereType<RestaurantUserNode>()
             .toList();
-
-        _restaurantDrivers = allRestaurantUsers
-            .where((u) => u.roles.contains('ROLE_DRIVER'))
-            .toList();
+      } else {
+        _restaurantDrivers = [];
       }
     } catch (e) {
       _errorMessage = e.toString();
@@ -385,17 +530,13 @@ class UserService extends ChangeNotifier {
     }
   }
 
-  Future<void> createDriver(
-    String email,
-    String password, {
-    String? restaurantIri,
-  }) async {
+  Future<void> createDriver(String email, {String? restaurantIri}) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      final body = <String, dynamic>{'email': email, 'plainPassword': password};
+      final body = <String, dynamic>{'email': email};
       if (restaurantIri != null) {
         body['restaurantId'] = IriHelper.getId(restaurantIri);
       }

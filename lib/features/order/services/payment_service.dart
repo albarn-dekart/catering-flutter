@@ -2,7 +2,7 @@ import 'package:catering_flutter/graphql/payments.graphql.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:catering_flutter/core/api_exception.dart';
+import 'package:catering_flutter/core/services/api_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PaymentService extends ChangeNotifier {

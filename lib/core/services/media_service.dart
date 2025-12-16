@@ -1,7 +1,7 @@
-import 'package:catering_flutter/core/api_client.dart';
+import 'package:catering_flutter/core/services/api_service.dart';
 
 class MediaService {
-  final ApiClient _apiClient;
+  final ApiService _apiClient;
 
   MediaService(this._apiClient);
 

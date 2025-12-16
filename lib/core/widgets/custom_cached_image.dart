@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:catering_flutter/core/services/api_service.dart';
 import 'package:flutter/material.dart';
 
 class CustomCachedImage extends StatelessWidget {
@@ -27,7 +28,7 @@ class CustomCachedImage extends StatelessWidget {
       return _buildErrorWidget(context);
     }
 
-    final fullUrl = "/api/$imageUrl";
+    final fullUrl = '${ApiService.baseUrl}/api$imageUrl';
 
     return CachedNetworkImage(
       imageUrl: fullUrl,

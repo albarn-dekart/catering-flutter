@@ -5,12 +5,2828 @@ import 'package:graphql/client.dart' as graphql;
 import 'package:graphql_flutter/graphql_flutter.dart' as graphql_flutter;
 import 'schema.graphql.dart';
 
+class Fragment$BasicDeliveryFragment {
+  Fragment$BasicDeliveryFragment({
+    required this.id,
+    required this.status,
+    required this.deliveryDate,
+    this.order,
+    this.driver,
+    this.$__typename = 'Delivery',
+  });
+
+  factory Fragment$BasicDeliveryFragment.fromJson(Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$status = json['status'];
+    final l$deliveryDate = json['deliveryDate'];
+    final l$order = json['order'];
+    final l$driver = json['driver'];
+    final l$$__typename = json['__typename'];
+    return Fragment$BasicDeliveryFragment(
+      id: (l$id as String),
+      status: fromJson$Enum$DeliveryStatus((l$status as String)),
+      deliveryDate: (l$deliveryDate as String),
+      order: l$order == null
+          ? null
+          : Fragment$BasicDeliveryFragment$order.fromJson(
+              (l$order as Map<String, dynamic>),
+            ),
+      driver: l$driver == null
+          ? null
+          : Fragment$BasicDeliveryFragment$driver.fromJson(
+              (l$driver as Map<String, dynamic>),
+            ),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final Enum$DeliveryStatus status;
+
+  final String deliveryDate;
+
+  final Fragment$BasicDeliveryFragment$order? order;
+
+  final Fragment$BasicDeliveryFragment$driver? driver;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$status = status;
+    _resultData['status'] = toJson$Enum$DeliveryStatus(l$status);
+    final l$deliveryDate = deliveryDate;
+    _resultData['deliveryDate'] = l$deliveryDate;
+    final l$order = order;
+    _resultData['order'] = l$order?.toJson();
+    final l$driver = driver;
+    _resultData['driver'] = l$driver?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$status = status;
+    final l$deliveryDate = deliveryDate;
+    final l$order = order;
+    final l$driver = driver;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$status,
+      l$deliveryDate,
+      l$order,
+      l$driver,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$BasicDeliveryFragment ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$status = status;
+    final lOther$status = other.status;
+    if (l$status != lOther$status) {
+      return false;
+    }
+    final l$deliveryDate = deliveryDate;
+    final lOther$deliveryDate = other.deliveryDate;
+    if (l$deliveryDate != lOther$deliveryDate) {
+      return false;
+    }
+    final l$order = order;
+    final lOther$order = other.order;
+    if (l$order != lOther$order) {
+      return false;
+    }
+    final l$driver = driver;
+    final lOther$driver = other.driver;
+    if (l$driver != lOther$driver) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$BasicDeliveryFragment
+    on Fragment$BasicDeliveryFragment {
+  CopyWith$Fragment$BasicDeliveryFragment<Fragment$BasicDeliveryFragment>
+  get copyWith => CopyWith$Fragment$BasicDeliveryFragment(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$BasicDeliveryFragment<TRes> {
+  factory CopyWith$Fragment$BasicDeliveryFragment(
+    Fragment$BasicDeliveryFragment instance,
+    TRes Function(Fragment$BasicDeliveryFragment) then,
+  ) = _CopyWithImpl$Fragment$BasicDeliveryFragment;
+
+  factory CopyWith$Fragment$BasicDeliveryFragment.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$BasicDeliveryFragment;
+
+  TRes call({
+    String? id,
+    Enum$DeliveryStatus? status,
+    String? deliveryDate,
+    Fragment$BasicDeliveryFragment$order? order,
+    Fragment$BasicDeliveryFragment$driver? driver,
+    String? $__typename,
+  });
+  CopyWith$Fragment$BasicDeliveryFragment$order<TRes> get order;
+  CopyWith$Fragment$BasicDeliveryFragment$driver<TRes> get driver;
+}
+
+class _CopyWithImpl$Fragment$BasicDeliveryFragment<TRes>
+    implements CopyWith$Fragment$BasicDeliveryFragment<TRes> {
+  _CopyWithImpl$Fragment$BasicDeliveryFragment(this._instance, this._then);
+
+  final Fragment$BasicDeliveryFragment _instance;
+
+  final TRes Function(Fragment$BasicDeliveryFragment) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? status = _undefined,
+    Object? deliveryDate = _undefined,
+    Object? order = _undefined,
+    Object? driver = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$BasicDeliveryFragment(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      status: status == _undefined || status == null
+          ? _instance.status
+          : (status as Enum$DeliveryStatus),
+      deliveryDate: deliveryDate == _undefined || deliveryDate == null
+          ? _instance.deliveryDate
+          : (deliveryDate as String),
+      order: order == _undefined
+          ? _instance.order
+          : (order as Fragment$BasicDeliveryFragment$order?),
+      driver: driver == _undefined
+          ? _instance.driver
+          : (driver as Fragment$BasicDeliveryFragment$driver?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  CopyWith$Fragment$BasicDeliveryFragment$order<TRes> get order {
+    final local$order = _instance.order;
+    return local$order == null
+        ? CopyWith$Fragment$BasicDeliveryFragment$order.stub(_then(_instance))
+        : CopyWith$Fragment$BasicDeliveryFragment$order(
+            local$order,
+            (e) => call(order: e),
+          );
+  }
+
+  CopyWith$Fragment$BasicDeliveryFragment$driver<TRes> get driver {
+    final local$driver = _instance.driver;
+    return local$driver == null
+        ? CopyWith$Fragment$BasicDeliveryFragment$driver.stub(_then(_instance))
+        : CopyWith$Fragment$BasicDeliveryFragment$driver(
+            local$driver,
+            (e) => call(driver: e),
+          );
+  }
+}
+
+class _CopyWithStubImpl$Fragment$BasicDeliveryFragment<TRes>
+    implements CopyWith$Fragment$BasicDeliveryFragment<TRes> {
+  _CopyWithStubImpl$Fragment$BasicDeliveryFragment(this._res);
+
+  TRes _res;
+
+  call({
+    String? id,
+    Enum$DeliveryStatus? status,
+    String? deliveryDate,
+    Fragment$BasicDeliveryFragment$order? order,
+    Fragment$BasicDeliveryFragment$driver? driver,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Fragment$BasicDeliveryFragment$order<TRes> get order =>
+      CopyWith$Fragment$BasicDeliveryFragment$order.stub(_res);
+
+  CopyWith$Fragment$BasicDeliveryFragment$driver<TRes> get driver =>
+      CopyWith$Fragment$BasicDeliveryFragment$driver.stub(_res);
+}
+
+const fragmentDefinitionBasicDeliveryFragment = FragmentDefinitionNode(
+  name: NameNode(value: 'BasicDeliveryFragment'),
+  typeCondition: TypeConditionNode(
+    on: NamedTypeNode(name: NameNode(value: 'Delivery'), isNonNull: false),
+  ),
+  directives: [],
+  selectionSet: SelectionSetNode(
+    selections: [
+      FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'status'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'deliveryDate'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'order'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(
+          selections: [
+            FieldNode(
+              name: NameNode(value: 'id'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'total'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'status'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'customer'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: SelectionSetNode(
+                selections: [
+                  FieldNode(
+                    name: NameNode(value: 'id'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                  FieldNode(
+                    name: NameNode(value: 'email'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                  FieldNode(
+                    name: NameNode(value: '__typename'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                ],
+              ),
+            ),
+            FieldNode(
+              name: NameNode(value: '__typename'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+          ],
+        ),
+      ),
+      FieldNode(
+        name: NameNode(value: 'driver'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(
+          selections: [
+            FieldNode(
+              name: NameNode(value: 'id'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'email'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: '__typename'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+          ],
+        ),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ],
+  ),
+);
+const documentNodeFragmentBasicDeliveryFragment = DocumentNode(
+  definitions: [fragmentDefinitionBasicDeliveryFragment],
+);
+
+extension ClientExtension$Fragment$BasicDeliveryFragment
+    on graphql.GraphQLClient {
+  void writeFragment$BasicDeliveryFragment({
+    required Fragment$BasicDeliveryFragment data,
+    required Map<String, dynamic> idFields,
+    bool broadcast = true,
+  }) => this.writeFragment(
+    graphql.FragmentRequest(
+      idFields: idFields,
+      fragment: const graphql.Fragment(
+        fragmentName: 'BasicDeliveryFragment',
+        document: documentNodeFragmentBasicDeliveryFragment,
+      ),
+    ),
+    data: data.toJson(),
+    broadcast: broadcast,
+  );
+
+  Fragment$BasicDeliveryFragment? readFragment$BasicDeliveryFragment({
+    required Map<String, dynamic> idFields,
+    bool optimistic = true,
+  }) {
+    final result = this.readFragment(
+      graphql.FragmentRequest(
+        idFields: idFields,
+        fragment: const graphql.Fragment(
+          fragmentName: 'BasicDeliveryFragment',
+          document: documentNodeFragmentBasicDeliveryFragment,
+        ),
+      ),
+      optimistic: optimistic,
+    );
+    return result == null
+        ? null
+        : Fragment$BasicDeliveryFragment.fromJson(result);
+  }
+}
+
+class Fragment$BasicDeliveryFragment$order {
+  Fragment$BasicDeliveryFragment$order({
+    required this.id,
+    required this.total,
+    required this.status,
+    this.customer,
+    this.$__typename = 'Order',
+  });
+
+  factory Fragment$BasicDeliveryFragment$order.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$total = json['total'];
+    final l$status = json['status'];
+    final l$customer = json['customer'];
+    final l$$__typename = json['__typename'];
+    return Fragment$BasicDeliveryFragment$order(
+      id: (l$id as String),
+      total: (l$total as int),
+      status: fromJson$Enum$OrderStatus((l$status as String)),
+      customer: l$customer == null
+          ? null
+          : Fragment$BasicDeliveryFragment$order$customer.fromJson(
+              (l$customer as Map<String, dynamic>),
+            ),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final int total;
+
+  final Enum$OrderStatus status;
+
+  final Fragment$BasicDeliveryFragment$order$customer? customer;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$total = total;
+    _resultData['total'] = l$total;
+    final l$status = status;
+    _resultData['status'] = toJson$Enum$OrderStatus(l$status);
+    final l$customer = customer;
+    _resultData['customer'] = l$customer?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$total = total;
+    final l$status = status;
+    final l$customer = customer;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$total, l$status, l$customer, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$BasicDeliveryFragment$order ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$total = total;
+    final lOther$total = other.total;
+    if (l$total != lOther$total) {
+      return false;
+    }
+    final l$status = status;
+    final lOther$status = other.status;
+    if (l$status != lOther$status) {
+      return false;
+    }
+    final l$customer = customer;
+    final lOther$customer = other.customer;
+    if (l$customer != lOther$customer) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$BasicDeliveryFragment$order
+    on Fragment$BasicDeliveryFragment$order {
+  CopyWith$Fragment$BasicDeliveryFragment$order<
+    Fragment$BasicDeliveryFragment$order
+  >
+  get copyWith => CopyWith$Fragment$BasicDeliveryFragment$order(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$BasicDeliveryFragment$order<TRes> {
+  factory CopyWith$Fragment$BasicDeliveryFragment$order(
+    Fragment$BasicDeliveryFragment$order instance,
+    TRes Function(Fragment$BasicDeliveryFragment$order) then,
+  ) = _CopyWithImpl$Fragment$BasicDeliveryFragment$order;
+
+  factory CopyWith$Fragment$BasicDeliveryFragment$order.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$BasicDeliveryFragment$order;
+
+  TRes call({
+    String? id,
+    int? total,
+    Enum$OrderStatus? status,
+    Fragment$BasicDeliveryFragment$order$customer? customer,
+    String? $__typename,
+  });
+  CopyWith$Fragment$BasicDeliveryFragment$order$customer<TRes> get customer;
+}
+
+class _CopyWithImpl$Fragment$BasicDeliveryFragment$order<TRes>
+    implements CopyWith$Fragment$BasicDeliveryFragment$order<TRes> {
+  _CopyWithImpl$Fragment$BasicDeliveryFragment$order(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$BasicDeliveryFragment$order _instance;
+
+  final TRes Function(Fragment$BasicDeliveryFragment$order) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? total = _undefined,
+    Object? status = _undefined,
+    Object? customer = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$BasicDeliveryFragment$order(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      total: total == _undefined || total == null
+          ? _instance.total
+          : (total as int),
+      status: status == _undefined || status == null
+          ? _instance.status
+          : (status as Enum$OrderStatus),
+      customer: customer == _undefined
+          ? _instance.customer
+          : (customer as Fragment$BasicDeliveryFragment$order$customer?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  CopyWith$Fragment$BasicDeliveryFragment$order$customer<TRes> get customer {
+    final local$customer = _instance.customer;
+    return local$customer == null
+        ? CopyWith$Fragment$BasicDeliveryFragment$order$customer.stub(
+            _then(_instance),
+          )
+        : CopyWith$Fragment$BasicDeliveryFragment$order$customer(
+            local$customer,
+            (e) => call(customer: e),
+          );
+  }
+}
+
+class _CopyWithStubImpl$Fragment$BasicDeliveryFragment$order<TRes>
+    implements CopyWith$Fragment$BasicDeliveryFragment$order<TRes> {
+  _CopyWithStubImpl$Fragment$BasicDeliveryFragment$order(this._res);
+
+  TRes _res;
+
+  call({
+    String? id,
+    int? total,
+    Enum$OrderStatus? status,
+    Fragment$BasicDeliveryFragment$order$customer? customer,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Fragment$BasicDeliveryFragment$order$customer<TRes> get customer =>
+      CopyWith$Fragment$BasicDeliveryFragment$order$customer.stub(_res);
+}
+
+class Fragment$BasicDeliveryFragment$order$customer {
+  Fragment$BasicDeliveryFragment$order$customer({
+    required this.id,
+    required this.email,
+    this.$__typename = 'User',
+  });
+
+  factory Fragment$BasicDeliveryFragment$order$customer.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$email = json['email'];
+    final l$$__typename = json['__typename'];
+    return Fragment$BasicDeliveryFragment$order$customer(
+      id: (l$id as String),
+      email: (l$email as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String email;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$email = email;
+    _resultData['email'] = l$email;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$email = email;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$email, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$BasicDeliveryFragment$order$customer ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$email = email;
+    final lOther$email = other.email;
+    if (l$email != lOther$email) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$BasicDeliveryFragment$order$customer
+    on Fragment$BasicDeliveryFragment$order$customer {
+  CopyWith$Fragment$BasicDeliveryFragment$order$customer<
+    Fragment$BasicDeliveryFragment$order$customer
+  >
+  get copyWith =>
+      CopyWith$Fragment$BasicDeliveryFragment$order$customer(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$BasicDeliveryFragment$order$customer<TRes> {
+  factory CopyWith$Fragment$BasicDeliveryFragment$order$customer(
+    Fragment$BasicDeliveryFragment$order$customer instance,
+    TRes Function(Fragment$BasicDeliveryFragment$order$customer) then,
+  ) = _CopyWithImpl$Fragment$BasicDeliveryFragment$order$customer;
+
+  factory CopyWith$Fragment$BasicDeliveryFragment$order$customer.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$BasicDeliveryFragment$order$customer;
+
+  TRes call({String? id, String? email, String? $__typename});
+}
+
+class _CopyWithImpl$Fragment$BasicDeliveryFragment$order$customer<TRes>
+    implements CopyWith$Fragment$BasicDeliveryFragment$order$customer<TRes> {
+  _CopyWithImpl$Fragment$BasicDeliveryFragment$order$customer(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$BasicDeliveryFragment$order$customer _instance;
+
+  final TRes Function(Fragment$BasicDeliveryFragment$order$customer) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? email = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$BasicDeliveryFragment$order$customer(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      email: email == _undefined || email == null
+          ? _instance.email
+          : (email as String),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$BasicDeliveryFragment$order$customer<TRes>
+    implements CopyWith$Fragment$BasicDeliveryFragment$order$customer<TRes> {
+  _CopyWithStubImpl$Fragment$BasicDeliveryFragment$order$customer(this._res);
+
+  TRes _res;
+
+  call({String? id, String? email, String? $__typename}) => _res;
+}
+
+class Fragment$BasicDeliveryFragment$driver {
+  Fragment$BasicDeliveryFragment$driver({
+    required this.id,
+    required this.email,
+    this.$__typename = 'User',
+  });
+
+  factory Fragment$BasicDeliveryFragment$driver.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$email = json['email'];
+    final l$$__typename = json['__typename'];
+    return Fragment$BasicDeliveryFragment$driver(
+      id: (l$id as String),
+      email: (l$email as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String email;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$email = email;
+    _resultData['email'] = l$email;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$email = email;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$email, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$BasicDeliveryFragment$driver ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$email = email;
+    final lOther$email = other.email;
+    if (l$email != lOther$email) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$BasicDeliveryFragment$driver
+    on Fragment$BasicDeliveryFragment$driver {
+  CopyWith$Fragment$BasicDeliveryFragment$driver<
+    Fragment$BasicDeliveryFragment$driver
+  >
+  get copyWith =>
+      CopyWith$Fragment$BasicDeliveryFragment$driver(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$BasicDeliveryFragment$driver<TRes> {
+  factory CopyWith$Fragment$BasicDeliveryFragment$driver(
+    Fragment$BasicDeliveryFragment$driver instance,
+    TRes Function(Fragment$BasicDeliveryFragment$driver) then,
+  ) = _CopyWithImpl$Fragment$BasicDeliveryFragment$driver;
+
+  factory CopyWith$Fragment$BasicDeliveryFragment$driver.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$BasicDeliveryFragment$driver;
+
+  TRes call({String? id, String? email, String? $__typename});
+}
+
+class _CopyWithImpl$Fragment$BasicDeliveryFragment$driver<TRes>
+    implements CopyWith$Fragment$BasicDeliveryFragment$driver<TRes> {
+  _CopyWithImpl$Fragment$BasicDeliveryFragment$driver(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$BasicDeliveryFragment$driver _instance;
+
+  final TRes Function(Fragment$BasicDeliveryFragment$driver) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? email = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$BasicDeliveryFragment$driver(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      email: email == _undefined || email == null
+          ? _instance.email
+          : (email as String),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$BasicDeliveryFragment$driver<TRes>
+    implements CopyWith$Fragment$BasicDeliveryFragment$driver<TRes> {
+  _CopyWithStubImpl$Fragment$BasicDeliveryFragment$driver(this._res);
+
+  TRes _res;
+
+  call({String? id, String? email, String? $__typename}) => _res;
+}
+
+class Fragment$DriverDeliveryFragment {
+  Fragment$DriverDeliveryFragment({
+    required this.id,
+    required this.status,
+    required this.deliveryDate,
+    this.restaurant,
+    this.order,
+    this.$__typename = 'Delivery',
+  });
+
+  factory Fragment$DriverDeliveryFragment.fromJson(Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$status = json['status'];
+    final l$deliveryDate = json['deliveryDate'];
+    final l$restaurant = json['restaurant'];
+    final l$order = json['order'];
+    final l$$__typename = json['__typename'];
+    return Fragment$DriverDeliveryFragment(
+      id: (l$id as String),
+      status: fromJson$Enum$DeliveryStatus((l$status as String)),
+      deliveryDate: (l$deliveryDate as String),
+      restaurant: l$restaurant == null
+          ? null
+          : Fragment$DriverDeliveryFragment$restaurant.fromJson(
+              (l$restaurant as Map<String, dynamic>),
+            ),
+      order: l$order == null
+          ? null
+          : Fragment$DriverDeliveryFragment$order.fromJson(
+              (l$order as Map<String, dynamic>),
+            ),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final Enum$DeliveryStatus status;
+
+  final String deliveryDate;
+
+  final Fragment$DriverDeliveryFragment$restaurant? restaurant;
+
+  final Fragment$DriverDeliveryFragment$order? order;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$status = status;
+    _resultData['status'] = toJson$Enum$DeliveryStatus(l$status);
+    final l$deliveryDate = deliveryDate;
+    _resultData['deliveryDate'] = l$deliveryDate;
+    final l$restaurant = restaurant;
+    _resultData['restaurant'] = l$restaurant?.toJson();
+    final l$order = order;
+    _resultData['order'] = l$order?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$status = status;
+    final l$deliveryDate = deliveryDate;
+    final l$restaurant = restaurant;
+    final l$order = order;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$status,
+      l$deliveryDate,
+      l$restaurant,
+      l$order,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$DriverDeliveryFragment ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$status = status;
+    final lOther$status = other.status;
+    if (l$status != lOther$status) {
+      return false;
+    }
+    final l$deliveryDate = deliveryDate;
+    final lOther$deliveryDate = other.deliveryDate;
+    if (l$deliveryDate != lOther$deliveryDate) {
+      return false;
+    }
+    final l$restaurant = restaurant;
+    final lOther$restaurant = other.restaurant;
+    if (l$restaurant != lOther$restaurant) {
+      return false;
+    }
+    final l$order = order;
+    final lOther$order = other.order;
+    if (l$order != lOther$order) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$DriverDeliveryFragment
+    on Fragment$DriverDeliveryFragment {
+  CopyWith$Fragment$DriverDeliveryFragment<Fragment$DriverDeliveryFragment>
+  get copyWith => CopyWith$Fragment$DriverDeliveryFragment(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$DriverDeliveryFragment<TRes> {
+  factory CopyWith$Fragment$DriverDeliveryFragment(
+    Fragment$DriverDeliveryFragment instance,
+    TRes Function(Fragment$DriverDeliveryFragment) then,
+  ) = _CopyWithImpl$Fragment$DriverDeliveryFragment;
+
+  factory CopyWith$Fragment$DriverDeliveryFragment.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$DriverDeliveryFragment;
+
+  TRes call({
+    String? id,
+    Enum$DeliveryStatus? status,
+    String? deliveryDate,
+    Fragment$DriverDeliveryFragment$restaurant? restaurant,
+    Fragment$DriverDeliveryFragment$order? order,
+    String? $__typename,
+  });
+  CopyWith$Fragment$DriverDeliveryFragment$restaurant<TRes> get restaurant;
+  CopyWith$Fragment$DriverDeliveryFragment$order<TRes> get order;
+}
+
+class _CopyWithImpl$Fragment$DriverDeliveryFragment<TRes>
+    implements CopyWith$Fragment$DriverDeliveryFragment<TRes> {
+  _CopyWithImpl$Fragment$DriverDeliveryFragment(this._instance, this._then);
+
+  final Fragment$DriverDeliveryFragment _instance;
+
+  final TRes Function(Fragment$DriverDeliveryFragment) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? status = _undefined,
+    Object? deliveryDate = _undefined,
+    Object? restaurant = _undefined,
+    Object? order = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$DriverDeliveryFragment(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      status: status == _undefined || status == null
+          ? _instance.status
+          : (status as Enum$DeliveryStatus),
+      deliveryDate: deliveryDate == _undefined || deliveryDate == null
+          ? _instance.deliveryDate
+          : (deliveryDate as String),
+      restaurant: restaurant == _undefined
+          ? _instance.restaurant
+          : (restaurant as Fragment$DriverDeliveryFragment$restaurant?),
+      order: order == _undefined
+          ? _instance.order
+          : (order as Fragment$DriverDeliveryFragment$order?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  CopyWith$Fragment$DriverDeliveryFragment$restaurant<TRes> get restaurant {
+    final local$restaurant = _instance.restaurant;
+    return local$restaurant == null
+        ? CopyWith$Fragment$DriverDeliveryFragment$restaurant.stub(
+            _then(_instance),
+          )
+        : CopyWith$Fragment$DriverDeliveryFragment$restaurant(
+            local$restaurant,
+            (e) => call(restaurant: e),
+          );
+  }
+
+  CopyWith$Fragment$DriverDeliveryFragment$order<TRes> get order {
+    final local$order = _instance.order;
+    return local$order == null
+        ? CopyWith$Fragment$DriverDeliveryFragment$order.stub(_then(_instance))
+        : CopyWith$Fragment$DriverDeliveryFragment$order(
+            local$order,
+            (e) => call(order: e),
+          );
+  }
+}
+
+class _CopyWithStubImpl$Fragment$DriverDeliveryFragment<TRes>
+    implements CopyWith$Fragment$DriverDeliveryFragment<TRes> {
+  _CopyWithStubImpl$Fragment$DriverDeliveryFragment(this._res);
+
+  TRes _res;
+
+  call({
+    String? id,
+    Enum$DeliveryStatus? status,
+    String? deliveryDate,
+    Fragment$DriverDeliveryFragment$restaurant? restaurant,
+    Fragment$DriverDeliveryFragment$order? order,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Fragment$DriverDeliveryFragment$restaurant<TRes> get restaurant =>
+      CopyWith$Fragment$DriverDeliveryFragment$restaurant.stub(_res);
+
+  CopyWith$Fragment$DriverDeliveryFragment$order<TRes> get order =>
+      CopyWith$Fragment$DriverDeliveryFragment$order.stub(_res);
+}
+
+const fragmentDefinitionDriverDeliveryFragment = FragmentDefinitionNode(
+  name: NameNode(value: 'DriverDeliveryFragment'),
+  typeCondition: TypeConditionNode(
+    on: NamedTypeNode(name: NameNode(value: 'Delivery'), isNonNull: false),
+  ),
+  directives: [],
+  selectionSet: SelectionSetNode(
+    selections: [
+      FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'status'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'deliveryDate'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'restaurant'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(
+          selections: [
+            FieldNode(
+              name: NameNode(value: 'id'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'name'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: '__typename'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+          ],
+        ),
+      ),
+      FieldNode(
+        name: NameNode(value: 'order'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(
+          selections: [
+            FieldNode(
+              name: NameNode(value: 'id'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'total'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'status'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'customer'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: SelectionSetNode(
+                selections: [
+                  FieldNode(
+                    name: NameNode(value: 'id'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                  FieldNode(
+                    name: NameNode(value: 'email'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                  FieldNode(
+                    name: NameNode(value: '__typename'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                ],
+              ),
+            ),
+            FieldNode(
+              name: NameNode(value: 'deliveryFirstName'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'deliveryLastName'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'deliveryPhoneNumber'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'deliveryStreet'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'deliveryApartment'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'deliveryCity'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'deliveryZipCode'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'orderItems'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: SelectionSetNode(
+                selections: [
+                  FieldNode(
+                    name: NameNode(value: 'edges'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(
+                      selections: [
+                        FieldNode(
+                          name: NameNode(value: 'node'),
+                          alias: null,
+                          arguments: [],
+                          directives: [],
+                          selectionSet: SelectionSetNode(
+                            selections: [
+                              FieldNode(
+                                name: NameNode(value: 'id'),
+                                alias: null,
+                                arguments: [],
+                                directives: [],
+                                selectionSet: null,
+                              ),
+                              FieldNode(
+                                name: NameNode(value: 'quantity'),
+                                alias: null,
+                                arguments: [],
+                                directives: [],
+                                selectionSet: null,
+                              ),
+                              FieldNode(
+                                name: NameNode(value: 'mealPlan'),
+                                alias: null,
+                                arguments: [],
+                                directives: [],
+                                selectionSet: SelectionSetNode(
+                                  selections: [
+                                    FieldNode(
+                                      name: NameNode(value: 'id'),
+                                      alias: null,
+                                      arguments: [],
+                                      directives: [],
+                                      selectionSet: null,
+                                    ),
+                                    FieldNode(
+                                      name: NameNode(value: 'name'),
+                                      alias: null,
+                                      arguments: [],
+                                      directives: [],
+                                      selectionSet: null,
+                                    ),
+                                    FieldNode(
+                                      name: NameNode(value: '__typename'),
+                                      alias: null,
+                                      arguments: [],
+                                      directives: [],
+                                      selectionSet: null,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              FieldNode(
+                                name: NameNode(value: '__typename'),
+                                alias: null,
+                                arguments: [],
+                                directives: [],
+                                selectionSet: null,
+                              ),
+                            ],
+                          ),
+                        ),
+                        FieldNode(
+                          name: NameNode(value: '__typename'),
+                          alias: null,
+                          arguments: [],
+                          directives: [],
+                          selectionSet: null,
+                        ),
+                      ],
+                    ),
+                  ),
+                  FieldNode(
+                    name: NameNode(value: '__typename'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                ],
+              ),
+            ),
+            FieldNode(
+              name: NameNode(value: '__typename'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+          ],
+        ),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ],
+  ),
+);
+const documentNodeFragmentDriverDeliveryFragment = DocumentNode(
+  definitions: [fragmentDefinitionDriverDeliveryFragment],
+);
+
+extension ClientExtension$Fragment$DriverDeliveryFragment
+    on graphql.GraphQLClient {
+  void writeFragment$DriverDeliveryFragment({
+    required Fragment$DriverDeliveryFragment data,
+    required Map<String, dynamic> idFields,
+    bool broadcast = true,
+  }) => this.writeFragment(
+    graphql.FragmentRequest(
+      idFields: idFields,
+      fragment: const graphql.Fragment(
+        fragmentName: 'DriverDeliveryFragment',
+        document: documentNodeFragmentDriverDeliveryFragment,
+      ),
+    ),
+    data: data.toJson(),
+    broadcast: broadcast,
+  );
+
+  Fragment$DriverDeliveryFragment? readFragment$DriverDeliveryFragment({
+    required Map<String, dynamic> idFields,
+    bool optimistic = true,
+  }) {
+    final result = this.readFragment(
+      graphql.FragmentRequest(
+        idFields: idFields,
+        fragment: const graphql.Fragment(
+          fragmentName: 'DriverDeliveryFragment',
+          document: documentNodeFragmentDriverDeliveryFragment,
+        ),
+      ),
+      optimistic: optimistic,
+    );
+    return result == null
+        ? null
+        : Fragment$DriverDeliveryFragment.fromJson(result);
+  }
+}
+
+class Fragment$DriverDeliveryFragment$restaurant {
+  Fragment$DriverDeliveryFragment$restaurant({
+    required this.id,
+    required this.name,
+    this.$__typename = 'Restaurant',
+  });
+
+  factory Fragment$DriverDeliveryFragment$restaurant.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$name = json['name'];
+    final l$$__typename = json['__typename'];
+    return Fragment$DriverDeliveryFragment$restaurant(
+      id: (l$id as String),
+      name: (l$name as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String name;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$name, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$DriverDeliveryFragment$restaurant ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$DriverDeliveryFragment$restaurant
+    on Fragment$DriverDeliveryFragment$restaurant {
+  CopyWith$Fragment$DriverDeliveryFragment$restaurant<
+    Fragment$DriverDeliveryFragment$restaurant
+  >
+  get copyWith =>
+      CopyWith$Fragment$DriverDeliveryFragment$restaurant(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$DriverDeliveryFragment$restaurant<TRes> {
+  factory CopyWith$Fragment$DriverDeliveryFragment$restaurant(
+    Fragment$DriverDeliveryFragment$restaurant instance,
+    TRes Function(Fragment$DriverDeliveryFragment$restaurant) then,
+  ) = _CopyWithImpl$Fragment$DriverDeliveryFragment$restaurant;
+
+  factory CopyWith$Fragment$DriverDeliveryFragment$restaurant.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$DriverDeliveryFragment$restaurant;
+
+  TRes call({String? id, String? name, String? $__typename});
+}
+
+class _CopyWithImpl$Fragment$DriverDeliveryFragment$restaurant<TRes>
+    implements CopyWith$Fragment$DriverDeliveryFragment$restaurant<TRes> {
+  _CopyWithImpl$Fragment$DriverDeliveryFragment$restaurant(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$DriverDeliveryFragment$restaurant _instance;
+
+  final TRes Function(Fragment$DriverDeliveryFragment$restaurant) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$DriverDeliveryFragment$restaurant(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      name: name == _undefined || name == null
+          ? _instance.name
+          : (name as String),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$DriverDeliveryFragment$restaurant<TRes>
+    implements CopyWith$Fragment$DriverDeliveryFragment$restaurant<TRes> {
+  _CopyWithStubImpl$Fragment$DriverDeliveryFragment$restaurant(this._res);
+
+  TRes _res;
+
+  call({String? id, String? name, String? $__typename}) => _res;
+}
+
+class Fragment$DriverDeliveryFragment$order {
+  Fragment$DriverDeliveryFragment$order({
+    required this.id,
+    required this.total,
+    required this.status,
+    this.customer,
+    this.deliveryFirstName,
+    this.deliveryLastName,
+    this.deliveryPhoneNumber,
+    this.deliveryStreet,
+    this.deliveryApartment,
+    this.deliveryCity,
+    this.deliveryZipCode,
+    this.orderItems,
+    this.$__typename = 'Order',
+  });
+
+  factory Fragment$DriverDeliveryFragment$order.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$total = json['total'];
+    final l$status = json['status'];
+    final l$customer = json['customer'];
+    final l$deliveryFirstName = json['deliveryFirstName'];
+    final l$deliveryLastName = json['deliveryLastName'];
+    final l$deliveryPhoneNumber = json['deliveryPhoneNumber'];
+    final l$deliveryStreet = json['deliveryStreet'];
+    final l$deliveryApartment = json['deliveryApartment'];
+    final l$deliveryCity = json['deliveryCity'];
+    final l$deliveryZipCode = json['deliveryZipCode'];
+    final l$orderItems = json['orderItems'];
+    final l$$__typename = json['__typename'];
+    return Fragment$DriverDeliveryFragment$order(
+      id: (l$id as String),
+      total: (l$total as int),
+      status: fromJson$Enum$OrderStatus((l$status as String)),
+      customer: l$customer == null
+          ? null
+          : Fragment$DriverDeliveryFragment$order$customer.fromJson(
+              (l$customer as Map<String, dynamic>),
+            ),
+      deliveryFirstName: (l$deliveryFirstName as String?),
+      deliveryLastName: (l$deliveryLastName as String?),
+      deliveryPhoneNumber: (l$deliveryPhoneNumber as String?),
+      deliveryStreet: (l$deliveryStreet as String?),
+      deliveryApartment: (l$deliveryApartment as String?),
+      deliveryCity: (l$deliveryCity as String?),
+      deliveryZipCode: (l$deliveryZipCode as String?),
+      orderItems: l$orderItems == null
+          ? null
+          : Fragment$DriverDeliveryFragment$order$orderItems.fromJson(
+              (l$orderItems as Map<String, dynamic>),
+            ),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final int total;
+
+  final Enum$OrderStatus status;
+
+  final Fragment$DriverDeliveryFragment$order$customer? customer;
+
+  final String? deliveryFirstName;
+
+  final String? deliveryLastName;
+
+  final String? deliveryPhoneNumber;
+
+  final String? deliveryStreet;
+
+  final String? deliveryApartment;
+
+  final String? deliveryCity;
+
+  final String? deliveryZipCode;
+
+  final Fragment$DriverDeliveryFragment$order$orderItems? orderItems;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$total = total;
+    _resultData['total'] = l$total;
+    final l$status = status;
+    _resultData['status'] = toJson$Enum$OrderStatus(l$status);
+    final l$customer = customer;
+    _resultData['customer'] = l$customer?.toJson();
+    final l$deliveryFirstName = deliveryFirstName;
+    _resultData['deliveryFirstName'] = l$deliveryFirstName;
+    final l$deliveryLastName = deliveryLastName;
+    _resultData['deliveryLastName'] = l$deliveryLastName;
+    final l$deliveryPhoneNumber = deliveryPhoneNumber;
+    _resultData['deliveryPhoneNumber'] = l$deliveryPhoneNumber;
+    final l$deliveryStreet = deliveryStreet;
+    _resultData['deliveryStreet'] = l$deliveryStreet;
+    final l$deliveryApartment = deliveryApartment;
+    _resultData['deliveryApartment'] = l$deliveryApartment;
+    final l$deliveryCity = deliveryCity;
+    _resultData['deliveryCity'] = l$deliveryCity;
+    final l$deliveryZipCode = deliveryZipCode;
+    _resultData['deliveryZipCode'] = l$deliveryZipCode;
+    final l$orderItems = orderItems;
+    _resultData['orderItems'] = l$orderItems?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$total = total;
+    final l$status = status;
+    final l$customer = customer;
+    final l$deliveryFirstName = deliveryFirstName;
+    final l$deliveryLastName = deliveryLastName;
+    final l$deliveryPhoneNumber = deliveryPhoneNumber;
+    final l$deliveryStreet = deliveryStreet;
+    final l$deliveryApartment = deliveryApartment;
+    final l$deliveryCity = deliveryCity;
+    final l$deliveryZipCode = deliveryZipCode;
+    final l$orderItems = orderItems;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$total,
+      l$status,
+      l$customer,
+      l$deliveryFirstName,
+      l$deliveryLastName,
+      l$deliveryPhoneNumber,
+      l$deliveryStreet,
+      l$deliveryApartment,
+      l$deliveryCity,
+      l$deliveryZipCode,
+      l$orderItems,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$DriverDeliveryFragment$order ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$total = total;
+    final lOther$total = other.total;
+    if (l$total != lOther$total) {
+      return false;
+    }
+    final l$status = status;
+    final lOther$status = other.status;
+    if (l$status != lOther$status) {
+      return false;
+    }
+    final l$customer = customer;
+    final lOther$customer = other.customer;
+    if (l$customer != lOther$customer) {
+      return false;
+    }
+    final l$deliveryFirstName = deliveryFirstName;
+    final lOther$deliveryFirstName = other.deliveryFirstName;
+    if (l$deliveryFirstName != lOther$deliveryFirstName) {
+      return false;
+    }
+    final l$deliveryLastName = deliveryLastName;
+    final lOther$deliveryLastName = other.deliveryLastName;
+    if (l$deliveryLastName != lOther$deliveryLastName) {
+      return false;
+    }
+    final l$deliveryPhoneNumber = deliveryPhoneNumber;
+    final lOther$deliveryPhoneNumber = other.deliveryPhoneNumber;
+    if (l$deliveryPhoneNumber != lOther$deliveryPhoneNumber) {
+      return false;
+    }
+    final l$deliveryStreet = deliveryStreet;
+    final lOther$deliveryStreet = other.deliveryStreet;
+    if (l$deliveryStreet != lOther$deliveryStreet) {
+      return false;
+    }
+    final l$deliveryApartment = deliveryApartment;
+    final lOther$deliveryApartment = other.deliveryApartment;
+    if (l$deliveryApartment != lOther$deliveryApartment) {
+      return false;
+    }
+    final l$deliveryCity = deliveryCity;
+    final lOther$deliveryCity = other.deliveryCity;
+    if (l$deliveryCity != lOther$deliveryCity) {
+      return false;
+    }
+    final l$deliveryZipCode = deliveryZipCode;
+    final lOther$deliveryZipCode = other.deliveryZipCode;
+    if (l$deliveryZipCode != lOther$deliveryZipCode) {
+      return false;
+    }
+    final l$orderItems = orderItems;
+    final lOther$orderItems = other.orderItems;
+    if (l$orderItems != lOther$orderItems) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$DriverDeliveryFragment$order
+    on Fragment$DriverDeliveryFragment$order {
+  CopyWith$Fragment$DriverDeliveryFragment$order<
+    Fragment$DriverDeliveryFragment$order
+  >
+  get copyWith =>
+      CopyWith$Fragment$DriverDeliveryFragment$order(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$DriverDeliveryFragment$order<TRes> {
+  factory CopyWith$Fragment$DriverDeliveryFragment$order(
+    Fragment$DriverDeliveryFragment$order instance,
+    TRes Function(Fragment$DriverDeliveryFragment$order) then,
+  ) = _CopyWithImpl$Fragment$DriverDeliveryFragment$order;
+
+  factory CopyWith$Fragment$DriverDeliveryFragment$order.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order;
+
+  TRes call({
+    String? id,
+    int? total,
+    Enum$OrderStatus? status,
+    Fragment$DriverDeliveryFragment$order$customer? customer,
+    String? deliveryFirstName,
+    String? deliveryLastName,
+    String? deliveryPhoneNumber,
+    String? deliveryStreet,
+    String? deliveryApartment,
+    String? deliveryCity,
+    String? deliveryZipCode,
+    Fragment$DriverDeliveryFragment$order$orderItems? orderItems,
+    String? $__typename,
+  });
+  CopyWith$Fragment$DriverDeliveryFragment$order$customer<TRes> get customer;
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems<TRes>
+  get orderItems;
+}
+
+class _CopyWithImpl$Fragment$DriverDeliveryFragment$order<TRes>
+    implements CopyWith$Fragment$DriverDeliveryFragment$order<TRes> {
+  _CopyWithImpl$Fragment$DriverDeliveryFragment$order(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$DriverDeliveryFragment$order _instance;
+
+  final TRes Function(Fragment$DriverDeliveryFragment$order) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? total = _undefined,
+    Object? status = _undefined,
+    Object? customer = _undefined,
+    Object? deliveryFirstName = _undefined,
+    Object? deliveryLastName = _undefined,
+    Object? deliveryPhoneNumber = _undefined,
+    Object? deliveryStreet = _undefined,
+    Object? deliveryApartment = _undefined,
+    Object? deliveryCity = _undefined,
+    Object? deliveryZipCode = _undefined,
+    Object? orderItems = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$DriverDeliveryFragment$order(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      total: total == _undefined || total == null
+          ? _instance.total
+          : (total as int),
+      status: status == _undefined || status == null
+          ? _instance.status
+          : (status as Enum$OrderStatus),
+      customer: customer == _undefined
+          ? _instance.customer
+          : (customer as Fragment$DriverDeliveryFragment$order$customer?),
+      deliveryFirstName: deliveryFirstName == _undefined
+          ? _instance.deliveryFirstName
+          : (deliveryFirstName as String?),
+      deliveryLastName: deliveryLastName == _undefined
+          ? _instance.deliveryLastName
+          : (deliveryLastName as String?),
+      deliveryPhoneNumber: deliveryPhoneNumber == _undefined
+          ? _instance.deliveryPhoneNumber
+          : (deliveryPhoneNumber as String?),
+      deliveryStreet: deliveryStreet == _undefined
+          ? _instance.deliveryStreet
+          : (deliveryStreet as String?),
+      deliveryApartment: deliveryApartment == _undefined
+          ? _instance.deliveryApartment
+          : (deliveryApartment as String?),
+      deliveryCity: deliveryCity == _undefined
+          ? _instance.deliveryCity
+          : (deliveryCity as String?),
+      deliveryZipCode: deliveryZipCode == _undefined
+          ? _instance.deliveryZipCode
+          : (deliveryZipCode as String?),
+      orderItems: orderItems == _undefined
+          ? _instance.orderItems
+          : (orderItems as Fragment$DriverDeliveryFragment$order$orderItems?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  CopyWith$Fragment$DriverDeliveryFragment$order$customer<TRes> get customer {
+    final local$customer = _instance.customer;
+    return local$customer == null
+        ? CopyWith$Fragment$DriverDeliveryFragment$order$customer.stub(
+            _then(_instance),
+          )
+        : CopyWith$Fragment$DriverDeliveryFragment$order$customer(
+            local$customer,
+            (e) => call(customer: e),
+          );
+  }
+
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems<TRes>
+  get orderItems {
+    final local$orderItems = _instance.orderItems;
+    return local$orderItems == null
+        ? CopyWith$Fragment$DriverDeliveryFragment$order$orderItems.stub(
+            _then(_instance),
+          )
+        : CopyWith$Fragment$DriverDeliveryFragment$order$orderItems(
+            local$orderItems,
+            (e) => call(orderItems: e),
+          );
+  }
+}
+
+class _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order<TRes>
+    implements CopyWith$Fragment$DriverDeliveryFragment$order<TRes> {
+  _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order(this._res);
+
+  TRes _res;
+
+  call({
+    String? id,
+    int? total,
+    Enum$OrderStatus? status,
+    Fragment$DriverDeliveryFragment$order$customer? customer,
+    String? deliveryFirstName,
+    String? deliveryLastName,
+    String? deliveryPhoneNumber,
+    String? deliveryStreet,
+    String? deliveryApartment,
+    String? deliveryCity,
+    String? deliveryZipCode,
+    Fragment$DriverDeliveryFragment$order$orderItems? orderItems,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Fragment$DriverDeliveryFragment$order$customer<TRes> get customer =>
+      CopyWith$Fragment$DriverDeliveryFragment$order$customer.stub(_res);
+
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems<TRes>
+  get orderItems =>
+      CopyWith$Fragment$DriverDeliveryFragment$order$orderItems.stub(_res);
+}
+
+class Fragment$DriverDeliveryFragment$order$customer {
+  Fragment$DriverDeliveryFragment$order$customer({
+    required this.id,
+    required this.email,
+    this.$__typename = 'User',
+  });
+
+  factory Fragment$DriverDeliveryFragment$order$customer.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$email = json['email'];
+    final l$$__typename = json['__typename'];
+    return Fragment$DriverDeliveryFragment$order$customer(
+      id: (l$id as String),
+      email: (l$email as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String email;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$email = email;
+    _resultData['email'] = l$email;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$email = email;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$email, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$DriverDeliveryFragment$order$customer ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$email = email;
+    final lOther$email = other.email;
+    if (l$email != lOther$email) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$DriverDeliveryFragment$order$customer
+    on Fragment$DriverDeliveryFragment$order$customer {
+  CopyWith$Fragment$DriverDeliveryFragment$order$customer<
+    Fragment$DriverDeliveryFragment$order$customer
+  >
+  get copyWith =>
+      CopyWith$Fragment$DriverDeliveryFragment$order$customer(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$DriverDeliveryFragment$order$customer<TRes> {
+  factory CopyWith$Fragment$DriverDeliveryFragment$order$customer(
+    Fragment$DriverDeliveryFragment$order$customer instance,
+    TRes Function(Fragment$DriverDeliveryFragment$order$customer) then,
+  ) = _CopyWithImpl$Fragment$DriverDeliveryFragment$order$customer;
+
+  factory CopyWith$Fragment$DriverDeliveryFragment$order$customer.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$customer;
+
+  TRes call({String? id, String? email, String? $__typename});
+}
+
+class _CopyWithImpl$Fragment$DriverDeliveryFragment$order$customer<TRes>
+    implements CopyWith$Fragment$DriverDeliveryFragment$order$customer<TRes> {
+  _CopyWithImpl$Fragment$DriverDeliveryFragment$order$customer(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$DriverDeliveryFragment$order$customer _instance;
+
+  final TRes Function(Fragment$DriverDeliveryFragment$order$customer) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? email = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$DriverDeliveryFragment$order$customer(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      email: email == _undefined || email == null
+          ? _instance.email
+          : (email as String),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$customer<TRes>
+    implements CopyWith$Fragment$DriverDeliveryFragment$order$customer<TRes> {
+  _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$customer(this._res);
+
+  TRes _res;
+
+  call({String? id, String? email, String? $__typename}) => _res;
+}
+
+class Fragment$DriverDeliveryFragment$order$orderItems {
+  Fragment$DriverDeliveryFragment$order$orderItems({
+    this.edges,
+    this.$__typename = 'OrderItemCursorConnection',
+  });
+
+  factory Fragment$DriverDeliveryFragment$order$orderItems.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$edges = json['edges'];
+    final l$$__typename = json['__typename'];
+    return Fragment$DriverDeliveryFragment$order$orderItems(
+      edges: (l$edges as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Fragment$DriverDeliveryFragment$order$orderItems$edges.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList(),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final List<Fragment$DriverDeliveryFragment$order$orderItems$edges?>? edges;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$edges = edges;
+    _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$edges = edges;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$DriverDeliveryFragment$order$orderItems ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$edges = edges;
+    final lOther$edges = other.edges;
+    if (l$edges != null && lOther$edges != null) {
+      if (l$edges.length != lOther$edges.length) {
+        return false;
+      }
+      for (int i = 0; i < l$edges.length; i++) {
+        final l$edges$entry = l$edges[i];
+        final lOther$edges$entry = lOther$edges[i];
+        if (l$edges$entry != lOther$edges$entry) {
+          return false;
+        }
+      }
+    } else if (l$edges != lOther$edges) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$DriverDeliveryFragment$order$orderItems
+    on Fragment$DriverDeliveryFragment$order$orderItems {
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems<
+    Fragment$DriverDeliveryFragment$order$orderItems
+  >
+  get copyWith =>
+      CopyWith$Fragment$DriverDeliveryFragment$order$orderItems(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$DriverDeliveryFragment$order$orderItems<TRes> {
+  factory CopyWith$Fragment$DriverDeliveryFragment$order$orderItems(
+    Fragment$DriverDeliveryFragment$order$orderItems instance,
+    TRes Function(Fragment$DriverDeliveryFragment$order$orderItems) then,
+  ) = _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems;
+
+  factory CopyWith$Fragment$DriverDeliveryFragment$order$orderItems.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems;
+
+  TRes call({
+    List<Fragment$DriverDeliveryFragment$order$orderItems$edges?>? edges,
+    String? $__typename,
+  });
+  TRes edges(
+    Iterable<Fragment$DriverDeliveryFragment$order$orderItems$edges?>? Function(
+      Iterable<
+        CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges<
+          Fragment$DriverDeliveryFragment$order$orderItems$edges
+        >?
+      >?,
+    )
+    _fn,
+  );
+}
+
+class _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems<TRes>
+    implements CopyWith$Fragment$DriverDeliveryFragment$order$orderItems<TRes> {
+  _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$DriverDeliveryFragment$order$orderItems _instance;
+
+  final TRes Function(Fragment$DriverDeliveryFragment$order$orderItems) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? edges = _undefined, Object? $__typename = _undefined}) =>
+      _then(
+        Fragment$DriverDeliveryFragment$order$orderItems(
+          edges: edges == _undefined
+              ? _instance.edges
+              : (edges
+                    as List<
+                      Fragment$DriverDeliveryFragment$order$orderItems$edges?
+                    >?),
+          $__typename: $__typename == _undefined || $__typename == null
+              ? _instance.$__typename
+              : ($__typename as String),
+        ),
+      );
+
+  TRes edges(
+    Iterable<Fragment$DriverDeliveryFragment$order$orderItems$edges?>? Function(
+      Iterable<
+        CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges<
+          Fragment$DriverDeliveryFragment$order$orderItems$edges
+        >?
+      >?,
+    )
+    _fn,
+  ) => call(
+    edges: _fn(
+      _instance.edges?.map(
+        (e) => e == null
+            ? null
+            : CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges(
+                e,
+                (i) => i,
+              ),
+      ),
+    )?.toList(),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems<TRes>
+    implements CopyWith$Fragment$DriverDeliveryFragment$order$orderItems<TRes> {
+  _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems(this._res);
+
+  TRes _res;
+
+  call({
+    List<Fragment$DriverDeliveryFragment$order$orderItems$edges?>? edges,
+    String? $__typename,
+  }) => _res;
+
+  edges(_fn) => _res;
+}
+
+class Fragment$DriverDeliveryFragment$order$orderItems$edges {
+  Fragment$DriverDeliveryFragment$order$orderItems$edges({
+    this.node,
+    this.$__typename = 'OrderItemEdge',
+  });
+
+  factory Fragment$DriverDeliveryFragment$order$orderItems$edges.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$node = json['node'];
+    final l$$__typename = json['__typename'];
+    return Fragment$DriverDeliveryFragment$order$orderItems$edges(
+      node: l$node == null
+          ? null
+          : Fragment$DriverDeliveryFragment$order$orderItems$edges$node.fromJson(
+              (l$node as Map<String, dynamic>),
+            ),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Fragment$DriverDeliveryFragment$order$orderItems$edges$node? node;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$node = node;
+    _resultData['node'] = l$node?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$node = node;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$node, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$DriverDeliveryFragment$order$orderItems$edges ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$node = node;
+    final lOther$node = other.node;
+    if (l$node != lOther$node) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$DriverDeliveryFragment$order$orderItems$edges
+    on Fragment$DriverDeliveryFragment$order$orderItems$edges {
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges<
+    Fragment$DriverDeliveryFragment$order$orderItems$edges
+  >
+  get copyWith =>
+      CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges<
+  TRes
+> {
+  factory CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges(
+    Fragment$DriverDeliveryFragment$order$orderItems$edges instance,
+    TRes Function(Fragment$DriverDeliveryFragment$order$orderItems$edges) then,
+  ) = _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges;
+
+  factory CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges;
+
+  TRes call({
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node? node,
+    String? $__typename,
+  });
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node<TRes>
+  get node;
+}
+
+class _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges<TRes>
+    implements
+        CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges<TRes> {
+  _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$DriverDeliveryFragment$order$orderItems$edges _instance;
+
+  final TRes Function(Fragment$DriverDeliveryFragment$order$orderItems$edges)
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? node = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$DriverDeliveryFragment$order$orderItems$edges(
+      node: node == _undefined
+          ? _instance.node
+          : (node
+                as Fragment$DriverDeliveryFragment$order$orderItems$edges$node?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node<TRes>
+  get node {
+    final local$node = _instance.node;
+    return local$node == null
+        ? CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node.stub(
+            _then(_instance),
+          )
+        : CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node(
+            local$node,
+            (e) => call(node: e),
+          );
+  }
+}
+
+class _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges<
+  TRes
+>
+    implements
+        CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges<TRes> {
+  _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node? node,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node<TRes>
+  get node =>
+      CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node.stub(
+        _res,
+      );
+}
+
+class Fragment$DriverDeliveryFragment$order$orderItems$edges$node {
+  Fragment$DriverDeliveryFragment$order$orderItems$edges$node({
+    required this.id,
+    required this.quantity,
+    required this.mealPlan,
+    this.$__typename = 'OrderItem',
+  });
+
+  factory Fragment$DriverDeliveryFragment$order$orderItems$edges$node.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$quantity = json['quantity'];
+    final l$mealPlan = json['mealPlan'];
+    final l$$__typename = json['__typename'];
+    return Fragment$DriverDeliveryFragment$order$orderItems$edges$node(
+      id: (l$id as String),
+      quantity: (l$quantity as int),
+      mealPlan:
+          Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan.fromJson(
+            (l$mealPlan as Map<String, dynamic>),
+          ),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final int quantity;
+
+  final Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan
+  mealPlan;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$quantity = quantity;
+    _resultData['quantity'] = l$quantity;
+    final l$mealPlan = mealPlan;
+    _resultData['mealPlan'] = l$mealPlan.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$quantity = quantity;
+    final l$mealPlan = mealPlan;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$quantity, l$mealPlan, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$DriverDeliveryFragment$order$orderItems$edges$node ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$quantity = quantity;
+    final lOther$quantity = other.quantity;
+    if (l$quantity != lOther$quantity) {
+      return false;
+    }
+    final l$mealPlan = mealPlan;
+    final lOther$mealPlan = other.mealPlan;
+    if (l$mealPlan != lOther$mealPlan) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$DriverDeliveryFragment$order$orderItems$edges$node
+    on Fragment$DriverDeliveryFragment$order$orderItems$edges$node {
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node<
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node
+  >
+  get copyWith =>
+      CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node<
+  TRes
+> {
+  factory CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node(
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node instance,
+    TRes Function(Fragment$DriverDeliveryFragment$order$orderItems$edges$node)
+    then,
+  ) = _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node;
+
+  factory CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node;
+
+  TRes call({
+    String? id,
+    int? quantity,
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan?
+    mealPlan,
+    String? $__typename,
+  });
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan<
+    TRes
+  >
+  get mealPlan;
+}
+
+class _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node<
+  TRes
+>
+    implements
+        CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node<
+          TRes
+        > {
+  _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$DriverDeliveryFragment$order$orderItems$edges$node _instance;
+
+  final TRes Function(
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node,
+  )
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? quantity = _undefined,
+    Object? mealPlan = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      quantity: quantity == _undefined || quantity == null
+          ? _instance.quantity
+          : (quantity as int),
+      mealPlan: mealPlan == _undefined || mealPlan == null
+          ? _instance.mealPlan
+          : (mealPlan
+                as Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan<
+    TRes
+  >
+  get mealPlan {
+    final local$mealPlan = _instance.mealPlan;
+    return CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan(
+      local$mealPlan,
+      (e) => call(mealPlan: e),
+    );
+  }
+}
+
+class _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node<
+  TRes
+>
+    implements
+        CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node<
+          TRes
+        > {
+  _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({
+    String? id,
+    int? quantity,
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan?
+    mealPlan,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan<
+    TRes
+  >
+  get mealPlan =>
+      CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan.stub(
+        _res,
+      );
+}
+
+class Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan {
+  Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan({
+    required this.id,
+    required this.name,
+    this.$__typename = 'MealPlan',
+  });
+
+  factory Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$name = json['name'];
+    final l$$__typename = json['__typename'];
+    return Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan(
+      id: (l$id as String),
+      name: (l$name as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String name;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$name, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other
+            is! Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan
+    on Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan {
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan<
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan
+  >
+  get copyWith =>
+      CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan<
+  TRes
+> {
+  factory CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan(
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan
+    instance,
+    TRes Function(
+      Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan,
+    )
+    then,
+  ) = _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan;
+
+  factory CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan;
+
+  TRes call({String? id, String? name, String? $__typename});
+}
+
+class _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan<
+  TRes
+>
+    implements
+        CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan<
+          TRes
+        > {
+  _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan
+  _instance;
+
+  final TRes Function(
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan,
+  )
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      name: name == _undefined || name == null
+          ? _instance.name
+          : (name as String),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan<
+  TRes
+>
+    implements
+        CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan<
+          TRes
+        > {
+  _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({String? id, String? name, String? $__typename}) => _res;
+}
+
 class Variables$Query$GetDeliveries {
-  factory Variables$Query$GetDeliveries({int? first, String? after}) =>
-      Variables$Query$GetDeliveries._({
-        if (first != null) r'first': first,
-        if (after != null) r'after': after,
-      });
+  factory Variables$Query$GetDeliveries({
+    int? first,
+    String? after,
+    String? search,
+  }) => Variables$Query$GetDeliveries._({
+    if (first != null) r'first': first,
+    if (after != null) r'after': after,
+    if (search != null) r'search': search,
+  });
 
   Variables$Query$GetDeliveries._(this._$data);
 
@@ -24,6 +2840,10 @@ class Variables$Query$GetDeliveries {
       final l$after = data['after'];
       result$data['after'] = (l$after as String?);
     }
+    if (data.containsKey('search')) {
+      final l$search = data['search'];
+      result$data['search'] = (l$search as String?);
+    }
     return Variables$Query$GetDeliveries._(result$data);
   }
 
@@ -32,6 +2852,8 @@ class Variables$Query$GetDeliveries {
   int? get first => (_$data['first'] as int?);
 
   String? get after => (_$data['after'] as String?);
+
+  String? get search => (_$data['search'] as String?);
 
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
@@ -42,6 +2864,10 @@ class Variables$Query$GetDeliveries {
     if (_$data.containsKey('after')) {
       final l$after = after;
       result$data['after'] = l$after;
+    }
+    if (_$data.containsKey('search')) {
+      final l$search = search;
+      result$data['search'] = l$search;
     }
     return result$data;
   }
@@ -74,6 +2900,14 @@ class Variables$Query$GetDeliveries {
     if (l$after != lOther$after) {
       return false;
     }
+    final l$search = search;
+    final lOther$search = other.search;
+    if (_$data.containsKey('search') != other._$data.containsKey('search')) {
+      return false;
+    }
+    if (l$search != lOther$search) {
+      return false;
+    }
     return true;
   }
 
@@ -81,9 +2915,11 @@ class Variables$Query$GetDeliveries {
   int get hashCode {
     final l$first = first;
     final l$after = after;
+    final l$search = search;
     return Object.hashAll([
       _$data.containsKey('first') ? l$first : const {},
       _$data.containsKey('after') ? l$after : const {},
+      _$data.containsKey('search') ? l$search : const {},
     ]);
   }
 }
@@ -97,7 +2933,7 @@ abstract class CopyWith$Variables$Query$GetDeliveries<TRes> {
   factory CopyWith$Variables$Query$GetDeliveries.stub(TRes res) =
       _CopyWithStubImpl$Variables$Query$GetDeliveries;
 
-  TRes call({int? first, String? after});
+  TRes call({int? first, String? after, String? search});
 }
 
 class _CopyWithImpl$Variables$Query$GetDeliveries<TRes>
@@ -110,11 +2946,16 @@ class _CopyWithImpl$Variables$Query$GetDeliveries<TRes>
 
   static const _undefined = <dynamic, dynamic>{};
 
-  TRes call({Object? first = _undefined, Object? after = _undefined}) => _then(
+  TRes call({
+    Object? first = _undefined,
+    Object? after = _undefined,
+    Object? search = _undefined,
+  }) => _then(
     Variables$Query$GetDeliveries._({
       ..._instance._$data,
       if (first != _undefined) 'first': (first as int?),
       if (after != _undefined) 'after': (after as String?),
+      if (search != _undefined) 'search': (search as String?),
     }),
   );
 }
@@ -125,7 +2966,7 @@ class _CopyWithStubImpl$Variables$Query$GetDeliveries<TRes>
 
   TRes _res;
 
-  call({int? first, String? after}) => _res;
+  call({int? first, String? after, String? search}) => _res;
 }
 
 class Query$GetDeliveries {
@@ -273,6 +3114,15 @@ const documentNodeQueryGetDeliveries = DocumentNode(
           defaultValue: DefaultValueNode(value: null),
           directives: [],
         ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'search')),
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
       ],
       directives: [],
       selectionSet: SelectionSetNode(
@@ -288,6 +3138,10 @@ const documentNodeQueryGetDeliveries = DocumentNode(
               ArgumentNode(
                 name: NameNode(value: 'after'),
                 value: VariableNode(name: NameNode(value: 'after')),
+              ),
+              ArgumentNode(
+                name: NameNode(value: 'search'),
+                value: VariableNode(name: NameNode(value: 'search')),
               ),
             ],
             directives: [],
@@ -307,119 +3161,9 @@ const documentNodeQueryGetDeliveries = DocumentNode(
                         directives: [],
                         selectionSet: SelectionSetNode(
                           selections: [
-                            FieldNode(
-                              name: NameNode(value: 'id'),
-                              alias: null,
-                              arguments: [],
+                            FragmentSpreadNode(
+                              name: NameNode(value: 'BasicDeliveryFragment'),
                               directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'status'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'deliveryDate'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'order'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: SelectionSetNode(
-                                selections: [
-                                  FieldNode(
-                                    name: NameNode(value: 'id'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'total'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'customer'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: SelectionSetNode(
-                                      selections: [
-                                        FieldNode(
-                                          name: NameNode(value: 'id'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: 'email'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: '__typename'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: '__typename'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'driver'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: SelectionSetNode(
-                                selections: [
-                                  FieldNode(
-                                    name: NameNode(value: 'id'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'email'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: '__typename'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                ],
-                              ),
                             ),
                             FieldNode(
                               name: NameNode(value: '__typename'),
@@ -492,6 +3236,7 @@ const documentNodeQueryGetDeliveries = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionBasicDeliveryFragment,
   ],
 );
 Query$GetDeliveries _parserFn$Query$GetDeliveries(Map<String, dynamic> data) =>
@@ -864,14 +3609,14 @@ class Query$GetDeliveries$deliveries$edges {
     return Query$GetDeliveries$deliveries$edges(
       node: l$node == null
           ? null
-          : Query$GetDeliveries$deliveries$edges$node.fromJson(
+          : Fragment$BasicDeliveryFragment.fromJson(
               (l$node as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Query$GetDeliveries$deliveries$edges$node? node;
+  final Fragment$BasicDeliveryFragment? node;
 
   final String $__typename;
 
@@ -931,11 +3676,8 @@ abstract class CopyWith$Query$GetDeliveries$deliveries$edges<TRes> {
   factory CopyWith$Query$GetDeliveries$deliveries$edges.stub(TRes res) =
       _CopyWithStubImpl$Query$GetDeliveries$deliveries$edges;
 
-  TRes call({
-    Query$GetDeliveries$deliveries$edges$node? node,
-    String? $__typename,
-  });
-  CopyWith$Query$GetDeliveries$deliveries$edges$node<TRes> get node;
+  TRes call({Fragment$BasicDeliveryFragment? node, String? $__typename});
+  CopyWith$Fragment$BasicDeliveryFragment<TRes> get node;
 }
 
 class _CopyWithImpl$Query$GetDeliveries$deliveries$edges<TRes>
@@ -956,20 +3698,18 @@ class _CopyWithImpl$Query$GetDeliveries$deliveries$edges<TRes>
         Query$GetDeliveries$deliveries$edges(
           node: node == _undefined
               ? _instance.node
-              : (node as Query$GetDeliveries$deliveries$edges$node?),
+              : (node as Fragment$BasicDeliveryFragment?),
           $__typename: $__typename == _undefined || $__typename == null
               ? _instance.$__typename
               : ($__typename as String),
         ),
       );
 
-  CopyWith$Query$GetDeliveries$deliveries$edges$node<TRes> get node {
+  CopyWith$Fragment$BasicDeliveryFragment<TRes> get node {
     final local$node = _instance.node;
     return local$node == null
-        ? CopyWith$Query$GetDeliveries$deliveries$edges$node.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetDeliveries$deliveries$edges$node(
+        ? CopyWith$Fragment$BasicDeliveryFragment.stub(_then(_instance))
+        : CopyWith$Fragment$BasicDeliveryFragment(
             local$node,
             (e) => call(node: e),
           );
@@ -982,732 +3722,10 @@ class _CopyWithStubImpl$Query$GetDeliveries$deliveries$edges<TRes>
 
   TRes _res;
 
-  call({
-    Query$GetDeliveries$deliveries$edges$node? node,
-    String? $__typename,
-  }) => _res;
+  call({Fragment$BasicDeliveryFragment? node, String? $__typename}) => _res;
 
-  CopyWith$Query$GetDeliveries$deliveries$edges$node<TRes> get node =>
-      CopyWith$Query$GetDeliveries$deliveries$edges$node.stub(_res);
-}
-
-class Query$GetDeliveries$deliveries$edges$node {
-  Query$GetDeliveries$deliveries$edges$node({
-    required this.id,
-    required this.status,
-    required this.deliveryDate,
-    this.order,
-    this.driver,
-    this.$__typename = 'Delivery',
-  });
-
-  factory Query$GetDeliveries$deliveries$edges$node.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$status = json['status'];
-    final l$deliveryDate = json['deliveryDate'];
-    final l$order = json['order'];
-    final l$driver = json['driver'];
-    final l$$__typename = json['__typename'];
-    return Query$GetDeliveries$deliveries$edges$node(
-      id: (l$id as String),
-      status: fromJson$Enum$DeliveryStatus((l$status as String)),
-      deliveryDate: (l$deliveryDate as String),
-      order: l$order == null
-          ? null
-          : Query$GetDeliveries$deliveries$edges$node$order.fromJson(
-              (l$order as Map<String, dynamic>),
-            ),
-      driver: l$driver == null
-          ? null
-          : Query$GetDeliveries$deliveries$edges$node$driver.fromJson(
-              (l$driver as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final Enum$DeliveryStatus status;
-
-  final String deliveryDate;
-
-  final Query$GetDeliveries$deliveries$edges$node$order? order;
-
-  final Query$GetDeliveries$deliveries$edges$node$driver? driver;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$status = status;
-    _resultData['status'] = toJson$Enum$DeliveryStatus(l$status);
-    final l$deliveryDate = deliveryDate;
-    _resultData['deliveryDate'] = l$deliveryDate;
-    final l$order = order;
-    _resultData['order'] = l$order?.toJson();
-    final l$driver = driver;
-    _resultData['driver'] = l$driver?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$status = status;
-    final l$deliveryDate = deliveryDate;
-    final l$order = order;
-    final l$driver = driver;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$id,
-      l$status,
-      l$deliveryDate,
-      l$order,
-      l$driver,
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetDeliveries$deliveries$edges$node ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$status = status;
-    final lOther$status = other.status;
-    if (l$status != lOther$status) {
-      return false;
-    }
-    final l$deliveryDate = deliveryDate;
-    final lOther$deliveryDate = other.deliveryDate;
-    if (l$deliveryDate != lOther$deliveryDate) {
-      return false;
-    }
-    final l$order = order;
-    final lOther$order = other.order;
-    if (l$order != lOther$order) {
-      return false;
-    }
-    final l$driver = driver;
-    final lOther$driver = other.driver;
-    if (l$driver != lOther$driver) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetDeliveries$deliveries$edges$node
-    on Query$GetDeliveries$deliveries$edges$node {
-  CopyWith$Query$GetDeliveries$deliveries$edges$node<
-    Query$GetDeliveries$deliveries$edges$node
-  >
-  get copyWith =>
-      CopyWith$Query$GetDeliveries$deliveries$edges$node(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetDeliveries$deliveries$edges$node<TRes> {
-  factory CopyWith$Query$GetDeliveries$deliveries$edges$node(
-    Query$GetDeliveries$deliveries$edges$node instance,
-    TRes Function(Query$GetDeliveries$deliveries$edges$node) then,
-  ) = _CopyWithImpl$Query$GetDeliveries$deliveries$edges$node;
-
-  factory CopyWith$Query$GetDeliveries$deliveries$edges$node.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetDeliveries$deliveries$edges$node;
-
-  TRes call({
-    String? id,
-    Enum$DeliveryStatus? status,
-    String? deliveryDate,
-    Query$GetDeliveries$deliveries$edges$node$order? order,
-    Query$GetDeliveries$deliveries$edges$node$driver? driver,
-    String? $__typename,
-  });
-  CopyWith$Query$GetDeliveries$deliveries$edges$node$order<TRes> get order;
-  CopyWith$Query$GetDeliveries$deliveries$edges$node$driver<TRes> get driver;
-}
-
-class _CopyWithImpl$Query$GetDeliveries$deliveries$edges$node<TRes>
-    implements CopyWith$Query$GetDeliveries$deliveries$edges$node<TRes> {
-  _CopyWithImpl$Query$GetDeliveries$deliveries$edges$node(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetDeliveries$deliveries$edges$node _instance;
-
-  final TRes Function(Query$GetDeliveries$deliveries$edges$node) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? status = _undefined,
-    Object? deliveryDate = _undefined,
-    Object? order = _undefined,
-    Object? driver = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetDeliveries$deliveries$edges$node(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      status: status == _undefined || status == null
-          ? _instance.status
-          : (status as Enum$DeliveryStatus),
-      deliveryDate: deliveryDate == _undefined || deliveryDate == null
-          ? _instance.deliveryDate
-          : (deliveryDate as String),
-      order: order == _undefined
-          ? _instance.order
-          : (order as Query$GetDeliveries$deliveries$edges$node$order?),
-      driver: driver == _undefined
-          ? _instance.driver
-          : (driver as Query$GetDeliveries$deliveries$edges$node$driver?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Query$GetDeliveries$deliveries$edges$node$order<TRes> get order {
-    final local$order = _instance.order;
-    return local$order == null
-        ? CopyWith$Query$GetDeliveries$deliveries$edges$node$order.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetDeliveries$deliveries$edges$node$order(
-            local$order,
-            (e) => call(order: e),
-          );
-  }
-
-  CopyWith$Query$GetDeliveries$deliveries$edges$node$driver<TRes> get driver {
-    final local$driver = _instance.driver;
-    return local$driver == null
-        ? CopyWith$Query$GetDeliveries$deliveries$edges$node$driver.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetDeliveries$deliveries$edges$node$driver(
-            local$driver,
-            (e) => call(driver: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetDeliveries$deliveries$edges$node<TRes>
-    implements CopyWith$Query$GetDeliveries$deliveries$edges$node<TRes> {
-  _CopyWithStubImpl$Query$GetDeliveries$deliveries$edges$node(this._res);
-
-  TRes _res;
-
-  call({
-    String? id,
-    Enum$DeliveryStatus? status,
-    String? deliveryDate,
-    Query$GetDeliveries$deliveries$edges$node$order? order,
-    Query$GetDeliveries$deliveries$edges$node$driver? driver,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetDeliveries$deliveries$edges$node$order<TRes> get order =>
-      CopyWith$Query$GetDeliveries$deliveries$edges$node$order.stub(_res);
-
-  CopyWith$Query$GetDeliveries$deliveries$edges$node$driver<TRes> get driver =>
-      CopyWith$Query$GetDeliveries$deliveries$edges$node$driver.stub(_res);
-}
-
-class Query$GetDeliveries$deliveries$edges$node$order {
-  Query$GetDeliveries$deliveries$edges$node$order({
-    required this.id,
-    required this.total,
-    this.customer,
-    this.$__typename = 'Order',
-  });
-
-  factory Query$GetDeliveries$deliveries$edges$node$order.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$total = json['total'];
-    final l$customer = json['customer'];
-    final l$$__typename = json['__typename'];
-    return Query$GetDeliveries$deliveries$edges$node$order(
-      id: (l$id as String),
-      total: (l$total as int),
-      customer: l$customer == null
-          ? null
-          : Query$GetDeliveries$deliveries$edges$node$order$customer.fromJson(
-              (l$customer as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final int total;
-
-  final Query$GetDeliveries$deliveries$edges$node$order$customer? customer;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$total = total;
-    _resultData['total'] = l$total;
-    final l$customer = customer;
-    _resultData['customer'] = l$customer?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$total = total;
-    final l$customer = customer;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$total, l$customer, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetDeliveries$deliveries$edges$node$order ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$total = total;
-    final lOther$total = other.total;
-    if (l$total != lOther$total) {
-      return false;
-    }
-    final l$customer = customer;
-    final lOther$customer = other.customer;
-    if (l$customer != lOther$customer) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetDeliveries$deliveries$edges$node$order
-    on Query$GetDeliveries$deliveries$edges$node$order {
-  CopyWith$Query$GetDeliveries$deliveries$edges$node$order<
-    Query$GetDeliveries$deliveries$edges$node$order
-  >
-  get copyWith =>
-      CopyWith$Query$GetDeliveries$deliveries$edges$node$order(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetDeliveries$deliveries$edges$node$order<TRes> {
-  factory CopyWith$Query$GetDeliveries$deliveries$edges$node$order(
-    Query$GetDeliveries$deliveries$edges$node$order instance,
-    TRes Function(Query$GetDeliveries$deliveries$edges$node$order) then,
-  ) = _CopyWithImpl$Query$GetDeliveries$deliveries$edges$node$order;
-
-  factory CopyWith$Query$GetDeliveries$deliveries$edges$node$order.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetDeliveries$deliveries$edges$node$order;
-
-  TRes call({
-    String? id,
-    int? total,
-    Query$GetDeliveries$deliveries$edges$node$order$customer? customer,
-    String? $__typename,
-  });
-  CopyWith$Query$GetDeliveries$deliveries$edges$node$order$customer<TRes>
-  get customer;
-}
-
-class _CopyWithImpl$Query$GetDeliveries$deliveries$edges$node$order<TRes>
-    implements CopyWith$Query$GetDeliveries$deliveries$edges$node$order<TRes> {
-  _CopyWithImpl$Query$GetDeliveries$deliveries$edges$node$order(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetDeliveries$deliveries$edges$node$order _instance;
-
-  final TRes Function(Query$GetDeliveries$deliveries$edges$node$order) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? total = _undefined,
-    Object? customer = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetDeliveries$deliveries$edges$node$order(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      total: total == _undefined || total == null
-          ? _instance.total
-          : (total as int),
-      customer: customer == _undefined
-          ? _instance.customer
-          : (customer
-                as Query$GetDeliveries$deliveries$edges$node$order$customer?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Query$GetDeliveries$deliveries$edges$node$order$customer<TRes>
-  get customer {
-    final local$customer = _instance.customer;
-    return local$customer == null
-        ? CopyWith$Query$GetDeliveries$deliveries$edges$node$order$customer.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetDeliveries$deliveries$edges$node$order$customer(
-            local$customer,
-            (e) => call(customer: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetDeliveries$deliveries$edges$node$order<TRes>
-    implements CopyWith$Query$GetDeliveries$deliveries$edges$node$order<TRes> {
-  _CopyWithStubImpl$Query$GetDeliveries$deliveries$edges$node$order(this._res);
-
-  TRes _res;
-
-  call({
-    String? id,
-    int? total,
-    Query$GetDeliveries$deliveries$edges$node$order$customer? customer,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetDeliveries$deliveries$edges$node$order$customer<TRes>
-  get customer =>
-      CopyWith$Query$GetDeliveries$deliveries$edges$node$order$customer.stub(
-        _res,
-      );
-}
-
-class Query$GetDeliveries$deliveries$edges$node$order$customer {
-  Query$GetDeliveries$deliveries$edges$node$order$customer({
-    required this.id,
-    required this.email,
-    this.$__typename = 'User',
-  });
-
-  factory Query$GetDeliveries$deliveries$edges$node$order$customer.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$email = json['email'];
-    final l$$__typename = json['__typename'];
-    return Query$GetDeliveries$deliveries$edges$node$order$customer(
-      id: (l$id as String),
-      email: (l$email as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String email;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$email = email;
-    _resultData['email'] = l$email;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$email = email;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$email, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetDeliveries$deliveries$edges$node$order$customer ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$email = email;
-    final lOther$email = other.email;
-    if (l$email != lOther$email) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetDeliveries$deliveries$edges$node$order$customer
-    on Query$GetDeliveries$deliveries$edges$node$order$customer {
-  CopyWith$Query$GetDeliveries$deliveries$edges$node$order$customer<
-    Query$GetDeliveries$deliveries$edges$node$order$customer
-  >
-  get copyWith =>
-      CopyWith$Query$GetDeliveries$deliveries$edges$node$order$customer(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetDeliveries$deliveries$edges$node$order$customer<
-  TRes
-> {
-  factory CopyWith$Query$GetDeliveries$deliveries$edges$node$order$customer(
-    Query$GetDeliveries$deliveries$edges$node$order$customer instance,
-    TRes Function(Query$GetDeliveries$deliveries$edges$node$order$customer)
-    then,
-  ) = _CopyWithImpl$Query$GetDeliveries$deliveries$edges$node$order$customer;
-
-  factory CopyWith$Query$GetDeliveries$deliveries$edges$node$order$customer.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetDeliveries$deliveries$edges$node$order$customer;
-
-  TRes call({String? id, String? email, String? $__typename});
-}
-
-class _CopyWithImpl$Query$GetDeliveries$deliveries$edges$node$order$customer<
-  TRes
->
-    implements
-        CopyWith$Query$GetDeliveries$deliveries$edges$node$order$customer<
-          TRes
-        > {
-  _CopyWithImpl$Query$GetDeliveries$deliveries$edges$node$order$customer(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetDeliveries$deliveries$edges$node$order$customer _instance;
-
-  final TRes Function(Query$GetDeliveries$deliveries$edges$node$order$customer)
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? email = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetDeliveries$deliveries$edges$node$order$customer(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      email: email == _undefined || email == null
-          ? _instance.email
-          : (email as String),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetDeliveries$deliveries$edges$node$order$customer<
-  TRes
->
-    implements
-        CopyWith$Query$GetDeliveries$deliveries$edges$node$order$customer<
-          TRes
-        > {
-  _CopyWithStubImpl$Query$GetDeliveries$deliveries$edges$node$order$customer(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({String? id, String? email, String? $__typename}) => _res;
-}
-
-class Query$GetDeliveries$deliveries$edges$node$driver {
-  Query$GetDeliveries$deliveries$edges$node$driver({
-    required this.id,
-    required this.email,
-    this.$__typename = 'User',
-  });
-
-  factory Query$GetDeliveries$deliveries$edges$node$driver.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$email = json['email'];
-    final l$$__typename = json['__typename'];
-    return Query$GetDeliveries$deliveries$edges$node$driver(
-      id: (l$id as String),
-      email: (l$email as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String email;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$email = email;
-    _resultData['email'] = l$email;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$email = email;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$email, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetDeliveries$deliveries$edges$node$driver ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$email = email;
-    final lOther$email = other.email;
-    if (l$email != lOther$email) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetDeliveries$deliveries$edges$node$driver
-    on Query$GetDeliveries$deliveries$edges$node$driver {
-  CopyWith$Query$GetDeliveries$deliveries$edges$node$driver<
-    Query$GetDeliveries$deliveries$edges$node$driver
-  >
-  get copyWith =>
-      CopyWith$Query$GetDeliveries$deliveries$edges$node$driver(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetDeliveries$deliveries$edges$node$driver<TRes> {
-  factory CopyWith$Query$GetDeliveries$deliveries$edges$node$driver(
-    Query$GetDeliveries$deliveries$edges$node$driver instance,
-    TRes Function(Query$GetDeliveries$deliveries$edges$node$driver) then,
-  ) = _CopyWithImpl$Query$GetDeliveries$deliveries$edges$node$driver;
-
-  factory CopyWith$Query$GetDeliveries$deliveries$edges$node$driver.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetDeliveries$deliveries$edges$node$driver;
-
-  TRes call({String? id, String? email, String? $__typename});
-}
-
-class _CopyWithImpl$Query$GetDeliveries$deliveries$edges$node$driver<TRes>
-    implements CopyWith$Query$GetDeliveries$deliveries$edges$node$driver<TRes> {
-  _CopyWithImpl$Query$GetDeliveries$deliveries$edges$node$driver(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetDeliveries$deliveries$edges$node$driver _instance;
-
-  final TRes Function(Query$GetDeliveries$deliveries$edges$node$driver) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? email = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetDeliveries$deliveries$edges$node$driver(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      email: email == _undefined || email == null
-          ? _instance.email
-          : (email as String),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetDeliveries$deliveries$edges$node$driver<TRes>
-    implements CopyWith$Query$GetDeliveries$deliveries$edges$node$driver<TRes> {
-  _CopyWithStubImpl$Query$GetDeliveries$deliveries$edges$node$driver(this._res);
-
-  TRes _res;
-
-  call({String? id, String? email, String? $__typename}) => _res;
+  CopyWith$Fragment$BasicDeliveryFragment<TRes> get node =>
+      CopyWith$Fragment$BasicDeliveryFragment.stub(_res);
 }
 
 class Query$GetDeliveries$deliveries$pageInfo {
@@ -1850,10 +3868,16 @@ class Variables$Query$GetUserDeliveries {
     required String id,
     int? first,
     String? after,
+    List<String?>? status,
+    String? search,
+    List<Input$DeliveryFilter_order?>? order,
   }) => Variables$Query$GetUserDeliveries._({
     r'id': id,
     if (first != null) r'first': first,
     if (after != null) r'after': after,
+    if (status != null) r'status': status,
+    if (search != null) r'search': search,
+    if (order != null) r'order': order,
   });
 
   Variables$Query$GetUserDeliveries._(this._$data);
@@ -1872,6 +3896,28 @@ class Variables$Query$GetUserDeliveries {
       final l$after = data['after'];
       result$data['after'] = (l$after as String?);
     }
+    if (data.containsKey('status')) {
+      final l$status = data['status'];
+      result$data['status'] = (l$status as List<dynamic>?)
+          ?.map((e) => (e as String?))
+          .toList();
+    }
+    if (data.containsKey('search')) {
+      final l$search = data['search'];
+      result$data['search'] = (l$search as String?);
+    }
+    if (data.containsKey('order')) {
+      final l$order = data['order'];
+      result$data['order'] = (l$order as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$DeliveryFilter_order.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
     return Variables$Query$GetUserDeliveries._(result$data);
   }
 
@@ -1882,6 +3928,13 @@ class Variables$Query$GetUserDeliveries {
   int? get first => (_$data['first'] as int?);
 
   String? get after => (_$data['after'] as String?);
+
+  List<String?>? get status => (_$data['status'] as List<String?>?);
+
+  String? get search => (_$data['search'] as String?);
+
+  List<Input$DeliveryFilter_order?>? get order =>
+      (_$data['order'] as List<Input$DeliveryFilter_order?>?);
 
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
@@ -1894,6 +3947,18 @@ class Variables$Query$GetUserDeliveries {
     if (_$data.containsKey('after')) {
       final l$after = after;
       result$data['after'] = l$after;
+    }
+    if (_$data.containsKey('status')) {
+      final l$status = status;
+      result$data['status'] = l$status?.map((e) => e).toList();
+    }
+    if (_$data.containsKey('search')) {
+      final l$search = search;
+      result$data['search'] = l$search;
+    }
+    if (_$data.containsKey('order')) {
+      final l$order = order;
+      result$data['order'] = l$order?.map((e) => e?.toJson()).toList();
     }
     return result$data;
   }
@@ -1931,6 +3996,52 @@ class Variables$Query$GetUserDeliveries {
     if (l$after != lOther$after) {
       return false;
     }
+    final l$status = status;
+    final lOther$status = other.status;
+    if (_$data.containsKey('status') != other._$data.containsKey('status')) {
+      return false;
+    }
+    if (l$status != null && lOther$status != null) {
+      if (l$status.length != lOther$status.length) {
+        return false;
+      }
+      for (int i = 0; i < l$status.length; i++) {
+        final l$status$entry = l$status[i];
+        final lOther$status$entry = lOther$status[i];
+        if (l$status$entry != lOther$status$entry) {
+          return false;
+        }
+      }
+    } else if (l$status != lOther$status) {
+      return false;
+    }
+    final l$search = search;
+    final lOther$search = other.search;
+    if (_$data.containsKey('search') != other._$data.containsKey('search')) {
+      return false;
+    }
+    if (l$search != lOther$search) {
+      return false;
+    }
+    final l$order = order;
+    final lOther$order = other.order;
+    if (_$data.containsKey('order') != other._$data.containsKey('order')) {
+      return false;
+    }
+    if (l$order != null && lOther$order != null) {
+      if (l$order.length != lOther$order.length) {
+        return false;
+      }
+      for (int i = 0; i < l$order.length; i++) {
+        final l$order$entry = l$order[i];
+        final lOther$order$entry = lOther$order[i];
+        if (l$order$entry != lOther$order$entry) {
+          return false;
+        }
+      }
+    } else if (l$order != lOther$order) {
+      return false;
+    }
     return true;
   }
 
@@ -1939,10 +4050,24 @@ class Variables$Query$GetUserDeliveries {
     final l$id = id;
     final l$first = first;
     final l$after = after;
+    final l$status = status;
+    final l$search = search;
+    final l$order = order;
     return Object.hashAll([
       l$id,
       _$data.containsKey('first') ? l$first : const {},
       _$data.containsKey('after') ? l$after : const {},
+      _$data.containsKey('status')
+          ? l$status == null
+                ? null
+                : Object.hashAll(l$status.map((v) => v))
+          : const {},
+      _$data.containsKey('search') ? l$search : const {},
+      _$data.containsKey('order')
+          ? l$order == null
+                ? null
+                : Object.hashAll(l$order.map((v) => v))
+          : const {},
     ]);
   }
 }
@@ -1956,7 +4081,14 @@ abstract class CopyWith$Variables$Query$GetUserDeliveries<TRes> {
   factory CopyWith$Variables$Query$GetUserDeliveries.stub(TRes res) =
       _CopyWithStubImpl$Variables$Query$GetUserDeliveries;
 
-  TRes call({String? id, int? first, String? after});
+  TRes call({
+    String? id,
+    int? first,
+    String? after,
+    List<String?>? status,
+    String? search,
+    List<Input$DeliveryFilter_order?>? order,
+  });
 }
 
 class _CopyWithImpl$Variables$Query$GetUserDeliveries<TRes>
@@ -1973,12 +4105,19 @@ class _CopyWithImpl$Variables$Query$GetUserDeliveries<TRes>
     Object? id = _undefined,
     Object? first = _undefined,
     Object? after = _undefined,
+    Object? status = _undefined,
+    Object? search = _undefined,
+    Object? order = _undefined,
   }) => _then(
     Variables$Query$GetUserDeliveries._({
       ..._instance._$data,
       if (id != _undefined && id != null) 'id': (id as String),
       if (first != _undefined) 'first': (first as int?),
       if (after != _undefined) 'after': (after as String?),
+      if (status != _undefined) 'status': (status as List<String?>?),
+      if (search != _undefined) 'search': (search as String?),
+      if (order != _undefined)
+        'order': (order as List<Input$DeliveryFilter_order?>?),
     }),
   );
 }
@@ -1989,7 +4128,14 @@ class _CopyWithStubImpl$Variables$Query$GetUserDeliveries<TRes>
 
   TRes _res;
 
-  call({String? id, int? first, String? after}) => _res;
+  call({
+    String? id,
+    int? first,
+    String? after,
+    List<String?>? status,
+    String? search,
+    List<Input$DeliveryFilter_order?>? order,
+  }) => _res;
 }
 
 class Query$GetUserDeliveries {
@@ -2140,6 +4286,39 @@ const documentNodeQueryGetUserDeliveries = DocumentNode(
           defaultValue: DefaultValueNode(value: null),
           directives: [],
         ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'status')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'String'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'search')),
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'order')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'DeliveryFilter_order'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
       ],
       directives: [],
       selectionSet: SelectionSetNode(
@@ -2175,6 +4354,18 @@ const documentNodeQueryGetUserDeliveries = DocumentNode(
                       name: NameNode(value: 'after'),
                       value: VariableNode(name: NameNode(value: 'after')),
                     ),
+                    ArgumentNode(
+                      name: NameNode(value: 'status_list'),
+                      value: VariableNode(name: NameNode(value: 'status')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'search'),
+                      value: VariableNode(name: NameNode(value: 'search')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'order'),
+                      value: VariableNode(name: NameNode(value: 'order')),
+                    ),
                   ],
                   directives: [],
                   selectionSet: SelectionSetNode(
@@ -2193,182 +4384,11 @@ const documentNodeQueryGetUserDeliveries = DocumentNode(
                               directives: [],
                               selectionSet: SelectionSetNode(
                                 selections: [
-                                  FieldNode(
-                                    name: NameNode(value: 'id'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'status'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'deliveryDate'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'restaurant'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: SelectionSetNode(
-                                      selections: [
-                                        FieldNode(
-                                          name: NameNode(value: 'id'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: 'name'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: '__typename'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                      ],
+                                  FragmentSpreadNode(
+                                    name: NameNode(
+                                      value: 'DriverDeliveryFragment',
                                     ),
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'order'),
-                                    alias: null,
-                                    arguments: [],
                                     directives: [],
-                                    selectionSet: SelectionSetNode(
-                                      selections: [
-                                        FieldNode(
-                                          name: NameNode(value: 'id'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: 'total'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: 'customer'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                            selections: [
-                                              FieldNode(
-                                                name: NameNode(value: 'id'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null,
-                                              ),
-                                              FieldNode(
-                                                name: NameNode(value: 'email'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null,
-                                              ),
-                                              FieldNode(
-                                                name: NameNode(
-                                                  value: '__typename',
-                                                ),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(
-                                            value: 'deliveryFirstName',
-                                          ),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(
-                                            value: 'deliveryLastName',
-                                          ),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(
-                                            value: 'deliveryPhoneNumber',
-                                          ),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(
-                                            value: 'deliveryStreet',
-                                          ),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(
-                                            value: 'deliveryApartment',
-                                          ),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: 'deliveryCity'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(
-                                            value: 'deliveryZipCode',
-                                          ),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: '__typename'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                      ],
-                                    ),
                                   ),
                                   FieldNode(
                                     name: NameNode(value: '__typename'),
@@ -2451,6 +4471,7 @@ const documentNodeQueryGetUserDeliveries = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionDriverDeliveryFragment,
   ],
 );
 Query$GetUserDeliveries _parserFn$Query$GetUserDeliveries(
@@ -2988,14 +5009,14 @@ class Query$GetUserDeliveries$user$deliveries$edges {
     return Query$GetUserDeliveries$user$deliveries$edges(
       node: l$node == null
           ? null
-          : Query$GetUserDeliveries$user$deliveries$edges$node.fromJson(
+          : Fragment$DriverDeliveryFragment.fromJson(
               (l$node as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Query$GetUserDeliveries$user$deliveries$edges$node? node;
+  final Fragment$DriverDeliveryFragment? node;
 
   final String $__typename;
 
@@ -3057,11 +5078,8 @@ abstract class CopyWith$Query$GetUserDeliveries$user$deliveries$edges<TRes> {
     TRes res,
   ) = _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$edges;
 
-  TRes call({
-    Query$GetUserDeliveries$user$deliveries$edges$node? node,
-    String? $__typename,
-  });
-  CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node<TRes> get node;
+  TRes call({Fragment$DriverDeliveryFragment? node, String? $__typename});
+  CopyWith$Fragment$DriverDeliveryFragment<TRes> get node;
 }
 
 class _CopyWithImpl$Query$GetUserDeliveries$user$deliveries$edges<TRes>
@@ -3082,20 +5100,18 @@ class _CopyWithImpl$Query$GetUserDeliveries$user$deliveries$edges<TRes>
         Query$GetUserDeliveries$user$deliveries$edges(
           node: node == _undefined
               ? _instance.node
-              : (node as Query$GetUserDeliveries$user$deliveries$edges$node?),
+              : (node as Fragment$DriverDeliveryFragment?),
           $__typename: $__typename == _undefined || $__typename == null
               ? _instance.$__typename
               : ($__typename as String),
         ),
       );
 
-  CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node<TRes> get node {
+  CopyWith$Fragment$DriverDeliveryFragment<TRes> get node {
     final local$node = _instance.node;
     return local$node == null
-        ? CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node(
+        ? CopyWith$Fragment$DriverDeliveryFragment.stub(_then(_instance))
+        : CopyWith$Fragment$DriverDeliveryFragment(
             local$node,
             (e) => call(node: e),
           );
@@ -3108,953 +5124,10 @@ class _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$edges<TRes>
 
   TRes _res;
 
-  call({
-    Query$GetUserDeliveries$user$deliveries$edges$node? node,
-    String? $__typename,
-  }) => _res;
+  call({Fragment$DriverDeliveryFragment? node, String? $__typename}) => _res;
 
-  CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node<TRes> get node =>
-      CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node.stub(_res);
-}
-
-class Query$GetUserDeliveries$user$deliveries$edges$node {
-  Query$GetUserDeliveries$user$deliveries$edges$node({
-    required this.id,
-    required this.status,
-    required this.deliveryDate,
-    this.restaurant,
-    this.order,
-    this.$__typename = 'Delivery',
-  });
-
-  factory Query$GetUserDeliveries$user$deliveries$edges$node.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$status = json['status'];
-    final l$deliveryDate = json['deliveryDate'];
-    final l$restaurant = json['restaurant'];
-    final l$order = json['order'];
-    final l$$__typename = json['__typename'];
-    return Query$GetUserDeliveries$user$deliveries$edges$node(
-      id: (l$id as String),
-      status: fromJson$Enum$DeliveryStatus((l$status as String)),
-      deliveryDate: (l$deliveryDate as String),
-      restaurant: l$restaurant == null
-          ? null
-          : Query$GetUserDeliveries$user$deliveries$edges$node$restaurant.fromJson(
-              (l$restaurant as Map<String, dynamic>),
-            ),
-      order: l$order == null
-          ? null
-          : Query$GetUserDeliveries$user$deliveries$edges$node$order.fromJson(
-              (l$order as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final Enum$DeliveryStatus status;
-
-  final String deliveryDate;
-
-  final Query$GetUserDeliveries$user$deliveries$edges$node$restaurant?
-  restaurant;
-
-  final Query$GetUserDeliveries$user$deliveries$edges$node$order? order;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$status = status;
-    _resultData['status'] = toJson$Enum$DeliveryStatus(l$status);
-    final l$deliveryDate = deliveryDate;
-    _resultData['deliveryDate'] = l$deliveryDate;
-    final l$restaurant = restaurant;
-    _resultData['restaurant'] = l$restaurant?.toJson();
-    final l$order = order;
-    _resultData['order'] = l$order?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$status = status;
-    final l$deliveryDate = deliveryDate;
-    final l$restaurant = restaurant;
-    final l$order = order;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$id,
-      l$status,
-      l$deliveryDate,
-      l$restaurant,
-      l$order,
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetUserDeliveries$user$deliveries$edges$node ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$status = status;
-    final lOther$status = other.status;
-    if (l$status != lOther$status) {
-      return false;
-    }
-    final l$deliveryDate = deliveryDate;
-    final lOther$deliveryDate = other.deliveryDate;
-    if (l$deliveryDate != lOther$deliveryDate) {
-      return false;
-    }
-    final l$restaurant = restaurant;
-    final lOther$restaurant = other.restaurant;
-    if (l$restaurant != lOther$restaurant) {
-      return false;
-    }
-    final l$order = order;
-    final lOther$order = other.order;
-    if (l$order != lOther$order) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetUserDeliveries$user$deliveries$edges$node
-    on Query$GetUserDeliveries$user$deliveries$edges$node {
-  CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node<
-    Query$GetUserDeliveries$user$deliveries$edges$node
-  >
-  get copyWith => CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node(
-    this,
-    (i) => i,
-  );
-}
-
-abstract class CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node<
-  TRes
-> {
-  factory CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node(
-    Query$GetUserDeliveries$user$deliveries$edges$node instance,
-    TRes Function(Query$GetUserDeliveries$user$deliveries$edges$node) then,
-  ) = _CopyWithImpl$Query$GetUserDeliveries$user$deliveries$edges$node;
-
-  factory CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$edges$node;
-
-  TRes call({
-    String? id,
-    Enum$DeliveryStatus? status,
-    String? deliveryDate,
-    Query$GetUserDeliveries$user$deliveries$edges$node$restaurant? restaurant,
-    Query$GetUserDeliveries$user$deliveries$edges$node$order? order,
-    String? $__typename,
-  });
-  CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant<TRes>
-  get restaurant;
-  CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order<TRes>
-  get order;
-}
-
-class _CopyWithImpl$Query$GetUserDeliveries$user$deliveries$edges$node<TRes>
-    implements
-        CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node<TRes> {
-  _CopyWithImpl$Query$GetUserDeliveries$user$deliveries$edges$node(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetUserDeliveries$user$deliveries$edges$node _instance;
-
-  final TRes Function(Query$GetUserDeliveries$user$deliveries$edges$node) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? status = _undefined,
-    Object? deliveryDate = _undefined,
-    Object? restaurant = _undefined,
-    Object? order = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetUserDeliveries$user$deliveries$edges$node(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      status: status == _undefined || status == null
-          ? _instance.status
-          : (status as Enum$DeliveryStatus),
-      deliveryDate: deliveryDate == _undefined || deliveryDate == null
-          ? _instance.deliveryDate
-          : (deliveryDate as String),
-      restaurant: restaurant == _undefined
-          ? _instance.restaurant
-          : (restaurant
-                as Query$GetUserDeliveries$user$deliveries$edges$node$restaurant?),
-      order: order == _undefined
-          ? _instance.order
-          : (order
-                as Query$GetUserDeliveries$user$deliveries$edges$node$order?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant<TRes>
-  get restaurant {
-    final local$restaurant = _instance.restaurant;
-    return local$restaurant == null
-        ? CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant(
-            local$restaurant,
-            (e) => call(restaurant: e),
-          );
-  }
-
-  CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order<TRes>
-  get order {
-    final local$order = _instance.order;
-    return local$order == null
-        ? CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order(
-            local$order,
-            (e) => call(order: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$edges$node<TRes>
-    implements
-        CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node<TRes> {
-  _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$edges$node(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    String? id,
-    Enum$DeliveryStatus? status,
-    String? deliveryDate,
-    Query$GetUserDeliveries$user$deliveries$edges$node$restaurant? restaurant,
-    Query$GetUserDeliveries$user$deliveries$edges$node$order? order,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant<TRes>
-  get restaurant =>
-      CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant.stub(
-        _res,
-      );
-
-  CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order<TRes>
-  get order =>
-      CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order.stub(
-        _res,
-      );
-}
-
-class Query$GetUserDeliveries$user$deliveries$edges$node$restaurant {
-  Query$GetUserDeliveries$user$deliveries$edges$node$restaurant({
-    required this.id,
-    required this.name,
-    this.$__typename = 'Restaurant',
-  });
-
-  factory Query$GetUserDeliveries$user$deliveries$edges$node$restaurant.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$$__typename = json['__typename'];
-    return Query$GetUserDeliveries$user$deliveries$edges$node$restaurant(
-      id: (l$id as String),
-      name: (l$name as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$name, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Query$GetUserDeliveries$user$deliveries$edges$node$restaurant ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant
-    on Query$GetUserDeliveries$user$deliveries$edges$node$restaurant {
-  CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant<
-    Query$GetUserDeliveries$user$deliveries$edges$node$restaurant
-  >
-  get copyWith =>
-      CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant<
-  TRes
-> {
-  factory CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant(
-    Query$GetUserDeliveries$user$deliveries$edges$node$restaurant instance,
-    TRes Function(Query$GetUserDeliveries$user$deliveries$edges$node$restaurant)
-    then,
-  ) = _CopyWithImpl$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant;
-
-  factory CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant;
-
-  TRes call({String? id, String? name, String? $__typename});
-}
-
-class _CopyWithImpl$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant<
-  TRes
->
-    implements
-        CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant<
-          TRes
-        > {
-  _CopyWithImpl$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetUserDeliveries$user$deliveries$edges$node$restaurant _instance;
-
-  final TRes Function(
-    Query$GetUserDeliveries$user$deliveries$edges$node$restaurant,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetUserDeliveries$user$deliveries$edges$node$restaurant(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant<
-  TRes
->
-    implements
-        CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant<
-          TRes
-        > {
-  _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$edges$node$restaurant(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({String? id, String? name, String? $__typename}) => _res;
-}
-
-class Query$GetUserDeliveries$user$deliveries$edges$node$order {
-  Query$GetUserDeliveries$user$deliveries$edges$node$order({
-    required this.id,
-    required this.total,
-    this.customer,
-    this.deliveryFirstName,
-    this.deliveryLastName,
-    this.deliveryPhoneNumber,
-    this.deliveryStreet,
-    this.deliveryApartment,
-    this.deliveryCity,
-    this.deliveryZipCode,
-    this.$__typename = 'Order',
-  });
-
-  factory Query$GetUserDeliveries$user$deliveries$edges$node$order.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$total = json['total'];
-    final l$customer = json['customer'];
-    final l$deliveryFirstName = json['deliveryFirstName'];
-    final l$deliveryLastName = json['deliveryLastName'];
-    final l$deliveryPhoneNumber = json['deliveryPhoneNumber'];
-    final l$deliveryStreet = json['deliveryStreet'];
-    final l$deliveryApartment = json['deliveryApartment'];
-    final l$deliveryCity = json['deliveryCity'];
-    final l$deliveryZipCode = json['deliveryZipCode'];
-    final l$$__typename = json['__typename'];
-    return Query$GetUserDeliveries$user$deliveries$edges$node$order(
-      id: (l$id as String),
-      total: (l$total as int),
-      customer: l$customer == null
-          ? null
-          : Query$GetUserDeliveries$user$deliveries$edges$node$order$customer.fromJson(
-              (l$customer as Map<String, dynamic>),
-            ),
-      deliveryFirstName: (l$deliveryFirstName as String?),
-      deliveryLastName: (l$deliveryLastName as String?),
-      deliveryPhoneNumber: (l$deliveryPhoneNumber as String?),
-      deliveryStreet: (l$deliveryStreet as String?),
-      deliveryApartment: (l$deliveryApartment as String?),
-      deliveryCity: (l$deliveryCity as String?),
-      deliveryZipCode: (l$deliveryZipCode as String?),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final int total;
-
-  final Query$GetUserDeliveries$user$deliveries$edges$node$order$customer?
-  customer;
-
-  final String? deliveryFirstName;
-
-  final String? deliveryLastName;
-
-  final String? deliveryPhoneNumber;
-
-  final String? deliveryStreet;
-
-  final String? deliveryApartment;
-
-  final String? deliveryCity;
-
-  final String? deliveryZipCode;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$total = total;
-    _resultData['total'] = l$total;
-    final l$customer = customer;
-    _resultData['customer'] = l$customer?.toJson();
-    final l$deliveryFirstName = deliveryFirstName;
-    _resultData['deliveryFirstName'] = l$deliveryFirstName;
-    final l$deliveryLastName = deliveryLastName;
-    _resultData['deliveryLastName'] = l$deliveryLastName;
-    final l$deliveryPhoneNumber = deliveryPhoneNumber;
-    _resultData['deliveryPhoneNumber'] = l$deliveryPhoneNumber;
-    final l$deliveryStreet = deliveryStreet;
-    _resultData['deliveryStreet'] = l$deliveryStreet;
-    final l$deliveryApartment = deliveryApartment;
-    _resultData['deliveryApartment'] = l$deliveryApartment;
-    final l$deliveryCity = deliveryCity;
-    _resultData['deliveryCity'] = l$deliveryCity;
-    final l$deliveryZipCode = deliveryZipCode;
-    _resultData['deliveryZipCode'] = l$deliveryZipCode;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$total = total;
-    final l$customer = customer;
-    final l$deliveryFirstName = deliveryFirstName;
-    final l$deliveryLastName = deliveryLastName;
-    final l$deliveryPhoneNumber = deliveryPhoneNumber;
-    final l$deliveryStreet = deliveryStreet;
-    final l$deliveryApartment = deliveryApartment;
-    final l$deliveryCity = deliveryCity;
-    final l$deliveryZipCode = deliveryZipCode;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$id,
-      l$total,
-      l$customer,
-      l$deliveryFirstName,
-      l$deliveryLastName,
-      l$deliveryPhoneNumber,
-      l$deliveryStreet,
-      l$deliveryApartment,
-      l$deliveryCity,
-      l$deliveryZipCode,
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetUserDeliveries$user$deliveries$edges$node$order ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$total = total;
-    final lOther$total = other.total;
-    if (l$total != lOther$total) {
-      return false;
-    }
-    final l$customer = customer;
-    final lOther$customer = other.customer;
-    if (l$customer != lOther$customer) {
-      return false;
-    }
-    final l$deliveryFirstName = deliveryFirstName;
-    final lOther$deliveryFirstName = other.deliveryFirstName;
-    if (l$deliveryFirstName != lOther$deliveryFirstName) {
-      return false;
-    }
-    final l$deliveryLastName = deliveryLastName;
-    final lOther$deliveryLastName = other.deliveryLastName;
-    if (l$deliveryLastName != lOther$deliveryLastName) {
-      return false;
-    }
-    final l$deliveryPhoneNumber = deliveryPhoneNumber;
-    final lOther$deliveryPhoneNumber = other.deliveryPhoneNumber;
-    if (l$deliveryPhoneNumber != lOther$deliveryPhoneNumber) {
-      return false;
-    }
-    final l$deliveryStreet = deliveryStreet;
-    final lOther$deliveryStreet = other.deliveryStreet;
-    if (l$deliveryStreet != lOther$deliveryStreet) {
-      return false;
-    }
-    final l$deliveryApartment = deliveryApartment;
-    final lOther$deliveryApartment = other.deliveryApartment;
-    if (l$deliveryApartment != lOther$deliveryApartment) {
-      return false;
-    }
-    final l$deliveryCity = deliveryCity;
-    final lOther$deliveryCity = other.deliveryCity;
-    if (l$deliveryCity != lOther$deliveryCity) {
-      return false;
-    }
-    final l$deliveryZipCode = deliveryZipCode;
-    final lOther$deliveryZipCode = other.deliveryZipCode;
-    if (l$deliveryZipCode != lOther$deliveryZipCode) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetUserDeliveries$user$deliveries$edges$node$order
-    on Query$GetUserDeliveries$user$deliveries$edges$node$order {
-  CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order<
-    Query$GetUserDeliveries$user$deliveries$edges$node$order
-  >
-  get copyWith =>
-      CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order<
-  TRes
-> {
-  factory CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order(
-    Query$GetUserDeliveries$user$deliveries$edges$node$order instance,
-    TRes Function(Query$GetUserDeliveries$user$deliveries$edges$node$order)
-    then,
-  ) = _CopyWithImpl$Query$GetUserDeliveries$user$deliveries$edges$node$order;
-
-  factory CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$edges$node$order;
-
-  TRes call({
-    String? id,
-    int? total,
-    Query$GetUserDeliveries$user$deliveries$edges$node$order$customer? customer,
-    String? deliveryFirstName,
-    String? deliveryLastName,
-    String? deliveryPhoneNumber,
-    String? deliveryStreet,
-    String? deliveryApartment,
-    String? deliveryCity,
-    String? deliveryZipCode,
-    String? $__typename,
-  });
-  CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer<
-    TRes
-  >
-  get customer;
-}
-
-class _CopyWithImpl$Query$GetUserDeliveries$user$deliveries$edges$node$order<
-  TRes
->
-    implements
-        CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order<
-          TRes
-        > {
-  _CopyWithImpl$Query$GetUserDeliveries$user$deliveries$edges$node$order(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetUserDeliveries$user$deliveries$edges$node$order _instance;
-
-  final TRes Function(Query$GetUserDeliveries$user$deliveries$edges$node$order)
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? total = _undefined,
-    Object? customer = _undefined,
-    Object? deliveryFirstName = _undefined,
-    Object? deliveryLastName = _undefined,
-    Object? deliveryPhoneNumber = _undefined,
-    Object? deliveryStreet = _undefined,
-    Object? deliveryApartment = _undefined,
-    Object? deliveryCity = _undefined,
-    Object? deliveryZipCode = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetUserDeliveries$user$deliveries$edges$node$order(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      total: total == _undefined || total == null
-          ? _instance.total
-          : (total as int),
-      customer: customer == _undefined
-          ? _instance.customer
-          : (customer
-                as Query$GetUserDeliveries$user$deliveries$edges$node$order$customer?),
-      deliveryFirstName: deliveryFirstName == _undefined
-          ? _instance.deliveryFirstName
-          : (deliveryFirstName as String?),
-      deliveryLastName: deliveryLastName == _undefined
-          ? _instance.deliveryLastName
-          : (deliveryLastName as String?),
-      deliveryPhoneNumber: deliveryPhoneNumber == _undefined
-          ? _instance.deliveryPhoneNumber
-          : (deliveryPhoneNumber as String?),
-      deliveryStreet: deliveryStreet == _undefined
-          ? _instance.deliveryStreet
-          : (deliveryStreet as String?),
-      deliveryApartment: deliveryApartment == _undefined
-          ? _instance.deliveryApartment
-          : (deliveryApartment as String?),
-      deliveryCity: deliveryCity == _undefined
-          ? _instance.deliveryCity
-          : (deliveryCity as String?),
-      deliveryZipCode: deliveryZipCode == _undefined
-          ? _instance.deliveryZipCode
-          : (deliveryZipCode as String?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer<
-    TRes
-  >
-  get customer {
-    final local$customer = _instance.customer;
-    return local$customer == null
-        ? CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer(
-            local$customer,
-            (e) => call(customer: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$edges$node$order<
-  TRes
->
-    implements
-        CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order<
-          TRes
-        > {
-  _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$edges$node$order(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    String? id,
-    int? total,
-    Query$GetUserDeliveries$user$deliveries$edges$node$order$customer? customer,
-    String? deliveryFirstName,
-    String? deliveryLastName,
-    String? deliveryPhoneNumber,
-    String? deliveryStreet,
-    String? deliveryApartment,
-    String? deliveryCity,
-    String? deliveryZipCode,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer<
-    TRes
-  >
-  get customer =>
-      CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer.stub(
-        _res,
-      );
-}
-
-class Query$GetUserDeliveries$user$deliveries$edges$node$order$customer {
-  Query$GetUserDeliveries$user$deliveries$edges$node$order$customer({
-    required this.id,
-    required this.email,
-    this.$__typename = 'User',
-  });
-
-  factory Query$GetUserDeliveries$user$deliveries$edges$node$order$customer.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$email = json['email'];
-    final l$$__typename = json['__typename'];
-    return Query$GetUserDeliveries$user$deliveries$edges$node$order$customer(
-      id: (l$id as String),
-      email: (l$email as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String email;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$email = email;
-    _resultData['email'] = l$email;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$email = email;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$email, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Query$GetUserDeliveries$user$deliveries$edges$node$order$customer ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$email = email;
-    final lOther$email = other.email;
-    if (l$email != lOther$email) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer
-    on Query$GetUserDeliveries$user$deliveries$edges$node$order$customer {
-  CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer<
-    Query$GetUserDeliveries$user$deliveries$edges$node$order$customer
-  >
-  get copyWith =>
-      CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer<
-  TRes
-> {
-  factory CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer(
-    Query$GetUserDeliveries$user$deliveries$edges$node$order$customer instance,
-    TRes Function(
-      Query$GetUserDeliveries$user$deliveries$edges$node$order$customer,
-    )
-    then,
-  ) = _CopyWithImpl$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer;
-
-  factory CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer;
-
-  TRes call({String? id, String? email, String? $__typename});
-}
-
-class _CopyWithImpl$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer<
-  TRes
->
-    implements
-        CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer<
-          TRes
-        > {
-  _CopyWithImpl$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetUserDeliveries$user$deliveries$edges$node$order$customer
-  _instance;
-
-  final TRes Function(
-    Query$GetUserDeliveries$user$deliveries$edges$node$order$customer,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? email = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetUserDeliveries$user$deliveries$edges$node$order$customer(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      email: email == _undefined || email == null
-          ? _instance.email
-          : (email as String),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer<
-  TRes
->
-    implements
-        CopyWith$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer<
-          TRes
-        > {
-  _CopyWithStubImpl$Query$GetUserDeliveries$user$deliveries$edges$node$order$customer(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({String? id, String? email, String? $__typename}) => _res;
+  CopyWith$Fragment$DriverDeliveryFragment<TRes> get node =>
+      CopyWith$Fragment$DriverDeliveryFragment.stub(_res);
 }
 
 class Query$GetUserDeliveries$user$deliveries$pageInfo {
@@ -4292,14 +5365,14 @@ class Query$GetDelivery {
     return Query$GetDelivery(
       delivery: l$delivery == null
           ? null
-          : Query$GetDelivery$delivery.fromJson(
+          : Fragment$BasicDeliveryFragment.fromJson(
               (l$delivery as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Query$GetDelivery$delivery? delivery;
+  final Fragment$BasicDeliveryFragment? delivery;
 
   final String $__typename;
 
@@ -4355,8 +5428,8 @@ abstract class CopyWith$Query$GetDelivery<TRes> {
   factory CopyWith$Query$GetDelivery.stub(TRes res) =
       _CopyWithStubImpl$Query$GetDelivery;
 
-  TRes call({Query$GetDelivery$delivery? delivery, String? $__typename});
-  CopyWith$Query$GetDelivery$delivery<TRes> get delivery;
+  TRes call({Fragment$BasicDeliveryFragment? delivery, String? $__typename});
+  CopyWith$Fragment$BasicDeliveryFragment<TRes> get delivery;
 }
 
 class _CopyWithImpl$Query$GetDelivery<TRes>
@@ -4376,18 +5449,18 @@ class _CopyWithImpl$Query$GetDelivery<TRes>
     Query$GetDelivery(
       delivery: delivery == _undefined
           ? _instance.delivery
-          : (delivery as Query$GetDelivery$delivery?),
+          : (delivery as Fragment$BasicDeliveryFragment?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
     ),
   );
 
-  CopyWith$Query$GetDelivery$delivery<TRes> get delivery {
+  CopyWith$Fragment$BasicDeliveryFragment<TRes> get delivery {
     final local$delivery = _instance.delivery;
     return local$delivery == null
-        ? CopyWith$Query$GetDelivery$delivery.stub(_then(_instance))
-        : CopyWith$Query$GetDelivery$delivery(
+        ? CopyWith$Fragment$BasicDeliveryFragment.stub(_then(_instance))
+        : CopyWith$Fragment$BasicDeliveryFragment(
             local$delivery,
             (e) => call(delivery: e),
           );
@@ -4400,10 +5473,10 @@ class _CopyWithStubImpl$Query$GetDelivery<TRes>
 
   TRes _res;
 
-  call({Query$GetDelivery$delivery? delivery, String? $__typename}) => _res;
+  call({Fragment$BasicDeliveryFragment? delivery, String? $__typename}) => _res;
 
-  CopyWith$Query$GetDelivery$delivery<TRes> get delivery =>
-      CopyWith$Query$GetDelivery$delivery.stub(_res);
+  CopyWith$Fragment$BasicDeliveryFragment<TRes> get delivery =>
+      CopyWith$Fragment$BasicDeliveryFragment.stub(_res);
 }
 
 const documentNodeQueryGetDelivery = DocumentNode(
@@ -4434,119 +5507,9 @@ const documentNodeQueryGetDelivery = DocumentNode(
             directives: [],
             selectionSet: SelectionSetNode(
               selections: [
-                FieldNode(
-                  name: NameNode(value: 'id'),
-                  alias: null,
-                  arguments: [],
+                FragmentSpreadNode(
+                  name: NameNode(value: 'BasicDeliveryFragment'),
                   directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'status'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'deliveryDate'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'order'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(
-                    selections: [
-                      FieldNode(
-                        name: NameNode(value: 'id'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'total'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'customer'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(
-                          selections: [
-                            FieldNode(
-                              name: NameNode(value: 'id'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'email'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: '__typename'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                          ],
-                        ),
-                      ),
-                      FieldNode(
-                        name: NameNode(value: '__typename'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                    ],
-                  ),
-                ),
-                FieldNode(
-                  name: NameNode(value: 'driver'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(
-                    selections: [
-                      FieldNode(
-                        name: NameNode(value: 'id'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'email'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: '__typename'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                    ],
-                  ),
                 ),
                 FieldNode(
                   name: NameNode(value: '__typename'),
@@ -4568,6 +5531,7 @@ const documentNodeQueryGetDelivery = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionBasicDeliveryFragment,
   ],
 );
 Query$GetDelivery _parserFn$Query$GetDelivery(Map<String, dynamic> data) =>
@@ -4717,680 +5681,21 @@ class Query$GetDelivery$Widget
   }) : super(key: key, options: options, builder: builder);
 }
 
-class Query$GetDelivery$delivery {
-  Query$GetDelivery$delivery({
-    required this.id,
-    required this.status,
-    required this.deliveryDate,
-    this.order,
-    this.driver,
-    this.$__typename = 'Delivery',
-  });
-
-  factory Query$GetDelivery$delivery.fromJson(Map<String, dynamic> json) {
-    final l$id = json['id'];
-    final l$status = json['status'];
-    final l$deliveryDate = json['deliveryDate'];
-    final l$order = json['order'];
-    final l$driver = json['driver'];
-    final l$$__typename = json['__typename'];
-    return Query$GetDelivery$delivery(
-      id: (l$id as String),
-      status: fromJson$Enum$DeliveryStatus((l$status as String)),
-      deliveryDate: (l$deliveryDate as String),
-      order: l$order == null
-          ? null
-          : Query$GetDelivery$delivery$order.fromJson(
-              (l$order as Map<String, dynamic>),
-            ),
-      driver: l$driver == null
-          ? null
-          : Query$GetDelivery$delivery$driver.fromJson(
-              (l$driver as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final Enum$DeliveryStatus status;
-
-  final String deliveryDate;
-
-  final Query$GetDelivery$delivery$order? order;
-
-  final Query$GetDelivery$delivery$driver? driver;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$status = status;
-    _resultData['status'] = toJson$Enum$DeliveryStatus(l$status);
-    final l$deliveryDate = deliveryDate;
-    _resultData['deliveryDate'] = l$deliveryDate;
-    final l$order = order;
-    _resultData['order'] = l$order?.toJson();
-    final l$driver = driver;
-    _resultData['driver'] = l$driver?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$status = status;
-    final l$deliveryDate = deliveryDate;
-    final l$order = order;
-    final l$driver = driver;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$id,
-      l$status,
-      l$deliveryDate,
-      l$order,
-      l$driver,
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetDelivery$delivery ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$status = status;
-    final lOther$status = other.status;
-    if (l$status != lOther$status) {
-      return false;
-    }
-    final l$deliveryDate = deliveryDate;
-    final lOther$deliveryDate = other.deliveryDate;
-    if (l$deliveryDate != lOther$deliveryDate) {
-      return false;
-    }
-    final l$order = order;
-    final lOther$order = other.order;
-    if (l$order != lOther$order) {
-      return false;
-    }
-    final l$driver = driver;
-    final lOther$driver = other.driver;
-    if (l$driver != lOther$driver) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetDelivery$delivery
-    on Query$GetDelivery$delivery {
-  CopyWith$Query$GetDelivery$delivery<Query$GetDelivery$delivery>
-  get copyWith => CopyWith$Query$GetDelivery$delivery(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetDelivery$delivery<TRes> {
-  factory CopyWith$Query$GetDelivery$delivery(
-    Query$GetDelivery$delivery instance,
-    TRes Function(Query$GetDelivery$delivery) then,
-  ) = _CopyWithImpl$Query$GetDelivery$delivery;
-
-  factory CopyWith$Query$GetDelivery$delivery.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetDelivery$delivery;
-
-  TRes call({
-    String? id,
-    Enum$DeliveryStatus? status,
-    String? deliveryDate,
-    Query$GetDelivery$delivery$order? order,
-    Query$GetDelivery$delivery$driver? driver,
-    String? $__typename,
-  });
-  CopyWith$Query$GetDelivery$delivery$order<TRes> get order;
-  CopyWith$Query$GetDelivery$delivery$driver<TRes> get driver;
-}
-
-class _CopyWithImpl$Query$GetDelivery$delivery<TRes>
-    implements CopyWith$Query$GetDelivery$delivery<TRes> {
-  _CopyWithImpl$Query$GetDelivery$delivery(this._instance, this._then);
-
-  final Query$GetDelivery$delivery _instance;
-
-  final TRes Function(Query$GetDelivery$delivery) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? status = _undefined,
-    Object? deliveryDate = _undefined,
-    Object? order = _undefined,
-    Object? driver = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetDelivery$delivery(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      status: status == _undefined || status == null
-          ? _instance.status
-          : (status as Enum$DeliveryStatus),
-      deliveryDate: deliveryDate == _undefined || deliveryDate == null
-          ? _instance.deliveryDate
-          : (deliveryDate as String),
-      order: order == _undefined
-          ? _instance.order
-          : (order as Query$GetDelivery$delivery$order?),
-      driver: driver == _undefined
-          ? _instance.driver
-          : (driver as Query$GetDelivery$delivery$driver?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Query$GetDelivery$delivery$order<TRes> get order {
-    final local$order = _instance.order;
-    return local$order == null
-        ? CopyWith$Query$GetDelivery$delivery$order.stub(_then(_instance))
-        : CopyWith$Query$GetDelivery$delivery$order(
-            local$order,
-            (e) => call(order: e),
-          );
-  }
-
-  CopyWith$Query$GetDelivery$delivery$driver<TRes> get driver {
-    final local$driver = _instance.driver;
-    return local$driver == null
-        ? CopyWith$Query$GetDelivery$delivery$driver.stub(_then(_instance))
-        : CopyWith$Query$GetDelivery$delivery$driver(
-            local$driver,
-            (e) => call(driver: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetDelivery$delivery<TRes>
-    implements CopyWith$Query$GetDelivery$delivery<TRes> {
-  _CopyWithStubImpl$Query$GetDelivery$delivery(this._res);
-
-  TRes _res;
-
-  call({
-    String? id,
-    Enum$DeliveryStatus? status,
-    String? deliveryDate,
-    Query$GetDelivery$delivery$order? order,
-    Query$GetDelivery$delivery$driver? driver,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetDelivery$delivery$order<TRes> get order =>
-      CopyWith$Query$GetDelivery$delivery$order.stub(_res);
-
-  CopyWith$Query$GetDelivery$delivery$driver<TRes> get driver =>
-      CopyWith$Query$GetDelivery$delivery$driver.stub(_res);
-}
-
-class Query$GetDelivery$delivery$order {
-  Query$GetDelivery$delivery$order({
-    required this.id,
-    required this.total,
-    this.customer,
-    this.$__typename = 'Order',
-  });
-
-  factory Query$GetDelivery$delivery$order.fromJson(Map<String, dynamic> json) {
-    final l$id = json['id'];
-    final l$total = json['total'];
-    final l$customer = json['customer'];
-    final l$$__typename = json['__typename'];
-    return Query$GetDelivery$delivery$order(
-      id: (l$id as String),
-      total: (l$total as int),
-      customer: l$customer == null
-          ? null
-          : Query$GetDelivery$delivery$order$customer.fromJson(
-              (l$customer as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final int total;
-
-  final Query$GetDelivery$delivery$order$customer? customer;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$total = total;
-    _resultData['total'] = l$total;
-    final l$customer = customer;
-    _resultData['customer'] = l$customer?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$total = total;
-    final l$customer = customer;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$total, l$customer, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetDelivery$delivery$order ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$total = total;
-    final lOther$total = other.total;
-    if (l$total != lOther$total) {
-      return false;
-    }
-    final l$customer = customer;
-    final lOther$customer = other.customer;
-    if (l$customer != lOther$customer) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetDelivery$delivery$order
-    on Query$GetDelivery$delivery$order {
-  CopyWith$Query$GetDelivery$delivery$order<Query$GetDelivery$delivery$order>
-  get copyWith => CopyWith$Query$GetDelivery$delivery$order(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetDelivery$delivery$order<TRes> {
-  factory CopyWith$Query$GetDelivery$delivery$order(
-    Query$GetDelivery$delivery$order instance,
-    TRes Function(Query$GetDelivery$delivery$order) then,
-  ) = _CopyWithImpl$Query$GetDelivery$delivery$order;
-
-  factory CopyWith$Query$GetDelivery$delivery$order.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetDelivery$delivery$order;
-
-  TRes call({
-    String? id,
-    int? total,
-    Query$GetDelivery$delivery$order$customer? customer,
-    String? $__typename,
-  });
-  CopyWith$Query$GetDelivery$delivery$order$customer<TRes> get customer;
-}
-
-class _CopyWithImpl$Query$GetDelivery$delivery$order<TRes>
-    implements CopyWith$Query$GetDelivery$delivery$order<TRes> {
-  _CopyWithImpl$Query$GetDelivery$delivery$order(this._instance, this._then);
-
-  final Query$GetDelivery$delivery$order _instance;
-
-  final TRes Function(Query$GetDelivery$delivery$order) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? total = _undefined,
-    Object? customer = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetDelivery$delivery$order(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      total: total == _undefined || total == null
-          ? _instance.total
-          : (total as int),
-      customer: customer == _undefined
-          ? _instance.customer
-          : (customer as Query$GetDelivery$delivery$order$customer?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Query$GetDelivery$delivery$order$customer<TRes> get customer {
-    final local$customer = _instance.customer;
-    return local$customer == null
-        ? CopyWith$Query$GetDelivery$delivery$order$customer.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetDelivery$delivery$order$customer(
-            local$customer,
-            (e) => call(customer: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetDelivery$delivery$order<TRes>
-    implements CopyWith$Query$GetDelivery$delivery$order<TRes> {
-  _CopyWithStubImpl$Query$GetDelivery$delivery$order(this._res);
-
-  TRes _res;
-
-  call({
-    String? id,
-    int? total,
-    Query$GetDelivery$delivery$order$customer? customer,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetDelivery$delivery$order$customer<TRes> get customer =>
-      CopyWith$Query$GetDelivery$delivery$order$customer.stub(_res);
-}
-
-class Query$GetDelivery$delivery$order$customer {
-  Query$GetDelivery$delivery$order$customer({
-    required this.id,
-    required this.email,
-    this.$__typename = 'User',
-  });
-
-  factory Query$GetDelivery$delivery$order$customer.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$email = json['email'];
-    final l$$__typename = json['__typename'];
-    return Query$GetDelivery$delivery$order$customer(
-      id: (l$id as String),
-      email: (l$email as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String email;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$email = email;
-    _resultData['email'] = l$email;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$email = email;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$email, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetDelivery$delivery$order$customer ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$email = email;
-    final lOther$email = other.email;
-    if (l$email != lOther$email) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetDelivery$delivery$order$customer
-    on Query$GetDelivery$delivery$order$customer {
-  CopyWith$Query$GetDelivery$delivery$order$customer<
-    Query$GetDelivery$delivery$order$customer
-  >
-  get copyWith =>
-      CopyWith$Query$GetDelivery$delivery$order$customer(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetDelivery$delivery$order$customer<TRes> {
-  factory CopyWith$Query$GetDelivery$delivery$order$customer(
-    Query$GetDelivery$delivery$order$customer instance,
-    TRes Function(Query$GetDelivery$delivery$order$customer) then,
-  ) = _CopyWithImpl$Query$GetDelivery$delivery$order$customer;
-
-  factory CopyWith$Query$GetDelivery$delivery$order$customer.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetDelivery$delivery$order$customer;
-
-  TRes call({String? id, String? email, String? $__typename});
-}
-
-class _CopyWithImpl$Query$GetDelivery$delivery$order$customer<TRes>
-    implements CopyWith$Query$GetDelivery$delivery$order$customer<TRes> {
-  _CopyWithImpl$Query$GetDelivery$delivery$order$customer(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetDelivery$delivery$order$customer _instance;
-
-  final TRes Function(Query$GetDelivery$delivery$order$customer) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? email = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetDelivery$delivery$order$customer(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      email: email == _undefined || email == null
-          ? _instance.email
-          : (email as String),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetDelivery$delivery$order$customer<TRes>
-    implements CopyWith$Query$GetDelivery$delivery$order$customer<TRes> {
-  _CopyWithStubImpl$Query$GetDelivery$delivery$order$customer(this._res);
-
-  TRes _res;
-
-  call({String? id, String? email, String? $__typename}) => _res;
-}
-
-class Query$GetDelivery$delivery$driver {
-  Query$GetDelivery$delivery$driver({
-    required this.id,
-    required this.email,
-    this.$__typename = 'User',
-  });
-
-  factory Query$GetDelivery$delivery$driver.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$email = json['email'];
-    final l$$__typename = json['__typename'];
-    return Query$GetDelivery$delivery$driver(
-      id: (l$id as String),
-      email: (l$email as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String email;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$email = email;
-    _resultData['email'] = l$email;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$email = email;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$email, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetDelivery$delivery$driver ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$email = email;
-    final lOther$email = other.email;
-    if (l$email != lOther$email) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetDelivery$delivery$driver
-    on Query$GetDelivery$delivery$driver {
-  CopyWith$Query$GetDelivery$delivery$driver<Query$GetDelivery$delivery$driver>
-  get copyWith => CopyWith$Query$GetDelivery$delivery$driver(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetDelivery$delivery$driver<TRes> {
-  factory CopyWith$Query$GetDelivery$delivery$driver(
-    Query$GetDelivery$delivery$driver instance,
-    TRes Function(Query$GetDelivery$delivery$driver) then,
-  ) = _CopyWithImpl$Query$GetDelivery$delivery$driver;
-
-  factory CopyWith$Query$GetDelivery$delivery$driver.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetDelivery$delivery$driver;
-
-  TRes call({String? id, String? email, String? $__typename});
-}
-
-class _CopyWithImpl$Query$GetDelivery$delivery$driver<TRes>
-    implements CopyWith$Query$GetDelivery$delivery$driver<TRes> {
-  _CopyWithImpl$Query$GetDelivery$delivery$driver(this._instance, this._then);
-
-  final Query$GetDelivery$delivery$driver _instance;
-
-  final TRes Function(Query$GetDelivery$delivery$driver) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? email = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetDelivery$delivery$driver(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      email: email == _undefined || email == null
-          ? _instance.email
-          : (email as String),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetDelivery$delivery$driver<TRes>
-    implements CopyWith$Query$GetDelivery$delivery$driver<TRes> {
-  _CopyWithStubImpl$Query$GetDelivery$delivery$driver(this._res);
-
-  TRes _res;
-
-  call({String? id, String? email, String? $__typename}) => _res;
-}
-
 class Variables$Query$GetDeliveriesByRestaurant {
   factory Variables$Query$GetDeliveriesByRestaurant({
     required String restaurantId,
     int? first,
     String? after,
+    String? status,
+    List<Input$DeliveryFilter_order?>? order,
+    String? search,
   }) => Variables$Query$GetDeliveriesByRestaurant._({
     r'restaurantId': restaurantId,
     if (first != null) r'first': first,
     if (after != null) r'after': after,
+    if (status != null) r'status': status,
+    if (order != null) r'order': order,
+    if (search != null) r'search': search,
   });
 
   Variables$Query$GetDeliveriesByRestaurant._(this._$data);
@@ -5409,6 +5714,26 @@ class Variables$Query$GetDeliveriesByRestaurant {
       final l$after = data['after'];
       result$data['after'] = (l$after as String?);
     }
+    if (data.containsKey('status')) {
+      final l$status = data['status'];
+      result$data['status'] = (l$status as String?);
+    }
+    if (data.containsKey('order')) {
+      final l$order = data['order'];
+      result$data['order'] = (l$order as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$DeliveryFilter_order.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
+    if (data.containsKey('search')) {
+      final l$search = data['search'];
+      result$data['search'] = (l$search as String?);
+    }
     return Variables$Query$GetDeliveriesByRestaurant._(result$data);
   }
 
@@ -5419,6 +5744,13 @@ class Variables$Query$GetDeliveriesByRestaurant {
   int? get first => (_$data['first'] as int?);
 
   String? get after => (_$data['after'] as String?);
+
+  String? get status => (_$data['status'] as String?);
+
+  List<Input$DeliveryFilter_order?>? get order =>
+      (_$data['order'] as List<Input$DeliveryFilter_order?>?);
+
+  String? get search => (_$data['search'] as String?);
 
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
@@ -5431,6 +5763,18 @@ class Variables$Query$GetDeliveriesByRestaurant {
     if (_$data.containsKey('after')) {
       final l$after = after;
       result$data['after'] = l$after;
+    }
+    if (_$data.containsKey('status')) {
+      final l$status = status;
+      result$data['status'] = l$status;
+    }
+    if (_$data.containsKey('order')) {
+      final l$order = order;
+      result$data['order'] = l$order?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('search')) {
+      final l$search = search;
+      result$data['search'] = l$search;
     }
     return result$data;
   }
@@ -5471,6 +5815,41 @@ class Variables$Query$GetDeliveriesByRestaurant {
     if (l$after != lOther$after) {
       return false;
     }
+    final l$status = status;
+    final lOther$status = other.status;
+    if (_$data.containsKey('status') != other._$data.containsKey('status')) {
+      return false;
+    }
+    if (l$status != lOther$status) {
+      return false;
+    }
+    final l$order = order;
+    final lOther$order = other.order;
+    if (_$data.containsKey('order') != other._$data.containsKey('order')) {
+      return false;
+    }
+    if (l$order != null && lOther$order != null) {
+      if (l$order.length != lOther$order.length) {
+        return false;
+      }
+      for (int i = 0; i < l$order.length; i++) {
+        final l$order$entry = l$order[i];
+        final lOther$order$entry = lOther$order[i];
+        if (l$order$entry != lOther$order$entry) {
+          return false;
+        }
+      }
+    } else if (l$order != lOther$order) {
+      return false;
+    }
+    final l$search = search;
+    final lOther$search = other.search;
+    if (_$data.containsKey('search') != other._$data.containsKey('search')) {
+      return false;
+    }
+    if (l$search != lOther$search) {
+      return false;
+    }
     return true;
   }
 
@@ -5479,10 +5858,20 @@ class Variables$Query$GetDeliveriesByRestaurant {
     final l$restaurantId = restaurantId;
     final l$first = first;
     final l$after = after;
+    final l$status = status;
+    final l$order = order;
+    final l$search = search;
     return Object.hashAll([
       l$restaurantId,
       _$data.containsKey('first') ? l$first : const {},
       _$data.containsKey('after') ? l$after : const {},
+      _$data.containsKey('status') ? l$status : const {},
+      _$data.containsKey('order')
+          ? l$order == null
+                ? null
+                : Object.hashAll(l$order.map((v) => v))
+          : const {},
+      _$data.containsKey('search') ? l$search : const {},
     ]);
   }
 }
@@ -5496,7 +5885,14 @@ abstract class CopyWith$Variables$Query$GetDeliveriesByRestaurant<TRes> {
   factory CopyWith$Variables$Query$GetDeliveriesByRestaurant.stub(TRes res) =
       _CopyWithStubImpl$Variables$Query$GetDeliveriesByRestaurant;
 
-  TRes call({String? restaurantId, int? first, String? after});
+  TRes call({
+    String? restaurantId,
+    int? first,
+    String? after,
+    String? status,
+    List<Input$DeliveryFilter_order?>? order,
+    String? search,
+  });
 }
 
 class _CopyWithImpl$Variables$Query$GetDeliveriesByRestaurant<TRes>
@@ -5516,6 +5912,9 @@ class _CopyWithImpl$Variables$Query$GetDeliveriesByRestaurant<TRes>
     Object? restaurantId = _undefined,
     Object? first = _undefined,
     Object? after = _undefined,
+    Object? status = _undefined,
+    Object? order = _undefined,
+    Object? search = _undefined,
   }) => _then(
     Variables$Query$GetDeliveriesByRestaurant._({
       ..._instance._$data,
@@ -5523,6 +5922,10 @@ class _CopyWithImpl$Variables$Query$GetDeliveriesByRestaurant<TRes>
         'restaurantId': (restaurantId as String),
       if (first != _undefined) 'first': (first as int?),
       if (after != _undefined) 'after': (after as String?),
+      if (status != _undefined) 'status': (status as String?),
+      if (order != _undefined)
+        'order': (order as List<Input$DeliveryFilter_order?>?),
+      if (search != _undefined) 'search': (search as String?),
     }),
   );
 }
@@ -5533,7 +5936,14 @@ class _CopyWithStubImpl$Variables$Query$GetDeliveriesByRestaurant<TRes>
 
   TRes _res;
 
-  call({String? restaurantId, int? first, String? after}) => _res;
+  call({
+    String? restaurantId,
+    int? first,
+    String? after,
+    String? status,
+    List<Input$DeliveryFilter_order?>? order,
+    String? search,
+  }) => _res;
 }
 
 class Query$GetDeliveriesByRestaurant {
@@ -5699,6 +6109,36 @@ const documentNodeQueryGetDeliveriesByRestaurant = DocumentNode(
           defaultValue: DefaultValueNode(value: null),
           directives: [],
         ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'status')),
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'order')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'DeliveryFilter_order'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'search')),
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
       ],
       directives: [],
       selectionSet: SelectionSetNode(
@@ -5734,6 +6174,18 @@ const documentNodeQueryGetDeliveriesByRestaurant = DocumentNode(
                       name: NameNode(value: 'after'),
                       value: VariableNode(name: NameNode(value: 'after')),
                     ),
+                    ArgumentNode(
+                      name: NameNode(value: 'status'),
+                      value: VariableNode(name: NameNode(value: 'status')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'search'),
+                      value: VariableNode(name: NameNode(value: 'search')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'order'),
+                      value: VariableNode(name: NameNode(value: 'order')),
+                    ),
                   ],
                   directives: [],
                   selectionSet: SelectionSetNode(
@@ -5752,121 +6204,11 @@ const documentNodeQueryGetDeliveriesByRestaurant = DocumentNode(
                               directives: [],
                               selectionSet: SelectionSetNode(
                                 selections: [
-                                  FieldNode(
-                                    name: NameNode(value: 'id'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'status'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'deliveryDate'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'order'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: SelectionSetNode(
-                                      selections: [
-                                        FieldNode(
-                                          name: NameNode(value: 'id'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: 'total'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: 'customer'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                            selections: [
-                                              FieldNode(
-                                                name: NameNode(value: 'id'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null,
-                                              ),
-                                              FieldNode(
-                                                name: NameNode(value: 'email'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null,
-                                              ),
-                                              FieldNode(
-                                                name: NameNode(
-                                                  value: '__typename',
-                                                ),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: '__typename'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                      ],
+                                  FragmentSpreadNode(
+                                    name: NameNode(
+                                      value: 'BasicDeliveryFragment',
                                     ),
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'driver'),
-                                    alias: null,
-                                    arguments: [],
                                     directives: [],
-                                    selectionSet: SelectionSetNode(
-                                      selections: [
-                                        FieldNode(
-                                          name: NameNode(value: 'id'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: 'email'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: '__typename'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                      ],
-                                    ),
                                   ),
                                   FieldNode(
                                     name: NameNode(value: '__typename'),
@@ -5949,6 +6291,7 @@ const documentNodeQueryGetDeliveriesByRestaurant = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionBasicDeliveryFragment,
   ],
 );
 Query$GetDeliveriesByRestaurant _parserFn$Query$GetDeliveriesByRestaurant(
@@ -6536,14 +6879,14 @@ class Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges {
     return Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges(
       node: l$node == null
           ? null
-          : Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node.fromJson(
+          : Fragment$BasicDeliveryFragment.fromJson(
               (l$node as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node? node;
+  final Fragment$BasicDeliveryFragment? node;
 
   final String $__typename;
 
@@ -6611,14 +6954,8 @@ abstract class CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$ed
     TRes res,
   ) = _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges;
 
-  TRes call({
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node? node,
-    String? $__typename,
-  });
-  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node<
-    TRes
-  >
-  get node;
+  TRes call({Fragment$BasicDeliveryFragment? node, String? $__typename});
+  CopyWith$Fragment$BasicDeliveryFragment<TRes> get node;
 }
 
 class _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges<
@@ -6642,31 +6979,23 @@ class _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges<
 
   static const _undefined = <dynamic, dynamic>{};
 
-  TRes call({
-    Object? node = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges(
-      node: node == _undefined
-          ? _instance.node
-          : (node
-                as Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
+  TRes call({Object? node = _undefined, Object? $__typename = _undefined}) =>
+      _then(
+        Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges(
+          node: node == _undefined
+              ? _instance.node
+              : (node as Fragment$BasicDeliveryFragment?),
+          $__typename: $__typename == _undefined || $__typename == null
+              ? _instance.$__typename
+              : ($__typename as String),
+        ),
+      );
 
-  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node<
-    TRes
-  >
-  get node {
+  CopyWith$Fragment$BasicDeliveryFragment<TRes> get node {
     final local$node = _instance.node;
     return local$node == null
-        ? CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node(
+        ? CopyWith$Fragment$BasicDeliveryFragment.stub(_then(_instance))
+        : CopyWith$Fragment$BasicDeliveryFragment(
             local$node,
             (e) => call(node: e),
           );
@@ -6686,862 +7015,10 @@ class _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$ed
 
   TRes _res;
 
-  call({
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node? node,
-    String? $__typename,
-  }) => _res;
+  call({Fragment$BasicDeliveryFragment? node, String? $__typename}) => _res;
 
-  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node<
-    TRes
-  >
-  get node =>
-      CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node.stub(
-        _res,
-      );
-}
-
-class Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node {
-  Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node({
-    required this.id,
-    required this.status,
-    required this.deliveryDate,
-    this.order,
-    this.driver,
-    this.$__typename = 'Delivery',
-  });
-
-  factory Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$status = json['status'];
-    final l$deliveryDate = json['deliveryDate'];
-    final l$order = json['order'];
-    final l$driver = json['driver'];
-    final l$$__typename = json['__typename'];
-    return Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node(
-      id: (l$id as String),
-      status: fromJson$Enum$DeliveryStatus((l$status as String)),
-      deliveryDate: (l$deliveryDate as String),
-      order: l$order == null
-          ? null
-          : Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order.fromJson(
-              (l$order as Map<String, dynamic>),
-            ),
-      driver: l$driver == null
-          ? null
-          : Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver.fromJson(
-              (l$driver as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final Enum$DeliveryStatus status;
-
-  final String deliveryDate;
-
-  final Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order?
-  order;
-
-  final Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver?
-  driver;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$status = status;
-    _resultData['status'] = toJson$Enum$DeliveryStatus(l$status);
-    final l$deliveryDate = deliveryDate;
-    _resultData['deliveryDate'] = l$deliveryDate;
-    final l$order = order;
-    _resultData['order'] = l$order?.toJson();
-    final l$driver = driver;
-    _resultData['driver'] = l$driver?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$status = status;
-    final l$deliveryDate = deliveryDate;
-    final l$order = order;
-    final l$driver = driver;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$id,
-      l$status,
-      l$deliveryDate,
-      l$order,
-      l$driver,
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$status = status;
-    final lOther$status = other.status;
-    if (l$status != lOther$status) {
-      return false;
-    }
-    final l$deliveryDate = deliveryDate;
-    final lOther$deliveryDate = other.deliveryDate;
-    if (l$deliveryDate != lOther$deliveryDate) {
-      return false;
-    }
-    final l$order = order;
-    final lOther$order = other.order;
-    if (l$order != lOther$order) {
-      return false;
-    }
-    final l$driver = driver;
-    final lOther$driver = other.driver;
-    if (l$driver != lOther$driver) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node
-    on Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node {
-  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node<
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node
-  >
-  get copyWith =>
-      CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node<
-  TRes
-> {
-  factory CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node(
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node instance,
-    TRes Function(
-      Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node,
-    )
-    then,
-  ) = _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node;
-
-  factory CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node;
-
-  TRes call({
-    String? id,
-    Enum$DeliveryStatus? status,
-    String? deliveryDate,
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order?
-    order,
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver?
-    driver,
-    String? $__typename,
-  });
-  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order<
-    TRes
-  >
-  get order;
-  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver<
-    TRes
-  >
-  get driver;
-}
-
-class _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node<
-  TRes
->
-    implements
-        CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node<
-          TRes
-        > {
-  _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node
-  _instance;
-
-  final TRes Function(
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? status = _undefined,
-    Object? deliveryDate = _undefined,
-    Object? order = _undefined,
-    Object? driver = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      status: status == _undefined || status == null
-          ? _instance.status
-          : (status as Enum$DeliveryStatus),
-      deliveryDate: deliveryDate == _undefined || deliveryDate == null
-          ? _instance.deliveryDate
-          : (deliveryDate as String),
-      order: order == _undefined
-          ? _instance.order
-          : (order
-                as Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order?),
-      driver: driver == _undefined
-          ? _instance.driver
-          : (driver
-                as Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order<
-    TRes
-  >
-  get order {
-    final local$order = _instance.order;
-    return local$order == null
-        ? CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order(
-            local$order,
-            (e) => call(order: e),
-          );
-  }
-
-  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver<
-    TRes
-  >
-  get driver {
-    final local$driver = _instance.driver;
-    return local$driver == null
-        ? CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver(
-            local$driver,
-            (e) => call(driver: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node<
-  TRes
->
-    implements
-        CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node<
-          TRes
-        > {
-  _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    String? id,
-    Enum$DeliveryStatus? status,
-    String? deliveryDate,
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order?
-    order,
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver?
-    driver,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order<
-    TRes
-  >
-  get order =>
-      CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order.stub(
-        _res,
-      );
-
-  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver<
-    TRes
-  >
-  get driver =>
-      CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver.stub(
-        _res,
-      );
-}
-
-class Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order {
-  Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order({
-    required this.id,
-    required this.total,
-    this.customer,
-    this.$__typename = 'Order',
-  });
-
-  factory Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$total = json['total'];
-    final l$customer = json['customer'];
-    final l$$__typename = json['__typename'];
-    return Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order(
-      id: (l$id as String),
-      total: (l$total as int),
-      customer: l$customer == null
-          ? null
-          : Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer.fromJson(
-              (l$customer as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final int total;
-
-  final Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer?
-  customer;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$total = total;
-    _resultData['total'] = l$total;
-    final l$customer = customer;
-    _resultData['customer'] = l$customer?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$total = total;
-    final l$customer = customer;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$total, l$customer, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$total = total;
-    final lOther$total = other.total;
-    if (l$total != lOther$total) {
-      return false;
-    }
-    final l$customer = customer;
-    final lOther$customer = other.customer;
-    if (l$customer != lOther$customer) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order
-    on Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order {
-  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order<
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order
-  >
-  get copyWith =>
-      CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order<
-  TRes
-> {
-  factory CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order(
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order
-    instance,
-    TRes Function(
-      Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order,
-    )
-    then,
-  ) = _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order;
-
-  factory CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order;
-
-  TRes call({
-    String? id,
-    int? total,
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer?
-    customer,
-    String? $__typename,
-  });
-  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer<
-    TRes
-  >
-  get customer;
-}
-
-class _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order<
-  TRes
->
-    implements
-        CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order<
-          TRes
-        > {
-  _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order
-  _instance;
-
-  final TRes Function(
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? total = _undefined,
-    Object? customer = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      total: total == _undefined || total == null
-          ? _instance.total
-          : (total as int),
-      customer: customer == _undefined
-          ? _instance.customer
-          : (customer
-                as Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer<
-    TRes
-  >
-  get customer {
-    final local$customer = _instance.customer;
-    return local$customer == null
-        ? CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer(
-            local$customer,
-            (e) => call(customer: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order<
-  TRes
->
-    implements
-        CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order<
-          TRes
-        > {
-  _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    String? id,
-    int? total,
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer?
-    customer,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer<
-    TRes
-  >
-  get customer =>
-      CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer.stub(
-        _res,
-      );
-}
-
-class Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer {
-  Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer({
-    required this.id,
-    required this.email,
-    this.$__typename = 'User',
-  });
-
-  factory Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$email = json['email'];
-    final l$$__typename = json['__typename'];
-    return Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer(
-      id: (l$id as String),
-      email: (l$email as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String email;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$email = email;
-    _resultData['email'] = l$email;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$email = email;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$email, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$email = email;
-    final lOther$email = other.email;
-    if (l$email != lOther$email) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer
-    on
-        Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer {
-  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer<
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer
-  >
-  get copyWith =>
-      CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer<
-  TRes
-> {
-  factory CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer(
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer
-    instance,
-    TRes Function(
-      Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer,
-    )
-    then,
-  ) = _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer;
-
-  factory CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer;
-
-  TRes call({String? id, String? email, String? $__typename});
-}
-
-class _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer<
-  TRes
->
-    implements
-        CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer<
-          TRes
-        > {
-  _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer
-  _instance;
-
-  final TRes Function(
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? email = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      email: email == _undefined || email == null
-          ? _instance.email
-          : (email as String),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer<
-  TRes
->
-    implements
-        CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer<
-          TRes
-        > {
-  _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$order$customer(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({String? id, String? email, String? $__typename}) => _res;
-}
-
-class Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver {
-  Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver({
-    required this.id,
-    required this.email,
-    this.$__typename = 'User',
-  });
-
-  factory Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$email = json['email'];
-    final l$$__typename = json['__typename'];
-    return Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver(
-      id: (l$id as String),
-      email: (l$email as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String email;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$email = email;
-    _resultData['email'] = l$email;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$email = email;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$email, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$email = email;
-    final lOther$email = other.email;
-    if (l$email != lOther$email) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver
-    on Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver {
-  CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver<
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver
-  >
-  get copyWith =>
-      CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver<
-  TRes
-> {
-  factory CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver(
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver
-    instance,
-    TRes Function(
-      Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver,
-    )
-    then,
-  ) = _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver;
-
-  factory CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver;
-
-  TRes call({String? id, String? email, String? $__typename});
-}
-
-class _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver<
-  TRes
->
-    implements
-        CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver<
-          TRes
-        > {
-  _CopyWithImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver
-  _instance;
-
-  final TRes Function(
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? email = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      email: email == _undefined || email == null
-          ? _instance.email
-          : (email as String),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver<
-  TRes
->
-    implements
-        CopyWith$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver<
-          TRes
-        > {
-  _CopyWithStubImpl$Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node$driver(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({String? id, String? email, String? $__typename}) => _res;
+  CopyWith$Fragment$BasicDeliveryFragment<TRes> get node =>
+      CopyWith$Fragment$BasicDeliveryFragment.stub(_res);
 }
 
 class Query$GetDeliveriesByRestaurant$restaurant$deliveries$pageInfo {

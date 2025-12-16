@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
+import 'core/providers/language_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
@@ -7,25 +10,26 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:developer';
 import 'core/app_theme.dart';
 import 'core/app_router.dart';
-import 'core/token_storage_service.dart';
-import 'core/graphql_client.dart' as graphql_client;
+import 'core/services/token_storage_service.dart';
+import 'core/services/graphql_service.dart' as graphql_client;
 import 'core/widgets/global_error_widget.dart';
 import 'features/order/services/cart_service.dart';
 import 'features/order/services/payment_service.dart';
-import 'core/auth_service.dart';
+import 'core/services/auth_service.dart';
 import 'features/admin/services/statistics_service.dart';
 import 'features/restaurant/services/restaurant_service.dart';
 import 'features/user/services/user_service.dart';
-import 'features/user/services/address_service.dart';
+import 'features/customer/services/address_service.dart';
 import 'features/order/services/order_service.dart';
 import 'features/driver/services/delivery_service.dart';
 import 'features/restaurant/services/meal_service.dart';
 import 'features/restaurant/services/meal_plan_service.dart';
 import 'features/restaurant/services/restaurant_category_service.dart';
 import 'features/restaurant/services/diet_category_service.dart';
-import 'features/user/services/home_service.dart';
+import 'features/restaurant/services/production_service.dart';
+import 'features/customer/services/home_service.dart';
 import 'package:flutter/foundation.dart';
-import 'core/api_client.dart';
+import 'core/services/api_service.dart';
 import 'core/services/media_service.dart';
 import 'core/services/export_service.dart';
 
@@ -115,32 +119,32 @@ class _MyAppState extends State<MyApp> {
         ),
 
         // 3a. ApiClient
-        Provider<ApiClient>(
-          create: (context) => ApiClient(context.read<AuthService>()),
+        Provider<ApiService>(
+          create: (context) => ApiService(context.read<AuthService>()),
         ),
 
         // 3b. MediaService
         Provider<MediaService>(
-          create: (context) => MediaService(context.read<ApiClient>()),
+          create: (context) => MediaService(context.read<ApiService>()),
         ),
 
         // 3c. ExportService
         Provider<ExportService>(
-          create: (context) => ExportService(context.read<ApiClient>()),
+          create: (context) => ExportService(context.read<ApiService>()),
         ),
 
         // 4. Other Services (Most depend on GraphQLClient/TokenStorageService)
         ChangeNotifierProvider<RestaurantService>(
           create: (context) => RestaurantService(
             context.read<GraphQLClient>(),
-            context.read<ApiClient>(),
+            context.read<ApiService>(),
           ),
         ),
         ChangeNotifierProvider<UserService>(
           create: (context) => UserService(
             context.read<GraphQLClient>(),
             context.read<AuthService>(),
-            context.read<ApiClient>(),
+            context.read<ApiService>(),
           ),
         ),
         ChangeNotifierProvider<AddressService>(
@@ -161,8 +165,11 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<MealPlanService>(
           create: (context) => MealPlanService(
             context.read<GraphQLClient>(),
-            context.read<ApiClient>(),
+            context.read<ApiService>(),
           ),
+        ),
+        ChangeNotifierProvider<ProductionService>(
+          create: (context) => ProductionService(context.read<ApiService>()),
         ),
         ChangeNotifierProvider<RestaurantCategoryService>(
           create: (context) =>
@@ -181,20 +188,35 @@ class _MyAppState extends State<MyApp> {
           },
         ),
         ChangeNotifierProvider<StatisticsService>(
-          create: (context) => StatisticsService(context.read<ApiClient>()),
+          create: (context) => StatisticsService(context.read<ApiService>()),
         ),
         ChangeNotifierProvider<PaymentService>(
           create: (context) => PaymentService(context.read<GraphQLClient>()),
         ),
         ChangeNotifierProvider<HomeService>(
-          create: (context) => HomeService(context.read<ApiClient>()),
+          create: (context) => HomeService(context.read<ApiService>()),
+        ),
+        ChangeNotifierProvider<LanguageProvider>(
+          create: (_) => LanguageProvider(),
         ),
       ],
       // Since loading is handled in main(), we use MaterialApp.router directly.
-      child: MaterialApp.router(
-        title: 'Catering App',
-        theme: AppTheme.lightTheme,
-        routerConfig: _appRouter.router,
+      child: Consumer<LanguageProvider>(
+        builder: (context, languageProvider, child) {
+          return MaterialApp.router(
+            title: 'Catering App',
+            theme: AppTheme.lightTheme,
+            routerConfig: _appRouter.router,
+            locale: languageProvider.currentLocale,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [Locale('en'), Locale('pl')],
+          );
+        },
       ),
     );
   }

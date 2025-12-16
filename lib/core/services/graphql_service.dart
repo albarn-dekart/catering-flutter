@@ -1,7 +1,8 @@
 import 'dart:async';
+import 'package:catering_flutter/core/services/api_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:catering_flutter/core/auth_service.dart';
+import 'package:catering_flutter/core/services/auth_service.dart';
 
 class TimeoutClient extends http.BaseClient {
   final http.Client _inner;
@@ -17,7 +18,7 @@ class TimeoutClient extends http.BaseClient {
 
 GraphQLClient initClient(AuthService authService) {
   final httpLink = HttpLink(
-    'https://localhost:8000/api/graphql',
+    '${ApiService.baseUrl}/api/graphql',
     defaultHeaders: {'Accept': 'application/json'},
     httpClient: TimeoutClient(http.Client(), const Duration(seconds: 30)),
   );
@@ -32,7 +33,12 @@ GraphQLClient initClient(AuthService authService) {
         if (!isExpired) {
           return 'Bearer $token';
         } else {
-          await authService.logout();
+          // Token is expired, try to refresh
+          final newToken = await authService.refreshToken();
+          if (newToken != null) {
+            return 'Bearer $newToken';
+          }
+          // If refresh failed, refreshToken() handles logout
         }
       }
 

@@ -1,3 +1,4 @@
+import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
@@ -33,7 +34,7 @@ class _ManageDietCategoriesScreenState
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      title: 'Manage Diet Categories',
+      title: AppLocalizations.of(context)!.manageDietCategories,
       child: Consumer<DietCategoryService>(
         builder: (context, service, child) {
           if (service.isLoading) {
@@ -50,7 +51,7 @@ class _ManageDietCategoriesScreenState
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'Add New Diet Category',
+                      AppLocalizations.of(context)!.addNewDietCategory,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 12),
@@ -59,10 +60,14 @@ class _ManageDietCategoriesScreenState
                         Expanded(
                           child: TextField(
                             controller: _nameController,
-                            decoration: const InputDecoration(
-                              labelText: 'Category Name',
-                              hintText: 'e.g., Vegan, Keto, Gluten-Free',
-                              border: OutlineInputBorder(),
+                            decoration: InputDecoration(
+                              labelText: AppLocalizations.of(
+                                context,
+                              )!.categoryName,
+                              hintText: AppLocalizations.of(
+                                context,
+                              )!.dietCategoryHint,
+                              border: const OutlineInputBorder(),
                             ),
                           ),
                         ),
@@ -74,7 +79,9 @@ class _ManageDietCategoriesScreenState
                                   if (_nameController.text.trim().isEmpty) {
                                     UIErrorHandler.showSnackBar(
                                       context,
-                                      'Please enter a category name',
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.pleaseEnterCategoryName,
                                       isError: true,
                                     );
                                     return;
@@ -88,7 +95,11 @@ class _ManageDietCategoriesScreenState
                                     if (!context.mounted) return;
                                     UIErrorHandler.showSnackBar(
                                       context,
-                                      'Category created successfully',
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.categoryCreated(
+                                        AppLocalizations.of(context)!.diet,
+                                      ),
                                       isError: false,
                                     );
                                     await service.getDietCategories();
@@ -97,13 +108,14 @@ class _ManageDietCategoriesScreenState
                                     UIErrorHandler.handleError(
                                       context,
                                       e,
-                                      customMessage:
-                                          'Failed to create category',
+                                      customMessage: AppLocalizations.of(
+                                        context,
+                                      )!.failedToCreateCategory,
                                     );
                                   }
                                 },
                           icon: const Icon(Icons.add),
-                          label: const Text('Add'),
+                          label: Text(AppLocalizations.of(context)!.add),
                         ),
                       ],
                     ),
@@ -113,46 +125,60 @@ class _ManageDietCategoriesScreenState
               // Categories list
               Expanded(
                 child: service.dietCategories.isEmpty
-                    ? const Center(child: Text('No diet categories found'))
-                    : ListView.builder(
-                        padding: const EdgeInsets.all(16.0),
-                        itemCount: service.dietCategories.length,
-                        itemBuilder: (context, index) {
-                          final category = service.dietCategories[index];
-                          return Card(
-                            margin: const EdgeInsets.only(bottom: 8),
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                backgroundColor: Theme.of(
-                                  context,
-                                ).colorScheme.primaryContainer,
-                                child: Icon(
-                                  Icons.restaurant_menu,
-                                  color: Theme.of(
+                    ? Center(
+                        child: Text(
+                          AppLocalizations.of(context)!.noDietCategoriesFound,
+                        ),
+                      )
+                    : RefreshIndicator(
+                        onRefresh: () async {
+                          await context
+                              .read<DietCategoryService>()
+                              .getDietCategories();
+                        },
+                        child: ListView.builder(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          padding: const EdgeInsets.all(16.0),
+                          itemCount: service.dietCategories.length,
+                          itemBuilder: (context, index) {
+                            final category = service.dietCategories[index];
+                            return Card(
+                              margin: const EdgeInsets.only(bottom: 8),
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  backgroundColor: Theme.of(
                                     context,
-                                  ).colorScheme.onPrimaryContainer,
+                                  ).colorScheme.primaryContainer,
+                                  child: Icon(
+                                    Icons.restaurant_menu,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onPrimaryContainer,
+                                  ),
+                                ),
+                                title: Text(category.name),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(Icons.edit),
+                                      onPressed: () =>
+                                          _showEditDialog(context, category),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.delete),
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.error,
+                                      onPressed: () =>
+                                          _showDeleteDialog(context, category),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              title: Text(category.name),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.edit),
-                                    onPressed: () =>
-                                        _showEditDialog(context, category),
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    color: Theme.of(context).colorScheme.error,
-                                    onPressed: () =>
-                                        _showDeleteDialog(context, category),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
               ),
             ],
@@ -167,25 +193,25 @@ class _ManageDietCategoriesScreenState
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Edit Diet Category'),
+        title: Text(AppLocalizations.of(context)!.editDietCategory),
         content: TextField(
           controller: controller,
-          decoration: const InputDecoration(
-            labelText: 'Category Name',
-            border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            labelText: AppLocalizations.of(context)!.categoryName,
+            border: const OutlineInputBorder(),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           FilledButton(
             onPressed: () async {
               if (controller.text.trim().isEmpty) {
                 UIErrorHandler.showSnackBar(
                   context,
-                  'Please enter a category name',
+                  AppLocalizations.of(context)!.pleaseEnterCategoryName,
                   isError: true,
                 );
                 return;
@@ -200,7 +226,7 @@ class _ManageDietCategoriesScreenState
                 Navigator.pop(context);
                 UIErrorHandler.showSnackBar(
                   context,
-                  'Category updated successfully',
+                  AppLocalizations.of(context)!.categoryUpdated,
                   isError: false,
                 );
                 await context.read<DietCategoryService>().getDietCategories();
@@ -209,11 +235,13 @@ class _ManageDietCategoriesScreenState
                 UIErrorHandler.handleError(
                   context,
                   e,
-                  customMessage: 'Failed to update category',
+                  customMessage: AppLocalizations.of(
+                    context,
+                  )!.failedToUpdateCategory,
                 );
               }
             },
-            child: const Text('Save'),
+            child: Text(AppLocalizations.of(context)!.save),
           ),
         ],
       ),
@@ -224,14 +252,18 @@ class _ManageDietCategoriesScreenState
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Diet Category'),
-        content: Text('Are you sure you want to delete "${category.name}"?'),
+        title: Text(AppLocalizations.of(context)!.deleteDietCategory),
+        content: Text(
+          AppLocalizations.of(
+            context,
+          )!.deleteCategoryConfirmation(category.name),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
-          FilledButton(
+          TextButton(
             onPressed: () async {
               try {
                 await context.read<DietCategoryService>().deleteDietCategory(
@@ -241,7 +273,7 @@ class _ManageDietCategoriesScreenState
                 Navigator.pop(context);
                 UIErrorHandler.showSnackBar(
                   context,
-                  'Category deleted successfully',
+                  AppLocalizations.of(context)!.categoryDeleted,
                   isError: false,
                 );
               } catch (e) {
@@ -250,14 +282,14 @@ class _ManageDietCategoriesScreenState
                 UIErrorHandler.handleError(
                   context,
                   e,
-                  customMessage: 'Failed to delete category',
+                  customMessage: AppLocalizations.of(
+                    context,
+                  )!.failedToDeleteCategory,
                 );
               }
             },
-            style: FilledButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.error,
-            ),
-            child: const Text('Delete'),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: Text(AppLocalizations.of(context)!.delete),
           ),
         ],
       ),

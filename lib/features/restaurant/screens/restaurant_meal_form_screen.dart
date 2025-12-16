@@ -6,6 +6,7 @@ import 'package:catering_flutter/features/restaurant/services/meal_service.dart'
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
 
 class RestaurantMealFormScreen extends StatefulWidget {
   final String? mealId;
@@ -54,7 +55,7 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
             if (meal != null) {
               _nameController.text = meal.name;
               _descriptionController.text = meal.description ?? '';
-              _priceController.text = (meal.price).toStringAsFixed(2);
+              _priceController.text = (meal.price / 100.0).toStringAsFixed(2);
               _caloriesController.text = meal.calories.toString();
               _proteinController.text = meal.protein.toString();
               _fatController.text = meal.fat.toString();
@@ -99,7 +100,7 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
       final mealService = context.read<MealService>();
 
       try {
-        final price = double.parse(_priceController.text);
+        final priceInt = (double.parse(_priceController.text) * 100).round();
         final calories = double.tryParse(_caloriesController.text);
         final protein = double.tryParse(_proteinController.text);
         final fat = double.tryParse(_fatController.text);
@@ -113,7 +114,7 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
             restaurantId: widget.restaurantIri,
             name: _nameController.text,
             description: _descriptionController.text,
-            price: price,
+            price: priceInt,
             calories: calories,
             protein: protein,
             fat: fat,
@@ -125,7 +126,7 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
             id: savedMealIri,
             name: _nameController.text,
             description: _descriptionController.text,
-            price: price,
+            price: priceInt,
             calories: calories,
             protein: protein,
             fat: fat,
@@ -141,17 +142,17 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
             if (mounted) {
               UIErrorHandler.showSnackBar(
                 context,
-                'Meal saved, but image upload failed. Please retry.',
+                AppLocalizations.of(context)!.mealSavedImageFailed,
                 isError: true,
                 action: SnackBarAction(
-                  label: 'Retry Upload',
+                  label: AppLocalizations.of(context)!.retryUpload,
                   onPressed: () async {
                     try {
                       await _uploadImage(savedMealIri!);
                       if (mounted) {
                         UIErrorHandler.showSnackBar(
                           context,
-                          'Image uploaded successfully!',
+                          AppLocalizations.of(context)!.imageUploadedSuccess,
                           isError: false,
                         );
                         context.pop();
@@ -160,7 +161,7 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
                       if (mounted) {
                         UIErrorHandler.showSnackBar(
                           context,
-                          'Retry failed: $retryError',
+                          AppLocalizations.of(context)!.retryFailed(retryError),
                         );
                       }
                     }
@@ -175,7 +176,7 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
         if (mounted) {
           UIErrorHandler.showSnackBar(
             context,
-            'Meal saved successfully!',
+            AppLocalizations.of(context)!.mealSavedSuccess,
             isError: false,
           );
           context.pop();
@@ -185,7 +186,7 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
           UIErrorHandler.handleError(
             context,
             e,
-            customMessage: 'Failed to save Meal',
+            customMessage: AppLocalizations.of(context)!.mealSaveFailed,
           );
         }
       }
@@ -195,11 +196,14 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      title: widget.mealId == null ? 'Create Meal' : 'Edit Meal',
+      title: widget.mealId == null
+          ? AppLocalizations.of(context)!.createMeal
+          : AppLocalizations.of(context)!.editMeal,
       child: Consumer<MealService>(
         builder: (context, mealService, child) {
           final meal = mealService.currentMeal;
           return SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Form(
@@ -225,14 +229,16 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
                       onPressed: _pickImage,
                       icon: const Icon(Icons.image),
                       label: Text(
-                        _imageFile == null ? 'Select Image' : 'Change Image',
+                        _imageFile == null
+                            ? AppLocalizations.of(context)!.selectImage
+                            : AppLocalizations.of(context)!.changeImage,
                       ),
                     ),
                     if (_imageFile != null)
                       Padding(
                         padding: const EdgeInsets.only(top: 8),
                         child: Text(
-                          'Selected: ${_imageFile!.name}',
+                          '${AppLocalizations.of(context)!.selectedImageLabel} ${_imageFile!.name}',
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ),
@@ -240,20 +246,20 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
 
                     // Basic Information Section
                     Text(
-                      'Basic Information',
+                      AppLocalizations.of(context)!.basicInformation,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     const SizedBox(height: 16),
 
                     TextFormField(
                       controller: _nameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Meal Name',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.mealName,
+                        border: const OutlineInputBorder(),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter a name';
+                          return AppLocalizations.of(context)!.pleaseEnterName;
                         }
                         return null;
                       },
@@ -262,14 +268,16 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
 
                     TextFormField(
                       controller: _descriptionController,
-                      decoration: const InputDecoration(
-                        labelText: 'Description',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.description,
+                        border: const OutlineInputBorder(),
                       ),
                       maxLines: 3,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter a description';
+                          return AppLocalizations.of(
+                            context,
+                          )!.pleaseEnterDescription;
                         }
                         return null;
                       },
@@ -278,9 +286,9 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
 
                     TextFormField(
                       controller: _priceController,
-                      decoration: const InputDecoration(
-                        labelText: 'Price (PLN)',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.price,
+                        border: const OutlineInputBorder(),
                         prefixText: 'PLN ',
                       ),
                       keyboardType: TextInputType.numberWithOptions(
@@ -288,10 +296,12 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter a price';
+                          return AppLocalizations.of(context)!.pleaseEnterPrice;
                         }
                         if (double.tryParse(value) == null) {
-                          return 'Please enter a valid number';
+                          return AppLocalizations.of(
+                            context,
+                          )!.pleaseEnterValidNumber;
                         }
                         return null;
                       },
@@ -300,7 +310,7 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
 
                     // Nutrition Information Section
                     Text(
-                      'Nutrition Information',
+                      AppLocalizations.of(context)!.nutritionInformation,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     const SizedBox(height: 16),
@@ -310,9 +320,9 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
                         Expanded(
                           child: TextFormField(
                             controller: _caloriesController,
-                            decoration: const InputDecoration(
-                              labelText: 'Calories',
-                              border: OutlineInputBorder(),
+                            decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)!.calories,
+                              border: const OutlineInputBorder(),
                               suffixText: 'kcal',
                             ),
                             keyboardType: TextInputType.numberWithOptions(
@@ -321,7 +331,9 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
                             validator: (value) {
                               if (value != null && value.isNotEmpty) {
                                 if (double.tryParse(value) == null) {
-                                  return 'Invalid number';
+                                  return AppLocalizations.of(
+                                    context,
+                                  )!.invalidNumber;
                                 }
                               }
                               return null;
@@ -332,9 +344,9 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
                         Expanded(
                           child: TextFormField(
                             controller: _proteinController,
-                            decoration: const InputDecoration(
-                              labelText: 'Protein',
-                              border: OutlineInputBorder(),
+                            decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)!.protein,
+                              border: const OutlineInputBorder(),
                               suffixText: 'g',
                             ),
                             keyboardType: TextInputType.numberWithOptions(
@@ -343,7 +355,9 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
                             validator: (value) {
                               if (value != null && value.isNotEmpty) {
                                 if (double.tryParse(value) == null) {
-                                  return 'Invalid number';
+                                  return AppLocalizations.of(
+                                    context,
+                                  )!.invalidNumber;
                                 }
                               }
                               return null;
@@ -359,9 +373,9 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
                         Expanded(
                           child: TextFormField(
                             controller: _fatController,
-                            decoration: const InputDecoration(
-                              labelText: 'Fat',
-                              border: OutlineInputBorder(),
+                            decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)!.fat,
+                              border: const OutlineInputBorder(),
                               suffixText: 'g',
                             ),
                             keyboardType: TextInputType.numberWithOptions(
@@ -370,7 +384,9 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
                             validator: (value) {
                               if (value != null && value.isNotEmpty) {
                                 if (double.tryParse(value) == null) {
-                                  return 'Invalid number';
+                                  return AppLocalizations.of(
+                                    context,
+                                  )!.invalidNumber;
                                 }
                               }
                               return null;
@@ -381,9 +397,9 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
                         Expanded(
                           child: TextFormField(
                             controller: _carbsController,
-                            decoration: const InputDecoration(
-                              labelText: 'Carbs',
-                              border: OutlineInputBorder(),
+                            decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)!.carbs,
+                              border: const OutlineInputBorder(),
                               suffixText: 'g',
                             ),
                             keyboardType: TextInputType.numberWithOptions(
@@ -392,7 +408,9 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
                             validator: (value) {
                               if (value != null && value.isNotEmpty) {
                                 if (double.tryParse(value) == null) {
-                                  return 'Invalid number';
+                                  return AppLocalizations.of(
+                                    context,
+                                  )!.invalidNumber;
                                 }
                               }
                               return null;
@@ -411,7 +429,9 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
                           ? const Center(child: CircularProgressIndicator())
                           : FilledButton(
                               onPressed: _saveMeal,
-                              child: const Text('Save Meal'),
+                              child: Text(
+                                AppLocalizations.of(context)!.saveMeal,
+                              ),
                             ),
                     ),
                   ],

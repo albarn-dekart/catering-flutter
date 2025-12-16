@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:catering_flutter/core/auth_service.dart';
-import 'package:catering_flutter/core/app_routes.dart';
+import 'package:catering_flutter/core/services/auth_service.dart';
+import 'package:catering_flutter/core/app_router.dart';
 import 'package:catering_flutter/features/order/services/cart_service.dart';
+import 'package:catering_flutter/core/providers/language_provider.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
 
 class CustomScaffold extends StatelessWidget {
   final Widget child;
@@ -45,6 +47,27 @@ class CustomScaffold extends StatelessWidget {
         ),
         bottom: bottom, // Use the new bottom parameter
         actions: [
+          Consumer<LanguageProvider>(
+            builder: (context, languageProvider, child) {
+              return PopupMenuButton<String>(
+                icon: const Icon(Icons.language),
+                tooltip: AppLocalizations.of(context)!.selectLanguage,
+                onSelected: (String code) {
+                  languageProvider.changeLocale(code);
+                },
+                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                  const PopupMenuItem<String>(
+                    value: 'en',
+                    child: Text('English'),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: 'pl',
+                    child: Text('Polski'),
+                  ),
+                ],
+              );
+            },
+          ),
           if (authService.isAuthenticated) ...[
             if (authService.hasRole("ROLE_CUSTOMER"))
               Consumer<CartService>(
@@ -59,56 +82,49 @@ class CustomScaffold extends StatelessWidget {
                   );
                 },
               ),
-            if (authService.isAuthenticated && authService.email != null)
-              Text(
-                authService.email!,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
+
             PopupMenuButton<String>(
-              icon: Icon(
-                authService.hasRole("ROLE_ADMIN")
-                    ? Icons.admin_panel_settings
-                    : authService.hasRole("ROLE_RESTAURANT")
-                    ? Icons.storefront
-                    : authService.hasRole("ROLE_DRIVER")
-                    ? Icons.drive_eta
-                    : Icons.person,
-              ),
+              icon: Icon(Icons.person),
               onSelected: (value) {
-                if (value == 'dashboard') {
-                  // Navigate to appropriate dashboard based on role
-                  if (authService.hasRole("ROLE_ADMIN")) {
-                    innerContext.push(AppRoutes.adminDashboard);
-                  } else if (authService.hasRole("ROLE_RESTAURANT")) {
-                    innerContext.push(AppRoutes.restaurantDashboard);
-                  } else if (authService.hasRole("ROLE_DRIVER")) {
-                    innerContext.push(AppRoutes.driverDashboard);
-                  } else if (authService.hasRole("ROLE_CUSTOMER")) {
-                    innerContext.push(AppRoutes.profile);
-                  }
+                if (value == 'profile') {
+                  innerContext.push(AppRoutes.profile);
                 } else if (value == 'logout') {
                   authService.logout();
                   innerContext.go(AppRoutes.login);
                 }
               },
               itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                const PopupMenuItem<String>(
-                  value: 'dashboard',
-                  child: Text('Dashboard'),
+                if (authService.email != null)
+                  PopupMenuItem<String>(
+                    enabled: false,
+                    child: Text(
+                      authService.email!,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
+                  ),
+                if (authService.email != null) const PopupMenuDivider(),
+                PopupMenuItem<String>(
+                  value: 'profile',
+                  child: Text(AppLocalizations.of(context)!.profile),
                 ),
-                const PopupMenuItem<String>(
+                PopupMenuItem<String>(
                   value: 'logout',
-                  child: Text('Logout'),
+                  child: Text(AppLocalizations.of(context)!.logout),
                 ),
               ],
             ),
           ] else
             TextButton(
               onPressed: () => innerContext.go(AppRoutes.login),
-              child: const Text('Login', style: TextStyle(color: Colors.white)),
+              child: Text(
+                AppLocalizations.of(innerContext)!.login,
+                style: Theme.of(
+                  innerContext,
+                ).textTheme.labelLarge?.copyWith(color: Colors.white),
+              ),
             ),
         ],
       ),
@@ -119,6 +135,7 @@ class CustomScaffold extends StatelessWidget {
         ),
       ),
       floatingActionButton: floatingActionButton,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
-import 'package:catering_flutter/core/app_routes.dart';
-import 'package:catering_flutter/core/auth_service.dart';
+import 'package:catering_flutter/core/utils/date_formatter.dart';
+import 'package:catering_flutter/core/app_router.dart';
+import 'package:catering_flutter/core/services/auth_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/features/order/services/cart_service.dart';
 import 'package:catering_flutter/features/order/services/order_service.dart';
-import 'package:catering_flutter/features/user/services/address_service.dart';
+import 'package:catering_flutter/features/customer/services/address_service.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
+import 'package:catering_flutter/core/widgets/price_text.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
   const ConfirmOrderScreen({super.key});
@@ -94,9 +96,9 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     final List<DateTime> actualDeliveryDates = [];
     DateTime currentDate = _startDate!;
     while (currentDate.isBefore(_endDate!.add(const Duration(days: 1)))) {
-      final String dayOfWeek = DateFormat(
-        'EEE',
-      ).format(currentDate); // e.g., Mon, Tue
+      final String dayOfWeek = AppDateFormatter.dayOfWeekAbbrBackend(
+        currentDate,
+      ); // e.g., Mon, Tue
       if (_selectedDeliveryDays.contains(dayOfWeek)) {
         actualDeliveryDates.add(currentDate);
       }
@@ -113,7 +115,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      title: 'Delivery Details',
+      title: AppLocalizations.of(context)!.deliveryDetails,
       child: Consumer2<CartService, OrderService>(
         builder: (context, cartService, orderService, child) {
           if (cartService.cartItems.isEmpty) {
@@ -128,7 +130,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Your cart is empty',
+                    AppLocalizations.of(context)!.yourCartIsEmpty,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
@@ -138,6 +140,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
             );
           }
           return SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -156,42 +159,57 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.location_on,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  'Delivery Address',
-                                  style: Theme.of(context).textTheme.titleMedium
-                                      ?.copyWith(fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                final result = await context.push(
-                                  Uri(
-                                    path: AppRoutes.addressList,
-                                    queryParameters: {'selection': 'true'},
-                                  ).toString(),
-                                );
-                                if (result != null && result is Address) {
-                                  setState(() {
-                                    _selectedAddress = result;
-                                  });
-                                }
-                              },
-                              child: Text(
-                                _selectedAddress == null ? 'Add' : 'Change',
+                        SizedBox(
+                          width: double.infinity,
+                          child: Wrap(
+                            alignment: WrapAlignment.spaceBetween,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            spacing: 8.0,
+                            runSpacing: 8.0,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.location_on,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.deliveryAddress,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
+                              TextButton(
+                                onPressed: () async {
+                                  final result = await context.push(
+                                    Uri(
+                                      path: AppRoutes.addressList,
+                                      queryParameters: {'selection': 'true'},
+                                    ).toString(),
+                                  );
+                                  if (result != null && result is Address) {
+                                    setState(() {
+                                      _selectedAddress = result;
+                                    });
+                                  }
+                                },
+                                child: Text(
+                                  _selectedAddress == null
+                                      ? AppLocalizations.of(context)!.add
+                                      : AppLocalizations.of(context)!.change,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         if (_selectedAddress != null) ...[
                           const SizedBox(height: 8),
@@ -208,7 +226,11 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                           ),
                           Text(_selectedAddress!.phoneNumber),
                         ] else
-                          const Text('Please select a delivery address'),
+                          Text(
+                            AppLocalizations.of(
+                              context,
+                            )!.pleaseSelectDeliveryAddress,
+                          ),
                       ],
                     ),
                   ),
@@ -236,7 +258,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              'Order Duration',
+                              AppLocalizations.of(context)!.orderDuration,
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
@@ -257,17 +279,27 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  _startDate == null || _endDate == null
-                                      ? 'Select Date Range'
-                                      : '${DateFormat('dd MMM yyyy').format(_startDate!)} - ${DateFormat('dd MMM yyyy').format(_endDate!)}',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                                const Icon(Icons.calendar_today, size: 20),
-                              ],
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: Wrap(
+                                alignment: WrapAlignment.spaceBetween,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                spacing: 8.0,
+                                runSpacing: 8.0,
+                                children: [
+                                  Text(
+                                    _startDate == null || _endDate == null
+                                        ? AppLocalizations.of(
+                                            context,
+                                          )!.selectDateRange
+                                        : '${AppDateFormatter.shortDate(context, _startDate!)} - ${AppDateFormatter.shortDate(context, _endDate!)}',
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge,
+                                  ),
+                                  const Icon(Icons.calendar_today, size: 20),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -298,7 +330,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              'Delivery Days',
+                              AppLocalizations.of(context)!.deliveryDays,
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
@@ -320,8 +352,14 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                               ].map((String day) {
                                 final isSelected = _selectedDeliveryDays
                                     .contains(day);
+                                // Display localized day name but use English internally
+                                final localizedDay =
+                                    AppDateFormatter.localizedDayName(
+                                      context,
+                                      day,
+                                    );
                                 return FilterChip(
-                                  label: Text(day),
+                                  label: Text(localizedDay),
                                   selected: isSelected,
                                   onSelected: (bool selected) {
                                     setState(() {
@@ -361,162 +399,221 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 const SizedBox(height: 24),
                 // Summary Section
                 Container(
-                  padding: const EdgeInsets.all(24),
+                  padding: const EdgeInsets.all(24.0),
                   decoration: BoxDecoration(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Estimated Total',
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          Text(
-                            '${cartService.grandTotalPLN.toStringAsFixed(2)} PLN',
-                            style: Theme.of(context).textTheme.headlineSmall
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 24),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 56,
-                        child: FilledButton(
-                          onPressed:
-                              (orderService.isLoading ||
-                                  _startDate == null ||
-                                  _endDate == null ||
-                                  _selectedDeliveryDays.isEmpty ||
-                                  _selectedAddress == null)
-                              ? null
-                              : () async {
-                                  final userIri = context
-                                      .read<AuthService>()
-                                      .userIri;
-                                  if (userIri != null) {
-                                    final orderItems = cartService.cartItems
-                                        .map(
-                                          (item) => {
-                                            'id': item.mealPlan.id,
-                                            'quantity': item.quantity,
-                                          },
-                                        )
-                                        .toList();
-
-                                    final List<DateTime> actualDeliveryDates =
-                                        [];
-                                    DateTime currentDate = _startDate!;
-                                    while (currentDate.isBefore(
-                                      _endDate!.add(const Duration(days: 1)),
-                                    )) {
-                                      final String dayOfWeek = DateFormat(
-                                        'EEE',
-                                      ).format(currentDate);
-                                      if (_selectedDeliveryDays.contains(
-                                        dayOfWeek,
-                                      )) {
-                                        actualDeliveryDates.add(currentDate);
-                                      }
-                                      currentDate = currentDate.add(
-                                        const Duration(days: 1),
-                                      );
-                                    }
-
-                                    Future<void> attemptCreateOrder() async {
-                                      try {
-                                        await orderService.createOrder(
-                                          customerIri: userIri,
-                                          orderItems: orderItems,
-                                          restaurantIri: cartService
-                                              .cartItems
-                                              .first
-                                              .restaurantIri,
-                                          deliveryDates: actualDeliveryDates,
-                                          deliveryFirstName:
-                                              _selectedAddress!.firstName,
-                                          deliveryLastName:
-                                              _selectedAddress!.lastName,
-                                          deliveryPhoneNumber:
-                                              _selectedAddress!.phoneNumber,
-                                          deliveryStreet:
-                                              _selectedAddress!.street,
-                                          deliveryApartment:
-                                              _selectedAddress!.apartment,
-                                          deliveryCity: _selectedAddress!.city,
-                                          deliveryZipCode:
-                                              _selectedAddress!.zipCode,
-                                        );
-
-                                        if (!context.mounted) return;
-
-                                        // Clear cart after successful order
-                                        cartService.clearCart();
-
-                                        // Navigate to order details
-                                        if (orderService.createdOrder != null) {
-                                          context.go(
-                                            Uri(
-                                              path: AppRoutes.orderDetail,
-                                              queryParameters: {
-                                                'id': IriHelper.getId(
-                                                  orderService.createdOrder!.id,
-                                                ),
-                                              },
-                                            ).toString(),
-                                            extra: orderService.createdOrder,
-                                          );
-                                        }
-                                      } catch (e) {
-                                        if (!context.mounted) return;
-                                        UIErrorHandler.showSnackBar(
-                                          context,
-                                          'Failed to process order. Please retry.',
-                                          isError: true,
-                                          action: SnackBarAction(
-                                            label: 'Retry',
-                                            onPressed: attemptCreateOrder,
-                                          ),
-                                        );
-                                      }
-                                    }
-
-                                    await attemptCreateOrder();
-                                  }
-                                },
-                          style: FilledButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                          child: orderService.isLoading
-                              ? const SizedBox(
-                                  width: 24,
-                                  height: 24,
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                    strokeWidth: 2,
-                                  ),
-                                )
-                              : const Text(
-                                  'Confirm Order',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                        ),
+                    color: Theme.of(context).colorScheme.surface,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, -5),
                       ),
                     ],
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(24),
+                    ),
+                  ),
+                  child: SafeArea(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Delivery Fee Row
+                        if (cartService.deliveryPrice > 0)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context)!.deliveryFee,
+                                  style: Theme.of(context).textTheme.titleMedium
+                                      ?.copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurfaceVariant,
+                                      ),
+                                ),
+                                PriceText.fromDouble(
+                                  priceGroszy:
+                                      (cartService.deliveryPrice *
+                                              cartService.deliveryDates.length)
+                                          .toDouble(),
+                                  style: Theme.of(context).textTheme.titleMedium
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.finalTotal,
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
+                                  ),
+                            ),
+                            PriceText.fromDouble(
+                              priceGroszy: cartService.grandTotalPLN,
+                              style: Theme.of(context).textTheme.headlineSmall
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                  ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 24),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 56,
+                          child: FilledButton(
+                            onPressed:
+                                (orderService.isLoading ||
+                                    _startDate == null ||
+                                    _endDate == null ||
+                                    _selectedDeliveryDays.isEmpty ||
+                                    _selectedAddress == null)
+                                ? null
+                                : () async {
+                                    final userIri = context
+                                        .read<AuthService>()
+                                        .userIri;
+                                    if (userIri != null) {
+                                      final orderItems = cartService.cartItems
+                                          .map(
+                                            (item) => {
+                                              'id': item.mealPlan.id,
+                                              'quantity': item.quantity,
+                                            },
+                                          )
+                                          .toList();
+
+                                      final List<DateTime> actualDeliveryDates =
+                                          [];
+                                      DateTime currentDate = _startDate!;
+                                      while (currentDate.isBefore(
+                                        _endDate!.add(const Duration(days: 1)),
+                                      )) {
+                                        final String dayOfWeek =
+                                            AppDateFormatter.dayOfWeekAbbrBackend(
+                                              currentDate,
+                                            );
+                                        if (_selectedDeliveryDays.contains(
+                                          dayOfWeek,
+                                        )) {
+                                          actualDeliveryDates.add(currentDate);
+                                        }
+                                        currentDate = currentDate.add(
+                                          const Duration(days: 1),
+                                        );
+                                      }
+
+                                      Future<void> attemptCreateOrder() async {
+                                        try {
+                                          await orderService.createOrder(
+                                            customerIri: userIri,
+                                            orderItems: orderItems,
+                                            restaurantIri: cartService
+                                                .cartItems
+                                                .first
+                                                .restaurantIri,
+                                            deliveryDates: actualDeliveryDates,
+                                            deliveryFirstName:
+                                                _selectedAddress!.firstName,
+                                            deliveryLastName:
+                                                _selectedAddress!.lastName,
+                                            deliveryPhoneNumber:
+                                                _selectedAddress!.phoneNumber,
+                                            deliveryStreet:
+                                                _selectedAddress!.street,
+                                            deliveryApartment:
+                                                _selectedAddress!.apartment,
+                                            deliveryCity:
+                                                _selectedAddress!.city,
+                                            deliveryZipCode:
+                                                _selectedAddress!.zipCode,
+                                          );
+
+                                          if (!context.mounted) return;
+
+                                          // Clear cart after successful order
+                                          cartService.clearCart();
+
+                                          // Navigate to order details
+                                          if (orderService.createdOrder !=
+                                              null) {
+                                            context.go(
+                                              Uri(
+                                                path: AppRoutes.orderDetail,
+                                                queryParameters: {
+                                                  'id': IriHelper.getId(
+                                                    orderService
+                                                        .createdOrder!
+                                                        .id,
+                                                  ),
+                                                },
+                                              ).toString(),
+                                              extra: orderService.createdOrder,
+                                            );
+                                          }
+                                        } catch (e) {
+                                          if (!context.mounted) return;
+                                          UIErrorHandler.showSnackBar(
+                                            context,
+                                            AppLocalizations.of(
+                                              context,
+                                            )!.orderProcessFailed,
+                                            isError: true,
+                                            action: SnackBarAction(
+                                              label: AppLocalizations.of(
+                                                context,
+                                              )!.retry,
+                                              onPressed: attemptCreateOrder,
+                                            ),
+                                          );
+                                        }
+                                      }
+
+                                      await attemptCreateOrder();
+                                    }
+                                  },
+                            style: FilledButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+                            child: orderService.isLoading
+                                ? const SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : Text(
+                                    AppLocalizations.of(context)!.confirmOrder,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge
+                                        ?.copyWith(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimary,
+                                        ),
+                                  ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

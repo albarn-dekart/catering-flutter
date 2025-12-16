@@ -1,25 +1,33 @@
 import 'dart:typed_data';
-import 'package:catering_flutter/core/api_client.dart';
+import 'package:catering_flutter/core/services/api_service.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'dart:js_interop';
 import 'package:web/web.dart' as web;
 
 /// Service for handling CSV export operations
 class ExportService {
-  final ApiClient _apiClient;
+  final ApiService _apiClient;
 
   ExportService(this._apiClient);
 
-  /// Export orders to CSV
-  /// [statusFilter] - Optional status filter to apply
-  Future<void> exportOrdersToCsv({Enum$OrderStatus? statusFilter}) async {
+  Future<void> exportOrdersToCsv({
+    Enum$OrderStatus? statusFilter,
+    String? restaurantIri,
+  }) async {
     try {
       final body = <String, dynamic>{};
       if (statusFilter != null) {
         body['status'] = statusFilter.name;
       }
 
-      final response = await _apiClient.post('/api/export/orders', body: body);
+      String endpoint;
+      if (restaurantIri != null) {
+        endpoint = '$restaurantIri/export/orders';
+      } else {
+        endpoint = '/api/export/orders';
+      }
+
+      final response = await _apiClient.post(endpoint, body: body);
 
       _downloadCsv(response.bodyBytes, _generateFilename('orders'));
     } catch (e) {
@@ -67,14 +75,76 @@ class ExportService {
   }
 
   /// Export statistics to CSV (Admin only)
-  Future<void> exportStatisticsToCsv() async {
+  Future<void> exportStatisticsToCsv({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     try {
+      final body = <String, dynamic>{};
+      if (startDate != null) {
+        body['startDate'] = startDate.toIso8601String().split('T')[0];
+      }
+      if (endDate != null) {
+        body['endDate'] = endDate.toIso8601String().split('T')[0];
+      }
+
       final response = await _apiClient.post(
         '/api/export/statistics',
-        body: {},
+        body: body,
       );
 
       _downloadCsv(response.bodyBytes, _generateFilename('statistics'));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /// Export restaurant statistics to CSV
+  Future<void> exportRestaurantStatisticsToCsv(
+    String restaurantId, {
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    try {
+      final body = <String, dynamic>{};
+      if (startDate != null) {
+        body['startDate'] = startDate.toIso8601String().split('T')[0];
+      }
+      if (endDate != null) {
+        body['endDate'] = endDate.toIso8601String().split('T')[0];
+      }
+
+      final response = await _apiClient.post(
+        '/api/export/restaurants/$restaurantId/statistics',
+        body: body,
+      );
+
+      _downloadCsv(
+        response.bodyBytes,
+        _generateFilename('restaurant_statistics'),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /// Export production plan to CSV
+  Future<void> exportProductionPlan(
+    String restaurantId, {
+    DateTime? date,
+  }) async {
+    try {
+      final body = <String, dynamic>{};
+      if (date != null) {
+        body['date'] = date.toIso8601String().split('T')[0];
+      }
+
+      final response = await _apiClient.post(
+        '/api/export/restaurants/$restaurantId/production-plan',
+        body: body,
+      );
+
+      _downloadCsv(response.bodyBytes, _generateFilename('production_plan'));
     } catch (e) {
       rethrow;
     }

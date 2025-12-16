@@ -23,7 +23,7 @@ fragment OrderSummary on Order {
       }
     }
   }
-  deliveries {
+  deliveries(order: [{deliveryDate: "ASC"}]) {
     edges {
       node {
         id
@@ -50,8 +50,8 @@ fragment OrderDetails on Order {
   deliveryZipCode
 }
 
-query GetOrders($first: Int, $after: String) {
-  orders(first: $first, after: $after) {
+query GetOrders($first: Int, $after: String, $status: String, $search: String) {
+  orders(first: $first, after: $after, status: $status, search: $search) {
     edges {
       node {
         ...OrderSummary
@@ -64,11 +64,28 @@ query GetOrders($first: Int, $after: String) {
   }
 }
 
+query GetOrdersByRestaurant($restaurantId: ID!, $first: Int, $after: String, $status: String, $search: String) {
+  restaurant(id: $restaurantId) {
+    id
+    orders(first: $first, after: $after, status: $status, search: $search) {
+      edges {
+        node {
+          ...OrderSummary
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}
+
 # For customers - includes their orders
-query GetUserOrders($id: ID!, $first: Int, $after: String) {
+query GetUserOrders($id: ID!, $first: Int, $after: String, $status: String) {
   user(id: $id) {
     id
-    orders(first: $first, after: $after) {
+    orders(first: $first, after: $after, status: $status) {
       edges {
         node {
           ...OrderSummary

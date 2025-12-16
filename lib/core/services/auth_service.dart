@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:catering_flutter/core/api_client.dart';
-import 'package:catering_flutter/core/token_storage_service.dart';
+import 'package:catering_flutter/core/services/api_service.dart';
+import 'package:catering_flutter/core/services/token_storage_service.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -62,77 +62,134 @@ class AuthService extends ChangeNotifier {
 
   Future<void> login(String email, String password) async {
     final response = await http.post(
-      Uri.parse('${ApiClient.baseUrl}/api/login'),
+      Uri.parse('${ApiService.baseUrl}/api/login'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': email, 'password': password}),
     );
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      final token = data['token'];
-      if (token != null) {
-        await _tokenStorage.saveToken(token);
-
-        // Decode JWT token to extract roles, expiry, and user ID
-        try {
-          final decodedToken = JwtDecoder.decode(token);
-
-          // Extract and save user ID
-          if (decodedToken['id'] != null) {
-            final userIri = IriHelper.buildIri(
-              'users',
-              decodedToken['id'].toString(),
-            );
-            await _tokenStorage.saveUserIri(userIri);
-            _userIri = userIri;
-          }
-
-          // Extract and save email
-          if (decodedToken['email'] != null) {
-            final email = decodedToken['email'].toString();
-            await _tokenStorage.saveEmail(email);
-            _email = email;
-          }
-
-          // Extract roles from token
-          if (decodedToken['roles'] != null) {
-            final List<String> roles = List<String>.from(decodedToken['roles']);
-            await _tokenStorage.saveRoles(roles);
-            _roles = roles;
-          } else {
-            _roles = [];
-          }
-
-          // Extract and save token expiry time
-          if (decodedToken['exp'] != null) {
-            final int expirySeconds = decodedToken['exp'];
-            final expiryDateTime = DateTime.fromMillisecondsSinceEpoch(
-              expirySeconds * 1000,
-            );
-            await _tokenStorage.saveTokenExpiry(expiryDateTime);
-          }
-        } catch (e, stackTrace) {
-          // If token decoding fails, log error but still authenticate
-          log(
-            'Error decoding JWT token',
-            error: e,
-            stackTrace: stackTrace,
-            name: 'AuthService',
-          );
-          _roles = [];
-        }
-
-        _isAuthenticated = true;
-        notifyListeners();
-      } else {
-        throw Exception('Login failed: no token received');
-      }
+      await _handleAuthSuccess(data);
     } else {
       throw Exception('Login failed: ${response.body}');
     }
   }
 
+  /// Refreshes the access token using the storage refresh token
+  /// Returns validated new token if successful, null otherwise
+  Future<String?> refreshToken() async {
+    final refreshToken = await _tokenStorage.getRefreshToken();
+    if (refreshToken == null) return null;
+
+    try {
+      final response = await http.post(
+        Uri.parse('${ApiService.baseUrl}/api/token/refresh'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'refresh_token': refreshToken}),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        await _handleAuthSuccess(data);
+        return data['token'];
+      } else {
+        await logout(); // Refresh failed (expired/invalid), force logout
+        return null;
+      }
+    } catch (e) {
+      log('Error refreshing token', error: e, name: 'AuthService');
+      await logout();
+      return null;
+    }
+  }
+
+  Future<void> _handleAuthSuccess(Map<String, dynamic> data) async {
+    final token = data['token'];
+    final refreshToken = data['refresh_token'];
+
+    if (token != null) {
+      await _tokenStorage.saveToken(token);
+
+      if (refreshToken != null) {
+        await _tokenStorage.saveRefreshToken(refreshToken);
+      }
+
+      // Decode JWT token to extract roles, expiry, and user ID
+      try {
+        final decodedToken = JwtDecoder.decode(token);
+
+        // Extract and save user ID
+        if (decodedToken['id'] != null) {
+          final userIri = IriHelper.buildIri(
+            'users',
+            decodedToken['id'].toString(),
+          );
+          await _tokenStorage.saveUserIri(userIri);
+          _userIri = userIri;
+        }
+
+        // Extract and save email
+        if (decodedToken['email'] != null) {
+          final email = decodedToken['email'].toString();
+          await _tokenStorage.saveEmail(email);
+          _email = email;
+        }
+
+        // Extract roles from token
+        if (decodedToken['roles'] != null) {
+          final List<String> roles = List<String>.from(decodedToken['roles']);
+          await _tokenStorage.saveRoles(roles);
+          _roles = roles;
+        } else {
+          _roles = [];
+        }
+
+        // Extract and save token expiry time
+        if (decodedToken['exp'] != null) {
+          final int expirySeconds = decodedToken['exp'];
+          final expiryDateTime = DateTime.fromMillisecondsSinceEpoch(
+            expirySeconds * 1000,
+          );
+          await _tokenStorage.saveTokenExpiry(expiryDateTime);
+        }
+      } catch (e, stackTrace) {
+        // If token decoding fails, log error but still authenticate
+        log(
+          'Error decoding JWT token',
+          error: e,
+          stackTrace: stackTrace,
+          name: 'AuthService',
+        );
+        _roles = [];
+      }
+
+      _isAuthenticated = true;
+      notifyListeners();
+    } else {
+      throw Exception('Auth failed: no token received');
+    }
+  }
+
   Future<void> logout() async {
+    // Attempt to invalidate refresh token on backend
+    final refreshToken = await _tokenStorage.getRefreshToken();
+    if (refreshToken != null) {
+      http
+          .post(
+            Uri.parse('${ApiService.baseUrl}/api/logout'),
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({'refresh_token': refreshToken}),
+          )
+          .then((_) {})
+          .catchError((Object e) {
+            log(
+              'Error invalidating token on backend',
+              error: e,
+              name: 'AuthService',
+            );
+          });
+    }
+
     await _tokenStorage.clearAll();
     _isAuthenticated = false;
     _roles = [];
@@ -165,7 +222,7 @@ class AuthService extends ChangeNotifier {
 
   Future<void> register(String email, String password) async {
     final response = await http.post(
-      Uri.parse('${ApiClient.baseUrl}/api/register'),
+      Uri.parse('${ApiService.baseUrl}/api/register'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': email, 'password': password}),
     );
@@ -186,7 +243,7 @@ class AuthService extends ChangeNotifier {
     }
 
     final response = await http.post(
-      Uri.parse('${ApiClient.baseUrl}/api/change-password'),
+      Uri.parse('${ApiService.baseUrl}/api/change-password'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',

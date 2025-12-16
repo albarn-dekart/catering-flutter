@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:catering_flutter/core/app_routes.dart';
+import 'package:catering_flutter/core/app_router.dart';
 import 'package:catering_flutter/features/restaurant/services/meal_plan_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
-import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 import 'package:catering_flutter/core/widgets/searchable_list_screen.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
+import 'package:catering_flutter/core/widgets/meal_plan_card.dart';
 
 class RestaurantMealPlansScreen extends StatefulWidget {
   final String restaurantIri;
@@ -19,165 +20,191 @@ class RestaurantMealPlansScreen extends StatefulWidget {
 }
 
 class _RestaurantMealPlansScreenState extends State<RestaurantMealPlansScreen> {
+  String _currentSearchQuery = '';
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<MealPlanService>().fetchMealPlansByRestaurant(
-        widget.restaurantIri,
-      );
+      _fetchMealPlans();
     });
+  }
+
+  void _fetchMealPlans() {
+    context.read<MealPlanService>().fetchMealPlansByRestaurant(
+      widget.restaurantIri,
+      searchQuery: _currentSearchQuery,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final isNarrow = MediaQuery.of(context).size.width < 700;
     return Consumer<MealPlanService>(
       builder: (context, mealPlanService, child) {
         return SearchableListScreen<MealPlan>(
-          title: 'Manage Meal Plans',
+          title: AppLocalizations.of(context)!.manageMealPlans,
           items: mealPlanService.mealPlans,
           isLoading: mealPlanService.isLoading,
+          useGrid: true,
+          preferredItemHeight: 420,
           onLoadMore: () async {
             if (!mealPlanService.isFetchingMore &&
                 mealPlanService.hasNextPage) {
-              await mealPlanService.loadMoreMealPlans(widget.restaurantIri);
+              await mealPlanService.loadMoreMealPlansByRestaurant(
+                widget.restaurantIri,
+              );
             }
           },
-          searchHint: 'Search meal plans...',
-          filter: (mealPlan, query) =>
-              mealPlan.name.toLowerCase().contains(query) ||
-              (mealPlan.description?.toLowerCase().contains(query) ?? false),
-          floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {
-              context.push(
-                Uri(
-                  path: AppRoutes.restaurantMealPlanForm,
-                  queryParameters: {
-                    'restaurantId': IriHelper.getId(widget.restaurantIri),
+          searchHint: AppLocalizations.of(context)!.searchMealPlans,
+
+          onSearch: (query) {
+            _currentSearchQuery = query;
+            _fetchMealPlans();
+          },
+          floatingActionButton: isNarrow
+              ? FloatingActionButton(
+                  onPressed: () {
+                    context.push(
+                      Uri(
+                        path: AppRoutes.restaurantMealPlanForm,
+                        queryParameters: {
+                          'restaurantId': IriHelper.getId(widget.restaurantIri),
+                        },
+                      ).toString(),
+                    );
                   },
-                ).toString(),
-              );
-            },
-            icon: const Icon(Icons.add),
-            label: const Text('Add Meal Plan'),
-          ),
+                  tooltip: AppLocalizations.of(context)!.addMealPlan,
+                  child: const Icon(Icons.add),
+                )
+              : FloatingActionButton.extended(
+                  onPressed: () {
+                    context.push(
+                      Uri(
+                        path: AppRoutes.restaurantMealPlanForm,
+                        queryParameters: {
+                          'restaurantId': IriHelper.getId(widget.restaurantIri),
+                        },
+                      ).toString(),
+                    );
+                  },
+                  icon: const Icon(Icons.add),
+                  label: Text(AppLocalizations.of(context)!.addMealPlan),
+                ),
           onRefresh: () async {
-            await mealPlanService.fetchMealPlansByRestaurant(
-              widget.restaurantIri,
-            );
+            _fetchMealPlans();
           },
           itemBuilder: (context, mealPlan) {
-            return Card(
-              elevation: 2,
-              clipBehavior: Clip.antiAlias,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: ListTile(
-                contentPadding: const EdgeInsets.all(12),
-                leading: Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child:
-                      mealPlan.imageUrl != null && mealPlan.imageUrl!.isNotEmpty
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: CustomCachedImage(
-                            imageUrl: mealPlan.imageUrl,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : Icon(
-                          Icons.restaurant_menu,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                ),
-                title: Text(
-                  mealPlan.name,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                subtitle: Text(
-                  mealPlan.description ?? 'No description',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.edit_outlined),
-                      onPressed: () {
-                        context.push(
-                          Uri(
-                            path: AppRoutes.restaurantMealPlanForm,
-                            queryParameters: {
-                              'restaurantId': IriHelper.getId(
-                                widget.restaurantIri,
-                              ),
-                            },
-                          ).toString(),
-                          extra: mealPlan,
-                        );
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete_outline),
-                      color: Theme.of(context).colorScheme.error,
-                      onPressed: () async {
-                        final confirm = await showDialog<bool>(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text('Delete Meal Plan'),
-                            content: Text(
-                              'Are you sure you want to delete "${mealPlan.name}"?',
+            return MealPlanCard(
+              id: mealPlan.id,
+              name: mealPlan.name,
+              description: mealPlan.description,
+              imageUrl: mealPlan.imageUrl,
+              price: (mealPlan.price ?? 0).toDouble(),
+              calories: mealPlan.calories?.toDouble(),
+              protein: mealPlan.protein?.toDouble(),
+              fat: mealPlan.fat?.toDouble(),
+              carbs: mealPlan.carbs?.toDouble(),
+              actions: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton.filledTonal(
+                    icon: const Icon(Icons.edit_outlined),
+                    tooltip: AppLocalizations.of(context)!.edit,
+                    onPressed: () {
+                      context.push(
+                        Uri(
+                          path: AppRoutes.restaurantMealPlanForm,
+                          queryParameters: {
+                            'restaurantId': IriHelper.getId(
+                              widget.restaurantIri,
                             ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, false),
-                                child: const Text('Cancel'),
-                              ),
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, true),
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.red,
-                                ),
-                                child: const Text('Delete'),
-                              ),
-                            ],
+                          },
+                        ).toString(),
+                        extra: mealPlan,
+                      );
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton.filledTonal(
+                    icon: const Icon(Icons.delete_outline),
+                    tooltip: AppLocalizations.of(context)!.delete,
+                    style: IconButton.styleFrom(
+                      foregroundColor: Theme.of(context).colorScheme.error,
+                      backgroundColor: Theme.of(
+                        context,
+                      ).colorScheme.errorContainer,
+                    ),
+                    onPressed: () async {
+                      final confirm = await showDialog<bool>(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text(
+                            AppLocalizations.of(context)!.deleteMealPlan,
                           ),
-                        );
+                          content: Text(
+                            AppLocalizations.of(
+                              context,
+                            )!.deleteMealPlanConfirmation(mealPlan.name),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, false),
+                              child: Text(AppLocalizations.of(context)!.cancel),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, true),
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.red,
+                              ),
+                              child: Text(AppLocalizations.of(context)!.delete),
+                            ),
+                          ],
+                        ),
+                      );
 
-                        if (confirm == true && context.mounted) {
-                          try {
-                            await mealPlanService.deleteMealPlan(mealPlan.id);
-                            if (context.mounted) {
-                              UIErrorHandler.showSnackBar(
+                      if (confirm == true && context.mounted) {
+                        try {
+                          await mealPlanService.deleteMealPlan(mealPlan.id);
+                          if (context.mounted) {
+                            UIErrorHandler.showSnackBar(
+                              context,
+                              AppLocalizations.of(
                                 context,
-                                'Meal Plan deleted successfully!',
-                                isError: false,
-                              );
-                            }
-                          } catch (e) {
-                            if (context.mounted) {
-                              UIErrorHandler.handleError(
+                              )!.mealPlanDeletedSuccess,
+                              isError: false,
+                            );
+                          }
+                        } catch (e) {
+                          if (context.mounted) {
+                            UIErrorHandler.handleError(
+                              context,
+                              e,
+                              customMessage: AppLocalizations.of(
                                 context,
-                                e,
-                                customMessage: 'Failed to delete meal plan',
-                              );
-                            }
+                              )!.mealPlanDeleteFailed,
+                            );
                           }
                         }
-                      },
-                    ),
-                  ],
-                ),
+                      }
+                    },
+                  ),
+                ],
               ),
+              onTap: () {
+                // Navigate to details if needed, or maybe just edit?
+                // Usually managerial list tap -> edit or details.
+                // Let's go to details for now.
+                context.push(
+                  Uri(
+                    path: AppRoutes.mealPlanDetails,
+                    queryParameters: {
+                      'id': IriHelper.getId(mealPlan.id),
+                      'restaurantId': IriHelper.getId(widget.restaurantIri),
+                    },
+                  ).toString(),
+                );
+              },
             );
           },
         );

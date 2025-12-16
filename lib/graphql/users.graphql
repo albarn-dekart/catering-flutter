@@ -1,7 +1,9 @@
-query GetUsersByRestaurant($id: ID!) {
+# import "meals.graphql"
+
+query GetUsersByRestaurant($id: ID!, $search: String, $role: String) {
     restaurant(id: $id) {
         id
-        users{
+        users(search: $search, role: $role) {
             edges {
                 node {
                     id
@@ -13,14 +15,18 @@ query GetUsersByRestaurant($id: ID!) {
     }
 }
 
-query GetUsers($first: Int, $after: String) {
-    users(first: $first, after: $after) {
+query GetUsers($first: Int, $after: String, $search: String, $role: String) {
+    users(first: $first, after: $after, search: $search, role: $role) {
         edges {
             node {
                 id
                 email
                 roles
             }
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
         }
     }
 }
@@ -48,6 +54,18 @@ mutation DeleteUser($input: deleteUserInput!) {
     deleteUser(input: $input) {
         user {
             id
+        }
+    }
+}
+
+query GetMyCustomMealPlans($id: ID!, $search: String) {
+    user(id: $id) {
+        customMealPlans(search: $search) {
+            edges {
+                node {
+                    ...MealPlanSummaryFragment
+                }
+            }
         }
     }
 }

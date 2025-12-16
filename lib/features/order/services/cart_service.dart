@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:catering_flutter/graphql/meals.graphql.dart';
-import 'package:catering_flutter/core/auth_service.dart';
+import 'package:catering_flutter/core/services/auth_service.dart';
 
 // Use GraphQL generated type for meal plan
-typedef MealPlan = Query$GetMealPlans$mealPlans$edges$node;
+typedef MealPlan = Fragment$MealPlanFragment;
 
 class CartItem {
   int quantity;
@@ -34,13 +34,14 @@ class CartItem {
     try {
       // Create a minimal MealPlan object from stored data
       // Note: This is a simplified version. The full meal plan will be missing some fields.
-      final mealPlan = Query$GetMealPlans$mealPlans$edges$node(
+      final mealPlan = Fragment$MealPlanFragment(
         id: json['mealPlanId'] as String,
         name: json['mealPlanName'] as String,
         price: json['mealPlanPrice'] as int?,
         imageUrl: json['mealPlanImageUrl'] as String?,
         description: json['mealPlanDescription'] as String?,
         dietCategories: null,
+        $__typename: 'MealPlan',
       );
 
       return CartItem(
@@ -59,6 +60,7 @@ class CartService extends ChangeNotifier {
   static const String _cartItemsKey = 'cart_items';
   static const String _deliveryDatesKey = 'delivery_dates';
   static const String _deliveryDaysKey = 'delivery_days';
+  static const String _deliveryPriceKey = 'delivery_price';
   static const String _startDateKey = 'start_date';
   static const String _endDateKey = 'end_date';
 
@@ -114,6 +116,9 @@ class CartService extends ChangeNotifier {
         _deliveryDays = daysList.cast<String>();
       }
 
+      // Load delivery price
+      _deliveryPrice = _prefs.getInt(_deliveryPriceKey) ?? 0;
+
       // Load start date
       final startDateStr = _prefs.getString(_startDateKey);
       if (startDateStr != null) {
@@ -144,6 +149,9 @@ class CartService extends ChangeNotifier {
       // Save delivery days
       await _prefs.setString(_deliveryDaysKey, jsonEncode(_deliveryDays));
 
+      // Save delivery price
+      await _prefs.setInt(_deliveryPriceKey, _deliveryPrice);
+
       // Save start date
       if (_startDate != null) {
         await _prefs.setString(_startDateKey, _startDate!.toIso8601String());
@@ -162,7 +170,27 @@ class CartService extends ChangeNotifier {
     }
   }
 
-  void addToCart(MealPlan mealPlan, String restaurantIri, {int quantity = 1}) {
+  bool isDifferentRestaurant(String restaurantIri) {
+    return _cartItems.isNotEmpty &&
+        _cartItems.first.restaurantIri != restaurantIri;
+  }
+
+  void addToCart(
+    MealPlan mealPlan,
+    String restaurantIri,
+    int deliveryPrice, {
+    int quantity = 1,
+  }) {
+    // If adding from a different restaurant, clear cart first (simple rule)
+    if (_cartItems.isNotEmpty &&
+        _cartItems.first.restaurantIri != restaurantIri) {
+      _cartItems.clear();
+      _deliveryDates.clear();
+      _startDate = null;
+      _endDate = null;
+    }
+
+    _deliveryPrice = deliveryPrice;
     final index = _cartItems.indexWhere(
       (item) => item.mealPlan.id == mealPlan.id,
     );
@@ -226,15 +254,25 @@ class CartService extends ChangeNotifier {
     notifyListeners();
   }
 
-  double get totalPricePLN =>
-      _cartItems.fold(
-        0,
-        (total, item) => total + (item.mealPlan.price ?? 0) * item.quantity,
-      ) /
-      100.0;
+  double get totalPricePLN => _cartItems.fold(
+    0,
+    (total, item) => total + item.mealPlan.price! * item.quantity,
+  );
 
-  double get grandTotalPLN =>
-      _deliveryDates.isEmpty ? 0.0 : totalPricePLN * _deliveryDates.length;
+  int _deliveryPrice = 0;
+  int get deliveryPrice => _deliveryPrice;
+
+  void setDeliveryPrice(int price) {
+    if (_deliveryPrice != price) {
+      _deliveryPrice = price;
+      notifyListeners();
+    }
+  }
+
+  double get grandTotalPLN => _deliveryDates.isEmpty
+      ? 0.0
+      : (totalPricePLN * _deliveryDates.length) +
+            (deliveryPrice * _deliveryDates.length);
 
   void updateAuth(AuthService auth) {
     if (_wasAuthenticated && !auth.isAuthenticated) {

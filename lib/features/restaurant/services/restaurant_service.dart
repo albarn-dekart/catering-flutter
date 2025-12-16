@@ -1,18 +1,18 @@
 import 'dart:convert';
 import 'package:catering_flutter/graphql/restaurants.graphql.dart';
+import 'package:catering_flutter/graphql/restaurant_categories.graphql.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:catering_flutter/core/api_exception.dart';
+import 'package:catering_flutter/core/services/api_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
-import 'package:catering_flutter/core/api_client.dart';
 
-typedef Restaurant = Query$GetRestaurants$restaurants$edges$node;
+typedef Restaurant = Fragment$RestaurantSummaryFragment;
 typedef RestaurantDetails = Query$GetRestaurant$restaurant;
 
 class RestaurantService extends ChangeNotifier {
   final GraphQLClient _client;
-  final ApiClient _apiClient;
+  final ApiService _apiClient;
 
   List<Restaurant> _restaurants = [];
   List<Restaurant> get restaurants => _restaurants;
@@ -34,17 +34,32 @@ class RestaurantService extends ChangeNotifier {
   bool _isFetchingMore = false;
   bool get isFetchingMore => _isFetchingMore;
 
+  String? _currentSearchQuery;
+  String? get currentSearchQuery => _currentSearchQuery;
+
+  String? _currentCategory;
+  String? get currentCategory => _currentCategory;
+
   RestaurantService(this._client, this._apiClient);
 
-  Future<void> fetchAllRestaurants() async {
+  Future<void> fetchAllRestaurants({
+    String? searchQuery,
+    String? category,
+  }) async {
     _isLoading = true;
     _errorMessage = null;
+    _currentSearchQuery = searchQuery;
+    _currentCategory = category;
     notifyListeners();
 
     try {
       final options = QueryOptions(
         document: documentNodeQueryGetRestaurants,
-        variables: Variables$Query$GetRestaurants(first: 50).toJson(),
+        variables: Variables$Query$GetRestaurants(
+          first: 20,
+          search: searchQuery,
+          category: category,
+        ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
@@ -80,8 +95,10 @@ class RestaurantService extends ChangeNotifier {
       final options = QueryOptions(
         document: documentNodeQueryGetRestaurants,
         variables: Variables$Query$GetRestaurants(
-          first: 50,
+          first: 20,
           after: _endCursor,
+          search: _currentSearchQuery,
+          category: _currentCategory,
         ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
@@ -97,7 +114,7 @@ class RestaurantService extends ChangeNotifier {
             .map((e) => e?.node)
             .whereType<Restaurant>()
             .toList();
-        _restaurants.addAll(newRestaurants);
+        _restaurants = [..._restaurants, ...newRestaurants];
         _endCursor = data.restaurants?.pageInfo.endCursor;
         _hasNextPage = data.restaurants?.pageInfo.hasNextPage ?? false;
       }
@@ -105,6 +122,44 @@ class RestaurantService extends ChangeNotifier {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
       _isFetchingMore = false;
+      notifyListeners();
+    }
+  }
+
+  List<Query$GetRestaurantCategories$restaurantCategories$edges$node>
+  _categories = [];
+  List<Query$GetRestaurantCategories$restaurantCategories$edges$node>
+  get categories => _categories;
+
+  Future<void> fetchCategories() async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final options = QueryOptions(
+        document: documentNodeQueryGetRestaurantCategories,
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
+      final result = await _client.query(options);
+
+      if (result.hasException) {
+        throw ApiException(result.exception.toString());
+      }
+
+      final data = Query$GetRestaurantCategories.fromJson(result.data!);
+      if (data.restaurantCategories?.edges != null) {
+        _categories = data.restaurantCategories!.edges!
+            .map((e) => e?.node)
+            .whereType<
+              Query$GetRestaurantCategories$restaurantCategories$edges$node
+            >()
+            .toList();
+      }
+    } catch (e) {
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
+    } finally {
+      _isLoading = false;
       notifyListeners();
     }
   }
@@ -141,6 +196,13 @@ class RestaurantService extends ChangeNotifier {
     required String name,
     required String description,
     List<String>? categoryIris,
+    int? deliveryPrice,
+    String? phoneNumber,
+    String? email,
+    String? city,
+    String? street,
+    String? zipCode,
+    String? nip,
   }) async {
     _isLoading = true;
     _errorMessage = null;
@@ -153,7 +215,14 @@ class RestaurantService extends ChangeNotifier {
           input: Input$createRestaurantInput(
             name: name,
             description: description,
+            deliveryPrice: deliveryPrice ?? 0,
             restaurantCategories: categoryIris,
+            phoneNumber: phoneNumber,
+            email: email,
+            city: city,
+            street: street,
+            zipCode: zipCode,
+            nip: nip,
           ),
         ).toJson(),
       );
@@ -185,6 +254,13 @@ class RestaurantService extends ChangeNotifier {
     String? name,
     String? description,
     List<String>? categoryIris,
+    int? deliveryPrice,
+    String? phoneNumber,
+    String? email,
+    String? city,
+    String? street,
+    String? zipCode,
+    String? nip,
   }) async {
     _isLoading = true;
     _errorMessage = null;
@@ -198,7 +274,14 @@ class RestaurantService extends ChangeNotifier {
             id: id,
             name: name,
             description: description,
+            deliveryPrice: deliveryPrice,
             restaurantCategories: categoryIris,
+            phoneNumber: phoneNumber,
+            email: email,
+            city: city,
+            street: street,
+            zipCode: zipCode,
+            nip: nip,
           ),
         ).toJson(),
       );
@@ -322,7 +405,6 @@ class RestaurantService extends ChangeNotifier {
   /// Returns the restaurant IRI on success.
   Future<String?> inviteRestaurantOwner({
     required String email,
-    required String password,
     required String restaurantName,
     String? description,
     List<String>? categoryIds,
@@ -336,7 +418,6 @@ class RestaurantService extends ChangeNotifier {
         '/api/invite-restaurant',
         body: {
           'email': email,
-          'plainPassword': password,
           'restaurantName': restaurantName,
           'restaurantDescription': description,
           'categoryIds': categoryIds ?? [],

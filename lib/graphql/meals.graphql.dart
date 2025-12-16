@@ -5,12 +5,3086 @@ import 'package:graphql/client.dart' as graphql;
 import 'package:graphql_flutter/graphql_flutter.dart' as graphql_flutter;
 import 'schema.graphql.dart';
 
+class Fragment$MealFragment {
+  Fragment$MealFragment({
+    required this.id,
+    required this.name,
+    this.description,
+    required this.price,
+    this.imageUrl,
+    required this.calories,
+    required this.protein,
+    required this.fat,
+    required this.carbs,
+    this.$__typename = 'Meal',
+  });
+
+  factory Fragment$MealFragment.fromJson(Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$name = json['name'];
+    final l$description = json['description'];
+    final l$price = json['price'];
+    final l$imageUrl = json['imageUrl'];
+    final l$calories = json['calories'];
+    final l$protein = json['protein'];
+    final l$fat = json['fat'];
+    final l$carbs = json['carbs'];
+    final l$$__typename = json['__typename'];
+    return Fragment$MealFragment(
+      id: (l$id as String),
+      name: (l$name as String),
+      description: (l$description as String?),
+      price: (l$price as int),
+      imageUrl: (l$imageUrl as String?),
+      calories: (l$calories as num).toDouble(),
+      protein: (l$protein as num).toDouble(),
+      fat: (l$fat as num).toDouble(),
+      carbs: (l$carbs as num).toDouble(),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String name;
+
+  final String? description;
+
+  final int price;
+
+  final String? imageUrl;
+
+  final double calories;
+
+  final double protein;
+
+  final double fat;
+
+  final double carbs;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$description = description;
+    _resultData['description'] = l$description;
+    final l$price = price;
+    _resultData['price'] = l$price;
+    final l$imageUrl = imageUrl;
+    _resultData['imageUrl'] = l$imageUrl;
+    final l$calories = calories;
+    _resultData['calories'] = l$calories;
+    final l$protein = protein;
+    _resultData['protein'] = l$protein;
+    final l$fat = fat;
+    _resultData['fat'] = l$fat;
+    final l$carbs = carbs;
+    _resultData['carbs'] = l$carbs;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$description = description;
+    final l$price = price;
+    final l$imageUrl = imageUrl;
+    final l$calories = calories;
+    final l$protein = protein;
+    final l$fat = fat;
+    final l$carbs = carbs;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$description,
+      l$price,
+      l$imageUrl,
+      l$calories,
+      l$protein,
+      l$fat,
+      l$carbs,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$MealFragment || runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$description = description;
+    final lOther$description = other.description;
+    if (l$description != lOther$description) {
+      return false;
+    }
+    final l$price = price;
+    final lOther$price = other.price;
+    if (l$price != lOther$price) {
+      return false;
+    }
+    final l$imageUrl = imageUrl;
+    final lOther$imageUrl = other.imageUrl;
+    if (l$imageUrl != lOther$imageUrl) {
+      return false;
+    }
+    final l$calories = calories;
+    final lOther$calories = other.calories;
+    if (l$calories != lOther$calories) {
+      return false;
+    }
+    final l$protein = protein;
+    final lOther$protein = other.protein;
+    if (l$protein != lOther$protein) {
+      return false;
+    }
+    final l$fat = fat;
+    final lOther$fat = other.fat;
+    if (l$fat != lOther$fat) {
+      return false;
+    }
+    final l$carbs = carbs;
+    final lOther$carbs = other.carbs;
+    if (l$carbs != lOther$carbs) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$MealFragment on Fragment$MealFragment {
+  CopyWith$Fragment$MealFragment<Fragment$MealFragment> get copyWith =>
+      CopyWith$Fragment$MealFragment(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$MealFragment<TRes> {
+  factory CopyWith$Fragment$MealFragment(
+    Fragment$MealFragment instance,
+    TRes Function(Fragment$MealFragment) then,
+  ) = _CopyWithImpl$Fragment$MealFragment;
+
+  factory CopyWith$Fragment$MealFragment.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$MealFragment;
+
+  TRes call({
+    String? id,
+    String? name,
+    String? description,
+    int? price,
+    String? imageUrl,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Fragment$MealFragment<TRes>
+    implements CopyWith$Fragment$MealFragment<TRes> {
+  _CopyWithImpl$Fragment$MealFragment(this._instance, this._then);
+
+  final Fragment$MealFragment _instance;
+
+  final TRes Function(Fragment$MealFragment) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? description = _undefined,
+    Object? price = _undefined,
+    Object? imageUrl = _undefined,
+    Object? calories = _undefined,
+    Object? protein = _undefined,
+    Object? fat = _undefined,
+    Object? carbs = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$MealFragment(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      name: name == _undefined || name == null
+          ? _instance.name
+          : (name as String),
+      description: description == _undefined
+          ? _instance.description
+          : (description as String?),
+      price: price == _undefined || price == null
+          ? _instance.price
+          : (price as int),
+      imageUrl: imageUrl == _undefined
+          ? _instance.imageUrl
+          : (imageUrl as String?),
+      calories: calories == _undefined || calories == null
+          ? _instance.calories
+          : (calories as double),
+      protein: protein == _undefined || protein == null
+          ? _instance.protein
+          : (protein as double),
+      fat: fat == _undefined || fat == null ? _instance.fat : (fat as double),
+      carbs: carbs == _undefined || carbs == null
+          ? _instance.carbs
+          : (carbs as double),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$MealFragment<TRes>
+    implements CopyWith$Fragment$MealFragment<TRes> {
+  _CopyWithStubImpl$Fragment$MealFragment(this._res);
+
+  TRes _res;
+
+  call({
+    String? id,
+    String? name,
+    String? description,
+    int? price,
+    String? imageUrl,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
+    String? $__typename,
+  }) => _res;
+}
+
+const fragmentDefinitionMealFragment = FragmentDefinitionNode(
+  name: NameNode(value: 'MealFragment'),
+  typeCondition: TypeConditionNode(
+    on: NamedTypeNode(name: NameNode(value: 'Meal'), isNonNull: false),
+  ),
+  directives: [],
+  selectionSet: SelectionSetNode(
+    selections: [
+      FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'name'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'description'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'price'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'imageUrl'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'calories'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'protein'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'fat'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'carbs'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ],
+  ),
+);
+const documentNodeFragmentMealFragment = DocumentNode(
+  definitions: [fragmentDefinitionMealFragment],
+);
+
+extension ClientExtension$Fragment$MealFragment on graphql.GraphQLClient {
+  void writeFragment$MealFragment({
+    required Fragment$MealFragment data,
+    required Map<String, dynamic> idFields,
+    bool broadcast = true,
+  }) => this.writeFragment(
+    graphql.FragmentRequest(
+      idFields: idFields,
+      fragment: const graphql.Fragment(
+        fragmentName: 'MealFragment',
+        document: documentNodeFragmentMealFragment,
+      ),
+    ),
+    data: data.toJson(),
+    broadcast: broadcast,
+  );
+
+  Fragment$MealFragment? readFragment$MealFragment({
+    required Map<String, dynamic> idFields,
+    bool optimistic = true,
+  }) {
+    final result = this.readFragment(
+      graphql.FragmentRequest(
+        idFields: idFields,
+        fragment: const graphql.Fragment(
+          fragmentName: 'MealFragment',
+          document: documentNodeFragmentMealFragment,
+        ),
+      ),
+      optimistic: optimistic,
+    );
+    return result == null ? null : Fragment$MealFragment.fromJson(result);
+  }
+}
+
+class Fragment$MealPlanSummaryFragment {
+  Fragment$MealPlanSummaryFragment({
+    required this.id,
+    required this.name,
+    this.description,
+    this.price,
+    this.imageUrl,
+    this.calories,
+    this.protein,
+    this.fat,
+    this.carbs,
+    this.restaurant,
+    this.dietCategories,
+    this.$__typename = 'MealPlan',
+  });
+
+  factory Fragment$MealPlanSummaryFragment.fromJson(Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$name = json['name'];
+    final l$description = json['description'];
+    final l$price = json['price'];
+    final l$imageUrl = json['imageUrl'];
+    final l$calories = json['calories'];
+    final l$protein = json['protein'];
+    final l$fat = json['fat'];
+    final l$carbs = json['carbs'];
+    final l$restaurant = json['restaurant'];
+    final l$dietCategories = json['dietCategories'];
+    final l$$__typename = json['__typename'];
+    return Fragment$MealPlanSummaryFragment(
+      id: (l$id as String),
+      name: (l$name as String),
+      description: (l$description as String?),
+      price: (l$price as int?),
+      imageUrl: (l$imageUrl as String?),
+      calories: (l$calories as num?)?.toDouble(),
+      protein: (l$protein as num?)?.toDouble(),
+      fat: (l$fat as num?)?.toDouble(),
+      carbs: (l$carbs as num?)?.toDouble(),
+      restaurant: l$restaurant == null
+          ? null
+          : Fragment$MealPlanSummaryFragment$restaurant.fromJson(
+              (l$restaurant as Map<String, dynamic>),
+            ),
+      dietCategories: l$dietCategories == null
+          ? null
+          : Fragment$MealPlanSummaryFragment$dietCategories.fromJson(
+              (l$dietCategories as Map<String, dynamic>),
+            ),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String name;
+
+  final String? description;
+
+  final int? price;
+
+  final String? imageUrl;
+
+  final double? calories;
+
+  final double? protein;
+
+  final double? fat;
+
+  final double? carbs;
+
+  final Fragment$MealPlanSummaryFragment$restaurant? restaurant;
+
+  final Fragment$MealPlanSummaryFragment$dietCategories? dietCategories;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$description = description;
+    _resultData['description'] = l$description;
+    final l$price = price;
+    _resultData['price'] = l$price;
+    final l$imageUrl = imageUrl;
+    _resultData['imageUrl'] = l$imageUrl;
+    final l$calories = calories;
+    _resultData['calories'] = l$calories;
+    final l$protein = protein;
+    _resultData['protein'] = l$protein;
+    final l$fat = fat;
+    _resultData['fat'] = l$fat;
+    final l$carbs = carbs;
+    _resultData['carbs'] = l$carbs;
+    final l$restaurant = restaurant;
+    _resultData['restaurant'] = l$restaurant?.toJson();
+    final l$dietCategories = dietCategories;
+    _resultData['dietCategories'] = l$dietCategories?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$description = description;
+    final l$price = price;
+    final l$imageUrl = imageUrl;
+    final l$calories = calories;
+    final l$protein = protein;
+    final l$fat = fat;
+    final l$carbs = carbs;
+    final l$restaurant = restaurant;
+    final l$dietCategories = dietCategories;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$description,
+      l$price,
+      l$imageUrl,
+      l$calories,
+      l$protein,
+      l$fat,
+      l$carbs,
+      l$restaurant,
+      l$dietCategories,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$MealPlanSummaryFragment ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$description = description;
+    final lOther$description = other.description;
+    if (l$description != lOther$description) {
+      return false;
+    }
+    final l$price = price;
+    final lOther$price = other.price;
+    if (l$price != lOther$price) {
+      return false;
+    }
+    final l$imageUrl = imageUrl;
+    final lOther$imageUrl = other.imageUrl;
+    if (l$imageUrl != lOther$imageUrl) {
+      return false;
+    }
+    final l$calories = calories;
+    final lOther$calories = other.calories;
+    if (l$calories != lOther$calories) {
+      return false;
+    }
+    final l$protein = protein;
+    final lOther$protein = other.protein;
+    if (l$protein != lOther$protein) {
+      return false;
+    }
+    final l$fat = fat;
+    final lOther$fat = other.fat;
+    if (l$fat != lOther$fat) {
+      return false;
+    }
+    final l$carbs = carbs;
+    final lOther$carbs = other.carbs;
+    if (l$carbs != lOther$carbs) {
+      return false;
+    }
+    final l$restaurant = restaurant;
+    final lOther$restaurant = other.restaurant;
+    if (l$restaurant != lOther$restaurant) {
+      return false;
+    }
+    final l$dietCategories = dietCategories;
+    final lOther$dietCategories = other.dietCategories;
+    if (l$dietCategories != lOther$dietCategories) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$MealPlanSummaryFragment
+    on Fragment$MealPlanSummaryFragment {
+  CopyWith$Fragment$MealPlanSummaryFragment<Fragment$MealPlanSummaryFragment>
+  get copyWith => CopyWith$Fragment$MealPlanSummaryFragment(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$MealPlanSummaryFragment<TRes> {
+  factory CopyWith$Fragment$MealPlanSummaryFragment(
+    Fragment$MealPlanSummaryFragment instance,
+    TRes Function(Fragment$MealPlanSummaryFragment) then,
+  ) = _CopyWithImpl$Fragment$MealPlanSummaryFragment;
+
+  factory CopyWith$Fragment$MealPlanSummaryFragment.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$MealPlanSummaryFragment;
+
+  TRes call({
+    String? id,
+    String? name,
+    String? description,
+    int? price,
+    String? imageUrl,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
+    Fragment$MealPlanSummaryFragment$restaurant? restaurant,
+    Fragment$MealPlanSummaryFragment$dietCategories? dietCategories,
+    String? $__typename,
+  });
+  CopyWith$Fragment$MealPlanSummaryFragment$restaurant<TRes> get restaurant;
+  CopyWith$Fragment$MealPlanSummaryFragment$dietCategories<TRes>
+  get dietCategories;
+}
+
+class _CopyWithImpl$Fragment$MealPlanSummaryFragment<TRes>
+    implements CopyWith$Fragment$MealPlanSummaryFragment<TRes> {
+  _CopyWithImpl$Fragment$MealPlanSummaryFragment(this._instance, this._then);
+
+  final Fragment$MealPlanSummaryFragment _instance;
+
+  final TRes Function(Fragment$MealPlanSummaryFragment) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? description = _undefined,
+    Object? price = _undefined,
+    Object? imageUrl = _undefined,
+    Object? calories = _undefined,
+    Object? protein = _undefined,
+    Object? fat = _undefined,
+    Object? carbs = _undefined,
+    Object? restaurant = _undefined,
+    Object? dietCategories = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$MealPlanSummaryFragment(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      name: name == _undefined || name == null
+          ? _instance.name
+          : (name as String),
+      description: description == _undefined
+          ? _instance.description
+          : (description as String?),
+      price: price == _undefined ? _instance.price : (price as int?),
+      imageUrl: imageUrl == _undefined
+          ? _instance.imageUrl
+          : (imageUrl as String?),
+      calories: calories == _undefined
+          ? _instance.calories
+          : (calories as double?),
+      protein: protein == _undefined ? _instance.protein : (protein as double?),
+      fat: fat == _undefined ? _instance.fat : (fat as double?),
+      carbs: carbs == _undefined ? _instance.carbs : (carbs as double?),
+      restaurant: restaurant == _undefined
+          ? _instance.restaurant
+          : (restaurant as Fragment$MealPlanSummaryFragment$restaurant?),
+      dietCategories: dietCategories == _undefined
+          ? _instance.dietCategories
+          : (dietCategories
+                as Fragment$MealPlanSummaryFragment$dietCategories?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  CopyWith$Fragment$MealPlanSummaryFragment$restaurant<TRes> get restaurant {
+    final local$restaurant = _instance.restaurant;
+    return local$restaurant == null
+        ? CopyWith$Fragment$MealPlanSummaryFragment$restaurant.stub(
+            _then(_instance),
+          )
+        : CopyWith$Fragment$MealPlanSummaryFragment$restaurant(
+            local$restaurant,
+            (e) => call(restaurant: e),
+          );
+  }
+
+  CopyWith$Fragment$MealPlanSummaryFragment$dietCategories<TRes>
+  get dietCategories {
+    final local$dietCategories = _instance.dietCategories;
+    return local$dietCategories == null
+        ? CopyWith$Fragment$MealPlanSummaryFragment$dietCategories.stub(
+            _then(_instance),
+          )
+        : CopyWith$Fragment$MealPlanSummaryFragment$dietCategories(
+            local$dietCategories,
+            (e) => call(dietCategories: e),
+          );
+  }
+}
+
+class _CopyWithStubImpl$Fragment$MealPlanSummaryFragment<TRes>
+    implements CopyWith$Fragment$MealPlanSummaryFragment<TRes> {
+  _CopyWithStubImpl$Fragment$MealPlanSummaryFragment(this._res);
+
+  TRes _res;
+
+  call({
+    String? id,
+    String? name,
+    String? description,
+    int? price,
+    String? imageUrl,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
+    Fragment$MealPlanSummaryFragment$restaurant? restaurant,
+    Fragment$MealPlanSummaryFragment$dietCategories? dietCategories,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Fragment$MealPlanSummaryFragment$restaurant<TRes> get restaurant =>
+      CopyWith$Fragment$MealPlanSummaryFragment$restaurant.stub(_res);
+
+  CopyWith$Fragment$MealPlanSummaryFragment$dietCategories<TRes>
+  get dietCategories =>
+      CopyWith$Fragment$MealPlanSummaryFragment$dietCategories.stub(_res);
+}
+
+const fragmentDefinitionMealPlanSummaryFragment = FragmentDefinitionNode(
+  name: NameNode(value: 'MealPlanSummaryFragment'),
+  typeCondition: TypeConditionNode(
+    on: NamedTypeNode(name: NameNode(value: 'MealPlan'), isNonNull: false),
+  ),
+  directives: [],
+  selectionSet: SelectionSetNode(
+    selections: [
+      FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'name'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'description'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'price'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'imageUrl'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'calories'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'protein'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'fat'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'carbs'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'restaurant'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(
+          selections: [
+            FieldNode(
+              name: NameNode(value: 'id'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'name'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'deliveryPrice'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: '__typename'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+          ],
+        ),
+      ),
+      FieldNode(
+        name: NameNode(value: 'dietCategories'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(
+          selections: [
+            FieldNode(
+              name: NameNode(value: 'edges'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: SelectionSetNode(
+                selections: [
+                  FieldNode(
+                    name: NameNode(value: 'node'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(
+                      selections: [
+                        FieldNode(
+                          name: NameNode(value: 'id'),
+                          alias: null,
+                          arguments: [],
+                          directives: [],
+                          selectionSet: null,
+                        ),
+                        FieldNode(
+                          name: NameNode(value: 'name'),
+                          alias: null,
+                          arguments: [],
+                          directives: [],
+                          selectionSet: null,
+                        ),
+                        FieldNode(
+                          name: NameNode(value: '__typename'),
+                          alias: null,
+                          arguments: [],
+                          directives: [],
+                          selectionSet: null,
+                        ),
+                      ],
+                    ),
+                  ),
+                  FieldNode(
+                    name: NameNode(value: '__typename'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                ],
+              ),
+            ),
+            FieldNode(
+              name: NameNode(value: '__typename'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+          ],
+        ),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ],
+  ),
+);
+const documentNodeFragmentMealPlanSummaryFragment = DocumentNode(
+  definitions: [fragmentDefinitionMealPlanSummaryFragment],
+);
+
+extension ClientExtension$Fragment$MealPlanSummaryFragment
+    on graphql.GraphQLClient {
+  void writeFragment$MealPlanSummaryFragment({
+    required Fragment$MealPlanSummaryFragment data,
+    required Map<String, dynamic> idFields,
+    bool broadcast = true,
+  }) => this.writeFragment(
+    graphql.FragmentRequest(
+      idFields: idFields,
+      fragment: const graphql.Fragment(
+        fragmentName: 'MealPlanSummaryFragment',
+        document: documentNodeFragmentMealPlanSummaryFragment,
+      ),
+    ),
+    data: data.toJson(),
+    broadcast: broadcast,
+  );
+
+  Fragment$MealPlanSummaryFragment? readFragment$MealPlanSummaryFragment({
+    required Map<String, dynamic> idFields,
+    bool optimistic = true,
+  }) {
+    final result = this.readFragment(
+      graphql.FragmentRequest(
+        idFields: idFields,
+        fragment: const graphql.Fragment(
+          fragmentName: 'MealPlanSummaryFragment',
+          document: documentNodeFragmentMealPlanSummaryFragment,
+        ),
+      ),
+      optimistic: optimistic,
+    );
+    return result == null
+        ? null
+        : Fragment$MealPlanSummaryFragment.fromJson(result);
+  }
+}
+
+class Fragment$MealPlanSummaryFragment$restaurant {
+  Fragment$MealPlanSummaryFragment$restaurant({
+    required this.id,
+    required this.name,
+    required this.deliveryPrice,
+    this.$__typename = 'Restaurant',
+  });
+
+  factory Fragment$MealPlanSummaryFragment$restaurant.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$name = json['name'];
+    final l$deliveryPrice = json['deliveryPrice'];
+    final l$$__typename = json['__typename'];
+    return Fragment$MealPlanSummaryFragment$restaurant(
+      id: (l$id as String),
+      name: (l$name as String),
+      deliveryPrice: (l$deliveryPrice as int),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String name;
+
+  final int deliveryPrice;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$deliveryPrice = deliveryPrice;
+    _resultData['deliveryPrice'] = l$deliveryPrice;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$deliveryPrice = deliveryPrice;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$name, l$deliveryPrice, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$MealPlanSummaryFragment$restaurant ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$deliveryPrice = deliveryPrice;
+    final lOther$deliveryPrice = other.deliveryPrice;
+    if (l$deliveryPrice != lOther$deliveryPrice) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$MealPlanSummaryFragment$restaurant
+    on Fragment$MealPlanSummaryFragment$restaurant {
+  CopyWith$Fragment$MealPlanSummaryFragment$restaurant<
+    Fragment$MealPlanSummaryFragment$restaurant
+  >
+  get copyWith =>
+      CopyWith$Fragment$MealPlanSummaryFragment$restaurant(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$MealPlanSummaryFragment$restaurant<TRes> {
+  factory CopyWith$Fragment$MealPlanSummaryFragment$restaurant(
+    Fragment$MealPlanSummaryFragment$restaurant instance,
+    TRes Function(Fragment$MealPlanSummaryFragment$restaurant) then,
+  ) = _CopyWithImpl$Fragment$MealPlanSummaryFragment$restaurant;
+
+  factory CopyWith$Fragment$MealPlanSummaryFragment$restaurant.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$MealPlanSummaryFragment$restaurant;
+
+  TRes call({
+    String? id,
+    String? name,
+    int? deliveryPrice,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Fragment$MealPlanSummaryFragment$restaurant<TRes>
+    implements CopyWith$Fragment$MealPlanSummaryFragment$restaurant<TRes> {
+  _CopyWithImpl$Fragment$MealPlanSummaryFragment$restaurant(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$MealPlanSummaryFragment$restaurant _instance;
+
+  final TRes Function(Fragment$MealPlanSummaryFragment$restaurant) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? deliveryPrice = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$MealPlanSummaryFragment$restaurant(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      name: name == _undefined || name == null
+          ? _instance.name
+          : (name as String),
+      deliveryPrice: deliveryPrice == _undefined || deliveryPrice == null
+          ? _instance.deliveryPrice
+          : (deliveryPrice as int),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$MealPlanSummaryFragment$restaurant<TRes>
+    implements CopyWith$Fragment$MealPlanSummaryFragment$restaurant<TRes> {
+  _CopyWithStubImpl$Fragment$MealPlanSummaryFragment$restaurant(this._res);
+
+  TRes _res;
+
+  call({String? id, String? name, int? deliveryPrice, String? $__typename}) =>
+      _res;
+}
+
+class Fragment$MealPlanSummaryFragment$dietCategories {
+  Fragment$MealPlanSummaryFragment$dietCategories({
+    this.edges,
+    this.$__typename = 'DietCategoryCursorConnection',
+  });
+
+  factory Fragment$MealPlanSummaryFragment$dietCategories.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$edges = json['edges'];
+    final l$$__typename = json['__typename'];
+    return Fragment$MealPlanSummaryFragment$dietCategories(
+      edges: (l$edges as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Fragment$MealPlanSummaryFragment$dietCategories$edges.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList(),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final List<Fragment$MealPlanSummaryFragment$dietCategories$edges?>? edges;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$edges = edges;
+    _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$edges = edges;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$MealPlanSummaryFragment$dietCategories ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$edges = edges;
+    final lOther$edges = other.edges;
+    if (l$edges != null && lOther$edges != null) {
+      if (l$edges.length != lOther$edges.length) {
+        return false;
+      }
+      for (int i = 0; i < l$edges.length; i++) {
+        final l$edges$entry = l$edges[i];
+        final lOther$edges$entry = lOther$edges[i];
+        if (l$edges$entry != lOther$edges$entry) {
+          return false;
+        }
+      }
+    } else if (l$edges != lOther$edges) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$MealPlanSummaryFragment$dietCategories
+    on Fragment$MealPlanSummaryFragment$dietCategories {
+  CopyWith$Fragment$MealPlanSummaryFragment$dietCategories<
+    Fragment$MealPlanSummaryFragment$dietCategories
+  >
+  get copyWith =>
+      CopyWith$Fragment$MealPlanSummaryFragment$dietCategories(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$MealPlanSummaryFragment$dietCategories<TRes> {
+  factory CopyWith$Fragment$MealPlanSummaryFragment$dietCategories(
+    Fragment$MealPlanSummaryFragment$dietCategories instance,
+    TRes Function(Fragment$MealPlanSummaryFragment$dietCategories) then,
+  ) = _CopyWithImpl$Fragment$MealPlanSummaryFragment$dietCategories;
+
+  factory CopyWith$Fragment$MealPlanSummaryFragment$dietCategories.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$MealPlanSummaryFragment$dietCategories;
+
+  TRes call({
+    List<Fragment$MealPlanSummaryFragment$dietCategories$edges?>? edges,
+    String? $__typename,
+  });
+  TRes edges(
+    Iterable<Fragment$MealPlanSummaryFragment$dietCategories$edges?>? Function(
+      Iterable<
+        CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges<
+          Fragment$MealPlanSummaryFragment$dietCategories$edges
+        >?
+      >?,
+    )
+    _fn,
+  );
+}
+
+class _CopyWithImpl$Fragment$MealPlanSummaryFragment$dietCategories<TRes>
+    implements CopyWith$Fragment$MealPlanSummaryFragment$dietCategories<TRes> {
+  _CopyWithImpl$Fragment$MealPlanSummaryFragment$dietCategories(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$MealPlanSummaryFragment$dietCategories _instance;
+
+  final TRes Function(Fragment$MealPlanSummaryFragment$dietCategories) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? edges = _undefined, Object? $__typename = _undefined}) =>
+      _then(
+        Fragment$MealPlanSummaryFragment$dietCategories(
+          edges: edges == _undefined
+              ? _instance.edges
+              : (edges
+                    as List<
+                      Fragment$MealPlanSummaryFragment$dietCategories$edges?
+                    >?),
+          $__typename: $__typename == _undefined || $__typename == null
+              ? _instance.$__typename
+              : ($__typename as String),
+        ),
+      );
+
+  TRes edges(
+    Iterable<Fragment$MealPlanSummaryFragment$dietCategories$edges?>? Function(
+      Iterable<
+        CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges<
+          Fragment$MealPlanSummaryFragment$dietCategories$edges
+        >?
+      >?,
+    )
+    _fn,
+  ) => call(
+    edges: _fn(
+      _instance.edges?.map(
+        (e) => e == null
+            ? null
+            : CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges(
+                e,
+                (i) => i,
+              ),
+      ),
+    )?.toList(),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$MealPlanSummaryFragment$dietCategories<TRes>
+    implements CopyWith$Fragment$MealPlanSummaryFragment$dietCategories<TRes> {
+  _CopyWithStubImpl$Fragment$MealPlanSummaryFragment$dietCategories(this._res);
+
+  TRes _res;
+
+  call({
+    List<Fragment$MealPlanSummaryFragment$dietCategories$edges?>? edges,
+    String? $__typename,
+  }) => _res;
+
+  edges(_fn) => _res;
+}
+
+class Fragment$MealPlanSummaryFragment$dietCategories$edges {
+  Fragment$MealPlanSummaryFragment$dietCategories$edges({
+    this.node,
+    this.$__typename = 'DietCategoryEdge',
+  });
+
+  factory Fragment$MealPlanSummaryFragment$dietCategories$edges.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$node = json['node'];
+    final l$$__typename = json['__typename'];
+    return Fragment$MealPlanSummaryFragment$dietCategories$edges(
+      node: l$node == null
+          ? null
+          : Fragment$MealPlanSummaryFragment$dietCategories$edges$node.fromJson(
+              (l$node as Map<String, dynamic>),
+            ),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Fragment$MealPlanSummaryFragment$dietCategories$edges$node? node;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$node = node;
+    _resultData['node'] = l$node?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$node = node;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$node, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$MealPlanSummaryFragment$dietCategories$edges ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$node = node;
+    final lOther$node = other.node;
+    if (l$node != lOther$node) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$MealPlanSummaryFragment$dietCategories$edges
+    on Fragment$MealPlanSummaryFragment$dietCategories$edges {
+  CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges<
+    Fragment$MealPlanSummaryFragment$dietCategories$edges
+  >
+  get copyWith =>
+      CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges<
+  TRes
+> {
+  factory CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges(
+    Fragment$MealPlanSummaryFragment$dietCategories$edges instance,
+    TRes Function(Fragment$MealPlanSummaryFragment$dietCategories$edges) then,
+  ) = _CopyWithImpl$Fragment$MealPlanSummaryFragment$dietCategories$edges;
+
+  factory CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$MealPlanSummaryFragment$dietCategories$edges;
+
+  TRes call({
+    Fragment$MealPlanSummaryFragment$dietCategories$edges$node? node,
+    String? $__typename,
+  });
+  CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges$node<TRes>
+  get node;
+}
+
+class _CopyWithImpl$Fragment$MealPlanSummaryFragment$dietCategories$edges<TRes>
+    implements
+        CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges<TRes> {
+  _CopyWithImpl$Fragment$MealPlanSummaryFragment$dietCategories$edges(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$MealPlanSummaryFragment$dietCategories$edges _instance;
+
+  final TRes Function(Fragment$MealPlanSummaryFragment$dietCategories$edges)
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? node = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$MealPlanSummaryFragment$dietCategories$edges(
+      node: node == _undefined
+          ? _instance.node
+          : (node
+                as Fragment$MealPlanSummaryFragment$dietCategories$edges$node?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges$node<TRes>
+  get node {
+    final local$node = _instance.node;
+    return local$node == null
+        ? CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges$node.stub(
+            _then(_instance),
+          )
+        : CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges$node(
+            local$node,
+            (e) => call(node: e),
+          );
+  }
+}
+
+class _CopyWithStubImpl$Fragment$MealPlanSummaryFragment$dietCategories$edges<
+  TRes
+>
+    implements
+        CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges<TRes> {
+  _CopyWithStubImpl$Fragment$MealPlanSummaryFragment$dietCategories$edges(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({
+    Fragment$MealPlanSummaryFragment$dietCategories$edges$node? node,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges$node<TRes>
+  get node =>
+      CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges$node.stub(
+        _res,
+      );
+}
+
+class Fragment$MealPlanSummaryFragment$dietCategories$edges$node {
+  Fragment$MealPlanSummaryFragment$dietCategories$edges$node({
+    required this.id,
+    required this.name,
+    this.$__typename = 'DietCategory',
+  });
+
+  factory Fragment$MealPlanSummaryFragment$dietCategories$edges$node.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$name = json['name'];
+    final l$$__typename = json['__typename'];
+    return Fragment$MealPlanSummaryFragment$dietCategories$edges$node(
+      id: (l$id as String),
+      name: (l$name as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String name;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$name, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$MealPlanSummaryFragment$dietCategories$edges$node ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$MealPlanSummaryFragment$dietCategories$edges$node
+    on Fragment$MealPlanSummaryFragment$dietCategories$edges$node {
+  CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges$node<
+    Fragment$MealPlanSummaryFragment$dietCategories$edges$node
+  >
+  get copyWith =>
+      CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges$node(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges$node<
+  TRes
+> {
+  factory CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges$node(
+    Fragment$MealPlanSummaryFragment$dietCategories$edges$node instance,
+    TRes Function(Fragment$MealPlanSummaryFragment$dietCategories$edges$node)
+    then,
+  ) = _CopyWithImpl$Fragment$MealPlanSummaryFragment$dietCategories$edges$node;
+
+  factory CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges$node.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$MealPlanSummaryFragment$dietCategories$edges$node;
+
+  TRes call({String? id, String? name, String? $__typename});
+}
+
+class _CopyWithImpl$Fragment$MealPlanSummaryFragment$dietCategories$edges$node<
+  TRes
+>
+    implements
+        CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges$node<
+          TRes
+        > {
+  _CopyWithImpl$Fragment$MealPlanSummaryFragment$dietCategories$edges$node(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$MealPlanSummaryFragment$dietCategories$edges$node _instance;
+
+  final TRes Function(
+    Fragment$MealPlanSummaryFragment$dietCategories$edges$node,
+  )
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$MealPlanSummaryFragment$dietCategories$edges$node(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      name: name == _undefined || name == null
+          ? _instance.name
+          : (name as String),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$MealPlanSummaryFragment$dietCategories$edges$node<
+  TRes
+>
+    implements
+        CopyWith$Fragment$MealPlanSummaryFragment$dietCategories$edges$node<
+          TRes
+        > {
+  _CopyWithStubImpl$Fragment$MealPlanSummaryFragment$dietCategories$edges$node(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({String? id, String? name, String? $__typename}) => _res;
+}
+
+class Fragment$MealPlanFragment implements Fragment$MealPlanSummaryFragment {
+  Fragment$MealPlanFragment({
+    required this.id,
+    required this.name,
+    this.description,
+    this.price,
+    this.imageUrl,
+    this.calories,
+    this.protein,
+    this.fat,
+    this.carbs,
+    this.restaurant,
+    this.dietCategories,
+    this.$__typename = 'MealPlan',
+    this.meals,
+  });
+
+  factory Fragment$MealPlanFragment.fromJson(Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$name = json['name'];
+    final l$description = json['description'];
+    final l$price = json['price'];
+    final l$imageUrl = json['imageUrl'];
+    final l$calories = json['calories'];
+    final l$protein = json['protein'];
+    final l$fat = json['fat'];
+    final l$carbs = json['carbs'];
+    final l$restaurant = json['restaurant'];
+    final l$dietCategories = json['dietCategories'];
+    final l$$__typename = json['__typename'];
+    final l$meals = json['meals'];
+    return Fragment$MealPlanFragment(
+      id: (l$id as String),
+      name: (l$name as String),
+      description: (l$description as String?),
+      price: (l$price as int?),
+      imageUrl: (l$imageUrl as String?),
+      calories: (l$calories as num?)?.toDouble(),
+      protein: (l$protein as num?)?.toDouble(),
+      fat: (l$fat as num?)?.toDouble(),
+      carbs: (l$carbs as num?)?.toDouble(),
+      restaurant: l$restaurant == null
+          ? null
+          : Fragment$MealPlanFragment$restaurant.fromJson(
+              (l$restaurant as Map<String, dynamic>),
+            ),
+      dietCategories: l$dietCategories == null
+          ? null
+          : Fragment$MealPlanFragment$dietCategories.fromJson(
+              (l$dietCategories as Map<String, dynamic>),
+            ),
+      $__typename: (l$$__typename as String),
+      meals: l$meals == null
+          ? null
+          : Fragment$MealPlanFragment$meals.fromJson(
+              (l$meals as Map<String, dynamic>),
+            ),
+    );
+  }
+
+  final String id;
+
+  final String name;
+
+  final String? description;
+
+  final int? price;
+
+  final String? imageUrl;
+
+  final double? calories;
+
+  final double? protein;
+
+  final double? fat;
+
+  final double? carbs;
+
+  final Fragment$MealPlanFragment$restaurant? restaurant;
+
+  final Fragment$MealPlanFragment$dietCategories? dietCategories;
+
+  final String $__typename;
+
+  final Fragment$MealPlanFragment$meals? meals;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$description = description;
+    _resultData['description'] = l$description;
+    final l$price = price;
+    _resultData['price'] = l$price;
+    final l$imageUrl = imageUrl;
+    _resultData['imageUrl'] = l$imageUrl;
+    final l$calories = calories;
+    _resultData['calories'] = l$calories;
+    final l$protein = protein;
+    _resultData['protein'] = l$protein;
+    final l$fat = fat;
+    _resultData['fat'] = l$fat;
+    final l$carbs = carbs;
+    _resultData['carbs'] = l$carbs;
+    final l$restaurant = restaurant;
+    _resultData['restaurant'] = l$restaurant?.toJson();
+    final l$dietCategories = dietCategories;
+    _resultData['dietCategories'] = l$dietCategories?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    final l$meals = meals;
+    _resultData['meals'] = l$meals?.toJson();
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$description = description;
+    final l$price = price;
+    final l$imageUrl = imageUrl;
+    final l$calories = calories;
+    final l$protein = protein;
+    final l$fat = fat;
+    final l$carbs = carbs;
+    final l$restaurant = restaurant;
+    final l$dietCategories = dietCategories;
+    final l$$__typename = $__typename;
+    final l$meals = meals;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$description,
+      l$price,
+      l$imageUrl,
+      l$calories,
+      l$protein,
+      l$fat,
+      l$carbs,
+      l$restaurant,
+      l$dietCategories,
+      l$$__typename,
+      l$meals,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$MealPlanFragment ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$description = description;
+    final lOther$description = other.description;
+    if (l$description != lOther$description) {
+      return false;
+    }
+    final l$price = price;
+    final lOther$price = other.price;
+    if (l$price != lOther$price) {
+      return false;
+    }
+    final l$imageUrl = imageUrl;
+    final lOther$imageUrl = other.imageUrl;
+    if (l$imageUrl != lOther$imageUrl) {
+      return false;
+    }
+    final l$calories = calories;
+    final lOther$calories = other.calories;
+    if (l$calories != lOther$calories) {
+      return false;
+    }
+    final l$protein = protein;
+    final lOther$protein = other.protein;
+    if (l$protein != lOther$protein) {
+      return false;
+    }
+    final l$fat = fat;
+    final lOther$fat = other.fat;
+    if (l$fat != lOther$fat) {
+      return false;
+    }
+    final l$carbs = carbs;
+    final lOther$carbs = other.carbs;
+    if (l$carbs != lOther$carbs) {
+      return false;
+    }
+    final l$restaurant = restaurant;
+    final lOther$restaurant = other.restaurant;
+    if (l$restaurant != lOther$restaurant) {
+      return false;
+    }
+    final l$dietCategories = dietCategories;
+    final lOther$dietCategories = other.dietCategories;
+    if (l$dietCategories != lOther$dietCategories) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    final l$meals = meals;
+    final lOther$meals = other.meals;
+    if (l$meals != lOther$meals) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$MealPlanFragment
+    on Fragment$MealPlanFragment {
+  CopyWith$Fragment$MealPlanFragment<Fragment$MealPlanFragment> get copyWith =>
+      CopyWith$Fragment$MealPlanFragment(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$MealPlanFragment<TRes> {
+  factory CopyWith$Fragment$MealPlanFragment(
+    Fragment$MealPlanFragment instance,
+    TRes Function(Fragment$MealPlanFragment) then,
+  ) = _CopyWithImpl$Fragment$MealPlanFragment;
+
+  factory CopyWith$Fragment$MealPlanFragment.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$MealPlanFragment;
+
+  TRes call({
+    String? id,
+    String? name,
+    String? description,
+    int? price,
+    String? imageUrl,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
+    Fragment$MealPlanFragment$restaurant? restaurant,
+    Fragment$MealPlanFragment$dietCategories? dietCategories,
+    String? $__typename,
+    Fragment$MealPlanFragment$meals? meals,
+  });
+  CopyWith$Fragment$MealPlanFragment$restaurant<TRes> get restaurant;
+  CopyWith$Fragment$MealPlanFragment$dietCategories<TRes> get dietCategories;
+  CopyWith$Fragment$MealPlanFragment$meals<TRes> get meals;
+}
+
+class _CopyWithImpl$Fragment$MealPlanFragment<TRes>
+    implements CopyWith$Fragment$MealPlanFragment<TRes> {
+  _CopyWithImpl$Fragment$MealPlanFragment(this._instance, this._then);
+
+  final Fragment$MealPlanFragment _instance;
+
+  final TRes Function(Fragment$MealPlanFragment) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? description = _undefined,
+    Object? price = _undefined,
+    Object? imageUrl = _undefined,
+    Object? calories = _undefined,
+    Object? protein = _undefined,
+    Object? fat = _undefined,
+    Object? carbs = _undefined,
+    Object? restaurant = _undefined,
+    Object? dietCategories = _undefined,
+    Object? $__typename = _undefined,
+    Object? meals = _undefined,
+  }) => _then(
+    Fragment$MealPlanFragment(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      name: name == _undefined || name == null
+          ? _instance.name
+          : (name as String),
+      description: description == _undefined
+          ? _instance.description
+          : (description as String?),
+      price: price == _undefined ? _instance.price : (price as int?),
+      imageUrl: imageUrl == _undefined
+          ? _instance.imageUrl
+          : (imageUrl as String?),
+      calories: calories == _undefined
+          ? _instance.calories
+          : (calories as double?),
+      protein: protein == _undefined ? _instance.protein : (protein as double?),
+      fat: fat == _undefined ? _instance.fat : (fat as double?),
+      carbs: carbs == _undefined ? _instance.carbs : (carbs as double?),
+      restaurant: restaurant == _undefined
+          ? _instance.restaurant
+          : (restaurant as Fragment$MealPlanFragment$restaurant?),
+      dietCategories: dietCategories == _undefined
+          ? _instance.dietCategories
+          : (dietCategories as Fragment$MealPlanFragment$dietCategories?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+      meals: meals == _undefined
+          ? _instance.meals
+          : (meals as Fragment$MealPlanFragment$meals?),
+    ),
+  );
+
+  CopyWith$Fragment$MealPlanFragment$restaurant<TRes> get restaurant {
+    final local$restaurant = _instance.restaurant;
+    return local$restaurant == null
+        ? CopyWith$Fragment$MealPlanFragment$restaurant.stub(_then(_instance))
+        : CopyWith$Fragment$MealPlanFragment$restaurant(
+            local$restaurant,
+            (e) => call(restaurant: e),
+          );
+  }
+
+  CopyWith$Fragment$MealPlanFragment$dietCategories<TRes> get dietCategories {
+    final local$dietCategories = _instance.dietCategories;
+    return local$dietCategories == null
+        ? CopyWith$Fragment$MealPlanFragment$dietCategories.stub(
+            _then(_instance),
+          )
+        : CopyWith$Fragment$MealPlanFragment$dietCategories(
+            local$dietCategories,
+            (e) => call(dietCategories: e),
+          );
+  }
+
+  CopyWith$Fragment$MealPlanFragment$meals<TRes> get meals {
+    final local$meals = _instance.meals;
+    return local$meals == null
+        ? CopyWith$Fragment$MealPlanFragment$meals.stub(_then(_instance))
+        : CopyWith$Fragment$MealPlanFragment$meals(
+            local$meals,
+            (e) => call(meals: e),
+          );
+  }
+}
+
+class _CopyWithStubImpl$Fragment$MealPlanFragment<TRes>
+    implements CopyWith$Fragment$MealPlanFragment<TRes> {
+  _CopyWithStubImpl$Fragment$MealPlanFragment(this._res);
+
+  TRes _res;
+
+  call({
+    String? id,
+    String? name,
+    String? description,
+    int? price,
+    String? imageUrl,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
+    Fragment$MealPlanFragment$restaurant? restaurant,
+    Fragment$MealPlanFragment$dietCategories? dietCategories,
+    String? $__typename,
+    Fragment$MealPlanFragment$meals? meals,
+  }) => _res;
+
+  CopyWith$Fragment$MealPlanFragment$restaurant<TRes> get restaurant =>
+      CopyWith$Fragment$MealPlanFragment$restaurant.stub(_res);
+
+  CopyWith$Fragment$MealPlanFragment$dietCategories<TRes> get dietCategories =>
+      CopyWith$Fragment$MealPlanFragment$dietCategories.stub(_res);
+
+  CopyWith$Fragment$MealPlanFragment$meals<TRes> get meals =>
+      CopyWith$Fragment$MealPlanFragment$meals.stub(_res);
+}
+
+const fragmentDefinitionMealPlanFragment = FragmentDefinitionNode(
+  name: NameNode(value: 'MealPlanFragment'),
+  typeCondition: TypeConditionNode(
+    on: NamedTypeNode(name: NameNode(value: 'MealPlan'), isNonNull: false),
+  ),
+  directives: [],
+  selectionSet: SelectionSetNode(
+    selections: [
+      FragmentSpreadNode(
+        name: NameNode(value: 'MealPlanSummaryFragment'),
+        directives: [],
+      ),
+      FieldNode(
+        name: NameNode(value: 'meals'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'first'),
+            value: IntValueNode(value: '50'),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(
+          selections: [
+            FieldNode(
+              name: NameNode(value: 'edges'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: SelectionSetNode(
+                selections: [
+                  FieldNode(
+                    name: NameNode(value: 'node'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(
+                      selections: [
+                        FragmentSpreadNode(
+                          name: NameNode(value: 'MealFragment'),
+                          directives: [],
+                        ),
+                        FieldNode(
+                          name: NameNode(value: '__typename'),
+                          alias: null,
+                          arguments: [],
+                          directives: [],
+                          selectionSet: null,
+                        ),
+                      ],
+                    ),
+                  ),
+                  FieldNode(
+                    name: NameNode(value: '__typename'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                ],
+              ),
+            ),
+            FieldNode(
+              name: NameNode(value: '__typename'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+          ],
+        ),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ],
+  ),
+);
+const documentNodeFragmentMealPlanFragment = DocumentNode(
+  definitions: [
+    fragmentDefinitionMealPlanFragment,
+    fragmentDefinitionMealPlanSummaryFragment,
+    fragmentDefinitionMealFragment,
+  ],
+);
+
+extension ClientExtension$Fragment$MealPlanFragment on graphql.GraphQLClient {
+  void writeFragment$MealPlanFragment({
+    required Fragment$MealPlanFragment data,
+    required Map<String, dynamic> idFields,
+    bool broadcast = true,
+  }) => this.writeFragment(
+    graphql.FragmentRequest(
+      idFields: idFields,
+      fragment: const graphql.Fragment(
+        fragmentName: 'MealPlanFragment',
+        document: documentNodeFragmentMealPlanFragment,
+      ),
+    ),
+    data: data.toJson(),
+    broadcast: broadcast,
+  );
+
+  Fragment$MealPlanFragment? readFragment$MealPlanFragment({
+    required Map<String, dynamic> idFields,
+    bool optimistic = true,
+  }) {
+    final result = this.readFragment(
+      graphql.FragmentRequest(
+        idFields: idFields,
+        fragment: const graphql.Fragment(
+          fragmentName: 'MealPlanFragment',
+          document: documentNodeFragmentMealPlanFragment,
+        ),
+      ),
+      optimistic: optimistic,
+    );
+    return result == null ? null : Fragment$MealPlanFragment.fromJson(result);
+  }
+}
+
+class Fragment$MealPlanFragment$restaurant
+    implements Fragment$MealPlanSummaryFragment$restaurant {
+  Fragment$MealPlanFragment$restaurant({
+    required this.id,
+    required this.name,
+    required this.deliveryPrice,
+    this.$__typename = 'Restaurant',
+  });
+
+  factory Fragment$MealPlanFragment$restaurant.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$name = json['name'];
+    final l$deliveryPrice = json['deliveryPrice'];
+    final l$$__typename = json['__typename'];
+    return Fragment$MealPlanFragment$restaurant(
+      id: (l$id as String),
+      name: (l$name as String),
+      deliveryPrice: (l$deliveryPrice as int),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String name;
+
+  final int deliveryPrice;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$deliveryPrice = deliveryPrice;
+    _resultData['deliveryPrice'] = l$deliveryPrice;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$deliveryPrice = deliveryPrice;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$name, l$deliveryPrice, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$MealPlanFragment$restaurant ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$deliveryPrice = deliveryPrice;
+    final lOther$deliveryPrice = other.deliveryPrice;
+    if (l$deliveryPrice != lOther$deliveryPrice) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$MealPlanFragment$restaurant
+    on Fragment$MealPlanFragment$restaurant {
+  CopyWith$Fragment$MealPlanFragment$restaurant<
+    Fragment$MealPlanFragment$restaurant
+  >
+  get copyWith => CopyWith$Fragment$MealPlanFragment$restaurant(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$MealPlanFragment$restaurant<TRes> {
+  factory CopyWith$Fragment$MealPlanFragment$restaurant(
+    Fragment$MealPlanFragment$restaurant instance,
+    TRes Function(Fragment$MealPlanFragment$restaurant) then,
+  ) = _CopyWithImpl$Fragment$MealPlanFragment$restaurant;
+
+  factory CopyWith$Fragment$MealPlanFragment$restaurant.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$MealPlanFragment$restaurant;
+
+  TRes call({
+    String? id,
+    String? name,
+    int? deliveryPrice,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Fragment$MealPlanFragment$restaurant<TRes>
+    implements CopyWith$Fragment$MealPlanFragment$restaurant<TRes> {
+  _CopyWithImpl$Fragment$MealPlanFragment$restaurant(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$MealPlanFragment$restaurant _instance;
+
+  final TRes Function(Fragment$MealPlanFragment$restaurant) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? deliveryPrice = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$MealPlanFragment$restaurant(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      name: name == _undefined || name == null
+          ? _instance.name
+          : (name as String),
+      deliveryPrice: deliveryPrice == _undefined || deliveryPrice == null
+          ? _instance.deliveryPrice
+          : (deliveryPrice as int),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$MealPlanFragment$restaurant<TRes>
+    implements CopyWith$Fragment$MealPlanFragment$restaurant<TRes> {
+  _CopyWithStubImpl$Fragment$MealPlanFragment$restaurant(this._res);
+
+  TRes _res;
+
+  call({String? id, String? name, int? deliveryPrice, String? $__typename}) =>
+      _res;
+}
+
+class Fragment$MealPlanFragment$dietCategories
+    implements Fragment$MealPlanSummaryFragment$dietCategories {
+  Fragment$MealPlanFragment$dietCategories({
+    this.edges,
+    this.$__typename = 'DietCategoryCursorConnection',
+  });
+
+  factory Fragment$MealPlanFragment$dietCategories.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$edges = json['edges'];
+    final l$$__typename = json['__typename'];
+    return Fragment$MealPlanFragment$dietCategories(
+      edges: (l$edges as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Fragment$MealPlanFragment$dietCategories$edges.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList(),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final List<Fragment$MealPlanFragment$dietCategories$edges?>? edges;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$edges = edges;
+    _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$edges = edges;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$MealPlanFragment$dietCategories ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$edges = edges;
+    final lOther$edges = other.edges;
+    if (l$edges != null && lOther$edges != null) {
+      if (l$edges.length != lOther$edges.length) {
+        return false;
+      }
+      for (int i = 0; i < l$edges.length; i++) {
+        final l$edges$entry = l$edges[i];
+        final lOther$edges$entry = lOther$edges[i];
+        if (l$edges$entry != lOther$edges$entry) {
+          return false;
+        }
+      }
+    } else if (l$edges != lOther$edges) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$MealPlanFragment$dietCategories
+    on Fragment$MealPlanFragment$dietCategories {
+  CopyWith$Fragment$MealPlanFragment$dietCategories<
+    Fragment$MealPlanFragment$dietCategories
+  >
+  get copyWith =>
+      CopyWith$Fragment$MealPlanFragment$dietCategories(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$MealPlanFragment$dietCategories<TRes> {
+  factory CopyWith$Fragment$MealPlanFragment$dietCategories(
+    Fragment$MealPlanFragment$dietCategories instance,
+    TRes Function(Fragment$MealPlanFragment$dietCategories) then,
+  ) = _CopyWithImpl$Fragment$MealPlanFragment$dietCategories;
+
+  factory CopyWith$Fragment$MealPlanFragment$dietCategories.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$MealPlanFragment$dietCategories;
+
+  TRes call({
+    List<Fragment$MealPlanFragment$dietCategories$edges?>? edges,
+    String? $__typename,
+  });
+  TRes edges(
+    Iterable<Fragment$MealPlanFragment$dietCategories$edges?>? Function(
+      Iterable<
+        CopyWith$Fragment$MealPlanFragment$dietCategories$edges<
+          Fragment$MealPlanFragment$dietCategories$edges
+        >?
+      >?,
+    )
+    _fn,
+  );
+}
+
+class _CopyWithImpl$Fragment$MealPlanFragment$dietCategories<TRes>
+    implements CopyWith$Fragment$MealPlanFragment$dietCategories<TRes> {
+  _CopyWithImpl$Fragment$MealPlanFragment$dietCategories(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$MealPlanFragment$dietCategories _instance;
+
+  final TRes Function(Fragment$MealPlanFragment$dietCategories) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? edges = _undefined, Object? $__typename = _undefined}) =>
+      _then(
+        Fragment$MealPlanFragment$dietCategories(
+          edges: edges == _undefined
+              ? _instance.edges
+              : (edges
+                    as List<Fragment$MealPlanFragment$dietCategories$edges?>?),
+          $__typename: $__typename == _undefined || $__typename == null
+              ? _instance.$__typename
+              : ($__typename as String),
+        ),
+      );
+
+  TRes edges(
+    Iterable<Fragment$MealPlanFragment$dietCategories$edges?>? Function(
+      Iterable<
+        CopyWith$Fragment$MealPlanFragment$dietCategories$edges<
+          Fragment$MealPlanFragment$dietCategories$edges
+        >?
+      >?,
+    )
+    _fn,
+  ) => call(
+    edges: _fn(
+      _instance.edges?.map(
+        (e) => e == null
+            ? null
+            : CopyWith$Fragment$MealPlanFragment$dietCategories$edges(
+                e,
+                (i) => i,
+              ),
+      ),
+    )?.toList(),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$MealPlanFragment$dietCategories<TRes>
+    implements CopyWith$Fragment$MealPlanFragment$dietCategories<TRes> {
+  _CopyWithStubImpl$Fragment$MealPlanFragment$dietCategories(this._res);
+
+  TRes _res;
+
+  call({
+    List<Fragment$MealPlanFragment$dietCategories$edges?>? edges,
+    String? $__typename,
+  }) => _res;
+
+  edges(_fn) => _res;
+}
+
+class Fragment$MealPlanFragment$dietCategories$edges
+    implements Fragment$MealPlanSummaryFragment$dietCategories$edges {
+  Fragment$MealPlanFragment$dietCategories$edges({
+    this.node,
+    this.$__typename = 'DietCategoryEdge',
+  });
+
+  factory Fragment$MealPlanFragment$dietCategories$edges.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$node = json['node'];
+    final l$$__typename = json['__typename'];
+    return Fragment$MealPlanFragment$dietCategories$edges(
+      node: l$node == null
+          ? null
+          : Fragment$MealPlanFragment$dietCategories$edges$node.fromJson(
+              (l$node as Map<String, dynamic>),
+            ),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Fragment$MealPlanFragment$dietCategories$edges$node? node;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$node = node;
+    _resultData['node'] = l$node?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$node = node;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$node, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$MealPlanFragment$dietCategories$edges ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$node = node;
+    final lOther$node = other.node;
+    if (l$node != lOther$node) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$MealPlanFragment$dietCategories$edges
+    on Fragment$MealPlanFragment$dietCategories$edges {
+  CopyWith$Fragment$MealPlanFragment$dietCategories$edges<
+    Fragment$MealPlanFragment$dietCategories$edges
+  >
+  get copyWith =>
+      CopyWith$Fragment$MealPlanFragment$dietCategories$edges(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$MealPlanFragment$dietCategories$edges<TRes> {
+  factory CopyWith$Fragment$MealPlanFragment$dietCategories$edges(
+    Fragment$MealPlanFragment$dietCategories$edges instance,
+    TRes Function(Fragment$MealPlanFragment$dietCategories$edges) then,
+  ) = _CopyWithImpl$Fragment$MealPlanFragment$dietCategories$edges;
+
+  factory CopyWith$Fragment$MealPlanFragment$dietCategories$edges.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$MealPlanFragment$dietCategories$edges;
+
+  TRes call({
+    Fragment$MealPlanFragment$dietCategories$edges$node? node,
+    String? $__typename,
+  });
+  CopyWith$Fragment$MealPlanFragment$dietCategories$edges$node<TRes> get node;
+}
+
+class _CopyWithImpl$Fragment$MealPlanFragment$dietCategories$edges<TRes>
+    implements CopyWith$Fragment$MealPlanFragment$dietCategories$edges<TRes> {
+  _CopyWithImpl$Fragment$MealPlanFragment$dietCategories$edges(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$MealPlanFragment$dietCategories$edges _instance;
+
+  final TRes Function(Fragment$MealPlanFragment$dietCategories$edges) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? node = _undefined, Object? $__typename = _undefined}) =>
+      _then(
+        Fragment$MealPlanFragment$dietCategories$edges(
+          node: node == _undefined
+              ? _instance.node
+              : (node as Fragment$MealPlanFragment$dietCategories$edges$node?),
+          $__typename: $__typename == _undefined || $__typename == null
+              ? _instance.$__typename
+              : ($__typename as String),
+        ),
+      );
+
+  CopyWith$Fragment$MealPlanFragment$dietCategories$edges$node<TRes> get node {
+    final local$node = _instance.node;
+    return local$node == null
+        ? CopyWith$Fragment$MealPlanFragment$dietCategories$edges$node.stub(
+            _then(_instance),
+          )
+        : CopyWith$Fragment$MealPlanFragment$dietCategories$edges$node(
+            local$node,
+            (e) => call(node: e),
+          );
+  }
+}
+
+class _CopyWithStubImpl$Fragment$MealPlanFragment$dietCategories$edges<TRes>
+    implements CopyWith$Fragment$MealPlanFragment$dietCategories$edges<TRes> {
+  _CopyWithStubImpl$Fragment$MealPlanFragment$dietCategories$edges(this._res);
+
+  TRes _res;
+
+  call({
+    Fragment$MealPlanFragment$dietCategories$edges$node? node,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Fragment$MealPlanFragment$dietCategories$edges$node<TRes> get node =>
+      CopyWith$Fragment$MealPlanFragment$dietCategories$edges$node.stub(_res);
+}
+
+class Fragment$MealPlanFragment$dietCategories$edges$node
+    implements Fragment$MealPlanSummaryFragment$dietCategories$edges$node {
+  Fragment$MealPlanFragment$dietCategories$edges$node({
+    required this.id,
+    required this.name,
+    this.$__typename = 'DietCategory',
+  });
+
+  factory Fragment$MealPlanFragment$dietCategories$edges$node.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$name = json['name'];
+    final l$$__typename = json['__typename'];
+    return Fragment$MealPlanFragment$dietCategories$edges$node(
+      id: (l$id as String),
+      name: (l$name as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String name;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$name, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$MealPlanFragment$dietCategories$edges$node ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$MealPlanFragment$dietCategories$edges$node
+    on Fragment$MealPlanFragment$dietCategories$edges$node {
+  CopyWith$Fragment$MealPlanFragment$dietCategories$edges$node<
+    Fragment$MealPlanFragment$dietCategories$edges$node
+  >
+  get copyWith => CopyWith$Fragment$MealPlanFragment$dietCategories$edges$node(
+    this,
+    (i) => i,
+  );
+}
+
+abstract class CopyWith$Fragment$MealPlanFragment$dietCategories$edges$node<
+  TRes
+> {
+  factory CopyWith$Fragment$MealPlanFragment$dietCategories$edges$node(
+    Fragment$MealPlanFragment$dietCategories$edges$node instance,
+    TRes Function(Fragment$MealPlanFragment$dietCategories$edges$node) then,
+  ) = _CopyWithImpl$Fragment$MealPlanFragment$dietCategories$edges$node;
+
+  factory CopyWith$Fragment$MealPlanFragment$dietCategories$edges$node.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$MealPlanFragment$dietCategories$edges$node;
+
+  TRes call({String? id, String? name, String? $__typename});
+}
+
+class _CopyWithImpl$Fragment$MealPlanFragment$dietCategories$edges$node<TRes>
+    implements
+        CopyWith$Fragment$MealPlanFragment$dietCategories$edges$node<TRes> {
+  _CopyWithImpl$Fragment$MealPlanFragment$dietCategories$edges$node(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$MealPlanFragment$dietCategories$edges$node _instance;
+
+  final TRes Function(Fragment$MealPlanFragment$dietCategories$edges$node)
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$MealPlanFragment$dietCategories$edges$node(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      name: name == _undefined || name == null
+          ? _instance.name
+          : (name as String),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$MealPlanFragment$dietCategories$edges$node<
+  TRes
+>
+    implements
+        CopyWith$Fragment$MealPlanFragment$dietCategories$edges$node<TRes> {
+  _CopyWithStubImpl$Fragment$MealPlanFragment$dietCategories$edges$node(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({String? id, String? name, String? $__typename}) => _res;
+}
+
+class Fragment$MealPlanFragment$meals {
+  Fragment$MealPlanFragment$meals({
+    this.edges,
+    this.$__typename = 'MealCursorConnection',
+  });
+
+  factory Fragment$MealPlanFragment$meals.fromJson(Map<String, dynamic> json) {
+    final l$edges = json['edges'];
+    final l$$__typename = json['__typename'];
+    return Fragment$MealPlanFragment$meals(
+      edges: (l$edges as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Fragment$MealPlanFragment$meals$edges.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList(),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final List<Fragment$MealPlanFragment$meals$edges?>? edges;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$edges = edges;
+    _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$edges = edges;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$MealPlanFragment$meals ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$edges = edges;
+    final lOther$edges = other.edges;
+    if (l$edges != null && lOther$edges != null) {
+      if (l$edges.length != lOther$edges.length) {
+        return false;
+      }
+      for (int i = 0; i < l$edges.length; i++) {
+        final l$edges$entry = l$edges[i];
+        final lOther$edges$entry = lOther$edges[i];
+        if (l$edges$entry != lOther$edges$entry) {
+          return false;
+        }
+      }
+    } else if (l$edges != lOther$edges) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$MealPlanFragment$meals
+    on Fragment$MealPlanFragment$meals {
+  CopyWith$Fragment$MealPlanFragment$meals<Fragment$MealPlanFragment$meals>
+  get copyWith => CopyWith$Fragment$MealPlanFragment$meals(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$MealPlanFragment$meals<TRes> {
+  factory CopyWith$Fragment$MealPlanFragment$meals(
+    Fragment$MealPlanFragment$meals instance,
+    TRes Function(Fragment$MealPlanFragment$meals) then,
+  ) = _CopyWithImpl$Fragment$MealPlanFragment$meals;
+
+  factory CopyWith$Fragment$MealPlanFragment$meals.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$MealPlanFragment$meals;
+
+  TRes call({
+    List<Fragment$MealPlanFragment$meals$edges?>? edges,
+    String? $__typename,
+  });
+  TRes edges(
+    Iterable<Fragment$MealPlanFragment$meals$edges?>? Function(
+      Iterable<
+        CopyWith$Fragment$MealPlanFragment$meals$edges<
+          Fragment$MealPlanFragment$meals$edges
+        >?
+      >?,
+    )
+    _fn,
+  );
+}
+
+class _CopyWithImpl$Fragment$MealPlanFragment$meals<TRes>
+    implements CopyWith$Fragment$MealPlanFragment$meals<TRes> {
+  _CopyWithImpl$Fragment$MealPlanFragment$meals(this._instance, this._then);
+
+  final Fragment$MealPlanFragment$meals _instance;
+
+  final TRes Function(Fragment$MealPlanFragment$meals) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? edges = _undefined, Object? $__typename = _undefined}) =>
+      _then(
+        Fragment$MealPlanFragment$meals(
+          edges: edges == _undefined
+              ? _instance.edges
+              : (edges as List<Fragment$MealPlanFragment$meals$edges?>?),
+          $__typename: $__typename == _undefined || $__typename == null
+              ? _instance.$__typename
+              : ($__typename as String),
+        ),
+      );
+
+  TRes edges(
+    Iterable<Fragment$MealPlanFragment$meals$edges?>? Function(
+      Iterable<
+        CopyWith$Fragment$MealPlanFragment$meals$edges<
+          Fragment$MealPlanFragment$meals$edges
+        >?
+      >?,
+    )
+    _fn,
+  ) => call(
+    edges: _fn(
+      _instance.edges?.map(
+        (e) => e == null
+            ? null
+            : CopyWith$Fragment$MealPlanFragment$meals$edges(e, (i) => i),
+      ),
+    )?.toList(),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$MealPlanFragment$meals<TRes>
+    implements CopyWith$Fragment$MealPlanFragment$meals<TRes> {
+  _CopyWithStubImpl$Fragment$MealPlanFragment$meals(this._res);
+
+  TRes _res;
+
+  call({
+    List<Fragment$MealPlanFragment$meals$edges?>? edges,
+    String? $__typename,
+  }) => _res;
+
+  edges(_fn) => _res;
+}
+
+class Fragment$MealPlanFragment$meals$edges {
+  Fragment$MealPlanFragment$meals$edges({
+    this.node,
+    this.$__typename = 'MealEdge',
+  });
+
+  factory Fragment$MealPlanFragment$meals$edges.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$node = json['node'];
+    final l$$__typename = json['__typename'];
+    return Fragment$MealPlanFragment$meals$edges(
+      node: l$node == null
+          ? null
+          : Fragment$MealFragment.fromJson((l$node as Map<String, dynamic>)),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Fragment$MealFragment? node;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$node = node;
+    _resultData['node'] = l$node?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$node = node;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$node, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$MealPlanFragment$meals$edges ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$node = node;
+    final lOther$node = other.node;
+    if (l$node != lOther$node) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$MealPlanFragment$meals$edges
+    on Fragment$MealPlanFragment$meals$edges {
+  CopyWith$Fragment$MealPlanFragment$meals$edges<
+    Fragment$MealPlanFragment$meals$edges
+  >
+  get copyWith =>
+      CopyWith$Fragment$MealPlanFragment$meals$edges(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$MealPlanFragment$meals$edges<TRes> {
+  factory CopyWith$Fragment$MealPlanFragment$meals$edges(
+    Fragment$MealPlanFragment$meals$edges instance,
+    TRes Function(Fragment$MealPlanFragment$meals$edges) then,
+  ) = _CopyWithImpl$Fragment$MealPlanFragment$meals$edges;
+
+  factory CopyWith$Fragment$MealPlanFragment$meals$edges.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$MealPlanFragment$meals$edges;
+
+  TRes call({Fragment$MealFragment? node, String? $__typename});
+  CopyWith$Fragment$MealFragment<TRes> get node;
+}
+
+class _CopyWithImpl$Fragment$MealPlanFragment$meals$edges<TRes>
+    implements CopyWith$Fragment$MealPlanFragment$meals$edges<TRes> {
+  _CopyWithImpl$Fragment$MealPlanFragment$meals$edges(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$MealPlanFragment$meals$edges _instance;
+
+  final TRes Function(Fragment$MealPlanFragment$meals$edges) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? node = _undefined, Object? $__typename = _undefined}) =>
+      _then(
+        Fragment$MealPlanFragment$meals$edges(
+          node: node == _undefined
+              ? _instance.node
+              : (node as Fragment$MealFragment?),
+          $__typename: $__typename == _undefined || $__typename == null
+              ? _instance.$__typename
+              : ($__typename as String),
+        ),
+      );
+
+  CopyWith$Fragment$MealFragment<TRes> get node {
+    final local$node = _instance.node;
+    return local$node == null
+        ? CopyWith$Fragment$MealFragment.stub(_then(_instance))
+        : CopyWith$Fragment$MealFragment(local$node, (e) => call(node: e));
+  }
+}
+
+class _CopyWithStubImpl$Fragment$MealPlanFragment$meals$edges<TRes>
+    implements CopyWith$Fragment$MealPlanFragment$meals$edges<TRes> {
+  _CopyWithStubImpl$Fragment$MealPlanFragment$meals$edges(this._res);
+
+  TRes _res;
+
+  call({Fragment$MealFragment? node, String? $__typename}) => _res;
+
+  CopyWith$Fragment$MealFragment<TRes> get node =>
+      CopyWith$Fragment$MealFragment.stub(_res);
+}
+
 class Variables$Query$GetMeals {
-  factory Variables$Query$GetMeals({int? first, String? after}) =>
-      Variables$Query$GetMeals._({
-        if (first != null) r'first': first,
-        if (after != null) r'after': after,
-      });
+  factory Variables$Query$GetMeals({
+    int? first,
+    String? after,
+    String? search,
+    List<Input$MealFilter_price?>? price,
+    List<Input$MealFilter_calories?>? calories,
+    List<Input$MealFilter_protein?>? protein,
+    List<Input$MealFilter_fat?>? fat,
+    List<Input$MealFilter_carbs?>? carbs,
+  }) => Variables$Query$GetMeals._({
+    if (first != null) r'first': first,
+    if (after != null) r'after': after,
+    if (search != null) r'search': search,
+    if (price != null) r'price': price,
+    if (calories != null) r'calories': calories,
+    if (protein != null) r'protein': protein,
+    if (fat != null) r'fat': fat,
+    if (carbs != null) r'carbs': carbs,
+  });
 
   Variables$Query$GetMeals._(this._$data);
 
@@ -24,6 +3098,64 @@ class Variables$Query$GetMeals {
       final l$after = data['after'];
       result$data['after'] = (l$after as String?);
     }
+    if (data.containsKey('search')) {
+      final l$search = data['search'];
+      result$data['search'] = (l$search as String?);
+    }
+    if (data.containsKey('price')) {
+      final l$price = data['price'];
+      result$data['price'] = (l$price as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealFilter_price.fromJson((e as Map<String, dynamic>)),
+          )
+          .toList();
+    }
+    if (data.containsKey('calories')) {
+      final l$calories = data['calories'];
+      result$data['calories'] = (l$calories as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealFilter_calories.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
+    if (data.containsKey('protein')) {
+      final l$protein = data['protein'];
+      result$data['protein'] = (l$protein as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealFilter_protein.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
+    if (data.containsKey('fat')) {
+      final l$fat = data['fat'];
+      result$data['fat'] = (l$fat as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealFilter_fat.fromJson((e as Map<String, dynamic>)),
+          )
+          .toList();
+    }
+    if (data.containsKey('carbs')) {
+      final l$carbs = data['carbs'];
+      result$data['carbs'] = (l$carbs as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealFilter_carbs.fromJson((e as Map<String, dynamic>)),
+          )
+          .toList();
+    }
     return Variables$Query$GetMeals._(result$data);
   }
 
@@ -32,6 +3164,23 @@ class Variables$Query$GetMeals {
   int? get first => (_$data['first'] as int?);
 
   String? get after => (_$data['after'] as String?);
+
+  String? get search => (_$data['search'] as String?);
+
+  List<Input$MealFilter_price?>? get price =>
+      (_$data['price'] as List<Input$MealFilter_price?>?);
+
+  List<Input$MealFilter_calories?>? get calories =>
+      (_$data['calories'] as List<Input$MealFilter_calories?>?);
+
+  List<Input$MealFilter_protein?>? get protein =>
+      (_$data['protein'] as List<Input$MealFilter_protein?>?);
+
+  List<Input$MealFilter_fat?>? get fat =>
+      (_$data['fat'] as List<Input$MealFilter_fat?>?);
+
+  List<Input$MealFilter_carbs?>? get carbs =>
+      (_$data['carbs'] as List<Input$MealFilter_carbs?>?);
 
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
@@ -42,6 +3191,30 @@ class Variables$Query$GetMeals {
     if (_$data.containsKey('after')) {
       final l$after = after;
       result$data['after'] = l$after;
+    }
+    if (_$data.containsKey('search')) {
+      final l$search = search;
+      result$data['search'] = l$search;
+    }
+    if (_$data.containsKey('price')) {
+      final l$price = price;
+      result$data['price'] = l$price?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('calories')) {
+      final l$calories = calories;
+      result$data['calories'] = l$calories?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('protein')) {
+      final l$protein = protein;
+      result$data['protein'] = l$protein?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('fat')) {
+      final l$fat = fat;
+      result$data['fat'] = l$fat?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('carbs')) {
+      final l$carbs = carbs;
+      result$data['carbs'] = l$carbs?.map((e) => e?.toJson()).toList();
     }
     return result$data;
   }
@@ -74,6 +3247,110 @@ class Variables$Query$GetMeals {
     if (l$after != lOther$after) {
       return false;
     }
+    final l$search = search;
+    final lOther$search = other.search;
+    if (_$data.containsKey('search') != other._$data.containsKey('search')) {
+      return false;
+    }
+    if (l$search != lOther$search) {
+      return false;
+    }
+    final l$price = price;
+    final lOther$price = other.price;
+    if (_$data.containsKey('price') != other._$data.containsKey('price')) {
+      return false;
+    }
+    if (l$price != null && lOther$price != null) {
+      if (l$price.length != lOther$price.length) {
+        return false;
+      }
+      for (int i = 0; i < l$price.length; i++) {
+        final l$price$entry = l$price[i];
+        final lOther$price$entry = lOther$price[i];
+        if (l$price$entry != lOther$price$entry) {
+          return false;
+        }
+      }
+    } else if (l$price != lOther$price) {
+      return false;
+    }
+    final l$calories = calories;
+    final lOther$calories = other.calories;
+    if (_$data.containsKey('calories') !=
+        other._$data.containsKey('calories')) {
+      return false;
+    }
+    if (l$calories != null && lOther$calories != null) {
+      if (l$calories.length != lOther$calories.length) {
+        return false;
+      }
+      for (int i = 0; i < l$calories.length; i++) {
+        final l$calories$entry = l$calories[i];
+        final lOther$calories$entry = lOther$calories[i];
+        if (l$calories$entry != lOther$calories$entry) {
+          return false;
+        }
+      }
+    } else if (l$calories != lOther$calories) {
+      return false;
+    }
+    final l$protein = protein;
+    final lOther$protein = other.protein;
+    if (_$data.containsKey('protein') != other._$data.containsKey('protein')) {
+      return false;
+    }
+    if (l$protein != null && lOther$protein != null) {
+      if (l$protein.length != lOther$protein.length) {
+        return false;
+      }
+      for (int i = 0; i < l$protein.length; i++) {
+        final l$protein$entry = l$protein[i];
+        final lOther$protein$entry = lOther$protein[i];
+        if (l$protein$entry != lOther$protein$entry) {
+          return false;
+        }
+      }
+    } else if (l$protein != lOther$protein) {
+      return false;
+    }
+    final l$fat = fat;
+    final lOther$fat = other.fat;
+    if (_$data.containsKey('fat') != other._$data.containsKey('fat')) {
+      return false;
+    }
+    if (l$fat != null && lOther$fat != null) {
+      if (l$fat.length != lOther$fat.length) {
+        return false;
+      }
+      for (int i = 0; i < l$fat.length; i++) {
+        final l$fat$entry = l$fat[i];
+        final lOther$fat$entry = lOther$fat[i];
+        if (l$fat$entry != lOther$fat$entry) {
+          return false;
+        }
+      }
+    } else if (l$fat != lOther$fat) {
+      return false;
+    }
+    final l$carbs = carbs;
+    final lOther$carbs = other.carbs;
+    if (_$data.containsKey('carbs') != other._$data.containsKey('carbs')) {
+      return false;
+    }
+    if (l$carbs != null && lOther$carbs != null) {
+      if (l$carbs.length != lOther$carbs.length) {
+        return false;
+      }
+      for (int i = 0; i < l$carbs.length; i++) {
+        final l$carbs$entry = l$carbs[i];
+        final lOther$carbs$entry = lOther$carbs[i];
+        if (l$carbs$entry != lOther$carbs$entry) {
+          return false;
+        }
+      }
+    } else if (l$carbs != lOther$carbs) {
+      return false;
+    }
     return true;
   }
 
@@ -81,9 +3358,41 @@ class Variables$Query$GetMeals {
   int get hashCode {
     final l$first = first;
     final l$after = after;
+    final l$search = search;
+    final l$price = price;
+    final l$calories = calories;
+    final l$protein = protein;
+    final l$fat = fat;
+    final l$carbs = carbs;
     return Object.hashAll([
       _$data.containsKey('first') ? l$first : const {},
       _$data.containsKey('after') ? l$after : const {},
+      _$data.containsKey('search') ? l$search : const {},
+      _$data.containsKey('price')
+          ? l$price == null
+                ? null
+                : Object.hashAll(l$price.map((v) => v))
+          : const {},
+      _$data.containsKey('calories')
+          ? l$calories == null
+                ? null
+                : Object.hashAll(l$calories.map((v) => v))
+          : const {},
+      _$data.containsKey('protein')
+          ? l$protein == null
+                ? null
+                : Object.hashAll(l$protein.map((v) => v))
+          : const {},
+      _$data.containsKey('fat')
+          ? l$fat == null
+                ? null
+                : Object.hashAll(l$fat.map((v) => v))
+          : const {},
+      _$data.containsKey('carbs')
+          ? l$carbs == null
+                ? null
+                : Object.hashAll(l$carbs.map((v) => v))
+          : const {},
     ]);
   }
 }
@@ -97,7 +3406,16 @@ abstract class CopyWith$Variables$Query$GetMeals<TRes> {
   factory CopyWith$Variables$Query$GetMeals.stub(TRes res) =
       _CopyWithStubImpl$Variables$Query$GetMeals;
 
-  TRes call({int? first, String? after});
+  TRes call({
+    int? first,
+    String? after,
+    String? search,
+    List<Input$MealFilter_price?>? price,
+    List<Input$MealFilter_calories?>? calories,
+    List<Input$MealFilter_protein?>? protein,
+    List<Input$MealFilter_fat?>? fat,
+    List<Input$MealFilter_carbs?>? carbs,
+  });
 }
 
 class _CopyWithImpl$Variables$Query$GetMeals<TRes>
@@ -110,11 +3428,30 @@ class _CopyWithImpl$Variables$Query$GetMeals<TRes>
 
   static const _undefined = <dynamic, dynamic>{};
 
-  TRes call({Object? first = _undefined, Object? after = _undefined}) => _then(
+  TRes call({
+    Object? first = _undefined,
+    Object? after = _undefined,
+    Object? search = _undefined,
+    Object? price = _undefined,
+    Object? calories = _undefined,
+    Object? protein = _undefined,
+    Object? fat = _undefined,
+    Object? carbs = _undefined,
+  }) => _then(
     Variables$Query$GetMeals._({
       ..._instance._$data,
       if (first != _undefined) 'first': (first as int?),
       if (after != _undefined) 'after': (after as String?),
+      if (search != _undefined) 'search': (search as String?),
+      if (price != _undefined)
+        'price': (price as List<Input$MealFilter_price?>?),
+      if (calories != _undefined)
+        'calories': (calories as List<Input$MealFilter_calories?>?),
+      if (protein != _undefined)
+        'protein': (protein as List<Input$MealFilter_protein?>?),
+      if (fat != _undefined) 'fat': (fat as List<Input$MealFilter_fat?>?),
+      if (carbs != _undefined)
+        'carbs': (carbs as List<Input$MealFilter_carbs?>?),
     }),
   );
 }
@@ -125,7 +3462,16 @@ class _CopyWithStubImpl$Variables$Query$GetMeals<TRes>
 
   TRes _res;
 
-  call({int? first, String? after}) => _res;
+  call({
+    int? first,
+    String? after,
+    String? search,
+    List<Input$MealFilter_price?>? price,
+    List<Input$MealFilter_calories?>? calories,
+    List<Input$MealFilter_protein?>? protein,
+    List<Input$MealFilter_fat?>? fat,
+    List<Input$MealFilter_carbs?>? carbs,
+  }) => _res;
 }
 
 class Query$GetMeals {
@@ -265,6 +3611,75 @@ const documentNodeQueryGetMeals = DocumentNode(
           defaultValue: DefaultValueNode(value: null),
           directives: [],
         ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'search')),
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'price')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealFilter_price'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'calories')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealFilter_calories'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'protein')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealFilter_protein'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'fat')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealFilter_fat'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'carbs')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealFilter_carbs'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
       ],
       directives: [],
       selectionSet: SelectionSetNode(
@@ -280,6 +3695,30 @@ const documentNodeQueryGetMeals = DocumentNode(
               ArgumentNode(
                 name: NameNode(value: 'after'),
                 value: VariableNode(name: NameNode(value: 'after')),
+              ),
+              ArgumentNode(
+                name: NameNode(value: 'search'),
+                value: VariableNode(name: NameNode(value: 'search')),
+              ),
+              ArgumentNode(
+                name: NameNode(value: 'price'),
+                value: VariableNode(name: NameNode(value: 'price')),
+              ),
+              ArgumentNode(
+                name: NameNode(value: 'calories'),
+                value: VariableNode(name: NameNode(value: 'calories')),
+              ),
+              ArgumentNode(
+                name: NameNode(value: 'protein'),
+                value: VariableNode(name: NameNode(value: 'protein')),
+              ),
+              ArgumentNode(
+                name: NameNode(value: 'fat'),
+                value: VariableNode(name: NameNode(value: 'fat')),
+              ),
+              ArgumentNode(
+                name: NameNode(value: 'carbs'),
+                value: VariableNode(name: NameNode(value: 'carbs')),
               ),
             ],
             directives: [],
@@ -299,40 +3738,9 @@ const documentNodeQueryGetMeals = DocumentNode(
                         directives: [],
                         selectionSet: SelectionSetNode(
                           selections: [
-                            FieldNode(
-                              name: NameNode(value: 'id'),
-                              alias: null,
-                              arguments: [],
+                            FragmentSpreadNode(
+                              name: NameNode(value: 'MealFragment'),
                               directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'name'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'description'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'price'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'imageUrl'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
                             ),
                             FieldNode(
                               name: NameNode(value: '__typename'),
@@ -343,6 +3751,37 @@ const documentNodeQueryGetMeals = DocumentNode(
                             ),
                           ],
                         ),
+                      ),
+                      FieldNode(
+                        name: NameNode(value: '__typename'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null,
+                      ),
+                    ],
+                  ),
+                ),
+                FieldNode(
+                  name: NameNode(value: 'pageInfo'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(
+                    selections: [
+                      FieldNode(
+                        name: NameNode(value: 'hasNextPage'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null,
+                      ),
+                      FieldNode(
+                        name: NameNode(value: 'endCursor'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null,
                       ),
                       FieldNode(
                         name: NameNode(value: '__typename'),
@@ -374,6 +3813,7 @@ const documentNodeQueryGetMeals = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionMealFragment,
   ],
 );
 Query$GetMeals _parserFn$Query$GetMeals(Map<String, dynamic> data) =>
@@ -526,10 +3966,15 @@ class Query$GetMeals$Widget extends graphql_flutter.Query<Query$GetMeals> {
 }
 
 class Query$GetMeals$meals {
-  Query$GetMeals$meals({this.edges, this.$__typename = 'MealCursorConnection'});
+  Query$GetMeals$meals({
+    this.edges,
+    required this.pageInfo,
+    this.$__typename = 'MealCursorConnection',
+  });
 
   factory Query$GetMeals$meals.fromJson(Map<String, dynamic> json) {
     final l$edges = json['edges'];
+    final l$pageInfo = json['pageInfo'];
     final l$$__typename = json['__typename'];
     return Query$GetMeals$meals(
       edges: (l$edges as List<dynamic>?)
@@ -541,11 +3986,16 @@ class Query$GetMeals$meals {
                   ),
           )
           .toList(),
+      pageInfo: Query$GetMeals$meals$pageInfo.fromJson(
+        (l$pageInfo as Map<String, dynamic>),
+      ),
       $__typename: (l$$__typename as String),
     );
   }
 
   final List<Query$GetMeals$meals$edges?>? edges;
+
+  final Query$GetMeals$meals$pageInfo pageInfo;
 
   final String $__typename;
 
@@ -553,6 +4003,8 @@ class Query$GetMeals$meals {
     final _resultData = <String, dynamic>{};
     final l$edges = edges;
     _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
+    final l$pageInfo = pageInfo;
+    _resultData['pageInfo'] = l$pageInfo.toJson();
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -561,9 +4013,11 @@ class Query$GetMeals$meals {
   @override
   int get hashCode {
     final l$edges = edges;
+    final l$pageInfo = pageInfo;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
+      l$pageInfo,
       l$$__typename,
     ]);
   }
@@ -592,6 +4046,11 @@ class Query$GetMeals$meals {
     } else if (l$edges != lOther$edges) {
       return false;
     }
+    final l$pageInfo = pageInfo;
+    final lOther$pageInfo = other.pageInfo;
+    if (l$pageInfo != lOther$pageInfo) {
+      return false;
+    }
     final l$$__typename = $__typename;
     final lOther$$__typename = other.$__typename;
     if (l$$__typename != lOther$$__typename) {
@@ -615,7 +4074,11 @@ abstract class CopyWith$Query$GetMeals$meals<TRes> {
   factory CopyWith$Query$GetMeals$meals.stub(TRes res) =
       _CopyWithStubImpl$Query$GetMeals$meals;
 
-  TRes call({List<Query$GetMeals$meals$edges?>? edges, String? $__typename});
+  TRes call({
+    List<Query$GetMeals$meals$edges?>? edges,
+    Query$GetMeals$meals$pageInfo? pageInfo,
+    String? $__typename,
+  });
   TRes edges(
     Iterable<Query$GetMeals$meals$edges?>? Function(
       Iterable<
@@ -624,6 +4087,7 @@ abstract class CopyWith$Query$GetMeals$meals<TRes> {
     )
     _fn,
   );
+  CopyWith$Query$GetMeals$meals$pageInfo<TRes> get pageInfo;
 }
 
 class _CopyWithImpl$Query$GetMeals$meals<TRes>
@@ -636,17 +4100,23 @@ class _CopyWithImpl$Query$GetMeals$meals<TRes>
 
   static const _undefined = <dynamic, dynamic>{};
 
-  TRes call({Object? edges = _undefined, Object? $__typename = _undefined}) =>
-      _then(
-        Query$GetMeals$meals(
-          edges: edges == _undefined
-              ? _instance.edges
-              : (edges as List<Query$GetMeals$meals$edges?>?),
-          $__typename: $__typename == _undefined || $__typename == null
-              ? _instance.$__typename
-              : ($__typename as String),
-        ),
-      );
+  TRes call({
+    Object? edges = _undefined,
+    Object? pageInfo = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Query$GetMeals$meals(
+      edges: edges == _undefined
+          ? _instance.edges
+          : (edges as List<Query$GetMeals$meals$edges?>?),
+      pageInfo: pageInfo == _undefined || pageInfo == null
+          ? _instance.pageInfo
+          : (pageInfo as Query$GetMeals$meals$pageInfo),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
 
   TRes edges(
     Iterable<Query$GetMeals$meals$edges?>? Function(
@@ -663,6 +4133,14 @@ class _CopyWithImpl$Query$GetMeals$meals<TRes>
       ),
     )?.toList(),
   );
+
+  CopyWith$Query$GetMeals$meals$pageInfo<TRes> get pageInfo {
+    final local$pageInfo = _instance.pageInfo;
+    return CopyWith$Query$GetMeals$meals$pageInfo(
+      local$pageInfo,
+      (e) => call(pageInfo: e),
+    );
+  }
 }
 
 class _CopyWithStubImpl$Query$GetMeals$meals<TRes>
@@ -671,9 +4149,16 @@ class _CopyWithStubImpl$Query$GetMeals$meals<TRes>
 
   TRes _res;
 
-  call({List<Query$GetMeals$meals$edges?>? edges, String? $__typename}) => _res;
+  call({
+    List<Query$GetMeals$meals$edges?>? edges,
+    Query$GetMeals$meals$pageInfo? pageInfo,
+    String? $__typename,
+  }) => _res;
 
   edges(_fn) => _res;
+
+  CopyWith$Query$GetMeals$meals$pageInfo<TRes> get pageInfo =>
+      CopyWith$Query$GetMeals$meals$pageInfo.stub(_res);
 }
 
 class Query$GetMeals$meals$edges {
@@ -685,14 +4170,12 @@ class Query$GetMeals$meals$edges {
     return Query$GetMeals$meals$edges(
       node: l$node == null
           ? null
-          : Query$GetMeals$meals$edges$node.fromJson(
-              (l$node as Map<String, dynamic>),
-            ),
+          : Fragment$MealFragment.fromJson((l$node as Map<String, dynamic>)),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Query$GetMeals$meals$edges$node? node;
+  final Fragment$MealFragment? node;
 
   final String $__typename;
 
@@ -750,8 +4233,8 @@ abstract class CopyWith$Query$GetMeals$meals$edges<TRes> {
   factory CopyWith$Query$GetMeals$meals$edges.stub(TRes res) =
       _CopyWithStubImpl$Query$GetMeals$meals$edges;
 
-  TRes call({Query$GetMeals$meals$edges$node? node, String? $__typename});
-  CopyWith$Query$GetMeals$meals$edges$node<TRes> get node;
+  TRes call({Fragment$MealFragment? node, String? $__typename});
+  CopyWith$Fragment$MealFragment<TRes> get node;
 }
 
 class _CopyWithImpl$Query$GetMeals$meals$edges<TRes>
@@ -769,21 +4252,18 @@ class _CopyWithImpl$Query$GetMeals$meals$edges<TRes>
         Query$GetMeals$meals$edges(
           node: node == _undefined
               ? _instance.node
-              : (node as Query$GetMeals$meals$edges$node?),
+              : (node as Fragment$MealFragment?),
           $__typename: $__typename == _undefined || $__typename == null
               ? _instance.$__typename
               : ($__typename as String),
         ),
       );
 
-  CopyWith$Query$GetMeals$meals$edges$node<TRes> get node {
+  CopyWith$Fragment$MealFragment<TRes> get node {
     final local$node = _instance.node;
     return local$node == null
-        ? CopyWith$Query$GetMeals$meals$edges$node.stub(_then(_instance))
-        : CopyWith$Query$GetMeals$meals$edges$node(
-            local$node,
-            (e) => call(node: e),
-          );
+        ? CopyWith$Fragment$MealFragment.stub(_then(_instance))
+        : CopyWith$Fragment$MealFragment(local$node, (e) => call(node: e));
   }
 }
 
@@ -793,63 +4273,42 @@ class _CopyWithStubImpl$Query$GetMeals$meals$edges<TRes>
 
   TRes _res;
 
-  call({Query$GetMeals$meals$edges$node? node, String? $__typename}) => _res;
+  call({Fragment$MealFragment? node, String? $__typename}) => _res;
 
-  CopyWith$Query$GetMeals$meals$edges$node<TRes> get node =>
-      CopyWith$Query$GetMeals$meals$edges$node.stub(_res);
+  CopyWith$Fragment$MealFragment<TRes> get node =>
+      CopyWith$Fragment$MealFragment.stub(_res);
 }
 
-class Query$GetMeals$meals$edges$node {
-  Query$GetMeals$meals$edges$node({
-    required this.id,
-    required this.name,
-    this.description,
-    required this.price,
-    this.imageUrl,
-    this.$__typename = 'Meal',
+class Query$GetMeals$meals$pageInfo {
+  Query$GetMeals$meals$pageInfo({
+    required this.hasNextPage,
+    this.endCursor,
+    this.$__typename = 'MealPageInfo',
   });
 
-  factory Query$GetMeals$meals$edges$node.fromJson(Map<String, dynamic> json) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$description = json['description'];
-    final l$price = json['price'];
-    final l$imageUrl = json['imageUrl'];
+  factory Query$GetMeals$meals$pageInfo.fromJson(Map<String, dynamic> json) {
+    final l$hasNextPage = json['hasNextPage'];
+    final l$endCursor = json['endCursor'];
     final l$$__typename = json['__typename'];
-    return Query$GetMeals$meals$edges$node(
-      id: (l$id as String),
-      name: (l$name as String),
-      description: (l$description as String?),
-      price: (l$price as int),
-      imageUrl: (l$imageUrl as String?),
+    return Query$GetMeals$meals$pageInfo(
+      hasNextPage: (l$hasNextPage as bool),
+      endCursor: (l$endCursor as String?),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final String id;
+  final bool hasNextPage;
 
-  final String name;
-
-  final String? description;
-
-  final int price;
-
-  final String? imageUrl;
+  final String? endCursor;
 
   final String $__typename;
 
   Map<String, dynamic> toJson() {
     final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$description = description;
-    _resultData['description'] = l$description;
-    final l$price = price;
-    _resultData['price'] = l$price;
-    final l$imageUrl = imageUrl;
-    _resultData['imageUrl'] = l$imageUrl;
+    final l$hasNextPage = hasNextPage;
+    _resultData['hasNextPage'] = l$hasNextPage;
+    final l$endCursor = endCursor;
+    _resultData['endCursor'] = l$endCursor;
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -857,20 +4316,10 @@ class Query$GetMeals$meals$edges$node {
 
   @override
   int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$description = description;
-    final l$price = price;
-    final l$imageUrl = imageUrl;
+    final l$hasNextPage = hasNextPage;
+    final l$endCursor = endCursor;
     final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$id,
-      l$name,
-      l$description,
-      l$price,
-      l$imageUrl,
-      l$$__typename,
-    ]);
+    return Object.hashAll([l$hasNextPage, l$endCursor, l$$__typename]);
   }
 
   @override
@@ -878,33 +4327,18 @@ class Query$GetMeals$meals$edges$node {
     if (identical(this, other)) {
       return true;
     }
-    if (other is! Query$GetMeals$meals$edges$node ||
+    if (other is! Query$GetMeals$meals$pageInfo ||
         runtimeType != other.runtimeType) {
       return false;
     }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
+    final l$hasNextPage = hasNextPage;
+    final lOther$hasNextPage = other.hasNextPage;
+    if (l$hasNextPage != lOther$hasNextPage) {
       return false;
     }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$description = description;
-    final lOther$description = other.description;
-    if (l$description != lOther$description) {
-      return false;
-    }
-    final l$price = price;
-    final lOther$price = other.price;
-    if (l$price != lOther$price) {
-      return false;
-    }
-    final l$imageUrl = imageUrl;
-    final lOther$imageUrl = other.imageUrl;
-    if (l$imageUrl != lOther$imageUrl) {
+    final l$endCursor = endCursor;
+    final lOther$endCursor = other.endCursor;
+    if (l$endCursor != lOther$endCursor) {
       return false;
     }
     final l$$__typename = $__typename;
@@ -916,63 +4350,46 @@ class Query$GetMeals$meals$edges$node {
   }
 }
 
-extension UtilityExtension$Query$GetMeals$meals$edges$node
-    on Query$GetMeals$meals$edges$node {
-  CopyWith$Query$GetMeals$meals$edges$node<Query$GetMeals$meals$edges$node>
-  get copyWith => CopyWith$Query$GetMeals$meals$edges$node(this, (i) => i);
+extension UtilityExtension$Query$GetMeals$meals$pageInfo
+    on Query$GetMeals$meals$pageInfo {
+  CopyWith$Query$GetMeals$meals$pageInfo<Query$GetMeals$meals$pageInfo>
+  get copyWith => CopyWith$Query$GetMeals$meals$pageInfo(this, (i) => i);
 }
 
-abstract class CopyWith$Query$GetMeals$meals$edges$node<TRes> {
-  factory CopyWith$Query$GetMeals$meals$edges$node(
-    Query$GetMeals$meals$edges$node instance,
-    TRes Function(Query$GetMeals$meals$edges$node) then,
-  ) = _CopyWithImpl$Query$GetMeals$meals$edges$node;
+abstract class CopyWith$Query$GetMeals$meals$pageInfo<TRes> {
+  factory CopyWith$Query$GetMeals$meals$pageInfo(
+    Query$GetMeals$meals$pageInfo instance,
+    TRes Function(Query$GetMeals$meals$pageInfo) then,
+  ) = _CopyWithImpl$Query$GetMeals$meals$pageInfo;
 
-  factory CopyWith$Query$GetMeals$meals$edges$node.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetMeals$meals$edges$node;
+  factory CopyWith$Query$GetMeals$meals$pageInfo.stub(TRes res) =
+      _CopyWithStubImpl$Query$GetMeals$meals$pageInfo;
 
-  TRes call({
-    String? id,
-    String? name,
-    String? description,
-    int? price,
-    String? imageUrl,
-    String? $__typename,
-  });
+  TRes call({bool? hasNextPage, String? endCursor, String? $__typename});
 }
 
-class _CopyWithImpl$Query$GetMeals$meals$edges$node<TRes>
-    implements CopyWith$Query$GetMeals$meals$edges$node<TRes> {
-  _CopyWithImpl$Query$GetMeals$meals$edges$node(this._instance, this._then);
+class _CopyWithImpl$Query$GetMeals$meals$pageInfo<TRes>
+    implements CopyWith$Query$GetMeals$meals$pageInfo<TRes> {
+  _CopyWithImpl$Query$GetMeals$meals$pageInfo(this._instance, this._then);
 
-  final Query$GetMeals$meals$edges$node _instance;
+  final Query$GetMeals$meals$pageInfo _instance;
 
-  final TRes Function(Query$GetMeals$meals$edges$node) _then;
+  final TRes Function(Query$GetMeals$meals$pageInfo) _then;
 
   static const _undefined = <dynamic, dynamic>{};
 
   TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? description = _undefined,
-    Object? price = _undefined,
-    Object? imageUrl = _undefined,
+    Object? hasNextPage = _undefined,
+    Object? endCursor = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
-    Query$GetMeals$meals$edges$node(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      description: description == _undefined
-          ? _instance.description
-          : (description as String?),
-      price: price == _undefined || price == null
-          ? _instance.price
-          : (price as int),
-      imageUrl: imageUrl == _undefined
-          ? _instance.imageUrl
-          : (imageUrl as String?),
+    Query$GetMeals$meals$pageInfo(
+      hasNextPage: hasNextPage == _undefined || hasNextPage == null
+          ? _instance.hasNextPage
+          : (hasNextPage as bool),
+      endCursor: endCursor == _undefined
+          ? _instance.endCursor
+          : (endCursor as String?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
@@ -980,20 +4397,13 @@ class _CopyWithImpl$Query$GetMeals$meals$edges$node<TRes>
   );
 }
 
-class _CopyWithStubImpl$Query$GetMeals$meals$edges$node<TRes>
-    implements CopyWith$Query$GetMeals$meals$edges$node<TRes> {
-  _CopyWithStubImpl$Query$GetMeals$meals$edges$node(this._res);
+class _CopyWithStubImpl$Query$GetMeals$meals$pageInfo<TRes>
+    implements CopyWith$Query$GetMeals$meals$pageInfo<TRes> {
+  _CopyWithStubImpl$Query$GetMeals$meals$pageInfo(this._res);
 
   TRes _res;
 
-  call({
-    String? id,
-    String? name,
-    String? description,
-    int? price,
-    String? imageUrl,
-    String? $__typename,
-  }) => _res;
+  call({bool? hasNextPage, String? endCursor, String? $__typename}) => _res;
 }
 
 class Variables$Query$GetMeal {
@@ -1094,12 +4504,12 @@ class Query$GetMeal {
     return Query$GetMeal(
       meal: l$meal == null
           ? null
-          : Query$GetMeal$meal.fromJson((l$meal as Map<String, dynamic>)),
+          : Fragment$MealFragment.fromJson((l$meal as Map<String, dynamic>)),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Query$GetMeal$meal? meal;
+  final Fragment$MealFragment? meal;
 
   final String $__typename;
 
@@ -1155,8 +4565,8 @@ abstract class CopyWith$Query$GetMeal<TRes> {
   factory CopyWith$Query$GetMeal.stub(TRes res) =
       _CopyWithStubImpl$Query$GetMeal;
 
-  TRes call({Query$GetMeal$meal? meal, String? $__typename});
-  CopyWith$Query$GetMeal$meal<TRes> get meal;
+  TRes call({Fragment$MealFragment? meal, String? $__typename});
+  CopyWith$Fragment$MealFragment<TRes> get meal;
 }
 
 class _CopyWithImpl$Query$GetMeal<TRes>
@@ -1174,18 +4584,18 @@ class _CopyWithImpl$Query$GetMeal<TRes>
         Query$GetMeal(
           meal: meal == _undefined
               ? _instance.meal
-              : (meal as Query$GetMeal$meal?),
+              : (meal as Fragment$MealFragment?),
           $__typename: $__typename == _undefined || $__typename == null
               ? _instance.$__typename
               : ($__typename as String),
         ),
       );
 
-  CopyWith$Query$GetMeal$meal<TRes> get meal {
+  CopyWith$Fragment$MealFragment<TRes> get meal {
     final local$meal = _instance.meal;
     return local$meal == null
-        ? CopyWith$Query$GetMeal$meal.stub(_then(_instance))
-        : CopyWith$Query$GetMeal$meal(local$meal, (e) => call(meal: e));
+        ? CopyWith$Fragment$MealFragment.stub(_then(_instance))
+        : CopyWith$Fragment$MealFragment(local$meal, (e) => call(meal: e));
   }
 }
 
@@ -1195,10 +4605,10 @@ class _CopyWithStubImpl$Query$GetMeal<TRes>
 
   TRes _res;
 
-  call({Query$GetMeal$meal? meal, String? $__typename}) => _res;
+  call({Fragment$MealFragment? meal, String? $__typename}) => _res;
 
-  CopyWith$Query$GetMeal$meal<TRes> get meal =>
-      CopyWith$Query$GetMeal$meal.stub(_res);
+  CopyWith$Fragment$MealFragment<TRes> get meal =>
+      CopyWith$Fragment$MealFragment.stub(_res);
 }
 
 const documentNodeQueryGetMeal = DocumentNode(
@@ -1229,68 +4639,9 @@ const documentNodeQueryGetMeal = DocumentNode(
             directives: [],
             selectionSet: SelectionSetNode(
               selections: [
-                FieldNode(
-                  name: NameNode(value: 'id'),
-                  alias: null,
-                  arguments: [],
+                FragmentSpreadNode(
+                  name: NameNode(value: 'MealFragment'),
                   directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'description'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'price'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'calories'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'protein'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'fat'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'carbs'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'imageUrl'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
                 ),
                 FieldNode(
                   name: NameNode(value: '__typename'),
@@ -1312,6 +4663,7 @@ const documentNodeQueryGetMeal = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionMealFragment,
   ],
 );
 Query$GetMeal _parserFn$Query$GetMeal(Map<String, dynamic> data) =>
@@ -1459,288 +4811,27 @@ class Query$GetMeal$Widget extends graphql_flutter.Query<Query$GetMeal> {
   }) : super(key: key, options: options, builder: builder);
 }
 
-class Query$GetMeal$meal {
-  Query$GetMeal$meal({
-    required this.id,
-    required this.name,
-    this.description,
-    required this.price,
-    required this.calories,
-    required this.protein,
-    required this.fat,
-    required this.carbs,
-    this.imageUrl,
-    this.$__typename = 'Meal',
-  });
-
-  factory Query$GetMeal$meal.fromJson(Map<String, dynamic> json) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$description = json['description'];
-    final l$price = json['price'];
-    final l$calories = json['calories'];
-    final l$protein = json['protein'];
-    final l$fat = json['fat'];
-    final l$carbs = json['carbs'];
-    final l$imageUrl = json['imageUrl'];
-    final l$$__typename = json['__typename'];
-    return Query$GetMeal$meal(
-      id: (l$id as String),
-      name: (l$name as String),
-      description: (l$description as String?),
-      price: (l$price as int),
-      calories: (l$calories as num).toDouble(),
-      protein: (l$protein as num).toDouble(),
-      fat: (l$fat as num).toDouble(),
-      carbs: (l$carbs as num).toDouble(),
-      imageUrl: (l$imageUrl as String?),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String? description;
-
-  final int price;
-
-  final double calories;
-
-  final double protein;
-
-  final double fat;
-
-  final double carbs;
-
-  final String? imageUrl;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$description = description;
-    _resultData['description'] = l$description;
-    final l$price = price;
-    _resultData['price'] = l$price;
-    final l$calories = calories;
-    _resultData['calories'] = l$calories;
-    final l$protein = protein;
-    _resultData['protein'] = l$protein;
-    final l$fat = fat;
-    _resultData['fat'] = l$fat;
-    final l$carbs = carbs;
-    _resultData['carbs'] = l$carbs;
-    final l$imageUrl = imageUrl;
-    _resultData['imageUrl'] = l$imageUrl;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$description = description;
-    final l$price = price;
-    final l$calories = calories;
-    final l$protein = protein;
-    final l$fat = fat;
-    final l$carbs = carbs;
-    final l$imageUrl = imageUrl;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$id,
-      l$name,
-      l$description,
-      l$price,
-      l$calories,
-      l$protein,
-      l$fat,
-      l$carbs,
-      l$imageUrl,
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetMeal$meal || runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$description = description;
-    final lOther$description = other.description;
-    if (l$description != lOther$description) {
-      return false;
-    }
-    final l$price = price;
-    final lOther$price = other.price;
-    if (l$price != lOther$price) {
-      return false;
-    }
-    final l$calories = calories;
-    final lOther$calories = other.calories;
-    if (l$calories != lOther$calories) {
-      return false;
-    }
-    final l$protein = protein;
-    final lOther$protein = other.protein;
-    if (l$protein != lOther$protein) {
-      return false;
-    }
-    final l$fat = fat;
-    final lOther$fat = other.fat;
-    if (l$fat != lOther$fat) {
-      return false;
-    }
-    final l$carbs = carbs;
-    final lOther$carbs = other.carbs;
-    if (l$carbs != lOther$carbs) {
-      return false;
-    }
-    final l$imageUrl = imageUrl;
-    final lOther$imageUrl = other.imageUrl;
-    if (l$imageUrl != lOther$imageUrl) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetMeal$meal on Query$GetMeal$meal {
-  CopyWith$Query$GetMeal$meal<Query$GetMeal$meal> get copyWith =>
-      CopyWith$Query$GetMeal$meal(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetMeal$meal<TRes> {
-  factory CopyWith$Query$GetMeal$meal(
-    Query$GetMeal$meal instance,
-    TRes Function(Query$GetMeal$meal) then,
-  ) = _CopyWithImpl$Query$GetMeal$meal;
-
-  factory CopyWith$Query$GetMeal$meal.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetMeal$meal;
-
-  TRes call({
-    String? id,
-    String? name,
-    String? description,
-    int? price,
-    double? calories,
-    double? protein,
-    double? fat,
-    double? carbs,
-    String? imageUrl,
-    String? $__typename,
-  });
-}
-
-class _CopyWithImpl$Query$GetMeal$meal<TRes>
-    implements CopyWith$Query$GetMeal$meal<TRes> {
-  _CopyWithImpl$Query$GetMeal$meal(this._instance, this._then);
-
-  final Query$GetMeal$meal _instance;
-
-  final TRes Function(Query$GetMeal$meal) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? description = _undefined,
-    Object? price = _undefined,
-    Object? calories = _undefined,
-    Object? protein = _undefined,
-    Object? fat = _undefined,
-    Object? carbs = _undefined,
-    Object? imageUrl = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetMeal$meal(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      description: description == _undefined
-          ? _instance.description
-          : (description as String?),
-      price: price == _undefined || price == null
-          ? _instance.price
-          : (price as int),
-      calories: calories == _undefined || calories == null
-          ? _instance.calories
-          : (calories as double),
-      protein: protein == _undefined || protein == null
-          ? _instance.protein
-          : (protein as double),
-      fat: fat == _undefined || fat == null ? _instance.fat : (fat as double),
-      carbs: carbs == _undefined || carbs == null
-          ? _instance.carbs
-          : (carbs as double),
-      imageUrl: imageUrl == _undefined
-          ? _instance.imageUrl
-          : (imageUrl as String?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetMeal$meal<TRes>
-    implements CopyWith$Query$GetMeal$meal<TRes> {
-  _CopyWithStubImpl$Query$GetMeal$meal(this._res);
-
-  TRes _res;
-
-  call({
-    String? id,
-    String? name,
-    String? description,
-    int? price,
-    double? calories,
-    double? protein,
-    double? fat,
-    double? carbs,
-    String? imageUrl,
-    String? $__typename,
-  }) => _res;
-}
-
 class Variables$Query$GetMealsByRestaurant {
   factory Variables$Query$GetMealsByRestaurant({
     required String restaurantId,
     int? first,
     String? after,
+    String? search,
+    List<Input$MealFilter_price?>? price,
+    List<Input$MealFilter_calories?>? calories,
+    List<Input$MealFilter_protein?>? protein,
+    List<Input$MealFilter_fat?>? fat,
+    List<Input$MealFilter_carbs?>? carbs,
   }) => Variables$Query$GetMealsByRestaurant._({
     r'restaurantId': restaurantId,
     if (first != null) r'first': first,
     if (after != null) r'after': after,
+    if (search != null) r'search': search,
+    if (price != null) r'price': price,
+    if (calories != null) r'calories': calories,
+    if (protein != null) r'protein': protein,
+    if (fat != null) r'fat': fat,
+    if (carbs != null) r'carbs': carbs,
   });
 
   Variables$Query$GetMealsByRestaurant._(this._$data);
@@ -1759,6 +4850,64 @@ class Variables$Query$GetMealsByRestaurant {
       final l$after = data['after'];
       result$data['after'] = (l$after as String?);
     }
+    if (data.containsKey('search')) {
+      final l$search = data['search'];
+      result$data['search'] = (l$search as String?);
+    }
+    if (data.containsKey('price')) {
+      final l$price = data['price'];
+      result$data['price'] = (l$price as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealFilter_price.fromJson((e as Map<String, dynamic>)),
+          )
+          .toList();
+    }
+    if (data.containsKey('calories')) {
+      final l$calories = data['calories'];
+      result$data['calories'] = (l$calories as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealFilter_calories.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
+    if (data.containsKey('protein')) {
+      final l$protein = data['protein'];
+      result$data['protein'] = (l$protein as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealFilter_protein.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
+    if (data.containsKey('fat')) {
+      final l$fat = data['fat'];
+      result$data['fat'] = (l$fat as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealFilter_fat.fromJson((e as Map<String, dynamic>)),
+          )
+          .toList();
+    }
+    if (data.containsKey('carbs')) {
+      final l$carbs = data['carbs'];
+      result$data['carbs'] = (l$carbs as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealFilter_carbs.fromJson((e as Map<String, dynamic>)),
+          )
+          .toList();
+    }
     return Variables$Query$GetMealsByRestaurant._(result$data);
   }
 
@@ -1769,6 +4918,23 @@ class Variables$Query$GetMealsByRestaurant {
   int? get first => (_$data['first'] as int?);
 
   String? get after => (_$data['after'] as String?);
+
+  String? get search => (_$data['search'] as String?);
+
+  List<Input$MealFilter_price?>? get price =>
+      (_$data['price'] as List<Input$MealFilter_price?>?);
+
+  List<Input$MealFilter_calories?>? get calories =>
+      (_$data['calories'] as List<Input$MealFilter_calories?>?);
+
+  List<Input$MealFilter_protein?>? get protein =>
+      (_$data['protein'] as List<Input$MealFilter_protein?>?);
+
+  List<Input$MealFilter_fat?>? get fat =>
+      (_$data['fat'] as List<Input$MealFilter_fat?>?);
+
+  List<Input$MealFilter_carbs?>? get carbs =>
+      (_$data['carbs'] as List<Input$MealFilter_carbs?>?);
 
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
@@ -1781,6 +4947,30 @@ class Variables$Query$GetMealsByRestaurant {
     if (_$data.containsKey('after')) {
       final l$after = after;
       result$data['after'] = l$after;
+    }
+    if (_$data.containsKey('search')) {
+      final l$search = search;
+      result$data['search'] = l$search;
+    }
+    if (_$data.containsKey('price')) {
+      final l$price = price;
+      result$data['price'] = l$price?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('calories')) {
+      final l$calories = calories;
+      result$data['calories'] = l$calories?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('protein')) {
+      final l$protein = protein;
+      result$data['protein'] = l$protein?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('fat')) {
+      final l$fat = fat;
+      result$data['fat'] = l$fat?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('carbs')) {
+      final l$carbs = carbs;
+      result$data['carbs'] = l$carbs?.map((e) => e?.toJson()).toList();
     }
     return result$data;
   }
@@ -1820,6 +5010,110 @@ class Variables$Query$GetMealsByRestaurant {
     if (l$after != lOther$after) {
       return false;
     }
+    final l$search = search;
+    final lOther$search = other.search;
+    if (_$data.containsKey('search') != other._$data.containsKey('search')) {
+      return false;
+    }
+    if (l$search != lOther$search) {
+      return false;
+    }
+    final l$price = price;
+    final lOther$price = other.price;
+    if (_$data.containsKey('price') != other._$data.containsKey('price')) {
+      return false;
+    }
+    if (l$price != null && lOther$price != null) {
+      if (l$price.length != lOther$price.length) {
+        return false;
+      }
+      for (int i = 0; i < l$price.length; i++) {
+        final l$price$entry = l$price[i];
+        final lOther$price$entry = lOther$price[i];
+        if (l$price$entry != lOther$price$entry) {
+          return false;
+        }
+      }
+    } else if (l$price != lOther$price) {
+      return false;
+    }
+    final l$calories = calories;
+    final lOther$calories = other.calories;
+    if (_$data.containsKey('calories') !=
+        other._$data.containsKey('calories')) {
+      return false;
+    }
+    if (l$calories != null && lOther$calories != null) {
+      if (l$calories.length != lOther$calories.length) {
+        return false;
+      }
+      for (int i = 0; i < l$calories.length; i++) {
+        final l$calories$entry = l$calories[i];
+        final lOther$calories$entry = lOther$calories[i];
+        if (l$calories$entry != lOther$calories$entry) {
+          return false;
+        }
+      }
+    } else if (l$calories != lOther$calories) {
+      return false;
+    }
+    final l$protein = protein;
+    final lOther$protein = other.protein;
+    if (_$data.containsKey('protein') != other._$data.containsKey('protein')) {
+      return false;
+    }
+    if (l$protein != null && lOther$protein != null) {
+      if (l$protein.length != lOther$protein.length) {
+        return false;
+      }
+      for (int i = 0; i < l$protein.length; i++) {
+        final l$protein$entry = l$protein[i];
+        final lOther$protein$entry = lOther$protein[i];
+        if (l$protein$entry != lOther$protein$entry) {
+          return false;
+        }
+      }
+    } else if (l$protein != lOther$protein) {
+      return false;
+    }
+    final l$fat = fat;
+    final lOther$fat = other.fat;
+    if (_$data.containsKey('fat') != other._$data.containsKey('fat')) {
+      return false;
+    }
+    if (l$fat != null && lOther$fat != null) {
+      if (l$fat.length != lOther$fat.length) {
+        return false;
+      }
+      for (int i = 0; i < l$fat.length; i++) {
+        final l$fat$entry = l$fat[i];
+        final lOther$fat$entry = lOther$fat[i];
+        if (l$fat$entry != lOther$fat$entry) {
+          return false;
+        }
+      }
+    } else if (l$fat != lOther$fat) {
+      return false;
+    }
+    final l$carbs = carbs;
+    final lOther$carbs = other.carbs;
+    if (_$data.containsKey('carbs') != other._$data.containsKey('carbs')) {
+      return false;
+    }
+    if (l$carbs != null && lOther$carbs != null) {
+      if (l$carbs.length != lOther$carbs.length) {
+        return false;
+      }
+      for (int i = 0; i < l$carbs.length; i++) {
+        final l$carbs$entry = l$carbs[i];
+        final lOther$carbs$entry = lOther$carbs[i];
+        if (l$carbs$entry != lOther$carbs$entry) {
+          return false;
+        }
+      }
+    } else if (l$carbs != lOther$carbs) {
+      return false;
+    }
     return true;
   }
 
@@ -1828,10 +5122,42 @@ class Variables$Query$GetMealsByRestaurant {
     final l$restaurantId = restaurantId;
     final l$first = first;
     final l$after = after;
+    final l$search = search;
+    final l$price = price;
+    final l$calories = calories;
+    final l$protein = protein;
+    final l$fat = fat;
+    final l$carbs = carbs;
     return Object.hashAll([
       l$restaurantId,
       _$data.containsKey('first') ? l$first : const {},
       _$data.containsKey('after') ? l$after : const {},
+      _$data.containsKey('search') ? l$search : const {},
+      _$data.containsKey('price')
+          ? l$price == null
+                ? null
+                : Object.hashAll(l$price.map((v) => v))
+          : const {},
+      _$data.containsKey('calories')
+          ? l$calories == null
+                ? null
+                : Object.hashAll(l$calories.map((v) => v))
+          : const {},
+      _$data.containsKey('protein')
+          ? l$protein == null
+                ? null
+                : Object.hashAll(l$protein.map((v) => v))
+          : const {},
+      _$data.containsKey('fat')
+          ? l$fat == null
+                ? null
+                : Object.hashAll(l$fat.map((v) => v))
+          : const {},
+      _$data.containsKey('carbs')
+          ? l$carbs == null
+                ? null
+                : Object.hashAll(l$carbs.map((v) => v))
+          : const {},
     ]);
   }
 }
@@ -1845,7 +5171,17 @@ abstract class CopyWith$Variables$Query$GetMealsByRestaurant<TRes> {
   factory CopyWith$Variables$Query$GetMealsByRestaurant.stub(TRes res) =
       _CopyWithStubImpl$Variables$Query$GetMealsByRestaurant;
 
-  TRes call({String? restaurantId, int? first, String? after});
+  TRes call({
+    String? restaurantId,
+    int? first,
+    String? after,
+    String? search,
+    List<Input$MealFilter_price?>? price,
+    List<Input$MealFilter_calories?>? calories,
+    List<Input$MealFilter_protein?>? protein,
+    List<Input$MealFilter_fat?>? fat,
+    List<Input$MealFilter_carbs?>? carbs,
+  });
 }
 
 class _CopyWithImpl$Variables$Query$GetMealsByRestaurant<TRes>
@@ -1865,6 +5201,12 @@ class _CopyWithImpl$Variables$Query$GetMealsByRestaurant<TRes>
     Object? restaurantId = _undefined,
     Object? first = _undefined,
     Object? after = _undefined,
+    Object? search = _undefined,
+    Object? price = _undefined,
+    Object? calories = _undefined,
+    Object? protein = _undefined,
+    Object? fat = _undefined,
+    Object? carbs = _undefined,
   }) => _then(
     Variables$Query$GetMealsByRestaurant._({
       ..._instance._$data,
@@ -1872,6 +5214,16 @@ class _CopyWithImpl$Variables$Query$GetMealsByRestaurant<TRes>
         'restaurantId': (restaurantId as String),
       if (first != _undefined) 'first': (first as int?),
       if (after != _undefined) 'after': (after as String?),
+      if (search != _undefined) 'search': (search as String?),
+      if (price != _undefined)
+        'price': (price as List<Input$MealFilter_price?>?),
+      if (calories != _undefined)
+        'calories': (calories as List<Input$MealFilter_calories?>?),
+      if (protein != _undefined)
+        'protein': (protein as List<Input$MealFilter_protein?>?),
+      if (fat != _undefined) 'fat': (fat as List<Input$MealFilter_fat?>?),
+      if (carbs != _undefined)
+        'carbs': (carbs as List<Input$MealFilter_carbs?>?),
     }),
   );
 }
@@ -1882,7 +5234,17 @@ class _CopyWithStubImpl$Variables$Query$GetMealsByRestaurant<TRes>
 
   TRes _res;
 
-  call({String? restaurantId, int? first, String? after}) => _res;
+  call({
+    String? restaurantId,
+    int? first,
+    String? after,
+    String? search,
+    List<Input$MealFilter_price?>? price,
+    List<Input$MealFilter_calories?>? calories,
+    List<Input$MealFilter_protein?>? protein,
+    List<Input$MealFilter_fat?>? fat,
+    List<Input$MealFilter_carbs?>? carbs,
+  }) => _res;
 }
 
 class Query$GetMealsByRestaurant {
@@ -2043,6 +5405,75 @@ const documentNodeQueryGetMealsByRestaurant = DocumentNode(
           defaultValue: DefaultValueNode(value: null),
           directives: [],
         ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'search')),
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'price')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealFilter_price'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'calories')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealFilter_calories'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'protein')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealFilter_protein'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'fat')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealFilter_fat'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'carbs')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealFilter_carbs'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
       ],
       directives: [],
       selectionSet: SelectionSetNode(
@@ -2078,6 +5509,30 @@ const documentNodeQueryGetMealsByRestaurant = DocumentNode(
                       name: NameNode(value: 'after'),
                       value: VariableNode(name: NameNode(value: 'after')),
                     ),
+                    ArgumentNode(
+                      name: NameNode(value: 'search'),
+                      value: VariableNode(name: NameNode(value: 'search')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'price'),
+                      value: VariableNode(name: NameNode(value: 'price')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'calories'),
+                      value: VariableNode(name: NameNode(value: 'calories')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'protein'),
+                      value: VariableNode(name: NameNode(value: 'protein')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'fat'),
+                      value: VariableNode(name: NameNode(value: 'fat')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'carbs'),
+                      value: VariableNode(name: NameNode(value: 'carbs')),
+                    ),
                   ],
                   directives: [],
                   selectionSet: SelectionSetNode(
@@ -2096,40 +5551,9 @@ const documentNodeQueryGetMealsByRestaurant = DocumentNode(
                               directives: [],
                               selectionSet: SelectionSetNode(
                                 selections: [
-                                  FieldNode(
-                                    name: NameNode(value: 'id'),
-                                    alias: null,
-                                    arguments: [],
+                                  FragmentSpreadNode(
+                                    name: NameNode(value: 'MealFragment'),
                                     directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'name'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'description'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'price'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'imageUrl'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
                                   ),
                                   FieldNode(
                                     name: NameNode(value: '__typename'),
@@ -2212,6 +5636,7 @@ const documentNodeQueryGetMealsByRestaurant = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionMealFragment,
   ],
 );
 Query$GetMealsByRestaurant _parserFn$Query$GetMealsByRestaurant(
@@ -2765,14 +6190,12 @@ class Query$GetMealsByRestaurant$restaurant$meals$edges {
     return Query$GetMealsByRestaurant$restaurant$meals$edges(
       node: l$node == null
           ? null
-          : Query$GetMealsByRestaurant$restaurant$meals$edges$node.fromJson(
-              (l$node as Map<String, dynamic>),
-            ),
+          : Fragment$MealFragment.fromJson((l$node as Map<String, dynamic>)),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Query$GetMealsByRestaurant$restaurant$meals$edges$node? node;
+  final Fragment$MealFragment? node;
 
   final String $__typename;
 
@@ -2838,12 +6261,8 @@ abstract class CopyWith$Query$GetMealsByRestaurant$restaurant$meals$edges<
     TRes res,
   ) = _CopyWithStubImpl$Query$GetMealsByRestaurant$restaurant$meals$edges;
 
-  TRes call({
-    Query$GetMealsByRestaurant$restaurant$meals$edges$node? node,
-    String? $__typename,
-  });
-  CopyWith$Query$GetMealsByRestaurant$restaurant$meals$edges$node<TRes>
-  get node;
+  TRes call({Fragment$MealFragment? node, String? $__typename});
+  CopyWith$Fragment$MealFragment<TRes> get node;
 }
 
 class _CopyWithImpl$Query$GetMealsByRestaurant$restaurant$meals$edges<TRes>
@@ -2865,25 +6284,18 @@ class _CopyWithImpl$Query$GetMealsByRestaurant$restaurant$meals$edges<TRes>
         Query$GetMealsByRestaurant$restaurant$meals$edges(
           node: node == _undefined
               ? _instance.node
-              : (node
-                    as Query$GetMealsByRestaurant$restaurant$meals$edges$node?),
+              : (node as Fragment$MealFragment?),
           $__typename: $__typename == _undefined || $__typename == null
               ? _instance.$__typename
               : ($__typename as String),
         ),
       );
 
-  CopyWith$Query$GetMealsByRestaurant$restaurant$meals$edges$node<TRes>
-  get node {
+  CopyWith$Fragment$MealFragment<TRes> get node {
     final local$node = _instance.node;
     return local$node == null
-        ? CopyWith$Query$GetMealsByRestaurant$restaurant$meals$edges$node.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetMealsByRestaurant$restaurant$meals$edges$node(
-            local$node,
-            (e) => call(node: e),
-          );
+        ? CopyWith$Fragment$MealFragment.stub(_then(_instance))
+        : CopyWith$Fragment$MealFragment(local$node, (e) => call(node: e));
   }
 }
 
@@ -2896,234 +6308,10 @@ class _CopyWithStubImpl$Query$GetMealsByRestaurant$restaurant$meals$edges<TRes>
 
   TRes _res;
 
-  call({
-    Query$GetMealsByRestaurant$restaurant$meals$edges$node? node,
-    String? $__typename,
-  }) => _res;
+  call({Fragment$MealFragment? node, String? $__typename}) => _res;
 
-  CopyWith$Query$GetMealsByRestaurant$restaurant$meals$edges$node<TRes>
-  get node =>
-      CopyWith$Query$GetMealsByRestaurant$restaurant$meals$edges$node.stub(
-        _res,
-      );
-}
-
-class Query$GetMealsByRestaurant$restaurant$meals$edges$node {
-  Query$GetMealsByRestaurant$restaurant$meals$edges$node({
-    required this.id,
-    required this.name,
-    this.description,
-    required this.price,
-    this.imageUrl,
-    this.$__typename = 'Meal',
-  });
-
-  factory Query$GetMealsByRestaurant$restaurant$meals$edges$node.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$description = json['description'];
-    final l$price = json['price'];
-    final l$imageUrl = json['imageUrl'];
-    final l$$__typename = json['__typename'];
-    return Query$GetMealsByRestaurant$restaurant$meals$edges$node(
-      id: (l$id as String),
-      name: (l$name as String),
-      description: (l$description as String?),
-      price: (l$price as int),
-      imageUrl: (l$imageUrl as String?),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String? description;
-
-  final int price;
-
-  final String? imageUrl;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$description = description;
-    _resultData['description'] = l$description;
-    final l$price = price;
-    _resultData['price'] = l$price;
-    final l$imageUrl = imageUrl;
-    _resultData['imageUrl'] = l$imageUrl;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$description = description;
-    final l$price = price;
-    final l$imageUrl = imageUrl;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$id,
-      l$name,
-      l$description,
-      l$price,
-      l$imageUrl,
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetMealsByRestaurant$restaurant$meals$edges$node ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$description = description;
-    final lOther$description = other.description;
-    if (l$description != lOther$description) {
-      return false;
-    }
-    final l$price = price;
-    final lOther$price = other.price;
-    if (l$price != lOther$price) {
-      return false;
-    }
-    final l$imageUrl = imageUrl;
-    final lOther$imageUrl = other.imageUrl;
-    if (l$imageUrl != lOther$imageUrl) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetMealsByRestaurant$restaurant$meals$edges$node
-    on Query$GetMealsByRestaurant$restaurant$meals$edges$node {
-  CopyWith$Query$GetMealsByRestaurant$restaurant$meals$edges$node<
-    Query$GetMealsByRestaurant$restaurant$meals$edges$node
-  >
-  get copyWith =>
-      CopyWith$Query$GetMealsByRestaurant$restaurant$meals$edges$node(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetMealsByRestaurant$restaurant$meals$edges$node<
-  TRes
-> {
-  factory CopyWith$Query$GetMealsByRestaurant$restaurant$meals$edges$node(
-    Query$GetMealsByRestaurant$restaurant$meals$edges$node instance,
-    TRes Function(Query$GetMealsByRestaurant$restaurant$meals$edges$node) then,
-  ) = _CopyWithImpl$Query$GetMealsByRestaurant$restaurant$meals$edges$node;
-
-  factory CopyWith$Query$GetMealsByRestaurant$restaurant$meals$edges$node.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetMealsByRestaurant$restaurant$meals$edges$node;
-
-  TRes call({
-    String? id,
-    String? name,
-    String? description,
-    int? price,
-    String? imageUrl,
-    String? $__typename,
-  });
-}
-
-class _CopyWithImpl$Query$GetMealsByRestaurant$restaurant$meals$edges$node<TRes>
-    implements
-        CopyWith$Query$GetMealsByRestaurant$restaurant$meals$edges$node<TRes> {
-  _CopyWithImpl$Query$GetMealsByRestaurant$restaurant$meals$edges$node(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetMealsByRestaurant$restaurant$meals$edges$node _instance;
-
-  final TRes Function(Query$GetMealsByRestaurant$restaurant$meals$edges$node)
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? description = _undefined,
-    Object? price = _undefined,
-    Object? imageUrl = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetMealsByRestaurant$restaurant$meals$edges$node(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      description: description == _undefined
-          ? _instance.description
-          : (description as String?),
-      price: price == _undefined || price == null
-          ? _instance.price
-          : (price as int),
-      imageUrl: imageUrl == _undefined
-          ? _instance.imageUrl
-          : (imageUrl as String?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetMealsByRestaurant$restaurant$meals$edges$node<
-  TRes
->
-    implements
-        CopyWith$Query$GetMealsByRestaurant$restaurant$meals$edges$node<TRes> {
-  _CopyWithStubImpl$Query$GetMealsByRestaurant$restaurant$meals$edges$node(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    String? id,
-    String? name,
-    String? description,
-    int? price,
-    String? imageUrl,
-    String? $__typename,
-  }) => _res;
+  CopyWith$Fragment$MealFragment<TRes> get node =>
+      CopyWith$Fragment$MealFragment.stub(_res);
 }
 
 class Query$GetMealsByRestaurant$restaurant$meals$pageInfo {
@@ -5513,11 +8701,27 @@ class _CopyWithStubImpl$Mutation$DeleteMeal$deleteMeal$meal<TRes>
 }
 
 class Variables$Query$GetMealPlans {
-  factory Variables$Query$GetMealPlans({int? first, String? after}) =>
-      Variables$Query$GetMealPlans._({
-        if (first != null) r'first': first,
-        if (after != null) r'after': after,
-      });
+  factory Variables$Query$GetMealPlans({
+    int? first,
+    String? after,
+    String? search,
+    List<Input$MealPlanFilter_price?>? price,
+    List<Input$MealPlanFilter_calories?>? calories,
+    List<Input$MealPlanFilter_protein?>? protein,
+    List<Input$MealPlanFilter_fat?>? fat,
+    List<Input$MealPlanFilter_carbs?>? carbs,
+    String? category,
+  }) => Variables$Query$GetMealPlans._({
+    if (first != null) r'first': first,
+    if (after != null) r'after': after,
+    if (search != null) r'search': search,
+    if (price != null) r'price': price,
+    if (calories != null) r'calories': calories,
+    if (protein != null) r'protein': protein,
+    if (fat != null) r'fat': fat,
+    if (carbs != null) r'carbs': carbs,
+    if (category != null) r'category': category,
+  });
 
   Variables$Query$GetMealPlans._(this._$data);
 
@@ -5531,6 +8735,74 @@ class Variables$Query$GetMealPlans {
       final l$after = data['after'];
       result$data['after'] = (l$after as String?);
     }
+    if (data.containsKey('search')) {
+      final l$search = data['search'];
+      result$data['search'] = (l$search as String?);
+    }
+    if (data.containsKey('price')) {
+      final l$price = data['price'];
+      result$data['price'] = (l$price as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealPlanFilter_price.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
+    if (data.containsKey('calories')) {
+      final l$calories = data['calories'];
+      result$data['calories'] = (l$calories as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealPlanFilter_calories.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
+    if (data.containsKey('protein')) {
+      final l$protein = data['protein'];
+      result$data['protein'] = (l$protein as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealPlanFilter_protein.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
+    if (data.containsKey('fat')) {
+      final l$fat = data['fat'];
+      result$data['fat'] = (l$fat as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealPlanFilter_fat.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
+    if (data.containsKey('carbs')) {
+      final l$carbs = data['carbs'];
+      result$data['carbs'] = (l$carbs as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealPlanFilter_carbs.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
+    if (data.containsKey('category')) {
+      final l$category = data['category'];
+      result$data['category'] = (l$category as String?);
+    }
     return Variables$Query$GetMealPlans._(result$data);
   }
 
@@ -5539,6 +8811,25 @@ class Variables$Query$GetMealPlans {
   int? get first => (_$data['first'] as int?);
 
   String? get after => (_$data['after'] as String?);
+
+  String? get search => (_$data['search'] as String?);
+
+  List<Input$MealPlanFilter_price?>? get price =>
+      (_$data['price'] as List<Input$MealPlanFilter_price?>?);
+
+  List<Input$MealPlanFilter_calories?>? get calories =>
+      (_$data['calories'] as List<Input$MealPlanFilter_calories?>?);
+
+  List<Input$MealPlanFilter_protein?>? get protein =>
+      (_$data['protein'] as List<Input$MealPlanFilter_protein?>?);
+
+  List<Input$MealPlanFilter_fat?>? get fat =>
+      (_$data['fat'] as List<Input$MealPlanFilter_fat?>?);
+
+  List<Input$MealPlanFilter_carbs?>? get carbs =>
+      (_$data['carbs'] as List<Input$MealPlanFilter_carbs?>?);
+
+  String? get category => (_$data['category'] as String?);
 
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
@@ -5549,6 +8840,34 @@ class Variables$Query$GetMealPlans {
     if (_$data.containsKey('after')) {
       final l$after = after;
       result$data['after'] = l$after;
+    }
+    if (_$data.containsKey('search')) {
+      final l$search = search;
+      result$data['search'] = l$search;
+    }
+    if (_$data.containsKey('price')) {
+      final l$price = price;
+      result$data['price'] = l$price?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('calories')) {
+      final l$calories = calories;
+      result$data['calories'] = l$calories?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('protein')) {
+      final l$protein = protein;
+      result$data['protein'] = l$protein?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('fat')) {
+      final l$fat = fat;
+      result$data['fat'] = l$fat?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('carbs')) {
+      final l$carbs = carbs;
+      result$data['carbs'] = l$carbs?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('category')) {
+      final l$category = category;
+      result$data['category'] = l$category;
     }
     return result$data;
   }
@@ -5581,6 +8900,119 @@ class Variables$Query$GetMealPlans {
     if (l$after != lOther$after) {
       return false;
     }
+    final l$search = search;
+    final lOther$search = other.search;
+    if (_$data.containsKey('search') != other._$data.containsKey('search')) {
+      return false;
+    }
+    if (l$search != lOther$search) {
+      return false;
+    }
+    final l$price = price;
+    final lOther$price = other.price;
+    if (_$data.containsKey('price') != other._$data.containsKey('price')) {
+      return false;
+    }
+    if (l$price != null && lOther$price != null) {
+      if (l$price.length != lOther$price.length) {
+        return false;
+      }
+      for (int i = 0; i < l$price.length; i++) {
+        final l$price$entry = l$price[i];
+        final lOther$price$entry = lOther$price[i];
+        if (l$price$entry != lOther$price$entry) {
+          return false;
+        }
+      }
+    } else if (l$price != lOther$price) {
+      return false;
+    }
+    final l$calories = calories;
+    final lOther$calories = other.calories;
+    if (_$data.containsKey('calories') !=
+        other._$data.containsKey('calories')) {
+      return false;
+    }
+    if (l$calories != null && lOther$calories != null) {
+      if (l$calories.length != lOther$calories.length) {
+        return false;
+      }
+      for (int i = 0; i < l$calories.length; i++) {
+        final l$calories$entry = l$calories[i];
+        final lOther$calories$entry = lOther$calories[i];
+        if (l$calories$entry != lOther$calories$entry) {
+          return false;
+        }
+      }
+    } else if (l$calories != lOther$calories) {
+      return false;
+    }
+    final l$protein = protein;
+    final lOther$protein = other.protein;
+    if (_$data.containsKey('protein') != other._$data.containsKey('protein')) {
+      return false;
+    }
+    if (l$protein != null && lOther$protein != null) {
+      if (l$protein.length != lOther$protein.length) {
+        return false;
+      }
+      for (int i = 0; i < l$protein.length; i++) {
+        final l$protein$entry = l$protein[i];
+        final lOther$protein$entry = lOther$protein[i];
+        if (l$protein$entry != lOther$protein$entry) {
+          return false;
+        }
+      }
+    } else if (l$protein != lOther$protein) {
+      return false;
+    }
+    final l$fat = fat;
+    final lOther$fat = other.fat;
+    if (_$data.containsKey('fat') != other._$data.containsKey('fat')) {
+      return false;
+    }
+    if (l$fat != null && lOther$fat != null) {
+      if (l$fat.length != lOther$fat.length) {
+        return false;
+      }
+      for (int i = 0; i < l$fat.length; i++) {
+        final l$fat$entry = l$fat[i];
+        final lOther$fat$entry = lOther$fat[i];
+        if (l$fat$entry != lOther$fat$entry) {
+          return false;
+        }
+      }
+    } else if (l$fat != lOther$fat) {
+      return false;
+    }
+    final l$carbs = carbs;
+    final lOther$carbs = other.carbs;
+    if (_$data.containsKey('carbs') != other._$data.containsKey('carbs')) {
+      return false;
+    }
+    if (l$carbs != null && lOther$carbs != null) {
+      if (l$carbs.length != lOther$carbs.length) {
+        return false;
+      }
+      for (int i = 0; i < l$carbs.length; i++) {
+        final l$carbs$entry = l$carbs[i];
+        final lOther$carbs$entry = lOther$carbs[i];
+        if (l$carbs$entry != lOther$carbs$entry) {
+          return false;
+        }
+      }
+    } else if (l$carbs != lOther$carbs) {
+      return false;
+    }
+    final l$category = category;
+    final lOther$category = other.category;
+    if (_$data.containsKey('category') !=
+        other._$data.containsKey('category')) {
+      return false;
+    }
+    if (l$category != lOther$category) {
+      return false;
+    }
     return true;
   }
 
@@ -5588,9 +9020,43 @@ class Variables$Query$GetMealPlans {
   int get hashCode {
     final l$first = first;
     final l$after = after;
+    final l$search = search;
+    final l$price = price;
+    final l$calories = calories;
+    final l$protein = protein;
+    final l$fat = fat;
+    final l$carbs = carbs;
+    final l$category = category;
     return Object.hashAll([
       _$data.containsKey('first') ? l$first : const {},
       _$data.containsKey('after') ? l$after : const {},
+      _$data.containsKey('search') ? l$search : const {},
+      _$data.containsKey('price')
+          ? l$price == null
+                ? null
+                : Object.hashAll(l$price.map((v) => v))
+          : const {},
+      _$data.containsKey('calories')
+          ? l$calories == null
+                ? null
+                : Object.hashAll(l$calories.map((v) => v))
+          : const {},
+      _$data.containsKey('protein')
+          ? l$protein == null
+                ? null
+                : Object.hashAll(l$protein.map((v) => v))
+          : const {},
+      _$data.containsKey('fat')
+          ? l$fat == null
+                ? null
+                : Object.hashAll(l$fat.map((v) => v))
+          : const {},
+      _$data.containsKey('carbs')
+          ? l$carbs == null
+                ? null
+                : Object.hashAll(l$carbs.map((v) => v))
+          : const {},
+      _$data.containsKey('category') ? l$category : const {},
     ]);
   }
 }
@@ -5604,7 +9070,17 @@ abstract class CopyWith$Variables$Query$GetMealPlans<TRes> {
   factory CopyWith$Variables$Query$GetMealPlans.stub(TRes res) =
       _CopyWithStubImpl$Variables$Query$GetMealPlans;
 
-  TRes call({int? first, String? after});
+  TRes call({
+    int? first,
+    String? after,
+    String? search,
+    List<Input$MealPlanFilter_price?>? price,
+    List<Input$MealPlanFilter_calories?>? calories,
+    List<Input$MealPlanFilter_protein?>? protein,
+    List<Input$MealPlanFilter_fat?>? fat,
+    List<Input$MealPlanFilter_carbs?>? carbs,
+    String? category,
+  });
 }
 
 class _CopyWithImpl$Variables$Query$GetMealPlans<TRes>
@@ -5617,11 +9093,32 @@ class _CopyWithImpl$Variables$Query$GetMealPlans<TRes>
 
   static const _undefined = <dynamic, dynamic>{};
 
-  TRes call({Object? first = _undefined, Object? after = _undefined}) => _then(
+  TRes call({
+    Object? first = _undefined,
+    Object? after = _undefined,
+    Object? search = _undefined,
+    Object? price = _undefined,
+    Object? calories = _undefined,
+    Object? protein = _undefined,
+    Object? fat = _undefined,
+    Object? carbs = _undefined,
+    Object? category = _undefined,
+  }) => _then(
     Variables$Query$GetMealPlans._({
       ..._instance._$data,
       if (first != _undefined) 'first': (first as int?),
       if (after != _undefined) 'after': (after as String?),
+      if (search != _undefined) 'search': (search as String?),
+      if (price != _undefined)
+        'price': (price as List<Input$MealPlanFilter_price?>?),
+      if (calories != _undefined)
+        'calories': (calories as List<Input$MealPlanFilter_calories?>?),
+      if (protein != _undefined)
+        'protein': (protein as List<Input$MealPlanFilter_protein?>?),
+      if (fat != _undefined) 'fat': (fat as List<Input$MealPlanFilter_fat?>?),
+      if (carbs != _undefined)
+        'carbs': (carbs as List<Input$MealPlanFilter_carbs?>?),
+      if (category != _undefined) 'category': (category as String?),
     }),
   );
 }
@@ -5632,7 +9129,17 @@ class _CopyWithStubImpl$Variables$Query$GetMealPlans<TRes>
 
   TRes _res;
 
-  call({int? first, String? after}) => _res;
+  call({
+    int? first,
+    String? after,
+    String? search,
+    List<Input$MealPlanFilter_price?>? price,
+    List<Input$MealPlanFilter_calories?>? calories,
+    List<Input$MealPlanFilter_protein?>? protein,
+    List<Input$MealPlanFilter_fat?>? fat,
+    List<Input$MealPlanFilter_carbs?>? carbs,
+    String? category,
+  }) => _res;
 }
 
 class Query$GetMealPlans {
@@ -5779,6 +9286,84 @@ const documentNodeQueryGetMealPlans = DocumentNode(
           defaultValue: DefaultValueNode(value: null),
           directives: [],
         ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'search')),
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'price')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealPlanFilter_price'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'calories')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealPlanFilter_calories'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'protein')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealPlanFilter_protein'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'fat')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealPlanFilter_fat'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'carbs')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealPlanFilter_carbs'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'category')),
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
       ],
       directives: [],
       selectionSet: SelectionSetNode(
@@ -5794,6 +9379,34 @@ const documentNodeQueryGetMealPlans = DocumentNode(
               ArgumentNode(
                 name: NameNode(value: 'after'),
                 value: VariableNode(name: NameNode(value: 'after')),
+              ),
+              ArgumentNode(
+                name: NameNode(value: 'search'),
+                value: VariableNode(name: NameNode(value: 'search')),
+              ),
+              ArgumentNode(
+                name: NameNode(value: 'price'),
+                value: VariableNode(name: NameNode(value: 'price')),
+              ),
+              ArgumentNode(
+                name: NameNode(value: 'calories'),
+                value: VariableNode(name: NameNode(value: 'calories')),
+              ),
+              ArgumentNode(
+                name: NameNode(value: 'protein'),
+                value: VariableNode(name: NameNode(value: 'protein')),
+              ),
+              ArgumentNode(
+                name: NameNode(value: 'fat'),
+                value: VariableNode(name: NameNode(value: 'fat')),
+              ),
+              ArgumentNode(
+                name: NameNode(value: 'carbs'),
+                value: VariableNode(name: NameNode(value: 'carbs')),
+              ),
+              ArgumentNode(
+                name: NameNode(value: 'dietCategories_name'),
+                value: VariableNode(name: NameNode(value: 'category')),
               ),
             ],
             directives: [],
@@ -5813,107 +9426,9 @@ const documentNodeQueryGetMealPlans = DocumentNode(
                         directives: [],
                         selectionSet: SelectionSetNode(
                           selections: [
-                            FieldNode(
-                              name: NameNode(value: 'id'),
-                              alias: null,
-                              arguments: [],
+                            FragmentSpreadNode(
+                              name: NameNode(value: 'MealPlanSummaryFragment'),
                               directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'name'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'description'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'price'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'imageUrl'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'dietCategories'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: SelectionSetNode(
-                                selections: [
-                                  FieldNode(
-                                    name: NameNode(value: 'edges'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: SelectionSetNode(
-                                      selections: [
-                                        FieldNode(
-                                          name: NameNode(value: 'node'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                            selections: [
-                                              FieldNode(
-                                                name: NameNode(value: 'id'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null,
-                                              ),
-                                              FieldNode(
-                                                name: NameNode(value: 'name'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null,
-                                              ),
-                                              FieldNode(
-                                                name: NameNode(
-                                                  value: '__typename',
-                                                ),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: '__typename'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: '__typename'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                ],
-                              ),
                             ),
                             FieldNode(
                               name: NameNode(value: '__typename'),
@@ -5924,6 +9439,37 @@ const documentNodeQueryGetMealPlans = DocumentNode(
                             ),
                           ],
                         ),
+                      ),
+                      FieldNode(
+                        name: NameNode(value: '__typename'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null,
+                      ),
+                    ],
+                  ),
+                ),
+                FieldNode(
+                  name: NameNode(value: 'pageInfo'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(
+                    selections: [
+                      FieldNode(
+                        name: NameNode(value: 'hasNextPage'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null,
+                      ),
+                      FieldNode(
+                        name: NameNode(value: 'endCursor'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null,
                       ),
                       FieldNode(
                         name: NameNode(value: '__typename'),
@@ -5955,6 +9501,7 @@ const documentNodeQueryGetMealPlans = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionMealPlanSummaryFragment,
   ],
 );
 Query$GetMealPlans _parserFn$Query$GetMealPlans(Map<String, dynamic> data) =>
@@ -6112,11 +9659,13 @@ class Query$GetMealPlans$Widget
 class Query$GetMealPlans$mealPlans {
   Query$GetMealPlans$mealPlans({
     this.edges,
+    required this.pageInfo,
     this.$__typename = 'MealPlanCursorConnection',
   });
 
   factory Query$GetMealPlans$mealPlans.fromJson(Map<String, dynamic> json) {
     final l$edges = json['edges'];
+    final l$pageInfo = json['pageInfo'];
     final l$$__typename = json['__typename'];
     return Query$GetMealPlans$mealPlans(
       edges: (l$edges as List<dynamic>?)
@@ -6128,11 +9677,16 @@ class Query$GetMealPlans$mealPlans {
                   ),
           )
           .toList(),
+      pageInfo: Query$GetMealPlans$mealPlans$pageInfo.fromJson(
+        (l$pageInfo as Map<String, dynamic>),
+      ),
       $__typename: (l$$__typename as String),
     );
   }
 
   final List<Query$GetMealPlans$mealPlans$edges?>? edges;
+
+  final Query$GetMealPlans$mealPlans$pageInfo pageInfo;
 
   final String $__typename;
 
@@ -6140,6 +9694,8 @@ class Query$GetMealPlans$mealPlans {
     final _resultData = <String, dynamic>{};
     final l$edges = edges;
     _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
+    final l$pageInfo = pageInfo;
+    _resultData['pageInfo'] = l$pageInfo.toJson();
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -6148,9 +9704,11 @@ class Query$GetMealPlans$mealPlans {
   @override
   int get hashCode {
     final l$edges = edges;
+    final l$pageInfo = pageInfo;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
+      l$pageInfo,
       l$$__typename,
     ]);
   }
@@ -6180,6 +9738,11 @@ class Query$GetMealPlans$mealPlans {
     } else if (l$edges != lOther$edges) {
       return false;
     }
+    final l$pageInfo = pageInfo;
+    final lOther$pageInfo = other.pageInfo;
+    if (l$pageInfo != lOther$pageInfo) {
+      return false;
+    }
     final l$$__typename = $__typename;
     final lOther$$__typename = other.$__typename;
     if (l$$__typename != lOther$$__typename) {
@@ -6206,6 +9769,7 @@ abstract class CopyWith$Query$GetMealPlans$mealPlans<TRes> {
 
   TRes call({
     List<Query$GetMealPlans$mealPlans$edges?>? edges,
+    Query$GetMealPlans$mealPlans$pageInfo? pageInfo,
     String? $__typename,
   });
   TRes edges(
@@ -6218,6 +9782,7 @@ abstract class CopyWith$Query$GetMealPlans$mealPlans<TRes> {
     )
     _fn,
   );
+  CopyWith$Query$GetMealPlans$mealPlans$pageInfo<TRes> get pageInfo;
 }
 
 class _CopyWithImpl$Query$GetMealPlans$mealPlans<TRes>
@@ -6230,17 +9795,23 @@ class _CopyWithImpl$Query$GetMealPlans$mealPlans<TRes>
 
   static const _undefined = <dynamic, dynamic>{};
 
-  TRes call({Object? edges = _undefined, Object? $__typename = _undefined}) =>
-      _then(
-        Query$GetMealPlans$mealPlans(
-          edges: edges == _undefined
-              ? _instance.edges
-              : (edges as List<Query$GetMealPlans$mealPlans$edges?>?),
-          $__typename: $__typename == _undefined || $__typename == null
-              ? _instance.$__typename
-              : ($__typename as String),
-        ),
-      );
+  TRes call({
+    Object? edges = _undefined,
+    Object? pageInfo = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Query$GetMealPlans$mealPlans(
+      edges: edges == _undefined
+          ? _instance.edges
+          : (edges as List<Query$GetMealPlans$mealPlans$edges?>?),
+      pageInfo: pageInfo == _undefined || pageInfo == null
+          ? _instance.pageInfo
+          : (pageInfo as Query$GetMealPlans$mealPlans$pageInfo),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
 
   TRes edges(
     Iterable<Query$GetMealPlans$mealPlans$edges?>? Function(
@@ -6260,6 +9831,14 @@ class _CopyWithImpl$Query$GetMealPlans$mealPlans<TRes>
       ),
     )?.toList(),
   );
+
+  CopyWith$Query$GetMealPlans$mealPlans$pageInfo<TRes> get pageInfo {
+    final local$pageInfo = _instance.pageInfo;
+    return CopyWith$Query$GetMealPlans$mealPlans$pageInfo(
+      local$pageInfo,
+      (e) => call(pageInfo: e),
+    );
+  }
 }
 
 class _CopyWithStubImpl$Query$GetMealPlans$mealPlans<TRes>
@@ -6270,10 +9849,14 @@ class _CopyWithStubImpl$Query$GetMealPlans$mealPlans<TRes>
 
   call({
     List<Query$GetMealPlans$mealPlans$edges?>? edges,
+    Query$GetMealPlans$mealPlans$pageInfo? pageInfo,
     String? $__typename,
   }) => _res;
 
   edges(_fn) => _res;
+
+  CopyWith$Query$GetMealPlans$mealPlans$pageInfo<TRes> get pageInfo =>
+      CopyWith$Query$GetMealPlans$mealPlans$pageInfo.stub(_res);
 }
 
 class Query$GetMealPlans$mealPlans$edges {
@@ -6290,14 +9873,14 @@ class Query$GetMealPlans$mealPlans$edges {
     return Query$GetMealPlans$mealPlans$edges(
       node: l$node == null
           ? null
-          : Query$GetMealPlans$mealPlans$edges$node.fromJson(
+          : Fragment$MealPlanSummaryFragment.fromJson(
               (l$node as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Query$GetMealPlans$mealPlans$edges$node? node;
+  final Fragment$MealPlanSummaryFragment? node;
 
   final String $__typename;
 
@@ -6357,11 +9940,8 @@ abstract class CopyWith$Query$GetMealPlans$mealPlans$edges<TRes> {
   factory CopyWith$Query$GetMealPlans$mealPlans$edges.stub(TRes res) =
       _CopyWithStubImpl$Query$GetMealPlans$mealPlans$edges;
 
-  TRes call({
-    Query$GetMealPlans$mealPlans$edges$node? node,
-    String? $__typename,
-  });
-  CopyWith$Query$GetMealPlans$mealPlans$edges$node<TRes> get node;
+  TRes call({Fragment$MealPlanSummaryFragment? node, String? $__typename});
+  CopyWith$Fragment$MealPlanSummaryFragment<TRes> get node;
 }
 
 class _CopyWithImpl$Query$GetMealPlans$mealPlans$edges<TRes>
@@ -6379,20 +9959,18 @@ class _CopyWithImpl$Query$GetMealPlans$mealPlans$edges<TRes>
         Query$GetMealPlans$mealPlans$edges(
           node: node == _undefined
               ? _instance.node
-              : (node as Query$GetMealPlans$mealPlans$edges$node?),
+              : (node as Fragment$MealPlanSummaryFragment?),
           $__typename: $__typename == _undefined || $__typename == null
               ? _instance.$__typename
               : ($__typename as String),
         ),
       );
 
-  CopyWith$Query$GetMealPlans$mealPlans$edges$node<TRes> get node {
+  CopyWith$Fragment$MealPlanSummaryFragment<TRes> get node {
     final local$node = _instance.node;
     return local$node == null
-        ? CopyWith$Query$GetMealPlans$mealPlans$edges$node.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetMealPlans$mealPlans$edges$node(
+        ? CopyWith$Fragment$MealPlanSummaryFragment.stub(_then(_instance))
+        : CopyWith$Fragment$MealPlanSummaryFragment(
             local$node,
             (e) => call(node: e),
           );
@@ -6405,77 +9983,44 @@ class _CopyWithStubImpl$Query$GetMealPlans$mealPlans$edges<TRes>
 
   TRes _res;
 
-  call({Query$GetMealPlans$mealPlans$edges$node? node, String? $__typename}) =>
-      _res;
+  call({Fragment$MealPlanSummaryFragment? node, String? $__typename}) => _res;
 
-  CopyWith$Query$GetMealPlans$mealPlans$edges$node<TRes> get node =>
-      CopyWith$Query$GetMealPlans$mealPlans$edges$node.stub(_res);
+  CopyWith$Fragment$MealPlanSummaryFragment<TRes> get node =>
+      CopyWith$Fragment$MealPlanSummaryFragment.stub(_res);
 }
 
-class Query$GetMealPlans$mealPlans$edges$node {
-  Query$GetMealPlans$mealPlans$edges$node({
-    required this.id,
-    required this.name,
-    this.description,
-    this.price,
-    this.imageUrl,
-    this.dietCategories,
-    this.$__typename = 'MealPlan',
+class Query$GetMealPlans$mealPlans$pageInfo {
+  Query$GetMealPlans$mealPlans$pageInfo({
+    required this.hasNextPage,
+    this.endCursor,
+    this.$__typename = 'MealPlanPageInfo',
   });
 
-  factory Query$GetMealPlans$mealPlans$edges$node.fromJson(
+  factory Query$GetMealPlans$mealPlans$pageInfo.fromJson(
     Map<String, dynamic> json,
   ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$description = json['description'];
-    final l$price = json['price'];
-    final l$imageUrl = json['imageUrl'];
-    final l$dietCategories = json['dietCategories'];
+    final l$hasNextPage = json['hasNextPage'];
+    final l$endCursor = json['endCursor'];
     final l$$__typename = json['__typename'];
-    return Query$GetMealPlans$mealPlans$edges$node(
-      id: (l$id as String),
-      name: (l$name as String),
-      description: (l$description as String?),
-      price: (l$price as int?),
-      imageUrl: (l$imageUrl as String?),
-      dietCategories: l$dietCategories == null
-          ? null
-          : Query$GetMealPlans$mealPlans$edges$node$dietCategories.fromJson(
-              (l$dietCategories as Map<String, dynamic>),
-            ),
+    return Query$GetMealPlans$mealPlans$pageInfo(
+      hasNextPage: (l$hasNextPage as bool),
+      endCursor: (l$endCursor as String?),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final String id;
+  final bool hasNextPage;
 
-  final String name;
-
-  final String? description;
-
-  final int? price;
-
-  final String? imageUrl;
-
-  final Query$GetMealPlans$mealPlans$edges$node$dietCategories? dietCategories;
+  final String? endCursor;
 
   final String $__typename;
 
   Map<String, dynamic> toJson() {
     final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$description = description;
-    _resultData['description'] = l$description;
-    final l$price = price;
-    _resultData['price'] = l$price;
-    final l$imageUrl = imageUrl;
-    _resultData['imageUrl'] = l$imageUrl;
-    final l$dietCategories = dietCategories;
-    _resultData['dietCategories'] = l$dietCategories?.toJson();
+    final l$hasNextPage = hasNextPage;
+    _resultData['hasNextPage'] = l$hasNextPage;
+    final l$endCursor = endCursor;
+    _resultData['endCursor'] = l$endCursor;
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -6483,22 +10028,10 @@ class Query$GetMealPlans$mealPlans$edges$node {
 
   @override
   int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$description = description;
-    final l$price = price;
-    final l$imageUrl = imageUrl;
-    final l$dietCategories = dietCategories;
+    final l$hasNextPage = hasNextPage;
+    final l$endCursor = endCursor;
     final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$id,
-      l$name,
-      l$description,
-      l$price,
-      l$imageUrl,
-      l$dietCategories,
-      l$$__typename,
-    ]);
+    return Object.hashAll([l$hasNextPage, l$endCursor, l$$__typename]);
   }
 
   @override
@@ -6506,38 +10039,18 @@ class Query$GetMealPlans$mealPlans$edges$node {
     if (identical(this, other)) {
       return true;
     }
-    if (other is! Query$GetMealPlans$mealPlans$edges$node ||
+    if (other is! Query$GetMealPlans$mealPlans$pageInfo ||
         runtimeType != other.runtimeType) {
       return false;
     }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
+    final l$hasNextPage = hasNextPage;
+    final lOther$hasNextPage = other.hasNextPage;
+    if (l$hasNextPage != lOther$hasNextPage) {
       return false;
     }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$description = description;
-    final lOther$description = other.description;
-    if (l$description != lOther$description) {
-      return false;
-    }
-    final l$price = price;
-    final lOther$price = other.price;
-    if (l$price != lOther$price) {
-      return false;
-    }
-    final l$imageUrl = imageUrl;
-    final lOther$imageUrl = other.imageUrl;
-    if (l$imageUrl != lOther$imageUrl) {
-      return false;
-    }
-    final l$dietCategories = dietCategories;
-    final lOther$dietCategories = other.dietCategories;
-    if (l$dietCategories != lOther$dietCategories) {
+    final l$endCursor = endCursor;
+    final lOther$endCursor = other.endCursor;
+    if (l$endCursor != lOther$endCursor) {
       return false;
     }
     final l$$__typename = $__typename;
@@ -6549,632 +10062,52 @@ class Query$GetMealPlans$mealPlans$edges$node {
   }
 }
 
-extension UtilityExtension$Query$GetMealPlans$mealPlans$edges$node
-    on Query$GetMealPlans$mealPlans$edges$node {
-  CopyWith$Query$GetMealPlans$mealPlans$edges$node<
-    Query$GetMealPlans$mealPlans$edges$node
+extension UtilityExtension$Query$GetMealPlans$mealPlans$pageInfo
+    on Query$GetMealPlans$mealPlans$pageInfo {
+  CopyWith$Query$GetMealPlans$mealPlans$pageInfo<
+    Query$GetMealPlans$mealPlans$pageInfo
   >
   get copyWith =>
-      CopyWith$Query$GetMealPlans$mealPlans$edges$node(this, (i) => i);
+      CopyWith$Query$GetMealPlans$mealPlans$pageInfo(this, (i) => i);
 }
 
-abstract class CopyWith$Query$GetMealPlans$mealPlans$edges$node<TRes> {
-  factory CopyWith$Query$GetMealPlans$mealPlans$edges$node(
-    Query$GetMealPlans$mealPlans$edges$node instance,
-    TRes Function(Query$GetMealPlans$mealPlans$edges$node) then,
-  ) = _CopyWithImpl$Query$GetMealPlans$mealPlans$edges$node;
+abstract class CopyWith$Query$GetMealPlans$mealPlans$pageInfo<TRes> {
+  factory CopyWith$Query$GetMealPlans$mealPlans$pageInfo(
+    Query$GetMealPlans$mealPlans$pageInfo instance,
+    TRes Function(Query$GetMealPlans$mealPlans$pageInfo) then,
+  ) = _CopyWithImpl$Query$GetMealPlans$mealPlans$pageInfo;
 
-  factory CopyWith$Query$GetMealPlans$mealPlans$edges$node.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetMealPlans$mealPlans$edges$node;
+  factory CopyWith$Query$GetMealPlans$mealPlans$pageInfo.stub(TRes res) =
+      _CopyWithStubImpl$Query$GetMealPlans$mealPlans$pageInfo;
 
-  TRes call({
-    String? id,
-    String? name,
-    String? description,
-    int? price,
-    String? imageUrl,
-    Query$GetMealPlans$mealPlans$edges$node$dietCategories? dietCategories,
-    String? $__typename,
-  });
-  CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories<TRes>
-  get dietCategories;
+  TRes call({bool? hasNextPage, String? endCursor, String? $__typename});
 }
 
-class _CopyWithImpl$Query$GetMealPlans$mealPlans$edges$node<TRes>
-    implements CopyWith$Query$GetMealPlans$mealPlans$edges$node<TRes> {
-  _CopyWithImpl$Query$GetMealPlans$mealPlans$edges$node(
+class _CopyWithImpl$Query$GetMealPlans$mealPlans$pageInfo<TRes>
+    implements CopyWith$Query$GetMealPlans$mealPlans$pageInfo<TRes> {
+  _CopyWithImpl$Query$GetMealPlans$mealPlans$pageInfo(
     this._instance,
     this._then,
   );
 
-  final Query$GetMealPlans$mealPlans$edges$node _instance;
+  final Query$GetMealPlans$mealPlans$pageInfo _instance;
 
-  final TRes Function(Query$GetMealPlans$mealPlans$edges$node) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? description = _undefined,
-    Object? price = _undefined,
-    Object? imageUrl = _undefined,
-    Object? dietCategories = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetMealPlans$mealPlans$edges$node(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      description: description == _undefined
-          ? _instance.description
-          : (description as String?),
-      price: price == _undefined ? _instance.price : (price as int?),
-      imageUrl: imageUrl == _undefined
-          ? _instance.imageUrl
-          : (imageUrl as String?),
-      dietCategories: dietCategories == _undefined
-          ? _instance.dietCategories
-          : (dietCategories
-                as Query$GetMealPlans$mealPlans$edges$node$dietCategories?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories<TRes>
-  get dietCategories {
-    final local$dietCategories = _instance.dietCategories;
-    return local$dietCategories == null
-        ? CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories(
-            local$dietCategories,
-            (e) => call(dietCategories: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetMealPlans$mealPlans$edges$node<TRes>
-    implements CopyWith$Query$GetMealPlans$mealPlans$edges$node<TRes> {
-  _CopyWithStubImpl$Query$GetMealPlans$mealPlans$edges$node(this._res);
-
-  TRes _res;
-
-  call({
-    String? id,
-    String? name,
-    String? description,
-    int? price,
-    String? imageUrl,
-    Query$GetMealPlans$mealPlans$edges$node$dietCategories? dietCategories,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories<TRes>
-  get dietCategories =>
-      CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories.stub(
-        _res,
-      );
-}
-
-class Query$GetMealPlans$mealPlans$edges$node$dietCategories {
-  Query$GetMealPlans$mealPlans$edges$node$dietCategories({
-    this.edges,
-    this.$__typename = 'DietCategoryCursorConnection',
-  });
-
-  factory Query$GetMealPlans$mealPlans$edges$node$dietCategories.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$edges = json['edges'];
-    final l$$__typename = json['__typename'];
-    return Query$GetMealPlans$mealPlans$edges$node$dietCategories(
-      edges: (l$edges as List<dynamic>?)
-          ?.map(
-            (e) => e == null
-                ? null
-                : Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges.fromJson(
-                    (e as Map<String, dynamic>),
-                  ),
-          )
-          .toList(),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final List<Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges?>?
-  edges;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$edges = edges;
-    _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$edges = edges;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetMealPlans$mealPlans$edges$node$dietCategories ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$edges = edges;
-    final lOther$edges = other.edges;
-    if (l$edges != null && lOther$edges != null) {
-      if (l$edges.length != lOther$edges.length) {
-        return false;
-      }
-      for (int i = 0; i < l$edges.length; i++) {
-        final l$edges$entry = l$edges[i];
-        final lOther$edges$entry = lOther$edges[i];
-        if (l$edges$entry != lOther$edges$entry) {
-          return false;
-        }
-      }
-    } else if (l$edges != lOther$edges) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetMealPlans$mealPlans$edges$node$dietCategories
-    on Query$GetMealPlans$mealPlans$edges$node$dietCategories {
-  CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories<
-    Query$GetMealPlans$mealPlans$edges$node$dietCategories
-  >
-  get copyWith =>
-      CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories<
-  TRes
-> {
-  factory CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories(
-    Query$GetMealPlans$mealPlans$edges$node$dietCategories instance,
-    TRes Function(Query$GetMealPlans$mealPlans$edges$node$dietCategories) then,
-  ) = _CopyWithImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories;
-
-  factory CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories;
-
-  TRes call({
-    List<Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges?>? edges,
-    String? $__typename,
-  });
-  TRes edges(
-    Iterable<Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges?>?
-    Function(
-      Iterable<
-        CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges<
-          Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges
-        >?
-      >?,
-    )
-    _fn,
-  );
-}
-
-class _CopyWithImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories<TRes>
-    implements
-        CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories<TRes> {
-  _CopyWithImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetMealPlans$mealPlans$edges$node$dietCategories _instance;
-
-  final TRes Function(Query$GetMealPlans$mealPlans$edges$node$dietCategories)
-  _then;
+  final TRes Function(Query$GetMealPlans$mealPlans$pageInfo) _then;
 
   static const _undefined = <dynamic, dynamic>{};
 
   TRes call({
-    Object? edges = _undefined,
+    Object? hasNextPage = _undefined,
+    Object? endCursor = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
-    Query$GetMealPlans$mealPlans$edges$node$dietCategories(
-      edges: edges == _undefined
-          ? _instance.edges
-          : (edges
-                as List<
-                  Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges?
-                >?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  TRes edges(
-    Iterable<Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges?>?
-    Function(
-      Iterable<
-        CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges<
-          Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges
-        >?
-      >?,
-    )
-    _fn,
-  ) => call(
-    edges: _fn(
-      _instance.edges?.map(
-        (e) => e == null
-            ? null
-            : CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges(
-                e,
-                (i) => i,
-              ),
-      ),
-    )?.toList(),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories<
-  TRes
->
-    implements
-        CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories<TRes> {
-  _CopyWithStubImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    List<Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges?>? edges,
-    String? $__typename,
-  }) => _res;
-
-  edges(_fn) => _res;
-}
-
-class Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges {
-  Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges({
-    this.node,
-    this.$__typename = 'DietCategoryEdge',
-  });
-
-  factory Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$node = json['node'];
-    final l$$__typename = json['__typename'];
-    return Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges(
-      node: l$node == null
-          ? null
-          : Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node.fromJson(
-              (l$node as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node? node;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$node = node;
-    _resultData['node'] = l$node?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$node = node;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$node, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$node = node;
-    final lOther$node = other.node;
-    if (l$node != lOther$node) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges
-    on Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges {
-  CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges<
-    Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges
-  >
-  get copyWith =>
-      CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges<
-  TRes
-> {
-  factory CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges(
-    Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges instance,
-    TRes Function(Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges)
-    then,
-  ) = _CopyWithImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges;
-
-  factory CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges;
-
-  TRes call({
-    Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node? node,
-    String? $__typename,
-  });
-  CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node<
-    TRes
-  >
-  get node;
-}
-
-class _CopyWithImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges<
-  TRes
->
-    implements
-        CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges<
-          TRes
-        > {
-  _CopyWithImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges _instance;
-
-  final TRes Function(
-    Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? node = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges(
-      node: node == _undefined
-          ? _instance.node
-          : (node
-                as Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node<
-    TRes
-  >
-  get node {
-    final local$node = _instance.node;
-    return local$node == null
-        ? CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node(
-            local$node,
-            (e) => call(node: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges<
-  TRes
->
-    implements
-        CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges<
-          TRes
-        > {
-  _CopyWithStubImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node? node,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node<
-    TRes
-  >
-  get node =>
-      CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node.stub(
-        _res,
-      );
-}
-
-class Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node {
-  Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node({
-    required this.id,
-    required this.name,
-    this.$__typename = 'DietCategory',
-  });
-
-  factory Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$$__typename = json['__typename'];
-    return Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node(
-      id: (l$id as String),
-      name: (l$name as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$name, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node
-    on Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node {
-  CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node<
-    Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node
-  >
-  get copyWith =>
-      CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node<
-  TRes
-> {
-  factory CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node(
-    Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node instance,
-    TRes Function(
-      Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node,
-    )
-    then,
-  ) = _CopyWithImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node;
-
-  factory CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node;
-
-  TRes call({String? id, String? name, String? $__typename});
-}
-
-class _CopyWithImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node<
-  TRes
->
-    implements
-        CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node<
-          TRes
-        > {
-  _CopyWithImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node
-  _instance;
-
-  final TRes Function(
-    Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
+    Query$GetMealPlans$mealPlans$pageInfo(
+      hasNextPage: hasNextPage == _undefined || hasNextPage == null
+          ? _instance.hasNextPage
+          : (hasNextPage as bool),
+      endCursor: endCursor == _undefined
+          ? _instance.endCursor
+          : (endCursor as String?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
@@ -7182,20 +10115,13 @@ class _CopyWithImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges
   );
 }
 
-class _CopyWithStubImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node<
-  TRes
->
-    implements
-        CopyWith$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node<
-          TRes
-        > {
-  _CopyWithStubImpl$Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node(
-    this._res,
-  );
+class _CopyWithStubImpl$Query$GetMealPlans$mealPlans$pageInfo<TRes>
+    implements CopyWith$Query$GetMealPlans$mealPlans$pageInfo<TRes> {
+  _CopyWithStubImpl$Query$GetMealPlans$mealPlans$pageInfo(this._res);
 
   TRes _res;
 
-  call({String? id, String? name, String? $__typename}) => _res;
+  call({bool? hasNextPage, String? endCursor, String? $__typename}) => _res;
 }
 
 class Variables$Query$GetMealPlan {
@@ -7297,14 +10223,14 @@ class Query$GetMealPlan {
     return Query$GetMealPlan(
       mealPlan: l$mealPlan == null
           ? null
-          : Query$GetMealPlan$mealPlan.fromJson(
+          : Fragment$MealPlanFragment.fromJson(
               (l$mealPlan as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Query$GetMealPlan$mealPlan? mealPlan;
+  final Fragment$MealPlanFragment? mealPlan;
 
   final String $__typename;
 
@@ -7360,8 +10286,8 @@ abstract class CopyWith$Query$GetMealPlan<TRes> {
   factory CopyWith$Query$GetMealPlan.stub(TRes res) =
       _CopyWithStubImpl$Query$GetMealPlan;
 
-  TRes call({Query$GetMealPlan$mealPlan? mealPlan, String? $__typename});
-  CopyWith$Query$GetMealPlan$mealPlan<TRes> get mealPlan;
+  TRes call({Fragment$MealPlanFragment? mealPlan, String? $__typename});
+  CopyWith$Fragment$MealPlanFragment<TRes> get mealPlan;
 }
 
 class _CopyWithImpl$Query$GetMealPlan<TRes>
@@ -7381,18 +10307,18 @@ class _CopyWithImpl$Query$GetMealPlan<TRes>
     Query$GetMealPlan(
       mealPlan: mealPlan == _undefined
           ? _instance.mealPlan
-          : (mealPlan as Query$GetMealPlan$mealPlan?),
+          : (mealPlan as Fragment$MealPlanFragment?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
     ),
   );
 
-  CopyWith$Query$GetMealPlan$mealPlan<TRes> get mealPlan {
+  CopyWith$Fragment$MealPlanFragment<TRes> get mealPlan {
     final local$mealPlan = _instance.mealPlan;
     return local$mealPlan == null
-        ? CopyWith$Query$GetMealPlan$mealPlan.stub(_then(_instance))
-        : CopyWith$Query$GetMealPlan$mealPlan(
+        ? CopyWith$Fragment$MealPlanFragment.stub(_then(_instance))
+        : CopyWith$Fragment$MealPlanFragment(
             local$mealPlan,
             (e) => call(mealPlan: e),
           );
@@ -7405,10 +10331,10 @@ class _CopyWithStubImpl$Query$GetMealPlan<TRes>
 
   TRes _res;
 
-  call({Query$GetMealPlan$mealPlan? mealPlan, String? $__typename}) => _res;
+  call({Fragment$MealPlanFragment? mealPlan, String? $__typename}) => _res;
 
-  CopyWith$Query$GetMealPlan$mealPlan<TRes> get mealPlan =>
-      CopyWith$Query$GetMealPlan$mealPlan.stub(_res);
+  CopyWith$Fragment$MealPlanFragment<TRes> get mealPlan =>
+      CopyWith$Fragment$MealPlanFragment.stub(_res);
 }
 
 const documentNodeQueryGetMealPlan = DocumentNode(
@@ -7439,178 +10365,9 @@ const documentNodeQueryGetMealPlan = DocumentNode(
             directives: [],
             selectionSet: SelectionSetNode(
               selections: [
-                FieldNode(
-                  name: NameNode(value: 'id'),
-                  alias: null,
-                  arguments: [],
+                FragmentSpreadNode(
+                  name: NameNode(value: 'MealPlanFragment'),
                   directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'description'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'price'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'imageUrl'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'restaurant'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(
-                    selections: [
-                      FieldNode(
-                        name: NameNode(value: 'id'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: '__typename'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                    ],
-                  ),
-                ),
-                FieldNode(
-                  name: NameNode(value: 'meals'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(
-                    selections: [
-                      FieldNode(
-                        name: NameNode(value: 'edges'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(
-                          selections: [
-                            FieldNode(
-                              name: NameNode(value: 'node'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: SelectionSetNode(
-                                selections: [
-                                  FieldNode(
-                                    name: NameNode(value: 'id'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'name'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'imageUrl'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'description'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'price'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'calories'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'protein'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'carbs'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'fat'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: '__typename'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            FieldNode(
-                              name: NameNode(value: '__typename'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                          ],
-                        ),
-                      ),
-                      FieldNode(
-                        name: NameNode(value: '__typename'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                    ],
-                  ),
                 ),
                 FieldNode(
                   name: NameNode(value: '__typename'),
@@ -7632,6 +10389,9 @@ const documentNodeQueryGetMealPlan = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionMealPlanFragment,
+    fragmentDefinitionMealPlanSummaryFragment,
+    fragmentDefinitionMealFragment,
   ],
 );
 Query$GetMealPlan _parserFn$Query$GetMealPlan(Map<String, dynamic> data) =>
@@ -7781,992 +10541,29 @@ class Query$GetMealPlan$Widget
   }) : super(key: key, options: options, builder: builder);
 }
 
-class Query$GetMealPlan$mealPlan {
-  Query$GetMealPlan$mealPlan({
-    required this.id,
-    required this.name,
-    this.description,
-    this.price,
-    this.imageUrl,
-    this.restaurant,
-    this.meals,
-    this.$__typename = 'MealPlan',
-  });
-
-  factory Query$GetMealPlan$mealPlan.fromJson(Map<String, dynamic> json) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$description = json['description'];
-    final l$price = json['price'];
-    final l$imageUrl = json['imageUrl'];
-    final l$restaurant = json['restaurant'];
-    final l$meals = json['meals'];
-    final l$$__typename = json['__typename'];
-    return Query$GetMealPlan$mealPlan(
-      id: (l$id as String),
-      name: (l$name as String),
-      description: (l$description as String?),
-      price: (l$price as int?),
-      imageUrl: (l$imageUrl as String?),
-      restaurant: l$restaurant == null
-          ? null
-          : Query$GetMealPlan$mealPlan$restaurant.fromJson(
-              (l$restaurant as Map<String, dynamic>),
-            ),
-      meals: l$meals == null
-          ? null
-          : Query$GetMealPlan$mealPlan$meals.fromJson(
-              (l$meals as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String? description;
-
-  final int? price;
-
-  final String? imageUrl;
-
-  final Query$GetMealPlan$mealPlan$restaurant? restaurant;
-
-  final Query$GetMealPlan$mealPlan$meals? meals;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$description = description;
-    _resultData['description'] = l$description;
-    final l$price = price;
-    _resultData['price'] = l$price;
-    final l$imageUrl = imageUrl;
-    _resultData['imageUrl'] = l$imageUrl;
-    final l$restaurant = restaurant;
-    _resultData['restaurant'] = l$restaurant?.toJson();
-    final l$meals = meals;
-    _resultData['meals'] = l$meals?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$description = description;
-    final l$price = price;
-    final l$imageUrl = imageUrl;
-    final l$restaurant = restaurant;
-    final l$meals = meals;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$id,
-      l$name,
-      l$description,
-      l$price,
-      l$imageUrl,
-      l$restaurant,
-      l$meals,
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetMealPlan$mealPlan ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$description = description;
-    final lOther$description = other.description;
-    if (l$description != lOther$description) {
-      return false;
-    }
-    final l$price = price;
-    final lOther$price = other.price;
-    if (l$price != lOther$price) {
-      return false;
-    }
-    final l$imageUrl = imageUrl;
-    final lOther$imageUrl = other.imageUrl;
-    if (l$imageUrl != lOther$imageUrl) {
-      return false;
-    }
-    final l$restaurant = restaurant;
-    final lOther$restaurant = other.restaurant;
-    if (l$restaurant != lOther$restaurant) {
-      return false;
-    }
-    final l$meals = meals;
-    final lOther$meals = other.meals;
-    if (l$meals != lOther$meals) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetMealPlan$mealPlan
-    on Query$GetMealPlan$mealPlan {
-  CopyWith$Query$GetMealPlan$mealPlan<Query$GetMealPlan$mealPlan>
-  get copyWith => CopyWith$Query$GetMealPlan$mealPlan(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetMealPlan$mealPlan<TRes> {
-  factory CopyWith$Query$GetMealPlan$mealPlan(
-    Query$GetMealPlan$mealPlan instance,
-    TRes Function(Query$GetMealPlan$mealPlan) then,
-  ) = _CopyWithImpl$Query$GetMealPlan$mealPlan;
-
-  factory CopyWith$Query$GetMealPlan$mealPlan.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetMealPlan$mealPlan;
-
-  TRes call({
-    String? id,
-    String? name,
-    String? description,
-    int? price,
-    String? imageUrl,
-    Query$GetMealPlan$mealPlan$restaurant? restaurant,
-    Query$GetMealPlan$mealPlan$meals? meals,
-    String? $__typename,
-  });
-  CopyWith$Query$GetMealPlan$mealPlan$restaurant<TRes> get restaurant;
-  CopyWith$Query$GetMealPlan$mealPlan$meals<TRes> get meals;
-}
-
-class _CopyWithImpl$Query$GetMealPlan$mealPlan<TRes>
-    implements CopyWith$Query$GetMealPlan$mealPlan<TRes> {
-  _CopyWithImpl$Query$GetMealPlan$mealPlan(this._instance, this._then);
-
-  final Query$GetMealPlan$mealPlan _instance;
-
-  final TRes Function(Query$GetMealPlan$mealPlan) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? description = _undefined,
-    Object? price = _undefined,
-    Object? imageUrl = _undefined,
-    Object? restaurant = _undefined,
-    Object? meals = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetMealPlan$mealPlan(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      description: description == _undefined
-          ? _instance.description
-          : (description as String?),
-      price: price == _undefined ? _instance.price : (price as int?),
-      imageUrl: imageUrl == _undefined
-          ? _instance.imageUrl
-          : (imageUrl as String?),
-      restaurant: restaurant == _undefined
-          ? _instance.restaurant
-          : (restaurant as Query$GetMealPlan$mealPlan$restaurant?),
-      meals: meals == _undefined
-          ? _instance.meals
-          : (meals as Query$GetMealPlan$mealPlan$meals?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Query$GetMealPlan$mealPlan$restaurant<TRes> get restaurant {
-    final local$restaurant = _instance.restaurant;
-    return local$restaurant == null
-        ? CopyWith$Query$GetMealPlan$mealPlan$restaurant.stub(_then(_instance))
-        : CopyWith$Query$GetMealPlan$mealPlan$restaurant(
-            local$restaurant,
-            (e) => call(restaurant: e),
-          );
-  }
-
-  CopyWith$Query$GetMealPlan$mealPlan$meals<TRes> get meals {
-    final local$meals = _instance.meals;
-    return local$meals == null
-        ? CopyWith$Query$GetMealPlan$mealPlan$meals.stub(_then(_instance))
-        : CopyWith$Query$GetMealPlan$mealPlan$meals(
-            local$meals,
-            (e) => call(meals: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetMealPlan$mealPlan<TRes>
-    implements CopyWith$Query$GetMealPlan$mealPlan<TRes> {
-  _CopyWithStubImpl$Query$GetMealPlan$mealPlan(this._res);
-
-  TRes _res;
-
-  call({
-    String? id,
-    String? name,
-    String? description,
-    int? price,
-    String? imageUrl,
-    Query$GetMealPlan$mealPlan$restaurant? restaurant,
-    Query$GetMealPlan$mealPlan$meals? meals,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetMealPlan$mealPlan$restaurant<TRes> get restaurant =>
-      CopyWith$Query$GetMealPlan$mealPlan$restaurant.stub(_res);
-
-  CopyWith$Query$GetMealPlan$mealPlan$meals<TRes> get meals =>
-      CopyWith$Query$GetMealPlan$mealPlan$meals.stub(_res);
-}
-
-class Query$GetMealPlan$mealPlan$restaurant {
-  Query$GetMealPlan$mealPlan$restaurant({
-    required this.id,
-    this.$__typename = 'Restaurant',
-  });
-
-  factory Query$GetMealPlan$mealPlan$restaurant.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$$__typename = json['__typename'];
-    return Query$GetMealPlan$mealPlan$restaurant(
-      id: (l$id as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetMealPlan$mealPlan$restaurant ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetMealPlan$mealPlan$restaurant
-    on Query$GetMealPlan$mealPlan$restaurant {
-  CopyWith$Query$GetMealPlan$mealPlan$restaurant<
-    Query$GetMealPlan$mealPlan$restaurant
-  >
-  get copyWith =>
-      CopyWith$Query$GetMealPlan$mealPlan$restaurant(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetMealPlan$mealPlan$restaurant<TRes> {
-  factory CopyWith$Query$GetMealPlan$mealPlan$restaurant(
-    Query$GetMealPlan$mealPlan$restaurant instance,
-    TRes Function(Query$GetMealPlan$mealPlan$restaurant) then,
-  ) = _CopyWithImpl$Query$GetMealPlan$mealPlan$restaurant;
-
-  factory CopyWith$Query$GetMealPlan$mealPlan$restaurant.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetMealPlan$mealPlan$restaurant;
-
-  TRes call({String? id, String? $__typename});
-}
-
-class _CopyWithImpl$Query$GetMealPlan$mealPlan$restaurant<TRes>
-    implements CopyWith$Query$GetMealPlan$mealPlan$restaurant<TRes> {
-  _CopyWithImpl$Query$GetMealPlan$mealPlan$restaurant(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetMealPlan$mealPlan$restaurant _instance;
-
-  final TRes Function(Query$GetMealPlan$mealPlan$restaurant) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({Object? id = _undefined, Object? $__typename = _undefined}) =>
-      _then(
-        Query$GetMealPlan$mealPlan$restaurant(
-          id: id == _undefined || id == null ? _instance.id : (id as String),
-          $__typename: $__typename == _undefined || $__typename == null
-              ? _instance.$__typename
-              : ($__typename as String),
-        ),
-      );
-}
-
-class _CopyWithStubImpl$Query$GetMealPlan$mealPlan$restaurant<TRes>
-    implements CopyWith$Query$GetMealPlan$mealPlan$restaurant<TRes> {
-  _CopyWithStubImpl$Query$GetMealPlan$mealPlan$restaurant(this._res);
-
-  TRes _res;
-
-  call({String? id, String? $__typename}) => _res;
-}
-
-class Query$GetMealPlan$mealPlan$meals {
-  Query$GetMealPlan$mealPlan$meals({
-    this.edges,
-    this.$__typename = 'MealCursorConnection',
-  });
-
-  factory Query$GetMealPlan$mealPlan$meals.fromJson(Map<String, dynamic> json) {
-    final l$edges = json['edges'];
-    final l$$__typename = json['__typename'];
-    return Query$GetMealPlan$mealPlan$meals(
-      edges: (l$edges as List<dynamic>?)
-          ?.map(
-            (e) => e == null
-                ? null
-                : Query$GetMealPlan$mealPlan$meals$edges.fromJson(
-                    (e as Map<String, dynamic>),
-                  ),
-          )
-          .toList(),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final List<Query$GetMealPlan$mealPlan$meals$edges?>? edges;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$edges = edges;
-    _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$edges = edges;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetMealPlan$mealPlan$meals ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$edges = edges;
-    final lOther$edges = other.edges;
-    if (l$edges != null && lOther$edges != null) {
-      if (l$edges.length != lOther$edges.length) {
-        return false;
-      }
-      for (int i = 0; i < l$edges.length; i++) {
-        final l$edges$entry = l$edges[i];
-        final lOther$edges$entry = lOther$edges[i];
-        if (l$edges$entry != lOther$edges$entry) {
-          return false;
-        }
-      }
-    } else if (l$edges != lOther$edges) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetMealPlan$mealPlan$meals
-    on Query$GetMealPlan$mealPlan$meals {
-  CopyWith$Query$GetMealPlan$mealPlan$meals<Query$GetMealPlan$mealPlan$meals>
-  get copyWith => CopyWith$Query$GetMealPlan$mealPlan$meals(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetMealPlan$mealPlan$meals<TRes> {
-  factory CopyWith$Query$GetMealPlan$mealPlan$meals(
-    Query$GetMealPlan$mealPlan$meals instance,
-    TRes Function(Query$GetMealPlan$mealPlan$meals) then,
-  ) = _CopyWithImpl$Query$GetMealPlan$mealPlan$meals;
-
-  factory CopyWith$Query$GetMealPlan$mealPlan$meals.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetMealPlan$mealPlan$meals;
-
-  TRes call({
-    List<Query$GetMealPlan$mealPlan$meals$edges?>? edges,
-    String? $__typename,
-  });
-  TRes edges(
-    Iterable<Query$GetMealPlan$mealPlan$meals$edges?>? Function(
-      Iterable<
-        CopyWith$Query$GetMealPlan$mealPlan$meals$edges<
-          Query$GetMealPlan$mealPlan$meals$edges
-        >?
-      >?,
-    )
-    _fn,
-  );
-}
-
-class _CopyWithImpl$Query$GetMealPlan$mealPlan$meals<TRes>
-    implements CopyWith$Query$GetMealPlan$mealPlan$meals<TRes> {
-  _CopyWithImpl$Query$GetMealPlan$mealPlan$meals(this._instance, this._then);
-
-  final Query$GetMealPlan$mealPlan$meals _instance;
-
-  final TRes Function(Query$GetMealPlan$mealPlan$meals) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({Object? edges = _undefined, Object? $__typename = _undefined}) =>
-      _then(
-        Query$GetMealPlan$mealPlan$meals(
-          edges: edges == _undefined
-              ? _instance.edges
-              : (edges as List<Query$GetMealPlan$mealPlan$meals$edges?>?),
-          $__typename: $__typename == _undefined || $__typename == null
-              ? _instance.$__typename
-              : ($__typename as String),
-        ),
-      );
-
-  TRes edges(
-    Iterable<Query$GetMealPlan$mealPlan$meals$edges?>? Function(
-      Iterable<
-        CopyWith$Query$GetMealPlan$mealPlan$meals$edges<
-          Query$GetMealPlan$mealPlan$meals$edges
-        >?
-      >?,
-    )
-    _fn,
-  ) => call(
-    edges: _fn(
-      _instance.edges?.map(
-        (e) => e == null
-            ? null
-            : CopyWith$Query$GetMealPlan$mealPlan$meals$edges(e, (i) => i),
-      ),
-    )?.toList(),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetMealPlan$mealPlan$meals<TRes>
-    implements CopyWith$Query$GetMealPlan$mealPlan$meals<TRes> {
-  _CopyWithStubImpl$Query$GetMealPlan$mealPlan$meals(this._res);
-
-  TRes _res;
-
-  call({
-    List<Query$GetMealPlan$mealPlan$meals$edges?>? edges,
-    String? $__typename,
-  }) => _res;
-
-  edges(_fn) => _res;
-}
-
-class Query$GetMealPlan$mealPlan$meals$edges {
-  Query$GetMealPlan$mealPlan$meals$edges({
-    this.node,
-    this.$__typename = 'MealEdge',
-  });
-
-  factory Query$GetMealPlan$mealPlan$meals$edges.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$node = json['node'];
-    final l$$__typename = json['__typename'];
-    return Query$GetMealPlan$mealPlan$meals$edges(
-      node: l$node == null
-          ? null
-          : Query$GetMealPlan$mealPlan$meals$edges$node.fromJson(
-              (l$node as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final Query$GetMealPlan$mealPlan$meals$edges$node? node;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$node = node;
-    _resultData['node'] = l$node?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$node = node;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$node, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetMealPlan$mealPlan$meals$edges ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$node = node;
-    final lOther$node = other.node;
-    if (l$node != lOther$node) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetMealPlan$mealPlan$meals$edges
-    on Query$GetMealPlan$mealPlan$meals$edges {
-  CopyWith$Query$GetMealPlan$mealPlan$meals$edges<
-    Query$GetMealPlan$mealPlan$meals$edges
-  >
-  get copyWith =>
-      CopyWith$Query$GetMealPlan$mealPlan$meals$edges(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetMealPlan$mealPlan$meals$edges<TRes> {
-  factory CopyWith$Query$GetMealPlan$mealPlan$meals$edges(
-    Query$GetMealPlan$mealPlan$meals$edges instance,
-    TRes Function(Query$GetMealPlan$mealPlan$meals$edges) then,
-  ) = _CopyWithImpl$Query$GetMealPlan$mealPlan$meals$edges;
-
-  factory CopyWith$Query$GetMealPlan$mealPlan$meals$edges.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetMealPlan$mealPlan$meals$edges;
-
-  TRes call({
-    Query$GetMealPlan$mealPlan$meals$edges$node? node,
-    String? $__typename,
-  });
-  CopyWith$Query$GetMealPlan$mealPlan$meals$edges$node<TRes> get node;
-}
-
-class _CopyWithImpl$Query$GetMealPlan$mealPlan$meals$edges<TRes>
-    implements CopyWith$Query$GetMealPlan$mealPlan$meals$edges<TRes> {
-  _CopyWithImpl$Query$GetMealPlan$mealPlan$meals$edges(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetMealPlan$mealPlan$meals$edges _instance;
-
-  final TRes Function(Query$GetMealPlan$mealPlan$meals$edges) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({Object? node = _undefined, Object? $__typename = _undefined}) =>
-      _then(
-        Query$GetMealPlan$mealPlan$meals$edges(
-          node: node == _undefined
-              ? _instance.node
-              : (node as Query$GetMealPlan$mealPlan$meals$edges$node?),
-          $__typename: $__typename == _undefined || $__typename == null
-              ? _instance.$__typename
-              : ($__typename as String),
-        ),
-      );
-
-  CopyWith$Query$GetMealPlan$mealPlan$meals$edges$node<TRes> get node {
-    final local$node = _instance.node;
-    return local$node == null
-        ? CopyWith$Query$GetMealPlan$mealPlan$meals$edges$node.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetMealPlan$mealPlan$meals$edges$node(
-            local$node,
-            (e) => call(node: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetMealPlan$mealPlan$meals$edges<TRes>
-    implements CopyWith$Query$GetMealPlan$mealPlan$meals$edges<TRes> {
-  _CopyWithStubImpl$Query$GetMealPlan$mealPlan$meals$edges(this._res);
-
-  TRes _res;
-
-  call({
-    Query$GetMealPlan$mealPlan$meals$edges$node? node,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetMealPlan$mealPlan$meals$edges$node<TRes> get node =>
-      CopyWith$Query$GetMealPlan$mealPlan$meals$edges$node.stub(_res);
-}
-
-class Query$GetMealPlan$mealPlan$meals$edges$node {
-  Query$GetMealPlan$mealPlan$meals$edges$node({
-    required this.id,
-    required this.name,
-    this.imageUrl,
-    this.description,
-    required this.price,
-    required this.calories,
-    required this.protein,
-    required this.carbs,
-    required this.fat,
-    this.$__typename = 'Meal',
-  });
-
-  factory Query$GetMealPlan$mealPlan$meals$edges$node.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$imageUrl = json['imageUrl'];
-    final l$description = json['description'];
-    final l$price = json['price'];
-    final l$calories = json['calories'];
-    final l$protein = json['protein'];
-    final l$carbs = json['carbs'];
-    final l$fat = json['fat'];
-    final l$$__typename = json['__typename'];
-    return Query$GetMealPlan$mealPlan$meals$edges$node(
-      id: (l$id as String),
-      name: (l$name as String),
-      imageUrl: (l$imageUrl as String?),
-      description: (l$description as String?),
-      price: (l$price as int),
-      calories: (l$calories as num).toDouble(),
-      protein: (l$protein as num).toDouble(),
-      carbs: (l$carbs as num).toDouble(),
-      fat: (l$fat as num).toDouble(),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String? imageUrl;
-
-  final String? description;
-
-  final int price;
-
-  final double calories;
-
-  final double protein;
-
-  final double carbs;
-
-  final double fat;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$imageUrl = imageUrl;
-    _resultData['imageUrl'] = l$imageUrl;
-    final l$description = description;
-    _resultData['description'] = l$description;
-    final l$price = price;
-    _resultData['price'] = l$price;
-    final l$calories = calories;
-    _resultData['calories'] = l$calories;
-    final l$protein = protein;
-    _resultData['protein'] = l$protein;
-    final l$carbs = carbs;
-    _resultData['carbs'] = l$carbs;
-    final l$fat = fat;
-    _resultData['fat'] = l$fat;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$imageUrl = imageUrl;
-    final l$description = description;
-    final l$price = price;
-    final l$calories = calories;
-    final l$protein = protein;
-    final l$carbs = carbs;
-    final l$fat = fat;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$id,
-      l$name,
-      l$imageUrl,
-      l$description,
-      l$price,
-      l$calories,
-      l$protein,
-      l$carbs,
-      l$fat,
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetMealPlan$mealPlan$meals$edges$node ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$imageUrl = imageUrl;
-    final lOther$imageUrl = other.imageUrl;
-    if (l$imageUrl != lOther$imageUrl) {
-      return false;
-    }
-    final l$description = description;
-    final lOther$description = other.description;
-    if (l$description != lOther$description) {
-      return false;
-    }
-    final l$price = price;
-    final lOther$price = other.price;
-    if (l$price != lOther$price) {
-      return false;
-    }
-    final l$calories = calories;
-    final lOther$calories = other.calories;
-    if (l$calories != lOther$calories) {
-      return false;
-    }
-    final l$protein = protein;
-    final lOther$protein = other.protein;
-    if (l$protein != lOther$protein) {
-      return false;
-    }
-    final l$carbs = carbs;
-    final lOther$carbs = other.carbs;
-    if (l$carbs != lOther$carbs) {
-      return false;
-    }
-    final l$fat = fat;
-    final lOther$fat = other.fat;
-    if (l$fat != lOther$fat) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetMealPlan$mealPlan$meals$edges$node
-    on Query$GetMealPlan$mealPlan$meals$edges$node {
-  CopyWith$Query$GetMealPlan$mealPlan$meals$edges$node<
-    Query$GetMealPlan$mealPlan$meals$edges$node
-  >
-  get copyWith =>
-      CopyWith$Query$GetMealPlan$mealPlan$meals$edges$node(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetMealPlan$mealPlan$meals$edges$node<TRes> {
-  factory CopyWith$Query$GetMealPlan$mealPlan$meals$edges$node(
-    Query$GetMealPlan$mealPlan$meals$edges$node instance,
-    TRes Function(Query$GetMealPlan$mealPlan$meals$edges$node) then,
-  ) = _CopyWithImpl$Query$GetMealPlan$mealPlan$meals$edges$node;
-
-  factory CopyWith$Query$GetMealPlan$mealPlan$meals$edges$node.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetMealPlan$mealPlan$meals$edges$node;
-
-  TRes call({
-    String? id,
-    String? name,
-    String? imageUrl,
-    String? description,
-    int? price,
-    double? calories,
-    double? protein,
-    double? carbs,
-    double? fat,
-    String? $__typename,
-  });
-}
-
-class _CopyWithImpl$Query$GetMealPlan$mealPlan$meals$edges$node<TRes>
-    implements CopyWith$Query$GetMealPlan$mealPlan$meals$edges$node<TRes> {
-  _CopyWithImpl$Query$GetMealPlan$mealPlan$meals$edges$node(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetMealPlan$mealPlan$meals$edges$node _instance;
-
-  final TRes Function(Query$GetMealPlan$mealPlan$meals$edges$node) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? imageUrl = _undefined,
-    Object? description = _undefined,
-    Object? price = _undefined,
-    Object? calories = _undefined,
-    Object? protein = _undefined,
-    Object? carbs = _undefined,
-    Object? fat = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetMealPlan$mealPlan$meals$edges$node(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      imageUrl: imageUrl == _undefined
-          ? _instance.imageUrl
-          : (imageUrl as String?),
-      description: description == _undefined
-          ? _instance.description
-          : (description as String?),
-      price: price == _undefined || price == null
-          ? _instance.price
-          : (price as int),
-      calories: calories == _undefined || calories == null
-          ? _instance.calories
-          : (calories as double),
-      protein: protein == _undefined || protein == null
-          ? _instance.protein
-          : (protein as double),
-      carbs: carbs == _undefined || carbs == null
-          ? _instance.carbs
-          : (carbs as double),
-      fat: fat == _undefined || fat == null ? _instance.fat : (fat as double),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetMealPlan$mealPlan$meals$edges$node<TRes>
-    implements CopyWith$Query$GetMealPlan$mealPlan$meals$edges$node<TRes> {
-  _CopyWithStubImpl$Query$GetMealPlan$mealPlan$meals$edges$node(this._res);
-
-  TRes _res;
-
-  call({
-    String? id,
-    String? name,
-    String? imageUrl,
-    String? description,
-    int? price,
-    double? calories,
-    double? protein,
-    double? carbs,
-    double? fat,
-    String? $__typename,
-  }) => _res;
-}
-
 class Variables$Query$GetMealPlansByRestaurant {
   factory Variables$Query$GetMealPlansByRestaurant({
     required String restaurantId,
     int? first,
     String? after,
+    String? search,
+    List<Input$MealPlanFilter_price?>? price,
+    List<Input$MealPlanFilter_calories?>? calories,
+    List<Input$MealPlanFilter_protein?>? protein,
+    List<Input$MealPlanFilter_fat?>? fat,
+    List<Input$MealPlanFilter_carbs?>? carbs,
+    String? category,
   }) => Variables$Query$GetMealPlansByRestaurant._({
     r'restaurantId': restaurantId,
     if (first != null) r'first': first,
     if (after != null) r'after': after,
+    if (search != null) r'search': search,
+    if (price != null) r'price': price,
+    if (calories != null) r'calories': calories,
+    if (protein != null) r'protein': protein,
+    if (fat != null) r'fat': fat,
+    if (carbs != null) r'carbs': carbs,
+    if (category != null) r'category': category,
   });
 
   Variables$Query$GetMealPlansByRestaurant._(this._$data);
@@ -8785,6 +10582,74 @@ class Variables$Query$GetMealPlansByRestaurant {
       final l$after = data['after'];
       result$data['after'] = (l$after as String?);
     }
+    if (data.containsKey('search')) {
+      final l$search = data['search'];
+      result$data['search'] = (l$search as String?);
+    }
+    if (data.containsKey('price')) {
+      final l$price = data['price'];
+      result$data['price'] = (l$price as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealPlanFilter_price.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
+    if (data.containsKey('calories')) {
+      final l$calories = data['calories'];
+      result$data['calories'] = (l$calories as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealPlanFilter_calories.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
+    if (data.containsKey('protein')) {
+      final l$protein = data['protein'];
+      result$data['protein'] = (l$protein as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealPlanFilter_protein.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
+    if (data.containsKey('fat')) {
+      final l$fat = data['fat'];
+      result$data['fat'] = (l$fat as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealPlanFilter_fat.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
+    if (data.containsKey('carbs')) {
+      final l$carbs = data['carbs'];
+      result$data['carbs'] = (l$carbs as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$MealPlanFilter_carbs.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
+    if (data.containsKey('category')) {
+      final l$category = data['category'];
+      result$data['category'] = (l$category as String?);
+    }
     return Variables$Query$GetMealPlansByRestaurant._(result$data);
   }
 
@@ -8795,6 +10660,25 @@ class Variables$Query$GetMealPlansByRestaurant {
   int? get first => (_$data['first'] as int?);
 
   String? get after => (_$data['after'] as String?);
+
+  String? get search => (_$data['search'] as String?);
+
+  List<Input$MealPlanFilter_price?>? get price =>
+      (_$data['price'] as List<Input$MealPlanFilter_price?>?);
+
+  List<Input$MealPlanFilter_calories?>? get calories =>
+      (_$data['calories'] as List<Input$MealPlanFilter_calories?>?);
+
+  List<Input$MealPlanFilter_protein?>? get protein =>
+      (_$data['protein'] as List<Input$MealPlanFilter_protein?>?);
+
+  List<Input$MealPlanFilter_fat?>? get fat =>
+      (_$data['fat'] as List<Input$MealPlanFilter_fat?>?);
+
+  List<Input$MealPlanFilter_carbs?>? get carbs =>
+      (_$data['carbs'] as List<Input$MealPlanFilter_carbs?>?);
+
+  String? get category => (_$data['category'] as String?);
 
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
@@ -8807,6 +10691,34 @@ class Variables$Query$GetMealPlansByRestaurant {
     if (_$data.containsKey('after')) {
       final l$after = after;
       result$data['after'] = l$after;
+    }
+    if (_$data.containsKey('search')) {
+      final l$search = search;
+      result$data['search'] = l$search;
+    }
+    if (_$data.containsKey('price')) {
+      final l$price = price;
+      result$data['price'] = l$price?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('calories')) {
+      final l$calories = calories;
+      result$data['calories'] = l$calories?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('protein')) {
+      final l$protein = protein;
+      result$data['protein'] = l$protein?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('fat')) {
+      final l$fat = fat;
+      result$data['fat'] = l$fat?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('carbs')) {
+      final l$carbs = carbs;
+      result$data['carbs'] = l$carbs?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('category')) {
+      final l$category = category;
+      result$data['category'] = l$category;
     }
     return result$data;
   }
@@ -8847,6 +10759,119 @@ class Variables$Query$GetMealPlansByRestaurant {
     if (l$after != lOther$after) {
       return false;
     }
+    final l$search = search;
+    final lOther$search = other.search;
+    if (_$data.containsKey('search') != other._$data.containsKey('search')) {
+      return false;
+    }
+    if (l$search != lOther$search) {
+      return false;
+    }
+    final l$price = price;
+    final lOther$price = other.price;
+    if (_$data.containsKey('price') != other._$data.containsKey('price')) {
+      return false;
+    }
+    if (l$price != null && lOther$price != null) {
+      if (l$price.length != lOther$price.length) {
+        return false;
+      }
+      for (int i = 0; i < l$price.length; i++) {
+        final l$price$entry = l$price[i];
+        final lOther$price$entry = lOther$price[i];
+        if (l$price$entry != lOther$price$entry) {
+          return false;
+        }
+      }
+    } else if (l$price != lOther$price) {
+      return false;
+    }
+    final l$calories = calories;
+    final lOther$calories = other.calories;
+    if (_$data.containsKey('calories') !=
+        other._$data.containsKey('calories')) {
+      return false;
+    }
+    if (l$calories != null && lOther$calories != null) {
+      if (l$calories.length != lOther$calories.length) {
+        return false;
+      }
+      for (int i = 0; i < l$calories.length; i++) {
+        final l$calories$entry = l$calories[i];
+        final lOther$calories$entry = lOther$calories[i];
+        if (l$calories$entry != lOther$calories$entry) {
+          return false;
+        }
+      }
+    } else if (l$calories != lOther$calories) {
+      return false;
+    }
+    final l$protein = protein;
+    final lOther$protein = other.protein;
+    if (_$data.containsKey('protein') != other._$data.containsKey('protein')) {
+      return false;
+    }
+    if (l$protein != null && lOther$protein != null) {
+      if (l$protein.length != lOther$protein.length) {
+        return false;
+      }
+      for (int i = 0; i < l$protein.length; i++) {
+        final l$protein$entry = l$protein[i];
+        final lOther$protein$entry = lOther$protein[i];
+        if (l$protein$entry != lOther$protein$entry) {
+          return false;
+        }
+      }
+    } else if (l$protein != lOther$protein) {
+      return false;
+    }
+    final l$fat = fat;
+    final lOther$fat = other.fat;
+    if (_$data.containsKey('fat') != other._$data.containsKey('fat')) {
+      return false;
+    }
+    if (l$fat != null && lOther$fat != null) {
+      if (l$fat.length != lOther$fat.length) {
+        return false;
+      }
+      for (int i = 0; i < l$fat.length; i++) {
+        final l$fat$entry = l$fat[i];
+        final lOther$fat$entry = lOther$fat[i];
+        if (l$fat$entry != lOther$fat$entry) {
+          return false;
+        }
+      }
+    } else if (l$fat != lOther$fat) {
+      return false;
+    }
+    final l$carbs = carbs;
+    final lOther$carbs = other.carbs;
+    if (_$data.containsKey('carbs') != other._$data.containsKey('carbs')) {
+      return false;
+    }
+    if (l$carbs != null && lOther$carbs != null) {
+      if (l$carbs.length != lOther$carbs.length) {
+        return false;
+      }
+      for (int i = 0; i < l$carbs.length; i++) {
+        final l$carbs$entry = l$carbs[i];
+        final lOther$carbs$entry = lOther$carbs[i];
+        if (l$carbs$entry != lOther$carbs$entry) {
+          return false;
+        }
+      }
+    } else if (l$carbs != lOther$carbs) {
+      return false;
+    }
+    final l$category = category;
+    final lOther$category = other.category;
+    if (_$data.containsKey('category') !=
+        other._$data.containsKey('category')) {
+      return false;
+    }
+    if (l$category != lOther$category) {
+      return false;
+    }
     return true;
   }
 
@@ -8855,10 +10880,44 @@ class Variables$Query$GetMealPlansByRestaurant {
     final l$restaurantId = restaurantId;
     final l$first = first;
     final l$after = after;
+    final l$search = search;
+    final l$price = price;
+    final l$calories = calories;
+    final l$protein = protein;
+    final l$fat = fat;
+    final l$carbs = carbs;
+    final l$category = category;
     return Object.hashAll([
       l$restaurantId,
       _$data.containsKey('first') ? l$first : const {},
       _$data.containsKey('after') ? l$after : const {},
+      _$data.containsKey('search') ? l$search : const {},
+      _$data.containsKey('price')
+          ? l$price == null
+                ? null
+                : Object.hashAll(l$price.map((v) => v))
+          : const {},
+      _$data.containsKey('calories')
+          ? l$calories == null
+                ? null
+                : Object.hashAll(l$calories.map((v) => v))
+          : const {},
+      _$data.containsKey('protein')
+          ? l$protein == null
+                ? null
+                : Object.hashAll(l$protein.map((v) => v))
+          : const {},
+      _$data.containsKey('fat')
+          ? l$fat == null
+                ? null
+                : Object.hashAll(l$fat.map((v) => v))
+          : const {},
+      _$data.containsKey('carbs')
+          ? l$carbs == null
+                ? null
+                : Object.hashAll(l$carbs.map((v) => v))
+          : const {},
+      _$data.containsKey('category') ? l$category : const {},
     ]);
   }
 }
@@ -8872,7 +10931,18 @@ abstract class CopyWith$Variables$Query$GetMealPlansByRestaurant<TRes> {
   factory CopyWith$Variables$Query$GetMealPlansByRestaurant.stub(TRes res) =
       _CopyWithStubImpl$Variables$Query$GetMealPlansByRestaurant;
 
-  TRes call({String? restaurantId, int? first, String? after});
+  TRes call({
+    String? restaurantId,
+    int? first,
+    String? after,
+    String? search,
+    List<Input$MealPlanFilter_price?>? price,
+    List<Input$MealPlanFilter_calories?>? calories,
+    List<Input$MealPlanFilter_protein?>? protein,
+    List<Input$MealPlanFilter_fat?>? fat,
+    List<Input$MealPlanFilter_carbs?>? carbs,
+    String? category,
+  });
 }
 
 class _CopyWithImpl$Variables$Query$GetMealPlansByRestaurant<TRes>
@@ -8892,6 +10962,13 @@ class _CopyWithImpl$Variables$Query$GetMealPlansByRestaurant<TRes>
     Object? restaurantId = _undefined,
     Object? first = _undefined,
     Object? after = _undefined,
+    Object? search = _undefined,
+    Object? price = _undefined,
+    Object? calories = _undefined,
+    Object? protein = _undefined,
+    Object? fat = _undefined,
+    Object? carbs = _undefined,
+    Object? category = _undefined,
   }) => _then(
     Variables$Query$GetMealPlansByRestaurant._({
       ..._instance._$data,
@@ -8899,6 +10976,17 @@ class _CopyWithImpl$Variables$Query$GetMealPlansByRestaurant<TRes>
         'restaurantId': (restaurantId as String),
       if (first != _undefined) 'first': (first as int?),
       if (after != _undefined) 'after': (after as String?),
+      if (search != _undefined) 'search': (search as String?),
+      if (price != _undefined)
+        'price': (price as List<Input$MealPlanFilter_price?>?),
+      if (calories != _undefined)
+        'calories': (calories as List<Input$MealPlanFilter_calories?>?),
+      if (protein != _undefined)
+        'protein': (protein as List<Input$MealPlanFilter_protein?>?),
+      if (fat != _undefined) 'fat': (fat as List<Input$MealPlanFilter_fat?>?),
+      if (carbs != _undefined)
+        'carbs': (carbs as List<Input$MealPlanFilter_carbs?>?),
+      if (category != _undefined) 'category': (category as String?),
     }),
   );
 }
@@ -8909,7 +10997,18 @@ class _CopyWithStubImpl$Variables$Query$GetMealPlansByRestaurant<TRes>
 
   TRes _res;
 
-  call({String? restaurantId, int? first, String? after}) => _res;
+  call({
+    String? restaurantId,
+    int? first,
+    String? after,
+    String? search,
+    List<Input$MealPlanFilter_price?>? price,
+    List<Input$MealPlanFilter_calories?>? calories,
+    List<Input$MealPlanFilter_protein?>? protein,
+    List<Input$MealPlanFilter_fat?>? fat,
+    List<Input$MealPlanFilter_carbs?>? carbs,
+    String? category,
+  }) => _res;
 }
 
 class Query$GetMealPlansByRestaurant {
@@ -9072,6 +11171,84 @@ const documentNodeQueryGetMealPlansByRestaurant = DocumentNode(
           defaultValue: DefaultValueNode(value: null),
           directives: [],
         ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'search')),
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'price')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealPlanFilter_price'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'calories')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealPlanFilter_calories'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'protein')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealPlanFilter_protein'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'fat')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealPlanFilter_fat'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'carbs')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'MealPlanFilter_carbs'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'category')),
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
       ],
       directives: [],
       selectionSet: SelectionSetNode(
@@ -9107,6 +11284,34 @@ const documentNodeQueryGetMealPlansByRestaurant = DocumentNode(
                       name: NameNode(value: 'after'),
                       value: VariableNode(name: NameNode(value: 'after')),
                     ),
+                    ArgumentNode(
+                      name: NameNode(value: 'search'),
+                      value: VariableNode(name: NameNode(value: 'search')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'price'),
+                      value: VariableNode(name: NameNode(value: 'price')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'calories'),
+                      value: VariableNode(name: NameNode(value: 'calories')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'protein'),
+                      value: VariableNode(name: NameNode(value: 'protein')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'fat'),
+                      value: VariableNode(name: NameNode(value: 'fat')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'carbs'),
+                      value: VariableNode(name: NameNode(value: 'carbs')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'dietCategories_name'),
+                      value: VariableNode(name: NameNode(value: 'category')),
+                    ),
                   ],
                   directives: [],
                   selectionSet: SelectionSetNode(
@@ -9125,113 +11330,11 @@ const documentNodeQueryGetMealPlansByRestaurant = DocumentNode(
                               directives: [],
                               selectionSet: SelectionSetNode(
                                 selections: [
-                                  FieldNode(
-                                    name: NameNode(value: 'id'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'name'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'description'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'price'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'imageUrl'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'dietCategories'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: SelectionSetNode(
-                                      selections: [
-                                        FieldNode(
-                                          name: NameNode(value: 'edges'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                            selections: [
-                                              FieldNode(
-                                                name: NameNode(value: 'node'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: SelectionSetNode(
-                                                  selections: [
-                                                    FieldNode(
-                                                      name: NameNode(
-                                                        value: 'id',
-                                                      ),
-                                                      alias: null,
-                                                      arguments: [],
-                                                      directives: [],
-                                                      selectionSet: null,
-                                                    ),
-                                                    FieldNode(
-                                                      name: NameNode(
-                                                        value: 'name',
-                                                      ),
-                                                      alias: null,
-                                                      arguments: [],
-                                                      directives: [],
-                                                      selectionSet: null,
-                                                    ),
-                                                    FieldNode(
-                                                      name: NameNode(
-                                                        value: '__typename',
-                                                      ),
-                                                      alias: null,
-                                                      arguments: [],
-                                                      directives: [],
-                                                      selectionSet: null,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              FieldNode(
-                                                name: NameNode(
-                                                  value: '__typename',
-                                                ),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: '__typename'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                      ],
+                                  FragmentSpreadNode(
+                                    name: NameNode(
+                                      value: 'MealPlanSummaryFragment',
                                     ),
+                                    directives: [],
                                   ),
                                   FieldNode(
                                     name: NameNode(value: '__typename'),
@@ -9314,6 +11417,7 @@ const documentNodeQueryGetMealPlansByRestaurant = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionMealPlanSummaryFragment,
   ],
 );
 Query$GetMealPlansByRestaurant _parserFn$Query$GetMealPlansByRestaurant(
@@ -9898,14 +12002,14 @@ class Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges {
     return Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges(
       node: l$node == null
           ? null
-          : Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node.fromJson(
+          : Fragment$MealPlanSummaryFragment.fromJson(
               (l$node as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node? node;
+  final Fragment$MealPlanSummaryFragment? node;
 
   final String $__typename;
 
@@ -9973,12 +12077,8 @@ abstract class CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edge
     TRes res,
   ) = _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges;
 
-  TRes call({
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node? node,
-    String? $__typename,
-  });
-  CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node<TRes>
-  get node;
+  TRes call({Fragment$MealPlanSummaryFragment? node, String? $__typename});
+  CopyWith$Fragment$MealPlanSummaryFragment<TRes> get node;
 }
 
 class _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges<
@@ -10000,29 +12100,23 @@ class _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges<
 
   static const _undefined = <dynamic, dynamic>{};
 
-  TRes call({
-    Object? node = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges(
-      node: node == _undefined
-          ? _instance.node
-          : (node
-                as Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
+  TRes call({Object? node = _undefined, Object? $__typename = _undefined}) =>
+      _then(
+        Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges(
+          node: node == _undefined
+              ? _instance.node
+              : (node as Fragment$MealPlanSummaryFragment?),
+          $__typename: $__typename == _undefined || $__typename == null
+              ? _instance.$__typename
+              : ($__typename as String),
+        ),
+      );
 
-  CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node<TRes>
-  get node {
+  CopyWith$Fragment$MealPlanSummaryFragment<TRes> get node {
     final local$node = _instance.node;
     return local$node == null
-        ? CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node(
+        ? CopyWith$Fragment$MealPlanSummaryFragment.stub(_then(_instance))
+        : CopyWith$Fragment$MealPlanSummaryFragment(
             local$node,
             (e) => call(node: e),
           );
@@ -10042,873 +12136,10 @@ class _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edge
 
   TRes _res;
 
-  call({
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node? node,
-    String? $__typename,
-  }) => _res;
+  call({Fragment$MealPlanSummaryFragment? node, String? $__typename}) => _res;
 
-  CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node<TRes>
-  get node =>
-      CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node.stub(
-        _res,
-      );
-}
-
-class Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node {
-  Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node({
-    required this.id,
-    required this.name,
-    this.description,
-    this.price,
-    this.imageUrl,
-    this.dietCategories,
-    this.$__typename = 'MealPlan',
-  });
-
-  factory Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$description = json['description'];
-    final l$price = json['price'];
-    final l$imageUrl = json['imageUrl'];
-    final l$dietCategories = json['dietCategories'];
-    final l$$__typename = json['__typename'];
-    return Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node(
-      id: (l$id as String),
-      name: (l$name as String),
-      description: (l$description as String?),
-      price: (l$price as int?),
-      imageUrl: (l$imageUrl as String?),
-      dietCategories: l$dietCategories == null
-          ? null
-          : Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories.fromJson(
-              (l$dietCategories as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String? description;
-
-  final int? price;
-
-  final String? imageUrl;
-
-  final Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories?
-  dietCategories;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$description = description;
-    _resultData['description'] = l$description;
-    final l$price = price;
-    _resultData['price'] = l$price;
-    final l$imageUrl = imageUrl;
-    _resultData['imageUrl'] = l$imageUrl;
-    final l$dietCategories = dietCategories;
-    _resultData['dietCategories'] = l$dietCategories?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$description = description;
-    final l$price = price;
-    final l$imageUrl = imageUrl;
-    final l$dietCategories = dietCategories;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$id,
-      l$name,
-      l$description,
-      l$price,
-      l$imageUrl,
-      l$dietCategories,
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$description = description;
-    final lOther$description = other.description;
-    if (l$description != lOther$description) {
-      return false;
-    }
-    final l$price = price;
-    final lOther$price = other.price;
-    if (l$price != lOther$price) {
-      return false;
-    }
-    final l$imageUrl = imageUrl;
-    final lOther$imageUrl = other.imageUrl;
-    if (l$imageUrl != lOther$imageUrl) {
-      return false;
-    }
-    final l$dietCategories = dietCategories;
-    final lOther$dietCategories = other.dietCategories;
-    if (l$dietCategories != lOther$dietCategories) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node
-    on Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node {
-  CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node<
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node
-  >
-  get copyWith =>
-      CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node<
-  TRes
-> {
-  factory CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node(
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node instance,
-    TRes Function(
-      Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node,
-    )
-    then,
-  ) = _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node;
-
-  factory CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node;
-
-  TRes call({
-    String? id,
-    String? name,
-    String? description,
-    int? price,
-    String? imageUrl,
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories?
-    dietCategories,
-    String? $__typename,
-  });
-  CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories<
-    TRes
-  >
-  get dietCategories;
-}
-
-class _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node<
-  TRes
->
-    implements
-        CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node<
-          TRes
-        > {
-  _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node
-  _instance;
-
-  final TRes Function(
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? description = _undefined,
-    Object? price = _undefined,
-    Object? imageUrl = _undefined,
-    Object? dietCategories = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      description: description == _undefined
-          ? _instance.description
-          : (description as String?),
-      price: price == _undefined ? _instance.price : (price as int?),
-      imageUrl: imageUrl == _undefined
-          ? _instance.imageUrl
-          : (imageUrl as String?),
-      dietCategories: dietCategories == _undefined
-          ? _instance.dietCategories
-          : (dietCategories
-                as Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories<
-    TRes
-  >
-  get dietCategories {
-    final local$dietCategories = _instance.dietCategories;
-    return local$dietCategories == null
-        ? CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories(
-            local$dietCategories,
-            (e) => call(dietCategories: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node<
-  TRes
->
-    implements
-        CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node<
-          TRes
-        > {
-  _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    String? id,
-    String? name,
-    String? description,
-    int? price,
-    String? imageUrl,
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories?
-    dietCategories,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories<
-    TRes
-  >
-  get dietCategories =>
-      CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories.stub(
-        _res,
-      );
-}
-
-class Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories {
-  Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories({
-    this.edges,
-    this.$__typename = 'DietCategoryCursorConnection',
-  });
-
-  factory Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$edges = json['edges'];
-    final l$$__typename = json['__typename'];
-    return Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories(
-      edges: (l$edges as List<dynamic>?)
-          ?.map(
-            (e) => e == null
-                ? null
-                : Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges.fromJson(
-                    (e as Map<String, dynamic>),
-                  ),
-          )
-          .toList(),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final List<
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges?
-  >?
-  edges;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$edges = edges;
-    _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$edges = edges;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$edges = edges;
-    final lOther$edges = other.edges;
-    if (l$edges != null && lOther$edges != null) {
-      if (l$edges.length != lOther$edges.length) {
-        return false;
-      }
-      for (int i = 0; i < l$edges.length; i++) {
-        final l$edges$entry = l$edges[i];
-        final lOther$edges$entry = lOther$edges[i];
-        if (l$edges$entry != lOther$edges$entry) {
-          return false;
-        }
-      }
-    } else if (l$edges != lOther$edges) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories
-    on Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories {
-  CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories<
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories
-  >
-  get copyWith =>
-      CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories<
-  TRes
-> {
-  factory CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories(
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories
-    instance,
-    TRes Function(
-      Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories,
-    )
-    then,
-  ) = _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories;
-
-  factory CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories;
-
-  TRes call({
-    List<
-      Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges?
-    >?
-    edges,
-    String? $__typename,
-  });
-  TRes edges(
-    Iterable<
-      Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges?
-    >?
-    Function(
-      Iterable<
-        CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges<
-          Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges
-        >?
-      >?,
-    )
-    _fn,
-  );
-}
-
-class _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories<
-  TRes
->
-    implements
-        CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories<
-          TRes
-        > {
-  _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories
-  _instance;
-
-  final TRes Function(
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? edges = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories(
-      edges: edges == _undefined
-          ? _instance.edges
-          : (edges
-                as List<
-                  Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges?
-                >?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  TRes edges(
-    Iterable<
-      Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges?
-    >?
-    Function(
-      Iterable<
-        CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges<
-          Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges
-        >?
-      >?,
-    )
-    _fn,
-  ) => call(
-    edges: _fn(
-      _instance.edges?.map(
-        (e) => e == null
-            ? null
-            : CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges(
-                e,
-                (i) => i,
-              ),
-      ),
-    )?.toList(),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories<
-  TRes
->
-    implements
-        CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories<
-          TRes
-        > {
-  _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    List<
-      Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges?
-    >?
-    edges,
-    String? $__typename,
-  }) => _res;
-
-  edges(_fn) => _res;
-}
-
-class Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges {
-  Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges({
-    this.node,
-    this.$__typename = 'DietCategoryEdge',
-  });
-
-  factory Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$node = json['node'];
-    final l$$__typename = json['__typename'];
-    return Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges(
-      node: l$node == null
-          ? null
-          : Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node.fromJson(
-              (l$node as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node?
-  node;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$node = node;
-    _resultData['node'] = l$node?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$node = node;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$node, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$node = node;
-    final lOther$node = other.node;
-    if (l$node != lOther$node) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges
-    on
-        Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges {
-  CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges<
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges
-  >
-  get copyWith =>
-      CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges<
-  TRes
-> {
-  factory CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges(
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges
-    instance,
-    TRes Function(
-      Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges,
-    )
-    then,
-  ) = _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges;
-
-  factory CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges;
-
-  TRes call({
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node?
-    node,
-    String? $__typename,
-  });
-  CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node<
-    TRes
-  >
-  get node;
-}
-
-class _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges<
-  TRes
->
-    implements
-        CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges<
-          TRes
-        > {
-  _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges
-  _instance;
-
-  final TRes Function(
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? node = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges(
-      node: node == _undefined
-          ? _instance.node
-          : (node
-                as Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node<
-    TRes
-  >
-  get node {
-    final local$node = _instance.node;
-    return local$node == null
-        ? CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node(
-            local$node,
-            (e) => call(node: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges<
-  TRes
->
-    implements
-        CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges<
-          TRes
-        > {
-  _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node?
-    node,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node<
-    TRes
-  >
-  get node =>
-      CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node.stub(
-        _res,
-      );
-}
-
-class Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node {
-  Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node({
-    required this.id,
-    required this.name,
-    this.$__typename = 'DietCategory',
-  });
-
-  factory Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$$__typename = json['__typename'];
-    return Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node(
-      id: (l$id as String),
-      name: (l$name as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$name, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node
-    on
-        Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node {
-  CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node<
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node
-  >
-  get copyWith =>
-      CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node<
-  TRes
-> {
-  factory CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node(
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node
-    instance,
-    TRes Function(
-      Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node,
-    )
-    then,
-  ) = _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node;
-
-  factory CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node;
-
-  TRes call({String? id, String? name, String? $__typename});
-}
-
-class _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node<
-  TRes
->
-    implements
-        CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node<
-          TRes
-        > {
-  _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node
-  _instance;
-
-  final TRes Function(
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node<
-  TRes
->
-    implements
-        CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node<
-          TRes
-        > {
-  _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node$dietCategories$edges$node(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({String? id, String? name, String? $__typename}) => _res;
+  CopyWith$Fragment$MealPlanSummaryFragment<TRes> get node =>
+      CopyWith$Fragment$MealPlanSummaryFragment.stub(_res);
 }
 
 class Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo {

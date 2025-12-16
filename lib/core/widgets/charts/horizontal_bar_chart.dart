@@ -1,22 +1,26 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
 
 class HorizontalBarChartWidget extends StatelessWidget {
   final List<MapEntry<String, int>> data;
   final String title;
-  final String valueLabel;
+  final String? valueLabel;
   final Color barColor;
 
   const HorizontalBarChartWidget({
     super.key,
     required this.data,
     required this.title,
-    this.valueLabel = 'Count',
+    this.valueLabel,
     this.barColor = Colors.blue,
   });
 
   @override
   Widget build(BuildContext context) {
+    final effectiveValueLabel =
+        valueLabel ?? AppLocalizations.of(context)!.count;
+
     if (data.isEmpty) {
       return Card(
         child: Padding(
@@ -26,7 +30,7 @@ class HorizontalBarChartWidget extends StatelessWidget {
             children: [
               Text(title, style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 16),
-              const Text('No data available'),
+              Text(AppLocalizations.of(context)!.noDataAvailable),
             ],
           ),
         ),
@@ -58,7 +62,7 @@ class HorizontalBarChartWidget extends StatelessWidget {
                     touchTooltipData: BarTouchTooltipData(
                       getTooltipItem: (group, groupIndex, rod, rodIndex) {
                         return BarTooltipItem(
-                          '${data[groupIndex].key}\n${data[groupIndex].value} $valueLabel',
+                          '${data[groupIndex].key}\n${data[groupIndex].value} $effectiveValueLabel',
                           const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

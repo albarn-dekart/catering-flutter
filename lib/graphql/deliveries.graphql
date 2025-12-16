@@ -1,22 +1,65 @@
-query GetDeliveries($first: Int, $after: String) {
-    deliveries(first: $first, after: $after) {
-        edges {
-            node {
-                id
-                status
-                deliveryDate
-                order {
+fragment BasicDeliveryFragment on Delivery {
+    id
+    status
+    deliveryDate
+    order {
+        id
+        total
+        status
+        customer {
+            id
+            email
+        }
+    }
+    driver {
+        id
+        email
+    }
+}
+
+fragment DriverDeliveryFragment on Delivery {
+    id
+    status
+    deliveryDate
+    restaurant {
+        id
+        name
+    }
+    order {
+        id
+        total
+        status
+        customer {
+            id
+            email
+        }
+        deliveryFirstName
+        deliveryLastName
+        deliveryPhoneNumber
+        deliveryStreet
+        deliveryApartment
+        deliveryCity
+        deliveryZipCode
+        orderItems {
+            edges {
+                node {
                     id
-                    total
-                    customer {
+                    quantity
+                    mealPlan {
                         id
-                        email
+                        name
                     }
                 }
-                driver {
-                    id
-                    email
-                }
+            }
+        }
+    }
+}
+
+query GetDeliveries($first: Int, $after: String, $search: String) {
+    deliveries(first: $first, after: $after, search: $search) {
+        edges {
+            node {
+                ...BasicDeliveryFragment
             }
         }
         pageInfo {
@@ -27,34 +70,13 @@ query GetDeliveries($first: Int, $after: String) {
 }
 
 # For drivers - includes their deliveries
-query GetUserDeliveries($id: ID!, $first: Int, $after: String) {
+query GetUserDeliveries($id: ID!, $first: Int, $after: String, $status: [String], $search: String, $order: [DeliveryFilter_order]) {
     user(id: $id) {
         id
-        deliveries(first: $first, after: $after) {
+        deliveries(first: $first, after: $after, status_list: $status, search: $search, order: $order) {
             edges {
                 node {
-                    id
-                    status
-                    deliveryDate
-                    restaurant {
-                        id
-                        name
-                    }
-                    order {
-                        id
-                        total
-                        customer {
-                            id
-                            email
-                        }
-                        deliveryFirstName
-                        deliveryLastName
-                        deliveryPhoneNumber
-                        deliveryStreet
-                        deliveryApartment
-                        deliveryCity
-                        deliveryZipCode
-                    }
+                    ...DriverDeliveryFragment
                 }
             }
             pageInfo {
@@ -67,45 +89,17 @@ query GetUserDeliveries($id: ID!, $first: Int, $after: String) {
 
 query GetDelivery($id: ID!) {
     delivery(id: $id) {
-        id
-        status
-        deliveryDate
-        order {
-            id
-            total
-            customer {
-                id
-                email
-            }
-        }
-        driver {
-            id
-            email
-        }
+        ...BasicDeliveryFragment
     }
 }
 
-query GetDeliveriesByRestaurant($restaurantId: ID!, $first: Int, $after: String) {
+query GetDeliveriesByRestaurant($restaurantId: ID!, $first: Int, $after: String, $status: String, $order: [DeliveryFilter_order], $search: String) {
     restaurant(id: $restaurantId) {
         id
-        deliveries(first: $first, after: $after) {
+        deliveries(first: $first, after: $after, status: $status, search: $search, order: $order) {
             edges {
                 node {
-                    id
-                    status
-                    deliveryDate
-                    order {
-                        id
-                        total
-                        customer {
-                            id
-                            email
-                        }
-                    }
-                    driver {
-                        id
-                        email
-                    }
+                    ...BasicDeliveryFragment
                 }
             }
             pageInfo {

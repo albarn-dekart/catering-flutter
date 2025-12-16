@@ -5,12 +5,1977 @@ import 'package:graphql/client.dart' as graphql;
 import 'package:graphql_flutter/graphql_flutter.dart' as graphql_flutter;
 import 'schema.graphql.dart';
 
+class Fragment$RestaurantSummaryFragment {
+  Fragment$RestaurantSummaryFragment({
+    required this.id,
+    required this.name,
+    this.description,
+    required this.deliveryPrice,
+    this.imageUrl,
+    this.restaurantCategories,
+    this.$__typename = 'Restaurant',
+  });
+
+  factory Fragment$RestaurantSummaryFragment.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$name = json['name'];
+    final l$description = json['description'];
+    final l$deliveryPrice = json['deliveryPrice'];
+    final l$imageUrl = json['imageUrl'];
+    final l$restaurantCategories = json['restaurantCategories'];
+    final l$$__typename = json['__typename'];
+    return Fragment$RestaurantSummaryFragment(
+      id: (l$id as String),
+      name: (l$name as String),
+      description: (l$description as String?),
+      deliveryPrice: (l$deliveryPrice as int),
+      imageUrl: (l$imageUrl as String?),
+      restaurantCategories: l$restaurantCategories == null
+          ? null
+          : Fragment$RestaurantSummaryFragment$restaurantCategories.fromJson(
+              (l$restaurantCategories as Map<String, dynamic>),
+            ),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String name;
+
+  final String? description;
+
+  final int deliveryPrice;
+
+  final String? imageUrl;
+
+  final Fragment$RestaurantSummaryFragment$restaurantCategories?
+  restaurantCategories;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$description = description;
+    _resultData['description'] = l$description;
+    final l$deliveryPrice = deliveryPrice;
+    _resultData['deliveryPrice'] = l$deliveryPrice;
+    final l$imageUrl = imageUrl;
+    _resultData['imageUrl'] = l$imageUrl;
+    final l$restaurantCategories = restaurantCategories;
+    _resultData['restaurantCategories'] = l$restaurantCategories?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$description = description;
+    final l$deliveryPrice = deliveryPrice;
+    final l$imageUrl = imageUrl;
+    final l$restaurantCategories = restaurantCategories;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$description,
+      l$deliveryPrice,
+      l$imageUrl,
+      l$restaurantCategories,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$RestaurantSummaryFragment ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$description = description;
+    final lOther$description = other.description;
+    if (l$description != lOther$description) {
+      return false;
+    }
+    final l$deliveryPrice = deliveryPrice;
+    final lOther$deliveryPrice = other.deliveryPrice;
+    if (l$deliveryPrice != lOther$deliveryPrice) {
+      return false;
+    }
+    final l$imageUrl = imageUrl;
+    final lOther$imageUrl = other.imageUrl;
+    if (l$imageUrl != lOther$imageUrl) {
+      return false;
+    }
+    final l$restaurantCategories = restaurantCategories;
+    final lOther$restaurantCategories = other.restaurantCategories;
+    if (l$restaurantCategories != lOther$restaurantCategories) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$RestaurantSummaryFragment
+    on Fragment$RestaurantSummaryFragment {
+  CopyWith$Fragment$RestaurantSummaryFragment<
+    Fragment$RestaurantSummaryFragment
+  >
+  get copyWith => CopyWith$Fragment$RestaurantSummaryFragment(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$RestaurantSummaryFragment<TRes> {
+  factory CopyWith$Fragment$RestaurantSummaryFragment(
+    Fragment$RestaurantSummaryFragment instance,
+    TRes Function(Fragment$RestaurantSummaryFragment) then,
+  ) = _CopyWithImpl$Fragment$RestaurantSummaryFragment;
+
+  factory CopyWith$Fragment$RestaurantSummaryFragment.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$RestaurantSummaryFragment;
+
+  TRes call({
+    String? id,
+    String? name,
+    String? description,
+    int? deliveryPrice,
+    String? imageUrl,
+    Fragment$RestaurantSummaryFragment$restaurantCategories?
+    restaurantCategories,
+    String? $__typename,
+  });
+  CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories<TRes>
+  get restaurantCategories;
+}
+
+class _CopyWithImpl$Fragment$RestaurantSummaryFragment<TRes>
+    implements CopyWith$Fragment$RestaurantSummaryFragment<TRes> {
+  _CopyWithImpl$Fragment$RestaurantSummaryFragment(this._instance, this._then);
+
+  final Fragment$RestaurantSummaryFragment _instance;
+
+  final TRes Function(Fragment$RestaurantSummaryFragment) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? description = _undefined,
+    Object? deliveryPrice = _undefined,
+    Object? imageUrl = _undefined,
+    Object? restaurantCategories = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$RestaurantSummaryFragment(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      name: name == _undefined || name == null
+          ? _instance.name
+          : (name as String),
+      description: description == _undefined
+          ? _instance.description
+          : (description as String?),
+      deliveryPrice: deliveryPrice == _undefined || deliveryPrice == null
+          ? _instance.deliveryPrice
+          : (deliveryPrice as int),
+      imageUrl: imageUrl == _undefined
+          ? _instance.imageUrl
+          : (imageUrl as String?),
+      restaurantCategories: restaurantCategories == _undefined
+          ? _instance.restaurantCategories
+          : (restaurantCategories
+                as Fragment$RestaurantSummaryFragment$restaurantCategories?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories<TRes>
+  get restaurantCategories {
+    final local$restaurantCategories = _instance.restaurantCategories;
+    return local$restaurantCategories == null
+        ? CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories.stub(
+            _then(_instance),
+          )
+        : CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories(
+            local$restaurantCategories,
+            (e) => call(restaurantCategories: e),
+          );
+  }
+}
+
+class _CopyWithStubImpl$Fragment$RestaurantSummaryFragment<TRes>
+    implements CopyWith$Fragment$RestaurantSummaryFragment<TRes> {
+  _CopyWithStubImpl$Fragment$RestaurantSummaryFragment(this._res);
+
+  TRes _res;
+
+  call({
+    String? id,
+    String? name,
+    String? description,
+    int? deliveryPrice,
+    String? imageUrl,
+    Fragment$RestaurantSummaryFragment$restaurantCategories?
+    restaurantCategories,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories<TRes>
+  get restaurantCategories =>
+      CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories.stub(
+        _res,
+      );
+}
+
+const fragmentDefinitionRestaurantSummaryFragment = FragmentDefinitionNode(
+  name: NameNode(value: 'RestaurantSummaryFragment'),
+  typeCondition: TypeConditionNode(
+    on: NamedTypeNode(name: NameNode(value: 'Restaurant'), isNonNull: false),
+  ),
+  directives: [],
+  selectionSet: SelectionSetNode(
+    selections: [
+      FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'name'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'description'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'deliveryPrice'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'imageUrl'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'restaurantCategories'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(
+          selections: [
+            FieldNode(
+              name: NameNode(value: 'edges'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: SelectionSetNode(
+                selections: [
+                  FieldNode(
+                    name: NameNode(value: 'node'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(
+                      selections: [
+                        FieldNode(
+                          name: NameNode(value: 'id'),
+                          alias: null,
+                          arguments: [],
+                          directives: [],
+                          selectionSet: null,
+                        ),
+                        FieldNode(
+                          name: NameNode(value: 'name'),
+                          alias: null,
+                          arguments: [],
+                          directives: [],
+                          selectionSet: null,
+                        ),
+                        FieldNode(
+                          name: NameNode(value: '__typename'),
+                          alias: null,
+                          arguments: [],
+                          directives: [],
+                          selectionSet: null,
+                        ),
+                      ],
+                    ),
+                  ),
+                  FieldNode(
+                    name: NameNode(value: '__typename'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                ],
+              ),
+            ),
+            FieldNode(
+              name: NameNode(value: '__typename'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+          ],
+        ),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ],
+  ),
+);
+const documentNodeFragmentRestaurantSummaryFragment = DocumentNode(
+  definitions: [fragmentDefinitionRestaurantSummaryFragment],
+);
+
+extension ClientExtension$Fragment$RestaurantSummaryFragment
+    on graphql.GraphQLClient {
+  void writeFragment$RestaurantSummaryFragment({
+    required Fragment$RestaurantSummaryFragment data,
+    required Map<String, dynamic> idFields,
+    bool broadcast = true,
+  }) => this.writeFragment(
+    graphql.FragmentRequest(
+      idFields: idFields,
+      fragment: const graphql.Fragment(
+        fragmentName: 'RestaurantSummaryFragment',
+        document: documentNodeFragmentRestaurantSummaryFragment,
+      ),
+    ),
+    data: data.toJson(),
+    broadcast: broadcast,
+  );
+
+  Fragment$RestaurantSummaryFragment? readFragment$RestaurantSummaryFragment({
+    required Map<String, dynamic> idFields,
+    bool optimistic = true,
+  }) {
+    final result = this.readFragment(
+      graphql.FragmentRequest(
+        idFields: idFields,
+        fragment: const graphql.Fragment(
+          fragmentName: 'RestaurantSummaryFragment',
+          document: documentNodeFragmentRestaurantSummaryFragment,
+        ),
+      ),
+      optimistic: optimistic,
+    );
+    return result == null
+        ? null
+        : Fragment$RestaurantSummaryFragment.fromJson(result);
+  }
+}
+
+class Fragment$RestaurantSummaryFragment$restaurantCategories {
+  Fragment$RestaurantSummaryFragment$restaurantCategories({
+    this.edges,
+    this.$__typename = 'RestaurantCategoryCursorConnection',
+  });
+
+  factory Fragment$RestaurantSummaryFragment$restaurantCategories.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$edges = json['edges'];
+    final l$$__typename = json['__typename'];
+    return Fragment$RestaurantSummaryFragment$restaurantCategories(
+      edges: (l$edges as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Fragment$RestaurantSummaryFragment$restaurantCategories$edges.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList(),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final List<Fragment$RestaurantSummaryFragment$restaurantCategories$edges?>?
+  edges;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$edges = edges;
+    _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$edges = edges;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$RestaurantSummaryFragment$restaurantCategories ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$edges = edges;
+    final lOther$edges = other.edges;
+    if (l$edges != null && lOther$edges != null) {
+      if (l$edges.length != lOther$edges.length) {
+        return false;
+      }
+      for (int i = 0; i < l$edges.length; i++) {
+        final l$edges$entry = l$edges[i];
+        final lOther$edges$entry = lOther$edges[i];
+        if (l$edges$entry != lOther$edges$entry) {
+          return false;
+        }
+      }
+    } else if (l$edges != lOther$edges) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$RestaurantSummaryFragment$restaurantCategories
+    on Fragment$RestaurantSummaryFragment$restaurantCategories {
+  CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories<
+    Fragment$RestaurantSummaryFragment$restaurantCategories
+  >
+  get copyWith =>
+      CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories<
+  TRes
+> {
+  factory CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories(
+    Fragment$RestaurantSummaryFragment$restaurantCategories instance,
+    TRes Function(Fragment$RestaurantSummaryFragment$restaurantCategories) then,
+  ) = _CopyWithImpl$Fragment$RestaurantSummaryFragment$restaurantCategories;
+
+  factory CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$RestaurantSummaryFragment$restaurantCategories;
+
+  TRes call({
+    List<Fragment$RestaurantSummaryFragment$restaurantCategories$edges?>? edges,
+    String? $__typename,
+  });
+  TRes edges(
+    Iterable<Fragment$RestaurantSummaryFragment$restaurantCategories$edges?>?
+    Function(
+      Iterable<
+        CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges<
+          Fragment$RestaurantSummaryFragment$restaurantCategories$edges
+        >?
+      >?,
+    )
+    _fn,
+  );
+}
+
+class _CopyWithImpl$Fragment$RestaurantSummaryFragment$restaurantCategories<
+  TRes
+>
+    implements
+        CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories<TRes> {
+  _CopyWithImpl$Fragment$RestaurantSummaryFragment$restaurantCategories(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$RestaurantSummaryFragment$restaurantCategories _instance;
+
+  final TRes Function(Fragment$RestaurantSummaryFragment$restaurantCategories)
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? edges = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$RestaurantSummaryFragment$restaurantCategories(
+      edges: edges == _undefined
+          ? _instance.edges
+          : (edges
+                as List<
+                  Fragment$RestaurantSummaryFragment$restaurantCategories$edges?
+                >?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  TRes edges(
+    Iterable<Fragment$RestaurantSummaryFragment$restaurantCategories$edges?>?
+    Function(
+      Iterable<
+        CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges<
+          Fragment$RestaurantSummaryFragment$restaurantCategories$edges
+        >?
+      >?,
+    )
+    _fn,
+  ) => call(
+    edges: _fn(
+      _instance.edges?.map(
+        (e) => e == null
+            ? null
+            : CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges(
+                e,
+                (i) => i,
+              ),
+      ),
+    )?.toList(),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$RestaurantSummaryFragment$restaurantCategories<
+  TRes
+>
+    implements
+        CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories<TRes> {
+  _CopyWithStubImpl$Fragment$RestaurantSummaryFragment$restaurantCategories(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({
+    List<Fragment$RestaurantSummaryFragment$restaurantCategories$edges?>? edges,
+    String? $__typename,
+  }) => _res;
+
+  edges(_fn) => _res;
+}
+
+class Fragment$RestaurantSummaryFragment$restaurantCategories$edges {
+  Fragment$RestaurantSummaryFragment$restaurantCategories$edges({
+    this.node,
+    this.$__typename = 'RestaurantCategoryEdge',
+  });
+
+  factory Fragment$RestaurantSummaryFragment$restaurantCategories$edges.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$node = json['node'];
+    final l$$__typename = json['__typename'];
+    return Fragment$RestaurantSummaryFragment$restaurantCategories$edges(
+      node: l$node == null
+          ? null
+          : Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node.fromJson(
+              (l$node as Map<String, dynamic>),
+            ),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node?
+  node;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$node = node;
+    _resultData['node'] = l$node?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$node = node;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$node, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other
+            is! Fragment$RestaurantSummaryFragment$restaurantCategories$edges ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$node = node;
+    final lOther$node = other.node;
+    if (l$node != lOther$node) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$RestaurantSummaryFragment$restaurantCategories$edges
+    on Fragment$RestaurantSummaryFragment$restaurantCategories$edges {
+  CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges<
+    Fragment$RestaurantSummaryFragment$restaurantCategories$edges
+  >
+  get copyWith =>
+      CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges<
+  TRes
+> {
+  factory CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges(
+    Fragment$RestaurantSummaryFragment$restaurantCategories$edges instance,
+    TRes Function(Fragment$RestaurantSummaryFragment$restaurantCategories$edges)
+    then,
+  ) = _CopyWithImpl$Fragment$RestaurantSummaryFragment$restaurantCategories$edges;
+
+  factory CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$RestaurantSummaryFragment$restaurantCategories$edges;
+
+  TRes call({
+    Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node? node,
+    String? $__typename,
+  });
+  CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node<
+    TRes
+  >
+  get node;
+}
+
+class _CopyWithImpl$Fragment$RestaurantSummaryFragment$restaurantCategories$edges<
+  TRes
+>
+    implements
+        CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges<
+          TRes
+        > {
+  _CopyWithImpl$Fragment$RestaurantSummaryFragment$restaurantCategories$edges(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$RestaurantSummaryFragment$restaurantCategories$edges _instance;
+
+  final TRes Function(
+    Fragment$RestaurantSummaryFragment$restaurantCategories$edges,
+  )
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? node = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$RestaurantSummaryFragment$restaurantCategories$edges(
+      node: node == _undefined
+          ? _instance.node
+          : (node
+                as Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node<
+    TRes
+  >
+  get node {
+    final local$node = _instance.node;
+    return local$node == null
+        ? CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node.stub(
+            _then(_instance),
+          )
+        : CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node(
+            local$node,
+            (e) => call(node: e),
+          );
+  }
+}
+
+class _CopyWithStubImpl$Fragment$RestaurantSummaryFragment$restaurantCategories$edges<
+  TRes
+>
+    implements
+        CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges<
+          TRes
+        > {
+  _CopyWithStubImpl$Fragment$RestaurantSummaryFragment$restaurantCategories$edges(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({
+    Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node? node,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node<
+    TRes
+  >
+  get node =>
+      CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node.stub(
+        _res,
+      );
+}
+
+class Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node {
+  Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node({
+    required this.id,
+    required this.name,
+    this.$__typename = 'RestaurantCategory',
+  });
+
+  factory Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$name = json['name'];
+    final l$$__typename = json['__typename'];
+    return Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node(
+      id: (l$id as String),
+      name: (l$name as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String name;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$name, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other
+            is! Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node
+    on Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node {
+  CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node<
+    Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node
+  >
+  get copyWith =>
+      CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node<
+  TRes
+> {
+  factory CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node(
+    Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node instance,
+    TRes Function(
+      Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node,
+    )
+    then,
+  ) = _CopyWithImpl$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node;
+
+  factory CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node;
+
+  TRes call({String? id, String? name, String? $__typename});
+}
+
+class _CopyWithImpl$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node<
+  TRes
+>
+    implements
+        CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node<
+          TRes
+        > {
+  _CopyWithImpl$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node
+  _instance;
+
+  final TRes Function(
+    Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node,
+  )
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      name: name == _undefined || name == null
+          ? _instance.name
+          : (name as String),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node<
+  TRes
+>
+    implements
+        CopyWith$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node<
+          TRes
+        > {
+  _CopyWithStubImpl$Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({String? id, String? name, String? $__typename}) => _res;
+}
+
+class Fragment$RestaurantDetailFragment
+    implements Fragment$RestaurantSummaryFragment {
+  Fragment$RestaurantDetailFragment({
+    required this.id,
+    required this.name,
+    this.description,
+    required this.deliveryPrice,
+    this.imageUrl,
+    this.restaurantCategories,
+    this.$__typename = 'Restaurant',
+    this.phoneNumber,
+    this.email,
+    this.city,
+    this.street,
+    this.zipCode,
+    this.nip,
+  });
+
+  factory Fragment$RestaurantDetailFragment.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$name = json['name'];
+    final l$description = json['description'];
+    final l$deliveryPrice = json['deliveryPrice'];
+    final l$imageUrl = json['imageUrl'];
+    final l$restaurantCategories = json['restaurantCategories'];
+    final l$$__typename = json['__typename'];
+    final l$phoneNumber = json['phoneNumber'];
+    final l$email = json['email'];
+    final l$city = json['city'];
+    final l$street = json['street'];
+    final l$zipCode = json['zipCode'];
+    final l$nip = json['nip'];
+    return Fragment$RestaurantDetailFragment(
+      id: (l$id as String),
+      name: (l$name as String),
+      description: (l$description as String?),
+      deliveryPrice: (l$deliveryPrice as int),
+      imageUrl: (l$imageUrl as String?),
+      restaurantCategories: l$restaurantCategories == null
+          ? null
+          : Fragment$RestaurantDetailFragment$restaurantCategories.fromJson(
+              (l$restaurantCategories as Map<String, dynamic>),
+            ),
+      $__typename: (l$$__typename as String),
+      phoneNumber: (l$phoneNumber as String?),
+      email: (l$email as String?),
+      city: (l$city as String?),
+      street: (l$street as String?),
+      zipCode: (l$zipCode as String?),
+      nip: (l$nip as String?),
+    );
+  }
+
+  final String id;
+
+  final String name;
+
+  final String? description;
+
+  final int deliveryPrice;
+
+  final String? imageUrl;
+
+  final Fragment$RestaurantDetailFragment$restaurantCategories?
+  restaurantCategories;
+
+  final String $__typename;
+
+  final String? phoneNumber;
+
+  final String? email;
+
+  final String? city;
+
+  final String? street;
+
+  final String? zipCode;
+
+  final String? nip;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$description = description;
+    _resultData['description'] = l$description;
+    final l$deliveryPrice = deliveryPrice;
+    _resultData['deliveryPrice'] = l$deliveryPrice;
+    final l$imageUrl = imageUrl;
+    _resultData['imageUrl'] = l$imageUrl;
+    final l$restaurantCategories = restaurantCategories;
+    _resultData['restaurantCategories'] = l$restaurantCategories?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    final l$phoneNumber = phoneNumber;
+    _resultData['phoneNumber'] = l$phoneNumber;
+    final l$email = email;
+    _resultData['email'] = l$email;
+    final l$city = city;
+    _resultData['city'] = l$city;
+    final l$street = street;
+    _resultData['street'] = l$street;
+    final l$zipCode = zipCode;
+    _resultData['zipCode'] = l$zipCode;
+    final l$nip = nip;
+    _resultData['nip'] = l$nip;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$description = description;
+    final l$deliveryPrice = deliveryPrice;
+    final l$imageUrl = imageUrl;
+    final l$restaurantCategories = restaurantCategories;
+    final l$$__typename = $__typename;
+    final l$phoneNumber = phoneNumber;
+    final l$email = email;
+    final l$city = city;
+    final l$street = street;
+    final l$zipCode = zipCode;
+    final l$nip = nip;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$description,
+      l$deliveryPrice,
+      l$imageUrl,
+      l$restaurantCategories,
+      l$$__typename,
+      l$phoneNumber,
+      l$email,
+      l$city,
+      l$street,
+      l$zipCode,
+      l$nip,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$RestaurantDetailFragment ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$description = description;
+    final lOther$description = other.description;
+    if (l$description != lOther$description) {
+      return false;
+    }
+    final l$deliveryPrice = deliveryPrice;
+    final lOther$deliveryPrice = other.deliveryPrice;
+    if (l$deliveryPrice != lOther$deliveryPrice) {
+      return false;
+    }
+    final l$imageUrl = imageUrl;
+    final lOther$imageUrl = other.imageUrl;
+    if (l$imageUrl != lOther$imageUrl) {
+      return false;
+    }
+    final l$restaurantCategories = restaurantCategories;
+    final lOther$restaurantCategories = other.restaurantCategories;
+    if (l$restaurantCategories != lOther$restaurantCategories) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    final l$phoneNumber = phoneNumber;
+    final lOther$phoneNumber = other.phoneNumber;
+    if (l$phoneNumber != lOther$phoneNumber) {
+      return false;
+    }
+    final l$email = email;
+    final lOther$email = other.email;
+    if (l$email != lOther$email) {
+      return false;
+    }
+    final l$city = city;
+    final lOther$city = other.city;
+    if (l$city != lOther$city) {
+      return false;
+    }
+    final l$street = street;
+    final lOther$street = other.street;
+    if (l$street != lOther$street) {
+      return false;
+    }
+    final l$zipCode = zipCode;
+    final lOther$zipCode = other.zipCode;
+    if (l$zipCode != lOther$zipCode) {
+      return false;
+    }
+    final l$nip = nip;
+    final lOther$nip = other.nip;
+    if (l$nip != lOther$nip) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$RestaurantDetailFragment
+    on Fragment$RestaurantDetailFragment {
+  CopyWith$Fragment$RestaurantDetailFragment<Fragment$RestaurantDetailFragment>
+  get copyWith => CopyWith$Fragment$RestaurantDetailFragment(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$RestaurantDetailFragment<TRes> {
+  factory CopyWith$Fragment$RestaurantDetailFragment(
+    Fragment$RestaurantDetailFragment instance,
+    TRes Function(Fragment$RestaurantDetailFragment) then,
+  ) = _CopyWithImpl$Fragment$RestaurantDetailFragment;
+
+  factory CopyWith$Fragment$RestaurantDetailFragment.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$RestaurantDetailFragment;
+
+  TRes call({
+    String? id,
+    String? name,
+    String? description,
+    int? deliveryPrice,
+    String? imageUrl,
+    Fragment$RestaurantDetailFragment$restaurantCategories?
+    restaurantCategories,
+    String? $__typename,
+    String? phoneNumber,
+    String? email,
+    String? city,
+    String? street,
+    String? zipCode,
+    String? nip,
+  });
+  CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories<TRes>
+  get restaurantCategories;
+}
+
+class _CopyWithImpl$Fragment$RestaurantDetailFragment<TRes>
+    implements CopyWith$Fragment$RestaurantDetailFragment<TRes> {
+  _CopyWithImpl$Fragment$RestaurantDetailFragment(this._instance, this._then);
+
+  final Fragment$RestaurantDetailFragment _instance;
+
+  final TRes Function(Fragment$RestaurantDetailFragment) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? description = _undefined,
+    Object? deliveryPrice = _undefined,
+    Object? imageUrl = _undefined,
+    Object? restaurantCategories = _undefined,
+    Object? $__typename = _undefined,
+    Object? phoneNumber = _undefined,
+    Object? email = _undefined,
+    Object? city = _undefined,
+    Object? street = _undefined,
+    Object? zipCode = _undefined,
+    Object? nip = _undefined,
+  }) => _then(
+    Fragment$RestaurantDetailFragment(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      name: name == _undefined || name == null
+          ? _instance.name
+          : (name as String),
+      description: description == _undefined
+          ? _instance.description
+          : (description as String?),
+      deliveryPrice: deliveryPrice == _undefined || deliveryPrice == null
+          ? _instance.deliveryPrice
+          : (deliveryPrice as int),
+      imageUrl: imageUrl == _undefined
+          ? _instance.imageUrl
+          : (imageUrl as String?),
+      restaurantCategories: restaurantCategories == _undefined
+          ? _instance.restaurantCategories
+          : (restaurantCategories
+                as Fragment$RestaurantDetailFragment$restaurantCategories?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+      phoneNumber: phoneNumber == _undefined
+          ? _instance.phoneNumber
+          : (phoneNumber as String?),
+      email: email == _undefined ? _instance.email : (email as String?),
+      city: city == _undefined ? _instance.city : (city as String?),
+      street: street == _undefined ? _instance.street : (street as String?),
+      zipCode: zipCode == _undefined ? _instance.zipCode : (zipCode as String?),
+      nip: nip == _undefined ? _instance.nip : (nip as String?),
+    ),
+  );
+
+  CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories<TRes>
+  get restaurantCategories {
+    final local$restaurantCategories = _instance.restaurantCategories;
+    return local$restaurantCategories == null
+        ? CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories.stub(
+            _then(_instance),
+          )
+        : CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories(
+            local$restaurantCategories,
+            (e) => call(restaurantCategories: e),
+          );
+  }
+}
+
+class _CopyWithStubImpl$Fragment$RestaurantDetailFragment<TRes>
+    implements CopyWith$Fragment$RestaurantDetailFragment<TRes> {
+  _CopyWithStubImpl$Fragment$RestaurantDetailFragment(this._res);
+
+  TRes _res;
+
+  call({
+    String? id,
+    String? name,
+    String? description,
+    int? deliveryPrice,
+    String? imageUrl,
+    Fragment$RestaurantDetailFragment$restaurantCategories?
+    restaurantCategories,
+    String? $__typename,
+    String? phoneNumber,
+    String? email,
+    String? city,
+    String? street,
+    String? zipCode,
+    String? nip,
+  }) => _res;
+
+  CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories<TRes>
+  get restaurantCategories =>
+      CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories.stub(
+        _res,
+      );
+}
+
+const fragmentDefinitionRestaurantDetailFragment = FragmentDefinitionNode(
+  name: NameNode(value: 'RestaurantDetailFragment'),
+  typeCondition: TypeConditionNode(
+    on: NamedTypeNode(name: NameNode(value: 'Restaurant'), isNonNull: false),
+  ),
+  directives: [],
+  selectionSet: SelectionSetNode(
+    selections: [
+      FragmentSpreadNode(
+        name: NameNode(value: 'RestaurantSummaryFragment'),
+        directives: [],
+      ),
+      FieldNode(
+        name: NameNode(value: 'phoneNumber'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'email'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'city'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'street'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'zipCode'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'nip'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ],
+  ),
+);
+const documentNodeFragmentRestaurantDetailFragment = DocumentNode(
+  definitions: [
+    fragmentDefinitionRestaurantDetailFragment,
+    fragmentDefinitionRestaurantSummaryFragment,
+  ],
+);
+
+extension ClientExtension$Fragment$RestaurantDetailFragment
+    on graphql.GraphQLClient {
+  void writeFragment$RestaurantDetailFragment({
+    required Fragment$RestaurantDetailFragment data,
+    required Map<String, dynamic> idFields,
+    bool broadcast = true,
+  }) => this.writeFragment(
+    graphql.FragmentRequest(
+      idFields: idFields,
+      fragment: const graphql.Fragment(
+        fragmentName: 'RestaurantDetailFragment',
+        document: documentNodeFragmentRestaurantDetailFragment,
+      ),
+    ),
+    data: data.toJson(),
+    broadcast: broadcast,
+  );
+
+  Fragment$RestaurantDetailFragment? readFragment$RestaurantDetailFragment({
+    required Map<String, dynamic> idFields,
+    bool optimistic = true,
+  }) {
+    final result = this.readFragment(
+      graphql.FragmentRequest(
+        idFields: idFields,
+        fragment: const graphql.Fragment(
+          fragmentName: 'RestaurantDetailFragment',
+          document: documentNodeFragmentRestaurantDetailFragment,
+        ),
+      ),
+      optimistic: optimistic,
+    );
+    return result == null
+        ? null
+        : Fragment$RestaurantDetailFragment.fromJson(result);
+  }
+}
+
+class Fragment$RestaurantDetailFragment$restaurantCategories
+    implements Fragment$RestaurantSummaryFragment$restaurantCategories {
+  Fragment$RestaurantDetailFragment$restaurantCategories({
+    this.edges,
+    this.$__typename = 'RestaurantCategoryCursorConnection',
+  });
+
+  factory Fragment$RestaurantDetailFragment$restaurantCategories.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$edges = json['edges'];
+    final l$$__typename = json['__typename'];
+    return Fragment$RestaurantDetailFragment$restaurantCategories(
+      edges: (l$edges as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Fragment$RestaurantDetailFragment$restaurantCategories$edges.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList(),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final List<Fragment$RestaurantDetailFragment$restaurantCategories$edges?>?
+  edges;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$edges = edges;
+    _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$edges = edges;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$RestaurantDetailFragment$restaurantCategories ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$edges = edges;
+    final lOther$edges = other.edges;
+    if (l$edges != null && lOther$edges != null) {
+      if (l$edges.length != lOther$edges.length) {
+        return false;
+      }
+      for (int i = 0; i < l$edges.length; i++) {
+        final l$edges$entry = l$edges[i];
+        final lOther$edges$entry = lOther$edges[i];
+        if (l$edges$entry != lOther$edges$entry) {
+          return false;
+        }
+      }
+    } else if (l$edges != lOther$edges) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$RestaurantDetailFragment$restaurantCategories
+    on Fragment$RestaurantDetailFragment$restaurantCategories {
+  CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories<
+    Fragment$RestaurantDetailFragment$restaurantCategories
+  >
+  get copyWith =>
+      CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories<
+  TRes
+> {
+  factory CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories(
+    Fragment$RestaurantDetailFragment$restaurantCategories instance,
+    TRes Function(Fragment$RestaurantDetailFragment$restaurantCategories) then,
+  ) = _CopyWithImpl$Fragment$RestaurantDetailFragment$restaurantCategories;
+
+  factory CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$RestaurantDetailFragment$restaurantCategories;
+
+  TRes call({
+    List<Fragment$RestaurantDetailFragment$restaurantCategories$edges?>? edges,
+    String? $__typename,
+  });
+  TRes edges(
+    Iterable<Fragment$RestaurantDetailFragment$restaurantCategories$edges?>?
+    Function(
+      Iterable<
+        CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges<
+          Fragment$RestaurantDetailFragment$restaurantCategories$edges
+        >?
+      >?,
+    )
+    _fn,
+  );
+}
+
+class _CopyWithImpl$Fragment$RestaurantDetailFragment$restaurantCategories<TRes>
+    implements
+        CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories<TRes> {
+  _CopyWithImpl$Fragment$RestaurantDetailFragment$restaurantCategories(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$RestaurantDetailFragment$restaurantCategories _instance;
+
+  final TRes Function(Fragment$RestaurantDetailFragment$restaurantCategories)
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? edges = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$RestaurantDetailFragment$restaurantCategories(
+      edges: edges == _undefined
+          ? _instance.edges
+          : (edges
+                as List<
+                  Fragment$RestaurantDetailFragment$restaurantCategories$edges?
+                >?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  TRes edges(
+    Iterable<Fragment$RestaurantDetailFragment$restaurantCategories$edges?>?
+    Function(
+      Iterable<
+        CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges<
+          Fragment$RestaurantDetailFragment$restaurantCategories$edges
+        >?
+      >?,
+    )
+    _fn,
+  ) => call(
+    edges: _fn(
+      _instance.edges?.map(
+        (e) => e == null
+            ? null
+            : CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges(
+                e,
+                (i) => i,
+              ),
+      ),
+    )?.toList(),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$RestaurantDetailFragment$restaurantCategories<
+  TRes
+>
+    implements
+        CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories<TRes> {
+  _CopyWithStubImpl$Fragment$RestaurantDetailFragment$restaurantCategories(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({
+    List<Fragment$RestaurantDetailFragment$restaurantCategories$edges?>? edges,
+    String? $__typename,
+  }) => _res;
+
+  edges(_fn) => _res;
+}
+
+class Fragment$RestaurantDetailFragment$restaurantCategories$edges
+    implements Fragment$RestaurantSummaryFragment$restaurantCategories$edges {
+  Fragment$RestaurantDetailFragment$restaurantCategories$edges({
+    this.node,
+    this.$__typename = 'RestaurantCategoryEdge',
+  });
+
+  factory Fragment$RestaurantDetailFragment$restaurantCategories$edges.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$node = json['node'];
+    final l$$__typename = json['__typename'];
+    return Fragment$RestaurantDetailFragment$restaurantCategories$edges(
+      node: l$node == null
+          ? null
+          : Fragment$RestaurantDetailFragment$restaurantCategories$edges$node.fromJson(
+              (l$node as Map<String, dynamic>),
+            ),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Fragment$RestaurantDetailFragment$restaurantCategories$edges$node? node;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$node = node;
+    _resultData['node'] = l$node?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$node = node;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$node, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other
+            is! Fragment$RestaurantDetailFragment$restaurantCategories$edges ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$node = node;
+    final lOther$node = other.node;
+    if (l$node != lOther$node) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$RestaurantDetailFragment$restaurantCategories$edges
+    on Fragment$RestaurantDetailFragment$restaurantCategories$edges {
+  CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges<
+    Fragment$RestaurantDetailFragment$restaurantCategories$edges
+  >
+  get copyWith =>
+      CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges<
+  TRes
+> {
+  factory CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges(
+    Fragment$RestaurantDetailFragment$restaurantCategories$edges instance,
+    TRes Function(Fragment$RestaurantDetailFragment$restaurantCategories$edges)
+    then,
+  ) = _CopyWithImpl$Fragment$RestaurantDetailFragment$restaurantCategories$edges;
+
+  factory CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$RestaurantDetailFragment$restaurantCategories$edges;
+
+  TRes call({
+    Fragment$RestaurantDetailFragment$restaurantCategories$edges$node? node,
+    String? $__typename,
+  });
+  CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node<
+    TRes
+  >
+  get node;
+}
+
+class _CopyWithImpl$Fragment$RestaurantDetailFragment$restaurantCategories$edges<
+  TRes
+>
+    implements
+        CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges<
+          TRes
+        > {
+  _CopyWithImpl$Fragment$RestaurantDetailFragment$restaurantCategories$edges(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$RestaurantDetailFragment$restaurantCategories$edges _instance;
+
+  final TRes Function(
+    Fragment$RestaurantDetailFragment$restaurantCategories$edges,
+  )
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? node = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$RestaurantDetailFragment$restaurantCategories$edges(
+      node: node == _undefined
+          ? _instance.node
+          : (node
+                as Fragment$RestaurantDetailFragment$restaurantCategories$edges$node?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node<
+    TRes
+  >
+  get node {
+    final local$node = _instance.node;
+    return local$node == null
+        ? CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node.stub(
+            _then(_instance),
+          )
+        : CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node(
+            local$node,
+            (e) => call(node: e),
+          );
+  }
+}
+
+class _CopyWithStubImpl$Fragment$RestaurantDetailFragment$restaurantCategories$edges<
+  TRes
+>
+    implements
+        CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges<
+          TRes
+        > {
+  _CopyWithStubImpl$Fragment$RestaurantDetailFragment$restaurantCategories$edges(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({
+    Fragment$RestaurantDetailFragment$restaurantCategories$edges$node? node,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node<
+    TRes
+  >
+  get node =>
+      CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node.stub(
+        _res,
+      );
+}
+
+class Fragment$RestaurantDetailFragment$restaurantCategories$edges$node
+    implements
+        Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node {
+  Fragment$RestaurantDetailFragment$restaurantCategories$edges$node({
+    required this.id,
+    required this.name,
+    this.$__typename = 'RestaurantCategory',
+  });
+
+  factory Fragment$RestaurantDetailFragment$restaurantCategories$edges$node.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$name = json['name'];
+    final l$$__typename = json['__typename'];
+    return Fragment$RestaurantDetailFragment$restaurantCategories$edges$node(
+      id: (l$id as String),
+      name: (l$name as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String name;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$name, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other
+            is! Fragment$RestaurantDetailFragment$restaurantCategories$edges$node ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node
+    on Fragment$RestaurantDetailFragment$restaurantCategories$edges$node {
+  CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node<
+    Fragment$RestaurantDetailFragment$restaurantCategories$edges$node
+  >
+  get copyWith =>
+      CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node<
+  TRes
+> {
+  factory CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node(
+    Fragment$RestaurantDetailFragment$restaurantCategories$edges$node instance,
+    TRes Function(
+      Fragment$RestaurantDetailFragment$restaurantCategories$edges$node,
+    )
+    then,
+  ) = _CopyWithImpl$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node;
+
+  factory CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node;
+
+  TRes call({String? id, String? name, String? $__typename});
+}
+
+class _CopyWithImpl$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node<
+  TRes
+>
+    implements
+        CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node<
+          TRes
+        > {
+  _CopyWithImpl$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$RestaurantDetailFragment$restaurantCategories$edges$node
+  _instance;
+
+  final TRes Function(
+    Fragment$RestaurantDetailFragment$restaurantCategories$edges$node,
+  )
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$RestaurantDetailFragment$restaurantCategories$edges$node(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      name: name == _undefined || name == null
+          ? _instance.name
+          : (name as String),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node<
+  TRes
+>
+    implements
+        CopyWith$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node<
+          TRes
+        > {
+  _CopyWithStubImpl$Fragment$RestaurantDetailFragment$restaurantCategories$edges$node(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({String? id, String? name, String? $__typename}) => _res;
+}
+
 class Variables$Query$GetRestaurants {
-  factory Variables$Query$GetRestaurants({int? first, String? after}) =>
-      Variables$Query$GetRestaurants._({
-        if (first != null) r'first': first,
-        if (after != null) r'after': after,
-      });
+  factory Variables$Query$GetRestaurants({
+    int? first,
+    String? after,
+    String? search,
+    String? category,
+  }) => Variables$Query$GetRestaurants._({
+    if (first != null) r'first': first,
+    if (after != null) r'after': after,
+    if (search != null) r'search': search,
+    if (category != null) r'category': category,
+  });
 
   Variables$Query$GetRestaurants._(this._$data);
 
@@ -24,6 +1989,14 @@ class Variables$Query$GetRestaurants {
       final l$after = data['after'];
       result$data['after'] = (l$after as String?);
     }
+    if (data.containsKey('search')) {
+      final l$search = data['search'];
+      result$data['search'] = (l$search as String?);
+    }
+    if (data.containsKey('category')) {
+      final l$category = data['category'];
+      result$data['category'] = (l$category as String?);
+    }
     return Variables$Query$GetRestaurants._(result$data);
   }
 
@@ -32,6 +2005,10 @@ class Variables$Query$GetRestaurants {
   int? get first => (_$data['first'] as int?);
 
   String? get after => (_$data['after'] as String?);
+
+  String? get search => (_$data['search'] as String?);
+
+  String? get category => (_$data['category'] as String?);
 
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
@@ -42,6 +2019,14 @@ class Variables$Query$GetRestaurants {
     if (_$data.containsKey('after')) {
       final l$after = after;
       result$data['after'] = l$after;
+    }
+    if (_$data.containsKey('search')) {
+      final l$search = search;
+      result$data['search'] = l$search;
+    }
+    if (_$data.containsKey('category')) {
+      final l$category = category;
+      result$data['category'] = l$category;
     }
     return result$data;
   }
@@ -74,6 +2059,23 @@ class Variables$Query$GetRestaurants {
     if (l$after != lOther$after) {
       return false;
     }
+    final l$search = search;
+    final lOther$search = other.search;
+    if (_$data.containsKey('search') != other._$data.containsKey('search')) {
+      return false;
+    }
+    if (l$search != lOther$search) {
+      return false;
+    }
+    final l$category = category;
+    final lOther$category = other.category;
+    if (_$data.containsKey('category') !=
+        other._$data.containsKey('category')) {
+      return false;
+    }
+    if (l$category != lOther$category) {
+      return false;
+    }
     return true;
   }
 
@@ -81,9 +2083,13 @@ class Variables$Query$GetRestaurants {
   int get hashCode {
     final l$first = first;
     final l$after = after;
+    final l$search = search;
+    final l$category = category;
     return Object.hashAll([
       _$data.containsKey('first') ? l$first : const {},
       _$data.containsKey('after') ? l$after : const {},
+      _$data.containsKey('search') ? l$search : const {},
+      _$data.containsKey('category') ? l$category : const {},
     ]);
   }
 }
@@ -97,7 +2103,7 @@ abstract class CopyWith$Variables$Query$GetRestaurants<TRes> {
   factory CopyWith$Variables$Query$GetRestaurants.stub(TRes res) =
       _CopyWithStubImpl$Variables$Query$GetRestaurants;
 
-  TRes call({int? first, String? after});
+  TRes call({int? first, String? after, String? search, String? category});
 }
 
 class _CopyWithImpl$Variables$Query$GetRestaurants<TRes>
@@ -110,11 +2116,18 @@ class _CopyWithImpl$Variables$Query$GetRestaurants<TRes>
 
   static const _undefined = <dynamic, dynamic>{};
 
-  TRes call({Object? first = _undefined, Object? after = _undefined}) => _then(
+  TRes call({
+    Object? first = _undefined,
+    Object? after = _undefined,
+    Object? search = _undefined,
+    Object? category = _undefined,
+  }) => _then(
     Variables$Query$GetRestaurants._({
       ..._instance._$data,
       if (first != _undefined) 'first': (first as int?),
       if (after != _undefined) 'after': (after as String?),
+      if (search != _undefined) 'search': (search as String?),
+      if (category != _undefined) 'category': (category as String?),
     }),
   );
 }
@@ -125,7 +2138,7 @@ class _CopyWithStubImpl$Variables$Query$GetRestaurants<TRes>
 
   TRes _res;
 
-  call({int? first, String? after}) => _res;
+  call({int? first, String? after, String? search, String? category}) => _res;
 }
 
 class Query$GetRestaurants {
@@ -276,6 +2289,24 @@ const documentNodeQueryGetRestaurants = DocumentNode(
           defaultValue: DefaultValueNode(value: null),
           directives: [],
         ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'search')),
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'category')),
+          type: NamedTypeNode(
+            name: NameNode(value: 'String'),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
       ],
       directives: [],
       selectionSet: SelectionSetNode(
@@ -291,6 +2322,14 @@ const documentNodeQueryGetRestaurants = DocumentNode(
               ArgumentNode(
                 name: NameNode(value: 'after'),
                 value: VariableNode(name: NameNode(value: 'after')),
+              ),
+              ArgumentNode(
+                name: NameNode(value: 'search'),
+                value: VariableNode(name: NameNode(value: 'search')),
+              ),
+              ArgumentNode(
+                name: NameNode(value: 'restaurantCategories_name'),
+                value: VariableNode(name: NameNode(value: 'category')),
               ),
             ],
             directives: [],
@@ -310,100 +2349,11 @@ const documentNodeQueryGetRestaurants = DocumentNode(
                         directives: [],
                         selectionSet: SelectionSetNode(
                           selections: [
-                            FieldNode(
-                              name: NameNode(value: 'id'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'name'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'description'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'imageUrl'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                            FieldNode(
-                              name: NameNode(value: 'restaurantCategories'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: SelectionSetNode(
-                                selections: [
-                                  FieldNode(
-                                    name: NameNode(value: 'edges'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: SelectionSetNode(
-                                      selections: [
-                                        FieldNode(
-                                          name: NameNode(value: 'node'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                            selections: [
-                                              FieldNode(
-                                                name: NameNode(value: 'id'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null,
-                                              ),
-                                              FieldNode(
-                                                name: NameNode(value: 'name'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null,
-                                              ),
-                                              FieldNode(
-                                                name: NameNode(
-                                                  value: '__typename',
-                                                ),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: '__typename'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: '__typename'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                ],
+                            FragmentSpreadNode(
+                              name: NameNode(
+                                value: 'RestaurantSummaryFragment',
                               ),
+                              directives: [],
                             ),
                             FieldNode(
                               name: NameNode(value: '__typename'),
@@ -476,6 +2426,7 @@ const documentNodeQueryGetRestaurants = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionRestaurantSummaryFragment,
   ],
 );
 Query$GetRestaurants _parserFn$Query$GetRestaurants(
@@ -849,14 +2800,14 @@ class Query$GetRestaurants$restaurants$edges {
     return Query$GetRestaurants$restaurants$edges(
       node: l$node == null
           ? null
-          : Query$GetRestaurants$restaurants$edges$node.fromJson(
+          : Fragment$RestaurantSummaryFragment.fromJson(
               (l$node as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Query$GetRestaurants$restaurants$edges$node? node;
+  final Fragment$RestaurantSummaryFragment? node;
 
   final String $__typename;
 
@@ -917,11 +2868,8 @@ abstract class CopyWith$Query$GetRestaurants$restaurants$edges<TRes> {
   factory CopyWith$Query$GetRestaurants$restaurants$edges.stub(TRes res) =
       _CopyWithStubImpl$Query$GetRestaurants$restaurants$edges;
 
-  TRes call({
-    Query$GetRestaurants$restaurants$edges$node? node,
-    String? $__typename,
-  });
-  CopyWith$Query$GetRestaurants$restaurants$edges$node<TRes> get node;
+  TRes call({Fragment$RestaurantSummaryFragment? node, String? $__typename});
+  CopyWith$Fragment$RestaurantSummaryFragment<TRes> get node;
 }
 
 class _CopyWithImpl$Query$GetRestaurants$restaurants$edges<TRes>
@@ -942,20 +2890,18 @@ class _CopyWithImpl$Query$GetRestaurants$restaurants$edges<TRes>
         Query$GetRestaurants$restaurants$edges(
           node: node == _undefined
               ? _instance.node
-              : (node as Query$GetRestaurants$restaurants$edges$node?),
+              : (node as Fragment$RestaurantSummaryFragment?),
           $__typename: $__typename == _undefined || $__typename == null
               ? _instance.$__typename
               : ($__typename as String),
         ),
       );
 
-  CopyWith$Query$GetRestaurants$restaurants$edges$node<TRes> get node {
+  CopyWith$Fragment$RestaurantSummaryFragment<TRes> get node {
     final local$node = _instance.node;
     return local$node == null
-        ? CopyWith$Query$GetRestaurants$restaurants$edges$node.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetRestaurants$restaurants$edges$node(
+        ? CopyWith$Fragment$RestaurantSummaryFragment.stub(_then(_instance))
+        : CopyWith$Fragment$RestaurantSummaryFragment(
             local$node,
             (e) => call(node: e),
           );
@@ -968,823 +2914,10 @@ class _CopyWithStubImpl$Query$GetRestaurants$restaurants$edges<TRes>
 
   TRes _res;
 
-  call({
-    Query$GetRestaurants$restaurants$edges$node? node,
-    String? $__typename,
-  }) => _res;
+  call({Fragment$RestaurantSummaryFragment? node, String? $__typename}) => _res;
 
-  CopyWith$Query$GetRestaurants$restaurants$edges$node<TRes> get node =>
-      CopyWith$Query$GetRestaurants$restaurants$edges$node.stub(_res);
-}
-
-class Query$GetRestaurants$restaurants$edges$node {
-  Query$GetRestaurants$restaurants$edges$node({
-    required this.id,
-    required this.name,
-    this.description,
-    this.imageUrl,
-    this.restaurantCategories,
-    this.$__typename = 'Restaurant',
-  });
-
-  factory Query$GetRestaurants$restaurants$edges$node.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$description = json['description'];
-    final l$imageUrl = json['imageUrl'];
-    final l$restaurantCategories = json['restaurantCategories'];
-    final l$$__typename = json['__typename'];
-    return Query$GetRestaurants$restaurants$edges$node(
-      id: (l$id as String),
-      name: (l$name as String),
-      description: (l$description as String?),
-      imageUrl: (l$imageUrl as String?),
-      restaurantCategories: l$restaurantCategories == null
-          ? null
-          : Query$GetRestaurants$restaurants$edges$node$restaurantCategories.fromJson(
-              (l$restaurantCategories as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String? description;
-
-  final String? imageUrl;
-
-  final Query$GetRestaurants$restaurants$edges$node$restaurantCategories?
-  restaurantCategories;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$description = description;
-    _resultData['description'] = l$description;
-    final l$imageUrl = imageUrl;
-    _resultData['imageUrl'] = l$imageUrl;
-    final l$restaurantCategories = restaurantCategories;
-    _resultData['restaurantCategories'] = l$restaurantCategories?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$description = description;
-    final l$imageUrl = imageUrl;
-    final l$restaurantCategories = restaurantCategories;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$id,
-      l$name,
-      l$description,
-      l$imageUrl,
-      l$restaurantCategories,
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetRestaurants$restaurants$edges$node ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$description = description;
-    final lOther$description = other.description;
-    if (l$description != lOther$description) {
-      return false;
-    }
-    final l$imageUrl = imageUrl;
-    final lOther$imageUrl = other.imageUrl;
-    if (l$imageUrl != lOther$imageUrl) {
-      return false;
-    }
-    final l$restaurantCategories = restaurantCategories;
-    final lOther$restaurantCategories = other.restaurantCategories;
-    if (l$restaurantCategories != lOther$restaurantCategories) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetRestaurants$restaurants$edges$node
-    on Query$GetRestaurants$restaurants$edges$node {
-  CopyWith$Query$GetRestaurants$restaurants$edges$node<
-    Query$GetRestaurants$restaurants$edges$node
-  >
-  get copyWith =>
-      CopyWith$Query$GetRestaurants$restaurants$edges$node(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetRestaurants$restaurants$edges$node<TRes> {
-  factory CopyWith$Query$GetRestaurants$restaurants$edges$node(
-    Query$GetRestaurants$restaurants$edges$node instance,
-    TRes Function(Query$GetRestaurants$restaurants$edges$node) then,
-  ) = _CopyWithImpl$Query$GetRestaurants$restaurants$edges$node;
-
-  factory CopyWith$Query$GetRestaurants$restaurants$edges$node.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetRestaurants$restaurants$edges$node;
-
-  TRes call({
-    String? id,
-    String? name,
-    String? description,
-    String? imageUrl,
-    Query$GetRestaurants$restaurants$edges$node$restaurantCategories?
-    restaurantCategories,
-    String? $__typename,
-  });
-  CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories<
-    TRes
-  >
-  get restaurantCategories;
-}
-
-class _CopyWithImpl$Query$GetRestaurants$restaurants$edges$node<TRes>
-    implements CopyWith$Query$GetRestaurants$restaurants$edges$node<TRes> {
-  _CopyWithImpl$Query$GetRestaurants$restaurants$edges$node(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetRestaurants$restaurants$edges$node _instance;
-
-  final TRes Function(Query$GetRestaurants$restaurants$edges$node) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? description = _undefined,
-    Object? imageUrl = _undefined,
-    Object? restaurantCategories = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetRestaurants$restaurants$edges$node(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      description: description == _undefined
-          ? _instance.description
-          : (description as String?),
-      imageUrl: imageUrl == _undefined
-          ? _instance.imageUrl
-          : (imageUrl as String?),
-      restaurantCategories: restaurantCategories == _undefined
-          ? _instance.restaurantCategories
-          : (restaurantCategories
-                as Query$GetRestaurants$restaurants$edges$node$restaurantCategories?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories<
-    TRes
-  >
-  get restaurantCategories {
-    final local$restaurantCategories = _instance.restaurantCategories;
-    return local$restaurantCategories == null
-        ? CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories(
-            local$restaurantCategories,
-            (e) => call(restaurantCategories: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetRestaurants$restaurants$edges$node<TRes>
-    implements CopyWith$Query$GetRestaurants$restaurants$edges$node<TRes> {
-  _CopyWithStubImpl$Query$GetRestaurants$restaurants$edges$node(this._res);
-
-  TRes _res;
-
-  call({
-    String? id,
-    String? name,
-    String? description,
-    String? imageUrl,
-    Query$GetRestaurants$restaurants$edges$node$restaurantCategories?
-    restaurantCategories,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories<
-    TRes
-  >
-  get restaurantCategories =>
-      CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories.stub(
-        _res,
-      );
-}
-
-class Query$GetRestaurants$restaurants$edges$node$restaurantCategories {
-  Query$GetRestaurants$restaurants$edges$node$restaurantCategories({
-    this.edges,
-    this.$__typename = 'RestaurantCategoryCursorConnection',
-  });
-
-  factory Query$GetRestaurants$restaurants$edges$node$restaurantCategories.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$edges = json['edges'];
-    final l$$__typename = json['__typename'];
-    return Query$GetRestaurants$restaurants$edges$node$restaurantCategories(
-      edges: (l$edges as List<dynamic>?)
-          ?.map(
-            (e) => e == null
-                ? null
-                : Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges.fromJson(
-                    (e as Map<String, dynamic>),
-                  ),
-          )
-          .toList(),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final List<
-    Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges?
-  >?
-  edges;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$edges = edges;
-    _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$edges = edges;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Query$GetRestaurants$restaurants$edges$node$restaurantCategories ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$edges = edges;
-    final lOther$edges = other.edges;
-    if (l$edges != null && lOther$edges != null) {
-      if (l$edges.length != lOther$edges.length) {
-        return false;
-      }
-      for (int i = 0; i < l$edges.length; i++) {
-        final l$edges$entry = l$edges[i];
-        final lOther$edges$entry = lOther$edges[i];
-        if (l$edges$entry != lOther$edges$entry) {
-          return false;
-        }
-      }
-    } else if (l$edges != lOther$edges) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetRestaurants$restaurants$edges$node$restaurantCategories
-    on Query$GetRestaurants$restaurants$edges$node$restaurantCategories {
-  CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories<
-    Query$GetRestaurants$restaurants$edges$node$restaurantCategories
-  >
-  get copyWith =>
-      CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories<
-  TRes
-> {
-  factory CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories(
-    Query$GetRestaurants$restaurants$edges$node$restaurantCategories instance,
-    TRes Function(
-      Query$GetRestaurants$restaurants$edges$node$restaurantCategories,
-    )
-    then,
-  ) = _CopyWithImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories;
-
-  factory CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories;
-
-  TRes call({
-    List<
-      Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges?
-    >?
-    edges,
-    String? $__typename,
-  });
-  TRes edges(
-    Iterable<
-      Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges?
-    >?
-    Function(
-      Iterable<
-        CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges<
-          Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges
-        >?
-      >?,
-    )
-    _fn,
-  );
-}
-
-class _CopyWithImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories<
-  TRes
->
-    implements
-        CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories<
-          TRes
-        > {
-  _CopyWithImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetRestaurants$restaurants$edges$node$restaurantCategories
-  _instance;
-
-  final TRes Function(
-    Query$GetRestaurants$restaurants$edges$node$restaurantCategories,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? edges = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetRestaurants$restaurants$edges$node$restaurantCategories(
-      edges: edges == _undefined
-          ? _instance.edges
-          : (edges
-                as List<
-                  Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges?
-                >?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  TRes edges(
-    Iterable<
-      Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges?
-    >?
-    Function(
-      Iterable<
-        CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges<
-          Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges
-        >?
-      >?,
-    )
-    _fn,
-  ) => call(
-    edges: _fn(
-      _instance.edges?.map(
-        (e) => e == null
-            ? null
-            : CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges(
-                e,
-                (i) => i,
-              ),
-      ),
-    )?.toList(),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories<
-  TRes
->
-    implements
-        CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories<
-          TRes
-        > {
-  _CopyWithStubImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    List<
-      Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges?
-    >?
-    edges,
-    String? $__typename,
-  }) => _res;
-
-  edges(_fn) => _res;
-}
-
-class Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges {
-  Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges({
-    this.node,
-    this.$__typename = 'RestaurantCategoryEdge',
-  });
-
-  factory Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$node = json['node'];
-    final l$$__typename = json['__typename'];
-    return Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges(
-      node: l$node == null
-          ? null
-          : Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node.fromJson(
-              (l$node as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node?
-  node;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$node = node;
-    _resultData['node'] = l$node?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$node = node;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$node, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$node = node;
-    final lOther$node = other.node;
-    if (l$node != lOther$node) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges
-    on Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges {
-  CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges<
-    Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges
-  >
-  get copyWith =>
-      CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges<
-  TRes
-> {
-  factory CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges(
-    Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges
-    instance,
-    TRes Function(
-      Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges,
-    )
-    then,
-  ) = _CopyWithImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges;
-
-  factory CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges;
-
-  TRes call({
-    Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node?
-    node,
-    String? $__typename,
-  });
-  CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node<
-    TRes
-  >
-  get node;
-}
-
-class _CopyWithImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges<
-  TRes
->
-    implements
-        CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges<
-          TRes
-        > {
-  _CopyWithImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges
-  _instance;
-
-  final TRes Function(
-    Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? node = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges(
-      node: node == _undefined
-          ? _instance.node
-          : (node
-                as Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node<
-    TRes
-  >
-  get node {
-    final local$node = _instance.node;
-    return local$node == null
-        ? CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node(
-            local$node,
-            (e) => call(node: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges<
-  TRes
->
-    implements
-        CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges<
-          TRes
-        > {
-  _CopyWithStubImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node?
-    node,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node<
-    TRes
-  >
-  get node =>
-      CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node.stub(
-        _res,
-      );
-}
-
-class Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node {
-  Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node({
-    required this.id,
-    required this.name,
-    this.$__typename = 'RestaurantCategory',
-  });
-
-  factory Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$$__typename = json['__typename'];
-    return Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node(
-      id: (l$id as String),
-      name: (l$name as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$name, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node
-    on Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node {
-  CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node<
-    Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node
-  >
-  get copyWith =>
-      CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node<
-  TRes
-> {
-  factory CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node(
-    Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node
-    instance,
-    TRes Function(
-      Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node,
-    )
-    then,
-  ) = _CopyWithImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node;
-
-  factory CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node;
-
-  TRes call({String? id, String? name, String? $__typename});
-}
-
-class _CopyWithImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node<
-  TRes
->
-    implements
-        CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node<
-          TRes
-        > {
-  _CopyWithImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node
-  _instance;
-
-  final TRes Function(
-    Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node<
-  TRes
->
-    implements
-        CopyWith$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node<
-          TRes
-        > {
-  _CopyWithStubImpl$Query$GetRestaurants$restaurants$edges$node$restaurantCategories$edges$node(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({String? id, String? name, String? $__typename}) => _res;
+  CopyWith$Fragment$RestaurantSummaryFragment<TRes> get node =>
+      CopyWith$Fragment$RestaurantSummaryFragment.stub(_res);
 }
 
 class Query$GetRestaurants$restaurants$pageInfo {
@@ -2177,33 +3310,9 @@ const documentNodeQueryGetUserRestaurant = DocumentNode(
                   directives: [],
                   selectionSet: SelectionSetNode(
                     selections: [
-                      FieldNode(
-                        name: NameNode(value: 'id'),
-                        alias: null,
-                        arguments: [],
+                      FragmentSpreadNode(
+                        name: NameNode(value: 'RestaurantDetailFragment'),
                         directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'name'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'description'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'imageUrl'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
                       ),
                       FieldNode(
                         name: NameNode(value: '__typename'),
@@ -2235,6 +3344,8 @@ const documentNodeQueryGetUserRestaurant = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionRestaurantDetailFragment,
+    fragmentDefinitionRestaurantSummaryFragment,
   ],
 );
 Query$GetUserRestaurant _parserFn$Query$GetUserRestaurant(
@@ -2405,7 +3516,7 @@ class Query$GetUserRestaurant$user {
       id: (l$id as String),
       restaurant: l$restaurant == null
           ? null
-          : Query$GetUserRestaurant$user$restaurant.fromJson(
+          : Fragment$RestaurantDetailFragment.fromJson(
               (l$restaurant as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
@@ -2414,7 +3525,7 @@ class Query$GetUserRestaurant$user {
 
   final String id;
 
-  final Query$GetUserRestaurant$user$restaurant? restaurant;
+  final Fragment$RestaurantDetailFragment? restaurant;
 
   final String $__typename;
 
@@ -2482,10 +3593,10 @@ abstract class CopyWith$Query$GetUserRestaurant$user<TRes> {
 
   TRes call({
     String? id,
-    Query$GetUserRestaurant$user$restaurant? restaurant,
+    Fragment$RestaurantDetailFragment? restaurant,
     String? $__typename,
   });
-  CopyWith$Query$GetUserRestaurant$user$restaurant<TRes> get restaurant;
+  CopyWith$Fragment$RestaurantDetailFragment<TRes> get restaurant;
 }
 
 class _CopyWithImpl$Query$GetUserRestaurant$user<TRes>
@@ -2507,20 +3618,18 @@ class _CopyWithImpl$Query$GetUserRestaurant$user<TRes>
       id: id == _undefined || id == null ? _instance.id : (id as String),
       restaurant: restaurant == _undefined
           ? _instance.restaurant
-          : (restaurant as Query$GetUserRestaurant$user$restaurant?),
+          : (restaurant as Fragment$RestaurantDetailFragment?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
     ),
   );
 
-  CopyWith$Query$GetUserRestaurant$user$restaurant<TRes> get restaurant {
+  CopyWith$Fragment$RestaurantDetailFragment<TRes> get restaurant {
     final local$restaurant = _instance.restaurant;
     return local$restaurant == null
-        ? CopyWith$Query$GetUserRestaurant$user$restaurant.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetUserRestaurant$user$restaurant(
+        ? CopyWith$Fragment$RestaurantDetailFragment.stub(_then(_instance))
+        : CopyWith$Fragment$RestaurantDetailFragment(
             local$restaurant,
             (e) => call(restaurant: e),
           );
@@ -2535,197 +3644,12 @@ class _CopyWithStubImpl$Query$GetUserRestaurant$user<TRes>
 
   call({
     String? id,
-    Query$GetUserRestaurant$user$restaurant? restaurant,
+    Fragment$RestaurantDetailFragment? restaurant,
     String? $__typename,
   }) => _res;
 
-  CopyWith$Query$GetUserRestaurant$user$restaurant<TRes> get restaurant =>
-      CopyWith$Query$GetUserRestaurant$user$restaurant.stub(_res);
-}
-
-class Query$GetUserRestaurant$user$restaurant {
-  Query$GetUserRestaurant$user$restaurant({
-    required this.id,
-    required this.name,
-    this.description,
-    this.imageUrl,
-    this.$__typename = 'Restaurant',
-  });
-
-  factory Query$GetUserRestaurant$user$restaurant.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$description = json['description'];
-    final l$imageUrl = json['imageUrl'];
-    final l$$__typename = json['__typename'];
-    return Query$GetUserRestaurant$user$restaurant(
-      id: (l$id as String),
-      name: (l$name as String),
-      description: (l$description as String?),
-      imageUrl: (l$imageUrl as String?),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String? description;
-
-  final String? imageUrl;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$description = description;
-    _resultData['description'] = l$description;
-    final l$imageUrl = imageUrl;
-    _resultData['imageUrl'] = l$imageUrl;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$description = description;
-    final l$imageUrl = imageUrl;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$id,
-      l$name,
-      l$description,
-      l$imageUrl,
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetUserRestaurant$user$restaurant ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$description = description;
-    final lOther$description = other.description;
-    if (l$description != lOther$description) {
-      return false;
-    }
-    final l$imageUrl = imageUrl;
-    final lOther$imageUrl = other.imageUrl;
-    if (l$imageUrl != lOther$imageUrl) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetUserRestaurant$user$restaurant
-    on Query$GetUserRestaurant$user$restaurant {
-  CopyWith$Query$GetUserRestaurant$user$restaurant<
-    Query$GetUserRestaurant$user$restaurant
-  >
-  get copyWith =>
-      CopyWith$Query$GetUserRestaurant$user$restaurant(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetUserRestaurant$user$restaurant<TRes> {
-  factory CopyWith$Query$GetUserRestaurant$user$restaurant(
-    Query$GetUserRestaurant$user$restaurant instance,
-    TRes Function(Query$GetUserRestaurant$user$restaurant) then,
-  ) = _CopyWithImpl$Query$GetUserRestaurant$user$restaurant;
-
-  factory CopyWith$Query$GetUserRestaurant$user$restaurant.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetUserRestaurant$user$restaurant;
-
-  TRes call({
-    String? id,
-    String? name,
-    String? description,
-    String? imageUrl,
-    String? $__typename,
-  });
-}
-
-class _CopyWithImpl$Query$GetUserRestaurant$user$restaurant<TRes>
-    implements CopyWith$Query$GetUserRestaurant$user$restaurant<TRes> {
-  _CopyWithImpl$Query$GetUserRestaurant$user$restaurant(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetUserRestaurant$user$restaurant _instance;
-
-  final TRes Function(Query$GetUserRestaurant$user$restaurant) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? description = _undefined,
-    Object? imageUrl = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetUserRestaurant$user$restaurant(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      description: description == _undefined
-          ? _instance.description
-          : (description as String?),
-      imageUrl: imageUrl == _undefined
-          ? _instance.imageUrl
-          : (imageUrl as String?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetUserRestaurant$user$restaurant<TRes>
-    implements CopyWith$Query$GetUserRestaurant$user$restaurant<TRes> {
-  _CopyWithStubImpl$Query$GetUserRestaurant$user$restaurant(this._res);
-
-  TRes _res;
-
-  call({
-    String? id,
-    String? name,
-    String? description,
-    String? imageUrl,
-    String? $__typename,
-  }) => _res;
+  CopyWith$Fragment$RestaurantDetailFragment<TRes> get restaurant =>
+      CopyWith$Fragment$RestaurantDetailFragment.stub(_res);
 }
 
 class Variables$Query$GetRestaurant {
@@ -2970,98 +3894,9 @@ const documentNodeQueryGetRestaurant = DocumentNode(
             directives: [],
             selectionSet: SelectionSetNode(
               selections: [
-                FieldNode(
-                  name: NameNode(value: 'id'),
-                  alias: null,
-                  arguments: [],
+                FragmentSpreadNode(
+                  name: NameNode(value: 'RestaurantDetailFragment'),
                   directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'description'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'imageUrl'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
-                ),
-                FieldNode(
-                  name: NameNode(value: 'restaurantCategories'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(
-                    selections: [
-                      FieldNode(
-                        name: NameNode(value: 'edges'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(
-                          selections: [
-                            FieldNode(
-                              name: NameNode(value: 'node'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: SelectionSetNode(
-                                selections: [
-                                  FieldNode(
-                                    name: NameNode(value: 'id'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'name'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: '__typename'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            FieldNode(
-                              name: NameNode(value: '__typename'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                          ],
-                        ),
-                      ),
-                      FieldNode(
-                        name: NameNode(value: '__typename'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                    ],
-                  ),
                 ),
                 FieldNode(
                   name: NameNode(value: 'users'),
@@ -3136,164 +3971,6 @@ const documentNodeQueryGetRestaurant = DocumentNode(
                   ),
                 ),
                 FieldNode(
-                  name: NameNode(value: 'meals'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(
-                    selections: [
-                      FieldNode(
-                        name: NameNode(value: 'edges'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(
-                          selections: [
-                            FieldNode(
-                              name: NameNode(value: 'node'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: SelectionSetNode(
-                                selections: [
-                                  FieldNode(
-                                    name: NameNode(value: 'id'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'name'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'price'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'imageUrl'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: '__typename'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            FieldNode(
-                              name: NameNode(value: '__typename'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                          ],
-                        ),
-                      ),
-                      FieldNode(
-                        name: NameNode(value: '__typename'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                    ],
-                  ),
-                ),
-                FieldNode(
-                  name: NameNode(value: 'mealPlans'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(
-                    selections: [
-                      FieldNode(
-                        name: NameNode(value: 'edges'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(
-                          selections: [
-                            FieldNode(
-                              name: NameNode(value: 'node'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: SelectionSetNode(
-                                selections: [
-                                  FieldNode(
-                                    name: NameNode(value: 'id'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'name'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'price'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: 'imageUrl'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: '__typename'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            FieldNode(
-                              name: NameNode(value: '__typename'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                          ],
-                        ),
-                      ),
-                      FieldNode(
-                        name: NameNode(value: '__typename'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                    ],
-                  ),
-                ),
-                FieldNode(
                   name: NameNode(value: '__typename'),
                   alias: null,
                   arguments: [],
@@ -3313,6 +3990,8 @@ const documentNodeQueryGetRestaurant = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionRestaurantDetailFragment,
+    fragmentDefinitionRestaurantSummaryFragment,
   ],
 );
 Query$GetRestaurant _parserFn$Query$GetRestaurant(Map<String, dynamic> data) =>
@@ -3462,55 +4141,65 @@ class Query$GetRestaurant$Widget
   }) : super(key: key, options: options, builder: builder);
 }
 
-class Query$GetRestaurant$restaurant {
+class Query$GetRestaurant$restaurant
+    implements
+        Fragment$RestaurantDetailFragment,
+        Fragment$RestaurantSummaryFragment {
   Query$GetRestaurant$restaurant({
     required this.id,
     required this.name,
     this.description,
+    required this.deliveryPrice,
     this.imageUrl,
     this.restaurantCategories,
-    this.users,
-    this.meals,
-    this.mealPlans,
     this.$__typename = 'Restaurant',
+    this.phoneNumber,
+    this.email,
+    this.city,
+    this.street,
+    this.zipCode,
+    this.nip,
+    this.users,
   });
 
   factory Query$GetRestaurant$restaurant.fromJson(Map<String, dynamic> json) {
     final l$id = json['id'];
     final l$name = json['name'];
     final l$description = json['description'];
+    final l$deliveryPrice = json['deliveryPrice'];
     final l$imageUrl = json['imageUrl'];
     final l$restaurantCategories = json['restaurantCategories'];
-    final l$users = json['users'];
-    final l$meals = json['meals'];
-    final l$mealPlans = json['mealPlans'];
     final l$$__typename = json['__typename'];
+    final l$phoneNumber = json['phoneNumber'];
+    final l$email = json['email'];
+    final l$city = json['city'];
+    final l$street = json['street'];
+    final l$zipCode = json['zipCode'];
+    final l$nip = json['nip'];
+    final l$users = json['users'];
     return Query$GetRestaurant$restaurant(
       id: (l$id as String),
       name: (l$name as String),
       description: (l$description as String?),
+      deliveryPrice: (l$deliveryPrice as int),
       imageUrl: (l$imageUrl as String?),
       restaurantCategories: l$restaurantCategories == null
           ? null
           : Query$GetRestaurant$restaurant$restaurantCategories.fromJson(
               (l$restaurantCategories as Map<String, dynamic>),
             ),
+      $__typename: (l$$__typename as String),
+      phoneNumber: (l$phoneNumber as String?),
+      email: (l$email as String?),
+      city: (l$city as String?),
+      street: (l$street as String?),
+      zipCode: (l$zipCode as String?),
+      nip: (l$nip as String?),
       users: l$users == null
           ? null
           : Query$GetRestaurant$restaurant$users.fromJson(
               (l$users as Map<String, dynamic>),
             ),
-      meals: l$meals == null
-          ? null
-          : Query$GetRestaurant$restaurant$meals.fromJson(
-              (l$meals as Map<String, dynamic>),
-            ),
-      mealPlans: l$mealPlans == null
-          ? null
-          : Query$GetRestaurant$restaurant$mealPlans.fromJson(
-              (l$mealPlans as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
     );
   }
 
@@ -3520,18 +4209,28 @@ class Query$GetRestaurant$restaurant {
 
   final String? description;
 
+  final int deliveryPrice;
+
   final String? imageUrl;
 
   final Query$GetRestaurant$restaurant$restaurantCategories?
   restaurantCategories;
 
-  final Query$GetRestaurant$restaurant$users? users;
-
-  final Query$GetRestaurant$restaurant$meals? meals;
-
-  final Query$GetRestaurant$restaurant$mealPlans? mealPlans;
-
   final String $__typename;
+
+  final String? phoneNumber;
+
+  final String? email;
+
+  final String? city;
+
+  final String? street;
+
+  final String? zipCode;
+
+  final String? nip;
+
+  final Query$GetRestaurant$restaurant$users? users;
 
   Map<String, dynamic> toJson() {
     final _resultData = <String, dynamic>{};
@@ -3541,18 +4240,28 @@ class Query$GetRestaurant$restaurant {
     _resultData['name'] = l$name;
     final l$description = description;
     _resultData['description'] = l$description;
+    final l$deliveryPrice = deliveryPrice;
+    _resultData['deliveryPrice'] = l$deliveryPrice;
     final l$imageUrl = imageUrl;
     _resultData['imageUrl'] = l$imageUrl;
     final l$restaurantCategories = restaurantCategories;
     _resultData['restaurantCategories'] = l$restaurantCategories?.toJson();
-    final l$users = users;
-    _resultData['users'] = l$users?.toJson();
-    final l$meals = meals;
-    _resultData['meals'] = l$meals?.toJson();
-    final l$mealPlans = mealPlans;
-    _resultData['mealPlans'] = l$mealPlans?.toJson();
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
+    final l$phoneNumber = phoneNumber;
+    _resultData['phoneNumber'] = l$phoneNumber;
+    final l$email = email;
+    _resultData['email'] = l$email;
+    final l$city = city;
+    _resultData['city'] = l$city;
+    final l$street = street;
+    _resultData['street'] = l$street;
+    final l$zipCode = zipCode;
+    _resultData['zipCode'] = l$zipCode;
+    final l$nip = nip;
+    _resultData['nip'] = l$nip;
+    final l$users = users;
+    _resultData['users'] = l$users?.toJson();
     return _resultData;
   }
 
@@ -3561,22 +4270,32 @@ class Query$GetRestaurant$restaurant {
     final l$id = id;
     final l$name = name;
     final l$description = description;
+    final l$deliveryPrice = deliveryPrice;
     final l$imageUrl = imageUrl;
     final l$restaurantCategories = restaurantCategories;
-    final l$users = users;
-    final l$meals = meals;
-    final l$mealPlans = mealPlans;
     final l$$__typename = $__typename;
+    final l$phoneNumber = phoneNumber;
+    final l$email = email;
+    final l$city = city;
+    final l$street = street;
+    final l$zipCode = zipCode;
+    final l$nip = nip;
+    final l$users = users;
     return Object.hashAll([
       l$id,
       l$name,
       l$description,
+      l$deliveryPrice,
       l$imageUrl,
       l$restaurantCategories,
-      l$users,
-      l$meals,
-      l$mealPlans,
       l$$__typename,
+      l$phoneNumber,
+      l$email,
+      l$city,
+      l$street,
+      l$zipCode,
+      l$nip,
+      l$users,
     ]);
   }
 
@@ -3604,6 +4323,11 @@ class Query$GetRestaurant$restaurant {
     if (l$description != lOther$description) {
       return false;
     }
+    final l$deliveryPrice = deliveryPrice;
+    final lOther$deliveryPrice = other.deliveryPrice;
+    if (l$deliveryPrice != lOther$deliveryPrice) {
+      return false;
+    }
     final l$imageUrl = imageUrl;
     final lOther$imageUrl = other.imageUrl;
     if (l$imageUrl != lOther$imageUrl) {
@@ -3614,24 +4338,44 @@ class Query$GetRestaurant$restaurant {
     if (l$restaurantCategories != lOther$restaurantCategories) {
       return false;
     }
-    final l$users = users;
-    final lOther$users = other.users;
-    if (l$users != lOther$users) {
-      return false;
-    }
-    final l$meals = meals;
-    final lOther$meals = other.meals;
-    if (l$meals != lOther$meals) {
-      return false;
-    }
-    final l$mealPlans = mealPlans;
-    final lOther$mealPlans = other.mealPlans;
-    if (l$mealPlans != lOther$mealPlans) {
-      return false;
-    }
     final l$$__typename = $__typename;
     final lOther$$__typename = other.$__typename;
     if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    final l$phoneNumber = phoneNumber;
+    final lOther$phoneNumber = other.phoneNumber;
+    if (l$phoneNumber != lOther$phoneNumber) {
+      return false;
+    }
+    final l$email = email;
+    final lOther$email = other.email;
+    if (l$email != lOther$email) {
+      return false;
+    }
+    final l$city = city;
+    final lOther$city = other.city;
+    if (l$city != lOther$city) {
+      return false;
+    }
+    final l$street = street;
+    final lOther$street = other.street;
+    if (l$street != lOther$street) {
+      return false;
+    }
+    final l$zipCode = zipCode;
+    final lOther$zipCode = other.zipCode;
+    if (l$zipCode != lOther$zipCode) {
+      return false;
+    }
+    final l$nip = nip;
+    final lOther$nip = other.nip;
+    if (l$nip != lOther$nip) {
+      return false;
+    }
+    final l$users = users;
+    final lOther$users = other.users;
+    if (l$users != lOther$users) {
       return false;
     }
     return true;
@@ -3657,18 +4401,21 @@ abstract class CopyWith$Query$GetRestaurant$restaurant<TRes> {
     String? id,
     String? name,
     String? description,
+    int? deliveryPrice,
     String? imageUrl,
     Query$GetRestaurant$restaurant$restaurantCategories? restaurantCategories,
-    Query$GetRestaurant$restaurant$users? users,
-    Query$GetRestaurant$restaurant$meals? meals,
-    Query$GetRestaurant$restaurant$mealPlans? mealPlans,
     String? $__typename,
+    String? phoneNumber,
+    String? email,
+    String? city,
+    String? street,
+    String? zipCode,
+    String? nip,
+    Query$GetRestaurant$restaurant$users? users,
   });
   CopyWith$Query$GetRestaurant$restaurant$restaurantCategories<TRes>
   get restaurantCategories;
   CopyWith$Query$GetRestaurant$restaurant$users<TRes> get users;
-  CopyWith$Query$GetRestaurant$restaurant$meals<TRes> get meals;
-  CopyWith$Query$GetRestaurant$restaurant$mealPlans<TRes> get mealPlans;
 }
 
 class _CopyWithImpl$Query$GetRestaurant$restaurant<TRes>
@@ -3685,12 +4432,17 @@ class _CopyWithImpl$Query$GetRestaurant$restaurant<TRes>
     Object? id = _undefined,
     Object? name = _undefined,
     Object? description = _undefined,
+    Object? deliveryPrice = _undefined,
     Object? imageUrl = _undefined,
     Object? restaurantCategories = _undefined,
-    Object? users = _undefined,
-    Object? meals = _undefined,
-    Object? mealPlans = _undefined,
     Object? $__typename = _undefined,
+    Object? phoneNumber = _undefined,
+    Object? email = _undefined,
+    Object? city = _undefined,
+    Object? street = _undefined,
+    Object? zipCode = _undefined,
+    Object? nip = _undefined,
+    Object? users = _undefined,
   }) => _then(
     Query$GetRestaurant$restaurant(
       id: id == _undefined || id == null ? _instance.id : (id as String),
@@ -3700,6 +4452,9 @@ class _CopyWithImpl$Query$GetRestaurant$restaurant<TRes>
       description: description == _undefined
           ? _instance.description
           : (description as String?),
+      deliveryPrice: deliveryPrice == _undefined || deliveryPrice == null
+          ? _instance.deliveryPrice
+          : (deliveryPrice as int),
       imageUrl: imageUrl == _undefined
           ? _instance.imageUrl
           : (imageUrl as String?),
@@ -3707,18 +4462,20 @@ class _CopyWithImpl$Query$GetRestaurant$restaurant<TRes>
           ? _instance.restaurantCategories
           : (restaurantCategories
                 as Query$GetRestaurant$restaurant$restaurantCategories?),
-      users: users == _undefined
-          ? _instance.users
-          : (users as Query$GetRestaurant$restaurant$users?),
-      meals: meals == _undefined
-          ? _instance.meals
-          : (meals as Query$GetRestaurant$restaurant$meals?),
-      mealPlans: mealPlans == _undefined
-          ? _instance.mealPlans
-          : (mealPlans as Query$GetRestaurant$restaurant$mealPlans?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
+      phoneNumber: phoneNumber == _undefined
+          ? _instance.phoneNumber
+          : (phoneNumber as String?),
+      email: email == _undefined ? _instance.email : (email as String?),
+      city: city == _undefined ? _instance.city : (city as String?),
+      street: street == _undefined ? _instance.street : (street as String?),
+      zipCode: zipCode == _undefined ? _instance.zipCode : (zipCode as String?),
+      nip: nip == _undefined ? _instance.nip : (nip as String?),
+      users: users == _undefined
+          ? _instance.users
+          : (users as Query$GetRestaurant$restaurant$users?),
     ),
   );
 
@@ -3744,28 +4501,6 @@ class _CopyWithImpl$Query$GetRestaurant$restaurant<TRes>
             (e) => call(users: e),
           );
   }
-
-  CopyWith$Query$GetRestaurant$restaurant$meals<TRes> get meals {
-    final local$meals = _instance.meals;
-    return local$meals == null
-        ? CopyWith$Query$GetRestaurant$restaurant$meals.stub(_then(_instance))
-        : CopyWith$Query$GetRestaurant$restaurant$meals(
-            local$meals,
-            (e) => call(meals: e),
-          );
-  }
-
-  CopyWith$Query$GetRestaurant$restaurant$mealPlans<TRes> get mealPlans {
-    final local$mealPlans = _instance.mealPlans;
-    return local$mealPlans == null
-        ? CopyWith$Query$GetRestaurant$restaurant$mealPlans.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetRestaurant$restaurant$mealPlans(
-            local$mealPlans,
-            (e) => call(mealPlans: e),
-          );
-  }
 }
 
 class _CopyWithStubImpl$Query$GetRestaurant$restaurant<TRes>
@@ -3778,12 +4513,17 @@ class _CopyWithStubImpl$Query$GetRestaurant$restaurant<TRes>
     String? id,
     String? name,
     String? description,
+    int? deliveryPrice,
     String? imageUrl,
     Query$GetRestaurant$restaurant$restaurantCategories? restaurantCategories,
-    Query$GetRestaurant$restaurant$users? users,
-    Query$GetRestaurant$restaurant$meals? meals,
-    Query$GetRestaurant$restaurant$mealPlans? mealPlans,
     String? $__typename,
+    String? phoneNumber,
+    String? email,
+    String? city,
+    String? street,
+    String? zipCode,
+    String? nip,
+    Query$GetRestaurant$restaurant$users? users,
   }) => _res;
 
   CopyWith$Query$GetRestaurant$restaurant$restaurantCategories<TRes>
@@ -3792,15 +4532,12 @@ class _CopyWithStubImpl$Query$GetRestaurant$restaurant<TRes>
 
   CopyWith$Query$GetRestaurant$restaurant$users<TRes> get users =>
       CopyWith$Query$GetRestaurant$restaurant$users.stub(_res);
-
-  CopyWith$Query$GetRestaurant$restaurant$meals<TRes> get meals =>
-      CopyWith$Query$GetRestaurant$restaurant$meals.stub(_res);
-
-  CopyWith$Query$GetRestaurant$restaurant$mealPlans<TRes> get mealPlans =>
-      CopyWith$Query$GetRestaurant$restaurant$mealPlans.stub(_res);
 }
 
-class Query$GetRestaurant$restaurant$restaurantCategories {
+class Query$GetRestaurant$restaurant$restaurantCategories
+    implements
+        Fragment$RestaurantDetailFragment$restaurantCategories,
+        Fragment$RestaurantSummaryFragment$restaurantCategories {
   Query$GetRestaurant$restaurant$restaurantCategories({
     this.edges,
     this.$__typename = 'RestaurantCategoryCursorConnection',
@@ -3995,7 +4732,10 @@ class _CopyWithStubImpl$Query$GetRestaurant$restaurant$restaurantCategories<
   edges(_fn) => _res;
 }
 
-class Query$GetRestaurant$restaurant$restaurantCategories$edges {
+class Query$GetRestaurant$restaurant$restaurantCategories$edges
+    implements
+        Fragment$RestaurantDetailFragment$restaurantCategories$edges,
+        Fragment$RestaurantSummaryFragment$restaurantCategories$edges {
   Query$GetRestaurant$restaurant$restaurantCategories$edges({
     this.node,
     this.$__typename = 'RestaurantCategoryEdge',
@@ -4165,7 +4905,10 @@ class _CopyWithStubImpl$Query$GetRestaurant$restaurant$restaurantCategories$edge
       );
 }
 
-class Query$GetRestaurant$restaurant$restaurantCategories$edges$node {
+class Query$GetRestaurant$restaurant$restaurantCategories$edges$node
+    implements
+        Fragment$RestaurantDetailFragment$restaurantCategories$edges$node,
+        Fragment$RestaurantSummaryFragment$restaurantCategories$edges$node {
   Query$GetRestaurant$restaurant$restaurantCategories$edges$node({
     required this.id,
     required this.name,
@@ -4801,1013 +5544,6 @@ class _CopyWithStubImpl$Query$GetRestaurant$restaurant$users$edges$node<TRes>
   }) => _res;
 }
 
-class Query$GetRestaurant$restaurant$meals {
-  Query$GetRestaurant$restaurant$meals({
-    this.edges,
-    this.$__typename = 'MealCursorConnection',
-  });
-
-  factory Query$GetRestaurant$restaurant$meals.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$edges = json['edges'];
-    final l$$__typename = json['__typename'];
-    return Query$GetRestaurant$restaurant$meals(
-      edges: (l$edges as List<dynamic>?)
-          ?.map(
-            (e) => e == null
-                ? null
-                : Query$GetRestaurant$restaurant$meals$edges.fromJson(
-                    (e as Map<String, dynamic>),
-                  ),
-          )
-          .toList(),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final List<Query$GetRestaurant$restaurant$meals$edges?>? edges;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$edges = edges;
-    _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$edges = edges;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetRestaurant$restaurant$meals ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$edges = edges;
-    final lOther$edges = other.edges;
-    if (l$edges != null && lOther$edges != null) {
-      if (l$edges.length != lOther$edges.length) {
-        return false;
-      }
-      for (int i = 0; i < l$edges.length; i++) {
-        final l$edges$entry = l$edges[i];
-        final lOther$edges$entry = lOther$edges[i];
-        if (l$edges$entry != lOther$edges$entry) {
-          return false;
-        }
-      }
-    } else if (l$edges != lOther$edges) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetRestaurant$restaurant$meals
-    on Query$GetRestaurant$restaurant$meals {
-  CopyWith$Query$GetRestaurant$restaurant$meals<
-    Query$GetRestaurant$restaurant$meals
-  >
-  get copyWith => CopyWith$Query$GetRestaurant$restaurant$meals(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetRestaurant$restaurant$meals<TRes> {
-  factory CopyWith$Query$GetRestaurant$restaurant$meals(
-    Query$GetRestaurant$restaurant$meals instance,
-    TRes Function(Query$GetRestaurant$restaurant$meals) then,
-  ) = _CopyWithImpl$Query$GetRestaurant$restaurant$meals;
-
-  factory CopyWith$Query$GetRestaurant$restaurant$meals.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetRestaurant$restaurant$meals;
-
-  TRes call({
-    List<Query$GetRestaurant$restaurant$meals$edges?>? edges,
-    String? $__typename,
-  });
-  TRes edges(
-    Iterable<Query$GetRestaurant$restaurant$meals$edges?>? Function(
-      Iterable<
-        CopyWith$Query$GetRestaurant$restaurant$meals$edges<
-          Query$GetRestaurant$restaurant$meals$edges
-        >?
-      >?,
-    )
-    _fn,
-  );
-}
-
-class _CopyWithImpl$Query$GetRestaurant$restaurant$meals<TRes>
-    implements CopyWith$Query$GetRestaurant$restaurant$meals<TRes> {
-  _CopyWithImpl$Query$GetRestaurant$restaurant$meals(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetRestaurant$restaurant$meals _instance;
-
-  final TRes Function(Query$GetRestaurant$restaurant$meals) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({Object? edges = _undefined, Object? $__typename = _undefined}) =>
-      _then(
-        Query$GetRestaurant$restaurant$meals(
-          edges: edges == _undefined
-              ? _instance.edges
-              : (edges as List<Query$GetRestaurant$restaurant$meals$edges?>?),
-          $__typename: $__typename == _undefined || $__typename == null
-              ? _instance.$__typename
-              : ($__typename as String),
-        ),
-      );
-
-  TRes edges(
-    Iterable<Query$GetRestaurant$restaurant$meals$edges?>? Function(
-      Iterable<
-        CopyWith$Query$GetRestaurant$restaurant$meals$edges<
-          Query$GetRestaurant$restaurant$meals$edges
-        >?
-      >?,
-    )
-    _fn,
-  ) => call(
-    edges: _fn(
-      _instance.edges?.map(
-        (e) => e == null
-            ? null
-            : CopyWith$Query$GetRestaurant$restaurant$meals$edges(e, (i) => i),
-      ),
-    )?.toList(),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetRestaurant$restaurant$meals<TRes>
-    implements CopyWith$Query$GetRestaurant$restaurant$meals<TRes> {
-  _CopyWithStubImpl$Query$GetRestaurant$restaurant$meals(this._res);
-
-  TRes _res;
-
-  call({
-    List<Query$GetRestaurant$restaurant$meals$edges?>? edges,
-    String? $__typename,
-  }) => _res;
-
-  edges(_fn) => _res;
-}
-
-class Query$GetRestaurant$restaurant$meals$edges {
-  Query$GetRestaurant$restaurant$meals$edges({
-    this.node,
-    this.$__typename = 'MealEdge',
-  });
-
-  factory Query$GetRestaurant$restaurant$meals$edges.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$node = json['node'];
-    final l$$__typename = json['__typename'];
-    return Query$GetRestaurant$restaurant$meals$edges(
-      node: l$node == null
-          ? null
-          : Query$GetRestaurant$restaurant$meals$edges$node.fromJson(
-              (l$node as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final Query$GetRestaurant$restaurant$meals$edges$node? node;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$node = node;
-    _resultData['node'] = l$node?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$node = node;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$node, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetRestaurant$restaurant$meals$edges ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$node = node;
-    final lOther$node = other.node;
-    if (l$node != lOther$node) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetRestaurant$restaurant$meals$edges
-    on Query$GetRestaurant$restaurant$meals$edges {
-  CopyWith$Query$GetRestaurant$restaurant$meals$edges<
-    Query$GetRestaurant$restaurant$meals$edges
-  >
-  get copyWith =>
-      CopyWith$Query$GetRestaurant$restaurant$meals$edges(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetRestaurant$restaurant$meals$edges<TRes> {
-  factory CopyWith$Query$GetRestaurant$restaurant$meals$edges(
-    Query$GetRestaurant$restaurant$meals$edges instance,
-    TRes Function(Query$GetRestaurant$restaurant$meals$edges) then,
-  ) = _CopyWithImpl$Query$GetRestaurant$restaurant$meals$edges;
-
-  factory CopyWith$Query$GetRestaurant$restaurant$meals$edges.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetRestaurant$restaurant$meals$edges;
-
-  TRes call({
-    Query$GetRestaurant$restaurant$meals$edges$node? node,
-    String? $__typename,
-  });
-  CopyWith$Query$GetRestaurant$restaurant$meals$edges$node<TRes> get node;
-}
-
-class _CopyWithImpl$Query$GetRestaurant$restaurant$meals$edges<TRes>
-    implements CopyWith$Query$GetRestaurant$restaurant$meals$edges<TRes> {
-  _CopyWithImpl$Query$GetRestaurant$restaurant$meals$edges(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetRestaurant$restaurant$meals$edges _instance;
-
-  final TRes Function(Query$GetRestaurant$restaurant$meals$edges) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({Object? node = _undefined, Object? $__typename = _undefined}) =>
-      _then(
-        Query$GetRestaurant$restaurant$meals$edges(
-          node: node == _undefined
-              ? _instance.node
-              : (node as Query$GetRestaurant$restaurant$meals$edges$node?),
-          $__typename: $__typename == _undefined || $__typename == null
-              ? _instance.$__typename
-              : ($__typename as String),
-        ),
-      );
-
-  CopyWith$Query$GetRestaurant$restaurant$meals$edges$node<TRes> get node {
-    final local$node = _instance.node;
-    return local$node == null
-        ? CopyWith$Query$GetRestaurant$restaurant$meals$edges$node.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetRestaurant$restaurant$meals$edges$node(
-            local$node,
-            (e) => call(node: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetRestaurant$restaurant$meals$edges<TRes>
-    implements CopyWith$Query$GetRestaurant$restaurant$meals$edges<TRes> {
-  _CopyWithStubImpl$Query$GetRestaurant$restaurant$meals$edges(this._res);
-
-  TRes _res;
-
-  call({
-    Query$GetRestaurant$restaurant$meals$edges$node? node,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetRestaurant$restaurant$meals$edges$node<TRes> get node =>
-      CopyWith$Query$GetRestaurant$restaurant$meals$edges$node.stub(_res);
-}
-
-class Query$GetRestaurant$restaurant$meals$edges$node {
-  Query$GetRestaurant$restaurant$meals$edges$node({
-    required this.id,
-    required this.name,
-    required this.price,
-    this.imageUrl,
-    this.$__typename = 'Meal',
-  });
-
-  factory Query$GetRestaurant$restaurant$meals$edges$node.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$price = json['price'];
-    final l$imageUrl = json['imageUrl'];
-    final l$$__typename = json['__typename'];
-    return Query$GetRestaurant$restaurant$meals$edges$node(
-      id: (l$id as String),
-      name: (l$name as String),
-      price: (l$price as int),
-      imageUrl: (l$imageUrl as String?),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final int price;
-
-  final String? imageUrl;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$price = price;
-    _resultData['price'] = l$price;
-    final l$imageUrl = imageUrl;
-    _resultData['imageUrl'] = l$imageUrl;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$price = price;
-    final l$imageUrl = imageUrl;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$name, l$price, l$imageUrl, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetRestaurant$restaurant$meals$edges$node ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$price = price;
-    final lOther$price = other.price;
-    if (l$price != lOther$price) {
-      return false;
-    }
-    final l$imageUrl = imageUrl;
-    final lOther$imageUrl = other.imageUrl;
-    if (l$imageUrl != lOther$imageUrl) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetRestaurant$restaurant$meals$edges$node
-    on Query$GetRestaurant$restaurant$meals$edges$node {
-  CopyWith$Query$GetRestaurant$restaurant$meals$edges$node<
-    Query$GetRestaurant$restaurant$meals$edges$node
-  >
-  get copyWith =>
-      CopyWith$Query$GetRestaurant$restaurant$meals$edges$node(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetRestaurant$restaurant$meals$edges$node<TRes> {
-  factory CopyWith$Query$GetRestaurant$restaurant$meals$edges$node(
-    Query$GetRestaurant$restaurant$meals$edges$node instance,
-    TRes Function(Query$GetRestaurant$restaurant$meals$edges$node) then,
-  ) = _CopyWithImpl$Query$GetRestaurant$restaurant$meals$edges$node;
-
-  factory CopyWith$Query$GetRestaurant$restaurant$meals$edges$node.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetRestaurant$restaurant$meals$edges$node;
-
-  TRes call({
-    String? id,
-    String? name,
-    int? price,
-    String? imageUrl,
-    String? $__typename,
-  });
-}
-
-class _CopyWithImpl$Query$GetRestaurant$restaurant$meals$edges$node<TRes>
-    implements CopyWith$Query$GetRestaurant$restaurant$meals$edges$node<TRes> {
-  _CopyWithImpl$Query$GetRestaurant$restaurant$meals$edges$node(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetRestaurant$restaurant$meals$edges$node _instance;
-
-  final TRes Function(Query$GetRestaurant$restaurant$meals$edges$node) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? price = _undefined,
-    Object? imageUrl = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetRestaurant$restaurant$meals$edges$node(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      price: price == _undefined || price == null
-          ? _instance.price
-          : (price as int),
-      imageUrl: imageUrl == _undefined
-          ? _instance.imageUrl
-          : (imageUrl as String?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetRestaurant$restaurant$meals$edges$node<TRes>
-    implements CopyWith$Query$GetRestaurant$restaurant$meals$edges$node<TRes> {
-  _CopyWithStubImpl$Query$GetRestaurant$restaurant$meals$edges$node(this._res);
-
-  TRes _res;
-
-  call({
-    String? id,
-    String? name,
-    int? price,
-    String? imageUrl,
-    String? $__typename,
-  }) => _res;
-}
-
-class Query$GetRestaurant$restaurant$mealPlans {
-  Query$GetRestaurant$restaurant$mealPlans({
-    this.edges,
-    this.$__typename = 'MealPlanCursorConnection',
-  });
-
-  factory Query$GetRestaurant$restaurant$mealPlans.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$edges = json['edges'];
-    final l$$__typename = json['__typename'];
-    return Query$GetRestaurant$restaurant$mealPlans(
-      edges: (l$edges as List<dynamic>?)
-          ?.map(
-            (e) => e == null
-                ? null
-                : Query$GetRestaurant$restaurant$mealPlans$edges.fromJson(
-                    (e as Map<String, dynamic>),
-                  ),
-          )
-          .toList(),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final List<Query$GetRestaurant$restaurant$mealPlans$edges?>? edges;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$edges = edges;
-    _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$edges = edges;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetRestaurant$restaurant$mealPlans ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$edges = edges;
-    final lOther$edges = other.edges;
-    if (l$edges != null && lOther$edges != null) {
-      if (l$edges.length != lOther$edges.length) {
-        return false;
-      }
-      for (int i = 0; i < l$edges.length; i++) {
-        final l$edges$entry = l$edges[i];
-        final lOther$edges$entry = lOther$edges[i];
-        if (l$edges$entry != lOther$edges$entry) {
-          return false;
-        }
-      }
-    } else if (l$edges != lOther$edges) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetRestaurant$restaurant$mealPlans
-    on Query$GetRestaurant$restaurant$mealPlans {
-  CopyWith$Query$GetRestaurant$restaurant$mealPlans<
-    Query$GetRestaurant$restaurant$mealPlans
-  >
-  get copyWith =>
-      CopyWith$Query$GetRestaurant$restaurant$mealPlans(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetRestaurant$restaurant$mealPlans<TRes> {
-  factory CopyWith$Query$GetRestaurant$restaurant$mealPlans(
-    Query$GetRestaurant$restaurant$mealPlans instance,
-    TRes Function(Query$GetRestaurant$restaurant$mealPlans) then,
-  ) = _CopyWithImpl$Query$GetRestaurant$restaurant$mealPlans;
-
-  factory CopyWith$Query$GetRestaurant$restaurant$mealPlans.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetRestaurant$restaurant$mealPlans;
-
-  TRes call({
-    List<Query$GetRestaurant$restaurant$mealPlans$edges?>? edges,
-    String? $__typename,
-  });
-  TRes edges(
-    Iterable<Query$GetRestaurant$restaurant$mealPlans$edges?>? Function(
-      Iterable<
-        CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges<
-          Query$GetRestaurant$restaurant$mealPlans$edges
-        >?
-      >?,
-    )
-    _fn,
-  );
-}
-
-class _CopyWithImpl$Query$GetRestaurant$restaurant$mealPlans<TRes>
-    implements CopyWith$Query$GetRestaurant$restaurant$mealPlans<TRes> {
-  _CopyWithImpl$Query$GetRestaurant$restaurant$mealPlans(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetRestaurant$restaurant$mealPlans _instance;
-
-  final TRes Function(Query$GetRestaurant$restaurant$mealPlans) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({Object? edges = _undefined, Object? $__typename = _undefined}) =>
-      _then(
-        Query$GetRestaurant$restaurant$mealPlans(
-          edges: edges == _undefined
-              ? _instance.edges
-              : (edges
-                    as List<Query$GetRestaurant$restaurant$mealPlans$edges?>?),
-          $__typename: $__typename == _undefined || $__typename == null
-              ? _instance.$__typename
-              : ($__typename as String),
-        ),
-      );
-
-  TRes edges(
-    Iterable<Query$GetRestaurant$restaurant$mealPlans$edges?>? Function(
-      Iterable<
-        CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges<
-          Query$GetRestaurant$restaurant$mealPlans$edges
-        >?
-      >?,
-    )
-    _fn,
-  ) => call(
-    edges: _fn(
-      _instance.edges?.map(
-        (e) => e == null
-            ? null
-            : CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges(
-                e,
-                (i) => i,
-              ),
-      ),
-    )?.toList(),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetRestaurant$restaurant$mealPlans<TRes>
-    implements CopyWith$Query$GetRestaurant$restaurant$mealPlans<TRes> {
-  _CopyWithStubImpl$Query$GetRestaurant$restaurant$mealPlans(this._res);
-
-  TRes _res;
-
-  call({
-    List<Query$GetRestaurant$restaurant$mealPlans$edges?>? edges,
-    String? $__typename,
-  }) => _res;
-
-  edges(_fn) => _res;
-}
-
-class Query$GetRestaurant$restaurant$mealPlans$edges {
-  Query$GetRestaurant$restaurant$mealPlans$edges({
-    this.node,
-    this.$__typename = 'MealPlanEdge',
-  });
-
-  factory Query$GetRestaurant$restaurant$mealPlans$edges.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$node = json['node'];
-    final l$$__typename = json['__typename'];
-    return Query$GetRestaurant$restaurant$mealPlans$edges(
-      node: l$node == null
-          ? null
-          : Query$GetRestaurant$restaurant$mealPlans$edges$node.fromJson(
-              (l$node as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final Query$GetRestaurant$restaurant$mealPlans$edges$node? node;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$node = node;
-    _resultData['node'] = l$node?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$node = node;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$node, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetRestaurant$restaurant$mealPlans$edges ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$node = node;
-    final lOther$node = other.node;
-    if (l$node != lOther$node) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetRestaurant$restaurant$mealPlans$edges
-    on Query$GetRestaurant$restaurant$mealPlans$edges {
-  CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges<
-    Query$GetRestaurant$restaurant$mealPlans$edges
-  >
-  get copyWith =>
-      CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges(this, (i) => i);
-}
-
-abstract class CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges<TRes> {
-  factory CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges(
-    Query$GetRestaurant$restaurant$mealPlans$edges instance,
-    TRes Function(Query$GetRestaurant$restaurant$mealPlans$edges) then,
-  ) = _CopyWithImpl$Query$GetRestaurant$restaurant$mealPlans$edges;
-
-  factory CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetRestaurant$restaurant$mealPlans$edges;
-
-  TRes call({
-    Query$GetRestaurant$restaurant$mealPlans$edges$node? node,
-    String? $__typename,
-  });
-  CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges$node<TRes> get node;
-}
-
-class _CopyWithImpl$Query$GetRestaurant$restaurant$mealPlans$edges<TRes>
-    implements CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges<TRes> {
-  _CopyWithImpl$Query$GetRestaurant$restaurant$mealPlans$edges(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetRestaurant$restaurant$mealPlans$edges _instance;
-
-  final TRes Function(Query$GetRestaurant$restaurant$mealPlans$edges) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({Object? node = _undefined, Object? $__typename = _undefined}) =>
-      _then(
-        Query$GetRestaurant$restaurant$mealPlans$edges(
-          node: node == _undefined
-              ? _instance.node
-              : (node as Query$GetRestaurant$restaurant$mealPlans$edges$node?),
-          $__typename: $__typename == _undefined || $__typename == null
-              ? _instance.$__typename
-              : ($__typename as String),
-        ),
-      );
-
-  CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges$node<TRes> get node {
-    final local$node = _instance.node;
-    return local$node == null
-        ? CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges$node.stub(
-            _then(_instance),
-          )
-        : CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges$node(
-            local$node,
-            (e) => call(node: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Query$GetRestaurant$restaurant$mealPlans$edges<TRes>
-    implements CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges<TRes> {
-  _CopyWithStubImpl$Query$GetRestaurant$restaurant$mealPlans$edges(this._res);
-
-  TRes _res;
-
-  call({
-    Query$GetRestaurant$restaurant$mealPlans$edges$node? node,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges$node<TRes> get node =>
-      CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges$node.stub(_res);
-}
-
-class Query$GetRestaurant$restaurant$mealPlans$edges$node {
-  Query$GetRestaurant$restaurant$mealPlans$edges$node({
-    required this.id,
-    required this.name,
-    this.price,
-    this.imageUrl,
-    this.$__typename = 'MealPlan',
-  });
-
-  factory Query$GetRestaurant$restaurant$mealPlans$edges$node.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$price = json['price'];
-    final l$imageUrl = json['imageUrl'];
-    final l$$__typename = json['__typename'];
-    return Query$GetRestaurant$restaurant$mealPlans$edges$node(
-      id: (l$id as String),
-      name: (l$name as String),
-      price: (l$price as int?),
-      imageUrl: (l$imageUrl as String?),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final int? price;
-
-  final String? imageUrl;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$price = price;
-    _resultData['price'] = l$price;
-    final l$imageUrl = imageUrl;
-    _resultData['imageUrl'] = l$imageUrl;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$price = price;
-    final l$imageUrl = imageUrl;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$name, l$price, l$imageUrl, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Query$GetRestaurant$restaurant$mealPlans$edges$node ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$price = price;
-    final lOther$price = other.price;
-    if (l$price != lOther$price) {
-      return false;
-    }
-    final l$imageUrl = imageUrl;
-    final lOther$imageUrl = other.imageUrl;
-    if (l$imageUrl != lOther$imageUrl) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Query$GetRestaurant$restaurant$mealPlans$edges$node
-    on Query$GetRestaurant$restaurant$mealPlans$edges$node {
-  CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges$node<
-    Query$GetRestaurant$restaurant$mealPlans$edges$node
-  >
-  get copyWith => CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges$node(
-    this,
-    (i) => i,
-  );
-}
-
-abstract class CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges$node<
-  TRes
-> {
-  factory CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges$node(
-    Query$GetRestaurant$restaurant$mealPlans$edges$node instance,
-    TRes Function(Query$GetRestaurant$restaurant$mealPlans$edges$node) then,
-  ) = _CopyWithImpl$Query$GetRestaurant$restaurant$mealPlans$edges$node;
-
-  factory CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges$node.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Query$GetRestaurant$restaurant$mealPlans$edges$node;
-
-  TRes call({
-    String? id,
-    String? name,
-    int? price,
-    String? imageUrl,
-    String? $__typename,
-  });
-}
-
-class _CopyWithImpl$Query$GetRestaurant$restaurant$mealPlans$edges$node<TRes>
-    implements
-        CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges$node<TRes> {
-  _CopyWithImpl$Query$GetRestaurant$restaurant$mealPlans$edges$node(
-    this._instance,
-    this._then,
-  );
-
-  final Query$GetRestaurant$restaurant$mealPlans$edges$node _instance;
-
-  final TRes Function(Query$GetRestaurant$restaurant$mealPlans$edges$node)
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? price = _undefined,
-    Object? imageUrl = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Query$GetRestaurant$restaurant$mealPlans$edges$node(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      price: price == _undefined ? _instance.price : (price as int?),
-      imageUrl: imageUrl == _undefined
-          ? _instance.imageUrl
-          : (imageUrl as String?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Query$GetRestaurant$restaurant$mealPlans$edges$node<
-  TRes
->
-    implements
-        CopyWith$Query$GetRestaurant$restaurant$mealPlans$edges$node<TRes> {
-  _CopyWithStubImpl$Query$GetRestaurant$restaurant$mealPlans$edges$node(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    String? id,
-    String? name,
-    int? price,
-    String? imageUrl,
-    String? $__typename,
-  }) => _res;
-}
-
 class Variables$Mutation$CreateRestaurant {
   factory Variables$Mutation$CreateRestaurant({
     required Input$createRestaurantInput input,
@@ -6084,91 +5820,9 @@ const documentNodeMutationCreateRestaurant = DocumentNode(
                   directives: [],
                   selectionSet: SelectionSetNode(
                     selections: [
-                      FieldNode(
-                        name: NameNode(value: 'id'),
-                        alias: null,
-                        arguments: [],
+                      FragmentSpreadNode(
+                        name: NameNode(value: 'RestaurantDetailFragment'),
                         directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'name'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'description'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'restaurantCategories'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(
-                          selections: [
-                            FieldNode(
-                              name: NameNode(value: 'edges'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: SelectionSetNode(
-                                selections: [
-                                  FieldNode(
-                                    name: NameNode(value: 'node'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: SelectionSetNode(
-                                      selections: [
-                                        FieldNode(
-                                          name: NameNode(value: 'id'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: 'name'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: '__typename'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: '__typename'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            FieldNode(
-                              name: NameNode(value: '__typename'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                          ],
-                        ),
                       ),
                       FieldNode(
                         name: NameNode(value: '__typename'),
@@ -6200,6 +5854,8 @@ const documentNodeMutationCreateRestaurant = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionRestaurantDetailFragment,
+    fragmentDefinitionRestaurantSummaryFragment,
   ],
 );
 Mutation$CreateRestaurant _parserFn$Mutation$CreateRestaurant(
@@ -6420,14 +6076,14 @@ class Mutation$CreateRestaurant$createRestaurant {
     return Mutation$CreateRestaurant$createRestaurant(
       restaurant: l$restaurant == null
           ? null
-          : Mutation$CreateRestaurant$createRestaurant$restaurant.fromJson(
+          : Fragment$RestaurantDetailFragment.fromJson(
               (l$restaurant as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Mutation$CreateRestaurant$createRestaurant$restaurant? restaurant;
+  final Fragment$RestaurantDetailFragment? restaurant;
 
   final String $__typename;
 
@@ -6489,11 +6145,10 @@ abstract class CopyWith$Mutation$CreateRestaurant$createRestaurant<TRes> {
       _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant;
 
   TRes call({
-    Mutation$CreateRestaurant$createRestaurant$restaurant? restaurant,
+    Fragment$RestaurantDetailFragment? restaurant,
     String? $__typename,
   });
-  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant<TRes>
-  get restaurant;
+  CopyWith$Fragment$RestaurantDetailFragment<TRes> get restaurant;
 }
 
 class _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant<TRes>
@@ -6516,22 +6171,18 @@ class _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant<TRes>
     Mutation$CreateRestaurant$createRestaurant(
       restaurant: restaurant == _undefined
           ? _instance.restaurant
-          : (restaurant
-                as Mutation$CreateRestaurant$createRestaurant$restaurant?),
+          : (restaurant as Fragment$RestaurantDetailFragment?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
     ),
   );
 
-  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant<TRes>
-  get restaurant {
+  CopyWith$Fragment$RestaurantDetailFragment<TRes> get restaurant {
     final local$restaurant = _instance.restaurant;
     return local$restaurant == null
-        ? CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant.stub(
-            _then(_instance),
-          )
-        : CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant(
+        ? CopyWith$Fragment$RestaurantDetailFragment.stub(_then(_instance))
+        : CopyWith$Fragment$RestaurantDetailFragment(
             local$restaurant,
             (e) => call(restaurant: e),
           );
@@ -6544,820 +6195,11 @@ class _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant<TRes>
 
   TRes _res;
 
-  call({
-    Mutation$CreateRestaurant$createRestaurant$restaurant? restaurant,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant<TRes>
-  get restaurant =>
-      CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant.stub(_res);
-}
-
-class Mutation$CreateRestaurant$createRestaurant$restaurant {
-  Mutation$CreateRestaurant$createRestaurant$restaurant({
-    required this.id,
-    required this.name,
-    this.description,
-    this.restaurantCategories,
-    this.$__typename = 'Restaurant',
-  });
-
-  factory Mutation$CreateRestaurant$createRestaurant$restaurant.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$description = json['description'];
-    final l$restaurantCategories = json['restaurantCategories'];
-    final l$$__typename = json['__typename'];
-    return Mutation$CreateRestaurant$createRestaurant$restaurant(
-      id: (l$id as String),
-      name: (l$name as String),
-      description: (l$description as String?),
-      restaurantCategories: l$restaurantCategories == null
-          ? null
-          : Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories.fromJson(
-              (l$restaurantCategories as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String? description;
-
-  final Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories?
-  restaurantCategories;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$description = description;
-    _resultData['description'] = l$description;
-    final l$restaurantCategories = restaurantCategories;
-    _resultData['restaurantCategories'] = l$restaurantCategories?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$description = description;
-    final l$restaurantCategories = restaurantCategories;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$id,
-      l$name,
-      l$description,
-      l$restaurantCategories,
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Mutation$CreateRestaurant$createRestaurant$restaurant ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$description = description;
-    final lOther$description = other.description;
-    if (l$description != lOther$description) {
-      return false;
-    }
-    final l$restaurantCategories = restaurantCategories;
-    final lOther$restaurantCategories = other.restaurantCategories;
-    if (l$restaurantCategories != lOther$restaurantCategories) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Mutation$CreateRestaurant$createRestaurant$restaurant
-    on Mutation$CreateRestaurant$createRestaurant$restaurant {
-  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant<
-    Mutation$CreateRestaurant$createRestaurant$restaurant
-  >
-  get copyWith =>
-      CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant<
-  TRes
-> {
-  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant(
-    Mutation$CreateRestaurant$createRestaurant$restaurant instance,
-    TRes Function(Mutation$CreateRestaurant$createRestaurant$restaurant) then,
-  ) = _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant;
-
-  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant;
-
-  TRes call({
-    String? id,
-    String? name,
-    String? description,
-    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories?
-    restaurantCategories,
-    String? $__typename,
-  });
-  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
-    TRes
-  >
-  get restaurantCategories;
-}
-
-class _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant<TRes>
-    implements
-        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant<TRes> {
-  _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant(
-    this._instance,
-    this._then,
-  );
-
-  final Mutation$CreateRestaurant$createRestaurant$restaurant _instance;
-
-  final TRes Function(Mutation$CreateRestaurant$createRestaurant$restaurant)
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? description = _undefined,
-    Object? restaurantCategories = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Mutation$CreateRestaurant$createRestaurant$restaurant(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      description: description == _undefined
-          ? _instance.description
-          : (description as String?),
-      restaurantCategories: restaurantCategories == _undefined
-          ? _instance.restaurantCategories
-          : (restaurantCategories
-                as Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
-    TRes
-  >
-  get restaurantCategories {
-    final local$restaurantCategories = _instance.restaurantCategories;
-    return local$restaurantCategories == null
-        ? CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories.stub(
-            _then(_instance),
-          )
-        : CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories(
-            local$restaurantCategories,
-            (e) => call(restaurantCategories: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant<
-  TRes
->
-    implements
-        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant<TRes> {
-  _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    String? id,
-    String? name,
-    String? description,
-    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories?
-    restaurantCategories,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
-    TRes
-  >
-  get restaurantCategories =>
-      CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories.stub(
-        _res,
-      );
-}
-
-class Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories {
-  Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories({
-    this.edges,
-    this.$__typename = 'RestaurantCategoryCursorConnection',
-  });
-
-  factory Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$edges = json['edges'];
-    final l$$__typename = json['__typename'];
-    return Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories(
-      edges: (l$edges as List<dynamic>?)
-          ?.map(
-            (e) => e == null
-                ? null
-                : Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges.fromJson(
-                    (e as Map<String, dynamic>),
-                  ),
-          )
-          .toList(),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final List<
-    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges?
-  >?
-  edges;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$edges = edges;
-    _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$edges = edges;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$edges = edges;
-    final lOther$edges = other.edges;
-    if (l$edges != null && lOther$edges != null) {
-      if (l$edges.length != lOther$edges.length) {
-        return false;
-      }
-      for (int i = 0; i < l$edges.length; i++) {
-        final l$edges$entry = l$edges[i];
-        final lOther$edges$entry = lOther$edges[i];
-        if (l$edges$entry != lOther$edges$entry) {
-          return false;
-        }
-      }
-    } else if (l$edges != lOther$edges) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories
-    on Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories {
-  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
-    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories
-  >
-  get copyWith =>
-      CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
-  TRes
-> {
-  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories(
-    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories
-    instance,
-    TRes Function(
-      Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories,
-    )
-    then,
-  ) = _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories;
-
-  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories;
-
-  TRes call({
-    List<
-      Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges?
-    >?
-    edges,
-    String? $__typename,
-  });
-  TRes edges(
-    Iterable<
-      Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges?
-    >?
-    Function(
-      Iterable<
-        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges<
-          Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges
-        >?
-      >?,
-    )
-    _fn,
-  );
-}
-
-class _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
-  TRes
->
-    implements
-        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
-          TRes
-        > {
-  _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories(
-    this._instance,
-    this._then,
-  );
-
-  final Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories
-  _instance;
-
-  final TRes Function(
-    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? edges = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories(
-      edges: edges == _undefined
-          ? _instance.edges
-          : (edges
-                as List<
-                  Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges?
-                >?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  TRes edges(
-    Iterable<
-      Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges?
-    >?
-    Function(
-      Iterable<
-        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges<
-          Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges
-        >?
-      >?,
-    )
-    _fn,
-  ) => call(
-    edges: _fn(
-      _instance.edges?.map(
-        (e) => e == null
-            ? null
-            : CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges(
-                e,
-                (i) => i,
-              ),
-      ),
-    )?.toList(),
-  );
-}
-
-class _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
-  TRes
->
-    implements
-        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories<
-          TRes
-        > {
-  _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    List<
-      Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges?
-    >?
-    edges,
-    String? $__typename,
-  }) => _res;
-
-  edges(_fn) => _res;
-}
-
-class Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges {
-  Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges({
-    this.node,
-    this.$__typename = 'RestaurantCategoryEdge',
-  });
-
-  factory Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$node = json['node'];
-    final l$$__typename = json['__typename'];
-    return Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges(
-      node: l$node == null
-          ? null
-          : Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node.fromJson(
-              (l$node as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node?
-  node;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$node = node;
-    _resultData['node'] = l$node?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$node = node;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$node, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$node = node;
-    final lOther$node = other.node;
-    if (l$node != lOther$node) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges
-    on
-        Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges {
-  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges<
-    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges
-  >
-  get copyWith =>
-      CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges<
-  TRes
-> {
-  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges(
-    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges
-    instance,
-    TRes Function(
-      Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges,
-    )
-    then,
-  ) = _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges;
-
-  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges;
-
-  TRes call({
-    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node?
-    node,
-    String? $__typename,
-  });
-  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
-    TRes
-  >
-  get node;
-}
-
-class _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges<
-  TRes
->
-    implements
-        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges<
-          TRes
-        > {
-  _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges(
-    this._instance,
-    this._then,
-  );
-
-  final Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges
-  _instance;
-
-  final TRes Function(
-    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? node = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges(
-      node: node == _undefined
-          ? _instance.node
-          : (node
-                as Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
-    TRes
-  >
-  get node {
-    final local$node = _instance.node;
-    return local$node == null
-        ? CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node.stub(
-            _then(_instance),
-          )
-        : CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node(
-            local$node,
-            (e) => call(node: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges<
-  TRes
->
-    implements
-        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges<
-          TRes
-        > {
-  _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node?
-    node,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
-    TRes
-  >
-  get node =>
-      CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node.stub(
-        _res,
-      );
-}
-
-class Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node {
-  Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node({
-    required this.id,
-    required this.name,
-    this.$__typename = 'RestaurantCategory',
-  });
-
-  factory Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$$__typename = json['__typename'];
-    return Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node(
-      id: (l$id as String),
-      name: (l$name as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$name, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node
-    on
-        Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node {
-  CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
-    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node
-  >
-  get copyWith =>
-      CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
-  TRes
-> {
-  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node(
-    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node
-    instance,
-    TRes Function(
-      Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node,
-    )
-    then,
-  ) = _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node;
-
-  factory CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node;
-
-  TRes call({String? id, String? name, String? $__typename});
-}
-
-class _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
-  TRes
->
-    implements
-        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
-          TRes
-        > {
-  _CopyWithImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node(
-    this._instance,
-    this._then,
-  );
-
-  final Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node
-  _instance;
-
-  final TRes Function(
-    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
-  TRes
->
-    implements
-        CopyWith$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node<
-          TRes
-        > {
-  _CopyWithStubImpl$Mutation$CreateRestaurant$createRestaurant$restaurant$restaurantCategories$edges$node(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({String? id, String? name, String? $__typename}) => _res;
+  call({Fragment$RestaurantDetailFragment? restaurant, String? $__typename}) =>
+      _res;
+
+  CopyWith$Fragment$RestaurantDetailFragment<TRes> get restaurant =>
+      CopyWith$Fragment$RestaurantDetailFragment.stub(_res);
 }
 
 class Variables$Mutation$UpdateRestaurant {
@@ -7636,91 +6478,9 @@ const documentNodeMutationUpdateRestaurant = DocumentNode(
                   directives: [],
                   selectionSet: SelectionSetNode(
                     selections: [
-                      FieldNode(
-                        name: NameNode(value: 'id'),
-                        alias: null,
-                        arguments: [],
+                      FragmentSpreadNode(
+                        name: NameNode(value: 'RestaurantDetailFragment'),
                         directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'name'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'description'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'restaurantCategories'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(
-                          selections: [
-                            FieldNode(
-                              name: NameNode(value: 'edges'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: SelectionSetNode(
-                                selections: [
-                                  FieldNode(
-                                    name: NameNode(value: 'node'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: SelectionSetNode(
-                                      selections: [
-                                        FieldNode(
-                                          name: NameNode(value: 'id'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: 'name'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                        FieldNode(
-                                          name: NameNode(value: '__typename'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  FieldNode(
-                                    name: NameNode(value: '__typename'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            FieldNode(
-                              name: NameNode(value: '__typename'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null,
-                            ),
-                          ],
-                        ),
                       ),
                       FieldNode(
                         name: NameNode(value: '__typename'),
@@ -7752,6 +6512,8 @@ const documentNodeMutationUpdateRestaurant = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionRestaurantDetailFragment,
+    fragmentDefinitionRestaurantSummaryFragment,
   ],
 );
 Mutation$UpdateRestaurant _parserFn$Mutation$UpdateRestaurant(
@@ -7972,14 +6734,14 @@ class Mutation$UpdateRestaurant$updateRestaurant {
     return Mutation$UpdateRestaurant$updateRestaurant(
       restaurant: l$restaurant == null
           ? null
-          : Mutation$UpdateRestaurant$updateRestaurant$restaurant.fromJson(
+          : Fragment$RestaurantDetailFragment.fromJson(
               (l$restaurant as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Mutation$UpdateRestaurant$updateRestaurant$restaurant? restaurant;
+  final Fragment$RestaurantDetailFragment? restaurant;
 
   final String $__typename;
 
@@ -8041,11 +6803,10 @@ abstract class CopyWith$Mutation$UpdateRestaurant$updateRestaurant<TRes> {
       _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant;
 
   TRes call({
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant? restaurant,
+    Fragment$RestaurantDetailFragment? restaurant,
     String? $__typename,
   });
-  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant<TRes>
-  get restaurant;
+  CopyWith$Fragment$RestaurantDetailFragment<TRes> get restaurant;
 }
 
 class _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant<TRes>
@@ -8068,22 +6829,18 @@ class _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant<TRes>
     Mutation$UpdateRestaurant$updateRestaurant(
       restaurant: restaurant == _undefined
           ? _instance.restaurant
-          : (restaurant
-                as Mutation$UpdateRestaurant$updateRestaurant$restaurant?),
+          : (restaurant as Fragment$RestaurantDetailFragment?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
     ),
   );
 
-  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant<TRes>
-  get restaurant {
+  CopyWith$Fragment$RestaurantDetailFragment<TRes> get restaurant {
     final local$restaurant = _instance.restaurant;
     return local$restaurant == null
-        ? CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant.stub(
-            _then(_instance),
-          )
-        : CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant(
+        ? CopyWith$Fragment$RestaurantDetailFragment.stub(_then(_instance))
+        : CopyWith$Fragment$RestaurantDetailFragment(
             local$restaurant,
             (e) => call(restaurant: e),
           );
@@ -8096,820 +6853,11 @@ class _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant<TRes>
 
   TRes _res;
 
-  call({
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant? restaurant,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant<TRes>
-  get restaurant =>
-      CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant.stub(_res);
-}
-
-class Mutation$UpdateRestaurant$updateRestaurant$restaurant {
-  Mutation$UpdateRestaurant$updateRestaurant$restaurant({
-    required this.id,
-    required this.name,
-    this.description,
-    this.restaurantCategories,
-    this.$__typename = 'Restaurant',
-  });
-
-  factory Mutation$UpdateRestaurant$updateRestaurant$restaurant.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$description = json['description'];
-    final l$restaurantCategories = json['restaurantCategories'];
-    final l$$__typename = json['__typename'];
-    return Mutation$UpdateRestaurant$updateRestaurant$restaurant(
-      id: (l$id as String),
-      name: (l$name as String),
-      description: (l$description as String?),
-      restaurantCategories: l$restaurantCategories == null
-          ? null
-          : Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories.fromJson(
-              (l$restaurantCategories as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String? description;
-
-  final Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories?
-  restaurantCategories;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$description = description;
-    _resultData['description'] = l$description;
-    final l$restaurantCategories = restaurantCategories;
-    _resultData['restaurantCategories'] = l$restaurantCategories?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$description = description;
-    final l$restaurantCategories = restaurantCategories;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$id,
-      l$name,
-      l$description,
-      l$restaurantCategories,
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Mutation$UpdateRestaurant$updateRestaurant$restaurant ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$description = description;
-    final lOther$description = other.description;
-    if (l$description != lOther$description) {
-      return false;
-    }
-    final l$restaurantCategories = restaurantCategories;
-    final lOther$restaurantCategories = other.restaurantCategories;
-    if (l$restaurantCategories != lOther$restaurantCategories) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Mutation$UpdateRestaurant$updateRestaurant$restaurant
-    on Mutation$UpdateRestaurant$updateRestaurant$restaurant {
-  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant<
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant
-  >
-  get copyWith =>
-      CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant<
-  TRes
-> {
-  factory CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant(
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant instance,
-    TRes Function(Mutation$UpdateRestaurant$updateRestaurant$restaurant) then,
-  ) = _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant;
-
-  factory CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant;
-
-  TRes call({
-    String? id,
-    String? name,
-    String? description,
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories?
-    restaurantCategories,
-    String? $__typename,
-  });
-  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
-    TRes
-  >
-  get restaurantCategories;
-}
-
-class _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant<TRes>
-    implements
-        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant<TRes> {
-  _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant(
-    this._instance,
-    this._then,
-  );
-
-  final Mutation$UpdateRestaurant$updateRestaurant$restaurant _instance;
-
-  final TRes Function(Mutation$UpdateRestaurant$updateRestaurant$restaurant)
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? description = _undefined,
-    Object? restaurantCategories = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      description: description == _undefined
-          ? _instance.description
-          : (description as String?),
-      restaurantCategories: restaurantCategories == _undefined
-          ? _instance.restaurantCategories
-          : (restaurantCategories
-                as Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
-    TRes
-  >
-  get restaurantCategories {
-    final local$restaurantCategories = _instance.restaurantCategories;
-    return local$restaurantCategories == null
-        ? CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories.stub(
-            _then(_instance),
-          )
-        : CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories(
-            local$restaurantCategories,
-            (e) => call(restaurantCategories: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant<
-  TRes
->
-    implements
-        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant<TRes> {
-  _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    String? id,
-    String? name,
-    String? description,
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories?
-    restaurantCategories,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
-    TRes
-  >
-  get restaurantCategories =>
-      CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories.stub(
-        _res,
-      );
-}
-
-class Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories {
-  Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories({
-    this.edges,
-    this.$__typename = 'RestaurantCategoryCursorConnection',
-  });
-
-  factory Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$edges = json['edges'];
-    final l$$__typename = json['__typename'];
-    return Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories(
-      edges: (l$edges as List<dynamic>?)
-          ?.map(
-            (e) => e == null
-                ? null
-                : Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges.fromJson(
-                    (e as Map<String, dynamic>),
-                  ),
-          )
-          .toList(),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final List<
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges?
-  >?
-  edges;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$edges = edges;
-    _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$edges = edges;
-    final l$$__typename = $__typename;
-    return Object.hashAll([
-      l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
-      l$$__typename,
-    ]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$edges = edges;
-    final lOther$edges = other.edges;
-    if (l$edges != null && lOther$edges != null) {
-      if (l$edges.length != lOther$edges.length) {
-        return false;
-      }
-      for (int i = 0; i < l$edges.length; i++) {
-        final l$edges$entry = l$edges[i];
-        final lOther$edges$entry = lOther$edges[i];
-        if (l$edges$entry != lOther$edges$entry) {
-          return false;
-        }
-      }
-    } else if (l$edges != lOther$edges) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories
-    on Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories {
-  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories
-  >
-  get copyWith =>
-      CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
-  TRes
-> {
-  factory CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories(
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories
-    instance,
-    TRes Function(
-      Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories,
-    )
-    then,
-  ) = _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories;
-
-  factory CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories;
-
-  TRes call({
-    List<
-      Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges?
-    >?
-    edges,
-    String? $__typename,
-  });
-  TRes edges(
-    Iterable<
-      Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges?
-    >?
-    Function(
-      Iterable<
-        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges<
-          Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges
-        >?
-      >?,
-    )
-    _fn,
-  );
-}
-
-class _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
-  TRes
->
-    implements
-        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
-          TRes
-        > {
-  _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories(
-    this._instance,
-    this._then,
-  );
-
-  final Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories
-  _instance;
-
-  final TRes Function(
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? edges = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories(
-      edges: edges == _undefined
-          ? _instance.edges
-          : (edges
-                as List<
-                  Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges?
-                >?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  TRes edges(
-    Iterable<
-      Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges?
-    >?
-    Function(
-      Iterable<
-        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges<
-          Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges
-        >?
-      >?,
-    )
-    _fn,
-  ) => call(
-    edges: _fn(
-      _instance.edges?.map(
-        (e) => e == null
-            ? null
-            : CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges(
-                e,
-                (i) => i,
-              ),
-      ),
-    )?.toList(),
-  );
-}
-
-class _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
-  TRes
->
-    implements
-        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories<
-          TRes
-        > {
-  _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    List<
-      Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges?
-    >?
-    edges,
-    String? $__typename,
-  }) => _res;
-
-  edges(_fn) => _res;
-}
-
-class Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges {
-  Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges({
-    this.node,
-    this.$__typename = 'RestaurantCategoryEdge',
-  });
-
-  factory Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$node = json['node'];
-    final l$$__typename = json['__typename'];
-    return Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges(
-      node: l$node == null
-          ? null
-          : Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node.fromJson(
-              (l$node as Map<String, dynamic>),
-            ),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node?
-  node;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$node = node;
-    _resultData['node'] = l$node?.toJson();
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$node = node;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$node, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$node = node;
-    final lOther$node = other.node;
-    if (l$node != lOther$node) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges
-    on
-        Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges {
-  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges<
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges
-  >
-  get copyWith =>
-      CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges<
-  TRes
-> {
-  factory CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges(
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges
-    instance,
-    TRes Function(
-      Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges,
-    )
-    then,
-  ) = _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges;
-
-  factory CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges;
-
-  TRes call({
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node?
-    node,
-    String? $__typename,
-  });
-  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
-    TRes
-  >
-  get node;
-}
-
-class _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges<
-  TRes
->
-    implements
-        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges<
-          TRes
-        > {
-  _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges(
-    this._instance,
-    this._then,
-  );
-
-  final Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges
-  _instance;
-
-  final TRes Function(
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? node = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges(
-      node: node == _undefined
-          ? _instance.node
-          : (node
-                as Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node?),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-
-  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
-    TRes
-  >
-  get node {
-    final local$node = _instance.node;
-    return local$node == null
-        ? CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node.stub(
-            _then(_instance),
-          )
-        : CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node(
-            local$node,
-            (e) => call(node: e),
-          );
-  }
-}
-
-class _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges<
-  TRes
->
-    implements
-        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges<
-          TRes
-        > {
-  _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node?
-    node,
-    String? $__typename,
-  }) => _res;
-
-  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
-    TRes
-  >
-  get node =>
-      CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node.stub(
-        _res,
-      );
-}
-
-class Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node {
-  Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node({
-    required this.id,
-    required this.name,
-    this.$__typename = 'RestaurantCategory',
-  });
-
-  factory Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$$__typename = json['__typename'];
-    return Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node(
-      id: (l$id as String),
-      name: (l$name as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$name, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other
-            is! Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node
-    on
-        Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node {
-  CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node
-  >
-  get copyWith =>
-      CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node(
-        this,
-        (i) => i,
-      );
-}
-
-abstract class CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
-  TRes
-> {
-  factory CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node(
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node
-    instance,
-    TRes Function(
-      Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node,
-    )
-    then,
-  ) = _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node;
-
-  factory CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node;
-
-  TRes call({String? id, String? name, String? $__typename});
-}
-
-class _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
-  TRes
->
-    implements
-        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
-          TRes
-        > {
-  _CopyWithImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node(
-    this._instance,
-    this._then,
-  );
-
-  final Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node
-  _instance;
-
-  final TRes Function(
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node,
-  )
-  _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
-  TRes
->
-    implements
-        CopyWith$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node<
-          TRes
-        > {
-  _CopyWithStubImpl$Mutation$UpdateRestaurant$updateRestaurant$restaurant$restaurantCategories$edges$node(
-    this._res,
-  );
-
-  TRes _res;
-
-  call({String? id, String? name, String? $__typename}) => _res;
+  call({Fragment$RestaurantDetailFragment? restaurant, String? $__typename}) =>
+      _res;
+
+  CopyWith$Fragment$RestaurantDetailFragment<TRes> get restaurant =>
+      CopyWith$Fragment$RestaurantDetailFragment.stub(_res);
 }
 
 class Variables$Mutation$DeleteRestaurant {

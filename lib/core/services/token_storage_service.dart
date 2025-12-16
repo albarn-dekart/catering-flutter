@@ -7,6 +7,8 @@ class TokenStorageService {
   static const _rolesKey = 'user_roles';
   static const _tokenExpiryKey = 'token_expiry';
 
+  static const _refreshTokenKey = 'refresh_token';
+
   // Cache SharedPreferences instance to avoid repeated getInstance() calls
   SharedPreferences? _prefs;
 
@@ -28,6 +30,21 @@ class TokenStorageService {
   Future<void> deleteToken() async {
     final prefs = await _sharedPreferences;
     await prefs.remove(_tokenKey);
+  }
+
+  Future<void> saveRefreshToken(String refreshToken) async {
+    final prefs = await _sharedPreferences;
+    await prefs.setString(_refreshTokenKey, refreshToken);
+  }
+
+  Future<String?> getRefreshToken() async {
+    final prefs = await _sharedPreferences;
+    return prefs.getString(_refreshTokenKey);
+  }
+
+  Future<void> deleteRefreshToken() async {
+    final prefs = await _sharedPreferences;
+    await prefs.remove(_refreshTokenKey);
   }
 
   Future<void> saveEmail(String email) async {
@@ -95,8 +112,10 @@ class TokenStorageService {
   Future<void> clearAll() async {
     final prefs = await _sharedPreferences;
     await prefs.remove(_tokenKey);
+    await prefs.remove(_refreshTokenKey);
     await prefs.remove(_rolesKey);
     await prefs.remove(_tokenExpiryKey);
     await prefs.remove(_userIriKey);
+    await prefs.remove(_emailKey);
   }
 }

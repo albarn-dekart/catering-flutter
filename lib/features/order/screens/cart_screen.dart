@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import 'package:catering_flutter/core/app_routes.dart';
+import 'package:catering_flutter/core/app_router.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/features/order/services/cart_service.dart';
 import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
+import 'package:catering_flutter/core/widgets/price_text.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -18,16 +20,17 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      title: 'Cart',
+      title: AppLocalizations.of(context)!.cart,
       child: Consumer<CartService>(
         builder: (context, cartService, child) {
           if (cartService.cartItems.isEmpty) {
-            return const Center(child: Text('Your cart is empty.'));
+            return Center(child: Text(AppLocalizations.of(context)!.cartEmpty));
           }
           return Column(
             children: [
               Expanded(
                 child: ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(16),
                   itemCount: cartService.cartItems.length,
                   itemBuilder: (context, index) {
@@ -84,7 +87,9 @@ class _CartScreenState extends State<CartScreen> {
                                   const SizedBox(height: 4),
                                   Text(
                                     cartItem.mealPlan.description ??
-                                        'No description',
+                                        AppLocalizations.of(
+                                          context,
+                                        )!.noDescription,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
@@ -97,85 +102,100 @@ class _CartScreenState extends State<CartScreen> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   const SizedBox(height: 8),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Theme.of(
-                                              context,
-                                            ).colorScheme.outlineVariant,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                            8,
-                                          ),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            IconButton(
-                                              icon: const Icon(
-                                                Icons.remove,
-                                                size: 16,
-                                              ),
-                                              onPressed: () {
-                                                if (cartItem.quantity > 1) {
-                                                  cartService.updateQuantity(
-                                                    cartItem.mealPlan.id,
-                                                    cartItem.quantity - 1,
-                                                  );
-                                                } else {
-                                                  cartService.removeFromCart(
-                                                    cartItem.mealPlan.id,
-                                                  );
-                                                }
-                                              },
-                                              constraints: const BoxConstraints(
-                                                minWidth: 32,
-                                                minHeight: 32,
-                                              ),
-                                              padding: EdgeInsets.zero,
-                                            ),
-                                            Text(
-                                              '${cartItem.quantity}',
-                                              style: Theme.of(
-                                                context,
-                                              ).textTheme.titleSmall,
-                                            ),
-                                            IconButton(
-                                              icon: const Icon(
-                                                Icons.add,
-                                                size: 16,
-                                              ),
-                                              onPressed: () {
-                                                cartService.updateQuantity(
-                                                  cartItem.mealPlan.id,
-                                                  cartItem.quantity + 1,
-                                                );
-                                              },
-                                              constraints: const BoxConstraints(
-                                                minWidth: 32,
-                                                minHeight: 32,
-                                              ),
-                                              padding: EdgeInsets.zero,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Text(
-                                        '${((cartItem.mealPlan.price)! / 100.0 * cartItem.quantity).toStringAsFixed(2)} PLN/day',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium
-                                            ?.copyWith(
-                                              fontWeight: FontWeight.bold,
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: Wrap(
+                                      alignment: WrapAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.center,
+                                      spacing: 8,
+                                      runSpacing: 8,
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
                                               color: Theme.of(
                                                 context,
-                                              ).colorScheme.primary,
+                                              ).colorScheme.outlineVariant,
                                             ),
-                                      ),
-                                    ],
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              IconButton(
+                                                icon: const Icon(
+                                                  Icons.remove,
+                                                  size: 16,
+                                                ),
+                                                onPressed: () {
+                                                  if (cartItem.quantity > 1) {
+                                                    cartService.updateQuantity(
+                                                      cartItem.mealPlan.id,
+                                                      cartItem.quantity - 1,
+                                                    );
+                                                  } else {
+                                                    cartService.removeFromCart(
+                                                      cartItem.mealPlan.id,
+                                                    );
+                                                  }
+                                                },
+                                                constraints:
+                                                    const BoxConstraints(
+                                                      minWidth: 32,
+                                                      minHeight: 32,
+                                                    ),
+                                                padding: EdgeInsets.zero,
+                                              ),
+                                              Text(
+                                                '${cartItem.quantity}',
+                                                style: Theme.of(
+                                                  context,
+                                                ).textTheme.titleSmall,
+                                              ),
+                                              IconButton(
+                                                icon: const Icon(
+                                                  Icons.add,
+                                                  size: 16,
+                                                ),
+                                                onPressed: () {
+                                                  cartService.updateQuantity(
+                                                    cartItem.mealPlan.id,
+                                                    cartItem.quantity + 1,
+                                                  );
+                                                },
+                                                constraints:
+                                                    const BoxConstraints(
+                                                      minWidth: 32,
+                                                      minHeight: 32,
+                                                    ),
+                                                padding: EdgeInsets.zero,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        PriceText.fromDouble(
+                                          priceGroszy:
+                                              (cartItem.mealPlan.price! *
+                                                      cartItem.quantity)
+                                                  .toDouble(),
+                                          suffix: AppLocalizations.of(
+                                            context,
+                                          )!.perDay,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium
+                                              ?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.primary,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -210,7 +230,7 @@ class _CartScreenState extends State<CartScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Total:',
+                            AppLocalizations.of(context)!.total,
                             style: Theme.of(context).textTheme.titleMedium
                                 ?.copyWith(
                                   color: Theme.of(
@@ -218,8 +238,9 @@ class _CartScreenState extends State<CartScreen> {
                                   ).colorScheme.onSurfaceVariant,
                                 ),
                           ),
-                          Text(
-                            '${cartService.totalPricePLN.toStringAsFixed(2)} PLN/day',
+                          PriceText.fromDouble(
+                            priceGroszy: cartService.totalPricePLN,
+                            suffix: AppLocalizations.of(context)!.perDay,
                             style: Theme.of(context).textTheme.headlineSmall
                                 ?.copyWith(
                                   fontWeight: FontWeight.bold,
@@ -228,6 +249,32 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 16),
+                      // Delivery Fee Row
+                      if (cartService.deliveryPrice > 0)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                AppLocalizations.of(context)!.deliveryFee,
+                                style: Theme.of(context).textTheme.titleMedium
+                                    ?.copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurfaceVariant,
+                                    ),
+                              ),
+                              PriceText.fromDouble(
+                                priceGroszy: cartService.deliveryPrice
+                                    .toDouble(),
+                                suffix: AppLocalizations.of(context)!.perDay,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            ],
+                          ),
+                        ),
                       const SizedBox(height: 24),
                       SizedBox(
                         width: double.infinity,
@@ -243,12 +290,16 @@ class _CartScreenState extends State<CartScreen> {
                               borderRadius: BorderRadius.circular(16),
                             ),
                           ),
-                          child: const Text(
-                            'Proceed to Checkout',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          child: Text(
+                            AppLocalizations.of(context)!.proceedToCheckout,
+                            style: Theme.of(context).textTheme.labelLarge
+                                ?.copyWith(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimary,
+                                ),
                           ),
                         ),
                       ),

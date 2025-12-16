@@ -3,7 +3,7 @@ import 'package:catering_flutter/graphql/orders.graphql.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:catering_flutter/core/api_exception.dart';
+import 'package:catering_flutter/core/services/api_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 
 typedef Order = Fragment$OrderSummary;
@@ -38,9 +38,19 @@ class OrderService extends ChangeNotifier {
   OrderService(this._client);
 
   String? _currentUserId;
+  String? _currentRestaurantIri;
+  Enum$OrderStatus? _currentStatusFilter;
+  String? _currentSearchQuery;
 
-  Future<void> fetchAllOrders() async {
+  Future<void> fetchAllOrders({
+    Enum$OrderStatus? status,
+    String? searchQuery,
+  }) async {
     _currentUserId = null;
+    _currentRestaurantIri = null;
+    _currentStatusFilter = status;
+    _currentSearchQuery = searchQuery;
+
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -48,7 +58,11 @@ class OrderService extends ChangeNotifier {
     try {
       final options = QueryOptions(
         document: documentNodeQueryGetOrders,
-        variables: Variables$Query$GetOrders(first: 20).toJson(),
+        variables: Variables$Query$GetOrders(
+          first: 20,
+          status: status?.name,
+          search: searchQuery,
+        ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
@@ -74,6 +88,54 @@ class OrderService extends ChangeNotifier {
     }
   }
 
+  Future<void> fetchRestaurantOrders(
+    String restaurantIri, {
+    Enum$OrderStatus? status,
+    String? searchQuery,
+  }) async {
+    _currentUserId = null;
+    _currentRestaurantIri = restaurantIri;
+    _currentStatusFilter = status;
+    _currentSearchQuery = searchQuery;
+
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final options = QueryOptions(
+        document: documentNodeQueryGetOrdersByRestaurant,
+        variables: Variables$Query$GetOrdersByRestaurant(
+          restaurantId: restaurantIri,
+          first: 20,
+          status: status?.name,
+          search: searchQuery,
+        ).toJson(),
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
+      final result = await _client.query(options);
+
+      if (result.hasException) {
+        throw ApiException(result.exception.toString());
+      }
+
+      final data = Query$GetOrdersByRestaurant.fromJson(result.data!);
+      if (data.restaurant?.orders?.edges != null) {
+        _orders = data.restaurant!.orders!.edges!
+            .map((e) => e?.node)
+            .whereType<Order>()
+            .toList();
+        _endCursor = data.restaurant?.orders?.pageInfo.endCursor;
+        _hasNextPage = data.restaurant?.orders?.pageInfo.hasNextPage ?? false;
+      }
+    } catch (e) {
+      _errorMessage = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
   Future<void> loadMoreOrders() async {
     if (_isFetchingMore || !_hasNextPage || _endCursor == null) return;
 
@@ -89,6 +151,19 @@ class OrderService extends ChangeNotifier {
             id: _currentUserId!,
             first: 20,
             after: _endCursor,
+            status: _currentStatusFilter?.name,
+          ).toJson(),
+          fetchPolicy: FetchPolicy.networkOnly,
+        );
+      } else if (_currentRestaurantIri != null) {
+        options = QueryOptions(
+          document: documentNodeQueryGetOrdersByRestaurant,
+          variables: Variables$Query$GetOrdersByRestaurant(
+            restaurantId: _currentRestaurantIri!,
+            first: 20,
+            after: _endCursor,
+            status: _currentStatusFilter?.name,
+            search: _currentSearchQuery,
           ).toJson(),
           fetchPolicy: FetchPolicy.networkOnly,
         );
@@ -98,6 +173,8 @@ class OrderService extends ChangeNotifier {
           variables: Variables$Query$GetOrders(
             first: 20,
             after: _endCursor,
+            status: _currentStatusFilter?.name,
+            search: _currentSearchQuery,
           ).toJson(),
           fetchPolicy: FetchPolicy.networkOnly,
         );
@@ -116,9 +193,20 @@ class OrderService extends ChangeNotifier {
               .map((e) => e?.node)
               .whereType<Order>()
               .toList();
-          _orders.addAll(newOrders);
+          _orders = [..._orders, ...newOrders];
           _endCursor = data.user?.orders?.pageInfo.endCursor;
           _hasNextPage = data.user?.orders?.pageInfo.hasNextPage ?? false;
+        }
+      } else if (_currentRestaurantIri != null) {
+        final data = Query$GetOrdersByRestaurant.fromJson(result.data!);
+        if (data.restaurant?.orders?.edges != null) {
+          final newOrders = data.restaurant!.orders!.edges!
+              .map((e) => e?.node)
+              .whereType<Order>()
+              .toList();
+          _orders = [..._orders, ...newOrders];
+          _endCursor = data.restaurant?.orders?.pageInfo.endCursor;
+          _hasNextPage = data.restaurant?.orders?.pageInfo.hasNextPage ?? false;
         }
       } else {
         final data = Query$GetOrders.fromJson(result.data!);
@@ -127,7 +215,7 @@ class OrderService extends ChangeNotifier {
               .map((e) => e?.node)
               .whereType<Order>()
               .toList();
-          _orders.addAll(newOrders);
+          _orders = [..._orders, ...newOrders];
           _endCursor = data.orders?.pageInfo.endCursor;
           _hasNextPage = data.orders?.pageInfo.hasNextPage ?? false;
         }
@@ -140,8 +228,11 @@ class OrderService extends ChangeNotifier {
     }
   }
 
-  Future<void> getMyOrders(String userIri) async {
+  Future<void> getMyOrders(String userIri, {Enum$OrderStatus? status}) async {
     _currentUserId = userIri;
+    // Store the status filter so generic methods like loadMoreOrders can use it
+    _currentStatusFilter = status;
+
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -152,6 +243,7 @@ class OrderService extends ChangeNotifier {
         variables: Variables$Query$GetUserOrders(
           id: userIri,
           first: 20,
+          status: status?.name,
         ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
@@ -232,6 +324,8 @@ class OrderService extends ChangeNotifier {
             status: Enum$OrderStatus.Unpaid,
             customer: customerIri,
             restaurant: restaurantIri,
+            total: 0,
+            createdAt: DateTime.now().toIso8601String(),
             orderItems: orderItems
                 .map(
                   (e) => Input$OrderItemNestedInput(
@@ -242,7 +336,7 @@ class OrderService extends ChangeNotifier {
                 .toList(),
             deliveries: deliveryDates
                 .map(
-                  (date) => Input$DeliveryNestedInput(
+                  (date) => Input$createDeliveryNestedInput(
                     deliveryDate: DateFormat('yyyy-MM-dd').format(date),
                     status: Enum$DeliveryStatus.Pending,
                   ),
@@ -284,7 +378,7 @@ class OrderService extends ChangeNotifier {
   }
 
   Future<void> updateOrderStatus(
-    String orderId,
+    String orderIri,
     Enum$OrderStatus status,
   ) async {
     _isLoading = true;
@@ -295,7 +389,7 @@ class OrderService extends ChangeNotifier {
       final options = MutationOptions(
         document: documentNodeMutationUpdateOrder,
         variables: Variables$Mutation$UpdateOrder(
-          input: Input$updateOrderInput(id: orderId, status: status),
+          input: Input$updateOrderInput(id: orderIri, status: status),
         ).toJson(),
       );
 

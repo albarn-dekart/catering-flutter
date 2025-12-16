@@ -1,30 +1,41 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
+import 'package:catering_flutter/core/widgets/responsive_grid.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
 
 class SearchableListScreen<T> extends StatefulWidget {
   final String title;
   final List<T> items;
   final Widget Function(BuildContext context, T item) itemBuilder;
-  final bool Function(T item, String query) filter;
   final Widget? floatingActionButton;
   final bool isLoading;
   final Future<void> Function()? onRefresh;
   final Future<void> Function()? onLoadMore;
-  final String searchHint;
+  final String? searchHint;
+  final bool useGrid;
+  final double? preferredItemHeight;
+  final double mainAxisSpacing;
+  final double crossAxisSpacing;
   final Widget? customFilters;
+  final void Function(String query)? onSearch;
 
   const SearchableListScreen({
     super.key,
     required this.title,
     required this.items,
     required this.itemBuilder,
-    required this.filter,
     this.floatingActionButton,
     this.isLoading = false,
     this.onRefresh,
     this.onLoadMore,
-    this.searchHint = 'Search...',
+    this.searchHint,
     this.customFilters,
+    this.useGrid = false,
+    this.preferredItemHeight,
+    this.mainAxisSpacing = 16,
+    this.crossAxisSpacing = 16,
+    this.onSearch,
   });
 
   @override
@@ -35,30 +46,21 @@ class SearchableListScreen<T> extends StatefulWidget {
 class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
   final TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  List<T> _filteredItems = [];
+
+  Timer? _debounce;
 
   @override
   void initState() {
     super.initState();
     _searchController.addListener(_onSearchChanged);
     _scrollController.addListener(_onScroll);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _onSearchChanged();
-    });
-  }
-
-  @override
-  void didUpdateWidget(SearchableListScreen<T> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.items != oldWidget.items || widget.filter != oldWidget.filter) {
-      _onSearchChanged();
-    }
   }
 
   @override
   void dispose() {
     _searchController.dispose();
     _scrollController.dispose();
+    _debounce?.cancel();
     super.dispose();
   }
 
@@ -72,12 +74,14 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
   }
 
   void _onSearchChanged() {
-    final query = _searchController.text.toLowerCase();
-    setState(() {
-      _filteredItems = widget.items
-          .where((item) => widget.filter(item, query))
-          .toList();
-    });
+    final query = _searchController.text;
+
+    if (widget.onSearch != null) {
+      if (_debounce?.isActive ?? false) _debounce!.cancel();
+      _debounce = Timer(const Duration(milliseconds: 500), () {
+        widget.onSearch!(query);
+      });
+    }
   }
 
   @override
@@ -102,7 +106,8 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: widget.searchHint,
+                hintText:
+                    widget.searchHint ?? AppLocalizations.of(context)!.search,
                 prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -119,9 +124,9 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
           ),
           if (widget.customFilters != null) widget.customFilters!,
           Expanded(
-            child: widget.isLoading
+            child: widget.isLoading && widget.items.isEmpty
                 ? const Center(child: CircularProgressIndicator())
-                : _filteredItems.isEmpty
+                : widget.items.isEmpty
                 ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -133,7 +138,7 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'No items found',
+                          AppLocalizations.of(context)!.noItemsFound,
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(
                                 color: Theme.of(context).colorScheme.outline,
@@ -144,34 +149,124 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
                   )
                 : RefreshIndicator(
                     onRefresh: widget.onRefresh ?? () async {},
-                    child: ListView.separated(
-                      padding: const EdgeInsets.all(16),
-                      controller: _scrollController,
-                      itemCount:
-                          _filteredItems.length +
-                          (widget.isLoading && widget.onLoadMore != null
-                              ? 1
-                              : 0),
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 12),
-                      itemBuilder: (context, index) {
-                        if (index == _filteredItems.length) {
-                          return const Center(
-                            child: Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        }
-                        return widget.itemBuilder(
-                          context,
-                          _filteredItems[index],
-                        );
-                      },
-                    ),
+                    child: widget.useGrid
+                        ? ResponsiveGridBuilder(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            controller: _scrollController,
+                            padding: const EdgeInsets.all(16),
+                            itemCount:
+                                widget.items.length +
+                                (widget.isLoading && widget.onLoadMore != null
+                                    ? 1
+                                    : 0),
+                            preferredItemHeight:
+                                widget.preferredItemHeight ?? 300,
+                            mainAxisSpacing: widget.mainAxisSpacing,
+                            crossAxisSpacing: widget.crossAxisSpacing,
+                            itemBuilder: (context, index) {
+                              if (index >= widget.items.length) {
+                                return const Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
+                              }
+                              return widget.itemBuilder(
+                                context,
+                                widget.items[index],
+                              );
+                            },
+                          )
+                        : ListView.separated(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            padding: const EdgeInsets.all(16),
+                            controller: _scrollController,
+                            itemCount:
+                                widget.items.length +
+                                (widget.isLoading && widget.onLoadMore != null
+                                    ? 1
+                                    : 0),
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(height: 12),
+                            itemBuilder: (context, index) {
+                              if (index >= widget.items.length) {
+                                return const Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
+                              }
+                              return widget.itemBuilder(
+                                context,
+                                widget.items[index],
+                              );
+                            },
+                          ),
                   ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class FilterChipsBar<T> extends StatelessWidget {
+  final List<T> values;
+  final T? selectedValue;
+  final String Function(T) labelBuilder;
+  final ValueChanged<T?> onSelected;
+  final String allLabel;
+
+  const FilterChipsBar({
+    super.key,
+    required this.values,
+    required this.selectedValue,
+    required this.labelBuilder,
+    required this.onSelected,
+    required this.allLabel,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            _buildChip(context, null, allLabel),
+            ...values.map(
+              (value) => _buildChip(context, value, labelBuilder(value)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildChip(BuildContext context, T? value, String label) {
+    final isSelected = selectedValue == value;
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: FilterChip(
+        label: Text(label),
+        selected: isSelected,
+        onSelected: (selected) {
+          if (selectedValue != value) {
+            onSelected(value);
+          }
+        },
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        selectedColor: Theme.of(context).colorScheme.primaryContainer,
+        checkmarkColor: Theme.of(context).colorScheme.onPrimaryContainer,
+        labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+          color: isSelected
+              ? Theme.of(context).colorScheme.onPrimaryContainer
+              : Theme.of(context).colorScheme.onSurface,
+          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+        ),
       ),
     );
   }

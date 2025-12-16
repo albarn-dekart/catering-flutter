@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:catering_flutter/core/api_client.dart';
+import 'package:catering_flutter/core/services/api_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 
@@ -14,6 +14,7 @@ class Statistics {
   final int driverCount;
   final int adminCount;
   final List<Map<String, dynamic>> revenueTimeSeries;
+  final List<Map<String, dynamic>> dailyOrdersTimeSeries;
   final Map<String, int> ordersByStatus;
 
   Statistics({
@@ -27,6 +28,7 @@ class Statistics {
     required this.driverCount,
     required this.adminCount,
     required this.revenueTimeSeries,
+    required this.dailyOrdersTimeSeries,
     required this.ordersByStatus,
   });
 
@@ -43,6 +45,11 @@ class Statistics {
       adminCount: json['adminCount'] ?? 0,
       revenueTimeSeries:
           (json['revenueTimeSeries'] as List<dynamic>?)
+              ?.map((e) => Map<String, dynamic>.from(e as Map))
+              .toList() ??
+          [],
+      dailyOrdersTimeSeries:
+          (json['dailyOrdersTimeSeries'] as List<dynamic>?)
               ?.map((e) => Map<String, dynamic>.from(e as Map))
               .toList() ??
           [],
@@ -64,6 +71,7 @@ class RestaurantStatistics {
   final double deliverySuccessRate;
   final List<Map<String, dynamic>> popularMealPlans;
   final List<Map<String, dynamic>> revenueTimeSeries;
+  final List<Map<String, dynamic>> dailyOrdersTimeSeries;
 
   RestaurantStatistics({
     required this.totalRevenue,
@@ -74,6 +82,7 @@ class RestaurantStatistics {
     required this.deliverySuccessRate,
     required this.popularMealPlans,
     required this.revenueTimeSeries,
+    required this.dailyOrdersTimeSeries,
   });
 
   factory RestaurantStatistics.fromJson(Map<String, dynamic> json) {
@@ -94,12 +103,17 @@ class RestaurantStatistics {
               ?.map((e) => Map<String, dynamic>.from(e as Map))
               .toList() ??
           [],
+      dailyOrdersTimeSeries:
+          (json['dailyOrdersTimeSeries'] as List<dynamic>?)
+              ?.map((e) => Map<String, dynamic>.from(e as Map))
+              .toList() ??
+          [],
     );
   }
 }
 
 class StatisticsService extends ChangeNotifier {
-  final ApiClient _apiClient;
+  final ApiService _apiClient;
 
   Statistics? _adminStatistics;
   Statistics? get adminStatistics => _adminStatistics;
@@ -117,13 +131,29 @@ class StatisticsService extends ChangeNotifier {
 
   StatisticsService(this._apiClient);
 
-  Future<void> fetchAdminStatistics() async {
+  Future<void> fetchAdminStatistics({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      final response = await _apiClient.get('/api/statistics');
+      String url = '/api/statistics';
+      final params = <String, String>{};
+      if (startDate != null) {
+        params['startDate'] = startDate.toIso8601String().split('T')[0];
+      }
+      if (endDate != null) {
+        params['endDate'] = endDate.toIso8601String().split('T')[0];
+      }
+
+      if (params.isNotEmpty) {
+        url += '?${Uri(queryParameters: params).query}';
+      }
+
+      final response = await _apiClient.get(url);
 
       final data = jsonDecode(response.body);
       _adminStatistics = Statistics.fromJson(data);
@@ -135,13 +165,30 @@ class StatisticsService extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchRestaurantStatistics(String restaurantId) async {
+  Future<void> fetchRestaurantStatistics(
+    String restaurantId, {
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      final response = await _apiClient.get('$restaurantId/statistics');
+      String url = '$restaurantId/statistics';
+      final params = <String, String>{};
+      if (startDate != null) {
+        params['startDate'] = startDate.toIso8601String().split('T')[0];
+      }
+      if (endDate != null) {
+        params['endDate'] = endDate.toIso8601String().split('T')[0];
+      }
+
+      if (params.isNotEmpty) {
+        url += '?${Uri(queryParameters: params).query}';
+      }
+
+      final response = await _apiClient.get(url);
 
       final data = jsonDecode(response.body);
       _restaurantStatistics = RestaurantStatistics.fromJson(data);

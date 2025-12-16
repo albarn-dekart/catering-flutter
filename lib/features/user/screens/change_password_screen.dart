@@ -1,10 +1,11 @@
 import 'package:catering_flutter/core/widgets/custom_text_field.dart';
-import 'package:catering_flutter/core/auth_service.dart';
+import 'package:catering_flutter/core/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
   const ChangePasswordScreen({super.key});
@@ -12,7 +13,7 @@ class ChangePasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      title: 'Change Password',
+      title: AppLocalizations.of(context)!.changePassword,
       child: const ChangePasswordView(),
     );
   }
@@ -58,7 +59,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
         confirmedPassword.isEmpty) {
       UIErrorHandler.showSnackBar(
         context,
-        'Please fill in all fields',
+        AppLocalizations.of(context)!.fillAllFields,
         isError: true,
       );
       return;
@@ -67,7 +68,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
     if (newPassword != confirmedPassword) {
       UIErrorHandler.showSnackBar(
         context,
-        'New passwords do not match',
+        AppLocalizations.of(context)!.passwordsDoNotMatch,
         isError: true,
       );
       return;
@@ -76,7 +77,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
     if (newPassword.length < 8) {
       UIErrorHandler.showSnackBar(
         context,
-        'New password must be at least 8 characters',
+        AppLocalizations.of(context)!.newPasswordMinLength,
         isError: true,
       );
       return;
@@ -93,7 +94,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
 
       UIErrorHandler.showSnackBar(
         context,
-        'Password changed successfully!',
+        AppLocalizations.of(context)!.passwordChangedSuccess,
         isError: false,
       );
       context.pop();
@@ -102,7 +103,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
       UIErrorHandler.handleError(
         context,
         e,
-        customMessage: 'Failed to change password',
+        customMessage: AppLocalizations.of(context)!.failedToChangePassword,
       );
     } finally {
       if (mounted) {
@@ -117,6 +118,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   Widget build(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.all(16.0),
         child: Card(
           elevation: 0,
@@ -138,14 +140,14 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Update Security',
+                  AppLocalizations.of(context)!.updateSecurity,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Enter your current password and a new one.',
+                  AppLocalizations.of(context)!.updateSecurityDescription,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -154,19 +156,19 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                 const SizedBox(height: 24),
                 CustomTextField(
                   controller: _oldPasswordController,
-                  hintText: 'Old Password',
+                  hintText: AppLocalizations.of(context)!.oldPassword,
                   obscureText: true,
                 ),
                 const SizedBox(height: 16),
                 CustomTextField(
                   controller: _newPasswordController,
-                  hintText: 'New Password',
+                  hintText: AppLocalizations.of(context)!.newPassword,
                   obscureText: true,
                 ),
                 const SizedBox(height: 16),
                 CustomTextField(
                   controller: _confirmedPasswordController,
-                  hintText: 'Confirm New Password',
+                  hintText: AppLocalizations.of(context)!.confirmNewPassword,
                   obscureText: true,
                 ),
                 const SizedBox(height: 32),
@@ -184,7 +186,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                               color: Colors.white,
                             ),
                           )
-                        : const Text('Change Password'),
+                        : Text(AppLocalizations.of(context)!.changePassword),
                   ),
                 ),
               ],

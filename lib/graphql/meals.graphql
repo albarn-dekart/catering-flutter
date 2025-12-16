@@ -1,42 +1,78 @@
-query GetMeals($first: Int, $after: String) {
-    meals(first: $first, after: $after) {
+fragment MealFragment on Meal {
+    id
+    name
+    description
+    price
+    imageUrl
+    calories
+    protein
+    fat
+    carbs
+}
+
+fragment MealPlanSummaryFragment on MealPlan {
+    id
+    name
+    description
+    price
+    imageUrl
+    calories
+    protein
+    fat
+    carbs
+    restaurant {
+        id
+        name
+        deliveryPrice
+    }
+    dietCategories {
         edges {
             node {
                 id
                 name
-                description
-                price
-                imageUrl
             }
+        }
+    }
+}
+
+fragment MealPlanFragment on MealPlan {
+    ...MealPlanSummaryFragment
+    meals(first: 50) {
+        edges {
+            node {
+                ...MealFragment
+            }
+        }
+    }
+}
+
+query GetMeals($first: Int, $after: String, $search: String, $price: [MealFilter_price], $calories: [MealFilter_calories], $protein: [MealFilter_protein], $fat: [MealFilter_fat], $carbs: [MealFilter_carbs]) {
+    meals(first: $first, after: $after, search: $search, price: $price, calories: $calories, protein: $protein, fat: $fat, carbs: $carbs) {
+        edges {
+            node {
+                ...MealFragment
+            }
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
         }
     }
 }
 
 query GetMeal($id: ID!) {
     meal(id: $id) {
-        id
-        name
-        description
-        price
-        calories
-        protein
-        fat
-        carbs
-        imageUrl
+        ...MealFragment
     }
 }
 
-query GetMealsByRestaurant($restaurantId: ID!, $first: Int, $after: String) {
+query GetMealsByRestaurant($restaurantId: ID!, $first: Int, $after: String, $search: String, $price: [MealFilter_price], $calories: [MealFilter_calories], $protein: [MealFilter_protein], $fat: [MealFilter_fat], $carbs: [MealFilter_carbs]) {
     restaurant(id: $restaurantId) {
         id
-        meals(first: $first, after: $after) {
+        meals(first: $first, after: $after, search: $search, price: $price, calories: $calories, protein: $protein, fat: $fat, carbs: $carbs) {
             edges {
                 node {
-                    id
-                    name
-                    description
-                    price
-                    imageUrl
+                    ...MealFragment
                 }
             }
             pageInfo {
@@ -73,75 +109,33 @@ mutation DeleteMeal($input: deleteMealInput!) {
     }
 }
 
-query GetMealPlans($first: Int, $after: String) {
-    mealPlans(first: $first, after: $after) {
+query GetMealPlans($first: Int, $after: String, $search: String, $price: [MealPlanFilter_price], $calories: [MealPlanFilter_calories], $protein: [MealPlanFilter_protein], $fat: [MealPlanFilter_fat], $carbs: [MealPlanFilter_carbs], $category: String) {
+    mealPlans(first: $first, after: $after, search: $search, price: $price, calories: $calories, protein: $protein, fat: $fat, carbs: $carbs, dietCategories_name: $category) {
         edges {
             node {
-                id
-                name
-                description
-                price
-                imageUrl
-                dietCategories {
-                    edges {
-                        node {
-                            id
-                            name
-                        }
-                    }
-                }
+                ...MealPlanSummaryFragment
             }
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
         }
     }
 }
 
 query GetMealPlan($id: ID!) {
     mealPlan(id: $id) {
-        id
-        name
-        description
-        price
-        imageUrl
-        restaurant {
-            id
-        }
-        meals {
-            edges {
-                node {
-                    id
-                    name
-                    imageUrl
-                    description
-                    price
-                    calories
-                    protein
-                    carbs
-                    fat
-                }
-            }
-        }
+        ...MealPlanFragment
     }
 }
 
-query GetMealPlansByRestaurant($restaurantId: ID!, $first: Int, $after: String) {
+query GetMealPlansByRestaurant($restaurantId: ID!, $first: Int, $after: String, $search: String, $price: [MealPlanFilter_price], $calories: [MealPlanFilter_calories], $protein: [MealPlanFilter_protein], $fat: [MealPlanFilter_fat], $carbs: [MealPlanFilter_carbs], $category: String) {
     restaurant(id: $restaurantId) {
         id
-        mealPlans(first: $first, after: $after) {
+        mealPlans(first: $first, after: $after, search: $search, price: $price, calories: $calories, protein: $protein, fat: $fat, carbs: $carbs, dietCategories_name: $category) {
             edges {
                 node {
-                    id
-                    name
-                    description
-                    price
-                    imageUrl
-                    dietCategories {
-                        edges {
-                            node {
-                                id
-                                name
-                            }
-                        }
-                    }
+                    ...MealPlanSummaryFragment
                 }
             }
             pageInfo {

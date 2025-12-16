@@ -1,19 +1,19 @@
 import 'package:catering_flutter/graphql/meals.graphql.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
-import 'package:flutter/foundation.dart';
+import 'package:catering_flutter/graphql/users.graphql.dart';
+import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:catering_flutter/core/api_exception.dart';
+import 'package:catering_flutter/core/services/api_service.dart';
 
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
-import 'package:catering_flutter/core/api_client.dart';
 
-typedef MealPlan = Query$GetMealPlans$mealPlans$edges$node;
-typedef MealPlanDetails = Query$GetMealPlan$mealPlan;
+typedef MealPlan = Fragment$MealPlanSummaryFragment;
+typedef MealPlanDetails = Fragment$MealPlanFragment;
 
 class MealPlanService extends ChangeNotifier {
   final GraphQLClient _client;
 
-  final ApiClient _apiClient;
+  final ApiService _apiClient;
 
   List<MealPlan> _mealPlans = [];
   List<MealPlan> get mealPlans => _mealPlans;
@@ -35,17 +35,33 @@ class MealPlanService extends ChangeNotifier {
   bool _isFetchingMore = false;
   bool get isFetchingMore => _isFetchingMore;
 
+  String? _currentSearchQuery;
+  String? get currentSearchQuery => _currentSearchQuery;
+  String? _currentCategory;
+  String? get currentCategory => _currentCategory;
+
+  // Cache current filters for pagination
+  RangeValues? _lastPriceRange;
+  RangeValues? _lastCalorieRange;
+  RangeValues? _lastProteinRange;
+  RangeValues? _lastFatRange;
+  RangeValues? _lastCarbRange;
+
   MealPlanService(this._client, this._apiClient);
 
-  Future<void> fetchAllMealPlans() async {
+  Future<void> fetchAllMealPlans({String? searchQuery}) async {
     _isLoading = true;
     _errorMessage = null;
+    _currentSearchQuery = searchQuery;
     notifyListeners();
 
     try {
       final options = QueryOptions(
         document: documentNodeQueryGetMealPlans,
-        variables: Variables$Query$GetMealPlans(first: 100).toJson(),
+        variables: Variables$Query$GetMealPlans(
+          first: 20,
+          search: searchQuery,
+        ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
@@ -60,6 +76,8 @@ class MealPlanService extends ChangeNotifier {
             .map((e) => e?.node)
             .whereType<MealPlan>()
             .toList();
+        _endCursor = data.mealPlans?.pageInfo.endCursor;
+        _hasNextPage = data.mealPlans?.pageInfo.hasNextPage ?? false;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -69,9 +87,67 @@ class MealPlanService extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchMealPlansByRestaurant(String restaurantIri) async {
+  Future<void> loadMoreMealPlansGlobal() async {
+    if (_isFetchingMore || !_hasNextPage || _endCursor == null) return;
+
+    _isFetchingMore = true;
+    notifyListeners();
+
+    try {
+      final options = QueryOptions(
+        document: documentNodeQueryGetMealPlans,
+        variables: Variables$Query$GetMealPlans(
+          first: 20,
+          after: _endCursor,
+          search: _currentSearchQuery,
+        ).toJson(),
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
+      final result = await _client.query(options);
+
+      if (result.hasException) {
+        throw ApiException(result.exception.toString());
+      }
+
+      final data = Query$GetMealPlans.fromJson(result.data!);
+      if (data.mealPlans?.edges != null) {
+        final newMealPlans = data.mealPlans!.edges!
+            .map((e) => e?.node)
+            .whereType<MealPlan>()
+            .toList();
+        _mealPlans = [..._mealPlans, ...newMealPlans];
+        _endCursor = data.mealPlans?.pageInfo.endCursor;
+        _hasNextPage = data.mealPlans?.pageInfo.hasNextPage ?? false;
+      }
+    } catch (e) {
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
+    } finally {
+      _isFetchingMore = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> fetchMealPlansByRestaurant(
+    String restaurantIri, {
+    String? searchQuery,
+    String? category, // Added category parameter
+    RangeValues? priceRange,
+    RangeValues? calorieRange,
+    RangeValues? proteinRange,
+    RangeValues? fatRange,
+    RangeValues? carbRange,
+  }) async {
     _isLoading = true;
     _errorMessage = null;
+    _currentSearchQuery = searchQuery;
+    _currentCategory = category; // Store category
+    _endCursor = null;
+    _hasNextPage = false;
+    _lastPriceRange = priceRange;
+    _lastCalorieRange = calorieRange;
+    _lastProteinRange = proteinRange;
+    _lastFatRange = fatRange;
+    _lastCarbRange = carbRange;
     notifyListeners();
 
     try {
@@ -80,6 +156,48 @@ class MealPlanService extends ChangeNotifier {
         variables: Variables$Query$GetMealPlansByRestaurant(
           restaurantId: restaurantIri,
           first: 20,
+          search: _currentSearchQuery,
+          category: _currentCategory, // Pass category to query
+          price: priceRange != null
+              ? [
+                  Input$MealPlanFilter_price(
+                    gte: (priceRange.start * 100).toInt().toString(),
+                    lte: (priceRange.end * 100).toInt().toString(),
+                  ),
+                ]
+              : null,
+          calories: calorieRange != null
+              ? [
+                  Input$MealPlanFilter_calories(
+                    gte: calorieRange.start.toString(),
+                    lte: calorieRange.end.toString(),
+                  ),
+                ]
+              : null,
+          protein: proteinRange != null
+              ? [
+                  Input$MealPlanFilter_protein(
+                    gte: proteinRange.start.toString(),
+                    lte: proteinRange.end.toString(),
+                  ),
+                ]
+              : null,
+          fat: fatRange != null
+              ? [
+                  Input$MealPlanFilter_fat(
+                    gte: fatRange.start.toString(),
+                    lte: fatRange.end.toString(),
+                  ),
+                ]
+              : null,
+          carbs: carbRange != null
+              ? [
+                  Input$MealPlanFilter_carbs(
+                    gte: carbRange.start.toString(),
+                    lte: carbRange.end.toString(),
+                  ),
+                ]
+              : null,
         ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
@@ -94,37 +212,7 @@ class MealPlanService extends ChangeNotifier {
       if (data.restaurant?.mealPlans?.edges != null) {
         _mealPlans = data.restaurant!.mealPlans!.edges!
             .map((e) => e?.node)
-            .whereType<
-              Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node
-            >()
-            .map((e) {
-              final dietCategoriesNode = e.dietCategories;
-              return MealPlan(
-                id: e.id,
-                name: e.name,
-                description: e.description,
-                price: e.price,
-                imageUrl: e.imageUrl,
-                dietCategories: dietCategoriesNode != null
-                    ? Query$GetMealPlans$mealPlans$edges$node$dietCategories(
-                        edges: dietCategoriesNode.edges?.map((edge) {
-                          if (edge?.node == null) return null;
-                          return Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges(
-                            node:
-                                Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node(
-                                  id: edge!.node!.id,
-                                  name: edge.node!.name,
-                                  $__typename: edge.node!.$__typename,
-                                ),
-                            $__typename: edge.$__typename,
-                          );
-                        }).toList(),
-                        $__typename: dietCategoriesNode.$__typename,
-                      )
-                    : null,
-                $__typename: e.$__typename,
-              );
-            })
+            .whereType<MealPlan>()
             .toList();
         _endCursor = data.restaurant?.mealPlans?.pageInfo.endCursor;
         _hasNextPage =
@@ -138,7 +226,7 @@ class MealPlanService extends ChangeNotifier {
     }
   }
 
-  Future<void> loadMoreMealPlans(String restaurantIri) async {
+  Future<void> loadMoreMealPlansByRestaurant(String restaurantIri) async {
     if (_isFetchingMore || !_hasNextPage || _endCursor == null) return;
 
     _isFetchingMore = true;
@@ -151,6 +239,48 @@ class MealPlanService extends ChangeNotifier {
           restaurantId: restaurantIri,
           first: 20,
           after: _endCursor,
+          search: _currentSearchQuery,
+          category: _currentCategory, // Pass category to query
+          price: _lastPriceRange != null
+              ? [
+                  Input$MealPlanFilter_price(
+                    gte: (_lastPriceRange!.start * 100).toInt().toString(),
+                    lte: (_lastPriceRange!.end * 100).toInt().toString(),
+                  ),
+                ]
+              : null,
+          calories: _lastCalorieRange != null
+              ? [
+                  Input$MealPlanFilter_calories(
+                    gte: _lastCalorieRange!.start.toString(),
+                    lte: _lastCalorieRange!.end.toString(),
+                  ),
+                ]
+              : null,
+          protein: _lastProteinRange != null
+              ? [
+                  Input$MealPlanFilter_protein(
+                    gte: _lastProteinRange!.start.toString(),
+                    lte: _lastProteinRange!.end.toString(),
+                  ),
+                ]
+              : null,
+          fat: _lastFatRange != null
+              ? [
+                  Input$MealPlanFilter_fat(
+                    gte: _lastFatRange!.start.toString(),
+                    lte: _lastFatRange!.end.toString(),
+                  ),
+                ]
+              : null,
+          carbs: _lastCarbRange != null
+              ? [
+                  Input$MealPlanFilter_carbs(
+                    gte: _lastCarbRange!.start.toString(),
+                    lte: _lastCarbRange!.end.toString(),
+                  ),
+                ]
+              : null,
         ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
@@ -165,39 +295,9 @@ class MealPlanService extends ChangeNotifier {
       if (data.restaurant?.mealPlans?.edges != null) {
         final newMealPlans = data.restaurant!.mealPlans!.edges!
             .map((e) => e?.node)
-            .whereType<
-              Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges$node
-            >()
-            .map((e) {
-              final dietCategoriesNode = e.dietCategories;
-              return MealPlan(
-                id: e.id,
-                name: e.name,
-                description: e.description,
-                price: e.price,
-                imageUrl: e.imageUrl,
-                dietCategories: dietCategoriesNode != null
-                    ? Query$GetMealPlans$mealPlans$edges$node$dietCategories(
-                        edges: dietCategoriesNode.edges?.map((edge) {
-                          if (edge?.node == null) return null;
-                          return Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges(
-                            node:
-                                Query$GetMealPlans$mealPlans$edges$node$dietCategories$edges$node(
-                                  id: edge!.node!.id,
-                                  name: edge.node!.name,
-                                  $__typename: edge.node!.$__typename,
-                                ),
-                            $__typename: edge.$__typename,
-                          );
-                        }).toList(),
-                        $__typename: dietCategoriesNode.$__typename,
-                      )
-                    : null,
-                $__typename: e.$__typename,
-              );
-            })
+            .whereType<MealPlan>()
             .toList();
-        _mealPlans.addAll(newMealPlans);
+        _mealPlans = [..._mealPlans, ...newMealPlans];
         _endCursor = data.restaurant?.mealPlans?.pageInfo.endCursor;
         _hasNextPage =
             data.restaurant?.mealPlans?.pageInfo.hasNextPage ?? false;
@@ -242,6 +342,7 @@ class MealPlanService extends ChangeNotifier {
     required String description,
     List<String>? mealIds,
     List<String>? categoryIds,
+    String? ownerIri,
   }) async {
     _isLoading = true;
     _errorMessage = null;
@@ -257,6 +358,7 @@ class MealPlanService extends ChangeNotifier {
             description: description,
             meals: mealIds,
             dietCategories: categoryIds,
+            owner: ownerIri,
           ),
         ).toJson(),
       );
@@ -377,6 +479,44 @@ class MealPlanService extends ChangeNotifier {
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> fetchMyCustomMealPlans(
+    String userIri, {
+    String? searchQuery,
+  }) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final options = QueryOptions(
+        document: documentNodeQueryGetMyCustomMealPlans,
+        variables: Variables$Query$GetMyCustomMealPlans(
+          id: userIri,
+          search: searchQuery,
+        ).toJson(),
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
+      final result = await _client.query(options);
+
+      if (result.hasException) {
+        throw ApiException(result.exception.toString());
+      }
+
+      final data = Query$GetMyCustomMealPlans.fromJson(result.data!);
+      if (data.user?.customMealPlans?.edges != null) {
+        _mealPlans = data.user!.customMealPlans!.edges!
+            .map((e) => e?.node)
+            .whereType<MealPlan>()
+            .toList();
+      }
+    } catch (e) {
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
       _isLoading = false;
       notifyListeners();

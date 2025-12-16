@@ -2,10 +2,10 @@ import 'package:catering_flutter/graphql/deliveries.graphql.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:catering_flutter/core/api_exception.dart';
+import 'package:catering_flutter/core/services/api_service.dart';
 
-typedef Delivery = Query$GetDeliveries$deliveries$edges$node;
-typedef DeliveryDetails = Query$GetDelivery$delivery;
+typedef Delivery = Fragment$BasicDeliveryFragment;
+typedef DeliveryDetails = Fragment$BasicDeliveryFragment;
 
 class DeliveryService extends ChangeNotifier {
   final GraphQLClient _client;
@@ -90,9 +90,22 @@ class DeliveryService extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchRestaurantDeliveries(String restaurantIri) async {
+  Enum$DeliveryStatus? _currentStatusFilter;
+  String? _currentSearchQuery;
+  Input$DeliveryFilter_order? _currentSortOrder;
+
+  Future<void> fetchRestaurantDeliveries(
+    String restaurantIri, {
+    Enum$DeliveryStatus? status,
+    String? searchQuery,
+    Input$DeliveryFilter_order? order,
+  }) async {
     _isLoading = true;
     _errorMessage = null;
+    _currentStatusFilter = status;
+    _currentSearchQuery = searchQuery;
+    _currentSortOrder =
+        order ?? Input$DeliveryFilter_order(deliveryDate: 'DESC');
     notifyListeners();
 
     try {
@@ -101,6 +114,9 @@ class DeliveryService extends ChangeNotifier {
         variables: Variables$Query$GetDeliveriesByRestaurant(
           restaurantId: restaurantIri,
           first: 20,
+          status: status?.name,
+          search: searchQuery,
+          order: [_currentSortOrder!],
         ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
@@ -115,39 +131,11 @@ class DeliveryService extends ChangeNotifier {
       if (data.restaurant?.deliveries?.edges != null) {
         _deliveries = data.restaurant!.deliveries!.edges!
             .map((e) => e?.node)
-            .whereType<
-              Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node
-            >()
-            .map((e) {
-              final orderNode = e.order;
-              final driverNode = e.driver;
-              return Delivery(
-                id: e.id,
-                status: e.status,
-                deliveryDate: e.deliveryDate,
-                order: Query$GetDeliveries$deliveries$edges$node$order(
-                  id: orderNode?.id ?? '',
-                  total: orderNode?.total ?? 0,
-                  customer: orderNode?.customer != null
-                      ? Query$GetDeliveries$deliveries$edges$node$order$customer(
-                          id: orderNode!.customer!.id,
-                          email: orderNode.customer!.email,
-                          $__typename: orderNode.customer!.$__typename,
-                        )
-                      : null,
-                  $__typename: orderNode?.$__typename ?? 'Order',
-                ),
-                driver: driverNode != null
-                    ? Query$GetDeliveries$deliveries$edges$node$driver(
-                        id: driverNode.id,
-                        email: driverNode.email,
-                        $__typename: driverNode.$__typename,
-                      )
-                    : null,
-                $__typename: e.$__typename,
-              );
-            })
+            .whereType<Fragment$BasicDeliveryFragment>()
             .toList();
+        _endCursor = data.restaurant?.deliveries?.pageInfo.endCursor;
+        _hasNextPage =
+            data.restaurant?.deliveries?.pageInfo.hasNextPage ?? false;
       }
     } catch (e) {
       _errorMessage = e.toString();
@@ -172,6 +160,9 @@ class DeliveryService extends ChangeNotifier {
             restaurantId: restaurantIri,
             first: 20,
             after: _endCursor,
+            status: _currentStatusFilter?.name,
+            search: _currentSearchQuery,
+            order: [_currentSortOrder!],
           ).toJson(),
           fetchPolicy: FetchPolicy.networkOnly,
         );
@@ -181,6 +172,7 @@ class DeliveryService extends ChangeNotifier {
           variables: Variables$Query$GetDeliveries(
             first: 20,
             after: _endCursor,
+            search: _currentSearchQuery,
           ).toJson(),
           fetchPolicy: FetchPolicy.networkOnly,
         );
@@ -197,38 +189,7 @@ class DeliveryService extends ChangeNotifier {
         if (data.restaurant?.deliveries?.edges != null) {
           final newDeliveries = data.restaurant!.deliveries!.edges!
               .map((e) => e?.node)
-              .whereType<
-                Query$GetDeliveriesByRestaurant$restaurant$deliveries$edges$node
-              >()
-              .map((e) {
-                final orderNode = e.order;
-                final driverNode = e.driver;
-                return Delivery(
-                  id: e.id,
-                  status: e.status,
-                  deliveryDate: e.deliveryDate,
-                  order: Query$GetDeliveries$deliveries$edges$node$order(
-                    id: orderNode?.id ?? '',
-                    total: orderNode?.total ?? 0,
-                    customer: orderNode?.customer != null
-                        ? Query$GetDeliveries$deliveries$edges$node$order$customer(
-                            id: orderNode!.customer!.id,
-                            email: orderNode.customer!.email,
-                            $__typename: orderNode.customer!.$__typename,
-                          )
-                        : null,
-                    $__typename: orderNode?.$__typename ?? 'Order',
-                  ),
-                  driver: driverNode != null
-                      ? Query$GetDeliveries$deliveries$edges$node$driver(
-                          id: driverNode.id,
-                          email: driverNode.email,
-                          $__typename: driverNode.$__typename,
-                        )
-                      : null,
-                  $__typename: e.$__typename,
-                );
-              })
+              .whereType<Fragment$BasicDeliveryFragment>()
               .toList();
           _deliveries.addAll(newDeliveries);
           _endCursor = data.restaurant?.deliveries?.pageInfo.endCursor;
@@ -256,8 +217,8 @@ class DeliveryService extends ChangeNotifier {
   }
 
   Future<void> updateDeliveryStatus(
-    String deliveryId,
-    Enum$DeliveryStatus status, {
+    String deliveryId, {
+    Enum$DeliveryStatus? status,
     String? driverIri,
   }) async {
     _isLoading = true;
@@ -292,14 +253,21 @@ class DeliveryService extends ChangeNotifier {
         final index = _deliveries.indexWhere((d) => d.id == updatedDelivery.id);
         if (index != -1) {
           // Update the status in the existing delivery
-          _deliveries[index] = Query$GetDeliveries$deliveries$edges$node(
-            id: _deliveries[index].id,
-            status: updatedDelivery.status,
-            deliveryDate: _deliveries[index].deliveryDate,
-            order: _deliveries[index].order,
-            driver: _deliveries[index].driver,
-            $__typename: _deliveries[index].$__typename,
-          );
+          // Update the status in the existing delivery
+          // Since we can't easily instantiate the fragment mixin, we might need a workaround or just fetch fresh data.
+          // For now, let's just fetch the delivery again or assume we can't update it in place easily if it's a mixin.
+          // Actually, reusing the same object but checking if we can copyWith? Fragments usually don't have copyWith.
+          // Best approach: fetchDeliveryById(deliveryId) to refresh it, or update the list item if possible.
+          // If Fragment is an interface, we can't instantiate it.
+          // Let's just update the status localy if possible, but the object is likely immutable.
+          // So I will just re-fetch the item or re-fetch the list.
+          // Re-fetching specific item is better.
+          await getDeliveryById(deliveryId);
+          // And update the list reference?
+          final refreshed = _currentDelivery;
+          if (refreshed != null && refreshed.id == deliveryId) {
+            _deliveries[index] = refreshed;
+          }
         }
       }
     } catch (e) {
