@@ -60,9 +60,9 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
         if (!mounted) return;
         // Fetch statistics for current restaurant
         final userService = context.read<UserService>();
-        if (userService.currentUser?.restaurant != null) {
+        if (userService.currentUser?.ownedRestaurant != null) {
           await context.read<StatisticsService>().fetchRestaurantStatistics(
-            userService.currentUser!.restaurant!.id,
+            userService.currentUser!.ownedRestaurant!.id,
           );
         }
       }
@@ -93,7 +93,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
     final userService = context.watch<UserService>();
     final restaurant = widget.restaurantIri != null
         ? restaurantService.currentRestaurant
-        : userService.currentUser?.restaurant;
+        : userService.currentUser?.ownedRestaurant;
 
     final isLoading = widget.restaurantIri != null
         ? restaurantService.isLoading
@@ -256,9 +256,9 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
         );
       } else {
         final userService = context.read<UserService>();
-        if (userService.currentUser?.restaurant != null) {
+        if (userService.currentUser?.ownedRestaurant != null) {
           await context.read<StatisticsService>().fetchRestaurantStatistics(
-            userService.currentUser!.restaurant!.id,
+            userService.currentUser!.ownedRestaurant!.id,
             startDate: _selectedDateRange?.start,
             endDate: _selectedDateRange?.end,
           );
@@ -282,9 +282,9 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
       await context.read<UserService>().fetchCurrentRestaurant();
       if (!mounted) return;
       final userService = context.read<UserService>();
-      if (userService.currentUser?.restaurant != null) {
+      if (userService.currentUser?.ownedRestaurant != null) {
         await context.read<StatisticsService>().fetchRestaurantStatistics(
-          userService.currentUser!.restaurant!.id,
+          userService.currentUser!.ownedRestaurant!.id,
           startDate: _selectedDateRange?.start,
           endDate: _selectedDateRange?.end,
         );
@@ -633,8 +633,10 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
       String? restaurantId;
       if (widget.restaurantIri != null) {
         restaurantId = IriHelper.getId(widget.restaurantIri!);
-      } else if (userService.currentUser?.restaurant != null) {
-        restaurantId = IriHelper.getId(userService.currentUser!.restaurant!.id);
+      } else if (userService.currentUser?.ownedRestaurant != null) {
+        restaurantId = IriHelper.getId(
+          userService.currentUser!.ownedRestaurant!.id,
+        );
       }
 
       if (restaurantId != null) {

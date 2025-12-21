@@ -1,77 +1,80 @@
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:go_router/go_router.dart';
-import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
+import 'dart:typed_data';
+
+import 'package:catering_flutter/core/services/auth_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
+import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
+import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
+import 'package:catering_flutter/features/restaurant/services/restaurant_category_service.dart';
 import 'package:catering_flutter/features/restaurant/services/restaurant_service.dart';
 import 'package:catering_flutter/features/user/services/user_service.dart';
 import 'package:catering_flutter/graphql/users.graphql.dart';
-import 'package:catering_flutter/core/services/auth_service.dart';
-import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
-import 'package:catering_flutter/features/restaurant/services/restaurant_category_service.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
-class RestaurantFormScreen extends StatefulWidget {
+class RestaurantFormScreen extends HookWidget {
   final String? restaurantIri;
 
   const RestaurantFormScreen({super.key, this.restaurantIri});
 
   @override
-  State<RestaurantFormScreen> createState() => _RestaurantFormScreenState();
-}
-
-class _RestaurantFormScreenState extends State<RestaurantFormScreen> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final authService = context.read<AuthService>();
-      final userService = context.read<UserService>();
-      final restaurantService = context.read<RestaurantService>();
-      final categoryService = context.read<RestaurantCategoryService>();
-
-      if (widget.restaurantIri != null) {
-        restaurantService.getRestaurantById(widget.restaurantIri!);
-      } else {
-        restaurantService.clearCurrentRestaurant();
-      }
-
-      // Fetch categories for selection
-      categoryService.getRestaurantCategories();
-
-      if (authService.hasRole("ROLE_ADMIN")) {
-        userService.fetchRestaurantOwners();
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final isCreateMode = widget.restaurantIri == null;
+    final restaurantService = context.watch<RestaurantService>();
+    final authService = context.read<AuthService>();
+    final userService = context.read<UserService>();
+    final categoryService = context.read<RestaurantCategoryService>();
+    final isCreateMode = restaurantIri == null;
+
+    useEffect(() {
+      Future.microtask(() async {
+        if (restaurantIri != null) {
+          await restaurantService.getRestaurantById(restaurantIri!);
+        } else {
+          restaurantService.clearCurrentRestaurant();
+        }
+
+        // Fetch Common Data
+        await categoryService.getRestaurantCategories();
+        if (authService.hasRole("ROLE_ADMIN")) {
+          await userService.fetchRestaurantOwners();
+        }
+
+        if (context.mounted && restaurantService.hasError) {
+          UIErrorHandler.showSnackBar(
+            context,
+            restaurantService.errorMessage!,
+            isError: true,
+          );
+        }
+      });
+      return null;
+    }, [restaurantIri]);
+
     return CustomScaffold(
       title: isCreateMode
           ? AppLocalizations.of(context)!.createRestaurant
           : AppLocalizations.of(context)!.editDetails,
-      child: Consumer<RestaurantService>(
-        builder: (context, restaurantService, child) {
-          if (restaurantService.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (restaurantService.hasError) {
-            return Center(child: Text(restaurantService.errorMessage!));
-          } else if (!isCreateMode &&
+      child: Builder(
+        builder: (context) {
+          // 1. Initial Loading State
+          if (restaurantService.isLoading &&
+              !isCreateMode &&
               restaurantService.currentRestaurant == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          // 3. Error/Empty State
+          if (!isCreateMode && restaurantService.currentRestaurant == null) {
             return Center(
               child: Text(AppLocalizations.of(context)!.noRestaurantData),
             );
           }
 
-          // Use GraphQL type directly
-          final restaurant = restaurantService.currentRestaurant;
-
           return RestaurantForm(
-            restaurant: restaurant,
+            restaurant: restaurantService.currentRestaurant,
             isCreateMode: isCreateMode,
           );
         },
@@ -83,7 +86,7 @@ class _RestaurantFormScreenState extends State<RestaurantFormScreen> {
 /// Enum to represent owner selection mode
 enum OwnerMode { existing, createNew }
 
-class RestaurantForm extends StatefulWidget {
+class RestaurantForm extends HookWidget {
   final dynamic restaurant; // GraphQL type
   final bool isCreateMode;
 
@@ -94,625 +97,237 @@ class RestaurantForm extends StatefulWidget {
   });
 
   @override
-  State<RestaurantForm> createState() => _RestaurantFormState();
-}
+  Widget build(BuildContext context) {
+    // Form and Controller Hooks
+    final formKey = useMemoized(() => GlobalKey<FormState>());
+    final nameController = useTextEditingController();
+    final descriptionController = useTextEditingController();
+    final deliveryPriceController = useTextEditingController();
+    final phoneNumberController = useTextEditingController();
+    final emailController = useTextEditingController();
+    final cityController = useTextEditingController();
+    final streetController = useTextEditingController();
+    final zipCodeController = useTextEditingController();
+    final nipController = useTextEditingController();
+    final newOwnerEmailController = useTextEditingController();
 
-class _RestaurantFormState extends State<RestaurantForm> {
-  final _formKey = GlobalKey<FormState>();
-  late final TextEditingController _nameController;
-  late final TextEditingController _descriptionController;
-  late final TextEditingController _deliveryPriceController;
-  late final TextEditingController _phoneNumberController;
-  late final TextEditingController _emailController;
-  late final TextEditingController _cityController;
-  late final TextEditingController _streetController;
-  late final TextEditingController _zipCodeController;
-  late final TextEditingController _nipController;
-  final ImagePicker _picker = ImagePicker();
-  Query$GetUsers$users$edges$node? _selectedOwner;
-  XFile? _imageFile;
-  List<RestaurantCategory> _selectedCategories = [];
+    // State Hooks
+    final selectedCategories = useState<List<RestaurantCategory>>([]);
+    final selectedOwner = useState<Query$GetUsers$users$edges$node?>(null);
+    final imageBytes = useState<Uint8List?>(null);
+    final imageName = useState<String?>(null);
+    final ownerMode = useState<OwnerMode>(OwnerMode.existing);
+    final isSaving = useState(false);
+    final isOwnerInitialized = useState(false);
 
-  // New owner creation fields
-  OwnerMode _ownerMode = OwnerMode.existing;
-  final TextEditingController _newOwnerEmailController =
-      TextEditingController();
-  final TextEditingController _newOwnerPasswordController =
-      TextEditingController();
-  bool _isSaving = false;
+    // Sync Form with Data
+    useEffect(() {
+      nameController.text = restaurant?.name ?? '';
+      descriptionController.text = restaurant?.description ?? '';
+      deliveryPriceController.text = restaurant?.deliveryPrice != null
+          ? (restaurant!.deliveryPrice / 100).toStringAsFixed(2)
+          : '';
+      phoneNumberController.text = restaurant?.phoneNumber ?? '';
+      emailController.text = restaurant?.email ?? '';
+      cityController.text = restaurant?.city ?? '';
+      streetController.text = restaurant?.street ?? '';
+      zipCodeController.text = restaurant?.zipCode ?? '';
+      nipController.text = restaurant?.nip ?? '';
 
-  @override
-  void initState() {
-    super.initState();
-    _nameController = TextEditingController(
-      text: widget.restaurant?.name ?? '',
-    );
-    _descriptionController = TextEditingController(
-      text: widget.restaurant?.description ?? '',
-    );
-    _deliveryPriceController = TextEditingController(
-      text: widget.restaurant?.deliveryPrice != null
-          ? (widget.restaurant!.deliveryPrice / 100).toStringAsFixed(2)
-          : '',
-    );
-    _phoneNumberController = TextEditingController(
-      text: widget.restaurant?.phoneNumber ?? '',
-    );
-    _emailController = TextEditingController(
-      text: widget.restaurant?.email ?? '',
-    );
-    _cityController = TextEditingController(
-      text: widget.restaurant?.city ?? '',
-    );
-    _streetController = TextEditingController(
-      text: widget.restaurant?.street ?? '',
-    );
-    _zipCodeController = TextEditingController(
-      text: widget.restaurant?.zipCode ?? '',
-    );
-    _nipController = TextEditingController(text: widget.restaurant?.nip ?? '');
+      // Reset Image
+      imageBytes.value = null;
+      imageName.value = null;
 
-    // Initialize selected categories if editing
-    if (widget.restaurant?.restaurantCategories?.edges != null) {
-      _selectedCategories = widget.restaurant!.restaurantCategories!.edges!
-          .map((e) => e?.node)
-          .where((node) => node != null)
-          .map(
-            (node) => RestaurantCategory(
-              id: node!.id,
-              name: node.name,
-              $__typename: 'RestaurantCategory',
-            ),
-          )
-          .toList();
-    }
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _descriptionController.dispose();
-    _deliveryPriceController.dispose();
-    _phoneNumberController.dispose();
-    _emailController.dispose();
-    _cityController.dispose();
-    _streetController.dispose();
-    _zipCodeController.dispose();
-    _nipController.dispose();
-    _newOwnerEmailController.dispose();
-
-    super.dispose();
-  }
-
-  Future<void> _uploadImage(String restaurantIri) async {
-    if (_imageFile == null) return;
-    final restaurantService = context.read<RestaurantService>();
-    final bytes = await _imageFile!.readAsBytes();
-    await restaurantService.updateRestaurantImage(
-      restaurantIri,
-      bytes,
-      _imageFile!.name,
-    );
-  }
-
-  void _saveRestaurant() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    setState(() {
-      _isSaving = true;
-    });
-
-    final authService = context.read<AuthService>();
-    final userService = context.read<UserService>();
-    final restaurantService = context.read<RestaurantService>();
-
-    try {
-      String? restaurantIri;
-      final categoryIris = _selectedCategories.map((c) => c.id).toList();
-
-      if (widget.isCreateMode) {
-        // Check if admin is creating with new owner
-        if (authService.hasRole("ROLE_ADMIN") &&
-            _ownerMode == OwnerMode.createNew) {
-          // Use RestaurantService.inviteRestaurantOwner to create user + restaurant
-          restaurantIri = await restaurantService.inviteRestaurantOwner(
-            email: _newOwnerEmailController.text,
-            restaurantName: _nameController.text,
-            description: _descriptionController.text.isNotEmpty
-                ? _descriptionController.text
-                : null,
-            categoryIds: categoryIris,
-          );
-        } else {
-          // Standard create restaurant flow
-          restaurantIri = await restaurantService.createRestaurant(
-            name: _nameController.text,
-            description: _descriptionController.text,
-            deliveryPrice:
-                (double.parse(
-                          _deliveryPriceController.text.isEmpty
-                              ? '0'
-                              : _deliveryPriceController.text,
-                        ) *
-                        100)
-                    .toInt(),
-            categoryIris: categoryIris,
-            phoneNumber: _phoneNumberController.text,
-            email: _emailController.text,
-            city: _cityController.text,
-            street: _streetController.text,
-            zipCode: _zipCodeController.text,
-            nip: _nipController.text,
-          );
-
-          // Assign Owner (Admin Only with existing user)
-          if (authService.hasRole("ROLE_ADMIN") &&
-              _selectedOwner != null &&
-              restaurantIri != null) {
-            await userService.updateUserRestaurant(
-              _selectedOwner!.id,
-              restaurantIri,
-            );
-          }
-        }
+      // Handle Categories
+      if (restaurant?.restaurantCategories?.edges != null) {
+        selectedCategories.value =
+            (restaurant!.restaurantCategories!.edges! as List)
+                .map((e) => e?.node)
+                .where((node) => node != null)
+                .map<RestaurantCategory>(
+                  (node) => RestaurantCategory(
+                    id: node!.id,
+                    name: node.name,
+                    $__typename: 'RestaurantCategory',
+                  ),
+                )
+                .toList();
       } else {
-        restaurantIri = widget.restaurant.id;
-        await restaurantService.updateRestaurant(
-          id: restaurantIri!,
-          name: _nameController.text,
-          description: _descriptionController.text,
-          deliveryPrice:
-              (double.parse(
-                        _deliveryPriceController.text.isEmpty
-                            ? '0'
-                            : _deliveryPriceController.text,
-                      ) *
-                      100)
-                  .toInt(),
-          categoryIris: categoryIris,
-          phoneNumber: _phoneNumberController.text,
-          email: _emailController.text,
-          city: _cityController.text,
-          street: _streetController.text,
-          zipCode: _zipCodeController.text,
-          nip: _nipController.text,
-        );
+        selectedCategories.value = [];
       }
 
-      // Upload Image (if selected in create mode)
-      if (widget.isCreateMode && _imageFile != null && restaurantIri != null) {
-        try {
-          await _uploadImage(restaurantIri);
-        } catch (e) {
-          if (mounted) {
-            UIErrorHandler.showSnackBar(
-              context,
-              AppLocalizations.of(context)!.restaurantCreatedImageFailed,
-              isError: true,
-              action: SnackBarAction(
-                label: AppLocalizations.of(context)!.retryUpload,
-                onPressed: () async {
-                  try {
-                    await _uploadImage(restaurantIri!);
-                    if (mounted) {
-                      UIErrorHandler.showSnackBar(
-                        context,
-                        AppLocalizations.of(context)!.imageUploadedSuccess,
-                        isError: false,
-                      );
-                      context.pop();
-                    }
-                  } catch (retryError) {
-                    if (mounted) {
-                      UIErrorHandler.showSnackBar(
-                        context,
-                        AppLocalizations.of(
-                          context,
-                        )!.retryFailed(retryError.toString()),
-                      );
-                    }
-                  }
-                },
-              ),
+      // Reset Owner State
+      selectedOwner.value = null;
+      isOwnerInitialized.value = false;
+      ownerMode.value = OwnerMode.existing;
+      newOwnerEmailController.clear();
+
+      return null;
+    }, [restaurant]);
+
+    // Helpers
+    Future<void> pickImage() async {
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        final bytes = await image.readAsBytes();
+        imageBytes.value = bytes;
+        imageName.value = image.name;
+      }
+    }
+
+    Future<void> saveRestaurant() async {
+      if (!formKey.currentState!.validate()) return;
+      isSaving.value = true;
+
+      final authService = context.read<AuthService>();
+      final restaurantService = context.read<RestaurantService>();
+      bool imageUploadFailed = false;
+
+      try {
+        String? restaurantIri;
+        final categoryIris = selectedCategories.value.map((c) => c.id).toList();
+        final deliveryPriceVal = deliveryPriceController.text.isNotEmpty
+            ? (double.parse(deliveryPriceController.text) * 100).toInt()
+            : 0;
+
+        if (isCreateMode) {
+          if (authService.hasRole("ROLE_ADMIN") &&
+              ownerMode.value == OwnerMode.createNew) {
+            restaurantIri = await restaurantService.inviteRestaurantOwner(
+              email: newOwnerEmailController.text,
+              restaurantName: nameController.text,
+              description: descriptionController.text.isNotEmpty
+                  ? descriptionController.text
+                  : null,
+              categoryIds: categoryIris,
+              deliveryPrice: deliveryPriceVal,
+              phoneNumber: phoneNumberController.text.isNotEmpty
+                  ? phoneNumberController.text
+                  : null,
+              restaurantEmail: emailController.text.isNotEmpty
+                  ? emailController.text
+                  : null,
+              city: cityController.text.isNotEmpty ? cityController.text : null,
+              street: streetController.text.isNotEmpty
+                  ? streetController.text
+                  : null,
+              zipCode: zipCodeController.text.isNotEmpty
+                  ? zipCodeController.text
+                  : null,
+              nip: nipController.text.isNotEmpty ? nipController.text : null,
             );
-            return; // Don't pop yet, let user retry
+          } else {
+            restaurantIri = await restaurantService.createRestaurant(
+              name: nameController.text,
+              description: descriptionController.text,
+              deliveryPrice: deliveryPriceVal,
+              categoryIris: categoryIris,
+              phoneNumber: phoneNumberController.text,
+              email: emailController.text,
+              city: cityController.text,
+              street: streetController.text,
+              zipCode: zipCodeController.text,
+              nip: nipController.text,
+              ownerIri: authService.hasRole("ROLE_ADMIN")
+                  ? selectedOwner.value?.id
+                  : null,
+            );
+          }
+        } else {
+          restaurantIri = restaurant.id;
+          String? ownerIriToPass;
+          bool shouldUnassignOwner = false;
+
+          if (authService.hasRole("ROLE_ADMIN")) {
+            final currentOwnerId = restaurant?.owner?.id;
+            if (selectedOwner.value?.id != currentOwnerId) {
+              if (selectedOwner.value == null) {
+                shouldUnassignOwner = true;
+              } else {
+                ownerIriToPass = selectedOwner.value?.id;
+              }
+            }
+          }
+
+          await restaurantService.updateRestaurant(
+            id: restaurant!.id,
+            name: nameController.text,
+            description: descriptionController.text,
+            deliveryPrice: deliveryPriceVal,
+            categoryIris: categoryIris,
+            phoneNumber: phoneNumberController.text,
+            email: emailController.text,
+            city: cityController.text,
+            street: streetController.text,
+            zipCode: zipCodeController.text,
+            nip: nipController.text,
+            ownerIri: ownerIriToPass,
+            unassignOwner: shouldUnassignOwner,
+          );
+        }
+
+        // Upload Image
+        if (imageBytes.value != null && restaurantIri != null) {
+          try {
+            await restaurantService.updateRestaurantImage(
+              restaurantIri,
+              imageBytes.value!,
+              imageName.value ?? 'image.jpg',
+            );
+          } catch (e) {
+            imageUploadFailed = true;
           }
         }
-      }
 
-      if (mounted) {
-        UIErrorHandler.showSnackBar(
-          context,
-          widget.isCreateMode
-              ? AppLocalizations.of(context)!.restaurantCreatedSuccess
-              : AppLocalizations.of(context)!.restaurantUpdatedSuccess,
-          isError: false,
-        );
-        if (widget.isCreateMode) {
-          // Refresh the restaurant list
-          restaurantService.fetchAllRestaurants();
+        if (context.mounted) {
+          final message = imageUploadFailed
+              ? AppLocalizations.of(context)!.restaurantCreatedImageFailed
+              : (isCreateMode
+                    ? AppLocalizations.of(context)!.restaurantCreatedSuccess
+                    : AppLocalizations.of(context)!.restaurantUpdatedSuccess);
+
+          UIErrorHandler.showSnackBar(
+            context,
+            message,
+            isError: imageUploadFailed,
+          );
           context.pop();
         }
-      }
-    } catch (e) {
-      if (mounted) {
-        UIErrorHandler.handleError(
-          context,
-          e,
-          customMessage: AppLocalizations.of(context)!.failedToSaveRestaurant,
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isSaving = false;
-        });
-      }
-    }
-  }
-
-  Future<void> _pickImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    if (!mounted) return;
-
-    if (image != null) {
-      if (widget.isCreateMode) {
-        setState(() {
-          _imageFile = image;
-        });
-      } else if (widget.restaurant != null) {
-        final restaurantIri = widget.restaurant.id;
-        try {
-          final restaurantService = context.read<RestaurantService>();
-          final bytes = await image.readAsBytes();
-          await restaurantService.updateRestaurantImage(
-            restaurantIri,
-            bytes,
-            image.name,
-          );
-          if (mounted) {
-            UIErrorHandler.showSnackBar(
-              context,
-              AppLocalizations.of(context)!.imageUpdatedSuccess,
-              isError: false,
-            );
-          }
-        } catch (e) {
-          if (mounted) {
-            UIErrorHandler.showSnackBar(
-              context,
-              AppLocalizations.of(context)!.imageUploadFailed,
-              isError: true,
-              action: SnackBarAction(
-                label: AppLocalizations.of(context)!.retryUpload,
-                onPressed: () async {
-                  try {
-                    final restaurantService = context.read<RestaurantService>();
-                    final bytes = await image.readAsBytes();
-                    await restaurantService.updateRestaurantImage(
-                      restaurantIri,
-                      bytes,
-                      image.name,
-                    );
-                    if (mounted) {
-                      UIErrorHandler.showSnackBar(
-                        context,
-                        AppLocalizations.of(context)!.imageUploadedSuccess,
-                        isError: false,
-                      );
-                    }
-                  } catch (retryError) {
-                    if (mounted) {
-                      UIErrorHandler.showSnackBar(
-                        context,
-                        AppLocalizations.of(
-                          context,
-                        )!.retryFailed(retryError.toString()),
-                      );
-                    }
-                  }
-                },
-              ),
-            );
-          }
-        }
-      }
-    }
-  }
-
-  Future<void> _showCategorySelectionDialog() async {
-    final categoryService = context.read<RestaurantCategoryService>();
-    final allCategories = categoryService.restaurantCategories;
-
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              title: Text(AppLocalizations.of(context)!.selectCategories),
-              content: SizedBox(
-                width: double.maxFinite,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (allCategories.isEmpty)
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          AppLocalizations.of(context)!.noCategoriesAvailable,
-                        ),
-                      )
-                    else
-                      Flexible(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: allCategories.length,
-                          itemBuilder: (context, index) {
-                            final category = allCategories[index];
-                            final isSelected = _selectedCategories.any(
-                              (c) => c.id == category.id,
-                            );
-                            return CheckboxListTile(
-                              title: Text(category.name),
-                              value: isSelected,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  if (value == true) {
-                                    _selectedCategories.add(category);
-                                  } else {
-                                    _selectedCategories.removeWhere(
-                                      (c) => c.id == category.id,
-                                    );
-                                  }
-                                });
-                                // Update parent state to reflect changes in chips
-                                this.setState(() {});
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(AppLocalizations.of(context)!.done),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Widget _buildOwnerSection(AuthService authService, UserService userService) {
-    if (!authService.hasRole("ROLE_ADMIN") || !widget.isCreateMode) {
-      return const SizedBox.shrink();
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          AppLocalizations.of(context)!.restaurantOwner,
-          style: Theme.of(
+      } catch (e) {
+        if (context.mounted) {
+          UIErrorHandler.handleError(
             context,
-          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 12),
+            e,
+            customMessage: AppLocalizations.of(context)!.failedToSaveRestaurant,
+          );
+        }
+      } finally {
+        isSaving.value = false;
+      }
+    }
 
-        // Owner mode toggle
-        SegmentedButton<OwnerMode>(
-          segments: [
-            ButtonSegment(
-              value: OwnerMode.existing,
-              label: Expanded(
-                child: Center(
-                  child: Text(
-                    AppLocalizations.of(context)!.selectExisting,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-              icon: const Icon(Icons.person_search),
-            ),
-            ButtonSegment(
-              value: OwnerMode.createNew,
-              label: Expanded(
-                child: Center(
-                  child: Text(
-                    AppLocalizations.of(context)!.createNew,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-              icon: const Icon(Icons.person_add),
-            ),
-          ],
-          selected: {_ownerMode},
-          onSelectionChanged: (Set<OwnerMode> selection) {
-            setState(() {
-              _ownerMode = selection.first;
-              // Clear selections when switching modes
-              if (_ownerMode == OwnerMode.existing) {
-                _newOwnerEmailController.clear();
-                _newOwnerPasswordController.clear();
-              } else {
-                _selectedOwner = null;
-              }
-            });
-          },
-        ),
-        const SizedBox(height: 16),
-
-        // Show appropriate input based on mode
-        if (_ownerMode == OwnerMode.existing) ...[
-          if (userService.isLoading)
-            const Center(child: CircularProgressIndicator())
-          else
-            DropdownButtonFormField<Query$GetUsers$users$edges$node>(
-              isExpanded: true,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.selectOwner,
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.person),
-              ),
-              initialValue: _selectedOwner,
-              items: userService.restaurantOwners
-                  .map(
-                    (user) => DropdownMenuItem(
-                      value: user,
-                      child: Text(user.email, overflow: TextOverflow.ellipsis),
-                    ),
-                  )
-                  .toList(),
-              onChanged: (value) {
-                setState(() {
-                  _selectedOwner = value;
-                });
-              },
-              validator: (value) {
-                if (_ownerMode == OwnerMode.existing && value == null) {
-                  return AppLocalizations.of(context)!.pleaseSelectOwner;
-                }
-                return null;
-              },
-            ),
-        ] else ...[
-          TextFormField(
-            controller: _newOwnerEmailController,
-            decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.ownerEmail,
-              border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.email),
-            ),
-            keyboardType: TextInputType.emailAddress,
-            validator: (value) {
-              if (_ownerMode == OwnerMode.createNew) {
-                if (value == null || value.isEmpty) {
-                  return AppLocalizations.of(context)!.pleaseEnterEmail;
-                }
-                // Simple email regex
-                final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-                if (!emailRegex.hasMatch(value)) {
-                  return AppLocalizations.of(context)!.pleaseEnterValidEmail;
-                }
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 12),
-          Text(
-            AppLocalizations.of(context)!.driverPasswordWillBeEmailed,
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-        ],
-        const SizedBox(height: 24),
-      ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
     final authService = context.watch<AuthService>();
     final restaurantService = context.watch<RestaurantService>();
     final userService = context.watch<UserService>();
-
-    final isLoading = restaurantService.isLoading || _isSaving;
+    final isLoading = restaurantService.isLoading || isSaving.value;
 
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.all(24.0),
       child: Column(
         children: [
-          // Image Section (Always visible now)
-          GestureDetector(
-            onTap: isLoading ? null : _pickImage,
-            child: Container(
-              height: 200,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  if (_imageFile != null)
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(24),
-                      child: Image.file(
-                        File(_imageFile!.path),
-                        fit: BoxFit.cover,
-                      ),
-                    )
-                  else if (widget.restaurant?.imageUrl != null)
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(24),
-                      child: CustomCachedImage(
-                        imageUrl: widget.restaurant!.imageUrl,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  if (_imageFile == null && widget.restaurant?.imageUrl == null)
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.add_a_photo,
-                          size: 48,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          AppLocalizations.of(context)!.tapToAddCoverImage,
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurfaceVariant,
-                              ),
-                        ),
-                      ],
-                    )
-                  else
-                    Stack(
-                      children: [
-                        Positioned(
-                          bottom: 16,
-                          right: 16,
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.black.withValues(alpha: 153),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.edit,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                          ),
-                        ),
-                        if (isLoading)
-                          const Center(child: CircularProgressIndicator()),
-                      ],
-                    ),
-                ],
-              ),
-            ),
+          // Build Image Picker
+          _buildImagePicker(
+            context,
+            imageBytes,
+            imageName,
+            pickImage,
+            isLoading,
+            isCreateMode ? null : restaurant?.imageUrl,
           ),
           const SizedBox(height: 24),
 
-          // Form Section
           Card(
             elevation: 0,
             shape: RoundedRectangleBorder(
@@ -724,12 +339,12 @@ class _RestaurantFormState extends State<RestaurantForm> {
             child: Padding(
               padding: const EdgeInsets.all(24.0),
               child: Form(
-                key: _formKey,
+                key: formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      widget.isCreateMode
+                      isCreateMode
                           ? AppLocalizations.of(context)!.newRestaurantDetails
                           : AppLocalizations.of(context)!.restaurantDetails,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -737,140 +352,122 @@ class _RestaurantFormState extends State<RestaurantForm> {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    TextFormField(
-                      controller: _nameController,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!.restaurantName,
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.store),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context)!.pleaseEnterName;
-                        }
-                        return null;
-                      },
+
+                    // Inputs
+                    _buildTextField(
+                      context,
+                      controller: nameController,
+                      label: AppLocalizations.of(context)!.restaurantName,
+                      icon: Icons.store,
+                      validator: (v) => v?.isEmpty ?? true
+                          ? AppLocalizations.of(context)!.pleaseEnterName
+                          : null,
                     ),
                     const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _descriptionController,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!.description,
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.description),
-                        alignLabelWithHint: true,
-                      ),
+                    _buildTextField(
+                      context,
+                      controller: descriptionController,
+                      label: AppLocalizations.of(context)!.description,
+                      icon: Icons.description,
                       maxLines: 4,
                     ),
                     const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _deliveryPriceController,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(
-                          context,
-                        )!.deliveryPricePLN,
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.attach_money),
-                        suffixText: "PLN",
-                      ),
-                      keyboardType: TextInputType.numberWithOptions(
+                    _buildTextField(
+                      context,
+                      controller: deliveryPriceController,
+                      label: AppLocalizations.of(context)!.deliveryPricePLN,
+                      icon: Icons.attach_money,
+                      suffixText: "PLN",
+                      keyboardType: const TextInputType.numberWithOptions(
                         decimal: true,
                       ),
-                      validator: (value) {
-                        if (value != null && value.isNotEmpty) {
-                          if (double.tryParse(value) == null) {
-                            return AppLocalizations.of(context)!.invalidFormat;
-                          }
+                      validator: (v) {
+                        if (v != null &&
+                            v.isNotEmpty &&
+                            double.tryParse(v) == null) {
+                          return AppLocalizations.of(context)!.invalidFormat;
                         }
                         return null;
                       },
                     ),
                     const SizedBox(height: 16),
+
                     Text(
                       AppLocalizations.of(context)!.contactDetails,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _phoneNumberController,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!.phoneNumber,
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.phone),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return null;
-                        }
 
-                        if (value.isEmpty) {
-                          return AppLocalizations.of(context)!.fieldRequired;
-                        }
-                        final phoneRegex = RegExp(
-                          r'^(\+?48)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}$',
-                        );
-                        if (!phoneRegex.hasMatch(value)) {
-                          return AppLocalizations.of(
-                            context,
-                          )!.invalidPhoneNumber;
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!.email,
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.email),
-                      ),
-                      validator: (value) {
-                        if (value != null && value.isNotEmpty) {
-                          // Simple email regex or use standard validator package if available, but here simple is fine or just required.
-                          // Address entity has no email, but Restaurant does.
-                          // AddressFormScreen doesn't validate email.
-                          // I'll make it required since I'm making phone required.
-                          if (!value.contains('@')) {
-                            return AppLocalizations.of(context)!.invalidEmail;
+                    _buildTextField(
+                      context,
+                      controller: phoneNumberController,
+                      label: AppLocalizations.of(context)!.phoneNumber,
+                      icon: Icons.phone,
+                      validator: (v) {
+                        if (v != null && v.isNotEmpty) {
+                          final phoneRegex = RegExp(
+                            r'^(\+?48)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}$',
+                          );
+                          if (!phoneRegex.hasMatch(v)) {
+                            return AppLocalizations.of(
+                              context,
+                            )!.invalidPhoneNumber;
                           }
                         }
                         return null;
                       },
                     ),
                     const SizedBox(height: 16),
+                    _buildTextField(
+                      context,
+                      controller: emailController,
+                      label: AppLocalizations.of(context)!.email,
+                      icon: Icons.email,
+                      validator: (v) {
+                        if (v == null || v.isEmpty) {
+                          return AppLocalizations.of(context)!.pleaseEnterEmail;
+                        }
+                        final emailRegex = RegExp(
+                          r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
+                        );
+                        if (!emailRegex.hasMatch(v)) {
+                          return AppLocalizations.of(
+                            context,
+                          )!.pleaseEnterValidEmail;
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+
                     Row(
                       children: [
                         Expanded(
                           flex: 2,
-                          child: TextFormField(
-                            controller: _cityController,
-                            decoration: InputDecoration(
-                              labelText: AppLocalizations.of(context)!.city,
-                              border: OutlineInputBorder(),
-                              prefixIcon: Icon(Icons.location_city),
-                            ),
-                            validator: (value) => value?.isEmpty ?? true
+                          child: _buildTextField(
+                            context,
+                            controller: cityController,
+                            label: AppLocalizations.of(context)!.city,
+                            icon: Icons.location_city,
+                            validator: (v) => v?.isEmpty ?? true
                                 ? AppLocalizations.of(context)!.fieldRequired
                                 : null,
                           ),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
-                          child: TextFormField(
-                            controller: _zipCodeController,
-                            decoration: InputDecoration(
-                              labelText: AppLocalizations.of(context)!.zipCode,
-                              border: OutlineInputBorder(),
-                              prefixIcon: Icon(Icons.numbers),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
+                          child: _buildTextField(
+                            context,
+                            controller: zipCodeController,
+                            label: AppLocalizations.of(context)!.zipCode,
+                            icon: Icons.numbers,
+                            validator: (v) {
+                              if (v == null || v.isEmpty) {
                                 return AppLocalizations.of(
                                   context,
                                 )!.fieldRequired;
                               }
-                              if (!RegExp(r'^\d{2}-\d{3}$').hasMatch(value)) {
+                              if (!RegExp(r'^\d{2}-\d{3}$').hasMatch(v)) {
                                 return AppLocalizations.of(
                                   context,
                                 )!.invalidZipCode;
@@ -882,73 +479,56 @@ class _RestaurantFormState extends State<RestaurantForm> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _streetController,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!.street,
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.home),
-                      ),
-                      validator: (value) => value?.isEmpty ?? true
+                    _buildTextField(
+                      context,
+                      controller: streetController,
+                      label: AppLocalizations.of(context)!.street,
+                      icon: Icons.home,
+                      validator: (v) => v?.isEmpty ?? true
                           ? AppLocalizations.of(context)!.fieldRequired
                           : null,
                     ),
                     const SizedBox(height: 16),
-
-                    TextFormField(
-                      controller: _nipController,
-                      decoration: InputDecoration(
-                        labelText: "NIP",
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.confirmation_number),
-                      ),
-                      validator: (value) {
-                        if (value != null && value.isNotEmpty) {
-                          if (!RegExp(r'^\d{10}$').hasMatch(value)) {
-                            return "Invalid NIP (10 digits)";
-                          }
+                    _buildTextField(
+                      context,
+                      controller: nipController,
+                      label: "NIP",
+                      icon: Icons.confirmation_number,
+                      validator: (v) {
+                        if (v != null &&
+                            v.isNotEmpty &&
+                            !RegExp(r'^\d{10}$').hasMatch(v)) {
+                          return AppLocalizations.of(context)!.invalidNip;
                         }
                         return null;
                       },
                     ),
                     const SizedBox(height: 16),
 
-                    // Categories Section
+                    // Categories
                     Text(
                       AppLocalizations.of(context)!.categories,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: [
-                        ..._selectedCategories.map(
-                          (category) => Chip(
-                            label: Text(category.name),
-                            onDeleted: () {
-                              setState(() {
-                                _selectedCategories.removeWhere(
-                                  (c) => c.id == category.id,
-                                );
-                              });
-                            },
-                          ),
-                        ),
-                        ActionChip(
-                          avatar: const Icon(Icons.add, size: 16),
-                          label: Text(AppLocalizations.of(context)!.add),
-                          onPressed: _showCategorySelectionDialog,
-                        ),
-                      ],
-                    ),
+                    _buildCategories(context, selectedCategories),
                     const SizedBox(height: 24),
 
-                    // Owner Selection (Admin Only in create mode)
-                    _buildOwnerSection(authService, userService),
+                    // Owner Section
+                    _buildOwnerSection(
+                      context,
+                      authService,
+                      userService,
+                      isCreateMode,
+                      restaurant,
+                      selectedOwner,
+                      ownerMode,
+                      newOwnerEmailController,
+                      isOwnerInitialized,
+                    ),
 
                     FilledButton.icon(
-                      onPressed: isLoading ? null : _saveRestaurant,
+                      onPressed: isLoading ? null : saveRestaurant,
                       icon: const Icon(Icons.save),
                       label: isLoading
                           ? const SizedBox(
@@ -960,9 +540,11 @@ class _RestaurantFormState extends State<RestaurantForm> {
                               ),
                             )
                           : Text(
-                              widget.isCreateMode
-                                  ? 'Create Restaurant'
-                                  : 'Save Changes',
+                              isCreateMode
+                                  ? AppLocalizations.of(
+                                      context,
+                                    )!.createRestaurant
+                                  : AppLocalizations.of(context)!.saveChanges,
                             ),
                       style: FilledButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
@@ -975,6 +557,368 @@ class _RestaurantFormState extends State<RestaurantForm> {
           ),
         ],
       ),
+    );
+  }
+
+  // Helper Widgets to clean up build method
+
+  Widget _buildTextField(
+    BuildContext context, {
+    required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    String? suffixText,
+    int? maxLines = 1,
+    TextInputType? keyboardType,
+    String? Function(String?)? validator,
+  }) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        border: const OutlineInputBorder(),
+        prefixIcon: Icon(icon),
+        suffixText: suffixText,
+        alignLabelWithHint: maxLines != null && maxLines > 1,
+      ),
+      maxLines: maxLines,
+      keyboardType: keyboardType,
+      validator: validator,
+    );
+  }
+
+  Widget _buildImagePicker(
+    BuildContext context,
+    ValueNotifier<Uint8List?> imageBytes,
+    ValueNotifier<String?> imageName,
+    VoidCallback onPick,
+    bool isLoading,
+    String? currentImageUrl,
+  ) {
+    return GestureDetector(
+      onTap: isLoading ? null : onPick,
+      child: Container(
+        height: 200,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            if (imageBytes.value != null)
+              ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: Image.memory(imageBytes.value!, fit: BoxFit.cover),
+              )
+            else if (currentImageUrl != null)
+              ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: CustomCachedImage(
+                  imageUrl: currentImageUrl,
+                  fit: BoxFit.cover,
+                ),
+              )
+            else
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.add_a_photo,
+                    size: 48,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    AppLocalizations.of(context)!.tapToAddCoverImage,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            if (imageBytes.value != null || currentImageUrl != null)
+              Stack(
+                children: [
+                  Positioned(
+                    bottom: 16,
+                    right: 16,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 153),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                  if (imageBytes.value != null)
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: IconButton.filledTonal(
+                        onPressed: () {
+                          imageBytes.value = null;
+                          imageName.value = null;
+                        },
+                        icon: const Icon(Icons.close),
+                      ),
+                    ),
+                ],
+              ),
+            if (isLoading) const Center(child: CircularProgressIndicator()),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCategories(
+    BuildContext context,
+    ValueNotifier<List<RestaurantCategory>> selectedCategories,
+  ) {
+    final categoryService = context.read<RestaurantCategoryService>();
+    final allCategories = categoryService.restaurantCategories;
+
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        ...selectedCategories.value.map(
+          (category) => Chip(
+            label: Text(category.name),
+            onDeleted: () {
+              selectedCategories.value = selectedCategories.value
+                  .where((c) => c.id != category.id)
+                  .toList();
+            },
+          ),
+        ),
+        ActionChip(
+          avatar: const Icon(Icons.add, size: 16),
+          label: Text(AppLocalizations.of(context)!.add),
+          onPressed: () async {
+            await showDialog(
+              context: context,
+              builder: (context) {
+                // Must access values outside the dialog builder if they are local
+                return StatefulBuilder(
+                  builder: (context, setState) {
+                    return AlertDialog(
+                      title: Text(
+                        AppLocalizations.of(context)!.selectCategories,
+                      ),
+                      content: SizedBox(
+                        width: double.maxFinite,
+                        child: allCategories.isEmpty
+                            ? Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Text(
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.noCategoriesAvailable,
+                                ),
+                              )
+                            : ListView(
+                                shrinkWrap: true,
+                                children: allCategories.map((category) {
+                                  final isSelected = selectedCategories.value
+                                      .any((c) => c.id == category.id);
+                                  return CheckboxListTile(
+                                    title: Text(category.name),
+                                    value: isSelected,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        if (value == true) {
+                                          selectedCategories.value = [
+                                            ...selectedCategories.value,
+                                            category,
+                                          ];
+                                        } else {
+                                          selectedCategories
+                                              .value = selectedCategories.value
+                                              .where((c) => c.id != category.id)
+                                              .toList();
+                                        }
+                                      });
+                                    },
+                                  );
+                                }).toList(),
+                              ),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text(AppLocalizations.of(context)!.done),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildOwnerSection(
+    BuildContext context,
+    AuthService authService,
+    UserService userService,
+    bool isCreateMode,
+    dynamic restaurant,
+    ValueNotifier<Query$GetUsers$users$edges$node?> selectedOwner,
+    ValueNotifier<OwnerMode> ownerMode,
+    TextEditingController newOwnerEmailController,
+    ValueNotifier<bool> isOwnerInitialized,
+  ) {
+    if (!authService.hasRole("ROLE_ADMIN")) {
+      return const SizedBox.shrink();
+    }
+
+    // Initialize/Sync owner selection if needed
+    if (!isCreateMode &&
+        restaurant?.owner != null &&
+        selectedOwner.value == null &&
+        !isOwnerInitialized.value &&
+        userService.restaurantOwners.isNotEmpty) {
+      final currentOwnerId = restaurant!.owner!.id;
+      final matchingOwner = userService.restaurantOwners
+          .where((u) => u.id == currentOwnerId)
+          .firstOrNull;
+
+      // Update state without triggering rebuild during build
+      Future.microtask(() {
+        if (isOwnerInitialized.value) return;
+        if (matchingOwner != null) {
+          selectedOwner.value = matchingOwner;
+        }
+        isOwnerInitialized.value = true;
+      });
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (isCreateMode) ...[
+          SegmentedButton<OwnerMode>(
+            segments: [
+              ButtonSegment(
+                value: OwnerMode.existing,
+                label: Text(AppLocalizations.of(context)!.selectExisting),
+                icon: const Icon(Icons.person_search),
+              ),
+              ButtonSegment(
+                value: OwnerMode.createNew,
+                label: Text(AppLocalizations.of(context)!.createNew),
+                icon: const Icon(Icons.person_add),
+              ),
+            ],
+            selected: {ownerMode.value},
+            onSelectionChanged: (Set<OwnerMode> selection) {
+              ownerMode.value = selection.first;
+              if (ownerMode.value == OwnerMode.existing) {
+                newOwnerEmailController.clear();
+              } else {
+                selectedOwner.value = null;
+              }
+            },
+          ),
+          const SizedBox(height: 16),
+        ],
+        if (!isCreateMode || ownerMode.value == OwnerMode.existing) ...[
+          if (userService.isLoading)
+            const Center(child: CircularProgressIndicator())
+          else
+            DropdownButtonFormField<String?>(
+              isExpanded: true,
+              decoration: InputDecoration(
+                labelText: isCreateMode
+                    ? AppLocalizations.of(context)!.selectOwner
+                    : AppLocalizations.of(context)!.restaurantOwner,
+                border: const OutlineInputBorder(),
+                prefixIcon: const Icon(Icons.person),
+              ),
+              initialValue: selectedOwner.value?.id,
+              items: [
+                DropdownMenuItem<String?>(
+                  value: null,
+                  child: Text(AppLocalizations.of(context)!.noOwner),
+                ),
+                ...userService.restaurantOwners
+                    .where((user) {
+                      // 1. User has no restaurant assigned
+                      final isUnassigned = user.ownedRestaurant == null;
+                      // 2. User is the current owner of the restaurant we are editing
+                      final isCurrentOwner =
+                          !isCreateMode && restaurant?.owner?.id == user.id;
+
+                      return isUnassigned || isCurrentOwner;
+                    })
+                    .map(
+                      (user) => DropdownMenuItem<String?>(
+                        value: user.id,
+                        child: Text(
+                          user.email,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+              ],
+              onChanged: (value) {
+                if (value == null) {
+                  selectedOwner.value = null;
+                } else {
+                  selectedOwner.value = userService.restaurantOwners.firstWhere(
+                    (u) => u.id == value,
+                  );
+                }
+              },
+              validator: (value) {
+                if (isCreateMode &&
+                    ownerMode.value == OwnerMode.existing &&
+                    value == null) {
+                  return AppLocalizations.of(context)!.pleaseSelectOwner;
+                }
+                return null;
+              },
+            ),
+        ],
+        if (isCreateMode && ownerMode.value == OwnerMode.createNew) ...[
+          TextFormField(
+            controller: newOwnerEmailController,
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.ownerEmail,
+              border: const OutlineInputBorder(),
+              prefixIcon: const Icon(Icons.email),
+            ),
+            keyboardType: TextInputType.emailAddress,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return AppLocalizations.of(context)!.pleaseEnterEmail;
+              }
+              final emailRegex = RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$');
+              if (!emailRegex.hasMatch(value)) {
+                return AppLocalizations.of(context)!.pleaseEnterValidEmail;
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 12),
+          Text(
+            AppLocalizations.of(context)!.driverPasswordWillBeEmailed,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ],
+        const SizedBox(height: 24),
+      ],
     );
   }
 }

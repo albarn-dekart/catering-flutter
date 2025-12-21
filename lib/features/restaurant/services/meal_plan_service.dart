@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:catering_flutter/graphql/meals.graphql.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:catering_flutter/graphql/users.graphql.dart';
@@ -47,12 +48,16 @@ class MealPlanService extends ChangeNotifier {
   RangeValues? _lastFatRange;
   RangeValues? _lastCarbRange;
 
+  bool _isUploadingImage = false;
+  bool get isUploadingImage => _isUploadingImage;
+
   MealPlanService(this._client, this._apiClient);
 
   Future<void> fetchAllMealPlans({String? searchQuery}) async {
     _isLoading = true;
     _errorMessage = null;
     _currentSearchQuery = searchQuery;
+    _mealPlans = [];
     notifyListeners();
 
     try {
@@ -148,6 +153,7 @@ class MealPlanService extends ChangeNotifier {
     _lastProteinRange = proteinRange;
     _lastFatRange = fatRange;
     _lastCarbRange = carbRange;
+    _mealPlans = [];
     notifyListeners();
 
     try {
@@ -313,6 +319,7 @@ class MealPlanService extends ChangeNotifier {
   Future<void> getMealPlanById(String id) async {
     _isLoading = true;
     _errorMessage = null;
+    _currentMealPlan = null;
     notifyListeners();
 
     try {
@@ -369,9 +376,13 @@ class MealPlanService extends ChangeNotifier {
         throw ApiException(result.exception.toString());
       }
 
-      return Mutation$CreateMealPlan.fromJson(
+      final createdMealPlan = Mutation$CreateMealPlan.fromJson(
         result.data!,
-      ).createMealPlan?.mealPlan?.id;
+      ).createMealPlan?.mealPlan;
+      if (createdMealPlan != null) {
+        _mealPlans.insert(0, createdMealPlan);
+      }
+      return createdMealPlan?.id;
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
@@ -410,6 +421,16 @@ class MealPlanService extends ChangeNotifier {
 
       if (result.hasException) {
         throw ApiException(result.exception.toString());
+      }
+
+      final updatedMealPlan = Mutation$UpdateMealPlan.fromJson(
+        result.data!,
+      ).updateMealPlan?.mealPlan;
+      if (updatedMealPlan != null) {
+        final index = _mealPlans.indexWhere((mp) => mp.id == id);
+        if (index != -1) {
+          _mealPlans[index] = updatedMealPlan;
+        }
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -450,7 +471,8 @@ class MealPlanService extends ChangeNotifier {
 
   Future<void> getMealPlans() => fetchAllMealPlans();
 
-  void clearStatus() {
+  void clearCurrentMealPlan() {
+    _currentMealPlan = null;
     _errorMessage = null;
     notifyListeners();
   }
@@ -460,7 +482,7 @@ class MealPlanService extends ChangeNotifier {
     List<int> imageBytes,
     String filename,
   ) async {
-    _isLoading = true;
+    _isUploadingImage = true;
     _errorMessage = null;
     notifyListeners();
 
@@ -472,7 +494,20 @@ class MealPlanService extends ChangeNotifier {
       );
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        await getMealPlanById(mealPlanIri);
+        // Parse response to get new image URL
+        final responseData = jsonDecode(response.body) as Map<String, dynamic>;
+        final newImageUrl = responseData['imageUrl'] as String?;
+
+        // Update current meal plan's imageUrl locally
+        if (_currentMealPlan != null && newImageUrl != null) {
+          _currentMealPlan = _currentMealPlan!.copyWith(imageUrl: newImageUrl);
+        }
+
+        // Update in meal plans list
+        final index = _mealPlans.indexWhere((mp) => mp.id == mealPlanIri);
+        if (index != -1 && newImageUrl != null) {
+          _mealPlans[index] = _mealPlans[index].copyWith(imageUrl: newImageUrl);
+        }
       } else {
         throw ApiException('Failed to upload image: ${response.body}');
       }
@@ -480,7 +515,7 @@ class MealPlanService extends ChangeNotifier {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
-      _isLoading = false;
+      _isUploadingImage = false;
       notifyListeners();
     }
   }
@@ -491,6 +526,7 @@ class MealPlanService extends ChangeNotifier {
   }) async {
     _isLoading = true;
     _errorMessage = null;
+    _mealPlans = [];
     notifyListeners();
 
     try {

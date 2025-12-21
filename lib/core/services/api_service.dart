@@ -77,11 +77,16 @@ class ApiService {
   Future<Map<String, String>> _getHeaders(bool authenticated) async {
     final headers = {'Content-Type': 'application/json'};
     if (authenticated) {
-      final token = await _authService.getToken();
+      var token = await _authService.getToken();
       if (token != null) {
         if (await _authService.isTokenExpired()) {
-          await _authService.logout();
-          throw ApiException('Session expired. Please log in again.');
+          // Try to refresh the token before giving up
+          final newToken = await _authService.refreshToken();
+          if (newToken == null) {
+            // Refresh failed, already logged out by refreshToken()
+            throw ApiException('Session expired. Please log in again.');
+          }
+          token = newToken;
         }
         headers['Authorization'] = 'Bearer $token';
       }

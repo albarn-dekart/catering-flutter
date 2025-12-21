@@ -47,6 +47,13 @@ class RevenueLineChart extends StatelessWidget {
     final maxRevenue = revenues.reduce((a, b) => a > b ? a : b);
     final minRevenue = revenues.reduce((a, b) => a < b ? a : b);
 
+    // Ensure we have reasonable values for empty data (all zeros)
+    final effectiveMaxY = maxRevenue < 100 ? 100.0 : maxRevenue * 1.1;
+    final yAxisInterval =
+        (effectiveMaxY - (minRevenue > 0 ? 0 : minRevenue)) / 5;
+    final safeYInterval = yAxisInterval > 0 ? yAxisInterval : 20.0;
+    final safeXInterval = spots.length > 5 ? spots.length / 5.0 : 1.0;
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -92,7 +99,7 @@ class RevenueLineChart extends StatelessWidget {
                       sideTitles: SideTitles(
                         showTitles: true,
                         reservedSize: 30,
-                        interval: spots.length / 5,
+                        interval: safeXInterval,
                         getTitlesWidget: (value, meta) {
                           final index = value.toInt();
                           if (index < 0 || index >= revenueTimeSeries.length) {
@@ -135,7 +142,7 @@ class RevenueLineChart extends StatelessWidget {
                       axisNameSize: 20,
                       sideTitles: SideTitles(
                         showTitles: true,
-                        interval: (maxRevenue - minRevenue) / 5,
+                        interval: safeYInterval,
                         reservedSize: 45,
                         getTitlesWidget: (value, meta) {
                           return Text(
@@ -158,7 +165,7 @@ class RevenueLineChart extends StatelessWidget {
                   minX: 0,
                   maxX: (spots.length - 1).toDouble(),
                   minY: minRevenue > 0 ? 0 : minRevenue,
-                  maxY: maxRevenue * 1.1,
+                  maxY: effectiveMaxY,
                   lineBarsData: [
                     LineChartBarData(
                       spots: spots,

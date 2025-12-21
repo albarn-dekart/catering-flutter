@@ -356,7 +356,7 @@ class _RestaurantMealsScreenState extends State<RestaurantMealsScreen> {
                   children: [
                     MacroBadge(
                       text:
-                          '${AppLocalizations.of(context)!.calories}: ${meal.calories.toStringAsFixed(1)}',
+                          '${AppLocalizations.of(context)!.calories}: ${meal.calories.toStringAsFixed(0)}',
                       icon: Icons.local_fire_department_outlined,
                     ),
                     MacroBadge(

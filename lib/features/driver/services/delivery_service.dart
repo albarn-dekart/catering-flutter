@@ -35,6 +35,7 @@ class DeliveryService extends ChangeNotifier {
   Future<void> fetchAllDeliveries() async {
     _isLoading = true;
     _errorMessage = null;
+    _deliveries = [];
     notifyListeners();
 
     try {
@@ -67,6 +68,7 @@ class DeliveryService extends ChangeNotifier {
   Future<void> getDeliveryById(String id) async {
     _isLoading = true;
     _errorMessage = null;
+    _currentDelivery = null;
     notifyListeners();
 
     try {
@@ -106,6 +108,7 @@ class DeliveryService extends ChangeNotifier {
     _currentSearchQuery = searchQuery;
     _currentSortOrder =
         order ?? Input$DeliveryFilter_order(deliveryDate: 'DESC');
+    _deliveries = [];
     notifyListeners();
 
     try {
@@ -128,14 +131,13 @@ class DeliveryService extends ChangeNotifier {
 
       final data = Query$GetDeliveriesByRestaurant.fromJson(result.data!);
 
-      if (data.restaurant?.deliveries?.edges != null) {
-        _deliveries = data.restaurant!.deliveries!.edges!
+      if (data.deliveries?.edges != null) {
+        _deliveries = data.deliveries!.edges!
             .map((e) => e?.node)
             .whereType<Fragment$BasicDeliveryFragment>()
             .toList();
-        _endCursor = data.restaurant?.deliveries?.pageInfo.endCursor;
-        _hasNextPage =
-            data.restaurant?.deliveries?.pageInfo.hasNextPage ?? false;
+        _endCursor = data.deliveries?.pageInfo.endCursor;
+        _hasNextPage = data.deliveries?.pageInfo.hasNextPage ?? false;
       }
     } catch (e) {
       _errorMessage = e.toString();
@@ -186,15 +188,14 @@ class DeliveryService extends ChangeNotifier {
 
       if (restaurantIri != null) {
         final data = Query$GetDeliveriesByRestaurant.fromJson(result.data!);
-        if (data.restaurant?.deliveries?.edges != null) {
-          final newDeliveries = data.restaurant!.deliveries!.edges!
+        if (data.deliveries?.edges != null) {
+          final newDeliveries = data.deliveries!.edges!
               .map((e) => e?.node)
               .whereType<Fragment$BasicDeliveryFragment>()
               .toList();
           _deliveries.addAll(newDeliveries);
-          _endCursor = data.restaurant?.deliveries?.pageInfo.endCursor;
-          _hasNextPage =
-              data.restaurant?.deliveries?.pageInfo.hasNextPage ?? false;
+          _endCursor = data.deliveries?.pageInfo.endCursor;
+          _hasNextPage = data.deliveries?.pageInfo.hasNextPage ?? false;
         }
       } else {
         final data = Query$GetDeliveries.fromJson(result.data!);
@@ -249,25 +250,15 @@ class DeliveryService extends ChangeNotifier {
       ).updateDelivery?.delivery;
 
       if (updatedDelivery != null) {
+        // Update current delivery if currently viewed
+        if (_currentDelivery?.id == updatedDelivery.id) {
+          _currentDelivery = updatedDelivery;
+        }
+
         // Find and update the delivery in the local list
         final index = _deliveries.indexWhere((d) => d.id == updatedDelivery.id);
         if (index != -1) {
-          // Update the status in the existing delivery
-          // Update the status in the existing delivery
-          // Since we can't easily instantiate the fragment mixin, we might need a workaround or just fetch fresh data.
-          // For now, let's just fetch the delivery again or assume we can't update it in place easily if it's a mixin.
-          // Actually, reusing the same object but checking if we can copyWith? Fragments usually don't have copyWith.
-          // Best approach: fetchDeliveryById(deliveryId) to refresh it, or update the list item if possible.
-          // If Fragment is an interface, we can't instantiate it.
-          // Let's just update the status localy if possible, but the object is likely immutable.
-          // So I will just re-fetch the item or re-fetch the list.
-          // Re-fetching specific item is better.
-          await getDeliveryById(deliveryId);
-          // And update the list reference?
-          final refreshed = _currentDelivery;
-          if (refreshed != null && refreshed.id == deliveryId) {
-            _deliveries[index] = refreshed;
-          }
+          _deliveries[index] = updatedDelivery;
         }
       }
     } catch (e) {

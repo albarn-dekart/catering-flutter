@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:catering_flutter/graphql/meals.graphql.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:flutter/material.dart';
@@ -43,12 +44,16 @@ class MealService extends ChangeNotifier {
   RangeValues? _lastFatRange;
   RangeValues? _lastCarbRange;
 
+  bool _isUploadingImage = false;
+  bool get isUploadingImage => _isUploadingImage;
+
   MealService(this._client, this._mediaService);
 
   Future<void> fetchAllMeals({String? searchQuery}) async {
     _isLoading = true;
     _errorMessage = null;
     _currentSearchQuery = searchQuery;
+    _meals = [];
     notifyListeners();
 
     try {
@@ -151,6 +156,7 @@ class MealService extends ChangeNotifier {
     _lastProteinRange = proteinRange;
     _lastFatRange = fatRange;
     _lastCarbRange = carbRange;
+    _meals = [];
     notifyListeners();
 
     try {
@@ -201,6 +207,7 @@ class MealService extends ChangeNotifier {
                 ]
               : null,
         ).toJson(),
+        fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
 
@@ -313,6 +320,7 @@ class MealService extends ChangeNotifier {
   Future<void> getMealById(String id) async {
     _isLoading = true;
     _errorMessage = null;
+    _currentMeal = null;
     notifyListeners();
 
     try {
@@ -372,7 +380,15 @@ class MealService extends ChangeNotifier {
       if (result.hasException) {
         throw ApiException(result.exception.toString());
       }
-      return Mutation$CreateMeal.fromJson(result.data!).createMeal?.meal?.id;
+
+      final createdMeal = Mutation$CreateMeal.fromJson(
+        result.data!,
+      ).createMeal?.meal;
+      if (createdMeal != null) {
+        _currentMeal = createdMeal;
+        _meals.insert(0, createdMeal);
+      }
+      return createdMeal?.id;
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
@@ -418,6 +434,17 @@ class MealService extends ChangeNotifier {
       if (result.hasException) {
         throw ApiException(result.exception.toString());
       }
+
+      final updatedMeal = Mutation$UpdateMeal.fromJson(
+        result.data!,
+      ).updateMeal?.meal;
+      if (updatedMeal != null) {
+        _currentMeal = updatedMeal;
+        final index = _meals.indexWhere((m) => m.id == id);
+        if (index != -1) {
+          _meals[index] = updatedMeal;
+        }
+      }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
@@ -455,7 +482,8 @@ class MealService extends ChangeNotifier {
     }
   }
 
-  void clearStatus() {
+  void clearCurrentMeal() {
+    _currentMeal = null;
     _errorMessage = null;
     notifyListeners();
   }
@@ -465,18 +493,36 @@ class MealService extends ChangeNotifier {
     List<int> imageBytes,
     String filename,
   ) async {
-    _isLoading = true;
+    _isUploadingImage = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      await _mediaService.uploadImage('$mealIri/image', imageBytes, filename);
-      await getMealById(mealIri);
+      final responseBody = await _mediaService.uploadImage(
+        '$mealIri/image',
+        imageBytes,
+        filename,
+      );
+
+      // Parse response to get new image URL
+      final responseData = jsonDecode(responseBody) as Map<String, dynamic>;
+      final newImageUrl = responseData['imageUrl'] as String?;
+
+      // Update current meal's imageUrl locally
+      if (_currentMeal != null && newImageUrl != null) {
+        _currentMeal = _currentMeal!.copyWith(imageUrl: newImageUrl);
+      }
+
+      // Update in meals list
+      final index = _meals.indexWhere((m) => m.id == mealIri);
+      if (index != -1 && newImageUrl != null) {
+        _meals[index] = _meals[index].copyWith(imageUrl: newImageUrl);
+      }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
-      _isLoading = false;
+      _isUploadingImage = false;
       notifyListeners();
     }
   }

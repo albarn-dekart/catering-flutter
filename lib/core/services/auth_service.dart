@@ -32,10 +32,15 @@ class AuthService extends ChangeNotifier {
       final isExpired = await isTokenExpired();
 
       if (isExpired) {
-        await logout();
-        _isLoading = false;
-        notifyListeners();
-        return;
+        // Try to refresh the token before logging out
+        final newToken = await refreshToken();
+        if (newToken == null) {
+          // Refresh failed, already logged out by refreshToken()
+          _isLoading = false;
+          notifyListeners();
+          return;
+        }
+        // Token refreshed successfully, continue with auth check
       }
 
       _isAuthenticated = true;

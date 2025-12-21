@@ -1,21 +1,23 @@
+import 'dart:typed_data';
+
+import 'package:catering_flutter/core/app_router.dart';
+import 'package:catering_flutter/core/services/auth_service.dart';
+import 'package:catering_flutter/core/utils/ui_error_handler.dart';
+import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
+import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
+import 'package:catering_flutter/core/widgets/macro_badge.dart';
+import 'package:catering_flutter/core/widgets/price_text.dart';
+import 'package:catering_flutter/features/restaurant/screens/restaurant_meals_screen.dart';
+import 'package:catering_flutter/features/restaurant/services/meal_plan_service.dart';
+import 'package:catering_flutter/features/restaurant/services/meal_service.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:catering_flutter/features/restaurant/services/meal_plan_service.dart';
-import 'package:catering_flutter/features/restaurant/services/meal_service.dart';
-import 'package:catering_flutter/core/services/auth_service.dart';
-import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
-import 'package:catering_flutter/core/utils/ui_error_handler.dart';
-import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
-import 'package:catering_flutter/features/restaurant/screens/restaurant_meals_screen.dart';
-import 'package:catering_flutter/l10n/app_localizations.dart';
 
-import 'package:catering_flutter/core/widgets/macro_badge.dart';
-import 'package:catering_flutter/core/app_router.dart';
-import 'package:catering_flutter/core/widgets/price_text.dart';
-
-class RestaurantMealPlanFormScreen extends StatefulWidget {
+class RestaurantMealPlanFormScreen extends HookWidget {
   final String? mealPlanId;
   final String restaurantIri;
   final bool isCustomer;
@@ -28,232 +30,533 @@ class RestaurantMealPlanFormScreen extends StatefulWidget {
   });
 
   @override
-  State<RestaurantMealPlanFormScreen> createState() =>
-      _RestaurantMealPlanFormScreenState();
-}
+  Widget build(BuildContext context) {
+    // Services
+    final mealPlanService = context.watch<MealPlanService>();
+    final mealService = context.read<MealService>();
+    final authService = context.read<AuthService>();
 
-class _RestaurantMealPlanFormScreenState
-    extends State<RestaurantMealPlanFormScreen> {
-  final _formKey = GlobalKey<FormState>();
-  late TextEditingController _nameController;
-  late TextEditingController _descriptionController;
-  final ImagePicker _picker = ImagePicker();
-  XFile? _imageFile;
-  final List<Meal?> _selectedMeals = List.filled(5, null);
-  String? _savedMealPlanId; // Track ID after successful save for retry logic
+    // Form & Controllers
+    final formKey = useMemoized(() => GlobalKey<FormState>());
+    final nameController = useTextEditingController();
+    final descriptionController = useTextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    _nameController = TextEditingController();
-    _descriptionController = TextEditingController();
-    _savedMealPlanId = widget.mealPlanId;
+    // State
+    final selectedMeals = useState<List<Meal?>>(List.filled(5, null));
+    final imageBytes = useState<Uint8List?>(null);
+    final imageName = useState<String?>(null);
+    final isSaving = useState(false);
+    final savedMealPlanId = useState<String?>(mealPlanId);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<MealPlanService>().clearStatus();
-      context.read<MealService>().fetchMealsByRestaurant(widget.restaurantIri);
+    // Initial Fetch & Clear
+    useEffect(() {
+      Future.microtask(() async {
+        mealPlanService.clearCurrentMealPlan();
+        mealService.fetchMealsByRestaurant(restaurantIri);
 
-      if (widget.mealPlanId != null) {
-        context
-            .read<MealPlanService>()
-            .getMealPlanById(widget.mealPlanId!)
-            .then((_) {
-              if (mounted) {
-                final mealPlan = context
-                    .read<MealPlanService>()
-                    .currentMealPlan;
-                if (mealPlan != null) {
-                  _nameController.text = mealPlan.name;
-                  _descriptionController.text = mealPlan.description ?? '';
-                  if (mealPlan.meals?.edges != null) {
-                    setState(() {
-                      final edges = mealPlan.meals!.edges!;
-                      for (
-                        int i = 0;
-                        i < edges.length && i < _selectedMeals.length;
-                        i++
-                      ) {
-                        final node = edges[i]?.node;
-                        if (node is Meal) {
-                          _selectedMeals[i] = node;
-                        }
-                      }
-                    });
-                  }
-                }
-              }
-            });
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _descriptionController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _pickImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      setState(() {
-        _imageFile = image;
+        if (mealPlanId != null) {
+          await mealPlanService.getMealPlanById(mealPlanId!);
+        }
       });
+      return null;
+    }, [mealPlanId]);
+
+    // Sync Form Data
+    useEffect(() {
+      final mealPlan = mealPlanService.currentMealPlan;
+
+      if (mealPlan != null) {
+        nameController.text = mealPlan.name;
+        descriptionController.text = mealPlan.description ?? '';
+
+        if (mealPlan.meals?.edges != null) {
+          final edges = mealPlan.meals!.edges!;
+          final newSelection = List<Meal?>.filled(5, null);
+          for (int i = 0; i < edges.length && i < 5; i++) {
+            final node = edges[i]?.node;
+            if (node is Meal) {
+              newSelection[i] = node;
+            }
+          }
+          selectedMeals.value = newSelection;
+        }
+      } else if (mealPlanId == null) {
+        // Explicit create mode reset
+        nameController.clear();
+        descriptionController.clear();
+        selectedMeals.value = List.filled(5, null);
+      }
+      return null;
+    }, [mealPlanService.currentMealPlan]);
+
+    // Computed Properties
+    final currentMeals = selectedMeals.value.whereType<Meal>();
+    final totalCalories = currentMeals.fold<double>(
+      0,
+      (sum, m) => sum + m.calories,
+    );
+    final totalProtein = currentMeals.fold<double>(
+      0,
+      (sum, m) => sum + m.protein,
+    );
+    final totalFat = currentMeals.fold<double>(0, (sum, m) => sum + m.fat);
+    final totalCarbs = currentMeals.fold<double>(0, (sum, m) => sum + m.carbs);
+    final totalPrice = currentMeals.fold<double>(0, (sum, m) => sum + m.price);
+
+    // Handlers
+    Future<void> pickImage() async {
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        final bytes = await image.readAsBytes();
+        imageBytes.value = bytes;
+        imageName.value = image.name;
+      }
     }
-  }
 
-  Future<void> _uploadImage(String mealPlanIri) async {
-    try {
-      final mealPlanService = context.read<MealPlanService>();
-      final bytes = await _imageFile!.readAsBytes();
-      await mealPlanService.updateMealPlanImage(
-        mealPlanIri,
-        bytes,
-        _imageFile!.name,
-      );
-    } catch (e) {
-      // Re-throw to be caught by caller
-      rethrow;
-    }
-  }
+    Future<void> saveMealPlan() async {
+      if (!formKey.currentState!.validate()) return;
 
-  double get _totalCalories {
-    final selectedMeals = _selectedMeals.whereType<Meal>();
-    return selectedMeals.fold<double>(0, (sum, meal) => sum + (meal.calories));
-  }
-
-  double get _totalProtein {
-    final selectedMeals = _selectedMeals.whereType<Meal>();
-    return selectedMeals.fold<double>(0, (sum, meal) => sum + (meal.protein));
-  }
-
-  double get _totalFat {
-    final selectedMeals = _selectedMeals.whereType<Meal>();
-    return selectedMeals.fold<double>(0, (sum, meal) => sum + (meal.fat));
-  }
-
-  double get _totalCarbs {
-    final selectedMeals = _selectedMeals.whereType<Meal>();
-    return selectedMeals.fold<double>(0, (sum, meal) => sum + (meal.carbs));
-  }
-
-  double get _totalPrice {
-    final selectedMeals = _selectedMeals.whereType<Meal>();
-    return selectedMeals.fold<double>(0, (sum, meal) => sum + (meal.price));
-  }
-
-  void _saveMealPlan() async {
-    if (_formKey.currentState!.validate()) {
-      final selectedMealIds = _selectedMeals
+      final selectedIds = selectedMeals.value
           .whereType<Meal>()
           .map((m) => m.id)
           .toList();
 
-      if (selectedMealIds.isEmpty) {
-        UIErrorHandler.showSnackBar(
-          context,
-          AppLocalizations.of(context)!.selectAtLeastOneMeal,
-          isError: true,
-        );
+      if (selectedIds.isEmpty) {
+        if (context.mounted) {
+          UIErrorHandler.showSnackBar(
+            context,
+            AppLocalizations.of(context)!.selectAtLeastOneMeal,
+            isError: true,
+          );
+        }
         return;
       }
-      final mealPlanService = context.read<MealPlanService>();
-      final authService = context.read<AuthService>();
 
+      isSaving.value = true;
+      bool imageUploadFailed = false;
+
+      // Use read to avoid rebuilds inside async function if not needed,
+      // but we already have service instance.
       try {
-        String? mealPlanIri = _savedMealPlanId;
+        String? currentId = savedMealPlanId.value;
 
-        if (mealPlanIri == null) {
-          // Creating new meal plan
-          mealPlanIri = await mealPlanService.createMealPlan(
-            restaurantIri: widget.restaurantIri,
-            name: _nameController.text,
-            description: _descriptionController.text,
-            mealIds: selectedMealIds,
-            ownerIri: widget.isCustomer ? authService.userIri : null,
+        if (currentId == null) {
+          // Create
+          currentId = await mealPlanService.createMealPlan(
+            restaurantIri: restaurantIri,
+            name: nameController.text,
+            description: descriptionController.text,
+            mealIds: selectedIds,
+            ownerIri: isCustomer ? authService.userIri : null,
           );
-          setState(() {
-            _savedMealPlanId = mealPlanIri;
-          });
+          savedMealPlanId.value = currentId;
         } else {
-          // Updating existing meal plan
+          // Update
           await mealPlanService.updateMealPlan(
-            id: mealPlanIri,
-            name: _nameController.text,
-            description: _descriptionController.text,
-            mealIds: selectedMealIds,
+            id: currentId,
+            name: nameController.text,
+            description: descriptionController.text,
+            mealIds: selectedIds,
           );
         }
 
-        // Handle image upload if selected
-        if (_imageFile != null && mealPlanIri != null && !widget.isCustomer) {
+        // Upload Image
+        if (imageBytes.value != null && currentId != null && !isCustomer) {
           try {
-            await _uploadImage(mealPlanIri);
+            await mealPlanService.updateMealPlanImage(
+              currentId,
+              imageBytes.value!,
+              imageName.value ?? 'image.jpg',
+            );
           } catch (e) {
-            if (mounted) {
-              UIErrorHandler.showSnackBar(
-                context,
-                AppLocalizations.of(context)!.mealPlanSavedImageFailed,
-                isError: true,
-                action: SnackBarAction(
-                  label: AppLocalizations.of(context)!.retryUpload,
-                  onPressed: () async {
-                    try {
-                      await _uploadImage(mealPlanIri!);
-                      if (mounted) {
-                        UIErrorHandler.showSnackBar(
-                          context,
-                          AppLocalizations.of(context)!.imageUploadedSuccess,
-                          isError: false,
-                        );
-                        context.pop();
-                      }
-                    } catch (retryError) {
-                      if (mounted) {
-                        UIErrorHandler.showSnackBar(
-                          context,
-                          AppLocalizations.of(context)!.retryFailed(retryError),
-                        );
-                      }
-                    }
-                  },
-                ),
-              );
-              return; // Don't pop yet, let user retry
-            }
+            imageUploadFailed = true;
           }
         }
 
-        if (mounted) {
+        if (context.mounted) {
+          String message;
+          if (imageUploadFailed) {
+            message = AppLocalizations.of(context)!.mealPlanSavedImageFailed;
+          } else {
+            message = isCustomer
+                ? AppLocalizations.of(context)!.mealPlanCreated
+                : AppLocalizations.of(context)!.mealPlanSavedSuccess;
+          }
+
           UIErrorHandler.showSnackBar(
             context,
-            widget.isCustomer
-                ? AppLocalizations.of(context)!.mealPlanCreated
-                : AppLocalizations.of(context)!.mealPlanSavedSuccess,
-            isError: false,
+            message,
+            isError: imageUploadFailed,
           );
-          if (widget.isCustomer) {
+
+          if (isCustomer) {
             context.go(AppRoutes.myMealPlans);
           } else {
             context.pop();
           }
         }
       } catch (e) {
-        if (mounted) {
+        if (context.mounted) {
           UIErrorHandler.handleError(
             context,
             e,
             customMessage: AppLocalizations.of(context)!.mealPlanSaveFailed,
           );
         }
+      } finally {
+        isSaving.value = false;
       }
     }
+
+    // Stale Data Guard
+    final isCreateMode = mealPlanId == null;
+
+    // Guard: Create Mode but we have a non-null currentMealPlan (stale)
+    if (isCreateMode && mealPlanService.currentMealPlan != null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    // Guard: Edit Mode but loading generic
+    if (mealPlanService.isLoading &&
+        !isCreateMode &&
+        mealPlanService.currentMealPlan == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final isLoading = mealPlanService.isLoading || isSaving.value;
+    final currentMealPlan = mealPlanService.currentMealPlan;
+
+    // Title
+    String title = isCreateMode
+        ? AppLocalizations.of(context)!.createMealPlan
+        : AppLocalizations.of(context)!.editMealPlan;
+    if (isCustomer) {
+      title = AppLocalizations.of(context)!.createCustomPlan;
+    }
+
+    return CustomScaffold(
+      title: title,
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Image Section
+              if (!isCustomer) ...[
+                _buildImagePicker(
+                  context,
+                  imageBytes,
+                  imageName,
+                  pickImage,
+                  isLoading,
+                  (!isCreateMode && currentMealPlan != null)
+                      ? currentMealPlan.imageUrl
+                      : null,
+                ),
+                const SizedBox(height: 16),
+              ],
+
+              // Name
+              TextFormField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  labelText: isCustomer
+                      ? AppLocalizations.of(context)!.planName
+                      : AppLocalizations.of(context)!.mealPlanName,
+                  border: const OutlineInputBorder(),
+                ),
+                validator: (v) => v?.isEmpty ?? true
+                    ? AppLocalizations.of(context)!.pleaseEnterName
+                    : null,
+              ),
+              const SizedBox(height: 16),
+
+              // Description
+              TextFormField(
+                controller: descriptionController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.description,
+                  border: const OutlineInputBorder(),
+                ),
+                maxLines: 3,
+              ),
+              const SizedBox(height: 24),
+
+              // Meals
+              Text(
+                AppLocalizations.of(context)!.selectedMeals,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 16),
+
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 5,
+                separatorBuilder: (_, _) => const SizedBox(height: 12),
+                itemBuilder: (context, index) {
+                  final meal = selectedMeals.value[index];
+                  final isSelected = meal != null;
+
+                  return InkWell(
+                    onTap: () async {
+                      final result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RestaurantMealsScreen(
+                            restaurantIri: restaurantIri,
+                            isSelectionMode: true,
+                          ),
+                        ),
+                      );
+                      if (result != null && result is Meal) {
+                        final newList = List<Meal?>.from(selectedMeals.value);
+                        newList[index] = result;
+                        selectedMeals.value = newList;
+                      }
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surface,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: Theme.of(context).colorScheme.outline,
+                          style: isSelected
+                              ? BorderStyle.solid
+                              : BorderStyle.none,
+                        ),
+                        boxShadow: [
+                          if (isSelected)
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.05),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                        ],
+                      ),
+                      child: isSelected
+                          ? Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Row(
+                                children: [
+                                  if (meal.imageUrl != null)
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: CustomCachedImage(
+                                        imageUrl: meal.imageUrl,
+                                        width: 60,
+                                        height: 60,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                meal.name,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium
+                                                    ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                              ),
+                                            ),
+                                            PriceText(
+                                              priceGroszy: meal.price,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium
+                                                  ?.copyWith(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Theme.of(
+                                                      context,
+                                                    ).colorScheme.primary,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Wrap(
+                                          spacing: 4,
+                                          runSpacing: 4,
+                                          children: [
+                                            MacroBadge(
+                                              text:
+                                                  '${AppLocalizations.of(context)!.calories}: ${meal.calories.toStringAsFixed(0)}',
+                                              icon: Icons
+                                                  .local_fire_department_outlined,
+                                            ),
+                                            MacroBadge(
+                                              text:
+                                                  '${AppLocalizations.of(context)!.protein}: ${meal.protein.toStringAsFixed(1)}g',
+                                              icon:
+                                                  Icons.fitness_center_outlined,
+                                            ),
+                                            MacroBadge(
+                                              text:
+                                                  '${AppLocalizations.of(context)!.fat}: ${meal.fat.toStringAsFixed(1)}g',
+                                              icon: Icons.water_drop_outlined,
+                                            ),
+                                            MacroBadge(
+                                              text:
+                                                  '${AppLocalizations.of(context)!.carbs}: ${meal.carbs.toStringAsFixed(1)}g',
+                                              icon: Icons.grain_outlined,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.close),
+                                    onPressed: () {
+                                      final newList = List<Meal?>.from(
+                                        selectedMeals.value,
+                                      );
+                                      newList[index] = null;
+                                      selectedMeals.value = newList;
+                                    },
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container(
+                              height: 80,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.surfaceContainerHighest,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.outlineVariant,
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.add_circle_outline,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    '${AppLocalizations.of(context)!.selectMeal} ${index + 1}',
+                                    style: Theme.of(context).textTheme.bodyLarge
+                                        ?.copyWith(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 24),
+
+              // Summary
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.summary,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 12),
+                    _buildSummaryRow(
+                      context,
+                      AppLocalizations.of(context)!.calories,
+                      totalCalories.toStringAsFixed(1),
+                    ),
+                    _buildSummaryRow(
+                      context,
+                      AppLocalizations.of(context)!.protein,
+                      '${totalProtein.toStringAsFixed(1)} g',
+                    ),
+                    _buildSummaryRow(
+                      context,
+                      AppLocalizations.of(context)!.fat,
+                      '${totalFat.toStringAsFixed(1)} g',
+                    ),
+                    _buildSummaryRow(
+                      context,
+                      AppLocalizations.of(context)!.carbs,
+                      '${totalCarbs.toStringAsFixed(1)} g',
+                    ),
+                    const Divider(),
+                    _buildSummaryRow(
+                      context,
+                      AppLocalizations.of(context)!.totalPrice,
+                      null,
+                      widgetValue: PriceText.fromDouble(
+                        priceGroszy: totalPrice,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      isBold: true,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Save Button
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : FilledButton(
+                        onPressed: saveMealPlan,
+                        child: Text(
+                          isCustomer
+                              ? AppLocalizations.of(context)!.savePlan
+                              : AppLocalizations.of(context)!.saveMealPlan,
+                        ),
+                      ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
+  // Helpers
   Widget _buildSummaryRow(
-    String label, {
-    String? value,
+    BuildContext context,
+    String label,
+    String? value, {
     Widget? widgetValue,
     bool isBold = false,
   }) {
@@ -286,344 +589,93 @@ class _RestaurantMealPlanFormScreenState
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    String title = widget.mealPlanId == null
-        ? AppLocalizations.of(context)!.createMealPlan
-        : AppLocalizations.of(context)!.editMealPlan;
-    if (widget.isCustomer) {
-      title = AppLocalizations.of(context)!.createCustomPlan;
-    }
-
-    return CustomScaffold(
-      title: title,
-      child: Consumer2<MealPlanService, MealService>(
-        builder: (context, mealPlanService, mealService, child) {
-          final mealPlan = mealPlanService.currentMealPlan;
-
-          return SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Image preview
-                    if (!widget.isCustomer &&
-                        mealPlan?.imageUrl != null &&
-                        widget.mealPlanId != null)
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: CustomCachedImage(
-                          imageUrl: mealPlan!.imageUrl,
-                          height: 200,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    if (!widget.isCustomer) const SizedBox(height: 16),
-
-                    // Image picker (Hide for customers)
-                    if (!widget.isCustomer) ...[
-                      OutlinedButton.icon(
-                        onPressed: _pickImage,
-                        icon: const Icon(Icons.image),
-                        label: Text(
-                          _imageFile == null
-                              ? AppLocalizations.of(context)!.selectImage
-                              : AppLocalizations.of(context)!.changeImage,
-                        ),
-                      ),
-                      if (_imageFile != null)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: Text(
-                            '${AppLocalizations.of(context)!.selectedImageLabel} ${_imageFile!.name}',
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ),
-                      const SizedBox(height: 24),
-                    ],
-
-                    // Name field
-                    TextFormField(
-                      controller: _nameController,
-                      decoration: InputDecoration(
-                        labelText: widget.isCustomer
-                            ? AppLocalizations.of(context)!.planName
-                            : AppLocalizations.of(context)!.mealPlanName,
-                        border: const OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context)!.pleaseEnterName;
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-
-                    // Description field
-                    TextFormField(
-                      controller: _descriptionController,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!.description,
-                        border: const OutlineInputBorder(),
-                      ),
-                      maxLines: 3,
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Meals selection section
-                    Text(
-                      AppLocalizations.of(context)!.selectedMeals,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    const SizedBox(height: 16),
-                    ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 5,
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 12),
-                      itemBuilder: (context, index) {
-                        final meal = _selectedMeals[index];
-                        final isSelected = meal != null;
-
-                        return InkWell(
-                          onTap: () async {
-                            final result = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RestaurantMealsScreen(
-                                  restaurantIri: widget.restaurantIri,
-                                  isSelectionMode: true,
-                                ),
-                              ),
-                            );
-
-                            if (result != null && result is Meal) {
-                              setState(() {
-                                _selectedMeals[index] = result;
-                              });
-                            }
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.surface,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: Theme.of(context).colorScheme.outline,
-                                style: isSelected
-                                    ? BorderStyle.solid
-                                    : BorderStyle.none,
-                              ),
-                              boxShadow: [
-                                if (isSelected)
-                                  BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.05),
-                                    blurRadius: 8,
-                                    offset: const Offset(0, 2),
-                                  ),
-                              ],
-                            ),
-                            child: isSelected
-                                ? Padding(
-                                    padding: const EdgeInsets.all(12),
-                                    child: Row(
-                                      children: [
-                                        if (meal.imageUrl != null)
-                                          ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                              8,
-                                            ),
-                                            child: CustomCachedImage(
-                                              imageUrl: meal.imageUrl,
-                                              width: 60,
-                                              height: 60,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        const SizedBox(width: 16),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                meal.name,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleMedium
-                                                    ?.copyWith(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                              ),
-                                              const SizedBox(height: 4),
-                                              Wrap(
-                                                spacing: 4,
-                                                runSpacing: 4,
-                                                children: [
-                                                  MacroBadge(
-                                                    text:
-                                                        '${AppLocalizations.of(context)!.calories}: ${meal.calories.toStringAsFixed(0)}',
-                                                    icon: Icons
-                                                        .local_fire_department_outlined,
-                                                  ),
-                                                  MacroBadge(
-                                                    text:
-                                                        '${AppLocalizations.of(context)!.protein}: ${meal.protein.toStringAsFixed(0)}g',
-                                                    icon: Icons
-                                                        .fitness_center_outlined,
-                                                  ),
-                                                  MacroBadge(
-                                                    text:
-                                                        '${AppLocalizations.of(context)!.fat}: ${meal.fat.toStringAsFixed(0)}g',
-                                                    icon: Icons
-                                                        .water_drop_outlined,
-                                                  ),
-                                                  MacroBadge(
-                                                    text:
-                                                        '${AppLocalizations.of(context)!.carbs}: ${meal.carbs.toStringAsFixed(0)}g',
-                                                    icon: Icons.grain_outlined,
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        IconButton(
-                                          icon: const Icon(Icons.close),
-                                          onPressed: () {
-                                            setState(() {
-                                              _selectedMeals[index] = null;
-                                            });
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : Container(
-                                    height: 80,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.surfaceContainerHighest,
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.outlineVariant,
-                                        width: 1,
-                                        style: BorderStyle.solid,
-                                      ),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.add_circle_outline,
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.primary,
-                                        ),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          '${AppLocalizations.of(context)!.selectMeal} ${index + 1}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge
-                                              ?.copyWith(
-                                                color: Theme.of(
-                                                  context,
-                                                ).colorScheme.primary,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                          ),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Summary Section
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surfaceContainer,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!.summary,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          const SizedBox(height: 12),
-                          _buildSummaryRow(
-                            AppLocalizations.of(context)!.calories,
-                            value:
-                                '${AppLocalizations.of(context)!.calories}: ${_totalCalories.toStringAsFixed(1)}',
-                          ),
-                          _buildSummaryRow(
-                            AppLocalizations.of(context)!.protein,
-                            value: '${_totalProtein.toStringAsFixed(1)} g',
-                          ),
-                          _buildSummaryRow(
-                            AppLocalizations.of(context)!.fat,
-                            value: '${_totalFat.toStringAsFixed(1)} g',
-                          ),
-                          _buildSummaryRow(
-                            AppLocalizations.of(context)!.carbs,
-                            value: '${_totalCarbs.toStringAsFixed(1)} g',
-                          ),
-                          const Divider(),
-                          _buildSummaryRow(
-                            AppLocalizations.of(context)!.totalPrice,
-                            widgetValue: PriceText.fromDouble(
-                              priceGroszy: _totalPrice,
-                              style: Theme.of(context).textTheme.bodyMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            isBold: true,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Save button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 48,
-                      child: mealPlanService.isLoading
-                          ? const Center(child: CircularProgressIndicator())
-                          : FilledButton(
-                              onPressed: _saveMealPlan,
-                              child: Text(
-                                widget.isCustomer
-                                    ? AppLocalizations.of(context)!.savePlan
-                                    : AppLocalizations.of(
-                                        context,
-                                      )!.saveMealPlan,
-                              ),
-                            ),
-                    ),
-                  ],
+  Widget _buildImagePicker(
+    BuildContext context,
+    ValueNotifier<Uint8List?> imageBytes,
+    ValueNotifier<String?> imageName,
+    VoidCallback onPick,
+    bool isLoading,
+    String? currentImageUrl,
+  ) {
+    return GestureDetector(
+      onTap: isLoading ? null : onPick,
+      child: Container(
+        height: 200,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            if (imageBytes.value != null)
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.memory(imageBytes.value!, fit: BoxFit.cover),
+              )
+            else if (currentImageUrl != null)
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: CustomCachedImage(
+                  imageUrl: currentImageUrl,
+                  fit: BoxFit.cover,
                 ),
+              )
+            else
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.add_a_photo,
+                    size: 48,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    AppLocalizations.of(context)!.tapToAddCoverImage,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
               ),
-            ),
-          );
-        },
+            if (imageBytes.value != null || currentImageUrl != null)
+              Stack(
+                children: [
+                  Positioned(
+                    bottom: 16,
+                    right: 16,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 153),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                  if (imageBytes.value != null)
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: IconButton.filledTonal(
+                        onPressed: () {
+                          imageBytes.value = null;
+                          imageName.value = null;
+                        },
+                        icon: const Icon(Icons.close),
+                      ),
+                    ),
+                ],
+              ),
+            if (isLoading) const Center(child: CircularProgressIndicator()),
+          ],
+        ),
       ),
     );
   }

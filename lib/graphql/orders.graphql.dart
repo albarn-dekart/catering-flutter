@@ -467,6 +467,34 @@ const fragmentDefinitionOrderSummary = FragmentDefinitionNode(
                                 selectionSet: null,
                               ),
                               FieldNode(
+                                name: NameNode(value: 'calories'),
+                                alias: null,
+                                arguments: [],
+                                directives: [],
+                                selectionSet: null,
+                              ),
+                              FieldNode(
+                                name: NameNode(value: 'protein'),
+                                alias: null,
+                                arguments: [],
+                                directives: [],
+                                selectionSet: null,
+                              ),
+                              FieldNode(
+                                name: NameNode(value: 'fat'),
+                                alias: null,
+                                arguments: [],
+                                directives: [],
+                                selectionSet: null,
+                              ),
+                              FieldNode(
+                                name: NameNode(value: 'carbs'),
+                                alias: null,
+                                arguments: [],
+                                directives: [],
+                                selectionSet: null,
+                              ),
+                              FieldNode(
                                 name: NameNode(value: '__typename'),
                                 alias: null,
                                 arguments: [],
@@ -1415,6 +1443,10 @@ class Fragment$OrderSummary$orderItems$edges$node$mealPlan {
     required this.id,
     required this.name,
     this.price,
+    this.calories,
+    this.protein,
+    this.fat,
+    this.carbs,
     this.$__typename = 'MealPlan',
   });
 
@@ -1424,11 +1456,19 @@ class Fragment$OrderSummary$orderItems$edges$node$mealPlan {
     final l$id = json['id'];
     final l$name = json['name'];
     final l$price = json['price'];
+    final l$calories = json['calories'];
+    final l$protein = json['protein'];
+    final l$fat = json['fat'];
+    final l$carbs = json['carbs'];
     final l$$__typename = json['__typename'];
     return Fragment$OrderSummary$orderItems$edges$node$mealPlan(
       id: (l$id as String),
       name: (l$name as String),
       price: (l$price as int?),
+      calories: (l$calories as num?)?.toDouble(),
+      protein: (l$protein as num?)?.toDouble(),
+      fat: (l$fat as num?)?.toDouble(),
+      carbs: (l$carbs as num?)?.toDouble(),
       $__typename: (l$$__typename as String),
     );
   }
@@ -1438,6 +1478,14 @@ class Fragment$OrderSummary$orderItems$edges$node$mealPlan {
   final String name;
 
   final int? price;
+
+  final double? calories;
+
+  final double? protein;
+
+  final double? fat;
+
+  final double? carbs;
 
   final String $__typename;
 
@@ -1449,6 +1497,14 @@ class Fragment$OrderSummary$orderItems$edges$node$mealPlan {
     _resultData['name'] = l$name;
     final l$price = price;
     _resultData['price'] = l$price;
+    final l$calories = calories;
+    _resultData['calories'] = l$calories;
+    final l$protein = protein;
+    _resultData['protein'] = l$protein;
+    final l$fat = fat;
+    _resultData['fat'] = l$fat;
+    final l$carbs = carbs;
+    _resultData['carbs'] = l$carbs;
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -1459,8 +1515,21 @@ class Fragment$OrderSummary$orderItems$edges$node$mealPlan {
     final l$id = id;
     final l$name = name;
     final l$price = price;
+    final l$calories = calories;
+    final l$protein = protein;
+    final l$fat = fat;
+    final l$carbs = carbs;
     final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$name, l$price, l$$__typename]);
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$price,
+      l$calories,
+      l$protein,
+      l$fat,
+      l$carbs,
+      l$$__typename,
+    ]);
   }
 
   @override
@@ -1485,6 +1554,26 @@ class Fragment$OrderSummary$orderItems$edges$node$mealPlan {
     final l$price = price;
     final lOther$price = other.price;
     if (l$price != lOther$price) {
+      return false;
+    }
+    final l$calories = calories;
+    final lOther$calories = other.calories;
+    if (l$calories != lOther$calories) {
+      return false;
+    }
+    final l$protein = protein;
+    final lOther$protein = other.protein;
+    if (l$protein != lOther$protein) {
+      return false;
+    }
+    final l$fat = fat;
+    final lOther$fat = other.fat;
+    if (l$fat != lOther$fat) {
+      return false;
+    }
+    final l$carbs = carbs;
+    final lOther$carbs = other.carbs;
+    if (l$carbs != lOther$carbs) {
       return false;
     }
     final l$$__typename = $__typename;
@@ -1519,7 +1608,16 @@ abstract class CopyWith$Fragment$OrderSummary$orderItems$edges$node$mealPlan<
     TRes res,
   ) = _CopyWithStubImpl$Fragment$OrderSummary$orderItems$edges$node$mealPlan;
 
-  TRes call({String? id, String? name, int? price, String? $__typename});
+  TRes call({
+    String? id,
+    String? name,
+    int? price,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
+    String? $__typename,
+  });
 }
 
 class _CopyWithImpl$Fragment$OrderSummary$orderItems$edges$node$mealPlan<TRes>
@@ -1541,6 +1639,10 @@ class _CopyWithImpl$Fragment$OrderSummary$orderItems$edges$node$mealPlan<TRes>
     Object? id = _undefined,
     Object? name = _undefined,
     Object? price = _undefined,
+    Object? calories = _undefined,
+    Object? protein = _undefined,
+    Object? fat = _undefined,
+    Object? carbs = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
     Fragment$OrderSummary$orderItems$edges$node$mealPlan(
@@ -1549,6 +1651,12 @@ class _CopyWithImpl$Fragment$OrderSummary$orderItems$edges$node$mealPlan<TRes>
           ? _instance.name
           : (name as String),
       price: price == _undefined ? _instance.price : (price as int?),
+      calories: calories == _undefined
+          ? _instance.calories
+          : (calories as double?),
+      protein: protein == _undefined ? _instance.protein : (protein as double?),
+      fat: fat == _undefined ? _instance.fat : (fat as double?),
+      carbs: carbs == _undefined ? _instance.carbs : (carbs as double?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
@@ -1567,7 +1675,16 @@ class _CopyWithStubImpl$Fragment$OrderSummary$orderItems$edges$node$mealPlan<
 
   TRes _res;
 
-  call({String? id, String? name, int? price, String? $__typename}) => _res;
+  call({
+    String? id,
+    String? name,
+    int? price,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
+    String? $__typename,
+  }) => _res;
 }
 
 class Fragment$OrderSummary$deliveries {
@@ -3557,6 +3674,10 @@ class Fragment$OrderDetails$orderItems$edges$node$mealPlan
     required this.id,
     required this.name,
     this.price,
+    this.calories,
+    this.protein,
+    this.fat,
+    this.carbs,
     this.$__typename = 'MealPlan',
   });
 
@@ -3566,11 +3687,19 @@ class Fragment$OrderDetails$orderItems$edges$node$mealPlan
     final l$id = json['id'];
     final l$name = json['name'];
     final l$price = json['price'];
+    final l$calories = json['calories'];
+    final l$protein = json['protein'];
+    final l$fat = json['fat'];
+    final l$carbs = json['carbs'];
     final l$$__typename = json['__typename'];
     return Fragment$OrderDetails$orderItems$edges$node$mealPlan(
       id: (l$id as String),
       name: (l$name as String),
       price: (l$price as int?),
+      calories: (l$calories as num?)?.toDouble(),
+      protein: (l$protein as num?)?.toDouble(),
+      fat: (l$fat as num?)?.toDouble(),
+      carbs: (l$carbs as num?)?.toDouble(),
       $__typename: (l$$__typename as String),
     );
   }
@@ -3580,6 +3709,14 @@ class Fragment$OrderDetails$orderItems$edges$node$mealPlan
   final String name;
 
   final int? price;
+
+  final double? calories;
+
+  final double? protein;
+
+  final double? fat;
+
+  final double? carbs;
 
   final String $__typename;
 
@@ -3591,6 +3728,14 @@ class Fragment$OrderDetails$orderItems$edges$node$mealPlan
     _resultData['name'] = l$name;
     final l$price = price;
     _resultData['price'] = l$price;
+    final l$calories = calories;
+    _resultData['calories'] = l$calories;
+    final l$protein = protein;
+    _resultData['protein'] = l$protein;
+    final l$fat = fat;
+    _resultData['fat'] = l$fat;
+    final l$carbs = carbs;
+    _resultData['carbs'] = l$carbs;
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -3601,8 +3746,21 @@ class Fragment$OrderDetails$orderItems$edges$node$mealPlan
     final l$id = id;
     final l$name = name;
     final l$price = price;
+    final l$calories = calories;
+    final l$protein = protein;
+    final l$fat = fat;
+    final l$carbs = carbs;
     final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$name, l$price, l$$__typename]);
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$price,
+      l$calories,
+      l$protein,
+      l$fat,
+      l$carbs,
+      l$$__typename,
+    ]);
   }
 
   @override
@@ -3627,6 +3785,26 @@ class Fragment$OrderDetails$orderItems$edges$node$mealPlan
     final l$price = price;
     final lOther$price = other.price;
     if (l$price != lOther$price) {
+      return false;
+    }
+    final l$calories = calories;
+    final lOther$calories = other.calories;
+    if (l$calories != lOther$calories) {
+      return false;
+    }
+    final l$protein = protein;
+    final lOther$protein = other.protein;
+    if (l$protein != lOther$protein) {
+      return false;
+    }
+    final l$fat = fat;
+    final lOther$fat = other.fat;
+    if (l$fat != lOther$fat) {
+      return false;
+    }
+    final l$carbs = carbs;
+    final lOther$carbs = other.carbs;
+    if (l$carbs != lOther$carbs) {
       return false;
     }
     final l$$__typename = $__typename;
@@ -3661,7 +3839,16 @@ abstract class CopyWith$Fragment$OrderDetails$orderItems$edges$node$mealPlan<
     TRes res,
   ) = _CopyWithStubImpl$Fragment$OrderDetails$orderItems$edges$node$mealPlan;
 
-  TRes call({String? id, String? name, int? price, String? $__typename});
+  TRes call({
+    String? id,
+    String? name,
+    int? price,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
+    String? $__typename,
+  });
 }
 
 class _CopyWithImpl$Fragment$OrderDetails$orderItems$edges$node$mealPlan<TRes>
@@ -3683,6 +3870,10 @@ class _CopyWithImpl$Fragment$OrderDetails$orderItems$edges$node$mealPlan<TRes>
     Object? id = _undefined,
     Object? name = _undefined,
     Object? price = _undefined,
+    Object? calories = _undefined,
+    Object? protein = _undefined,
+    Object? fat = _undefined,
+    Object? carbs = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
     Fragment$OrderDetails$orderItems$edges$node$mealPlan(
@@ -3691,6 +3882,12 @@ class _CopyWithImpl$Fragment$OrderDetails$orderItems$edges$node$mealPlan<TRes>
           ? _instance.name
           : (name as String),
       price: price == _undefined ? _instance.price : (price as int?),
+      calories: calories == _undefined
+          ? _instance.calories
+          : (calories as double?),
+      protein: protein == _undefined ? _instance.protein : (protein as double?),
+      fat: fat == _undefined ? _instance.fat : (fat as double?),
+      carbs: carbs == _undefined ? _instance.carbs : (carbs as double?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
@@ -3709,7 +3906,16 @@ class _CopyWithStubImpl$Fragment$OrderDetails$orderItems$edges$node$mealPlan<
 
   TRes _res;
 
-  call({String? id, String? name, int? price, String? $__typename}) => _res;
+  call({
+    String? id,
+    String? name,
+    int? price,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
+    String? $__typename,
+  }) => _res;
 }
 
 class Fragment$OrderDetails$deliveries

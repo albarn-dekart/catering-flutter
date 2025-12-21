@@ -10,8 +10,8 @@ import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:catering_flutter/core/services/auth_service.dart';
 
 typedef UserNode = Query$GetUsers$users$edges$node;
-typedef RestaurantUserNode =
-    Query$GetUsersByRestaurant$restaurant$users$edges$node;
+typedef RestaurantDriverNode =
+    Query$GetDriversByRestaurant$restaurant$drivers$edges$node;
 typedef CurrentUserData = Query$GetUser$user;
 
 class UserService extends ChangeNotifier {
@@ -55,6 +55,7 @@ class UserService extends ChangeNotifier {
     _errorMessage = null;
     _currentSearchQuery = searchQuery;
     _currentRoleFilter = roleFilter;
+    _users = [];
     notifyListeners();
 
     try {
@@ -136,6 +137,7 @@ class UserService extends ChangeNotifier {
   Future<void> getUserById(String userIri) async {
     _isLoading = true;
     _errorMessage = null;
+    _currentUser = null;
     notifyListeners();
 
     try {
@@ -163,6 +165,7 @@ class UserService extends ChangeNotifier {
   Future<void> fetchCurrentUser() async {
     _isLoading = true;
     _errorMessage = null;
+    _currentUser = null;
     notifyListeners();
 
     try {
@@ -196,6 +199,7 @@ class UserService extends ChangeNotifier {
   Future<void> fetchCurrentRestaurant() async {
     _isLoading = true;
     _errorMessage = null;
+    _currentUser = null;
     notifyListeners();
 
     try {
@@ -244,6 +248,7 @@ class UserService extends ChangeNotifier {
   }) async {
     _isLoading = true;
     _errorMessage = null;
+    _currentUser = null;
     _currentDeliveryStatuses = statuses;
     _currentSearchQuery = searchQuery;
     _currentSortOrder = sortOrder;
@@ -385,34 +390,8 @@ class UserService extends ChangeNotifier {
     }
   }
 
-  Future<void> updateUserRestaurant(
-    String userIri,
-    String restaurantIri,
-  ) async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
-
-    try {
-      final options = MutationOptions(
-        document: documentNodeMutationUpdateUser,
-        variables: Variables$Mutation$UpdateUser(
-          input: Input$updateUserInput(id: userIri, restaurant: restaurantIri),
-        ).toJson(),
-      );
-      final result = await _client.mutate(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
-    } catch (e) {
-      _errorMessage = e.toString();
-      rethrow;
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
-  }
+  // NOTE: updateUserRestaurant has been removed as User no longer has a restaurant field.
+  // Driver assignment is now managed via Restaurant.drivers collection.
 
   Future<void> deleteUser(String userIri) async {
     _isLoading = true;
@@ -442,9 +421,9 @@ class UserService extends ChangeNotifier {
     }
   }
 
-  List<RestaurantUserNode> _restaurantDrivers = [];
+  List<RestaurantDriverNode> _restaurantDrivers = [];
 
-  List<RestaurantUserNode> get restaurantDrivers => _restaurantDrivers;
+  List<RestaurantDriverNode> get restaurantDrivers => _restaurantDrivers;
 
   Future<void> fetchDriversByRestaurant(
     String restaurantIri, {
@@ -452,15 +431,15 @@ class UserService extends ChangeNotifier {
   }) async {
     _isLoading = true;
     _errorMessage = null;
+    _restaurantDrivers = [];
     notifyListeners();
 
     try {
       final options = QueryOptions(
-        document: documentNodeQueryGetUsersByRestaurant,
-        variables: Variables$Query$GetUsersByRestaurant(
+        document: documentNodeQueryGetDriversByRestaurant,
+        variables: Variables$Query$GetDriversByRestaurant(
           id: restaurantIri,
           search: searchQuery,
-          role: 'ROLE_DRIVER',
         ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
@@ -471,13 +450,13 @@ class UserService extends ChangeNotifier {
         throw ApiException(result.exception.toString());
       }
 
-      final data = Query$GetUsersByRestaurant.fromJson(result.data!);
-      final edges = data.restaurant?.users?.edges;
+      final data = Query$GetDriversByRestaurant.fromJson(result.data!);
+      final edges = data.restaurant?.drivers?.edges;
 
       if (edges != null) {
         _restaurantDrivers = edges
             .map((e) => e?.node)
-            .whereType<RestaurantUserNode>()
+            .whereType<RestaurantDriverNode>()
             .toList();
       } else {
         _restaurantDrivers = [];
@@ -497,12 +476,16 @@ class UserService extends ChangeNotifier {
   Future<void> fetchRestaurantOwners() async {
     _isLoading = true;
     _errorMessage = null;
+    _restaurantOwners = [];
     notifyListeners();
 
     try {
       final options = QueryOptions(
         document: documentNodeQueryGetUsers,
-        variables: Variables$Query$GetUsers(first: 100).toJson(),
+        variables: Variables$Query$GetUsers(
+          first: 100,
+          role: 'ROLE_RESTAURANT',
+        ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
 
@@ -514,12 +497,9 @@ class UserService extends ChangeNotifier {
 
       final data = Query$GetUsers.fromJson(result.data!);
       if (data.users?.edges != null) {
-        final allUsers = data.users!.edges!
+        _restaurantOwners = data.users!.edges!
             .map((e) => e?.node)
             .whereType<UserNode>()
-            .toList();
-        _restaurantOwners = allUsers
-            .where((u) => u.roles.contains('ROLE_RESTAURANT'))
             .toList();
       }
     } catch (e) {
@@ -545,7 +525,7 @@ class UserService extends ChangeNotifier {
 
       if (response.statusCode == 201) {
         final data = jsonDecode(response.body);
-        final newNode = RestaurantUserNode(
+        final newNode = RestaurantDriverNode(
           id: IriHelper.buildIri('users', (data['id'] as int).toString()),
           email: data['email'],
           roles: List<String>.from(data['roles']),

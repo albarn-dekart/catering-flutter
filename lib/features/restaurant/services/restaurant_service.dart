@@ -40,6 +40,9 @@ class RestaurantService extends ChangeNotifier {
   String? _currentCategory;
   String? get currentCategory => _currentCategory;
 
+  bool _isUploadingImage = false;
+  bool get isUploadingImage => _isUploadingImage;
+
   RestaurantService(this._client, this._apiClient);
 
   Future<void> fetchAllRestaurants({
@@ -50,6 +53,7 @@ class RestaurantService extends ChangeNotifier {
     _errorMessage = null;
     _currentSearchQuery = searchQuery;
     _currentCategory = category;
+    _restaurants = [];
     notifyListeners();
 
     try {
@@ -167,6 +171,7 @@ class RestaurantService extends ChangeNotifier {
   Future<void> getRestaurantById(String id) async {
     _isLoading = true;
     _errorMessage = null;
+    _currentRestaurant = null;
     notifyListeners();
 
     try {
@@ -203,6 +208,7 @@ class RestaurantService extends ChangeNotifier {
     String? street,
     String? zipCode,
     String? nip,
+    String? ownerIri,
   }) async {
     _isLoading = true;
     _errorMessage = null;
@@ -223,6 +229,7 @@ class RestaurantService extends ChangeNotifier {
             street: street,
             zipCode: zipCode,
             nip: nip,
+            owner: ownerIri,
           ),
         ).toJson(),
       );
@@ -233,13 +240,19 @@ class RestaurantService extends ChangeNotifier {
         throw ApiException(result.exception.toString());
       }
 
-      final newId = Mutation$CreateRestaurant.fromJson(
+      final createdRestaurant = Mutation$CreateRestaurant.fromJson(
         result.data!,
-      ).createRestaurant?.restaurant?.id;
-      if (newId != null) {
-        await getRestaurantById(newId);
+      ).createRestaurant?.restaurant;
+
+      if (createdRestaurant != null) {
+        // Set as current restaurant
+        _currentRestaurant = Query$GetRestaurant$restaurant.fromJson(
+          createdRestaurant.toJson(),
+        );
+        // Add to local list (Fragment$RestaurantDetailFragment implements Fragment$RestaurantSummaryFragment)
+        _restaurants.add(createdRestaurant);
       }
-      return newId;
+      return createdRestaurant?.id;
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
@@ -261,29 +274,37 @@ class RestaurantService extends ChangeNotifier {
     String? street,
     String? zipCode,
     String? nip,
+    String? ownerIri,
+    bool unassignOwner = false,
   }) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
+      var input = Input$updateRestaurantInput(
+        id: id,
+        name: name,
+        description: description,
+        deliveryPrice: deliveryPrice,
+        restaurantCategories: categoryIris,
+        phoneNumber: phoneNumber,
+        email: email,
+        city: city,
+        street: street,
+        zipCode: zipCode,
+        nip: nip,
+      );
+
+      if (unassignOwner) {
+        input = input.copyWith(owner: null);
+      } else if (ownerIri != null) {
+        input = input.copyWith(owner: ownerIri);
+      }
+
       final options = MutationOptions(
         document: documentNodeMutationUpdateRestaurant,
-        variables: Variables$Mutation$UpdateRestaurant(
-          input: Input$updateRestaurantInput(
-            id: id,
-            name: name,
-            description: description,
-            deliveryPrice: deliveryPrice,
-            restaurantCategories: categoryIris,
-            phoneNumber: phoneNumber,
-            email: email,
-            city: city,
-            street: street,
-            zipCode: zipCode,
-            nip: nip,
-          ),
-        ).toJson(),
+        variables: Variables$Mutation$UpdateRestaurant(input: input).toJson(),
       );
 
       final result = await _client.mutate(options);
@@ -292,7 +313,21 @@ class RestaurantService extends ChangeNotifier {
         throw ApiException(result.exception.toString());
       }
 
-      await getRestaurantById(id);
+      final updatedRestaurant = Mutation$UpdateRestaurant.fromJson(
+        result.data!,
+      ).updateRestaurant?.restaurant;
+
+      if (updatedRestaurant != null) {
+        // Update current restaurant
+        _currentRestaurant = Query$GetRestaurant$restaurant.fromJson(
+          updatedRestaurant.toJson(),
+        );
+        // Find and update in local list
+        final index = _restaurants.indexWhere((r) => r.id == id);
+        if (index != -1) {
+          _restaurants[index] = updatedRestaurant;
+        }
+      }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
@@ -327,7 +362,21 @@ class RestaurantService extends ChangeNotifier {
         throw ApiException(result.exception.toString());
       }
 
-      await getRestaurantById(restaurantId);
+      final updatedRestaurant = Mutation$UpdateRestaurant.fromJson(
+        result.data!,
+      ).updateRestaurant?.restaurant;
+
+      if (updatedRestaurant != null) {
+        // Update current restaurant
+        _currentRestaurant = Query$GetRestaurant$restaurant.fromJson(
+          updatedRestaurant.toJson(),
+        );
+        // Find and update in local list
+        final index = _restaurants.indexWhere((r) => r.id == restaurantId);
+        if (index != -1) {
+          _restaurants[index] = updatedRestaurant;
+        }
+      }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
@@ -367,6 +416,7 @@ class RestaurantService extends ChangeNotifier {
 
   void clearCurrentRestaurant() {
     _currentRestaurant = null;
+    _errorMessage = null;
     notifyListeners();
   }
 
@@ -375,7 +425,7 @@ class RestaurantService extends ChangeNotifier {
     List<int> imageBytes,
     String filename,
   ) async {
-    _isLoading = true;
+    _isUploadingImage = true;
     _errorMessage = null;
     notifyListeners();
 
@@ -387,7 +437,24 @@ class RestaurantService extends ChangeNotifier {
       );
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        await getRestaurantById(restaurantIri);
+        // Parse response to get new image URL
+        final responseData = jsonDecode(response.body);
+        final newImageUrl = responseData['imageUrl'] as String?;
+
+        // Update current restaurant's imageUrl locally
+        if (_currentRestaurant != null && newImageUrl != null) {
+          _currentRestaurant = _currentRestaurant!.copyWith(
+            imageUrl: newImageUrl,
+          );
+        }
+
+        // Update in restaurants list
+        final index = _restaurants.indexWhere((r) => r.id == restaurantIri);
+        if (index != -1 && newImageUrl != null) {
+          _restaurants[index] = _restaurants[index].copyWith(
+            imageUrl: newImageUrl,
+          );
+        }
       } else {
         throw ApiException('Failed to upload image: ${response.body}');
       }
@@ -395,47 +462,71 @@ class RestaurantService extends ChangeNotifier {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
-      _isLoading = false;
+      _isUploadingImage = false;
       notifyListeners();
     }
   }
 
-  /// Invites a new restaurant owner by creating a user and restaurant atomically.
-  /// Uses InviteRestaurantController on backend (/api/invite-restaurant).
+  /// Invites a new restaurant owner and creates their restaurant.
+  ///
+  /// Two-step flow:
+  /// 1. Creates a user with ROLE_RESTAURANT via /api/invite-restaurant-owner
+  /// 2. Creates the restaurant via GraphQL mutation with the user as owner
+  ///
   /// Returns the restaurant IRI on success.
   Future<String?> inviteRestaurantOwner({
     required String email,
     required String restaurantName,
     String? description,
     List<String>? categoryIds,
+    int? deliveryPrice,
+    String? phoneNumber,
+    String? restaurantEmail,
+    String? city,
+    String? street,
+    String? zipCode,
+    String? nip,
   }) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
+      // Step 1: Create the user with ROLE_RESTAURANT
       final response = await _apiClient.post(
-        '/api/invite-restaurant',
+        '/api/invite-restaurant-owner',
         body: {
           'email': email,
-          'restaurantName': restaurantName,
-          'restaurantDescription': description,
-          'categoryIds': categoryIds ?? [],
+          'restaurantName': restaurantName, // Used for the invitation email
         },
       );
 
-      if (response.statusCode == 201) {
-        final data = jsonDecode(response.body);
-        final restaurantIri = '/api/restaurants/${data['restaurant']['id']}';
-
-        // Refresh the restaurant list
-        await fetchAllRestaurants();
-
-        return restaurantIri;
-      } else {
+      if (response.statusCode != 201) {
         final error = jsonDecode(response.body);
-        throw ApiException(error['error'] ?? 'Failed to create restaurant');
+        throw ApiException(
+          error['error'] ?? 'Failed to create restaurant owner',
+        );
       }
+
+      final userData = jsonDecode(response.body);
+      final userIri = userData['user']['iri'] as String;
+
+      // Step 2: Create the restaurant with the user as owner
+      final restaurantIri = await createRestaurant(
+        name: restaurantName,
+        description: description ?? '',
+        deliveryPrice: deliveryPrice ?? 0,
+        categoryIris: categoryIds,
+        phoneNumber: phoneNumber,
+        email: restaurantEmail,
+        city: city,
+        street: street,
+        zipCode: zipCode,
+        nip: nip,
+        ownerIri: userIri,
+      );
+
+      return restaurantIri;
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;

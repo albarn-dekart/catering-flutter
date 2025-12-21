@@ -21,9 +21,12 @@ fragment DriverDeliveryFragment on Delivery {
     id
     status
     deliveryDate
-    restaurant {
+    order {
         id
-        name
+        restaurant {
+            id
+            name
+        }
     }
     order {
         id
@@ -93,19 +96,16 @@ query GetDelivery($id: ID!) {
     }
 }
 
-query GetDeliveriesByRestaurant($restaurantId: ID!, $first: Int, $after: String, $status: String, $order: [DeliveryFilter_order], $search: String) {
-    restaurant(id: $restaurantId) {
-        id
-        deliveries(first: $first, after: $after, status: $status, search: $search, order: $order) {
-            edges {
-                node {
-                    ...BasicDeliveryFragment
-                }
+query GetDeliveriesByRestaurant($restaurantId: String!, $first: Int, $after: String, $status: String, $order: [DeliveryFilter_order], $search: String) {
+    deliveries(first: $first, after: $after, status: $status, search: $search, order: $order, order_restaurant: $restaurantId) {
+        edges {
+            node {
+                ...BasicDeliveryFragment
             }
-            pageInfo {
-                hasNextPage
-                endCursor
-            }
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
         }
     }
 }
@@ -113,8 +113,7 @@ query GetDeliveriesByRestaurant($restaurantId: ID!, $first: Int, $after: String,
 mutation UpdateDelivery($input: updateDeliveryInput!) {
     updateDelivery(input: $input) {
         delivery {
-            id
-            status
+            ...BasicDeliveryFragment
         }
     }
 }

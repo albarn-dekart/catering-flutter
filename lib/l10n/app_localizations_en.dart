@@ -513,6 +513,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invalidZipCode => 'Invalid Zip Code';
 
   @override
+  String get invalidNip => 'Invalid NIP (10 digits)';
+
+  @override
   String get invite => 'Invite';
 
   @override
@@ -684,6 +687,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noItemsFound => 'No items found';
+
+  @override
+  String get noOwner => 'No Owner';
 
   @override
   String get noMealPlanData => 'No meal plan data found';
@@ -928,9 +934,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String retryFailed(Object error) {
     return 'Retry failed: $error';
   }
-
-  @override
-  String get retryUpload => 'Retry Upload';
 
   @override
   String get revenueTrendLast30Days => 'Revenue Trend (Last 30 Days)';

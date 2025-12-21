@@ -124,6 +124,21 @@ class _AdminRestaurantsScreenState extends State<AdminRestaurantsScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton.filledTonal(
+                    icon: const Icon(Icons.edit_outlined),
+                    tooltip: AppLocalizations.of(context)!.editDetails,
+                    onPressed: () {
+                      context.push(
+                        Uri(
+                          path: AppRoutes.restaurantForm,
+                          queryParameters: {
+                            'id': IriHelper.getId(restaurant.id),
+                          },
+                        ).toString(),
+                      );
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton.filledTonal(
                     icon: const Icon(Icons.delete_outline),
                     tooltip: AppLocalizations.of(context)!.delete,
                     style: IconButton.styleFrom(

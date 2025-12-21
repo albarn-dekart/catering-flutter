@@ -1,9 +1,10 @@
 # import "meals.graphql"
 
-query GetUsersByRestaurant($id: ID!, $search: String, $role: String) {
+# Get drivers for a restaurant (for restaurant owners)
+query GetDriversByRestaurant($id: ID!, $search: String) {
     restaurant(id: $id) {
         id
-        users(search: $search, role: $role) {
+        drivers(search: $search) {
             edges {
                 node {
                     id
@@ -22,6 +23,9 @@ query GetUsers($first: Int, $after: String, $search: String, $role: String) {
                 id
                 email
                 roles
+                ownedRestaurant {
+                    id
+                }
             }
         }
         pageInfo {

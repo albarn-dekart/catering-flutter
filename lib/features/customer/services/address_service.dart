@@ -114,7 +114,7 @@ class AddressService extends ChangeNotifier {
           }).toList();
         }
 
-        _addresses.add(newAddress);
+        _addresses.insert(0, newAddress);
       }
     } catch (e) {
       _errorMessage = e.toString();

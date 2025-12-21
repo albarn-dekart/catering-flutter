@@ -162,7 +162,7 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
                                   children: [
                                     MacroBadge(
                                       text:
-                                          '${AppLocalizations.of(context)!.calories}: ${mealPlan.calories?.toStringAsFixed(1)}',
+                                          '${AppLocalizations.of(context)!.calories}: ${mealPlan.calories?.toStringAsFixed(0)}',
                                       icon:
                                           Icons.local_fire_department_outlined,
                                     ),

@@ -53,6 +53,7 @@ class OrderService extends ChangeNotifier {
 
     _isLoading = true;
     _errorMessage = null;
+    _orders = [];
     notifyListeners();
 
     try {
@@ -100,6 +101,7 @@ class OrderService extends ChangeNotifier {
 
     _isLoading = true;
     _errorMessage = null;
+    _orders = [];
     notifyListeners();
 
     try {
@@ -235,6 +237,7 @@ class OrderService extends ChangeNotifier {
 
     _isLoading = true;
     _errorMessage = null;
+    _orders = [];
     notifyListeners();
 
     try {
@@ -276,6 +279,7 @@ class OrderService extends ChangeNotifier {
   Future<void> getOrderById(String id) async {
     _isLoading = true;
     _errorMessage = null;
+    _currentOrder = null;
     notifyListeners();
 
     try {
@@ -366,7 +370,7 @@ class OrderService extends ChangeNotifier {
       if (_createdOrder != null) {
         // Since Fragment$OrderDetails (CreatedOrder) implements Fragment$OrderSummary (Order),
         // we can add it directly to the list.
-        _orders.add(_createdOrder!);
+        _orders.insert(0, _createdOrder!);
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);

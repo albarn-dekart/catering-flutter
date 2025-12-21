@@ -86,8 +86,7 @@ query GetMealsByRestaurant($restaurantId: ID!, $first: Int, $after: String, $sea
 mutation CreateMeal($input: createMealInput!) {
     createMeal(input: $input) {
         meal {
-            id
-            name
+            ...MealFragment
         }
     }
 }
@@ -95,8 +94,7 @@ mutation CreateMeal($input: createMealInput!) {
 mutation UpdateMeal($input: updateMealInput!) {
     updateMeal(input: $input) {
         meal {
-            id
-            name
+            ...MealFragment
         }
     }
 }
@@ -149,8 +147,7 @@ query GetMealPlansByRestaurant($restaurantId: ID!, $first: Int, $after: String, 
 mutation CreateMealPlan($input: createMealPlanInput!) {
     createMealPlan(input: $input) {
         mealPlan {
-            id
-            name
+            ...MealPlanSummaryFragment
         }
     }
 }
@@ -158,8 +155,7 @@ mutation CreateMealPlan($input: createMealPlanInput!) {
 mutation UpdateMealPlan($input: updateMealPlanInput!) {
     updateMealPlan(input: $input) {
         mealPlan {
-            id
-            name
+            ...MealPlanSummaryFragment
         }
     }
 }

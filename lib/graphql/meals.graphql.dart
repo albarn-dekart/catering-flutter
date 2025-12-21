@@ -6717,19 +6717,9 @@ const documentNodeMutationCreateMeal = DocumentNode(
                   directives: [],
                   selectionSet: SelectionSetNode(
                     selections: [
-                      FieldNode(
-                        name: NameNode(value: 'id'),
-                        alias: null,
-                        arguments: [],
+                      FragmentSpreadNode(
+                        name: NameNode(value: 'MealFragment'),
                         directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'name'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
                       ),
                       FieldNode(
                         name: NameNode(value: '__typename'),
@@ -6761,6 +6751,7 @@ const documentNodeMutationCreateMeal = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionMealFragment,
   ],
 );
 Mutation$CreateMeal _parserFn$Mutation$CreateMeal(Map<String, dynamic> data) =>
@@ -6972,14 +6963,12 @@ class Mutation$CreateMeal$createMeal {
     return Mutation$CreateMeal$createMeal(
       meal: l$meal == null
           ? null
-          : Mutation$CreateMeal$createMeal$meal.fromJson(
-              (l$meal as Map<String, dynamic>),
-            ),
+          : Fragment$MealFragment.fromJson((l$meal as Map<String, dynamic>)),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Mutation$CreateMeal$createMeal$meal? meal;
+  final Fragment$MealFragment? meal;
 
   final String $__typename;
 
@@ -7037,8 +7026,8 @@ abstract class CopyWith$Mutation$CreateMeal$createMeal<TRes> {
   factory CopyWith$Mutation$CreateMeal$createMeal.stub(TRes res) =
       _CopyWithStubImpl$Mutation$CreateMeal$createMeal;
 
-  TRes call({Mutation$CreateMeal$createMeal$meal? meal, String? $__typename});
-  CopyWith$Mutation$CreateMeal$createMeal$meal<TRes> get meal;
+  TRes call({Fragment$MealFragment? meal, String? $__typename});
+  CopyWith$Fragment$MealFragment<TRes> get meal;
 }
 
 class _CopyWithImpl$Mutation$CreateMeal$createMeal<TRes>
@@ -7056,21 +7045,18 @@ class _CopyWithImpl$Mutation$CreateMeal$createMeal<TRes>
         Mutation$CreateMeal$createMeal(
           meal: meal == _undefined
               ? _instance.meal
-              : (meal as Mutation$CreateMeal$createMeal$meal?),
+              : (meal as Fragment$MealFragment?),
           $__typename: $__typename == _undefined || $__typename == null
               ? _instance.$__typename
               : ($__typename as String),
         ),
       );
 
-  CopyWith$Mutation$CreateMeal$createMeal$meal<TRes> get meal {
+  CopyWith$Fragment$MealFragment<TRes> get meal {
     final local$meal = _instance.meal;
     return local$meal == null
-        ? CopyWith$Mutation$CreateMeal$createMeal$meal.stub(_then(_instance))
-        : CopyWith$Mutation$CreateMeal$createMeal$meal(
-            local$meal,
-            (e) => call(meal: e),
-          );
+        ? CopyWith$Fragment$MealFragment.stub(_then(_instance))
+        : CopyWith$Fragment$MealFragment(local$meal, (e) => call(meal: e));
   }
 }
 
@@ -7080,140 +7066,10 @@ class _CopyWithStubImpl$Mutation$CreateMeal$createMeal<TRes>
 
   TRes _res;
 
-  call({Mutation$CreateMeal$createMeal$meal? meal, String? $__typename}) =>
-      _res;
+  call({Fragment$MealFragment? meal, String? $__typename}) => _res;
 
-  CopyWith$Mutation$CreateMeal$createMeal$meal<TRes> get meal =>
-      CopyWith$Mutation$CreateMeal$createMeal$meal.stub(_res);
-}
-
-class Mutation$CreateMeal$createMeal$meal {
-  Mutation$CreateMeal$createMeal$meal({
-    required this.id,
-    required this.name,
-    this.$__typename = 'Meal',
-  });
-
-  factory Mutation$CreateMeal$createMeal$meal.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$$__typename = json['__typename'];
-    return Mutation$CreateMeal$createMeal$meal(
-      id: (l$id as String),
-      name: (l$name as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$name, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Mutation$CreateMeal$createMeal$meal ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Mutation$CreateMeal$createMeal$meal
-    on Mutation$CreateMeal$createMeal$meal {
-  CopyWith$Mutation$CreateMeal$createMeal$meal<
-    Mutation$CreateMeal$createMeal$meal
-  >
-  get copyWith => CopyWith$Mutation$CreateMeal$createMeal$meal(this, (i) => i);
-}
-
-abstract class CopyWith$Mutation$CreateMeal$createMeal$meal<TRes> {
-  factory CopyWith$Mutation$CreateMeal$createMeal$meal(
-    Mutation$CreateMeal$createMeal$meal instance,
-    TRes Function(Mutation$CreateMeal$createMeal$meal) then,
-  ) = _CopyWithImpl$Mutation$CreateMeal$createMeal$meal;
-
-  factory CopyWith$Mutation$CreateMeal$createMeal$meal.stub(TRes res) =
-      _CopyWithStubImpl$Mutation$CreateMeal$createMeal$meal;
-
-  TRes call({String? id, String? name, String? $__typename});
-}
-
-class _CopyWithImpl$Mutation$CreateMeal$createMeal$meal<TRes>
-    implements CopyWith$Mutation$CreateMeal$createMeal$meal<TRes> {
-  _CopyWithImpl$Mutation$CreateMeal$createMeal$meal(this._instance, this._then);
-
-  final Mutation$CreateMeal$createMeal$meal _instance;
-
-  final TRes Function(Mutation$CreateMeal$createMeal$meal) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Mutation$CreateMeal$createMeal$meal(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Mutation$CreateMeal$createMeal$meal<TRes>
-    implements CopyWith$Mutation$CreateMeal$createMeal$meal<TRes> {
-  _CopyWithStubImpl$Mutation$CreateMeal$createMeal$meal(this._res);
-
-  TRes _res;
-
-  call({String? id, String? name, String? $__typename}) => _res;
+  CopyWith$Fragment$MealFragment<TRes> get meal =>
+      CopyWith$Fragment$MealFragment.stub(_res);
 }
 
 class Variables$Mutation$UpdateMeal {
@@ -7472,19 +7328,9 @@ const documentNodeMutationUpdateMeal = DocumentNode(
                   directives: [],
                   selectionSet: SelectionSetNode(
                     selections: [
-                      FieldNode(
-                        name: NameNode(value: 'id'),
-                        alias: null,
-                        arguments: [],
+                      FragmentSpreadNode(
+                        name: NameNode(value: 'MealFragment'),
                         directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'name'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
                       ),
                       FieldNode(
                         name: NameNode(value: '__typename'),
@@ -7516,6 +7362,7 @@ const documentNodeMutationUpdateMeal = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionMealFragment,
   ],
 );
 Mutation$UpdateMeal _parserFn$Mutation$UpdateMeal(Map<String, dynamic> data) =>
@@ -7727,14 +7574,12 @@ class Mutation$UpdateMeal$updateMeal {
     return Mutation$UpdateMeal$updateMeal(
       meal: l$meal == null
           ? null
-          : Mutation$UpdateMeal$updateMeal$meal.fromJson(
-              (l$meal as Map<String, dynamic>),
-            ),
+          : Fragment$MealFragment.fromJson((l$meal as Map<String, dynamic>)),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Mutation$UpdateMeal$updateMeal$meal? meal;
+  final Fragment$MealFragment? meal;
 
   final String $__typename;
 
@@ -7792,8 +7637,8 @@ abstract class CopyWith$Mutation$UpdateMeal$updateMeal<TRes> {
   factory CopyWith$Mutation$UpdateMeal$updateMeal.stub(TRes res) =
       _CopyWithStubImpl$Mutation$UpdateMeal$updateMeal;
 
-  TRes call({Mutation$UpdateMeal$updateMeal$meal? meal, String? $__typename});
-  CopyWith$Mutation$UpdateMeal$updateMeal$meal<TRes> get meal;
+  TRes call({Fragment$MealFragment? meal, String? $__typename});
+  CopyWith$Fragment$MealFragment<TRes> get meal;
 }
 
 class _CopyWithImpl$Mutation$UpdateMeal$updateMeal<TRes>
@@ -7811,21 +7656,18 @@ class _CopyWithImpl$Mutation$UpdateMeal$updateMeal<TRes>
         Mutation$UpdateMeal$updateMeal(
           meal: meal == _undefined
               ? _instance.meal
-              : (meal as Mutation$UpdateMeal$updateMeal$meal?),
+              : (meal as Fragment$MealFragment?),
           $__typename: $__typename == _undefined || $__typename == null
               ? _instance.$__typename
               : ($__typename as String),
         ),
       );
 
-  CopyWith$Mutation$UpdateMeal$updateMeal$meal<TRes> get meal {
+  CopyWith$Fragment$MealFragment<TRes> get meal {
     final local$meal = _instance.meal;
     return local$meal == null
-        ? CopyWith$Mutation$UpdateMeal$updateMeal$meal.stub(_then(_instance))
-        : CopyWith$Mutation$UpdateMeal$updateMeal$meal(
-            local$meal,
-            (e) => call(meal: e),
-          );
+        ? CopyWith$Fragment$MealFragment.stub(_then(_instance))
+        : CopyWith$Fragment$MealFragment(local$meal, (e) => call(meal: e));
   }
 }
 
@@ -7835,140 +7677,10 @@ class _CopyWithStubImpl$Mutation$UpdateMeal$updateMeal<TRes>
 
   TRes _res;
 
-  call({Mutation$UpdateMeal$updateMeal$meal? meal, String? $__typename}) =>
-      _res;
+  call({Fragment$MealFragment? meal, String? $__typename}) => _res;
 
-  CopyWith$Mutation$UpdateMeal$updateMeal$meal<TRes> get meal =>
-      CopyWith$Mutation$UpdateMeal$updateMeal$meal.stub(_res);
-}
-
-class Mutation$UpdateMeal$updateMeal$meal {
-  Mutation$UpdateMeal$updateMeal$meal({
-    required this.id,
-    required this.name,
-    this.$__typename = 'Meal',
-  });
-
-  factory Mutation$UpdateMeal$updateMeal$meal.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$$__typename = json['__typename'];
-    return Mutation$UpdateMeal$updateMeal$meal(
-      id: (l$id as String),
-      name: (l$name as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$name, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Mutation$UpdateMeal$updateMeal$meal ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Mutation$UpdateMeal$updateMeal$meal
-    on Mutation$UpdateMeal$updateMeal$meal {
-  CopyWith$Mutation$UpdateMeal$updateMeal$meal<
-    Mutation$UpdateMeal$updateMeal$meal
-  >
-  get copyWith => CopyWith$Mutation$UpdateMeal$updateMeal$meal(this, (i) => i);
-}
-
-abstract class CopyWith$Mutation$UpdateMeal$updateMeal$meal<TRes> {
-  factory CopyWith$Mutation$UpdateMeal$updateMeal$meal(
-    Mutation$UpdateMeal$updateMeal$meal instance,
-    TRes Function(Mutation$UpdateMeal$updateMeal$meal) then,
-  ) = _CopyWithImpl$Mutation$UpdateMeal$updateMeal$meal;
-
-  factory CopyWith$Mutation$UpdateMeal$updateMeal$meal.stub(TRes res) =
-      _CopyWithStubImpl$Mutation$UpdateMeal$updateMeal$meal;
-
-  TRes call({String? id, String? name, String? $__typename});
-}
-
-class _CopyWithImpl$Mutation$UpdateMeal$updateMeal$meal<TRes>
-    implements CopyWith$Mutation$UpdateMeal$updateMeal$meal<TRes> {
-  _CopyWithImpl$Mutation$UpdateMeal$updateMeal$meal(this._instance, this._then);
-
-  final Mutation$UpdateMeal$updateMeal$meal _instance;
-
-  final TRes Function(Mutation$UpdateMeal$updateMeal$meal) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Mutation$UpdateMeal$updateMeal$meal(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Mutation$UpdateMeal$updateMeal$meal<TRes>
-    implements CopyWith$Mutation$UpdateMeal$updateMeal$meal<TRes> {
-  _CopyWithStubImpl$Mutation$UpdateMeal$updateMeal$meal(this._res);
-
-  TRes _res;
-
-  call({String? id, String? name, String? $__typename}) => _res;
+  CopyWith$Fragment$MealFragment<TRes> get meal =>
+      CopyWith$Fragment$MealFragment.stub(_res);
 }
 
 class Variables$Mutation$DeleteMeal {
@@ -12564,19 +12276,9 @@ const documentNodeMutationCreateMealPlan = DocumentNode(
                   directives: [],
                   selectionSet: SelectionSetNode(
                     selections: [
-                      FieldNode(
-                        name: NameNode(value: 'id'),
-                        alias: null,
-                        arguments: [],
+                      FragmentSpreadNode(
+                        name: NameNode(value: 'MealPlanSummaryFragment'),
                         directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'name'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
                       ),
                       FieldNode(
                         name: NameNode(value: '__typename'),
@@ -12608,6 +12310,7 @@ const documentNodeMutationCreateMealPlan = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionMealPlanSummaryFragment,
   ],
 );
 Mutation$CreateMealPlan _parserFn$Mutation$CreateMealPlan(
@@ -12822,14 +12525,14 @@ class Mutation$CreateMealPlan$createMealPlan {
     return Mutation$CreateMealPlan$createMealPlan(
       mealPlan: l$mealPlan == null
           ? null
-          : Mutation$CreateMealPlan$createMealPlan$mealPlan.fromJson(
+          : Fragment$MealPlanSummaryFragment.fromJson(
               (l$mealPlan as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Mutation$CreateMealPlan$createMealPlan$mealPlan? mealPlan;
+  final Fragment$MealPlanSummaryFragment? mealPlan;
 
   final String $__typename;
 
@@ -12890,11 +12593,8 @@ abstract class CopyWith$Mutation$CreateMealPlan$createMealPlan<TRes> {
   factory CopyWith$Mutation$CreateMealPlan$createMealPlan.stub(TRes res) =
       _CopyWithStubImpl$Mutation$CreateMealPlan$createMealPlan;
 
-  TRes call({
-    Mutation$CreateMealPlan$createMealPlan$mealPlan? mealPlan,
-    String? $__typename,
-  });
-  CopyWith$Mutation$CreateMealPlan$createMealPlan$mealPlan<TRes> get mealPlan;
+  TRes call({Fragment$MealPlanSummaryFragment? mealPlan, String? $__typename});
+  CopyWith$Fragment$MealPlanSummaryFragment<TRes> get mealPlan;
 }
 
 class _CopyWithImpl$Mutation$CreateMealPlan$createMealPlan<TRes>
@@ -12917,20 +12617,18 @@ class _CopyWithImpl$Mutation$CreateMealPlan$createMealPlan<TRes>
     Mutation$CreateMealPlan$createMealPlan(
       mealPlan: mealPlan == _undefined
           ? _instance.mealPlan
-          : (mealPlan as Mutation$CreateMealPlan$createMealPlan$mealPlan?),
+          : (mealPlan as Fragment$MealPlanSummaryFragment?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
     ),
   );
 
-  CopyWith$Mutation$CreateMealPlan$createMealPlan$mealPlan<TRes> get mealPlan {
+  CopyWith$Fragment$MealPlanSummaryFragment<TRes> get mealPlan {
     final local$mealPlan = _instance.mealPlan;
     return local$mealPlan == null
-        ? CopyWith$Mutation$CreateMealPlan$createMealPlan$mealPlan.stub(
-            _then(_instance),
-          )
-        : CopyWith$Mutation$CreateMealPlan$createMealPlan$mealPlan(
+        ? CopyWith$Fragment$MealPlanSummaryFragment.stub(_then(_instance))
+        : CopyWith$Fragment$MealPlanSummaryFragment(
             local$mealPlan,
             (e) => call(mealPlan: e),
           );
@@ -12943,147 +12641,11 @@ class _CopyWithStubImpl$Mutation$CreateMealPlan$createMealPlan<TRes>
 
   TRes _res;
 
-  call({
-    Mutation$CreateMealPlan$createMealPlan$mealPlan? mealPlan,
-    String? $__typename,
-  }) => _res;
+  call({Fragment$MealPlanSummaryFragment? mealPlan, String? $__typename}) =>
+      _res;
 
-  CopyWith$Mutation$CreateMealPlan$createMealPlan$mealPlan<TRes> get mealPlan =>
-      CopyWith$Mutation$CreateMealPlan$createMealPlan$mealPlan.stub(_res);
-}
-
-class Mutation$CreateMealPlan$createMealPlan$mealPlan {
-  Mutation$CreateMealPlan$createMealPlan$mealPlan({
-    required this.id,
-    required this.name,
-    this.$__typename = 'MealPlan',
-  });
-
-  factory Mutation$CreateMealPlan$createMealPlan$mealPlan.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$$__typename = json['__typename'];
-    return Mutation$CreateMealPlan$createMealPlan$mealPlan(
-      id: (l$id as String),
-      name: (l$name as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$name, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Mutation$CreateMealPlan$createMealPlan$mealPlan ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Mutation$CreateMealPlan$createMealPlan$mealPlan
-    on Mutation$CreateMealPlan$createMealPlan$mealPlan {
-  CopyWith$Mutation$CreateMealPlan$createMealPlan$mealPlan<
-    Mutation$CreateMealPlan$createMealPlan$mealPlan
-  >
-  get copyWith =>
-      CopyWith$Mutation$CreateMealPlan$createMealPlan$mealPlan(this, (i) => i);
-}
-
-abstract class CopyWith$Mutation$CreateMealPlan$createMealPlan$mealPlan<TRes> {
-  factory CopyWith$Mutation$CreateMealPlan$createMealPlan$mealPlan(
-    Mutation$CreateMealPlan$createMealPlan$mealPlan instance,
-    TRes Function(Mutation$CreateMealPlan$createMealPlan$mealPlan) then,
-  ) = _CopyWithImpl$Mutation$CreateMealPlan$createMealPlan$mealPlan;
-
-  factory CopyWith$Mutation$CreateMealPlan$createMealPlan$mealPlan.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Mutation$CreateMealPlan$createMealPlan$mealPlan;
-
-  TRes call({String? id, String? name, String? $__typename});
-}
-
-class _CopyWithImpl$Mutation$CreateMealPlan$createMealPlan$mealPlan<TRes>
-    implements CopyWith$Mutation$CreateMealPlan$createMealPlan$mealPlan<TRes> {
-  _CopyWithImpl$Mutation$CreateMealPlan$createMealPlan$mealPlan(
-    this._instance,
-    this._then,
-  );
-
-  final Mutation$CreateMealPlan$createMealPlan$mealPlan _instance;
-
-  final TRes Function(Mutation$CreateMealPlan$createMealPlan$mealPlan) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Mutation$CreateMealPlan$createMealPlan$mealPlan(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Mutation$CreateMealPlan$createMealPlan$mealPlan<TRes>
-    implements CopyWith$Mutation$CreateMealPlan$createMealPlan$mealPlan<TRes> {
-  _CopyWithStubImpl$Mutation$CreateMealPlan$createMealPlan$mealPlan(this._res);
-
-  TRes _res;
-
-  call({String? id, String? name, String? $__typename}) => _res;
+  CopyWith$Fragment$MealPlanSummaryFragment<TRes> get mealPlan =>
+      CopyWith$Fragment$MealPlanSummaryFragment.stub(_res);
 }
 
 class Variables$Mutation$UpdateMealPlan {
@@ -13350,19 +12912,9 @@ const documentNodeMutationUpdateMealPlan = DocumentNode(
                   directives: [],
                   selectionSet: SelectionSetNode(
                     selections: [
-                      FieldNode(
-                        name: NameNode(value: 'id'),
-                        alias: null,
-                        arguments: [],
+                      FragmentSpreadNode(
+                        name: NameNode(value: 'MealPlanSummaryFragment'),
                         directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'name'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
                       ),
                       FieldNode(
                         name: NameNode(value: '__typename'),
@@ -13394,6 +12946,7 @@ const documentNodeMutationUpdateMealPlan = DocumentNode(
         ],
       ),
     ),
+    fragmentDefinitionMealPlanSummaryFragment,
   ],
 );
 Mutation$UpdateMealPlan _parserFn$Mutation$UpdateMealPlan(
@@ -13608,14 +13161,14 @@ class Mutation$UpdateMealPlan$updateMealPlan {
     return Mutation$UpdateMealPlan$updateMealPlan(
       mealPlan: l$mealPlan == null
           ? null
-          : Mutation$UpdateMealPlan$updateMealPlan$mealPlan.fromJson(
+          : Fragment$MealPlanSummaryFragment.fromJson(
               (l$mealPlan as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Mutation$UpdateMealPlan$updateMealPlan$mealPlan? mealPlan;
+  final Fragment$MealPlanSummaryFragment? mealPlan;
 
   final String $__typename;
 
@@ -13676,11 +13229,8 @@ abstract class CopyWith$Mutation$UpdateMealPlan$updateMealPlan<TRes> {
   factory CopyWith$Mutation$UpdateMealPlan$updateMealPlan.stub(TRes res) =
       _CopyWithStubImpl$Mutation$UpdateMealPlan$updateMealPlan;
 
-  TRes call({
-    Mutation$UpdateMealPlan$updateMealPlan$mealPlan? mealPlan,
-    String? $__typename,
-  });
-  CopyWith$Mutation$UpdateMealPlan$updateMealPlan$mealPlan<TRes> get mealPlan;
+  TRes call({Fragment$MealPlanSummaryFragment? mealPlan, String? $__typename});
+  CopyWith$Fragment$MealPlanSummaryFragment<TRes> get mealPlan;
 }
 
 class _CopyWithImpl$Mutation$UpdateMealPlan$updateMealPlan<TRes>
@@ -13703,20 +13253,18 @@ class _CopyWithImpl$Mutation$UpdateMealPlan$updateMealPlan<TRes>
     Mutation$UpdateMealPlan$updateMealPlan(
       mealPlan: mealPlan == _undefined
           ? _instance.mealPlan
-          : (mealPlan as Mutation$UpdateMealPlan$updateMealPlan$mealPlan?),
+          : (mealPlan as Fragment$MealPlanSummaryFragment?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
     ),
   );
 
-  CopyWith$Mutation$UpdateMealPlan$updateMealPlan$mealPlan<TRes> get mealPlan {
+  CopyWith$Fragment$MealPlanSummaryFragment<TRes> get mealPlan {
     final local$mealPlan = _instance.mealPlan;
     return local$mealPlan == null
-        ? CopyWith$Mutation$UpdateMealPlan$updateMealPlan$mealPlan.stub(
-            _then(_instance),
-          )
-        : CopyWith$Mutation$UpdateMealPlan$updateMealPlan$mealPlan(
+        ? CopyWith$Fragment$MealPlanSummaryFragment.stub(_then(_instance))
+        : CopyWith$Fragment$MealPlanSummaryFragment(
             local$mealPlan,
             (e) => call(mealPlan: e),
           );
@@ -13729,147 +13277,11 @@ class _CopyWithStubImpl$Mutation$UpdateMealPlan$updateMealPlan<TRes>
 
   TRes _res;
 
-  call({
-    Mutation$UpdateMealPlan$updateMealPlan$mealPlan? mealPlan,
-    String? $__typename,
-  }) => _res;
+  call({Fragment$MealPlanSummaryFragment? mealPlan, String? $__typename}) =>
+      _res;
 
-  CopyWith$Mutation$UpdateMealPlan$updateMealPlan$mealPlan<TRes> get mealPlan =>
-      CopyWith$Mutation$UpdateMealPlan$updateMealPlan$mealPlan.stub(_res);
-}
-
-class Mutation$UpdateMealPlan$updateMealPlan$mealPlan {
-  Mutation$UpdateMealPlan$updateMealPlan$mealPlan({
-    required this.id,
-    required this.name,
-    this.$__typename = 'MealPlan',
-  });
-
-  factory Mutation$UpdateMealPlan$updateMealPlan$mealPlan.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final l$id = json['id'];
-    final l$name = json['name'];
-    final l$$__typename = json['__typename'];
-    return Mutation$UpdateMealPlan$updateMealPlan$mealPlan(
-      id: (l$id as String),
-      name: (l$name as String),
-      $__typename: (l$$__typename as String),
-    );
-  }
-
-  final String id;
-
-  final String name;
-
-  final String $__typename;
-
-  Map<String, dynamic> toJson() {
-    final _resultData = <String, dynamic>{};
-    final l$id = id;
-    _resultData['id'] = l$id;
-    final l$name = name;
-    _resultData['name'] = l$name;
-    final l$$__typename = $__typename;
-    _resultData['__typename'] = l$$__typename;
-    return _resultData;
-  }
-
-  @override
-  int get hashCode {
-    final l$id = id;
-    final l$name = name;
-    final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$name, l$$__typename]);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! Mutation$UpdateMealPlan$updateMealPlan$mealPlan ||
-        runtimeType != other.runtimeType) {
-      return false;
-    }
-    final l$id = id;
-    final lOther$id = other.id;
-    if (l$id != lOther$id) {
-      return false;
-    }
-    final l$name = name;
-    final lOther$name = other.name;
-    if (l$name != lOther$name) {
-      return false;
-    }
-    final l$$__typename = $__typename;
-    final lOther$$__typename = other.$__typename;
-    if (l$$__typename != lOther$$__typename) {
-      return false;
-    }
-    return true;
-  }
-}
-
-extension UtilityExtension$Mutation$UpdateMealPlan$updateMealPlan$mealPlan
-    on Mutation$UpdateMealPlan$updateMealPlan$mealPlan {
-  CopyWith$Mutation$UpdateMealPlan$updateMealPlan$mealPlan<
-    Mutation$UpdateMealPlan$updateMealPlan$mealPlan
-  >
-  get copyWith =>
-      CopyWith$Mutation$UpdateMealPlan$updateMealPlan$mealPlan(this, (i) => i);
-}
-
-abstract class CopyWith$Mutation$UpdateMealPlan$updateMealPlan$mealPlan<TRes> {
-  factory CopyWith$Mutation$UpdateMealPlan$updateMealPlan$mealPlan(
-    Mutation$UpdateMealPlan$updateMealPlan$mealPlan instance,
-    TRes Function(Mutation$UpdateMealPlan$updateMealPlan$mealPlan) then,
-  ) = _CopyWithImpl$Mutation$UpdateMealPlan$updateMealPlan$mealPlan;
-
-  factory CopyWith$Mutation$UpdateMealPlan$updateMealPlan$mealPlan.stub(
-    TRes res,
-  ) = _CopyWithStubImpl$Mutation$UpdateMealPlan$updateMealPlan$mealPlan;
-
-  TRes call({String? id, String? name, String? $__typename});
-}
-
-class _CopyWithImpl$Mutation$UpdateMealPlan$updateMealPlan$mealPlan<TRes>
-    implements CopyWith$Mutation$UpdateMealPlan$updateMealPlan$mealPlan<TRes> {
-  _CopyWithImpl$Mutation$UpdateMealPlan$updateMealPlan$mealPlan(
-    this._instance,
-    this._then,
-  );
-
-  final Mutation$UpdateMealPlan$updateMealPlan$mealPlan _instance;
-
-  final TRes Function(Mutation$UpdateMealPlan$updateMealPlan$mealPlan) _then;
-
-  static const _undefined = <dynamic, dynamic>{};
-
-  TRes call({
-    Object? id = _undefined,
-    Object? name = _undefined,
-    Object? $__typename = _undefined,
-  }) => _then(
-    Mutation$UpdateMealPlan$updateMealPlan$mealPlan(
-      id: id == _undefined || id == null ? _instance.id : (id as String),
-      name: name == _undefined || name == null
-          ? _instance.name
-          : (name as String),
-      $__typename: $__typename == _undefined || $__typename == null
-          ? _instance.$__typename
-          : ($__typename as String),
-    ),
-  );
-}
-
-class _CopyWithStubImpl$Mutation$UpdateMealPlan$updateMealPlan$mealPlan<TRes>
-    implements CopyWith$Mutation$UpdateMealPlan$updateMealPlan$mealPlan<TRes> {
-  _CopyWithStubImpl$Mutation$UpdateMealPlan$updateMealPlan$mealPlan(this._res);
-
-  TRes _res;
-
-  call({String? id, String? name, String? $__typename}) => _res;
+  CopyWith$Fragment$MealPlanSummaryFragment<TRes> get mealPlan =>
+      CopyWith$Fragment$MealPlanSummaryFragment.stub(_res);
 }
 
 class Variables$Mutation$DeleteMealPlan {

@@ -27,6 +27,10 @@ class CartItem {
     'mealPlanPrice': mealPlan.price,
     'mealPlanImageUrl': mealPlan.imageUrl,
     'mealPlanDescription': mealPlan.description,
+    'mealPlanCalories': mealPlan.calories,
+    'mealPlanProtein': mealPlan.protein,
+    'mealPlanFat': mealPlan.fat,
+    'mealPlanCarbs': mealPlan.carbs,
   };
 
   // Create CartItem from JSON (simplified - we store minimal data)
@@ -40,6 +44,10 @@ class CartItem {
         price: json['mealPlanPrice'] as int?,
         imageUrl: json['mealPlanImageUrl'] as String?,
         description: json['mealPlanDescription'] as String?,
+        calories: json['mealPlanCalories'] as double?,
+        protein: json['mealPlanProtein'] as double?,
+        fat: json['mealPlanFat'] as double?,
+        carbs: json['mealPlanCarbs'] as double?,
         dietCategories: null,
         $__typename: 'MealPlan',
       );

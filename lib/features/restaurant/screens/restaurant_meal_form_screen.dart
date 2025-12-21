@@ -1,14 +1,17 @@
+import 'dart:typed_data';
+
+import 'package:catering_flutter/core/utils/ui_error_handler.dart';
+import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
+import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
+import 'package:catering_flutter/features/restaurant/services/meal_service.dart';
+import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:catering_flutter/features/restaurant/services/meal_service.dart';
-import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
-import 'package:catering_flutter/core/utils/ui_error_handler.dart';
-import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
-import 'package:catering_flutter/l10n/app_localizations.dart';
 
-class RestaurantMealFormScreen extends StatefulWidget {
+class RestaurantMealFormScreen extends HookWidget {
   final String? mealId;
   final String restaurantIri;
 
@@ -19,101 +22,99 @@ class RestaurantMealFormScreen extends StatefulWidget {
   });
 
   @override
-  State<RestaurantMealFormScreen> createState() =>
-      _RestaurantMealFormScreenState();
-}
+  Widget build(BuildContext context) {
+    final mealService = context.watch<MealService>();
 
-class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
-  final _formKey = GlobalKey<FormState>();
-  late TextEditingController _nameController;
-  late TextEditingController _descriptionController;
-  late TextEditingController _priceController;
-  late TextEditingController _caloriesController;
-  late TextEditingController _proteinController;
-  late TextEditingController _fatController;
-  late TextEditingController _carbsController;
-  final ImagePicker _picker = ImagePicker();
-  XFile? _imageFile;
+    // Form and Text Controllers
+    final formKey = useMemoized(() => GlobalKey<FormState>());
+    final nameController = useTextEditingController();
+    final descriptionController = useTextEditingController();
+    final priceController = useTextEditingController();
+    final caloriesController = useTextEditingController();
+    final proteinController = useTextEditingController();
+    final fatController = useTextEditingController();
+    final carbsController = useTextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    _nameController = TextEditingController();
-    _descriptionController = TextEditingController();
-    _priceController = TextEditingController();
-    _caloriesController = TextEditingController();
-    _proteinController = TextEditingController();
-    _fatController = TextEditingController();
-    _carbsController = TextEditingController();
+    // State Hooks
+    final imageBytes = useState<Uint8List?>(null);
+    final imageName = useState<String?>(null);
+    final isSaving = useState(false);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<MealService>().clearStatus();
-      if (widget.mealId != null) {
-        context.read<MealService>().getMealById(widget.mealId!).then((_) {
-          if (mounted) {
-            final meal = context.read<MealService>().currentMeal;
-            if (meal != null) {
-              _nameController.text = meal.name;
-              _descriptionController.text = meal.description ?? '';
-              _priceController.text = (meal.price / 100.0).toStringAsFixed(2);
-              _caloriesController.text = meal.calories.toString();
-              _proteinController.text = meal.protein.toString();
-              _fatController.text = meal.fat.toString();
-              _carbsController.text = meal.carbs.toString();
-            }
-          }
-        });
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _descriptionController.dispose();
-    _priceController.dispose();
-    _caloriesController.dispose();
-    _proteinController.dispose();
-    _fatController.dispose();
-    _carbsController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _pickImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      setState(() {
-        _imageFile = image;
+    // Initial Fetch & Sync
+    useEffect(() {
+      Future.microtask(() async {
+        if (mealId != null) {
+          await mealService.getMealById(mealId!);
+        } else {
+          mealService.clearCurrentMeal();
+        }
       });
+      return null;
+    }, [mealId]);
+
+    // Sync Form Data when currentMeal changes
+    useEffect(() {
+      final meal = mealService.currentMeal;
+      // Only populate if we have a meal and we are editing (or if we want to support resetting)
+      // In create mode, currentMeal is cleared, so fields might clear if we strictly sync.
+      // But unlike restaurant form, we don't have a complex "stale data" guard that blocks the UI.
+      // We'll populate if meal is not null.
+      if (meal != null) {
+        nameController.text = meal.name;
+        descriptionController.text = meal.description ?? '';
+        priceController.text = (meal.price / 100.0).toStringAsFixed(2);
+        caloriesController.text = meal.calories.toString();
+        proteinController.text = meal.protein.toString();
+        fatController.text = meal.fat.toString();
+        carbsController.text = meal.carbs.toString();
+      } else if (mealId == null) {
+        // Clear fields if explicitly in create mode and meal is null (cleared)
+        // This handles the case of "Create Another" or re-entering the screen
+        nameController.clear();
+        descriptionController.clear();
+        priceController.clear();
+        caloriesController.clear();
+        proteinController.clear();
+        fatController.clear();
+        carbsController.clear();
+      }
+      return null;
+    }, [mealService.currentMeal]);
+
+    // Handlers
+    Future<void> pickImage() async {
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        final bytes = await image.readAsBytes();
+        imageBytes.value = bytes;
+        imageName.value = image.name;
+      }
     }
-  }
 
-  Future<void> _uploadImage(String mealIri) async {
-    if (_imageFile == null) return;
-    final mealService = context.read<MealService>();
-    final bytes = await _imageFile!.readAsBytes();
-    await mealService.updateMealImage(mealIri, bytes, _imageFile!.name);
-  }
+    Future<void> saveMeal() async {
+      if (!formKey.currentState!.validate()) return;
+      isSaving.value = true;
 
-  void _saveMeal() async {
-    if (_formKey.currentState!.validate()) {
-      final mealService = context.read<MealService>();
+      // Access without watch for callback
+      final service = context.read<MealService>();
+      bool imageUploadFailed = false;
 
       try {
-        final priceInt = (double.parse(_priceController.text) * 100).round();
-        final calories = double.tryParse(_caloriesController.text);
-        final protein = double.tryParse(_proteinController.text);
-        final fat = double.tryParse(_fatController.text);
-        final carbs = double.tryParse(_carbsController.text);
+        final priceInt = (double.parse(priceController.text) * 100).round();
+        final calories = double.tryParse(caloriesController.text);
+        final protein = double.tryParse(proteinController.text);
+        final fat = double.tryParse(fatController.text);
+        final carbs = double.tryParse(carbsController.text);
 
-        String? savedMealIri = widget.mealId;
+        String? savedMealIri = mealId;
 
         if (savedMealIri == null) {
           // Creating new meal
-          savedMealIri = await mealService.createMeal(
-            restaurantId: widget.restaurantIri,
-            name: _nameController.text,
-            description: _descriptionController.text,
+          savedMealIri = await service.createMeal(
+            restaurantId: restaurantIri,
+            name: nameController.text,
+            description: descriptionController.text,
             price: priceInt,
             calories: calories,
             protein: protein,
@@ -122,10 +123,10 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
           );
         } else {
           // Updating existing meal
-          await mealService.updateMeal(
+          await service.updateMeal(
             id: savedMealIri,
-            name: _nameController.text,
-            description: _descriptionController.text,
+            name: nameController.text,
+            description: descriptionController.text,
             price: priceInt,
             calories: calories,
             protein: protein,
@@ -135,311 +136,327 @@ class _RestaurantMealFormScreenState extends State<RestaurantMealFormScreen> {
         }
 
         // Handle image upload if selected
-        if (_imageFile != null && savedMealIri != null) {
+        if (imageBytes.value != null && savedMealIri != null) {
           try {
-            await _uploadImage(savedMealIri);
+            await service.updateMealImage(
+              savedMealIri,
+              imageBytes.value!,
+              imageName.value ?? 'image.jpg',
+            );
           } catch (e) {
-            if (mounted) {
-              UIErrorHandler.showSnackBar(
-                context,
-                AppLocalizations.of(context)!.mealSavedImageFailed,
-                isError: true,
-                action: SnackBarAction(
-                  label: AppLocalizations.of(context)!.retryUpload,
-                  onPressed: () async {
-                    try {
-                      await _uploadImage(savedMealIri!);
-                      if (mounted) {
-                        UIErrorHandler.showSnackBar(
-                          context,
-                          AppLocalizations.of(context)!.imageUploadedSuccess,
-                          isError: false,
-                        );
-                        context.pop();
-                      }
-                    } catch (retryError) {
-                      if (mounted) {
-                        UIErrorHandler.showSnackBar(
-                          context,
-                          AppLocalizations.of(context)!.retryFailed(retryError),
-                        );
-                      }
-                    }
-                  },
-                ),
-              );
-              return; // Don't pop yet, let user retry
-            }
+            imageUploadFailed = true;
           }
         }
 
-        if (mounted) {
+        if (context.mounted) {
+          final message = imageUploadFailed
+              ? AppLocalizations.of(context)!.mealSavedImageFailed
+              : AppLocalizations.of(context)!.mealSavedSuccess;
+
           UIErrorHandler.showSnackBar(
             context,
-            AppLocalizations.of(context)!.mealSavedSuccess,
-            isError: false,
+            message,
+            isError: imageUploadFailed,
           );
           context.pop();
         }
       } catch (e) {
-        if (mounted) {
+        if (context.mounted) {
           UIErrorHandler.handleError(
             context,
             e,
             customMessage: AppLocalizations.of(context)!.mealSaveFailed,
           );
         }
+      } finally {
+        isSaving.value = false;
       }
     }
-  }
 
-  @override
-  Widget build(BuildContext context) {
+    final isCreateMode = mealId == null;
+    if (isCreateMode &&
+        mealService.currentMeal != null &&
+        mealService.isLoading == false) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (mealService.isLoading &&
+        !isCreateMode &&
+        mealService.currentMeal == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (isCreateMode && mealService.currentMeal != null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final isLoading = mealService.isLoading || isSaving.value;
+    final currentMeal = mealService.currentMeal;
+
     return CustomScaffold(
-      title: widget.mealId == null
+      title: isCreateMode
           ? AppLocalizations.of(context)!.createMeal
           : AppLocalizations.of(context)!.editMeal,
-      child: Consumer<MealService>(
-        builder: (context, mealService, child) {
-          final meal = mealService.currentMeal;
-          return SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Image preview
-                    if (meal?.imageUrl != null && widget.mealId != null)
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: CustomCachedImage(
-                          imageUrl: meal!.imageUrl,
-                          height: 200,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    const SizedBox(height: 16),
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Image Section
+              _buildImagePicker(
+                context,
+                imageBytes,
+                imageName,
+                pickImage,
+                isLoading,
+                (!isCreateMode && currentMeal != null)
+                    ? currentMeal.imageUrl
+                    : null,
+              ),
+              const SizedBox(height: 24),
 
-                    // Image picker
-                    OutlinedButton.icon(
-                      onPressed: _pickImage,
-                      icon: const Icon(Icons.image),
-                      label: Text(
-                        _imageFile == null
-                            ? AppLocalizations.of(context)!.selectImage
-                            : AppLocalizations.of(context)!.changeImage,
-                      ),
-                    ),
-                    if (_imageFile != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: Text(
-                          '${AppLocalizations.of(context)!.selectedImageLabel} ${_imageFile!.name}',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ),
-                    const SizedBox(height: 24),
+              // Basic Info
+              Text(
+                AppLocalizations.of(context)!.basicInformation,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 16),
+              _buildTextField(
+                context,
+                controller: nameController,
+                label: AppLocalizations.of(context)!.mealName,
+                validator: (v) => v?.isEmpty ?? true
+                    ? AppLocalizations.of(context)!.pleaseEnterName
+                    : null,
+              ),
+              const SizedBox(height: 16),
+              _buildTextField(
+                context,
+                controller: descriptionController,
+                label: AppLocalizations.of(context)!.description,
+                maxLines: 3,
+                validator: (v) => v?.isEmpty ?? true
+                    ? AppLocalizations.of(context)!.pleaseEnterDescription
+                    : null,
+              ),
+              const SizedBox(height: 16),
+              _buildTextField(
+                context,
+                controller: priceController,
+                label: AppLocalizations.of(context)!.price,
+                prefixText: 'PLN ',
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+                validator: (v) {
+                  if (v == null || v.isEmpty) {
+                    return AppLocalizations.of(context)!.pleaseEnterPrice;
+                  }
+                  if (double.tryParse(v) == null) {
+                    return AppLocalizations.of(context)!.pleaseEnterValidNumber;
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 24),
 
-                    // Basic Information Section
-                    Text(
-                      AppLocalizations.of(context)!.basicInformation,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    const SizedBox(height: 16),
-
-                    TextFormField(
-                      controller: _nameController,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!.mealName,
-                        border: const OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context)!.pleaseEnterName;
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-
-                    TextFormField(
-                      controller: _descriptionController,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!.description,
-                        border: const OutlineInputBorder(),
-                      ),
-                      maxLines: 3,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(
-                            context,
-                          )!.pleaseEnterDescription;
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-
-                    TextFormField(
-                      controller: _priceController,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!.price,
-                        border: const OutlineInputBorder(),
-                        prefixText: 'PLN ',
-                      ),
-                      keyboardType: TextInputType.numberWithOptions(
+              // Nutrition
+              Text(
+                AppLocalizations.of(context)!.nutritionInformation,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildTextField(
+                      context,
+                      controller: caloriesController,
+                      label: AppLocalizations.of(context)!.calories,
+                      suffixText: 'kcal',
+                      keyboardType: const TextInputType.numberWithOptions(
                         decimal: true,
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context)!.pleaseEnterPrice;
-                        }
-                        if (double.tryParse(value) == null) {
-                          return AppLocalizations.of(
-                            context,
-                          )!.pleaseEnterValidNumber;
-                        }
-                        return null;
-                      },
                     ),
-                    const SizedBox(height: 24),
-
-                    // Nutrition Information Section
-                    Text(
-                      AppLocalizations.of(context)!.nutritionInformation,
-                      style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: _buildTextField(
+                      context,
+                      controller: proteinController,
+                      label: AppLocalizations.of(context)!.protein,
+                      suffixText: 'g',
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
                     ),
-                    const SizedBox(height: 16),
-
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            controller: _caloriesController,
-                            decoration: InputDecoration(
-                              labelText: AppLocalizations.of(context)!.calories,
-                              border: const OutlineInputBorder(),
-                              suffixText: 'kcal',
-                            ),
-                            keyboardType: TextInputType.numberWithOptions(
-                              decimal: true,
-                            ),
-                            validator: (value) {
-                              if (value != null && value.isNotEmpty) {
-                                if (double.tryParse(value) == null) {
-                                  return AppLocalizations.of(
-                                    context,
-                                  )!.invalidNumber;
-                                }
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: TextFormField(
-                            controller: _proteinController,
-                            decoration: InputDecoration(
-                              labelText: AppLocalizations.of(context)!.protein,
-                              border: const OutlineInputBorder(),
-                              suffixText: 'g',
-                            ),
-                            keyboardType: TextInputType.numberWithOptions(
-                              decimal: true,
-                            ),
-                            validator: (value) {
-                              if (value != null && value.isNotEmpty) {
-                                if (double.tryParse(value) == null) {
-                                  return AppLocalizations.of(
-                                    context,
-                                  )!.invalidNumber;
-                                }
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            controller: _fatController,
-                            decoration: InputDecoration(
-                              labelText: AppLocalizations.of(context)!.fat,
-                              border: const OutlineInputBorder(),
-                              suffixText: 'g',
-                            ),
-                            keyboardType: TextInputType.numberWithOptions(
-                              decimal: true,
-                            ),
-                            validator: (value) {
-                              if (value != null && value.isNotEmpty) {
-                                if (double.tryParse(value) == null) {
-                                  return AppLocalizations.of(
-                                    context,
-                                  )!.invalidNumber;
-                                }
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: TextFormField(
-                            controller: _carbsController,
-                            decoration: InputDecoration(
-                              labelText: AppLocalizations.of(context)!.carbs,
-                              border: const OutlineInputBorder(),
-                              suffixText: 'g',
-                            ),
-                            keyboardType: TextInputType.numberWithOptions(
-                              decimal: true,
-                            ),
-                            validator: (value) {
-                              if (value != null && value.isNotEmpty) {
-                                if (double.tryParse(value) == null) {
-                                  return AppLocalizations.of(
-                                    context,
-                                  )!.invalidNumber;
-                                }
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Save button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 48,
-                      child: mealService.isLoading
-                          ? const Center(child: CircularProgressIndicator())
-                          : FilledButton(
-                              onPressed: _saveMeal,
-                              child: Text(
-                                AppLocalizations.of(context)!.saveMeal,
-                              ),
-                            ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ),
-          );
-        },
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildTextField(
+                      context,
+                      controller: fatController,
+                      label: AppLocalizations.of(context)!.fat,
+                      suffixText: 'g',
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: _buildTextField(
+                      context,
+                      controller: carbsController,
+                      label: AppLocalizations.of(context)!.carbs,
+                      suffixText: 'g',
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+
+              // Save Button
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : FilledButton(
+                        onPressed: saveMeal,
+                        child: Text(AppLocalizations.of(context)!.saveMeal),
+                      ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Helpers
+  Widget _buildTextField(
+    BuildContext context, {
+    required TextEditingController controller,
+    required String label,
+    String? prefixText,
+    String? suffixText,
+    int maxLines = 1,
+    TextInputType? keyboardType,
+    String? Function(String?)? validator,
+  }) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        border: const OutlineInputBorder(),
+        prefixText: prefixText,
+        suffixText: suffixText,
+      ),
+      maxLines: maxLines,
+      keyboardType: keyboardType,
+      validator: validator,
+    );
+  }
+
+  Widget _buildImagePicker(
+    BuildContext context,
+    ValueNotifier<Uint8List?> imageBytes,
+    ValueNotifier<String?> imageName,
+    VoidCallback onPick,
+    bool isLoading,
+    String? currentImageUrl,
+  ) {
+    return GestureDetector(
+      onTap: isLoading ? null : onPick,
+      child: Container(
+        height: 200,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            if (imageBytes.value != null)
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.memory(imageBytes.value!, fit: BoxFit.cover),
+              )
+            else if (currentImageUrl != null)
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: CustomCachedImage(
+                  imageUrl: currentImageUrl,
+                  fit: BoxFit.cover,
+                ),
+              )
+            else
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.add_a_photo,
+                    size: 48,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    AppLocalizations.of(context)!.tapToAddCoverImage,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+
+            if (imageBytes.value != null || currentImageUrl != null)
+              Stack(
+                children: [
+                  Positioned(
+                    bottom: 16,
+                    right: 16,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 153),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                  if (imageBytes.value != null)
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: IconButton.filledTonal(
+                        onPressed: () {
+                          imageBytes.value = null;
+                          imageName.value = null;
+                        },
+                        icon: const Icon(Icons.close),
+                      ),
+                    ),
+                ],
+              ),
+            if (isLoading) const Center(child: CircularProgressIndicator()),
+          ],
+        ),
       ),
     );
   }

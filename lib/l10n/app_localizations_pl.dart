@@ -515,6 +515,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get invalidZipCode => 'Nieprawidłowy kod pocztowy';
 
   @override
+  String get invalidNip => 'Nieprawidłowy NIP (10 cyfr)';
+
+  @override
   String get invite => 'Zaproś';
 
   @override
@@ -686,6 +689,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get noItemsFound => 'Nie znaleziono elementów';
+
+  @override
+  String get noOwner => 'Brak właściciela';
 
   @override
   String get noMealPlanData => 'Brak danych o planie posiłków';
@@ -932,9 +938,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String retryFailed(Object error) {
     return 'Ponowna próba nie powiodła się: $error';
   }
-
-  @override
-  String get retryUpload => 'Spróbuj ponownie';
 
   @override
   String get revenueTrendLast30Days => 'Trend przychodów (ostatnie 30 dni)';

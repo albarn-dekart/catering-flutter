@@ -6,12 +6,13 @@ class MediaService {
   MediaService(this._apiClient);
 
   /// Uploads an image to the specified relative [endpoint].
-  /// Returns only if successful, otherwise throws [ApiException].
-  Future<void> uploadImage(
+  /// Returns the response body on success, otherwise throws [ApiException].
+  Future<String> uploadImage(
     String endpoint,
     List<int> bytes,
     String filename,
   ) async {
-    await _apiClient.postMultipart(endpoint, bytes, filename);
+    final response = await _apiClient.postMultipart(endpoint, bytes, filename);
+    return response.body;
   }
 }

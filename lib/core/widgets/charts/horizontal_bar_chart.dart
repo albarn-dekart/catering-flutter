@@ -38,6 +38,8 @@ class HorizontalBarChartWidget extends StatelessWidget {
     }
 
     final maxValue = data.map((e) => e.value).reduce((a, b) => a > b ? a : b);
+    // Ensure maxY is at least 5 to have a valid chart range when all values are 0
+    final effectiveMaxY = maxValue < 5 ? 5.0 : maxValue * 1.2;
 
     return Card(
       child: Padding(
@@ -57,7 +59,7 @@ class HorizontalBarChartWidget extends StatelessWidget {
               child: BarChart(
                 BarChartData(
                   alignment: BarChartAlignment.spaceAround,
-                  maxY: maxValue * 1.2,
+                  maxY: effectiveMaxY,
                   barTouchData: BarTouchData(
                     touchTooltipData: BarTouchTooltipData(
                       getTooltipItem: (group, groupIndex, rod, rodIndex) {

@@ -1022,6 +1022,12 @@ abstract class AppLocalizations {
   /// **'Invalid Zip Code'**
   String get invalidZipCode;
 
+  /// No description provided for @invalidNip.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid NIP (10 digits)'**
+  String get invalidNip;
+
   /// No description provided for @invite.
   ///
   /// In en, this message translates to:
@@ -1357,6 +1363,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No items found'**
   String get noItemsFound;
+
+  /// No description provided for @noOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'No Owner'**
+  String get noOwner;
 
   /// No description provided for @noMealPlanData.
   ///
@@ -1819,12 +1831,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Retry failed: {error}'**
   String retryFailed(Object error);
-
-  /// No description provided for @retryUpload.
-  ///
-  /// In en, this message translates to:
-  /// **'Retry Upload'**
-  String get retryUpload;
 
   /// No description provided for @revenueTrendLast30Days.
   ///

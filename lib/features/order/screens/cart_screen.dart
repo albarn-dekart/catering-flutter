@@ -8,6 +8,7 @@ import 'package:catering_flutter/features/order/services/cart_service.dart';
 import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:catering_flutter/core/widgets/price_text.dart';
+import 'package:catering_flutter/core/widgets/macro_badge.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -100,6 +101,38 @@ class _CartScreenState extends State<CartScreen> {
                                         ),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Wrap(
+                                    spacing: 4,
+                                    runSpacing: 4,
+                                    children: [
+                                      if (cartItem.mealPlan.calories != null)
+                                        MacroBadge(
+                                          text:
+                                              '${AppLocalizations.of(context)!.calories}: ${cartItem.mealPlan.calories!.toStringAsFixed(0)}',
+                                          icon: Icons
+                                              .local_fire_department_outlined,
+                                        ),
+                                      if (cartItem.mealPlan.protein != null)
+                                        MacroBadge(
+                                          text:
+                                              '${AppLocalizations.of(context)!.protein}: ${cartItem.mealPlan.protein!.toStringAsFixed(1)}g',
+                                          icon: Icons.fitness_center_outlined,
+                                        ),
+                                      if (cartItem.mealPlan.fat != null)
+                                        MacroBadge(
+                                          text:
+                                              '${AppLocalizations.of(context)!.fat}: ${cartItem.mealPlan.fat!.toStringAsFixed(1)}g',
+                                          icon: Icons.water_drop_outlined,
+                                        ),
+                                      if (cartItem.mealPlan.carbs != null)
+                                        MacroBadge(
+                                          text:
+                                              '${AppLocalizations.of(context)!.carbs}: ${cartItem.mealPlan.carbs!.toStringAsFixed(1)}g',
+                                          icon: Icons.grain_outlined,
+                                        ),
+                                    ],
                                   ),
                                   const SizedBox(height: 8),
                                   SizedBox(

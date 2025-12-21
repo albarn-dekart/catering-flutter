@@ -22,6 +22,21 @@ fragment RestaurantDetailFragment on Restaurant {
     street
     zipCode
     nip
+    owner {
+        id
+        email
+    }
+}
+
+# Fragment without owner to avoid circular reference in user->restaurant->owner->restaurant chain
+fragment RestaurantDetailWithoutOwnerFragment on Restaurant {
+    ...RestaurantSummaryFragment
+    phoneNumber
+    email
+    city
+    street
+    zipCode
+    nip
 }
 
 query GetRestaurants($first: Int, $after: String, $search: String, $category: String) {
@@ -38,12 +53,12 @@ query GetRestaurants($first: Int, $after: String, $search: String, $category: St
     }
 }
 
-# For restaurant owners - includes restaurant data
+# For restaurant owners - uses fragment without owner to avoid circular reference
 query GetUserRestaurant($id: ID!) {
     user(id: $id) {
         id
-        restaurant {
-            ...RestaurantDetailFragment
+        ownedRestaurant {
+            ...RestaurantDetailWithoutOwnerFragment
         }
     }
 }
@@ -51,7 +66,7 @@ query GetUserRestaurant($id: ID!) {
 query GetRestaurant($id: ID!) {
     restaurant(id: $id) {
         ...RestaurantDetailFragment
-        users{
+        drivers {
             edges {
                 node {
                     id

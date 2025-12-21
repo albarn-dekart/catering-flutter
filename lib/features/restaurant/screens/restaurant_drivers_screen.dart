@@ -45,7 +45,7 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
     return Consumer<UserService>(
       builder: (context, userService, child) {
         return Scaffold(
-          body: SearchableListScreen<RestaurantUserNode>(
+          body: SearchableListScreen<RestaurantDriverNode>(
             title: AppLocalizations.of(context)!.manageDrivers,
             items: userService.restaurantDrivers,
             isLoading: userService.isLoading,
@@ -131,7 +131,7 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
   Future<void> _confirmDeleteDriver(
     BuildContext context,
     UserService userService,
-    RestaurantUserNode driver,
+    RestaurantDriverNode driver,
   ) async {
     final confirmed = await showDialog<bool>(
       context: context,

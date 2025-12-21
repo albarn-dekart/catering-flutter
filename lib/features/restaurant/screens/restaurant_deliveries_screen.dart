@@ -131,7 +131,7 @@ class _RestaurantDeliveriesScreenState
   Widget _buildDeliveryCard(
     BuildContext context,
     Delivery delivery,
-    List<RestaurantUserNode> drivers,
+    List<RestaurantDriverNode> drivers,
   ) {
     return Card(
       elevation: 2,

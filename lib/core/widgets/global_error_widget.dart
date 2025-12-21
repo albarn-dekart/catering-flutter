@@ -38,7 +38,8 @@ class GlobalErrorWidget extends StatelessWidget {
       ),
     );
 
-    if (withScaffold) {
+    final hasScaffold = Scaffold.maybeOf(context) != null;
+    if (withScaffold && !hasScaffold) {
       return CustomScaffold(
         title: AppLocalizations.of(context)!.error,
         child: content,

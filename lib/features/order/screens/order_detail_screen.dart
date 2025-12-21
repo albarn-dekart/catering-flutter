@@ -11,6 +11,7 @@ import 'package:catering_flutter/features/order/services/order_service.dart';
 import 'package:catering_flutter/features/order/services/payment_service.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:catering_flutter/core/widgets/price_text.dart';
+import 'package:catering_flutter/core/widgets/macro_badge.dart';
 import 'package:catering_flutter/core/services/auth_service.dart';
 
 class OrderDetailScreen extends StatefulWidget {
@@ -220,9 +221,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     ),
                     Consumer<AuthService>(
                       builder: (context, authService, _) {
-                        final isRestaurant = authService.hasRole(
-                          'ROLE_RESTAURANT',
-                        );
+                        final isRestaurant =
+                            authService.hasRole('ROLE_RESTAURANT') ||
+                            authService.hasRole('ROLE_ADMIN');
 
                         if (isRestaurant) {
                           return Column(
@@ -620,6 +621,38 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                               ).colorScheme.onSurfaceVariant,
                                             ),
                                       ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Wrap(
+                                    spacing: 4,
+                                    runSpacing: 4,
+                                    children: [
+                                      if (item.mealPlan.calories != null)
+                                        MacroBadge(
+                                          text:
+                                              '${AppLocalizations.of(context)!.calories}: ${item.mealPlan.calories!.toStringAsFixed(0)}',
+                                          icon: Icons
+                                              .local_fire_department_outlined,
+                                        ),
+                                      if (item.mealPlan.protein != null)
+                                        MacroBadge(
+                                          text:
+                                              '${AppLocalizations.of(context)!.protein}: ${item.mealPlan.protein!.toStringAsFixed(1)}g',
+                                          icon: Icons.fitness_center_outlined,
+                                        ),
+                                      if (item.mealPlan.fat != null)
+                                        MacroBadge(
+                                          text:
+                                              '${AppLocalizations.of(context)!.fat}: ${item.mealPlan.fat!.toStringAsFixed(1)}g',
+                                          icon: Icons.water_drop_outlined,
+                                        ),
+                                      if (item.mealPlan.carbs != null)
+                                        MacroBadge(
+                                          text:
+                                              '${AppLocalizations.of(context)!.carbs}: ${item.mealPlan.carbs!.toStringAsFixed(1)}g',
+                                          icon: Icons.grain_outlined,
+                                        ),
                                     ],
                                   ),
                                 ],
