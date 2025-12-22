@@ -1,3 +1,4 @@
+import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:catering_flutter/core/services/api_service.dart';
 import 'package:catering_flutter/core/utils/status_extensions.dart';
 import 'package:flutter/material.dart';
@@ -57,29 +58,26 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
     if (!mounted) return;
 
-    if (orderService.hasError) {
-      UIErrorHandler.showSnackBar(
-        context,
-        orderService.errorMessage!,
-        isError: true,
-      );
-      setState(() {
-        _isLoading = false;
-      });
-    } else {
-      setState(() {
-        _order = orderService.currentOrder;
-        _isLoading = false;
-      });
-    }
+    setState(() {
+      _order = orderService.currentOrder;
+      _isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final orderService = context.watch<OrderService>();
+
     return CustomScaffold(
       title: AppLocalizations.of(context)!.orderDetails,
       child: _isLoading
           ? const Center(child: CircularProgressIndicator())
+          : orderService.hasError && _order == null
+          ? GlobalErrorWidget(
+              message: orderService.errorMessage,
+              onRetry: _fetchOrderDetails,
+              withScaffold: false,
+            )
           : _order == null
           ? Center(child: Text(AppLocalizations.of(context)!.orderNotFound))
           : _buildOrderDetails(),
@@ -122,7 +120,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             Card(
               elevation: 0,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(24),
                 side: BorderSide(
                   color: Theme.of(context).colorScheme.outlineVariant,
                 ),
@@ -149,7 +147,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             style: Theme.of(context).textTheme.labelLarge
                                 ?.copyWith(
                                   color: orderStatus.onContainerColor,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.normal,
                                 ),
                           ),
                         );
@@ -236,7 +234,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                               Text(
                                 AppLocalizations.of(context)!.changeStatus,
                                 style: Theme.of(context).textTheme.titleSmall
-                                    ?.copyWith(fontWeight: FontWeight.bold),
+                                    ?.copyWith(fontWeight: FontWeight.normal),
                               ),
                               const SizedBox(height: 8),
                               DropdownButtonFormField<Enum$OrderStatus>(
@@ -492,7 +490,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             Card(
               elevation: 0,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(24),
                 side: BorderSide(
                   color: Theme.of(context).colorScheme.outlineVariant,
                 ),
@@ -511,7 +509,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         const SizedBox(width: 8),
                         Text(
                           AppLocalizations.of(context)!.orderItems,
-                          style: Theme.of(context).textTheme.titleMedium
+                          style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -572,10 +570,13 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                           ),
                                           child: Text(
                                             '×',
-                                            style: TextStyle(
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
                                               color: Theme.of(
                                                 context,
-                                              ).colorScheme.outline,
+                                              ).colorScheme.onSurfaceVariant,
                                             ),
                                           ),
                                         ),
@@ -665,7 +666,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                           effectiveDeliveryDays)
                                       .toInt(),
                               style: Theme.of(context).textTheme.bodyLarge
-                                  ?.copyWith(fontWeight: FontWeight.bold),
+                                  ?.copyWith(fontWeight: FontWeight.normal),
                             ),
                           ],
                         ),
@@ -713,7 +714,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       children: [
                         Text(
                           AppLocalizations.of(context)!.total,
-                          style: Theme.of(context).textTheme.titleMedium
+                          style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         PriceText(
@@ -736,7 +737,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             Card(
               elevation: 0,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(24),
                 side: BorderSide(
                   color: Theme.of(context).colorScheme.outlineVariant,
                 ),
@@ -755,7 +756,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         const SizedBox(width: 8),
                         Text(
                           AppLocalizations.of(context)!.deliveryAddress,
-                          style: Theme.of(context).textTheme.titleMedium
+                          style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -764,7 +765,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     Text(
                       '${order.deliveryFirstName} ${order.deliveryLastName}',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                     Text(order.deliveryStreet ?? ''),
@@ -785,7 +786,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             Card(
               elevation: 0,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(24),
                 side: BorderSide(
                   color: Theme.of(context).colorScheme.outlineVariant,
                 ),
@@ -804,7 +805,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         const SizedBox(width: 8),
                         Text(
                           AppLocalizations.of(context)!.deliverySchedule,
-                          style: Theme.of(context).textTheme.titleMedium
+                          style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -823,7 +824,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           context,
                         )!.allDeliveries(order.deliveries?.edges?.length),
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.normal,
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -954,7 +955,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               },
             ),
             TextButton(
-              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.error,
+              ),
               onPressed: () async {
                 Navigator.of(dialogContext).pop(); // Close the dialog
                 try {

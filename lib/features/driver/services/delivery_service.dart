@@ -3,6 +3,7 @@ import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:catering_flutter/core/services/api_service.dart';
+import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 
 typedef Delivery = Fragment$BasicDeliveryFragment;
 typedef DeliveryDetails = Fragment$BasicDeliveryFragment;
@@ -45,10 +46,7 @@ class DeliveryService extends ChangeNotifier {
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final data = Query$GetDeliveries.fromJson(result.data!);
       if (data.deliveries?.edges != null) {
@@ -58,7 +56,7 @@ class DeliveryService extends ChangeNotifier {
             .toList();
       }
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -78,10 +76,7 @@ class DeliveryService extends ChangeNotifier {
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       _currentDelivery = Query$GetDelivery.fromJson(result.data!).delivery;
     } catch (e) {
@@ -124,10 +119,7 @@ class DeliveryService extends ChangeNotifier {
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final data = Query$GetDeliveriesByRestaurant.fromJson(result.data!);
 
@@ -181,10 +173,7 @@ class DeliveryService extends ChangeNotifier {
       }
 
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       if (restaurantIri != null) {
         final data = Query$GetDeliveriesByRestaurant.fromJson(result.data!);
@@ -217,7 +206,7 @@ class DeliveryService extends ChangeNotifier {
     }
   }
 
-  Future<void> updateDeliveryStatus(
+  Future<Fragment$DriverDeliveryFragment?> updateDeliveryStatus(
     String deliveryId, {
     Enum$DeliveryStatus? status,
     String? driverIri,
@@ -239,10 +228,7 @@ class DeliveryService extends ChangeNotifier {
       );
 
       final result = await _client.mutate(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       // Extract the updated delivery from the mutation response
       final updatedDelivery = Mutation$UpdateDelivery.fromJson(
@@ -252,15 +238,74 @@ class DeliveryService extends ChangeNotifier {
       if (updatedDelivery != null) {
         // Update current delivery if currently viewed
         if (_currentDelivery?.id == updatedDelivery.id) {
-          _currentDelivery = updatedDelivery;
+          // Cast to Fragment$BasicDeliveryFragment as _currentDelivery expects it
+          // Note: DriverDeliveryFragment is used for mutation response now,
+          // but we can convert it back to BasicDeliveryFragment if needed,
+          // though usually they share the same base structure.
+          // For now, we'll just assign it if possible or skip if types strictly mismatch.
+          // Since they are generated, we might need a manual conversion.
+          _currentDelivery = Fragment$BasicDeliveryFragment(
+            id: updatedDelivery.id,
+            status: updatedDelivery.status,
+            deliveryDate: updatedDelivery.deliveryDate,
+            order: updatedDelivery.order != null
+                ? Fragment$BasicDeliveryFragment$order(
+                    id: updatedDelivery.order!.id,
+                    total: updatedDelivery.order!.total,
+                    status: updatedDelivery.order!.status,
+                    customer: updatedDelivery.order!.customer != null
+                        ? Fragment$BasicDeliveryFragment$order$customer(
+                            id: updatedDelivery.order!.customer!.id,
+                            email: updatedDelivery.order!.customer!.email,
+                          )
+                        : null,
+                  )
+                : null,
+            driver: updatedDelivery.driver != null
+                ? Fragment$BasicDeliveryFragment$driver(
+                    id: updatedDelivery.driver!.id,
+                    email: updatedDelivery.driver!.email,
+                  )
+                : null,
+          ).copyWith(); // Use copyWith if needed or just assign
         }
 
         // Find and update the delivery in the local list
         final index = _deliveries.indexWhere((d) => d.id == updatedDelivery.id);
         if (index != -1) {
-          _deliveries[index] = updatedDelivery;
+          // If the delivery status no longer matches current filters, remove it
+          if (_currentStatusFilter != null &&
+              updatedDelivery.status != _currentStatusFilter) {
+            _deliveries.removeAt(index);
+          } else {
+            _deliveries[index] = Fragment$BasicDeliveryFragment(
+              id: updatedDelivery.id,
+              status: updatedDelivery.status,
+              deliveryDate: updatedDelivery.deliveryDate,
+              order: updatedDelivery.order != null
+                  ? Fragment$BasicDeliveryFragment$order(
+                      id: updatedDelivery.order!.id,
+                      total: updatedDelivery.order!.total,
+                      status: updatedDelivery.order!.status,
+                      customer: updatedDelivery.order!.customer != null
+                          ? Fragment$BasicDeliveryFragment$order$customer(
+                              id: updatedDelivery.order!.customer!.id,
+                              email: updatedDelivery.order!.customer!.email,
+                            )
+                          : null,
+                    )
+                  : null,
+              driver: updatedDelivery.driver != null
+                  ? Fragment$BasicDeliveryFragment$driver(
+                      id: updatedDelivery.driver!.id,
+                      email: updatedDelivery.driver!.email,
+                    )
+                  : null,
+            );
+          }
         }
       }
+      return updatedDelivery;
     } catch (e) {
       _errorMessage = e.toString();
       rethrow;
@@ -283,10 +328,7 @@ class DeliveryService extends ChangeNotifier {
         ).toJson(),
       );
       final result = await _client.mutate(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
       _deliveries.removeWhere((d) => d.id == id);
     } catch (e) {
       _errorMessage = e.toString();

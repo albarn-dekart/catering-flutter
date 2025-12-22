@@ -4,6 +4,8 @@ import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
+import 'package:catering_flutter/core/utils/ui_error_handler.dart';
+
 typedef Address = Query$GetUserAddresses$user$addresses$edges$node;
 
 class AddressService extends ChangeNotifier {
@@ -17,6 +19,7 @@ class AddressService extends ChangeNotifier {
   List<Address> get addresses => _addresses;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
+  bool get hasError => _errorMessage != null;
 
   Address? get defaultAddress {
     try {
@@ -38,7 +41,7 @@ class AddressService extends ChangeNotifier {
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final response = await _client.query(options);
-      ApiException.check(response);
+      ApiService.check(response);
 
       final data = Query$GetUserAddresses.fromJson(response.data!);
       final edges = data.user?.addresses?.edges;
@@ -52,7 +55,7 @@ class AddressService extends ChangeNotifier {
         _addresses = [];
       }
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -93,7 +96,7 @@ class AddressService extends ChangeNotifier {
       );
 
       final response = await _client.mutate(options);
-      ApiException.check(response);
+      ApiService.check(response);
 
       final data = Mutation$CreateAddress.fromJson(response.data!);
       final newAddressRaw = data.createAddress?.address;
@@ -117,7 +120,7 @@ class AddressService extends ChangeNotifier {
         _addresses.insert(0, newAddress);
       }
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
       _isLoading = false;
@@ -159,7 +162,7 @@ class AddressService extends ChangeNotifier {
       );
 
       final response = await _client.mutate(options);
-      ApiException.check(response);
+      ApiService.check(response);
 
       final data = Mutation$UpdateAddress.fromJson(response.data!);
       final updatedAddressRaw = data.updateAddress?.address;
@@ -188,7 +191,7 @@ class AddressService extends ChangeNotifier {
         }
       }
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
       _isLoading = false;
@@ -210,12 +213,12 @@ class AddressService extends ChangeNotifier {
       );
 
       final response = await _client.mutate(options);
-      ApiException.check(response);
+      ApiService.check(response);
 
       // We can trust the input ID for deletion if successful
       _addresses.removeWhere((a) => a.id == id);
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
       _isLoading = false;

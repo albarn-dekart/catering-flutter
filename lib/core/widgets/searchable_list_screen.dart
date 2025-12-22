@@ -1,3 +1,4 @@
+import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
@@ -10,6 +11,7 @@ class SearchableListScreen<T> extends StatefulWidget {
   final Widget Function(BuildContext context, T item) itemBuilder;
   final Widget? floatingActionButton;
   final bool isLoading;
+  final bool isLoadingMore;
   final Future<void> Function()? onRefresh;
   final Future<void> Function()? onLoadMore;
   final String? searchHint;
@@ -18,7 +20,12 @@ class SearchableListScreen<T> extends StatefulWidget {
   final double mainAxisSpacing;
   final double crossAxisSpacing;
   final Widget? customFilters;
+  final String? errorMessage;
+  final bool hasError;
+  final VoidCallback? onRetry;
   final void Function(String query)? onSearch;
+  final PreferredSizeWidget? bottom;
+  final int maxColumns;
 
   const SearchableListScreen({
     super.key,
@@ -27,6 +34,7 @@ class SearchableListScreen<T> extends StatefulWidget {
     required this.itemBuilder,
     this.floatingActionButton,
     this.isLoading = false,
+    this.isLoadingMore = false,
     this.onRefresh,
     this.onLoadMore,
     this.searchHint,
@@ -36,6 +44,11 @@ class SearchableListScreen<T> extends StatefulWidget {
     this.mainAxisSpacing = 16,
     this.crossAxisSpacing = 16,
     this.onSearch,
+    this.errorMessage,
+    this.hasError = false,
+    this.onRetry,
+    this.bottom,
+    this.maxColumns = 3,
   });
 
   @override
@@ -88,20 +101,18 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: widget.title,
+      bottom: widget.bottom,
       floatingActionButton: widget.floatingActionButton,
       child: Column(
         children: [
+          // Search bar
           Container(
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+              border: Border(
+                bottom: BorderSide(color: Theme.of(context).dividerColor),
+              ),
             ),
             child: TextField(
               controller: _searchController,
@@ -122,92 +133,113 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
               ),
             ),
           ),
+          // Top loading indicator (for refresh/delete operations when items exist)
+          if (widget.isLoading && widget.items.isNotEmpty)
+            LinearProgressIndicator(
+              backgroundColor: Theme.of(
+                context,
+              ).colorScheme.surfaceContainerLow,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          // Custom filters
           if (widget.customFilters != null) widget.customFilters!,
-          Expanded(
-            child: widget.isLoading && widget.items.isEmpty
-                ? const Center(child: CircularProgressIndicator())
-                : widget.items.isEmpty
-                ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.search_off,
-                          size: 64,
-                          color: Theme.of(context).colorScheme.outline,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          AppLocalizations.of(context)!.noItemsFound,
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.outline,
-                              ),
-                        ),
-                      ],
-                    ),
-                  )
-                : RefreshIndicator(
-                    onRefresh: widget.onRefresh ?? () async {},
-                    child: widget.useGrid
-                        ? ResponsiveGridBuilder(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            controller: _scrollController,
-                            padding: const EdgeInsets.all(16),
-                            itemCount:
-                                widget.items.length +
-                                (widget.isLoading && widget.onLoadMore != null
-                                    ? 1
-                                    : 0),
-                            preferredItemHeight:
-                                widget.preferredItemHeight ?? 300,
-                            mainAxisSpacing: widget.mainAxisSpacing,
-                            crossAxisSpacing: widget.crossAxisSpacing,
-                            itemBuilder: (context, index) {
-                              if (index >= widget.items.length) {
-                                return const Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(16.0),
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                );
-                              }
-                              return widget.itemBuilder(
-                                context,
-                                widget.items[index],
-                              );
-                            },
-                          )
-                        : ListView.separated(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            padding: const EdgeInsets.all(16),
-                            controller: _scrollController,
-                            itemCount:
-                                widget.items.length +
-                                (widget.isLoading && widget.onLoadMore != null
-                                    ? 1
-                                    : 0),
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(height: 12),
-                            itemBuilder: (context, index) {
-                              if (index >= widget.items.length) {
-                                return const Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(16.0),
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                );
-                              }
-                              return widget.itemBuilder(
-                                context,
-                                widget.items[index],
-                              );
-                            },
-                          ),
-                  ),
-          ),
+          // Main content
+          Expanded(child: _buildContent(context)),
         ],
       ),
+    );
+  }
+
+  Widget _buildContent(BuildContext context) {
+    // Error state (only when no items to show)
+    if (widget.hasError && widget.items.isEmpty) {
+      return GlobalErrorWidget(
+        message: widget.errorMessage,
+        onRetry: widget.onRetry,
+      );
+    }
+
+    // Initial loading state (no items yet)
+    if (widget.isLoading && widget.items.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    // Empty state
+    if (widget.items.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.search_off,
+              size: 64,
+              color: Theme.of(context).colorScheme.outline,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              AppLocalizations.of(context)!.noItemsFound,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: Theme.of(context).colorScheme.outline,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // Normal state with items
+    return RefreshIndicator(
+      onRefresh: widget.onRefresh ?? () async {},
+      child: widget.useGrid ? _buildGrid() : _buildList(),
+    );
+  }
+
+  Widget _buildGrid() {
+    final showLoadingMore = widget.isLoadingMore && widget.onLoadMore != null;
+
+    return ResponsiveGridBuilder(
+      physics: const AlwaysScrollableScrollPhysics(),
+      controller: _scrollController,
+      padding: const EdgeInsets.all(16),
+      itemCount: widget.items.length + (showLoadingMore ? 1 : 0),
+      preferredItemHeight: widget.preferredItemHeight ?? 300,
+      maxColumns: widget.maxColumns,
+      mainAxisSpacing: widget.mainAxisSpacing,
+      crossAxisSpacing: widget.crossAxisSpacing,
+      itemBuilder: (context, index) {
+        if (index >= widget.items.length) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        return widget.itemBuilder(context, widget.items[index]);
+      },
+    );
+  }
+
+  Widget _buildList() {
+    final showLoadingMore = widget.isLoadingMore && widget.onLoadMore != null;
+
+    return ListView.separated(
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(16),
+      controller: _scrollController,
+      itemCount: widget.items.length + (showLoadingMore ? 1 : 0),
+      separatorBuilder: (context, index) => const SizedBox(height: 12),
+      itemBuilder: (context, index) {
+        if (index >= widget.items.length) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        return widget.itemBuilder(context, widget.items[index]);
+      },
     );
   }
 }
@@ -259,13 +291,13 @@ class FilterChipsBar<T> extends StatelessWidget {
           }
         },
         backgroundColor: Theme.of(context).colorScheme.surface,
-        selectedColor: Theme.of(context).colorScheme.primaryContainer,
-        checkmarkColor: Theme.of(context).colorScheme.onPrimaryContainer,
+        selectedColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+        checkmarkColor: Theme.of(context).colorScheme.primary,
         labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
           color: isSelected
-              ? Theme.of(context).colorScheme.onPrimaryContainer
+              ? Theme.of(context).colorScheme.primary
               : Theme.of(context).colorScheme.onSurface,
-          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          fontWeight: FontWeight.normal,
         ),
       ),
     );

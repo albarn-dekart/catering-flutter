@@ -62,9 +62,9 @@ class _OrderStatusPieChartState extends State<OrderStatusPieChart> {
               : '${percentage.toStringAsFixed(1)}%',
           radius: radius,
           titlePositionPercentageOffset: 0.6,
-          titleStyle: TextStyle(
+          titleStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
             fontSize: fontSize,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.normal,
             color: Colors.white,
             shadows: const [Shadow(color: Colors.black, blurRadius: 2)],
           ),
@@ -74,7 +74,7 @@ class _OrderStatusPieChartState extends State<OrderStatusPieChart> {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -82,7 +82,7 @@ class _OrderStatusPieChartState extends State<OrderStatusPieChart> {
               chartTitle,
               style: Theme.of(
                 context,
-              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.normal),
             ),
             const SizedBox(height: 24),
             LayoutBuilder(
@@ -148,10 +148,12 @@ class _OrderStatusPieChartState extends State<OrderStatusPieChart> {
                                   Expanded(
                                     child: Text(
                                       '${entry.key.getLabel(context)} (${entry.value})',
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.normal,
+                                          ),
                                     ),
                                   ),
                                 ],
@@ -212,10 +214,8 @@ class _OrderStatusPieChartState extends State<OrderStatusPieChart> {
                               const SizedBox(width: 8),
                               Text(
                                 '${entry.key.getLabel(context)} (${entry.value})',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Theme.of(context).textTheme.labelSmall
+                                    ?.copyWith(fontWeight: FontWeight.normal),
                               ),
                             ],
                           );

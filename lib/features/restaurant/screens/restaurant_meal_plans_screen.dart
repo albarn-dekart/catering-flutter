@@ -46,6 +46,7 @@ class _RestaurantMealPlansScreenState extends State<RestaurantMealPlansScreen> {
           title: AppLocalizations.of(context)!.manageMealPlans,
           items: mealPlanService.mealPlans,
           isLoading: mealPlanService.isLoading,
+          isLoadingMore: mealPlanService.isFetchingMore,
           useGrid: true,
           preferredItemHeight: 420,
           onLoadMore: () async {
@@ -94,6 +95,9 @@ class _RestaurantMealPlansScreenState extends State<RestaurantMealPlansScreen> {
           onRefresh: () async {
             _fetchMealPlans();
           },
+          hasError: mealPlanService.hasError,
+          errorMessage: mealPlanService.errorMessage,
+          onRetry: _fetchMealPlans,
           itemBuilder: (context, mealPlan) {
             return MealPlanCard(
               id: mealPlan.id,
@@ -155,7 +159,9 @@ class _RestaurantMealPlansScreenState extends State<RestaurantMealPlansScreen> {
                             TextButton(
                               onPressed: () => Navigator.pop(context, true),
                               style: TextButton.styleFrom(
-                                foregroundColor: Colors.red,
+                                foregroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.error,
                               ),
                               child: Text(AppLocalizations.of(context)!.delete),
                             ),

@@ -15,8 +15,7 @@ class RevenueLineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final chartTitle =
-        title ?? AppLocalizations.of(context)!.revenueTrendLast30Days;
+    final chartTitle = title ?? AppLocalizations.of(context)!.revenueTrend;
 
     if (revenueTimeSeries.isEmpty) {
       return Card(
@@ -56,7 +55,7 @@ class RevenueLineChart extends StatelessWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -64,7 +63,7 @@ class RevenueLineChart extends StatelessWidget {
               chartTitle,
               style: Theme.of(
                 context,
-              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.normal),
             ),
             const SizedBox(height: 24),
             SizedBox(
@@ -119,10 +118,7 @@ class RevenueLineChart extends StatelessWidget {
                               padding: const EdgeInsets.only(top: 8.0),
                               child: Text(
                                 DateFormat('MM/dd').format(date),
-                                style: const TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Theme.of(context).textTheme.labelSmall,
                               ),
                             );
                           } catch (e) {
@@ -132,12 +128,9 @@ class RevenueLineChart extends StatelessWidget {
                       ),
                     ),
                     leftTitles: AxisTitles(
-                      axisNameWidget: const Text(
+                      axisNameWidget: Text(
                         'PLN',
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.labelSmall,
                       ),
                       axisNameSize: 20,
                       sideTitles: SideTitles(
@@ -147,10 +140,7 @@ class RevenueLineChart extends StatelessWidget {
                         getTitlesWidget: (value, meta) {
                           return Text(
                             value.toStringAsFixed(0),
-                            style: const TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.labelSmall,
                           );
                         },
                       ),
@@ -199,6 +189,8 @@ class RevenueLineChart extends StatelessWidget {
                   ],
                   lineTouchData: LineTouchData(
                     touchTooltipData: LineTouchTooltipData(
+                      fitInsideHorizontally: true,
+                      fitInsideVertically: true,
                       getTooltipItems: (List<LineBarSpot> touchedSpots) {
                         return touchedSpots.map((LineBarSpot touchedSpot) {
                           final index = touchedSpot.x.toInt();
@@ -211,10 +203,10 @@ class RevenueLineChart extends StatelessWidget {
 
                           return LineTooltipItem(
                             '$dateStr\n$revenue PLN',
-                            const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            Theme.of(context).textTheme.labelSmall?.copyWith(
+                                  color: Colors.white,
+                                ) ??
+                                const TextStyle(color: Colors.white),
                           );
                         }).toList();
                       },

@@ -890,6 +890,7 @@ class Fragment$DriverDeliveryFragment {
     required this.status,
     required this.deliveryDate,
     this.order,
+    this.driver,
     this.$__typename = 'Delivery',
   });
 
@@ -898,6 +899,7 @@ class Fragment$DriverDeliveryFragment {
     final l$status = json['status'];
     final l$deliveryDate = json['deliveryDate'];
     final l$order = json['order'];
+    final l$driver = json['driver'];
     final l$$__typename = json['__typename'];
     return Fragment$DriverDeliveryFragment(
       id: (l$id as String),
@@ -907,6 +909,11 @@ class Fragment$DriverDeliveryFragment {
           ? null
           : Fragment$DriverDeliveryFragment$order.fromJson(
               (l$order as Map<String, dynamic>),
+            ),
+      driver: l$driver == null
+          ? null
+          : Fragment$DriverDeliveryFragment$driver.fromJson(
+              (l$driver as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
     );
@@ -920,6 +927,8 @@ class Fragment$DriverDeliveryFragment {
 
   final Fragment$DriverDeliveryFragment$order? order;
 
+  final Fragment$DriverDeliveryFragment$driver? driver;
+
   final String $__typename;
 
   Map<String, dynamic> toJson() {
@@ -932,6 +941,8 @@ class Fragment$DriverDeliveryFragment {
     _resultData['deliveryDate'] = l$deliveryDate;
     final l$order = order;
     _resultData['order'] = l$order?.toJson();
+    final l$driver = driver;
+    _resultData['driver'] = l$driver?.toJson();
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -943,12 +954,14 @@ class Fragment$DriverDeliveryFragment {
     final l$status = status;
     final l$deliveryDate = deliveryDate;
     final l$order = order;
+    final l$driver = driver;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$id,
       l$status,
       l$deliveryDate,
       l$order,
+      l$driver,
       l$$__typename,
     ]);
   }
@@ -982,6 +995,11 @@ class Fragment$DriverDeliveryFragment {
     if (l$order != lOther$order) {
       return false;
     }
+    final l$driver = driver;
+    final lOther$driver = other.driver;
+    if (l$driver != lOther$driver) {
+      return false;
+    }
     final l$$__typename = $__typename;
     final lOther$$__typename = other.$__typename;
     if (l$$__typename != lOther$$__typename) {
@@ -1011,9 +1029,11 @@ abstract class CopyWith$Fragment$DriverDeliveryFragment<TRes> {
     Enum$DeliveryStatus? status,
     String? deliveryDate,
     Fragment$DriverDeliveryFragment$order? order,
+    Fragment$DriverDeliveryFragment$driver? driver,
     String? $__typename,
   });
   CopyWith$Fragment$DriverDeliveryFragment$order<TRes> get order;
+  CopyWith$Fragment$DriverDeliveryFragment$driver<TRes> get driver;
 }
 
 class _CopyWithImpl$Fragment$DriverDeliveryFragment<TRes>
@@ -1031,6 +1051,7 @@ class _CopyWithImpl$Fragment$DriverDeliveryFragment<TRes>
     Object? status = _undefined,
     Object? deliveryDate = _undefined,
     Object? order = _undefined,
+    Object? driver = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
     Fragment$DriverDeliveryFragment(
@@ -1044,6 +1065,9 @@ class _CopyWithImpl$Fragment$DriverDeliveryFragment<TRes>
       order: order == _undefined
           ? _instance.order
           : (order as Fragment$DriverDeliveryFragment$order?),
+      driver: driver == _undefined
+          ? _instance.driver
+          : (driver as Fragment$DriverDeliveryFragment$driver?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
@@ -1059,6 +1083,16 @@ class _CopyWithImpl$Fragment$DriverDeliveryFragment<TRes>
             (e) => call(order: e),
           );
   }
+
+  CopyWith$Fragment$DriverDeliveryFragment$driver<TRes> get driver {
+    final local$driver = _instance.driver;
+    return local$driver == null
+        ? CopyWith$Fragment$DriverDeliveryFragment$driver.stub(_then(_instance))
+        : CopyWith$Fragment$DriverDeliveryFragment$driver(
+            local$driver,
+            (e) => call(driver: e),
+          );
+  }
 }
 
 class _CopyWithStubImpl$Fragment$DriverDeliveryFragment<TRes>
@@ -1072,11 +1106,15 @@ class _CopyWithStubImpl$Fragment$DriverDeliveryFragment<TRes>
     Enum$DeliveryStatus? status,
     String? deliveryDate,
     Fragment$DriverDeliveryFragment$order? order,
+    Fragment$DriverDeliveryFragment$driver? driver,
     String? $__typename,
   }) => _res;
 
   CopyWith$Fragment$DriverDeliveryFragment$order<TRes> get order =>
       CopyWith$Fragment$DriverDeliveryFragment$order.stub(_res);
+
+  CopyWith$Fragment$DriverDeliveryFragment$driver<TRes> get driver =>
+      CopyWith$Fragment$DriverDeliveryFragment$driver.stub(_res);
 }
 
 const fragmentDefinitionDriverDeliveryFragment = FragmentDefinitionNode(
@@ -1366,6 +1404,37 @@ const fragmentDefinitionDriverDeliveryFragment = FragmentDefinitionNode(
                   ),
                 ],
               ),
+            ),
+            FieldNode(
+              name: NameNode(value: '__typename'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+          ],
+        ),
+      ),
+      FieldNode(
+        name: NameNode(value: 'driver'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(
+          selections: [
+            FieldNode(
+              name: NameNode(value: 'id'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'email'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
             ),
             FieldNode(
               name: NameNode(value: '__typename'),
@@ -2843,6 +2912,139 @@ class _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$n
   TRes _res;
 
   call({String? id, String? name, String? $__typename}) => _res;
+}
+
+class Fragment$DriverDeliveryFragment$driver {
+  Fragment$DriverDeliveryFragment$driver({
+    required this.id,
+    required this.email,
+    this.$__typename = 'User',
+  });
+
+  factory Fragment$DriverDeliveryFragment$driver.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$email = json['email'];
+    final l$$__typename = json['__typename'];
+    return Fragment$DriverDeliveryFragment$driver(
+      id: (l$id as String),
+      email: (l$email as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String email;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$email = email;
+    _resultData['email'] = l$email;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$email = email;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$email, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$DriverDeliveryFragment$driver ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$email = email;
+    final lOther$email = other.email;
+    if (l$email != lOther$email) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$DriverDeliveryFragment$driver
+    on Fragment$DriverDeliveryFragment$driver {
+  CopyWith$Fragment$DriverDeliveryFragment$driver<
+    Fragment$DriverDeliveryFragment$driver
+  >
+  get copyWith =>
+      CopyWith$Fragment$DriverDeliveryFragment$driver(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$DriverDeliveryFragment$driver<TRes> {
+  factory CopyWith$Fragment$DriverDeliveryFragment$driver(
+    Fragment$DriverDeliveryFragment$driver instance,
+    TRes Function(Fragment$DriverDeliveryFragment$driver) then,
+  ) = _CopyWithImpl$Fragment$DriverDeliveryFragment$driver;
+
+  factory CopyWith$Fragment$DriverDeliveryFragment$driver.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$DriverDeliveryFragment$driver;
+
+  TRes call({String? id, String? email, String? $__typename});
+}
+
+class _CopyWithImpl$Fragment$DriverDeliveryFragment$driver<TRes>
+    implements CopyWith$Fragment$DriverDeliveryFragment$driver<TRes> {
+  _CopyWithImpl$Fragment$DriverDeliveryFragment$driver(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$DriverDeliveryFragment$driver _instance;
+
+  final TRes Function(Fragment$DriverDeliveryFragment$driver) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? email = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$DriverDeliveryFragment$driver(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      email: email == _undefined || email == null
+          ? _instance.email
+          : (email as String),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$DriverDeliveryFragment$driver<TRes>
+    implements CopyWith$Fragment$DriverDeliveryFragment$driver<TRes> {
+  _CopyWithStubImpl$Fragment$DriverDeliveryFragment$driver(this._res);
+
+  TRes _res;
+
+  call({String? id, String? email, String? $__typename}) => _res;
 }
 
 class Variables$Query$GetDeliveries {
@@ -7225,7 +7427,7 @@ const documentNodeMutationUpdateDelivery = DocumentNode(
                   selectionSet: SelectionSetNode(
                     selections: [
                       FragmentSpreadNode(
-                        name: NameNode(value: 'BasicDeliveryFragment'),
+                        name: NameNode(value: 'DriverDeliveryFragment'),
                         directives: [],
                       ),
                       FieldNode(
@@ -7258,7 +7460,7 @@ const documentNodeMutationUpdateDelivery = DocumentNode(
         ],
       ),
     ),
-    fragmentDefinitionBasicDeliveryFragment,
+    fragmentDefinitionDriverDeliveryFragment,
   ],
 );
 Mutation$UpdateDelivery _parserFn$Mutation$UpdateDelivery(
@@ -7473,14 +7675,14 @@ class Mutation$UpdateDelivery$updateDelivery {
     return Mutation$UpdateDelivery$updateDelivery(
       delivery: l$delivery == null
           ? null
-          : Fragment$BasicDeliveryFragment.fromJson(
+          : Fragment$DriverDeliveryFragment.fromJson(
               (l$delivery as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Fragment$BasicDeliveryFragment? delivery;
+  final Fragment$DriverDeliveryFragment? delivery;
 
   final String $__typename;
 
@@ -7541,8 +7743,8 @@ abstract class CopyWith$Mutation$UpdateDelivery$updateDelivery<TRes> {
   factory CopyWith$Mutation$UpdateDelivery$updateDelivery.stub(TRes res) =
       _CopyWithStubImpl$Mutation$UpdateDelivery$updateDelivery;
 
-  TRes call({Fragment$BasicDeliveryFragment? delivery, String? $__typename});
-  CopyWith$Fragment$BasicDeliveryFragment<TRes> get delivery;
+  TRes call({Fragment$DriverDeliveryFragment? delivery, String? $__typename});
+  CopyWith$Fragment$DriverDeliveryFragment<TRes> get delivery;
 }
 
 class _CopyWithImpl$Mutation$UpdateDelivery$updateDelivery<TRes>
@@ -7565,18 +7767,18 @@ class _CopyWithImpl$Mutation$UpdateDelivery$updateDelivery<TRes>
     Mutation$UpdateDelivery$updateDelivery(
       delivery: delivery == _undefined
           ? _instance.delivery
-          : (delivery as Fragment$BasicDeliveryFragment?),
+          : (delivery as Fragment$DriverDeliveryFragment?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
     ),
   );
 
-  CopyWith$Fragment$BasicDeliveryFragment<TRes> get delivery {
+  CopyWith$Fragment$DriverDeliveryFragment<TRes> get delivery {
     final local$delivery = _instance.delivery;
     return local$delivery == null
-        ? CopyWith$Fragment$BasicDeliveryFragment.stub(_then(_instance))
-        : CopyWith$Fragment$BasicDeliveryFragment(
+        ? CopyWith$Fragment$DriverDeliveryFragment.stub(_then(_instance))
+        : CopyWith$Fragment$DriverDeliveryFragment(
             local$delivery,
             (e) => call(delivery: e),
           );
@@ -7589,10 +7791,11 @@ class _CopyWithStubImpl$Mutation$UpdateDelivery$updateDelivery<TRes>
 
   TRes _res;
 
-  call({Fragment$BasicDeliveryFragment? delivery, String? $__typename}) => _res;
+  call({Fragment$DriverDeliveryFragment? delivery, String? $__typename}) =>
+      _res;
 
-  CopyWith$Fragment$BasicDeliveryFragment<TRes> get delivery =>
-      CopyWith$Fragment$BasicDeliveryFragment.stub(_res);
+  CopyWith$Fragment$DriverDeliveryFragment<TRes> get delivery =>
+      CopyWith$Fragment$DriverDeliveryFragment.stub(_res);
 }
 
 class Variables$Mutation$DeleteDelivery {

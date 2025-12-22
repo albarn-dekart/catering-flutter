@@ -26,6 +26,7 @@ class _RestaurantDeliveriesScreenState
   Enum$DeliveryStatus? _selectedStatusFilter;
   String _currentSearchQuery = '';
   bool _isExporting = false;
+  final Set<String> _updatingIds = {};
 
   @override
   void initState() {
@@ -90,6 +91,7 @@ class _RestaurantDeliveriesScreenState
                 ),
           items: deliveryService.deliveries,
           isLoading: deliveryService.isLoading || userService.isLoading,
+          isLoadingMore: deliveryService.isFetchingMore,
           onLoadMore: () async {
             if (!deliveryService.isFetchingMore &&
                 deliveryService.hasNextPage) {
@@ -104,6 +106,10 @@ class _RestaurantDeliveriesScreenState
             _currentSearchQuery = query;
             _fetchDeliveries();
           },
+          hasError: deliveryService.hasError || userService.hasError,
+          errorMessage:
+              deliveryService.errorMessage ?? userService.errorMessage,
+          onRetry: _fetchDeliveriesAndDrivers,
           onRefresh: _fetchDeliveriesAndDrivers,
           customFilters: FilterChipsBar<Enum$DeliveryStatus>(
             values: Enum$DeliveryStatus.values
@@ -128,6 +134,30 @@ class _RestaurantDeliveriesScreenState
     );
   }
 
+  bool _isDriverAssignmentDisabled(Delivery delivery) {
+    return delivery.order?.status == Enum$OrderStatus.Unpaid ||
+        delivery.status == Enum$DeliveryStatus.Delivered ||
+        delivery.status == Enum$DeliveryStatus.Failed ||
+        delivery.status == Enum$DeliveryStatus.Returned ||
+        _updatingIds.contains(delivery.id);
+  }
+
+  String _getDriverLabel(BuildContext context, Delivery delivery) {
+    if (delivery.order?.status == Enum$OrderStatus.Unpaid) {
+      return '${AppLocalizations.of(context)!.assignDriver} (${AppLocalizations.of(context)!.statusUnpaid})';
+    }
+    if (delivery.status == Enum$DeliveryStatus.Delivered) {
+      return '${AppLocalizations.of(context)!.assignDriver} (${AppLocalizations.of(context)!.statusDelivered})';
+    }
+    if (delivery.status == Enum$DeliveryStatus.Failed) {
+      return '${AppLocalizations.of(context)!.assignDriver} (${AppLocalizations.of(context)!.statusFailed})';
+    }
+    if (delivery.status == Enum$DeliveryStatus.Returned) {
+      return '${AppLocalizations.of(context)!.assignDriver} (${AppLocalizations.of(context)!.statusReturned})';
+    }
+    return AppLocalizations.of(context)!.assignDriver;
+  }
+
   Widget _buildDeliveryCard(
     BuildContext context,
     Delivery delivery,
@@ -147,9 +177,9 @@ class _RestaurantDeliveriesScreenState
                 Text(
                   AppLocalizations.of(
                     context,
-                  )!.orderNumber(IriHelper.getId(delivery.order!.id)),
+                  )!.deliveryNumber(IriHelper.getId(delivery.id)),
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.normal,
                   ),
                 ),
                 Container(
@@ -163,16 +193,32 @@ class _RestaurantDeliveriesScreenState
                   ),
                   child: Text(
                     delivery.status.getLabel(context),
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       color: delivery.status.onContainerColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 12),
+            Row(
+              children: [
+                Icon(
+                  Icons.receipt_long,
+                  size: 16,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  AppLocalizations.of(
+                    context,
+                  )!.orderNumber(IriHelper.getId(delivery.order!.id)),
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
             Row(
               children: [
                 Icon(
@@ -214,17 +260,25 @@ class _RestaurantDeliveriesScreenState
             if (drivers.isNotEmpty)
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
-                  labelText: (delivery.order?.status == Enum$OrderStatus.Unpaid)
-                      ? '${AppLocalizations.of(context)!.assignDriver} (${AppLocalizations.of(context)!.statusUnpaid})'
-                      : AppLocalizations.of(context)!.assignDriver,
+                  labelText: _getDriverLabel(context, delivery),
                   border: const OutlineInputBorder(),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 12,
                     vertical: 8,
                   ),
+                  suffixIcon: _updatingIds.contains(delivery.id)
+                      ? const Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        )
+                      : null,
                 ),
                 initialValue: delivery.driver?.id,
-                onChanged: (delivery.order?.status == Enum$OrderStatus.Unpaid)
+                onChanged: _isDriverAssignmentDisabled(delivery)
                     ? null
                     : (String? newDriverId) async {
                         if (newDriverId != null) {
@@ -244,9 +298,22 @@ class _RestaurantDeliveriesScreenState
               SizedBox(
                 width: double.infinity,
                 child: FilledButton.icon(
-                  onPressed: () =>
-                      _updateStatus(delivery.id, Enum$DeliveryStatus.Picked_up),
-                  icon: const Icon(Icons.shopping_bag),
+                  onPressed: _updatingIds.contains(delivery.id)
+                      ? null
+                      : () => _updateStatus(
+                          delivery.id,
+                          Enum$DeliveryStatus.Picked_up,
+                        ),
+                  icon: _updatingIds.contains(delivery.id)
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Icon(Icons.shopping_bag),
                   label: Text(AppLocalizations.of(context)!.markAsPickedUp),
                 ),
               ),
@@ -254,10 +321,22 @@ class _RestaurantDeliveriesScreenState
               SizedBox(
                 width: double.infinity,
                 child: FilledButton.icon(
-                  onPressed: () =>
-                      _updateStatus(delivery.id, Enum$DeliveryStatus.Delivered),
-                  style: FilledButton.styleFrom(backgroundColor: Colors.green),
-                  icon: const Icon(Icons.check_circle),
+                  onPressed: _updatingIds.contains(delivery.id)
+                      ? null
+                      : () => _updateStatus(
+                          delivery.id,
+                          Enum$DeliveryStatus.Delivered,
+                        ),
+                  icon: _updatingIds.contains(delivery.id)
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Icon(Icons.check_circle),
                   label: Text(
                     AppLocalizations.of(context)!.markAsDeliveredAction,
                   ),
@@ -270,11 +349,13 @@ class _RestaurantDeliveriesScreenState
   }
 
   Future<void> _assignDriver(Delivery delivery, String driverId) async {
+    setState(() {
+      _updatingIds.add(delivery.id);
+    });
     final deliveryService = context.read<DeliveryService>();
     try {
       await deliveryService.updateDeliveryStatus(
-        delivery.id, // Use string ID for mutations
-        // Let backend handle status update
+        delivery.id,
         driverIri: driverId,
       );
       if (!mounted) return;
@@ -284,7 +365,6 @@ class _RestaurantDeliveriesScreenState
         AppLocalizations.of(context)!.driverAssignedSuccess,
         isError: false,
       );
-      _fetchDeliveries();
     } catch (e) {
       if (!mounted) return;
       UIErrorHandler.showSnackBar(
@@ -296,6 +376,12 @@ class _RestaurantDeliveriesScreenState
           onPressed: () => _assignDriver(delivery, driverId),
         ),
       );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _updatingIds.remove(delivery.id);
+        });
+      }
     }
   }
 
@@ -303,6 +389,9 @@ class _RestaurantDeliveriesScreenState
     String deliveryId,
     Enum$DeliveryStatus newStatus,
   ) async {
+    setState(() {
+      _updatingIds.add(deliveryId);
+    });
     final deliveryService = context.read<DeliveryService>();
     try {
       await deliveryService.updateDeliveryStatus(deliveryId, status: newStatus);
@@ -314,7 +403,6 @@ class _RestaurantDeliveriesScreenState
         AppLocalizations.of(context)!.deliveryStatusUpdated,
         isError: false,
       );
-      _fetchDeliveries();
     } catch (e) {
       if (!mounted) return;
       UIErrorHandler.handleError(
@@ -322,6 +410,12 @@ class _RestaurantDeliveriesScreenState
         e,
         customMessage: AppLocalizations.of(context)!.failedToUpdateStatus,
       );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _updatingIds.remove(deliveryId);
+        });
+      }
     }
   }
 

@@ -38,6 +38,14 @@ class _CustomerMealPlansScreenState extends State<CustomerMealPlansScreen> {
           title: AppLocalizations.of(context)!.myMealPlans,
           items: mealPlanService.mealPlans,
           isLoading: mealPlanService.isLoading,
+          hasError: mealPlanService.hasError,
+          errorMessage: mealPlanService.errorMessage,
+          onRetry: () {
+            final userIri = context.read<AuthService>().userIri;
+            if (userIri != null) {
+              mealPlanService.fetchMyCustomMealPlans(userIri);
+            }
+          },
           searchHint: AppLocalizations.of(context)!.searchMealPlans,
           onSearch: (query) {
             final userIri = context.read<AuthService>().userIri;

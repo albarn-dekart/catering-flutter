@@ -1,3 +1,4 @@
+import 'package:catering_flutter/core/utils/role_helper.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,15 +23,6 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await context.read<UserService>().fetchAllUsers();
-      if (!mounted) return;
-      final service = context.read<UserService>();
-      if (service.hasError) {
-        UIErrorHandler.showSnackBar(
-          context,
-          service.errorMessage!,
-          isError: true,
-        );
-      }
     });
   }
 
@@ -51,10 +43,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                       ? const SizedBox(
                           width: 24,
                           height: 24,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
+                          child: CircularProgressIndicator(strokeWidth: 2),
                         )
                       : const Icon(Icons.download),
                 )
@@ -64,16 +53,18 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                       ? const SizedBox(
                           width: 24,
                           height: 24,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
+                          child: CircularProgressIndicator(strokeWidth: 2),
                         )
                       : const Icon(Icons.download),
                   label: Text(AppLocalizations.of(context)!.exportToCsv),
                 ),
           items: userService.users,
           isLoading: userService.isLoading,
+          isLoadingMore: userService.isFetchingMore,
+          hasError: userService.hasError,
+          errorMessage: userService.errorMessage,
+          onRetry: () =>
+              userService.fetchAllUsers(roleFilter: _selectedRoleFilter),
           onLoadMore: () async {
             if (!userService.isFetchingMore && userService.hasNextPage) {
               await userService.loadMoreUsers();
@@ -116,7 +107,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                 title: Text(
                   user.email,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.normal,
                   ),
                 ),
                 subtitle: Text('ID: ${IriHelper.getId(user.id)}'),
@@ -129,7 +120,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                         Text(
                           AppLocalizations.of(context)!.assignRole,
                           style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
+                              ?.copyWith(fontWeight: FontWeight.normal),
                         ),
                         const SizedBox(height: 8),
                         DropdownButtonFormField<String>(
@@ -141,32 +132,20 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                             ),
                           ),
                           initialValue: currentRole,
-                          items: [
-                            DropdownMenuItem(
-                              value: 'ROLE_ADMIN',
-                              child: Text(
-                                AppLocalizations.of(context)!.roleAdmin,
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: 'ROLE_RESTAURANT',
-                              child: Text(
-                                AppLocalizations.of(context)!.roleRestaurant,
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: 'ROLE_DRIVER',
-                              child: Text(
-                                AppLocalizations.of(context)!.roleDriver,
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: 'ROLE_CUSTOMER',
-                              child: Text(
-                                AppLocalizations.of(context)!.roleCustomer,
-                              ),
-                            ),
-                          ],
+                          items:
+                              [
+                                'ROLE_ADMIN',
+                                'ROLE_RESTAURANT',
+                                'ROLE_DRIVER',
+                                'ROLE_CUSTOMER',
+                              ].map((role) {
+                                return DropdownMenuItem(
+                                  value: role,
+                                  child: Text(
+                                    RoleHelper.getLocalizedRole(context, role),
+                                  ),
+                                );
+                              }).toList(),
                           onChanged: (newRole) async {
                             if (newRole != null && newRole != currentRole) {
                               try {
@@ -197,8 +176,12 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                             icon: const Icon(Icons.delete),
                             label: Text(AppLocalizations.of(context)!.delete),
                             style: OutlinedButton.styleFrom(
-                              foregroundColor: Colors.red,
-                              side: const BorderSide(color: Colors.red),
+                              foregroundColor: Theme.of(
+                                context,
+                              ).colorScheme.error,
+                              side: BorderSide(
+                                color: Theme.of(context).colorScheme.error,
+                              ),
                             ),
                           ),
                         ),
@@ -233,7 +216,9 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.error,
+            ),
             child: Text(AppLocalizations.of(context)!.delete),
           ),
         ],
@@ -261,19 +246,12 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
   Widget _buildRoleFilterChips() {
     final roles = [
       {'value': null, 'label': AppLocalizations.of(context)!.all},
-      {'value': 'ROLE_ADMIN', 'label': AppLocalizations.of(context)!.roleAdmin},
-      {
-        'value': 'ROLE_RESTAURANT',
-        'label': AppLocalizations.of(context)!.roleRestaurant,
-      },
-      {
-        'value': 'ROLE_DRIVER',
-        'label': AppLocalizations.of(context)!.roleDriver,
-      },
-      {
-        'value': 'ROLE_CUSTOMER',
-        'label': AppLocalizations.of(context)!.roleCustomer,
-      },
+      ...['ROLE_ADMIN', 'ROLE_RESTAURANT', 'ROLE_DRIVER', 'ROLE_CUSTOMER'].map(
+        (role) => {
+          'value': role,
+          'label': RoleHelper.getLocalizedRole(context, role),
+        },
+      ),
     ];
 
     return Container(

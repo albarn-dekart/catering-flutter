@@ -1,3 +1,4 @@
+import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catering_flutter/core/utils/date_formatter.dart';
@@ -19,7 +20,7 @@ class RestaurantProductionScreen extends StatefulWidget {
 
 class _RestaurantProductionScreenState
     extends State<RestaurantProductionScreen> {
-  DateTime _selectedDate = DateTime.now().add(const Duration(days: 1));
+  DateTime _selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -91,53 +92,84 @@ class _RestaurantProductionScreenState
             ),
       child: Column(
         children: [
-          // Date selector header
-          Container(
+          // Date selector header (refined for consistency)
+          Padding(
             padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(24),
-                bottomRight: Radius.circular(24),
+            child: Card(
+              elevation: 0,
+              color: Theme.of(
+                context,
+              ).colorScheme.primaryContainer.withValues(alpha: 0.5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+                side: BorderSide(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.primary.withValues(alpha: 0.1),
+                ),
               ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.productionDate,
-                        style: Theme.of(context).textTheme.labelMedium
-                            ?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer
-                                  .withValues(alpha: 0.7),
-                            ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.primary.withValues(alpha: 0.1),
+                        shape: BoxShape.circle,
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        AppDateFormatter.fullDate(context, _selectedDate),
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onPrimaryContainer,
-                          fontWeight: FontWeight.bold,
+                      child: Icon(
+                        Icons.calendar_today_rounded,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.productionDate,
+                            style: Theme.of(context).textTheme.labelMedium
+                                ?.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer
+                                      .withValues(alpha: 0.7),
+                                  fontWeight: FontWeight.normal,
+                                ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            AppDateFormatter.fullDate(context, _selectedDate),
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimaryContainer,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    FilledButton.icon(
+                      onPressed: () => _selectDate(context),
+                      icon: const Icon(Icons.date_range_rounded, size: 18),
+                      label: Text(AppLocalizations.of(context)!.change),
+                      style: FilledButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 8),
-                FilledButton.tonalIcon(
-                  onPressed: () => _selectDate(context),
-                  icon: const Icon(Icons.calendar_today),
-                  label: Text(AppLocalizations.of(context)!.change),
-                ),
-              ],
+              ),
             ),
           ),
 
@@ -146,27 +178,10 @@ class _RestaurantProductionScreenState
             child: service.isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : service.hasError
-                ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.error_outline,
-                          size: 48,
-                          color: Theme.of(context).colorScheme.error,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          service.errorMessage ??
-                              AppLocalizations.of(context)!.somethingWentWrong,
-                        ),
-                        const SizedBox(height: 16),
-                        FilledButton(
-                          onPressed: _fetchData,
-                          child: Text(AppLocalizations.of(context)!.retry),
-                        ),
-                      ],
-                    ),
+                ? GlobalErrorWidget(
+                    message: service.errorMessage,
+                    onRetry: _fetchData,
+                    withScaffold: false,
                   )
                 : service.productionItems.isEmpty
                 ? Center(
@@ -202,32 +217,33 @@ class _RestaurantProductionScreenState
                         return Card(
                           margin: const EdgeInsets.only(bottom: 12),
                           child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: Theme.of(
-                                context,
-                              ).colorScheme.secondaryContainer,
-                              child: Icon(
-                                Icons.restaurant,
+                            leading: Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
                                 color: Theme.of(
                                   context,
-                                ).colorScheme.onSecondaryContainer,
+                                ).colorScheme.primary.withValues(alpha: 0.1),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.restaurant_rounded,
+                                size: 20,
+                                color: Theme.of(context).colorScheme.primary,
                               ),
                             ),
                             title: Text(
                               item.mealName,
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(fontWeight: FontWeight.w600),
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
                             trailing: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 8,
-                              ),
+                              width: 40,
+                              height: 40,
+                              alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 color: Theme.of(
                                   context,
-                                ).colorScheme.primaryContainer,
-                                borderRadius: BorderRadius.circular(20),
+                                ).colorScheme.secondaryContainer,
+                                shape: BoxShape.circle,
                               ),
                               child: Text(
                                 '${item.count}',
@@ -235,8 +251,8 @@ class _RestaurantProductionScreenState
                                     ?.copyWith(
                                       color: Theme.of(
                                         context,
-                                      ).colorScheme.onPrimaryContainer,
-                                      fontWeight: FontWeight.bold,
+                                      ).colorScheme.onSecondaryContainer,
+                                      fontWeight: FontWeight.normal,
                                     ),
                               ),
                             ),
@@ -247,56 +263,80 @@ class _RestaurantProductionScreenState
                   ),
           ),
 
-          // Total footer with padding for FAB
+          // Total footer (refined for premium look)
           if (!service.isLoading && service.productionItems.isNotEmpty)
             Container(
-              padding: const EdgeInsets.fromLTRB(
-                20,
-                20,
-                100,
-                20,
-              ), // Right padding for FAB
+              padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.1),
-                    blurRadius: 10,
-                    offset: const Offset(0, -2),
+                color: Theme.of(context).colorScheme.surfaceContainer,
+                border: Border(
+                  top: BorderSide(
+                    color: Theme.of(
+                      context,
+                    ).dividerColor.withValues(alpha: 0.1),
                   ),
-                ],
+                ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Text(
-                      AppLocalizations.of(context)!.totalMeals,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Text(
-                      '${service.productionItems.fold(0, (sum, item) => sum + item.count)}',
-                      style: Theme.of(context).textTheme.headlineSmall
-                          ?.copyWith(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                            fontWeight: FontWeight.bold,
+              child: SafeArea(
+                top: false,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.totalMeals,
+                            style: Theme.of(context).textTheme.titleSmall
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                  fontWeight: FontWeight.normal,
+                                ),
                           ),
+                          const SizedBox(height: 4),
+                          Text(
+                            AppLocalizations.of(context)!.productionSummary,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 16),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.primary.withValues(alpha: 0.3),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        '${service.productionItems.fold(0, (sum, item) => sum + item.count)}',
+                        style: Theme.of(context).textTheme.headlineSmall
+                            ?.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              fontWeight: FontWeight.normal,
+                            ),
+                      ),
+                    ),
+                    // Space for FAB on mobile if needed, but FAB is usually at bottom right
+                    if (isNarrow) const SizedBox(width: 72),
+                  ],
+                ),
               ),
             ),
         ],

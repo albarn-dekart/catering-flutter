@@ -243,6 +243,11 @@ class AppLocalizationsPl extends AppLocalizations {
   String get dailyOrders => 'Dzienne Zamówienia';
 
   @override
+  String daysCount(int count) {
+    return '$count dni';
+  }
+
+  @override
   String get delete => 'Usuń';
 
   @override
@@ -312,15 +317,15 @@ class AppLocalizationsPl extends AppLocalizations {
   String get deliveryDays => 'Dni Dostawy';
 
   @override
-  String daysCount(int count) {
-    return '$count dni';
-  }
-
-  @override
   String get deliveryDetails => 'Szczegóły Dostawy';
 
   @override
   String get deliveryFee => 'Opłata za dostawę';
+
+  @override
+  String deliveryNumber(String number) {
+    return 'Dostawa #$number';
+  }
 
   @override
   String get deliveryPricePLN => 'Cena dostawy (PLN)';
@@ -428,6 +433,20 @@ class AppLocalizationsPl extends AppLocalizations {
   String get error => 'Błąd';
 
   @override
+  String get errorNetwork =>
+      'Błąd sieci. Sprawdź swoje połączenie z internetem.';
+
+  @override
+  String get errorServer => 'Błąd serwera. Spróbuj ponownie później.';
+
+  @override
+  String get errorTimeout =>
+      'Limit czasu żądania upłynął. Serwer zbyt długo nie odpowiada.';
+
+  @override
+  String get errorUnauthorized => 'Sesja wygasła. Zaloguj się ponownie.';
+
+  @override
   String exportFailed(Object error) {
     return 'Nie udało się wyeksportować zamówień: $error';
   }
@@ -506,6 +525,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get invalidFormat => 'Nieprawidłowy format';
 
   @override
+  String get invalidNip => 'Nieprawidłowy NIP (10 cyfr)';
+
+  @override
   String get invalidNumber => 'Nieprawidłowa liczba';
 
   @override
@@ -513,9 +535,6 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get invalidZipCode => 'Nieprawidłowy kod pocztowy';
-
-  @override
-  String get invalidNip => 'Nieprawidłowy NIP (10 cyfr)';
 
   @override
   String get invite => 'Zaproś';
@@ -691,9 +710,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get noItemsFound => 'Nie znaleziono elementów';
 
   @override
-  String get noOwner => 'Brak właściciela';
-
-  @override
   String get noMealPlanData => 'Brak danych o planie posiłków';
 
   @override
@@ -709,6 +725,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String noOrdersWithStatus(Object status) {
     return 'Brak zamówień o statusie \"$status\"';
   }
+
+  @override
+  String get noOwner => 'Brak właściciela';
 
   @override
   String get noProductionData => 'Brak danych produkcyjnych na ten dzień';
@@ -806,11 +825,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get perDay => '/dzień';
 
   @override
-  String piecesCount(int count) {
-    return '$count szt.';
-  }
-
-  @override
   String get phone => 'Telefon';
 
   @override
@@ -818,6 +832,11 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get pickUpOrder => 'ODBIERZ ZAMÓWIENIE';
+
+  @override
+  String piecesCount(int count) {
+    return '$count szt.';
+  }
 
   @override
   String get planName => 'Nazwa Planu';
@@ -869,6 +888,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get productionPlan => 'Plan Produkcji';
+
+  @override
+  String get productionSummary => 'Podsumowanie dzienne przygotowań';
 
   @override
   String get profile => 'Profil';
@@ -940,7 +962,7 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
-  String get revenueTrendLast30Days => 'Trend przychodów (ostatnie 30 dni)';
+  String get revenueTrend => 'Trend przychodów';
 
   @override
   String get roleAdmin => 'Administrator';

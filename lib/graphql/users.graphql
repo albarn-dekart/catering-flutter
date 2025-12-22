@@ -64,6 +64,7 @@ mutation DeleteUser($input: deleteUserInput!) {
 
 query GetMyCustomMealPlans($id: ID!, $search: String) {
     user(id: $id) {
+        id
         customMealPlans(search: $search) {
             edges {
                 node {

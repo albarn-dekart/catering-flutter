@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/features/restaurant/services/diet_category_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
+import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 
 class ManageDietCategoriesScreen extends StatefulWidget {
   const ManageDietCategoriesScreen({super.key});
@@ -122,9 +123,16 @@ class _ManageDietCategoriesScreenState
                   ],
                 ),
               ),
-              // Categories list
               Expanded(
-                child: service.dietCategories.isEmpty
+                child: service.hasError && service.dietCategories.isEmpty
+                    ? GlobalErrorWidget(
+                        message: service.errorMessage,
+                        onRetry: () => context
+                            .read<DietCategoryService>()
+                            .getDietCategories(),
+                        withScaffold: false,
+                      )
+                    : service.dietCategories.isEmpty
                     ? Center(
                         child: Text(
                           AppLocalizations.of(context)!.noDietCategoriesFound,

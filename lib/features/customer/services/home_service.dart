@@ -110,13 +110,8 @@ class HomeService extends ChangeNotifier {
 
     try {
       final response = await _apiClient.get('/api/home');
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        _homeData = HomeData.fromJson(data);
-      } else {
-        throw ApiException('Failed to load home data: ${response.statusCode}');
-      }
+      final data = jsonDecode(response.body);
+      _homeData = HomeData.fromJson(data);
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {

@@ -103,8 +103,7 @@ class _LoginViewState extends State<LoginView> {
                     children: [
                       Text(
                         AppLocalizations.of(context)!.welcomeBack,
-                        style: Theme.of(context).textTheme.headlineSmall
-                            ?.copyWith(fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.headlineSmall,
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 8),
@@ -157,7 +156,7 @@ class _LoginViewState extends State<LoginView> {
                                 style: Theme.of(context).textTheme.labelLarge
                                     ?.copyWith(
                                       fontSize: 16,
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.normal,
                                       color: Theme.of(
                                         context,
                                       ).colorScheme.onPrimary,
@@ -183,7 +182,7 @@ class _LoginViewState extends State<LoginView> {
                       text: AppLocalizations.of(context)!.register,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                   ],

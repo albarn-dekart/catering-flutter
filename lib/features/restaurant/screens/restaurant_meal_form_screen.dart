@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
+import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/features/restaurant/services/meal_service.dart';
@@ -180,13 +181,16 @@ class RestaurantMealFormScreen extends HookWidget {
       return const Center(child: CircularProgressIndicator());
     }
 
+    if (mealService.hasError && mealService.currentMeal == null) {
+      return GlobalErrorWidget(
+        message: mealService.errorMessage,
+        onRetry: () => mealService.getMealById(mealId!),
+      );
+    }
+
     if (mealService.isLoading &&
         !isCreateMode &&
         mealService.currentMeal == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (isCreateMode && mealService.currentMeal != null) {
       return const Center(child: CircularProgressIndicator());
     }
 
@@ -430,7 +434,9 @@ class RestaurantMealFormScreen extends HookWidget {
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 153),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.scrim.withValues(alpha: 0.6),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(

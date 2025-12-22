@@ -18,26 +18,34 @@ class DriverDashboardScreen extends StatefulWidget {
   State<DriverDashboardScreen> createState() => _DriverDashboardScreenState();
 }
 
-class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
+class _DriverDashboardScreenState extends State<DriverDashboardScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
   int _selectedTabIndex = 0;
-
+  final Set<String> _updatingIds = {};
   String _currentSearchQuery = '';
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await _fetchDeliveries();
-      if (!mounted) return;
-      final service = context.read<UserService>();
-      if (service.hasError) {
-        UIErrorHandler.showSnackBar(
-          context,
-          service.errorMessage!,
-          isError: true,
-        );
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) {
+        setState(() {
+          _selectedTabIndex = _tabController.index;
+        });
+        _fetchDeliveries();
       }
     });
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _fetchDeliveries();
+    });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   Future<void> _fetchDeliveries() async {
@@ -106,8 +114,11 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
         return SearchableListScreen<dynamic>(
           title: AppLocalizations.of(context)!.driverDashboard,
           items: userService.userDeliveries,
-          isLoading:
-              userService.isLoading || userService.isFetchingMoreUserDeliveries,
+          isLoading: userService.isLoading,
+          isLoadingMore: userService.isFetchingMoreUserDeliveries,
+          hasError: userService.hasError,
+          errorMessage: userService.errorMessage,
+          onRetry: _fetchDeliveries,
           onLoadMore: () => userService.loadMoreCurrentUserDeliveries(),
           searchHint: AppLocalizations.of(context)!.searchDriverDeliveries,
           onSearch: (query) {
@@ -116,34 +127,40 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
           },
 
           onRefresh: _fetchDeliveries,
-          customFilters: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 8.0,
-            ),
-            child: SizedBox(
-              width: double.infinity,
-              child: SegmentedButton<int>(
-                segments: [
-                  ButtonSegment<int>(
-                    value: 0,
-                    label: Text(AppLocalizations.of(context)!.active),
-                    icon: const Icon(Icons.local_shipping),
-                  ),
-                  ButtonSegment<int>(
-                    value: 1,
-                    label: Text(AppLocalizations.of(context)!.history),
-                    icon: const Icon(Icons.history),
-                  ),
-                ],
-                selected: {_selectedTabIndex},
-                onSelectionChanged: (Set<int> newSelection) {
-                  setState(() {
-                    _selectedTabIndex = newSelection.first;
-                  });
-                  _fetchDeliveries();
-                },
-              ),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(48),
+            child: Column(
+              children: [
+                TabBar(
+                  controller: _tabController,
+                  isScrollable: true,
+                  tabAlignment: TabAlignment.start,
+                  labelPadding: const EdgeInsets.symmetric(horizontal: 24),
+                  tabs: [
+                    Tab(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.local_shipping, size: 20),
+                          const SizedBox(width: 8),
+                          Text(AppLocalizations.of(context)!.active),
+                        ],
+                      ),
+                    ),
+                    Tab(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.history, size: 20),
+                          const SizedBox(width: 8),
+                          Text(AppLocalizations.of(context)!.history),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const Divider(height: 1, thickness: 1, indent: 0, endIndent: 0),
+              ],
             ),
           ),
           itemBuilder: (context, delivery) {
@@ -154,9 +171,12 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
 
             return Card(
               margin: const EdgeInsets.only(bottom: 16),
-              elevation: 2,
+              elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
+                side: BorderSide(
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                ),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -201,15 +221,13 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                           decoration: BoxDecoration(
                             color: Theme.of(
                               context,
-                            ).colorScheme.surfaceContainerHighest,
+                            ).colorScheme.primary.withValues(alpha: 0.1),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
-                            Icons.calendar_today,
-                            size: 20,
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurfaceVariant,
+                            Icons.calendar_today_rounded,
+                            size: 18,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -227,15 +245,13 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                           decoration: BoxDecoration(
                             color: Theme.of(
                               context,
-                            ).colorScheme.surfaceContainerHighest,
+                            ).colorScheme.secondary.withValues(alpha: 0.1),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
-                            Icons.person,
-                            size: 20,
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurfaceVariant,
+                            Icons.person_outline_rounded,
+                            size: 18,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -262,15 +278,13 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                             decoration: BoxDecoration(
                               color: Theme.of(
                                 context,
-                              ).colorScheme.surfaceContainerHighest,
+                              ).colorScheme.primary.withValues(alpha: 0.1),
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
-                              Icons.phone,
-                              size: 20,
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onSurfaceVariant,
+                              Icons.phone_outlined,
+                              size: 18,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                           const SizedBox(width: 12),
@@ -302,15 +316,13 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                             decoration: BoxDecoration(
                               color: Theme.of(
                                 context,
-                              ).colorScheme.surfaceContainerHighest,
+                              ).colorScheme.secondary.withValues(alpha: 0.1),
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
-                              Icons.location_on,
-                              size: 20,
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onSurfaceVariant,
+                              Icons.location_on_outlined,
+                              size: 18,
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
                           ),
                           const SizedBox(width: 12),
@@ -355,10 +367,15 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                         width: double.infinity,
                         height: 56,
                         child: FilledButton.icon(
-                          onPressed: !userService.isLoading
+                          onPressed:
+                              !userService.isLoading &&
+                                  !_updatingIds.contains(delivery.id)
                               ? () async {
+                                  setState(() {
+                                    _updatingIds.add(delivery.id);
+                                  });
                                   try {
-                                    await context
+                                    final updatedDelivery = await context
                                         .read<DeliveryService>()
                                         .updateDeliveryStatus(
                                           delivery.id,
@@ -366,7 +383,13 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                                         );
                                     if (!context.mounted) return;
 
-                                    await _fetchDeliveries();
+                                    if (updatedDelivery != null) {
+                                      context
+                                          .read<UserService>()
+                                          .updateUserDelivery(updatedDelivery);
+                                    } else {
+                                      await _fetchDeliveries();
+                                    }
                                   } catch (e) {
                                     if (!context.mounted) return;
                                     UIErrorHandler.handleError(
@@ -376,15 +399,29 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                                         context,
                                       )!.failedToUpdateStatus,
                                     );
+                                  } finally {
+                                    if (mounted) {
+                                      setState(() {
+                                        _updatingIds.remove(delivery.id);
+                                      });
+                                    }
                                   }
                                 }
                               : null,
-                          icon: const Icon(Icons.local_shipping),
+                          icon: _updatingIds.contains(delivery.id)
+                              ? const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : const Icon(Icons.local_shipping),
                           label: Text(
                             AppLocalizations.of(context)!.pickUpOrder,
                             style: Theme.of(context).textTheme.titleMedium
                                 ?.copyWith(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.normal,
                                   color: Theme.of(
                                     context,
                                   ).colorScheme.onPrimary,
@@ -404,10 +441,15 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                             width: double.infinity,
                             height: 56,
                             child: FilledButton.icon(
-                              onPressed: !userService.isLoading
+                              onPressed:
+                                  !userService.isLoading &&
+                                      !_updatingIds.contains(delivery.id)
                                   ? () async {
+                                      setState(() {
+                                        _updatingIds.add(delivery.id);
+                                      });
                                       try {
-                                        await context
+                                        final updatedDelivery = await context
                                             .read<DeliveryService>()
                                             .updateDeliveryStatus(
                                               delivery.id,
@@ -416,7 +458,15 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                                             );
                                         if (!context.mounted) return;
 
-                                        await _fetchDeliveries();
+                                        if (updatedDelivery != null) {
+                                          context
+                                              .read<UserService>()
+                                              .updateUserDelivery(
+                                                updatedDelivery,
+                                              );
+                                        } else {
+                                          await _fetchDeliveries();
+                                        }
                                       } catch (e) {
                                         if (!context.mounted) return;
                                         UIErrorHandler.handleError(
@@ -426,15 +476,29 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                                             context,
                                           )!.failedToUpdateStatus,
                                         );
+                                      } finally {
+                                        if (mounted) {
+                                          setState(() {
+                                            _updatingIds.remove(delivery.id);
+                                          });
+                                        }
                                       }
                                     }
                                   : null,
-                              icon: const Icon(Icons.check_circle),
+                              icon: _updatingIds.contains(delivery.id)
+                                  ? const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : const Icon(Icons.check_circle),
                               label: Text(
                                 AppLocalizations.of(context)!.markAsDelivered,
                                 style: Theme.of(context).textTheme.titleMedium
                                     ?.copyWith(
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.normal,
                                       color: Theme.of(
                                         context,
                                       ).colorScheme.onPrimary,
@@ -452,10 +516,15 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                             width: double.infinity,
                             height: 48,
                             child: OutlinedButton.icon(
-                              onPressed: !userService.isLoading
+                              onPressed:
+                                  !userService.isLoading &&
+                                      !_updatingIds.contains(delivery.id)
                                   ? () async {
+                                      setState(() {
+                                        _updatingIds.add(delivery.id);
+                                      });
                                       try {
-                                        await context
+                                        final updatedDelivery = await context
                                             .read<DeliveryService>()
                                             .updateDeliveryStatus(
                                               delivery.id,
@@ -464,7 +533,15 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                                             );
                                         if (!context.mounted) return;
 
-                                        await _fetchDeliveries();
+                                        if (updatedDelivery != null) {
+                                          context
+                                              .read<UserService>()
+                                              .updateUserDelivery(
+                                                updatedDelivery,
+                                              );
+                                        } else {
+                                          await _fetchDeliveries();
+                                        }
                                       } catch (e) {
                                         if (!context.mounted) return;
                                         UIErrorHandler.handleError(
@@ -474,10 +551,24 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                                             context,
                                           )!.failedToUpdateStatus,
                                         );
+                                      } finally {
+                                        if (mounted) {
+                                          setState(() {
+                                            _updatingIds.remove(delivery.id);
+                                          });
+                                        }
                                       }
                                     }
                                   : null,
-                              icon: const Icon(Icons.report_problem),
+                              icon: _updatingIds.contains(delivery.id)
+                                  ? const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : const Icon(Icons.report_problem),
                               label: Text(
                                 AppLocalizations.of(context)!.actionReportIssue,
                               ),
@@ -503,10 +594,15 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                             width: double.infinity,
                             height: 56,
                             child: FilledButton.icon(
-                              onPressed: !userService.isLoading
+                              onPressed:
+                                  !userService.isLoading &&
+                                      !_updatingIds.contains(delivery.id)
                                   ? () async {
+                                      setState(() {
+                                        _updatingIds.add(delivery.id);
+                                      });
                                       try {
-                                        await context
+                                        final updatedDelivery = await context
                                             .read<DeliveryService>()
                                             .updateDeliveryStatus(
                                               delivery.id,
@@ -515,7 +611,15 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                                             );
                                         if (!context.mounted) return;
 
-                                        await _fetchDeliveries();
+                                        if (updatedDelivery != null) {
+                                          context
+                                              .read<UserService>()
+                                              .updateUserDelivery(
+                                                updatedDelivery,
+                                              );
+                                        } else {
+                                          await _fetchDeliveries();
+                                        }
                                       } catch (e) {
                                         if (!context.mounted) return;
                                         UIErrorHandler.handleError(
@@ -525,15 +629,29 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                                             context,
                                           )!.failedToUpdateStatus,
                                         );
+                                      } finally {
+                                        if (mounted) {
+                                          setState(() {
+                                            _updatingIds.remove(delivery.id);
+                                          });
+                                        }
                                       }
                                     }
                                   : null,
-                              icon: const Icon(Icons.replay),
+                              icon: _updatingIds.contains(delivery.id)
+                                  ? const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : const Icon(Icons.replay),
                               label: Text(
                                 AppLocalizations.of(context)!.retry,
                                 style: Theme.of(context).textTheme.titleMedium
                                     ?.copyWith(
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.normal,
                                       color: Theme.of(
                                         context,
                                       ).colorScheme.onPrimary,
@@ -551,10 +669,15 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                             width: double.infinity,
                             height: 48,
                             child: OutlinedButton.icon(
-                              onPressed: !userService.isLoading
+                              onPressed:
+                                  !userService.isLoading &&
+                                      !_updatingIds.contains(delivery.id)
                                   ? () async {
+                                      setState(() {
+                                        _updatingIds.add(delivery.id);
+                                      });
                                       try {
-                                        await context
+                                        final updatedDelivery = await context
                                             .read<DeliveryService>()
                                             .updateDeliveryStatus(
                                               delivery.id,
@@ -563,7 +686,15 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                                             );
                                         if (!context.mounted) return;
 
-                                        await _fetchDeliveries();
+                                        if (updatedDelivery != null) {
+                                          context
+                                              .read<UserService>()
+                                              .updateUserDelivery(
+                                                updatedDelivery,
+                                              );
+                                        } else {
+                                          await _fetchDeliveries();
+                                        }
                                       } catch (e) {
                                         if (!context.mounted) return;
                                         UIErrorHandler.handleError(
@@ -573,10 +704,24 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                                             context,
                                           )!.failedToUpdateStatus,
                                         );
+                                      } finally {
+                                        if (mounted) {
+                                          setState(() {
+                                            _updatingIds.remove(delivery.id);
+                                          });
+                                        }
                                       }
                                     }
                                   : null,
-                              icon: const Icon(Icons.assignment_return),
+                              icon: _updatingIds.contains(delivery.id)
+                                  ? const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : const Icon(Icons.assignment_return),
                               label: Text(
                                 AppLocalizations.of(
                                   context,

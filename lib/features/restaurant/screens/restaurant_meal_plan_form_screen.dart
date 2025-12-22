@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:catering_flutter/core/app_router.dart';
 import 'package:catering_flutter/core/services/auth_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
+import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/widgets/macro_badge.dart';
@@ -217,6 +218,14 @@ class RestaurantMealPlanFormScreen extends HookWidget {
       return const Center(child: CircularProgressIndicator());
     }
 
+    // Guard: Normal Edit Error
+    if (mealPlanService.hasError && mealPlanService.currentMealPlan == null) {
+      return GlobalErrorWidget(
+        message: mealPlanService.errorMessage,
+        onRetry: () => mealPlanService.getMealPlanById(mealPlanId!),
+      );
+    }
+
     // Guard: Edit Mode but loading generic
     if (mealPlanService.isLoading &&
         !isCreateMode &&
@@ -307,7 +316,7 @@ class RestaurantMealPlanFormScreen extends HookWidget {
                       final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => RestaurantMealsScreen(
+                          builder: (ctx) => RestaurantMealsScreen(
                             restaurantIri: restaurantIri,
                             isSelectionMode: true,
                           ),
@@ -332,7 +341,9 @@ class RestaurantMealPlanFormScreen extends HookWidget {
                         boxShadow: [
                           if (isSelected)
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.05),
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.shadow.withValues(alpha: 0.05),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),
@@ -366,13 +377,9 @@ class RestaurantMealPlanFormScreen extends HookWidget {
                                             Expanded(
                                               child: Text(
                                                 meal.name,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleMedium
-                                                    ?.copyWith(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
+                                                style: Theme.of(
+                                                  context,
+                                                ).textTheme.titleMedium,
                                               ),
                                             ),
                                             PriceText(
@@ -381,7 +388,6 @@ class RestaurantMealPlanFormScreen extends HookWidget {
                                                   .textTheme
                                                   .titleMedium
                                                   ?.copyWith(
-                                                    fontWeight: FontWeight.bold,
                                                     color: Theme.of(
                                                       context,
                                                     ).colorScheme.primary,
@@ -465,7 +471,7 @@ class RestaurantMealPlanFormScreen extends HookWidget {
                                           color: Theme.of(
                                             context,
                                           ).colorScheme.primary,
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.normal,
                                         ),
                                   ),
                                 ],
@@ -519,9 +525,9 @@ class RestaurantMealPlanFormScreen extends HookWidget {
                       null,
                       widgetValue: PriceText.fromDouble(
                         priceGroszy: totalPrice,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyMedium?.copyWith(),
                       ),
                       isBold: true,
                     ),
@@ -567,22 +573,14 @@ class RestaurantMealPlanFormScreen extends HookWidget {
         children: [
           Text(
             label,
-            style: isBold
-                ? Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)
-                : null,
+            style: isBold ? Theme.of(context).textTheme.bodyMedium : null,
           ),
           if (widgetValue != null)
             widgetValue
           else
             Text(
               value ?? '',
-              style: isBold
-                  ? Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    )
-                  : null,
+              style: isBold ? Theme.of(context).textTheme.bodyMedium : null,
             ),
         ],
       ),
@@ -649,7 +647,9 @@ class RestaurantMealPlanFormScreen extends HookWidget {
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 153),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.scrim.withValues(alpha: 0.6),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(

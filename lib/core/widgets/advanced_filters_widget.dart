@@ -75,7 +75,7 @@ class AdvancedFiltersWidget extends StatelessWidget {
                 Text(
                   label,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.normal,
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),

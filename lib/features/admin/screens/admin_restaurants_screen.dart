@@ -46,7 +46,9 @@ class _AdminRestaurantsScreenState extends State<AdminRestaurantsScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.error,
+            ),
             child: Text(AppLocalizations.of(context)!.delete),
           ),
         ],
@@ -81,6 +83,10 @@ class _AdminRestaurantsScreenState extends State<AdminRestaurantsScreen> {
           title: AppLocalizations.of(context)!.manageRestaurants,
           items: restaurantService.restaurants,
           isLoading: restaurantService.isLoading,
+          isLoadingMore: restaurantService.isFetchingMore,
+          hasError: restaurantService.hasError,
+          errorMessage: restaurantService.errorMessage,
+          onRetry: () => restaurantService.fetchAllRestaurants(),
           searchHint: AppLocalizations.of(context)!.searchRestaurants,
           useGrid: true,
           preferredItemHeight: 350,

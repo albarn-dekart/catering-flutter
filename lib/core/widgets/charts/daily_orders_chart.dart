@@ -50,7 +50,7 @@ class DailyOrdersChart extends StatelessWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -58,7 +58,7 @@ class DailyOrdersChart extends StatelessWidget {
               chartTitle,
               style: Theme.of(
                 context,
-              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.normal),
             ),
             const SizedBox(height: 24),
             SizedBox(
@@ -112,10 +112,7 @@ class DailyOrdersChart extends StatelessWidget {
                               padding: const EdgeInsets.only(top: 8.0),
                               child: Text(
                                 DateFormat('MM/dd').format(date),
-                                style: const TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Theme.of(context).textTheme.labelSmall,
                               ),
                             );
                           } catch (e) {
@@ -134,10 +131,7 @@ class DailyOrdersChart extends StatelessWidget {
                           if (value % 1 != 0) return const Text('');
                           return Text(
                             value.toInt().toString(),
-                            style: const TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.labelSmall,
                           );
                         },
                       ),
@@ -182,6 +176,8 @@ class DailyOrdersChart extends StatelessWidget {
                   ],
                   lineTouchData: LineTouchData(
                     touchTooltipData: LineTouchTooltipData(
+                      fitInsideHorizontally: true,
+                      fitInsideVertically: true,
                       getTooltipItems: (List<LineBarSpot> touchedSpots) {
                         return touchedSpots.map((LineBarSpot touchedSpot) {
                           final index = touchedSpot.x.toInt();
@@ -195,10 +191,10 @@ class DailyOrdersChart extends StatelessWidget {
 
                           return LineTooltipItem(
                             '$dateStr\n$count Orders',
-                            const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            Theme.of(context).textTheme.labelSmall?.copyWith(
+                                  color: Colors.white,
+                                ) ??
+                                const TextStyle(color: Colors.white),
                           );
                         }).toList();
                       },

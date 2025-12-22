@@ -27,6 +27,9 @@ class AdminRestaurantCategoriesScreen extends StatelessWidget {
             updateCategory: (id, name) =>
                 service.updateRestaurantCategory(id, name),
             deleteCategory: (id) => service.deleteRestaurantCategory(id),
+            hasError: service.hasError,
+            errorMessage: service.errorMessage,
+            onRetry: () => service.getRestaurantCategories(),
           );
         },
       ),

@@ -536,6 +536,12 @@ abstract class AppLocalizations {
   /// **'Daily Orders'**
   String get dailyOrders;
 
+  /// No description provided for @daysCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} days'**
+  String daysCount(int count);
+
   /// No description provided for @delete.
   ///
   /// In en, this message translates to:
@@ -644,12 +650,6 @@ abstract class AppLocalizations {
   /// **'Delivery Days'**
   String get deliveryDays;
 
-  /// No description provided for @daysCount.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} days'**
-  String daysCount(int count);
-
   /// No description provided for @deliveryDetails.
   ///
   /// In en, this message translates to:
@@ -661,6 +661,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delivery Fee'**
   String get deliveryFee;
+
+  /// No description provided for @deliveryNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery #{number}'**
+  String deliveryNumber(String number);
 
   /// No description provided for @deliveryPricePLN.
   ///
@@ -854,6 +860,30 @@ abstract class AppLocalizations {
   /// **'Error'**
   String get error;
 
+  /// No description provided for @errorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Network error. Please check your internet connection.'**
+  String get errorNetwork;
+
+  /// No description provided for @errorServer.
+  ///
+  /// In en, this message translates to:
+  /// **'Server error. Please try again later.'**
+  String get errorServer;
+
+  /// No description provided for @errorTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Request timed out. The server is taking too long to respond.'**
+  String get errorTimeout;
+
+  /// No description provided for @errorUnauthorized.
+  ///
+  /// In en, this message translates to:
+  /// **'Session expired. Please log in again.'**
+  String get errorUnauthorized;
+
   /// No description provided for @exportFailed.
   ///
   /// In en, this message translates to:
@@ -1004,6 +1034,12 @@ abstract class AppLocalizations {
   /// **'Invalid format'**
   String get invalidFormat;
 
+  /// No description provided for @invalidNip.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid NIP (10 digits)'**
+  String get invalidNip;
+
   /// No description provided for @invalidNumber.
   ///
   /// In en, this message translates to:
@@ -1021,12 +1057,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid Zip Code'**
   String get invalidZipCode;
-
-  /// No description provided for @invalidNip.
-  ///
-  /// In en, this message translates to:
-  /// **'Invalid NIP (10 digits)'**
-  String get invalidNip;
 
   /// No description provided for @invite.
   ///
@@ -1364,12 +1394,6 @@ abstract class AppLocalizations {
   /// **'No items found'**
   String get noItemsFound;
 
-  /// No description provided for @noOwner.
-  ///
-  /// In en, this message translates to:
-  /// **'No Owner'**
-  String get noOwner;
-
   /// No description provided for @noMealPlanData.
   ///
   /// In en, this message translates to:
@@ -1399,6 +1423,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No orders with status \"{status}\"'**
   String noOrdersWithStatus(Object status);
+
+  /// No description provided for @noOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'No Owner'**
+  String get noOwner;
 
   /// No description provided for @noProductionData.
   ///
@@ -1580,12 +1610,6 @@ abstract class AppLocalizations {
   /// **'/day'**
   String get perDay;
 
-  /// No description provided for @piecesCount.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} pcs'**
-  String piecesCount(int count);
-
   /// No description provided for @phone.
   ///
   /// In en, this message translates to:
@@ -1603,6 +1627,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PICK UP ORDER'**
   String get pickUpOrder;
+
+  /// No description provided for @piecesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} pcs'**
+  String piecesCount(int count);
 
   /// No description provided for @planName.
   ///
@@ -1705,6 +1735,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Production Plan'**
   String get productionPlan;
+
+  /// No description provided for @productionSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily preparation summary'**
+  String get productionSummary;
 
   /// No description provided for @profile.
   ///
@@ -1832,11 +1868,11 @@ abstract class AppLocalizations {
   /// **'Retry failed: {error}'**
   String retryFailed(Object error);
 
-  /// No description provided for @revenueTrendLast30Days.
+  /// No description provided for @revenueTrend.
   ///
   /// In en, this message translates to:
-  /// **'Revenue Trend (Last 30 Days)'**
-  String get revenueTrendLast30Days;
+  /// **'Revenue Trend'**
+  String get revenueTrend;
 
   /// No description provided for @roleAdmin.
   ///

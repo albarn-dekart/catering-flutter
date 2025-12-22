@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:catering_flutter/core/utils/date_formatter.dart';
 import 'package:provider/provider.dart';
+import 'package:catering_flutter/core/app_theme.dart';
 import 'package:catering_flutter/core/app_router.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
 import 'package:catering_flutter/features/restaurant/services/restaurant_service.dart';
@@ -15,6 +16,8 @@ import 'package:catering_flutter/core/widgets/charts/revenue_line_chart.dart';
 import 'package:catering_flutter/core/widgets/charts/daily_orders_chart.dart';
 import 'package:catering_flutter/core/widgets/charts/horizontal_bar_chart.dart';
 import 'package:catering_flutter/core/services/export_service.dart';
+import 'package:catering_flutter/core/widgets/stat_card.dart';
+import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:catering_flutter/core/utils/price_formatter.dart';
 
@@ -68,16 +71,6 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
       }
 
       if (!mounted) return;
-      final restaurantService = context.read<RestaurantService>();
-      final userService = context.read<UserService>();
-
-      final errorMessage = widget.restaurantIri != null
-          ? restaurantService.errorMessage
-          : userService.errorMessage;
-
-      if (errorMessage != null) {
-        UIErrorHandler.showSnackBar(context, errorMessage, isError: true);
-      }
     });
   }
 
@@ -137,53 +130,49 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
       title: AppLocalizations.of(context)!.restaurantDashboard,
       floatingActionButton: fab,
       bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: Container(
-          margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
-          child: TabBar(
-            controller: _tabController,
-            isScrollable: true,
-            tabAlignment: TabAlignment.start,
-            indicator: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: Colors.white,
+        preferredSize: const Size.fromHeight(48),
+        child: Column(
+          children: [
+            TabBar(
+              controller: _tabController,
+              isScrollable: true,
+              tabAlignment: TabAlignment.start,
+              labelPadding: const EdgeInsets.symmetric(horizontal: 24),
+              tabs: [
+                Tab(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.bar_chart, size: 20),
+                      const SizedBox(width: 8),
+                      Text(AppLocalizations.of(context)!.statistics),
+                    ],
+                  ),
+                ),
+                Tab(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.local_shipping, size: 20),
+                      const SizedBox(width: 8),
+                      Text(AppLocalizations.of(context)!.operations),
+                    ],
+                  ),
+                ),
+                Tab(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.restaurant_menu, size: 20),
+                      const SizedBox(width: 8),
+                      Text(AppLocalizations.of(context)!.menu),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            labelColor: Theme.of(context).primaryColor,
-            unselectedLabelColor: Colors.white,
-            indicatorSize: TabBarIndicatorSize.tab,
-            dividerColor: Colors.transparent,
-            labelPadding: const EdgeInsets.symmetric(horizontal: 24),
-            tabs: [
-              Tab(
-                child: Row(
-                  children: [
-                    const Icon(Icons.bar_chart),
-                    const SizedBox(width: 8),
-                    Text(AppLocalizations.of(context)!.statistics),
-                  ],
-                ),
-              ),
-              Tab(
-                child: Row(
-                  children: [
-                    const Icon(Icons.local_shipping),
-                    const SizedBox(width: 8),
-                    Text(AppLocalizations.of(context)!.operations),
-                  ],
-                ),
-              ),
-              Tab(
-                child: Row(
-                  children: [
-                    const Icon(Icons.restaurant_menu),
-                    const SizedBox(width: 8),
-                    Text(AppLocalizations.of(context)!.menu),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            const Divider(height: 1, thickness: 1, indent: 0, endIndent: 0),
+          ],
         ),
       ),
       child: Builder(
@@ -193,13 +182,10 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
           }
 
           if (errorMessage != null) {
-            return Center(
-              child: Text(
-                '${AppLocalizations.of(context)!.error}: $errorMessage',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.error,
-                ),
-              ),
+            return GlobalErrorWidget(
+              message: errorMessage,
+              onRetry: _refreshData,
+              withScaffold: false,
             );
           }
 
@@ -305,120 +291,164 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Date range header (styled like production screen)
-            Container(
-              width: double.infinity,
+            Padding(
               padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(24),
-                  bottomRight: Radius.circular(24),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.overview,
-                          style: Theme.of(context).textTheme.labelMedium
-                              ?.copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer
-                                    .withValues(alpha: 0.7),
-                              ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          _selectedDateRange == null
-                              ? AppLocalizations.of(context)!.last30Days
-                              : '${AppDateFormatter.dayMonth(context, _selectedDateRange!.start)} - ${AppDateFormatter.dayMonthYear(context, _selectedDateRange!.end)}',
-                          style: Theme.of(context).textTheme.titleLarge
-                              ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onPrimaryContainer,
-                                fontWeight: FontWeight.bold,
-                              ),
-                        ),
-                      ],
-                    ),
+              child: Card(
+                elevation: 0,
+                color: Theme.of(
+                  context,
+                ).colorScheme.primaryContainer.withValues(alpha: 0.5),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                  side: BorderSide(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withValues(alpha: 0.1),
                   ),
-                  const SizedBox(width: 8),
-                  Column(
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
                     children: [
-                      FilledButton.tonalIcon(
-                        onPressed: () => _selectDateRange(context),
-                        icon: const Icon(Icons.date_range),
-                        label: Text(AppLocalizations.of(context)!.change),
-                      ),
-                      if (_selectedDateRange != null) ...[
-                        const SizedBox(height: 8),
-                        TextButton.icon(
-                          onPressed: () async {
-                            setState(() {
-                              _selectedDateRange = null;
-                            });
-                            await _refreshData();
-                          },
-                          icon: const Icon(Icons.close, size: 16),
-                          label: Text(
-                            AppLocalizations.of(context)!.clearFilter,
-                          ),
-                          style: TextButton.styleFrom(
-                            foregroundColor: Theme.of(
-                              context,
-                            ).colorScheme.onPrimaryContainer,
-                          ),
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.primary.withValues(alpha: 0.1),
+                          shape: BoxShape.circle,
                         ),
-                      ],
+                        child: Icon(
+                          Icons.calendar_today_rounded,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.overview,
+                              style: Theme.of(context).textTheme.labelMedium
+                                  ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer
+                                        .withValues(alpha: 0.7),
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              _selectedDateRange == null
+                                  ? AppLocalizations.of(context)!.last30Days
+                                  : '${AppDateFormatter.dayMonth(context, _selectedDateRange!.start)} - ${AppDateFormatter.dayMonthYear(context, _selectedDateRange!.end)}',
+                              style: Theme.of(context).textTheme.titleLarge
+                                  ?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onPrimaryContainer,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          FilledButton.icon(
+                            onPressed: () => _selectDateRange(context),
+                            icon: const Icon(
+                              Icons.date_range_rounded,
+                              size: 18,
+                            ),
+                            label: Text(AppLocalizations.of(context)!.change),
+                            style: FilledButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                            ),
+                          ),
+                          if (_selectedDateRange != null) ...[
+                            const SizedBox(height: 8),
+                            TextButton.icon(
+                              onPressed: () async {
+                                setState(() {
+                                  _selectedDateRange = null;
+                                });
+                                await _refreshData();
+                              },
+                              icon: Icon(
+                                Icons.close,
+                                size: 18,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              label: Text(
+                                AppLocalizations.of(context)!.clearFilter,
+                                style: Theme.of(context).textTheme.labelLarge
+                                    ?.copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                    ),
+                              ),
+                              style: TextButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 8,
+                                ),
+                                visualDensity: VisualDensity.compact,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (stats != null) ...[
                     ResponsiveGrid(
-                      preferredItemHeight: 250,
+                      preferredItemHeight: 100,
+                      maxColumns: 2,
                       children: [
-                        DashboardCard(
+                        StatCard(
                           title: AppLocalizations.of(context)!.totalRevenue,
-                          subtitle: stats.totalRevenue.toPln(),
-                          icon: Icons.euro,
-                          color: Colors.green,
-                          onTap: () {},
+                          value: stats.totalRevenue.toPln(),
+                          icon: Icons.payments_outlined,
+                          color: AppColors.success,
                         ),
-                        DashboardCard(
+                        StatCard(
                           title: AppLocalizations.of(context)!.totalOrders,
-                          subtitle:
-                              '${stats.totalOrders} ${AppLocalizations.of(context)!.orders.toLowerCase()}',
-                          icon: Icons.receipt_long,
-                          color: Colors.blue,
-                          onTap: () {},
+                          value: '${stats.totalOrders}',
+                          icon: Icons.receipt_long_outlined,
+                          color: AppColors.info,
                         ),
-                        DashboardCard(
+                        StatCard(
                           title: AppLocalizations.of(context)!.activeOrders,
-                          subtitle:
-                              '${stats.activeOrders} ${AppLocalizations.of(context)!.statusActive.toLowerCase()}',
-                          icon: Icons.pending_actions,
-                          color: Colors.orange,
-                          onTap: () {},
+                          value: '${stats.activeOrders}',
+                          icon: Icons.pending_actions_outlined,
+                          color: AppColors.warning,
                         ),
-                        DashboardCard(
+                        StatCard(
                           title: AppLocalizations.of(context)!.deliverySuccess,
-                          subtitle:
+                          value:
                               '${stats.deliverySuccessRate.toStringAsFixed(1)}%',
-                          icon: Icons.check_circle,
-                          color: Colors.teal,
-                          onTap: () {},
+                          icon: Icons.check_circle_outline,
+                          color: AppColors.primary,
                         ),
                       ],
                     ),
@@ -429,34 +459,28 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
 
                         final revenueChart = RevenueLineChart(
                           revenueTimeSeries: stats.revenueTimeSeries,
-                          title:
-                              '${AppLocalizations.of(context)!.restaurantRevenue} (${_selectedDateRange != null ? AppLocalizations.of(context)!.selectedPeriod : AppLocalizations.of(context)!.last30Days})',
+                          title: AppLocalizations.of(
+                            context,
+                          )!.restaurantRevenue,
                         );
 
                         final dailyOrdersChart = DailyOrdersChart(
                           dailyOrdersTimeSeries: stats.dailyOrdersTimeSeries,
                         );
 
-                        final popularPlansChart =
-                            stats.popularMealPlans.isNotEmpty
-                            ? HorizontalBarChartWidget(
-                                data: stats.popularMealPlans
-                                    .map(
-                                      (mp) => MapEntry(
-                                        mp['name'] as String,
-                                        mp['orderCount'] as int,
-                                      ),
-                                    )
-                                    .toList(),
-                                title: AppLocalizations.of(
-                                  context,
-                                )!.popularMealPlans,
-                                valueLabel: AppLocalizations.of(
-                                  context,
-                                )!.orders,
-                                barColor: Colors.pink,
+                        final popularPlansChart = HorizontalBarChartWidget(
+                          data: stats.popularMealPlans
+                              .map(
+                                (mp) => MapEntry(
+                                  mp['name'] as String,
+                                  mp['orderCount'] as int,
+                                ),
                               )
-                            : null;
+                              .toList(),
+                          title: AppLocalizations.of(context)!.popularMealPlans,
+                          valueLabel: AppLocalizations.of(context)!.orders,
+                          barColor: Colors.pink,
+                        );
 
                         if (isWide) {
                           return Row(
@@ -467,7 +491,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
                                   children: [
                                     revenueChart,
                                     const SizedBox(height: 16),
-                                    popularPlansChart ?? const SizedBox(),
+                                    popularPlansChart,
                                   ],
                                 ),
                               ),
@@ -481,10 +505,11 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
                               revenueChart,
                               const SizedBox(height: 16),
                               dailyOrdersChart,
-                              if (popularPlansChart != null) ...[
-                                const SizedBox(height: 16),
-                                popularPlansChart,
-                              ],
+                              const SizedBox(height: 16),
+                              SizedBox(
+                                width: double.infinity,
+                                child: popularPlansChart,
+                              ),
                             ],
                           );
                         }

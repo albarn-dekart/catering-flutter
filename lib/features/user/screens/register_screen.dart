@@ -97,8 +97,7 @@ class _RegisterViewState extends State<RegisterView> {
                     children: [
                       Text(
                         AppLocalizations.of(context)!.createAccount,
-                        style: Theme.of(context).textTheme.headlineSmall
-                            ?.copyWith(fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.headlineSmall,
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 8),
@@ -149,20 +148,8 @@ class _RegisterViewState extends State<RegisterView> {
                           ? const Center(child: CircularProgressIndicator())
                           : FilledButton(
                               onPressed: _register,
-                              style: FilledButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 16,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
                               child: Text(
                                 AppLocalizations.of(context)!.register,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
                               ),
                             ),
                     ],

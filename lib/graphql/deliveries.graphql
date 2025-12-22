@@ -56,6 +56,10 @@ fragment DriverDeliveryFragment on Delivery {
             }
         }
     }
+    driver {
+        id
+        email
+    }
 }
 
 query GetDeliveries($first: Int, $after: String, $search: String) {
@@ -113,7 +117,7 @@ query GetDeliveriesByRestaurant($restaurantId: String!, $first: Int, $after: Str
 mutation UpdateDelivery($input: updateDeliveryInput!) {
     updateDelivery(input: $input) {
         delivery {
-            ...BasicDeliveryFragment
+            ...DriverDeliveryFragment
         }
     }
 }

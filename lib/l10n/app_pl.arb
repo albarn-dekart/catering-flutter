@@ -14,6 +14,41 @@
       }
     }
   },
+  "@confirmDeleteDriver": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "@confirmDeleteUser": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "@daysCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@deliveryNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "@piecesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@quantity": {
     "placeholders": {
       "count": {
@@ -73,31 +108,19 @@
   "changePassword": "Zmień Hasło",
   "changeStatus": "Zmień Status",
   "city": "Miasto",
+  "clearAndAdd": "Wyczyść i Dodaj",
+  "clearCartMessage": "Twój koszyk zawiera produkty z innej restauracji. Czy chcesz wyczyścić koszyk i dodać ten produkt?",
+  "clearCartQuestion": "Wyczyścić koszyk?",
   "clearFilter": "Wyczyść filtr",
   "confirm": "Potwierdź",
+  "confirmDelete": "Potwierdź Usunięcie",
+  "confirmDeleteDriver": "Czy na pewno chcesz usunąć kierowcę {email}? On zostanie odłączony z wszystkich dostaw.",
+  "confirmDeleteUser": "Czy na pewno chcesz usunąć użytkownika {email}? On zostanie odłączony z restauracji lub wszystkich zamówień.",
   "confirmNewPassword": "Potwierdź Nowe Hasło",
   "confirmOrder": "Potwierdź Zamówienie",
   "confirmPassword": "Potwierdź hasło",
   "confirmStatusChange": "Potwierdź Zmianę Statusu",
-  "confirmDelete": "Potwierdź Usunięcie",
-  "confirmDeleteDriver": "Czy na pewno chcesz usunąć kierowcę {email}? On zostanie odłączony z wszystkich dostaw.",
-  "@confirmDeleteDriver": {
-    "placeholders": {
-      "email": {
-        "type": "String"
-      }
-    }
-  },
-  "driverDeleted": "Kierowca został usunięty pomyślnie",
-  "confirmDeleteUser": "Czy na pewno chcesz usunąć użytkownika {email}? On zostanie odłączony z restauracji lub wszystkich zamówień.",
-  "@confirmDeleteUser": {
-    "placeholders": {
-      "email": {
-        "type": "String"
-      }
-    }
-  },
-  "userDeleted": "Użytkownik został usunięty pomyślnie",
+  "contactDetails": "Dane Kontaktowe",
   "couldNotLaunchMap": "Nie można otworzyć mapy",
   "couldNotLaunchPhone": "Nie można otworzyć wybierania numeru",
   "count": "Liczba",
@@ -113,6 +136,7 @@
   "customerName": "Klient: {name}",
   "customers": "Klienci",
   "dailyOrders": "Dzienne Zamówienia",
+  "daysCount": "{count} dni",
   "delete": "Usuń",
   "deleteAddress": "Usuń Adres",
   "deleteAddressConfirmation": "Czy na pewno chcesz usunąć ten adres?",
@@ -131,15 +155,10 @@
   "deliveryDate": "Data Dostawy",
   "deliveryDateWithDate": "Data Dostawy: {date}",
   "deliveryDays": "Dni Dostawy",
-  "daysCount": "{count} dni",
-  "@daysCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "deliveryDetails": "Szczegóły Dostawy",
+  "deliveryFee": "Opłata za dostawę",
+  "deliveryNumber": "Dostawa #{number}",
+  "deliveryPricePLN": "Cena dostawy (PLN)",
   "deliverySchedule": "Harmonogram Dostaw",
   "deliveryStatusUpdated": "Status dostawy zaktualizowany pomyślnie",
   "deliverySuccess": "Dostawy Pomyślne",
@@ -150,9 +169,11 @@
   "discoverMessage": "Odkryj pyszne plany posiłków z najlepszych restauracji",
   "done": "Gotowe",
   "dontHaveAccount": "Nie masz konta? ",
+  "downloadPlan": "Pobierz Plan",
   "driverAssignFailed": "Nie udało się przypisać kierowcy. Spróbuj ponownie.",
   "driverAssignedSuccess": "Kierowca przypisany pomyślnie.",
   "driverDashboard": "Panel Kierowcy",
+  "driverDeleted": "Kierowca został usunięty pomyślnie",
   "driverInviteFailed": "Nie udało się zaprosić kierowcy: {error}",
   "driverInvitedSuccess": "Kierowca zaproszony pomyślnie",
   "driverPasswordWillBeEmailed": "Tymczasowe hasło zostanie wysłane na ten adres email.",
@@ -169,7 +190,10 @@
   "email": "Email",
   "enterName": "Wpisz nazwę...",
   "error": "Błąd",
-  "finalTotal": "Suma Końcowa",
+  "errorNetwork": "Błąd sieci. Sprawdź swoje połączenie z internetem.",
+  "errorServer": "Błąd serwera. Spróbuj ponownie później.",
+  "errorTimeout": "Limit czasu żądania upłynął. Serwer zbyt długo nie odpowiada.",
+  "errorUnauthorized": "Sesja wygasła. Zaloguj się ponownie.",
   "exportFailed": "Nie udało się wyeksportować zamówień: {error}",
   "exportStatistics": "Eksportuj Statystyki",
   "exportSuccess": "Zamówienia wyeksportowane pomyślnie",
@@ -186,6 +210,7 @@
   "featuredRestaurants": "Polecane Restauracje",
   "fieldRequired": "Wymagane",
   "fillAllFields": "Wypełnij wszystkie pola",
+  "finalTotal": "Suma Końcowa",
   "firstName": "Imię",
   "history": "Historia",
   "home": "Strona Główna",
@@ -193,13 +218,15 @@
   "imageUploadFailed": "Przesłanie obrazu nie powiodło się. Spróbuj ponownie.",
   "imageUploadedSuccess": "Obraz przesłany pomyślnie!",
   "invalidEmail": "Nieprawidłowy email",
+  "invalidFormat": "Nieprawidłowy format",
+  "invalidNip": "Nieprawidłowy NIP (10 cyfr)",
   "invalidNumber": "Nieprawidłowa liczba",
   "invalidPhoneNumber": "Nieprawidłowy numer telefonu",
   "invalidZipCode": "Nieprawidłowy kod pocztowy",
-  "invalidNip": "Nieprawidłowy NIP (10 cyfr)",
   "invite": "Zaproś",
   "inviteDriver": "Zaproś Kierowcę",
   "inviteNewDriver": "Zaproś Nowego Kierowcę",
+  "kitchenSchedule": "Harmonogram Kuchni",
   "last30Days": "Ostatnie 30 Dni",
   "lastName": "Nazwisko",
   "login": "Zaloguj",
@@ -252,12 +279,13 @@
   "noDescription": "Brak opisu",
   "noDietCategoriesFound": "Nie znaleziono kategorii diet",
   "noItemsFound": "Nie znaleziono elementów",
-  "noOwner": "Brak właściciela",
   "noMealPlanData": "Brak danych o planie posiłków",
   "noMealsSelected": "Brak wybranych posiłków.",
   "noOrderData": "Brak dostępnych danych o zamówieniach",
   "noOrders": "Nie masz żadnych zamówień.",
   "noOrdersWithStatus": "Brak zamówień o statusie \"{status}\"",
+  "noOwner": "Brak właściciela",
+  "noProductionData": "Brak danych produkcyjnych na ten dzień",
   "noRestaurantData": "Brak danych restauracji.",
   "noRestaurantFound": "Nie znaleziono restauracji dla tego konta.",
   "noRevenueDataAvailable": "Brak dostępnych danych o przychodach",
@@ -287,17 +315,10 @@
   "passwordsDoNotMatch": "Hasła nie są identyczne",
   "payNow": "Zapłać Teraz",
   "perDay": "/dzień",
-  "piecesCount": "{count} szt.",
-  "@piecesCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "phone": "Telefon",
   "phoneNumber": "Numer telefonu",
   "pickUpOrder": "ODBIERZ ZAMÓWIENIE",
+  "piecesCount": "{count} szt.",
   "planName": "Nazwa Planu",
   "pleaseEnterCategoryName": "Proszę wpisać nazwę kategorii",
   "pleaseEnterDescription": "Wprowadź opis",
@@ -313,10 +334,14 @@
   "price": "Cena",
   "priceRange": "Zakres Cenowy",
   "proceedToCheckout": "Przejdź do kasy",
+  "productionDate": "Data Produkcji",
+  "productionPlan": "Plan Produkcji",
+  "productionSummary": "Podsumowanie dzienne przygotowań",
   "profile": "Profil",
   "protein": "Białko",
   "proteinRange": "Zakres Białka",
   "quantity": "Ilość: {count}",
+  "quantityToCook": "Do Ugotowania",
   "register": "Zarejestruj",
   "registrationSuccess": "Rejestracja udana!",
   "requiredField": "Pole wymagane",
@@ -333,7 +358,7 @@
   "restaurants": "Restauracje",
   "retry": "Ponów",
   "retryFailed": "Ponowna próba nie powiodła się: {error}",
-  "revenueTrendLast30Days": "Trend przychodów (ostatnie 30 dni)",
+  "revenueTrend": "Trend przychodów",
   "roleAdmin": "Administrator",
   "roleCustomer": "Klient",
   "roleDriver": "Kierowca",
@@ -386,11 +411,13 @@
   "statusPickedUp": "Odebrane",
   "statusReturned": "Zwrócone",
   "statusUnpaid": "Nieopłacone",
+  "street": "Ulica",
   "streetAddress": "Ulica i numer",
   "summary": "Podsumowanie",
   "tapToAddCoverImage": "Dotknij, aby dodać zdjęcie",
   "temporaryPassword": "Hasło Tymczasowe",
   "total": "Razem:",
+  "totalMeals": "Suma Posiłków",
   "totalOrders": "Liczba Zamówień",
   "totalPrice": "Cena całkowita",
   "totalRevenue": "Całkowity Przychód",
@@ -401,6 +428,7 @@
   "unknownRestaurant": "Nieznana Restauracja",
   "updateSecurity": "Zaktualizuj Zabezpieczenia",
   "updateSecurityDescription": "Wprowadź obecne hasło i nowe.",
+  "userDeleted": "Użytkownik został usunięty pomyślnie",
   "usersExportFailed": "Nie udało się wyeksportować użytkowników: {error}",
   "usersExported": "Użytkownicy wyeksportowani pomyślnie",
   "viewAll": "Zobacz Wszystkie",
@@ -408,20 +436,5 @@
   "welcomeBack": "Witaj ponownie",
   "yes": "Tak",
   "yourCartIsEmpty": "Twój koszyk jest pusty",
-  "zipCode": "Kod pocztowy",
-  "kitchenSchedule": "Harmonogram Kuchni",
-  "productionPlan": "Plan Produkcji",
-  "quantityToCook": "Do Ugotowania",
-  "downloadPlan": "Pobierz Plan",
-  "productionDate": "Data Produkcji",
-  "totalMeals": "Suma Posiłków",
-  "noProductionData": "Brak danych produkcyjnych na ten dzień",
-  "clearCartQuestion": "Wyczyścić koszyk?",
-  "clearCartMessage": "Twój koszyk zawiera produkty z innej restauracji. Czy chcesz wyczyścić koszyk i dodać ten produkt?",
-  "clearAndAdd": "Wyczyść i Dodaj",
-  "contactDetails": "Dane Kontaktowe",
-  "street": "Ulica",
-  "deliveryPricePLN": "Cena dostawy (PLN)",
-  "invalidFormat": "Nieprawidłowy format",
-  "deliveryFee": "Opłata za dostawę"
+  "zipCode": "Kod pocztowy"
 }

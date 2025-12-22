@@ -38,7 +38,14 @@ class AppCard extends StatelessWidget {
       clipBehavior: clipBehavior,
       borderOnForeground: borderOnForeground,
       child: onTap != null
-          ? InkWell(onTap: onTap, child: cardContent)
+          ? InkWell(
+              onTap: onTap,
+              borderRadius: shape is RoundedRectangleBorder
+                  ? (shape as RoundedRectangleBorder).borderRadius
+                        as BorderRadius
+                  : BorderRadius.circular(24), // Match theme _cardRadius
+              child: cardContent,
+            )
           : cardContent,
     );
   }

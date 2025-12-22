@@ -67,10 +67,7 @@ class OrderService extends ChangeNotifier {
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final data = Query$GetOrders.fromJson(result.data!);
       if (data.orders?.edges != null) {
@@ -116,10 +113,7 @@ class OrderService extends ChangeNotifier {
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final data = Query$GetOrdersByRestaurant.fromJson(result.data!);
       if (data.restaurant?.orders?.edges != null) {
@@ -131,7 +125,7 @@ class OrderService extends ChangeNotifier {
         _hasNextPage = data.restaurant?.orders?.pageInfo.hasNextPage ?? false;
       }
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -183,10 +177,7 @@ class OrderService extends ChangeNotifier {
       }
 
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       if (_currentUserId != null) {
         final data = Query$GetUserOrders.fromJson(result.data!);
@@ -251,10 +242,7 @@ class OrderService extends ChangeNotifier {
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final data = Query$GetUserOrders.fromJson(result.data!);
       if (data.user?.orders?.edges != null) {
@@ -289,10 +277,7 @@ class OrderService extends ChangeNotifier {
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       _currentOrder = Query$GetOrder.fromJson(result.data!).order;
     } catch (e) {
@@ -358,10 +343,7 @@ class OrderService extends ChangeNotifier {
       );
 
       final result = await _client.mutate(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       _createdOrder = Mutation$CreateOrder.fromJson(
         result.data!,
@@ -398,10 +380,7 @@ class OrderService extends ChangeNotifier {
       );
 
       final result = await _client.mutate(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       // Extract the updated order from the mutation response
       final updatedOrder = Mutation$UpdateOrder.fromJson(
@@ -439,10 +418,7 @@ class OrderService extends ChangeNotifier {
         ).toJson(),
       );
       final result = await _client.mutate(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       _orders.removeWhere((o) => o.id == id);
     } catch (e) {

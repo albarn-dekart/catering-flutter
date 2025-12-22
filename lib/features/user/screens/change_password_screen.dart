@@ -141,9 +141,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                 const SizedBox(height: 16),
                 Text(
                   AppLocalizations.of(context)!.updateSecurity,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -181,10 +179,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                         ? const SizedBox(
                             height: 24,
                             width: 24,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
+                            child: CircularProgressIndicator(strokeWidth: 2),
                           )
                         : Text(AppLocalizations.of(context)!.changePassword),
                   ),

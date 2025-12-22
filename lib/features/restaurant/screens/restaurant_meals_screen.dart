@@ -100,7 +100,8 @@ class _RestaurantMealsScreenState extends State<RestaurantMealsScreen> {
               ? AppLocalizations.of(context)!.selectMeal
               : AppLocalizations.of(context)!.manageMeals,
           items: mealService.meals,
-          isLoading: mealService.isLoading || mealService.isFetchingMore,
+          isLoading: mealService.isLoading,
+          isLoadingMore: mealService.isFetchingMore,
           onLoadMore: () =>
               mealService.loadMoreMealsByRestaurant(widget.restaurantIri),
           searchHint: AppLocalizations.of(context)!.searchMeals,
@@ -201,6 +202,9 @@ class _RestaurantMealsScreenState extends State<RestaurantMealsScreen> {
           onRefresh: () async {
             _fetchMeals();
           },
+          hasError: mealService.hasError,
+          errorMessage: mealService.errorMessage,
+          onRetry: _fetchMeals,
           itemBuilder: (context, meal) {
             Widget descriptionWidget = Text(
               meal.description ?? AppLocalizations.of(context)!.noDescription,
@@ -222,7 +226,6 @@ class _RestaurantMealsScreenState extends State<RestaurantMealsScreen> {
                   PriceText(
                     priceGroszy: meal.price,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
@@ -242,7 +245,6 @@ class _RestaurantMealsScreenState extends State<RestaurantMealsScreen> {
                   PriceText(
                     priceGroszy: meal.price,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
@@ -296,7 +298,9 @@ class _RestaurantMealsScreenState extends State<RestaurantMealsScreen> {
                                 TextButton(
                                   onPressed: () => Navigator.pop(context, true),
                                   style: TextButton.styleFrom(
-                                    foregroundColor: Colors.red,
+                                    foregroundColor: Theme.of(
+                                      context,
+                                    ).colorScheme.error,
                                   ),
                                   child: Text(
                                     AppLocalizations.of(context)!.delete,
@@ -341,9 +345,7 @@ class _RestaurantMealsScreenState extends State<RestaurantMealsScreen> {
               children: [
                 Text(
                   meal.name,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -381,7 +383,7 @@ class _RestaurantMealsScreenState extends State<RestaurantMealsScreen> {
               ],
             );
 
-            // Always Expanded in Grid view (which we are now using for both modes)
+            // Always use Expanded in Grid view
             content = Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(12.0),

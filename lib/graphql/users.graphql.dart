@@ -5037,6 +5037,13 @@ const documentNodeQueryGetMyCustomMealPlans = DocumentNode(
             selectionSet: SelectionSetNode(
               selections: [
                 FieldNode(
+                  name: NameNode(value: 'id'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null,
+                ),
+                FieldNode(
                   name: NameNode(value: 'customMealPlans'),
                   alias: null,
                   arguments: [
@@ -5281,14 +5288,17 @@ class Query$GetMyCustomMealPlans$Widget
 
 class Query$GetMyCustomMealPlans$user {
   Query$GetMyCustomMealPlans$user({
+    required this.id,
     this.customMealPlans,
     this.$__typename = 'User',
   });
 
   factory Query$GetMyCustomMealPlans$user.fromJson(Map<String, dynamic> json) {
+    final l$id = json['id'];
     final l$customMealPlans = json['customMealPlans'];
     final l$$__typename = json['__typename'];
     return Query$GetMyCustomMealPlans$user(
+      id: (l$id as String),
       customMealPlans: l$customMealPlans == null
           ? null
           : Query$GetMyCustomMealPlans$user$customMealPlans.fromJson(
@@ -5298,12 +5308,16 @@ class Query$GetMyCustomMealPlans$user {
     );
   }
 
+  final String id;
+
   final Query$GetMyCustomMealPlans$user$customMealPlans? customMealPlans;
 
   final String $__typename;
 
   Map<String, dynamic> toJson() {
     final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
     final l$customMealPlans = customMealPlans;
     _resultData['customMealPlans'] = l$customMealPlans?.toJson();
     final l$$__typename = $__typename;
@@ -5313,9 +5327,10 @@ class Query$GetMyCustomMealPlans$user {
 
   @override
   int get hashCode {
+    final l$id = id;
     final l$customMealPlans = customMealPlans;
     final l$$__typename = $__typename;
-    return Object.hashAll([l$customMealPlans, l$$__typename]);
+    return Object.hashAll([l$id, l$customMealPlans, l$$__typename]);
   }
 
   @override
@@ -5325,6 +5340,11 @@ class Query$GetMyCustomMealPlans$user {
     }
     if (other is! Query$GetMyCustomMealPlans$user ||
         runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
       return false;
     }
     final l$customMealPlans = customMealPlans;
@@ -5357,6 +5377,7 @@ abstract class CopyWith$Query$GetMyCustomMealPlans$user<TRes> {
       _CopyWithStubImpl$Query$GetMyCustomMealPlans$user;
 
   TRes call({
+    String? id,
     Query$GetMyCustomMealPlans$user$customMealPlans? customMealPlans,
     String? $__typename,
   });
@@ -5375,10 +5396,12 @@ class _CopyWithImpl$Query$GetMyCustomMealPlans$user<TRes>
   static const _undefined = <dynamic, dynamic>{};
 
   TRes call({
+    Object? id = _undefined,
     Object? customMealPlans = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
     Query$GetMyCustomMealPlans$user(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
       customMealPlans: customMealPlans == _undefined
           ? _instance.customMealPlans
           : (customMealPlans
@@ -5410,6 +5433,7 @@ class _CopyWithStubImpl$Query$GetMyCustomMealPlans$user<TRes>
   TRes _res;
 
   call({
+    String? id,
     Query$GetMyCustomMealPlans$user$customMealPlans? customMealPlans,
     String? $__typename,
   }) => _res;

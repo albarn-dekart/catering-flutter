@@ -3,6 +3,7 @@ import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:catering_flutter/core/services/api_service.dart';
+import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 
 typedef DietCategory = Query$GetDietCategories$dietCategories$edges$node;
 typedef DietCategoryDetails = Query$GetDietCategory$dietCategory;
@@ -38,10 +39,7 @@ class DietCategoryService extends ChangeNotifier {
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final data = Query$GetDietCategories.fromJson(result.data!);
       if (data.dietCategories?.edges != null) {
@@ -51,7 +49,7 @@ class DietCategoryService extends ChangeNotifier {
             .toList();
       }
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -70,16 +68,13 @@ class DietCategoryService extends ChangeNotifier {
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       _currentDietCategory = Query$GetDietCategory.fromJson(
         result.data!,
       ).dietCategory;
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -99,12 +94,9 @@ class DietCategoryService extends ChangeNotifier {
         ).toJson(),
       );
       final result = await _client.mutate(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
       _isLoading = false;
@@ -125,12 +117,9 @@ class DietCategoryService extends ChangeNotifier {
         ).toJson(),
       );
       final result = await _client.mutate(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
       _isLoading = false;
@@ -151,14 +140,11 @@ class DietCategoryService extends ChangeNotifier {
         ).toJson(),
       );
       final result = await _client.mutate(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       _dietCategories.removeWhere((c) => c.id == id);
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
       _isLoading = false;

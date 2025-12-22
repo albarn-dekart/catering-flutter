@@ -13,6 +13,7 @@ import 'package:catering_flutter/core/utils/status_extensions.dart';
 import 'package:catering_flutter/core/services/export_service.dart';
 import 'package:catering_flutter/core/services/auth_service.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
+import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:catering_flutter/core/widgets/searchable_list_screen.dart';
 import 'package:catering_flutter/core/widgets/price_text.dart';
 
@@ -36,16 +37,6 @@ class _OrderListScreenState extends State<OrderListScreen> {
     _scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _fetchOrders();
-
-      if (!mounted) return;
-      final service = context.read<OrderService>();
-      if (service.hasError) {
-        UIErrorHandler.showSnackBar(
-          context,
-          service.errorMessage!,
-          isError: true,
-        );
-      }
     });
   }
 
@@ -103,10 +94,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
                   ? const SizedBox(
                       width: 24,
                       height: 24,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
-                      ),
+                      child: CircularProgressIndicator(strokeWidth: 2),
                     )
                   : const Icon(Icons.download),
             )
@@ -116,10 +104,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
                   ? const SizedBox(
                       width: 24,
                       height: 24,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
-                      ),
+                      child: CircularProgressIndicator(strokeWidth: 2),
                     )
                   : const Icon(Icons.download),
               label: Text(AppLocalizations.of(context)!.exportToCsv),
@@ -166,6 +151,12 @@ class _OrderListScreenState extends State<OrderListScreen> {
 
                 if (orderService.isLoading) {
                   return const Center(child: CircularProgressIndicator());
+                } else if (orderService.hasError) {
+                  return GlobalErrorWidget(
+                    message: orderService.errorMessage,
+                    onRetry: _fetchOrders,
+                    withScaffold: false,
+                  );
                 } else if (orderService.orders.isEmpty) {
                   return Center(
                     child: Text(AppLocalizations.of(context)!.noOrders),
@@ -294,7 +285,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
                                               ),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .titleMedium
+                                                  .titleLarge
                                                   ?.copyWith(
                                                     fontWeight: FontWeight.bold,
                                                   ),

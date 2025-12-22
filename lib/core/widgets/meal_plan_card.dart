@@ -49,8 +49,6 @@ class MealPlanCard extends StatelessWidget {
 
     return AppCard(
       clipBehavior: Clip.antiAlias,
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       padding: EdgeInsets.zero,
       onTap:
           onTap ??
@@ -72,7 +70,7 @@ class MealPlanCard extends StatelessWidget {
             children: [
               // Image
               SizedBox(
-                height: 160,
+                height: 140,
                 width: double.infinity,
                 child: imageUrl != null && imageUrl!.isNotEmpty
                     ? CustomCachedImage(imageUrl: imageUrl, fit: BoxFit.cover)
@@ -115,7 +113,7 @@ class MealPlanCard extends StatelessWidget {
         // Meal plan name
         Text(
           name,
-          style: theme.textTheme.titleMedium?.copyWith(
+          style: theme.textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.bold,
           ),
           maxLines: 1,
@@ -139,6 +137,7 @@ class MealPlanCard extends StatelessWidget {
             description!,
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
+              height: 1.3,
             ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -150,27 +149,31 @@ class MealPlanCard extends StatelessWidget {
             carbs != null) ...[
           const SizedBox(height: 8),
           Wrap(
-            spacing: 4,
-            runSpacing: 4,
+            spacing: 8,
+            runSpacing: 8,
             children: [
               if (calories != null)
                 MacroBadge(
-                  text: '${AppLocalizations.of(context)!.calories}: ${calories!.toStringAsFixed(0)}',
+                  text:
+                      '${AppLocalizations.of(context)!.calories}: ${calories!.toStringAsFixed(0)}',
                   icon: Icons.local_fire_department_outlined,
                 ),
               if (protein != null)
                 MacroBadge(
-                  text: '${AppLocalizations.of(context)!.protein}${protein!.toStringAsFixed(1)}g',
+                  text:
+                      '${AppLocalizations.of(context)!.protein}: ${protein!.toStringAsFixed(1)}g',
                   icon: Icons.fitness_center_outlined,
                 ),
               if (fat != null)
                 MacroBadge(
-                  text: '${AppLocalizations.of(context)!.fat}: ${fat!.toStringAsFixed(1)}g',
+                  text:
+                      '${AppLocalizations.of(context)!.fat}: ${fat!.toStringAsFixed(1)}g',
                   icon: Icons.water_drop_outlined,
                 ),
               if (carbs != null)
                 MacroBadge(
-                  text: '${AppLocalizations.of(context)!.carbs}: ${carbs!.toStringAsFixed(1)}g',
+                  text:
+                      '${AppLocalizations.of(context)!.carbs}: ${carbs!.toStringAsFixed(1)}g',
                   icon: Icons.grain_outlined,
                 ),
             ],
@@ -184,10 +187,13 @@ class MealPlanCard extends StatelessWidget {
             runSpacing: 4,
             children: dietCategories!.map((c) {
               return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.secondaryContainer,
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
                   c,
@@ -208,7 +214,7 @@ class MealPlanCard extends StatelessWidget {
             PriceText.fromDouble(
               priceGroszy: price,
               suffix: AppLocalizations.of(context)!.perDay,
-              style: theme.textTheme.titleMedium?.copyWith(
+              style: theme.textTheme.titleLarge?.copyWith(
                 color: theme.colorScheme.primary,
                 fontWeight: FontWeight.bold,
               ),

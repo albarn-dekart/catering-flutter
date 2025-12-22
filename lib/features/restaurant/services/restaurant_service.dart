@@ -67,10 +67,7 @@ class RestaurantService extends ChangeNotifier {
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final data = Query$GetRestaurants.fromJson(result.data!);
       if (data.restaurants?.edges != null) {
@@ -107,10 +104,7 @@ class RestaurantService extends ChangeNotifier {
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final data = Query$GetRestaurants.fromJson(result.data!);
       if (data.restaurants?.edges != null) {
@@ -146,10 +140,7 @@ class RestaurantService extends ChangeNotifier {
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final data = Query$GetRestaurantCategories.fromJson(result.data!);
       if (data.restaurantCategories?.edges != null) {
@@ -181,10 +172,7 @@ class RestaurantService extends ChangeNotifier {
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       _currentRestaurant = Query$GetRestaurant.fromJson(
         result.data!,
@@ -235,10 +223,7 @@ class RestaurantService extends ChangeNotifier {
       );
 
       final result = await _client.mutate(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final createdRestaurant = Mutation$CreateRestaurant.fromJson(
         result.data!,
@@ -308,10 +293,7 @@ class RestaurantService extends ChangeNotifier {
       );
 
       final result = await _client.mutate(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final updatedRestaurant = Mutation$UpdateRestaurant.fromJson(
         result.data!,
@@ -357,10 +339,7 @@ class RestaurantService extends ChangeNotifier {
       );
 
       final result = await _client.mutate(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final updatedRestaurant = Mutation$UpdateRestaurant.fromJson(
         result.data!,
@@ -399,10 +378,7 @@ class RestaurantService extends ChangeNotifier {
         ).toJson(),
       );
       final result = await _client.mutate(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       _restaurants.removeWhere((r) => r.id == id);
     } catch (e) {

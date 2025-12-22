@@ -113,12 +113,17 @@ class _MealPlansByRestaurantState extends State<MealPlansByRestaurant> {
           title: AppLocalizations.of(context)!.mealPlans,
           items: mealPlanService.mealPlans,
           isLoading: mealPlanService.isLoading,
+          isLoadingMore: mealPlanService.isFetchingMore,
           searchHint: AppLocalizations.of(context)!.searchMealPlans,
           onRefresh: () async {
             await mealPlanService.fetchMealPlansByRestaurant(
               widget.restaurantIri,
             );
           },
+          hasError: mealPlanService.hasError,
+          errorMessage: mealPlanService.errorMessage,
+          onRetry: () =>
+              mealPlanService.fetchMealPlansByRestaurant(widget.restaurantIri),
           floatingActionButton: isNarrow
               ? FloatingActionButton(
                   onPressed: () {

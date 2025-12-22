@@ -1,3 +1,4 @@
+import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catering_flutter/features/restaurant/services/meal_plan_service.dart';
@@ -25,15 +26,6 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await context.read<MealPlanService>().getMealPlanById(widget.mealPlanIri);
-      if (!mounted) return;
-      final service = context.read<MealPlanService>();
-      if (service.hasError) {
-        UIErrorHandler.showSnackBar(
-          context,
-          service.errorMessage!,
-          isError: true,
-        );
-      }
     });
   }
 
@@ -48,6 +40,14 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
         builder: (context, mealPlanService, cartService, child) {
           if (mealPlanService.isLoading) {
             return const Center(child: CircularProgressIndicator());
+          } else if (mealPlanService.hasError &&
+              mealPlanService.currentMealPlan == null) {
+            return GlobalErrorWidget(
+              message: mealPlanService.errorMessage,
+              onRetry: () =>
+                  mealPlanService.getMealPlanById(widget.mealPlanIri),
+              withScaffold: false,
+            );
           } else if (mealPlanService.currentMealPlan != null) {
             final mealPlan = mealPlanService.currentMealPlan!;
             final restaurantIri = mealPlan.restaurant?.id;
@@ -109,7 +109,7 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
                                             .textTheme
                                             .headlineMedium
                                             ?.copyWith(
-                                              fontWeight: FontWeight.bold,
+                                              fontWeight: FontWeight.normal,
                                             ),
                                       ),
                                     ),
@@ -122,7 +122,7 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
                                             color: Theme.of(
                                               context,
                                             ).colorScheme.primary,
-                                            fontWeight: FontWeight.bold,
+                                            fontWeight: FontWeight.normal,
                                           ),
                                     ),
                                   ],
@@ -148,7 +148,7 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
                                           .textTheme
                                           .titleMedium
                                           ?.copyWith(
-                                            fontWeight: FontWeight.bold,
+                                            fontWeight: FontWeight.normal,
                                           ),
                                     ),
                                     const SizedBox(width: 8),
@@ -187,7 +187,7 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
                                 Text(
                                   AppLocalizations.of(context)!.mealsIncluded,
                                   style: Theme.of(context).textTheme.titleLarge
-                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                      ?.copyWith(fontWeight: FontWeight.normal),
                                 ),
                                 const SizedBox(height: 16),
                                 // Handle GraphQL meals structure

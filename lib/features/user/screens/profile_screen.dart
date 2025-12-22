@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:catering_flutter/core/app_theme.dart';
 import 'package:catering_flutter/core/app_router.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/widgets/responsive_grid.dart';
@@ -27,26 +28,26 @@ class ProfileScreen extends StatelessWidget {
               DashboardCard(
                 title: AppLocalizations.of(context)!.myOrders,
                 icon: Icons.receipt_long,
-                color: Colors.blue,
+                color: AppColors.info,
                 onTap: () => context.push(AppRoutes.orders),
               ),
               DashboardCard(
                 title: AppLocalizations.of(context)!.myAddresses,
                 icon: Icons.location_on,
-                color: Colors.green,
+                color: AppColors.success,
                 onTap: () => context.push(AppRoutes.addressList),
               ),
               DashboardCard(
                 title: AppLocalizations.of(context)!.myMealPlans,
                 icon: Icons.restaurant_menu,
-                color: Colors.purple,
+                color: AppColors.secondary,
                 onTap: () => context.push(AppRoutes.myMealPlans),
               ),
             ],
             DashboardCard(
               title: AppLocalizations.of(context)!.changePassword,
               icon: Icons.lock,
-              color: Colors.orange,
+              color: AppColors.warning,
               onTap: () => context.push(AppRoutes.changePassword),
             ),
           ],

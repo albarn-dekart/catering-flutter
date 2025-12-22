@@ -1,6 +1,5 @@
 import 'package:catering_flutter/core/services/auth_service.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
-import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 
 import 'package:catering_flutter/features/customer/services/address_service.dart';
@@ -59,44 +58,38 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
     final addressService = context.read<AddressService>();
     final userIri = context.read<AuthService>().userIri;
 
-    try {
-      if (userIri != null && widget.address == null) {
-        await addressService.createAddress(
-          userIri: userIri,
-          firstName: _firstNameController.text,
-          lastName: _lastNameController.text,
-          phoneNumber: _phoneNumberController.text,
-          street: _streetController.text,
-          apartment: _apartmentController.text.isEmpty
-              ? null
-              : _apartmentController.text,
-          city: _cityController.text,
-          zipCode: _zipCodeController.text,
-          isDefault: _isDefault,
-        );
-      } else {
-        await addressService.updateAddress(
-          id: widget.address!.id,
-          firstName: _firstNameController.text,
-          lastName: _lastNameController.text,
-          phoneNumber: _phoneNumberController.text,
-          street: _streetController.text,
-          apartment: _apartmentController.text.isEmpty
-              ? null
-              : _apartmentController.text,
-          city: _cityController.text,
-          zipCode: _zipCodeController.text,
-          isDefault: _isDefault,
-        );
-      }
+    if (userIri != null && widget.address == null) {
+      await addressService.createAddress(
+        userIri: userIri,
+        firstName: _firstNameController.text,
+        lastName: _lastNameController.text,
+        phoneNumber: _phoneNumberController.text,
+        street: _streetController.text,
+        apartment: _apartmentController.text.isEmpty
+            ? null
+            : _apartmentController.text,
+        city: _cityController.text,
+        zipCode: _zipCodeController.text,
+        isDefault: _isDefault,
+      );
+    } else {
+      await addressService.updateAddress(
+        id: widget.address!.id,
+        firstName: _firstNameController.text,
+        lastName: _lastNameController.text,
+        phoneNumber: _phoneNumberController.text,
+        street: _streetController.text,
+        apartment: _apartmentController.text.isEmpty
+            ? null
+            : _apartmentController.text,
+        city: _cityController.text,
+        zipCode: _zipCodeController.text,
+        isDefault: _isDefault,
+      );
+    }
 
-      if (mounted) {
-        Navigator.of(context).pop();
-      }
-    } catch (e) {
-      if (mounted) {
-        UIErrorHandler.handleError(context, e);
-      }
+    if (mounted && !addressService.hasError) {
+      Navigator.of(context).pop();
     }
   }
 
@@ -308,9 +301,6 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                                             context,
                                           )!.saveChanges,
                                   ),
-                            style: FilledButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                            ),
                           );
                         },
                       ),
@@ -351,7 +341,9 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                                                 context,
                                               ).pop(true),
                                               style: TextButton.styleFrom(
-                                                foregroundColor: Colors.red,
+                                                foregroundColor: Theme.of(
+                                                  context,
+                                                ).colorScheme.error,
                                               ),
                                               child: Text(
                                                 AppLocalizations.of(
@@ -364,20 +356,12 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                                       );
 
                                       if (confirmed == true && mounted) {
-                                        try {
-                                          await service.deleteAddress(
-                                            widget.address!.id,
-                                          );
-                                          if (context.mounted) {
-                                            Navigator.of(context).pop();
-                                          }
-                                        } catch (e) {
-                                          if (context.mounted) {
-                                            UIErrorHandler.handleError(
-                                              context,
-                                              e,
-                                            );
-                                          }
+                                        await service.deleteAddress(
+                                          widget.address!.id,
+                                        );
+                                        if (context.mounted &&
+                                            !service.hasError) {
+                                          Navigator.of(context).pop();
                                         }
                                       }
                                     },

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:catering_flutter/features/restaurant/services/restaurant_service.dart';
-import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/widgets/searchable_list_screen.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:catering_flutter/core/widgets/restaurant_card.dart';
@@ -28,15 +27,6 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
       await context.read<RestaurantService>().fetchCategories();
       if (!mounted) return;
       await context.read<RestaurantService>().fetchAllRestaurants();
-      if (!mounted) return;
-      final service = context.read<RestaurantService>();
-      if (service.hasError) {
-        UIErrorHandler.showSnackBar(
-          context,
-          service.errorMessage!,
-          isError: true,
-        );
-      }
     });
   }
 
@@ -70,10 +60,14 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
           title: AppLocalizations.of(context)!.restaurants,
           items: restaurantService.restaurants,
           isLoading: restaurantService.isLoading,
+          isLoadingMore: restaurantService.isFetchingMore,
           searchHint: AppLocalizations.of(context)!.searchRestaurants,
           onRefresh: () async {
             await restaurantService.fetchAllRestaurants();
           },
+          hasError: restaurantService.hasError,
+          errorMessage: restaurantService.errorMessage,
+          onRetry: () => restaurantService.fetchAllRestaurants(),
           onLoadMore: () async {
             if (!restaurantService.isFetchingMore &&
                 restaurantService.hasNextPage) {

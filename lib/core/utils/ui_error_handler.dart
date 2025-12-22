@@ -1,21 +1,58 @@
+import 'dart:async';
+import 'dart:io';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:catering_flutter/core/services/api_service.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 class UIErrorHandler {
   static String mapExceptionToMessage(
     dynamic exception, [
     BuildContext? context,
   ]) {
+    final localizations = context != null ? AppLocalizations.of(context) : null;
+
     if (exception is ApiException) {
+      if (exception.message.contains('Unauthorized') ||
+          exception.message.contains('expired')) {
+        return localizations?.errorUnauthorized ?? 'Session expired.';
+      }
       return exception.message;
     }
-    if (context != null) {
-      return AppLocalizations.of(
-        context,
-      )!.unexpectedError(exception.toString());
+
+    if (exception is TimeoutException) {
+      return localizations?.errorTimeout ??
+          'Request timed out. Please try again.';
     }
-    return 'An unexpected error occurred: ${exception.toString()}';
+
+    if (exception is SocketException) {
+      return localizations?.errorNetwork ??
+          'Network error. Please check your connection.';
+    }
+
+    if (exception is OperationException) {
+      // GraphQL exception
+      if (exception.linkException != null) {
+        return mapExceptionToMessage(exception.linkException, context);
+      }
+      if (exception.graphqlErrors.isNotEmpty) {
+        return exception.graphqlErrors.map((e) => e.message).join(', ');
+      }
+    }
+
+    // Handle string representation if it contains certain technical terms
+    final errorString = exception.toString();
+    if (errorString.contains('TimeoutException')) {
+      return localizations?.errorTimeout ?? 'Request timed out.';
+    }
+    if (errorString.contains('SocketException')) {
+      return localizations?.errorNetwork ?? 'Network error.';
+    }
+
+    if (localizations != null) {
+      return localizations.unexpectedError(errorString);
+    }
+    return 'An unexpected error occurred: $errorString';
   }
 
   static void handleError(

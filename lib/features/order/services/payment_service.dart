@@ -3,6 +3,7 @@ import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:catering_flutter/core/services/api_service.dart';
+import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PaymentService extends ChangeNotifier {
@@ -51,16 +52,13 @@ class PaymentService extends ChangeNotifier {
         ).toJson(),
       );
       final result = await _client.mutate(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final data = Mutation$CreatePayment.fromJson(result.data!);
       _checkoutSessionId = data.createPayment?.payment?.sessionId;
       _checkoutUrl = data.createPayment?.payment?.url;
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
       _isLoading = false;

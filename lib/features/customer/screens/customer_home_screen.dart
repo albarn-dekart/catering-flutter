@@ -1,10 +1,10 @@
+import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:go_router/go_router.dart';
 import 'package:catering_flutter/core/app_router.dart';
 import 'package:catering_flutter/core/widgets/restaurant_card.dart';
 import 'package:catering_flutter/core/widgets/meal_plan_card.dart';
 import 'package:catering_flutter/core/widgets/responsive_grid.dart';
-import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/features/customer/services/home_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,15 +23,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await context.read<HomeService>().fetchHomeData();
-      if (!mounted) return;
-      final service = context.read<HomeService>();
-      if (service.hasError) {
-        UIErrorHandler.showSnackBar(
-          context,
-          service.errorMessage!,
-          isError: true,
-        );
-      }
     });
   }
 
@@ -43,11 +34,19 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       title: AppLocalizations.of(context)!.home,
       child: Consumer<HomeService>(
         builder: (context, homeService, child) {
+          final homeData = homeService.homeData;
+
+          if (homeService.hasError && (homeData == null)) {
+            return GlobalErrorWidget(
+              message: homeService.errorMessage,
+              onRetry: () => homeService.fetchHomeData(),
+              withScaffold: false,
+            );
+          }
+
           if (homeService.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-
-          final homeData = homeService.homeData;
 
           if (homeData == null) {
             return Center(
@@ -71,12 +70,18 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         end: Alignment.bottomRight,
                         colors: [
                           theme.colorScheme.primary,
-                          theme.colorScheme.primaryContainer,
+                          theme.colorScheme.primary.withValues(alpha: 0.8),
+                          Color.lerp(
+                            theme.colorScheme.primary,
+                            theme.colorScheme.shadow,
+                            0.2,
+                          )!,
                         ],
+                        stops: const [0.0, 0.5, 1.0],
                       ),
                     ),
                     padding: const EdgeInsets.symmetric(
-                      vertical: 48,
+                      vertical: 64,
                       horizontal: 24,
                     ),
                     child: Column(
@@ -84,18 +89,20 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                       children: [
                         Text(
                           AppLocalizations.of(context)!.welcomeBack,
-                          style: theme.textTheme.headlineLarge?.copyWith(
+                          style: theme.textTheme.displaySmall?.copyWith(
                             color: theme.colorScheme.onPrimary,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
+                            letterSpacing: -1,
                           ),
                         ),
                         const SizedBox(height: 12),
                         Text(
                           AppLocalizations.of(context)!.discoverMessage,
-                          style: theme.textTheme.titleMedium?.copyWith(
+                          style: theme.textTheme.titleLarge?.copyWith(
                             color: theme.colorScheme.onPrimary.withValues(
                               alpha: 0.9,
                             ),
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
                       ],
@@ -108,9 +115,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Card(
                       elevation: 0,
-                      color: theme.colorScheme.secondaryContainer.withValues(
-                        alpha: 0.3,
-                      ),
+                      color: theme.colorScheme.surfaceContainerHighest,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                         side: BorderSide(
@@ -136,7 +141,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                                       context,
                                     )!.customMealPlanPromoTitle,
                                     style: theme.textTheme.titleLarge?.copyWith(
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.normal,
                                     ),
                                   ),
                                 ),
@@ -196,7 +201,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                             Text(
                               AppLocalizations.of(context)!.featuredRestaurants,
                               style: theme.textTheme.headlineSmall?.copyWith(
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.normal,
                               ),
                             ),
                             TextButton(
@@ -241,7 +246,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                           Text(
                             AppLocalizations.of(context)!.popularMealPlans,
                             style: theme.textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.normal,
                             ),
                           ),
                           Icon(
@@ -255,7 +260,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: ResponsiveGrid(
-                        preferredItemHeight: 350,
+                        preferredItemHeight: 300,
                         padding: EdgeInsets.zero,
                         children: homeData.popularMealPlans
                             .map(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:catering_flutter/core/utils/date_formatter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:catering_flutter/core/app_theme.dart';
 import 'package:catering_flutter/core/app_router.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/widgets/responsive_grid.dart';
@@ -13,6 +14,8 @@ import 'package:catering_flutter/core/widgets/charts/revenue_line_chart.dart';
 import 'package:catering_flutter/core/widgets/charts/order_status_pie_chart.dart';
 import 'package:catering_flutter/core/widgets/charts/daily_orders_chart.dart';
 import 'package:catering_flutter/core/services/export_service.dart';
+import 'package:catering_flutter/core/widgets/stat_card.dart';
+import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
@@ -41,17 +44,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
     });
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await context.read<StatisticsService>().fetchAdminStatistics();
-
-      if (!mounted) return;
-      final statisticsService = context.read<StatisticsService>();
-
-      if (statisticsService.hasError) {
-        UIErrorHandler.showSnackBar(
-          context,
-          statisticsService.errorMessage!,
-          isError: true,
-        );
-      }
     });
   }
 
@@ -97,44 +89,39 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
       title: AppLocalizations.of(context)!.adminDashboard,
       floatingActionButton: fab,
       bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: Container(
-          margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
-          child: TabBar(
-            controller: _tabController,
-            isScrollable: true,
-            tabAlignment: TabAlignment.start,
-            indicator: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: Colors.white,
+        preferredSize: const Size.fromHeight(48),
+        child: Column(
+          children: [
+            TabBar(
+              controller: _tabController,
+              isScrollable: true,
+              tabAlignment: TabAlignment.start,
+              labelPadding: const EdgeInsets.symmetric(horizontal: 24),
+              tabs: [
+                Tab(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.bar_chart, size: 20),
+                      const SizedBox(width: 8),
+                      Text(AppLocalizations.of(context)!.statistics),
+                    ],
+                  ),
+                ),
+                Tab(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.dashboard, size: 20),
+                      const SizedBox(width: 8),
+                      Text(AppLocalizations.of(context)!.management),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            labelColor: Theme.of(context).primaryColor,
-            unselectedLabelColor: Colors.white,
-            indicatorSize: TabBarIndicatorSize.tab,
-            dividerColor: Colors.transparent,
-            labelPadding: const EdgeInsets.symmetric(horizontal: 24),
-            tabs: [
-              Tab(
-                child: Row(
-                  children: [
-                    const Icon(Icons.bar_chart),
-                    const SizedBox(width: 8),
-                    Text(AppLocalizations.of(context)!.statistics),
-                  ],
-                ),
-              ),
-              Tab(
-                child: Row(
-                  children: [
-                    const Icon(Icons.dashboard),
-                    const SizedBox(width: 8),
-                    Text(AppLocalizations.of(context)!.management),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            const Divider(height: 1, thickness: 1, indent: 0, endIndent: 0),
+          ],
         ),
       ),
       child: TabBarView(
@@ -164,25 +151,25 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
             DashboardCard(
               title: AppLocalizations.of(context)!.manageRestaurants,
               icon: Icons.store,
-              color: Colors.orange,
+              color: AppColors.secondary,
               onTap: () => context.push(AppRoutes.adminRestaurants),
             ),
             DashboardCard(
               title: AppLocalizations.of(context)!.manageUsers,
               icon: Icons.people,
-              color: Colors.blue,
+              color: AppColors.primary,
               onTap: () => context.push(AppRoutes.adminUsers),
             ),
             DashboardCard(
               title: AppLocalizations.of(context)!.restaurantCategories,
               icon: Icons.restaurant,
-              color: Colors.teal,
+              color: AppColors.success,
               onTap: () => context.push(AppRoutes.adminRestaurantCategories),
             ),
             DashboardCard(
               title: AppLocalizations.of(context)!.dietCategories,
               icon: Icons.restaurant_menu,
-              color: Colors.indigo,
+              color: AppColors.info,
               onTap: () => context.push(AppRoutes.adminDietCategories),
             ),
           ],
@@ -227,16 +214,11 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: SizedBox(
-            height:
-                MediaQuery.of(context).size.height -
-                200, // Ensure scrollability for refresh
-            child: Center(
-              child: Text(
-                '${AppLocalizations.of(context)!.error}: ${statisticsService.errorMessage}',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.error,
-                ),
-              ),
+            height: MediaQuery.of(context).size.height - 200,
+            child: GlobalErrorWidget(
+              message: statisticsService.errorMessage,
+              onRetry: _refreshData,
+              withScaffold: false,
             ),
           ),
         ),
@@ -266,155 +248,190 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Date range header (styled like restaurant dashboard)
-            Container(
-              width: double.infinity,
+            Padding(
               padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(24),
-                  bottomRight: Radius.circular(24),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.overview,
-                          style: Theme.of(context).textTheme.labelMedium
-                              ?.copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer
-                                    .withValues(alpha: 0.7),
-                              ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          _selectedDateRange == null
-                              ? AppLocalizations.of(context)!.last30Days
-                              : '${AppDateFormatter.dayMonth(context, _selectedDateRange!.start)} - ${AppDateFormatter.dayMonthYear(context, _selectedDateRange!.end)}',
-                          style: Theme.of(context).textTheme.titleLarge
-                              ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onPrimaryContainer,
-                                fontWeight: FontWeight.bold,
-                              ),
-                        ),
-                      ],
-                    ),
+              child: Card(
+                elevation: 0,
+                color: Theme.of(
+                  context,
+                ).colorScheme.primaryContainer.withValues(alpha: 0.5),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                  side: BorderSide(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withValues(alpha: 0.1),
                   ),
-                  const SizedBox(width: 8),
-                  Column(
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
                     children: [
-                      FilledButton.tonalIcon(
-                        onPressed: () => _selectDateRange(context),
-                        icon: const Icon(Icons.date_range),
-                        label: Text(AppLocalizations.of(context)!.change),
-                      ),
-                      if (_selectedDateRange != null) ...[
-                        const SizedBox(height: 8),
-                        TextButton.icon(
-                          onPressed: () async {
-                            setState(() {
-                              _selectedDateRange = null;
-                            });
-                            await context
-                                .read<StatisticsService>()
-                                .fetchAdminStatistics();
-                          },
-                          icon: const Icon(Icons.close, size: 16),
-                          label: Text(
-                            AppLocalizations.of(context)!.clearFilter,
-                          ),
-                          style: TextButton.styleFrom(
-                            foregroundColor: Theme.of(
-                              context,
-                            ).colorScheme.onPrimaryContainer,
-                          ),
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.primary.withValues(alpha: 0.1),
+                          shape: BoxShape.circle,
                         ),
-                      ],
+                        child: Icon(
+                          Icons.calendar_today_rounded,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.overview,
+                              style: Theme.of(context).textTheme.labelMedium
+                                  ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer
+                                        .withValues(alpha: 0.7),
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              _selectedDateRange == null
+                                  ? AppLocalizations.of(context)!.last30Days
+                                  : '${AppDateFormatter.dayMonth(context, _selectedDateRange!.start)} - ${AppDateFormatter.dayMonthYear(context, _selectedDateRange!.end)}',
+                              style: Theme.of(context).textTheme.titleLarge
+                                  ?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onPrimaryContainer,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          FilledButton.icon(
+                            onPressed: () => _selectDateRange(context),
+                            icon: const Icon(
+                              Icons.date_range_rounded,
+                              size: 18,
+                            ),
+                            label: Text(AppLocalizations.of(context)!.change),
+                            style: FilledButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                            ),
+                          ),
+                          if (_selectedDateRange != null) ...[
+                            const SizedBox(height: 8),
+                            TextButton.icon(
+                              onPressed: () async {
+                                setState(() {
+                                  _selectedDateRange = null;
+                                });
+                                await context
+                                    .read<StatisticsService>()
+                                    .fetchAdminStatistics();
+                              },
+                              icon: Icon(
+                                Icons.close,
+                                size: 18,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              label: Text(
+                                AppLocalizations.of(context)!.clearFilter,
+                                style: Theme.of(context).textTheme.labelLarge
+                                    ?.copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                    ),
+                              ),
+                              style: TextButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 8,
+                                ),
+                                visualDensity: VisualDensity.compact,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Statistics Cards
                   ResponsiveGrid(
-                    preferredItemHeight: 250,
+                    preferredItemHeight: 100,
                     children: [
-                      DashboardCard(
+                      StatCard(
                         title: AppLocalizations.of(context)!.totalRevenue,
-                        subtitle:
+                        value:
                             '${statistics.totalRevenue.toStringAsFixed(2)} PLN',
-                        icon: Icons.euro,
-                        color: Colors.green,
-                        onTap: () {},
+                        icon: Icons.payments_outlined,
+                        color: AppColors.success,
                       ),
-                      DashboardCard(
+                      StatCard(
                         title: AppLocalizations.of(context)!.totalOrders,
-                        subtitle:
-                            '${statistics.totalOrders} ${AppLocalizations.of(context)!.orders.toLowerCase()}',
-                        icon: Icons.receipt_long,
-                        color: Colors.blue,
-                        onTap: () {},
+                        value: '${statistics.totalOrders}',
+                        icon: Icons.receipt_long_outlined,
+                        color: AppColors.info,
                       ),
-                      DashboardCard(
+                      StatCard(
                         title: AppLocalizations.of(context)!.activeOrders,
-                        subtitle:
-                            '${statistics.activeOrders} ${AppLocalizations.of(context)!.statusActive.toLowerCase()}',
-                        icon: Icons.pending_actions,
-                        color: Colors.orange,
-                        onTap: () {},
+                        value: '${statistics.activeOrders}',
+                        icon: Icons.pending_actions_outlined,
+                        color: AppColors.warning,
                       ),
-                      DashboardCard(
+                      StatCard(
                         title: AppLocalizations.of(context)!.totalUsers,
-                        subtitle:
-                            '${statistics.totalUsers} ${AppLocalizations.of(context)!.totalUsers.toLowerCase()}',
-                        icon: Icons.people,
-                        color: Colors.purple,
-                        onTap: () {},
+                        value: '${statistics.totalUsers}',
+                        icon: Icons.people_outline,
+                        color: AppColors.primary,
                       ),
-                      DashboardCard(
+                      StatCard(
                         title: AppLocalizations.of(context)!.averageOrderValue,
-                        subtitle:
+                        value:
                             '${statistics.averageOrderValue.toStringAsFixed(2)} PLN',
                         icon: Icons.trending_up,
-                        color: Colors.teal,
-                        onTap: () {},
+                        color: AppColors.primaryLight,
                       ),
-                      DashboardCard(
+                      StatCard(
                         title: AppLocalizations.of(context)!.customers,
-                        subtitle:
-                            '${statistics.customerCount} ${AppLocalizations.of(context)!.customers.toLowerCase()}',
-                        icon: Icons.person,
-                        color: Colors.indigo,
-                        onTap: () {},
+                        value: '${statistics.customerCount}',
+                        icon: Icons.person_outline,
+                        color: AppColors.primary,
                       ),
-                      DashboardCard(
+                      StatCard(
                         title: AppLocalizations.of(context)!.restaurants,
-                        subtitle:
-                            '${statistics.restaurantCount} ${AppLocalizations.of(context)!.restaurants.toLowerCase()}',
-                        icon: Icons.store,
-                        color: Colors.deepOrange,
-                        onTap: () {},
+                        value: '${statistics.restaurantCount}',
+                        icon: Icons.store_outlined,
+                        color: AppColors.secondary,
                       ),
-                      DashboardCard(
+                      StatCard(
                         title: AppLocalizations.of(context)!.drivers,
-                        subtitle:
-                            '${statistics.driverCount} ${AppLocalizations.of(context)!.drivers.toLowerCase()}',
-                        icon: Icons.delivery_dining,
-                        color: Colors.deepPurple,
-                        onTap: () {},
+                        value: '${statistics.driverCount}',
+                        icon: Icons.delivery_dining_outlined,
+                        color: AppColors.secondaryDark,
                       ),
                     ],
                   ),

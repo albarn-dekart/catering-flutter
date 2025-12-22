@@ -19,6 +19,7 @@ class AuthService extends ChangeNotifier {
   bool get isAuthenticated => _isAuthenticated;
   String? get userIri => _userIri;
   String? get email => _email;
+  List<String> get roles => List.unmodifiable(_roles);
   bool get isLoading => _isLoading;
 
   AuthService(this._tokenStorage) {
@@ -76,7 +77,7 @@ class AuthService extends ChangeNotifier {
       final data = jsonDecode(response.body);
       await _handleAuthSuccess(data);
     } else {
-      throw Exception('Login failed: ${response.body}');
+      throw ApiException('Login failed: ${response.body}');
     }
   }
 
@@ -171,7 +172,7 @@ class AuthService extends ChangeNotifier {
       _isAuthenticated = true;
       notifyListeners();
     } else {
-      throw Exception('Auth failed: no token received');
+      throw ApiException('Auth failed: no token received');
     }
   }
 
@@ -235,7 +236,7 @@ class AuthService extends ChangeNotifier {
     if (response.statusCode == 201) {
       await login(email, password);
     } else {
-      throw Exception('Registration failed: ${response.body}');
+      throw ApiException('Registration failed: ${response.body}');
     }
   }
 
@@ -244,7 +245,7 @@ class AuthService extends ChangeNotifier {
   Future<void> changePassword(String oldPassword, String newPassword) async {
     final token = await _tokenStorage.getToken();
     if (token == null) {
-      throw Exception('Not authenticated');
+      throw ApiException('Not authenticated');
     }
 
     final response = await http.post(
@@ -263,7 +264,7 @@ class AuthService extends ChangeNotifier {
       return;
     } else {
       final data = jsonDecode(response.body);
-      throw Exception(data['error'] ?? 'Failed to change password');
+      throw ApiException(data['error'] ?? 'Failed to change password');
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 
@@ -16,6 +17,9 @@ class CategoryManagementTab extends StatefulWidget {
   final Future<void> Function(String name) createCategory;
   final Future<void> Function(String id, String name) updateCategory;
   final Future<void> Function(String id) deleteCategory;
+  final bool hasError;
+  final String? errorMessage;
+  final VoidCallback? onRetry;
 
   const CategoryManagementTab({
     super.key,
@@ -25,6 +29,9 @@ class CategoryManagementTab extends StatefulWidget {
     required this.createCategory,
     required this.updateCategory,
     required this.deleteCategory,
+    this.hasError = false,
+    this.errorMessage,
+    this.onRetry,
   });
 
   @override
@@ -226,7 +233,9 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
                 );
               }
             },
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.error,
+            ),
             child: Text(AppLocalizations.of(context)!.delete),
           ),
         ],
@@ -236,6 +245,13 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.hasError && _categories.isEmpty) {
+      return GlobalErrorWidget(
+        message: widget.errorMessage,
+        onRetry: widget.onRetry,
+      );
+    }
+
     if (_isLoading && _categories.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -249,7 +265,9 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
             color: Theme.of(context).colorScheme.surface,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
+                color: Theme.of(
+                  context,
+                ).colorScheme.shadow.withValues(alpha: 0.05),
                 blurRadius: 4,
                 offset: const Offset(0, 2),
               ),
@@ -292,10 +310,7 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
                         ? const SizedBox(
                             width: 20,
                             height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
+                            child: CircularProgressIndicator(strokeWidth: 2),
                           )
                         : Text(AppLocalizations.of(context)!.add),
                   ),
@@ -371,14 +386,13 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
                                     color: Theme.of(
                                       context,
                                     ).colorScheme.onPrimaryContainer,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.normal,
                                   ),
                             ),
                           ),
                           title: Text(
                             category.name,
-                            style: Theme.of(context).textTheme.bodyLarge
-                                ?.copyWith(fontWeight: FontWeight.w500),
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,

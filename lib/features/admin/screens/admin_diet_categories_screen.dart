@@ -26,6 +26,9 @@ class AdminDietCategoriesScreen extends StatelessWidget {
             createCategory: (name) => service.createDietCategory(name),
             updateCategory: (id, name) => service.updateDietCategory(id, name),
             deleteCategory: (id) => service.deleteDietCategory(id),
+            hasError: service.hasError,
+            errorMessage: service.errorMessage,
+            onRetry: () => service.getDietCategories(),
           );
         },
       ),

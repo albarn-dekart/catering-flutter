@@ -1,7 +1,7 @@
 import 'package:catering_flutter/core/app_router.dart';
 import 'package:catering_flutter/core/services/auth_service.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
-import 'package:catering_flutter/core/utils/ui_error_handler.dart';
+import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:catering_flutter/features/customer/services/address_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -25,15 +25,6 @@ class _AddressListScreenState extends State<AddressListScreen> {
       final userIri = context.read<AuthService>().userIri;
       if (userIri != null) {
         await context.read<AddressService>().fetchAddresses(userIri);
-        if (!mounted) return;
-        final service = context.read<AddressService>();
-        if (service.errorMessage != null) {
-          UIErrorHandler.showSnackBar(
-            context,
-            service.errorMessage!,
-            isError: true,
-          );
-        }
       }
     });
   }
@@ -62,6 +53,19 @@ class _AddressListScreenState extends State<AddressListScreen> {
             ),
       child: Consumer<AddressService>(
         builder: (context, addressService, child) {
+          if (addressService.hasError && addressService.addresses.isEmpty) {
+            return GlobalErrorWidget(
+              message: addressService.errorMessage,
+              onRetry: () {
+                final userIri = context.read<AuthService>().userIri;
+                if (userIri != null) {
+                  addressService.fetchAddresses(userIri);
+                }
+              },
+              withScaffold: false,
+            );
+          }
+
           if (addressService.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }

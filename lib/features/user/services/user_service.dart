@@ -8,6 +8,7 @@ import 'package:catering_flutter/graphql/users.graphql.dart';
 import 'package:catering_flutter/core/services/api_service.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:catering_flutter/core/services/auth_service.dart';
+import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 
 typedef UserNode = Query$GetUsers$users$edges$node;
 typedef RestaurantDriverNode =
@@ -70,10 +71,7 @@ class UserService extends ChangeNotifier {
       );
 
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final data = Query$GetUsers.fromJson(result.data!);
       if (data.users?.edges != null) {
@@ -111,10 +109,7 @@ class UserService extends ChangeNotifier {
       );
 
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final data = Query$GetUsers.fromJson(result.data!);
       if (data.users?.edges != null) {
@@ -127,7 +122,7 @@ class UserService extends ChangeNotifier {
         _hasNextPage = data.users?.pageInfo.hasNextPage ?? false;
       }
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
       _isFetchingMore = false;
       notifyListeners();
@@ -148,14 +143,11 @@ class UserService extends ChangeNotifier {
       );
 
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       _currentUser = Query$GetUser.fromJson(result.data!).user;
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -181,14 +173,11 @@ class UserService extends ChangeNotifier {
       );
 
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       _currentUser = Query$GetUser.fromJson(result.data!).user;
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
       _isLoading = false;
@@ -214,14 +203,11 @@ class UserService extends ChangeNotifier {
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       _currentUser = Query$GetUserRestaurant.fromJson(result.data!).user;
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
       _isLoading = false;
@@ -278,10 +264,7 @@ class UserService extends ChangeNotifier {
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final data = Query$GetUserDeliveries.fromJson(result.data!);
       _currentUser = data.user;
@@ -298,7 +281,7 @@ class UserService extends ChangeNotifier {
         _userDeliveries = [];
       }
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
       _isLoading = false;
@@ -333,14 +316,27 @@ class UserService extends ChangeNotifier {
         fetchPolicy: FetchPolicy.networkOnly,
       );
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
       _isFetchingMoreUserDeliveries = false;
+      notifyListeners();
+    }
+  }
+
+  void updateUserDelivery(Fragment$DriverDeliveryFragment updatedDelivery) {
+    final index = _userDeliveries.indexWhere((d) => d.id == updatedDelivery.id);
+    if (index != -1) {
+      _userDeliveries[index] = updatedDelivery;
+
+      // If the delivery status no longer matches current filters, we might want to remove it
+      // For DriverDashboard, it filters by status.
+      if (_currentDeliveryStatuses != null &&
+          !_currentDeliveryStatuses!.contains(updatedDelivery.status)) {
+        _userDeliveries.removeAt(index);
+      }
+
       notifyListeners();
     }
   }
@@ -358,10 +354,7 @@ class UserService extends ChangeNotifier {
         ).toJson(),
       );
       final result = await _client.mutate(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       // Extract the updated user from the mutation response
       final updatedUser = Mutation$UpdateUser.fromJson(
@@ -382,7 +375,7 @@ class UserService extends ChangeNotifier {
         }
       }
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
       _isLoading = false;
@@ -406,14 +399,11 @@ class UserService extends ChangeNotifier {
         ).toJson(),
       );
       final result = await _client.mutate(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
       _users.removeWhere((u) => u.id == userIri);
       _restaurantDrivers.removeWhere((u) => u.id == userIri);
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
       _isLoading = false;
@@ -445,10 +435,7 @@ class UserService extends ChangeNotifier {
       );
 
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final data = Query$GetDriversByRestaurant.fromJson(result.data!);
       final edges = data.restaurant?.drivers?.edges;
@@ -462,7 +449,7 @@ class UserService extends ChangeNotifier {
         _restaurantDrivers = [];
       }
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -490,10 +477,7 @@ class UserService extends ChangeNotifier {
       );
 
       final result = await _client.query(options);
-
-      if (result.hasException) {
-        throw ApiException(result.exception.toString());
-      }
+      ApiService.check(result);
 
       final data = Query$GetUsers.fromJson(result.data!);
       if (data.users?.edges != null) {
@@ -503,7 +487,7 @@ class UserService extends ChangeNotifier {
             .toList();
       }
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -537,7 +521,7 @@ class UserService extends ChangeNotifier {
         throw ApiException(error);
       }
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
       _isLoading = false;

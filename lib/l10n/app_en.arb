@@ -28,7 +28,28 @@
       }
     }
   },
+  "@daysCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@deliveryNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
   "@ordersCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@piecesCount": {
     "placeholders": {
       "count": {
         "type": "int"
@@ -122,6 +143,7 @@
   "customerName": "Customer: {name}",
   "customers": "Customers",
   "dailyOrders": "Daily Orders",
+  "daysCount": "{count} days",
   "delete": "Delete",
   "deleteAddress": "Delete Address",
   "deleteAddressConfirmation": "Are you sure you want to delete this address?",
@@ -140,16 +162,9 @@
   "deliveryDate": "Delivery Date",
   "deliveryDateWithDate": "Delivery Date: {date}",
   "deliveryDays": "Delivery Days",
-  "daysCount": "{count} days",
-  "@daysCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "deliveryDetails": "Delivery Details",
   "deliveryFee": "Delivery Fee",
+  "deliveryNumber": "Delivery #{number}",
   "deliveryPricePLN": "Delivery Price (PLN)",
   "deliverySchedule": "Delivery Schedule",
   "deliveryStatusUpdated": "Delivery status updated successfully",
@@ -182,6 +197,10 @@
   "email": "Email",
   "enterName": "Enter name...",
   "error": "Error",
+  "errorNetwork": "Network error. Please check your internet connection.",
+  "errorServer": "Server error. Please try again later.",
+  "errorTimeout": "Request timed out. The server is taking too long to respond.",
+  "errorUnauthorized": "Session expired. Please log in again.",
   "exportFailed": "Failed to export orders: {error}",
   "exportStatistics": "Export Statistics",
   "exportSuccess": "Orders exported successfully",
@@ -207,10 +226,10 @@
   "imageUploadedSuccess": "Image uploaded successfully!",
   "invalidEmail": "Invalid email",
   "invalidFormat": "Invalid format",
+  "invalidNip": "Invalid NIP (10 digits)",
   "invalidNumber": "Invalid number",
   "invalidPhoneNumber": "Invalid Phone Number",
   "invalidZipCode": "Invalid Zip Code",
-  "invalidNip": "Invalid NIP (10 digits)",
   "invite": "Invite",
   "inviteDriver": "Invite Driver",
   "inviteNewDriver": "Invite New Driver",
@@ -267,12 +286,12 @@
   "noDescription": "No description",
   "noDietCategoriesFound": "No diet categories found",
   "noItemsFound": "No items found",
-  "noOwner": "No Owner",
   "noMealPlanData": "No meal plan data found",
   "noMealsSelected": "No meals selected.",
   "noOrderData": "No order data available",
   "noOrders": "You have no orders.",
   "noOrdersWithStatus": "No orders with status \"{status}\"",
+  "noOwner": "No Owner",
   "noProductionData": "No production data for this date",
   "noRestaurantData": "No restaurant data.",
   "noRestaurantFound": "No restaurant found for this account.",
@@ -303,17 +322,10 @@
   "passwordsDoNotMatch": "New passwords do not match",
   "payNow": "Pay Now",
   "perDay": "/day",
-  "piecesCount": "{count} pcs",
-  "@piecesCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "phone": "Phone",
   "phoneNumber": "Phone Number",
   "pickUpOrder": "PICK UP ORDER",
+  "piecesCount": "{count} pcs",
   "planName": "Plan Name",
   "pleaseEnterCategoryName": "Please enter a category name",
   "pleaseEnterDescription": "Please enter a description",
@@ -331,6 +343,7 @@
   "proceedToCheckout": "Proceed to Checkout",
   "productionDate": "Production Date",
   "productionPlan": "Production Plan",
+  "productionSummary": "Daily preparation summary",
   "profile": "Profile",
   "protein": "Protein",
   "proteinRange": "Protein Range",
@@ -352,7 +365,7 @@
   "restaurants": "Restaurants",
   "retry": "Retry",
   "retryFailed": "Retry failed: {error}",
-  "revenueTrendLast30Days": "Revenue Trend (Last 30 Days)",
+  "revenueTrend": "Revenue Trend",
   "roleAdmin": "Admin",
   "roleCustomer": "Customer",
   "roleDriver": "Driver",

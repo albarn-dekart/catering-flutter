@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:catering_flutter/core/services/auth_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
+import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/features/restaurant/services/restaurant_category_service.dart';
@@ -41,14 +42,6 @@ class RestaurantFormScreen extends HookWidget {
         if (authService.hasRole("ROLE_ADMIN")) {
           await userService.fetchRestaurantOwners();
         }
-
-        if (context.mounted && restaurantService.hasError) {
-          UIErrorHandler.showSnackBar(
-            context,
-            restaurantService.errorMessage!,
-            isError: true,
-          );
-        }
       });
       return null;
     }, [restaurantIri]);
@@ -67,6 +60,16 @@ class RestaurantFormScreen extends HookWidget {
           }
 
           // 3. Error/Empty State
+          if (restaurantService.hasError &&
+              restaurantService.currentRestaurant == null) {
+            return GlobalErrorWidget(
+              message: restaurantService.errorMessage,
+              onRetry: () =>
+                  restaurantService.getRestaurantById(restaurantIri!),
+              withScaffold: false,
+            );
+          }
+
           if (!isCreateMode && restaurantService.currentRestaurant == null) {
             return Center(
               child: Text(AppLocalizations.of(context)!.noRestaurantData),
@@ -347,9 +350,7 @@ class RestaurantForm extends HookWidget {
                       isCreateMode
                           ? AppLocalizations.of(context)!.newRestaurantDetails
                           : AppLocalizations.of(context)!.restaurantDetails,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                     const SizedBox(height: 24),
 
@@ -534,10 +535,7 @@ class RestaurantForm extends HookWidget {
                           ? const SizedBox(
                               width: 20,
                               height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
+                              child: CircularProgressIndicator(strokeWidth: 2),
                             )
                           : Text(
                               isCreateMode
@@ -647,7 +645,9 @@ class RestaurantForm extends HookWidget {
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 153),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.scrim.withValues(alpha: 0.6),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(

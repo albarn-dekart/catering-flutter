@@ -243,6 +243,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dailyOrders => 'Daily Orders';
 
   @override
+  String daysCount(int count) {
+    return '$count days';
+  }
+
+  @override
   String get delete => 'Delete';
 
   @override
@@ -312,15 +317,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deliveryDays => 'Delivery Days';
 
   @override
-  String daysCount(int count) {
-    return '$count days';
-  }
-
-  @override
   String get deliveryDetails => 'Delivery Details';
 
   @override
   String get deliveryFee => 'Delivery Fee';
+
+  @override
+  String deliveryNumber(String number) {
+    return 'Delivery #$number';
+  }
 
   @override
   String get deliveryPricePLN => 'Delivery Price (PLN)';
@@ -427,6 +432,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get error => 'Error';
 
   @override
+  String get errorNetwork =>
+      'Network error. Please check your internet connection.';
+
+  @override
+  String get errorServer => 'Server error. Please try again later.';
+
+  @override
+  String get errorTimeout =>
+      'Request timed out. The server is taking too long to respond.';
+
+  @override
+  String get errorUnauthorized => 'Session expired. Please log in again.';
+
+  @override
   String exportFailed(Object error) {
     return 'Failed to export orders: $error';
   }
@@ -504,6 +523,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invalidFormat => 'Invalid format';
 
   @override
+  String get invalidNip => 'Invalid NIP (10 digits)';
+
+  @override
   String get invalidNumber => 'Invalid number';
 
   @override
@@ -511,9 +533,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invalidZipCode => 'Invalid Zip Code';
-
-  @override
-  String get invalidNip => 'Invalid NIP (10 digits)';
 
   @override
   String get invite => 'Invite';
@@ -689,9 +708,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noItemsFound => 'No items found';
 
   @override
-  String get noOwner => 'No Owner';
-
-  @override
   String get noMealPlanData => 'No meal plan data found';
 
   @override
@@ -707,6 +723,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String noOrdersWithStatus(Object status) {
     return 'No orders with status \"$status\"';
   }
+
+  @override
+  String get noOwner => 'No Owner';
 
   @override
   String get noProductionData => 'No production data for this date';
@@ -803,11 +822,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get perDay => '/day';
 
   @override
-  String piecesCount(int count) {
-    return '$count pcs';
-  }
-
-  @override
   String get phone => 'Phone';
 
   @override
@@ -815,6 +829,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pickUpOrder => 'PICK UP ORDER';
+
+  @override
+  String piecesCount(int count) {
+    return '$count pcs';
+  }
 
   @override
   String get planName => 'Plan Name';
@@ -866,6 +885,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get productionPlan => 'Production Plan';
+
+  @override
+  String get productionSummary => 'Daily preparation summary';
 
   @override
   String get profile => 'Profile';
@@ -936,7 +958,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get revenueTrendLast30Days => 'Revenue Trend (Last 30 Days)';
+  String get revenueTrend => 'Revenue Trend';
 
   @override
   String get roleAdmin => 'Admin';

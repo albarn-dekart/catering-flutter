@@ -15,6 +15,11 @@ class ApiService {
     return 'pk_test_51RpVMYJtourcXV011H2zSESBpx0aPvgECcwnpH6iJnuOk6MeCKCpuzpkyFsoaaiPQWc117CIwMVXz2GnVZUWGzBX00Es7TkDMx';
   }
 
+  /// Static helper to check QueryResult and throw ApiException if there's an error
+  static void check(QueryResult result) {
+    ApiException.check(result);
+  }
+
   ApiService(this._authService, [http.Client? client])
     : _client = client ?? http.Client();
 

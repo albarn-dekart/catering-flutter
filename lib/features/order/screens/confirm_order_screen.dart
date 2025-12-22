@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:catering_flutter/core/utils/date_formatter.dart';
 import 'package:catering_flutter/core/app_router.dart';
 import 'package:catering_flutter/core/services/auth_service.dart';
+import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/features/order/services/cart_service.dart';
@@ -139,6 +140,16 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               ),
             );
           }
+
+          final addressService = context.watch<AddressService>();
+          if (addressService.hasError && _selectedAddress == null) {
+            return GlobalErrorWidget(
+              message: addressService.errorMessage,
+              onRetry: _loadDefaultAddress,
+              withScaffold: false,
+            );
+          }
+
           return SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.all(16.0),
@@ -149,7 +160,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 Card(
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(24),
                     side: BorderSide(
                       color: Theme.of(context).colorScheme.outlineVariant,
                     ),
@@ -183,7 +194,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                     )!.deliveryAddress,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .titleMedium
+                                        .titleLarge
                                         ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
                                 ],
@@ -216,7 +227,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                           Text(
                             '${_selectedAddress!.firstName} ${_selectedAddress!.lastName}',
                             style: Theme.of(context).textTheme.bodyLarge
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                                ?.copyWith(fontWeight: FontWeight.normal),
                           ),
                           Text(_selectedAddress!.street),
                           if (_selectedAddress!.apartment != null)
@@ -240,7 +251,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 Card(
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(24),
                     side: BorderSide(
                       color: Theme.of(context).colorScheme.outlineVariant,
                     ),
@@ -259,7 +270,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                             const SizedBox(width: 8),
                             Text(
                               AppLocalizations.of(context)!.orderDuration,
-                              style: Theme.of(context).textTheme.titleMedium
+                              style: Theme.of(context).textTheme.titleLarge
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -312,7 +323,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 Card(
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(24),
                     side: BorderSide(
                       color: Theme.of(context).colorScheme.outlineVariant,
                     ),
@@ -331,7 +342,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                             const SizedBox(width: 8),
                             Text(
                               AppLocalizations.of(context)!.deliveryDays,
-                              style: Theme.of(context).textTheme.titleMedium
+                              style: Theme.of(context).textTheme.titleLarge
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -377,18 +388,21 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                   checkmarkColor: Theme.of(
                                     context,
                                   ).colorScheme.onPrimaryContainer,
-                                  labelStyle: TextStyle(
-                                    color: isSelected
-                                        ? Theme.of(
-                                            context,
-                                          ).colorScheme.onPrimaryContainer
-                                        : Theme.of(
-                                            context,
-                                          ).colorScheme.onSurface,
-                                    fontWeight: isSelected
-                                        ? FontWeight.bold
-                                        : FontWeight.normal,
-                                  ),
+                                  labelStyle: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge
+                                      ?.copyWith(
+                                        color: isSelected
+                                            ? Theme.of(
+                                                context,
+                                              ).colorScheme.onPrimaryContainer
+                                            : Theme.of(
+                                                context,
+                                              ).colorScheme.onSurface,
+                                        fontWeight: isSelected
+                                            ? FontWeight.bold
+                                            : FontWeight.normal,
+                                      ),
                                 );
                               }).toList(),
                         ),
@@ -404,7 +418,9 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                     color: Theme.of(context).colorScheme.surface,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.05),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.shadow.withValues(alpha: 0.05),
                         blurRadius: 10,
                         offset: const Offset(0, -5),
                       ),
@@ -439,7 +455,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                               cartService.deliveryDates.length)
                                           .toDouble(),
                                   style: Theme.of(context).textTheme.titleMedium
-                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                      ?.copyWith(fontWeight: FontWeight.normal),
                                 ),
                               ],
                             ),
@@ -583,32 +599,16 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                       await attemptCreateOrder();
                                     }
                                   },
-                            style: FilledButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                            ),
                             child: orderService.isLoading
                                 ? const SizedBox(
                                     width: 24,
                                     height: 24,
                                     child: CircularProgressIndicator(
-                                      color: Colors.white,
                                       strokeWidth: 2,
                                     ),
                                   )
                                 : Text(
                                     AppLocalizations.of(context)!.confirmOrder,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge
-                                        ?.copyWith(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.onPrimary,
-                                        ),
                                   ),
                           ),
                         ),

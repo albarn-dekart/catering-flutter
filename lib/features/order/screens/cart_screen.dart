@@ -41,7 +41,7 @@ class _CartScreenState extends State<CartScreen> {
                       elevation: 2,
                       clipBehavior: Clip.antiAlias,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(24),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
@@ -82,7 +82,7 @@ class _CartScreenState extends State<CartScreen> {
                                     cartItem.mealPlan.name,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .titleMedium
+                                        .titleLarge
                                         ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
                                   const SizedBox(height: 4),
@@ -219,7 +219,7 @@ class _CartScreenState extends State<CartScreen> {
                                           )!.perDay,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .titleMedium
+                                              .titleLarge
                                               ?.copyWith(
                                                 fontWeight: FontWeight.bold,
                                                 color: Theme.of(
@@ -328,7 +328,7 @@ class _CartScreenState extends State<CartScreen> {
                             style: Theme.of(context).textTheme.labelLarge
                                 ?.copyWith(
                                   fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.normal,
                                   color: Theme.of(
                                     context,
                                   ).colorScheme.onPrimary,

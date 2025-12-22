@@ -34,8 +34,6 @@ class RestaurantCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return AppCard(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       padding: EdgeInsets.zero,
       onTap:
           onTap ??
@@ -79,7 +77,7 @@ class RestaurantCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         name,
-                        style: theme.textTheme.titleMedium?.copyWith(
+                        style: theme.textTheme.headlineSmall?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                         maxLines: 1,
@@ -108,7 +106,7 @@ class RestaurantCard extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           color: theme.colorScheme.secondaryContainer,
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
                           c,
@@ -129,6 +127,7 @@ class RestaurantCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
+                      height: 1.3,
                     ),
                   ),
                 const SizedBox(height: 8),
