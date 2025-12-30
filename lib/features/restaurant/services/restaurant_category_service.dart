@@ -155,4 +155,9 @@ class RestaurantCategoryService extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void clearError() {
+    _errorMessage = null;
+    notifyListeners();
+  }
 }

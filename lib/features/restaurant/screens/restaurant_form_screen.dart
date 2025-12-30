@@ -2,6 +2,9 @@ import 'dart:typed_data';
 
 import 'package:catering_flutter/core/services/auth_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
+import 'package:catering_flutter/core/widgets/filter_chips_bar.dart';
+import 'package:catering_flutter/core/widgets/app_card.dart';
+import 'package:catering_flutter/core/widgets/custom_text_field.dart';
 import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
@@ -13,6 +16,7 @@ import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:catering_flutter/core/widgets/app_premium_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -66,6 +70,10 @@ class RestaurantFormScreen extends HookWidget {
               message: restaurantService.errorMessage,
               onRetry: () =>
                   restaurantService.getRestaurantById(restaurantIri!),
+              onCancel: () {
+                restaurantService.clearError();
+                context.pop();
+              },
               withScaffold: false,
             );
           }
@@ -317,7 +325,7 @@ class RestaurantForm extends HookWidget {
 
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.all(24.0),
+      padding: EdgeInsets.zero,
       child: Column(
         children: [
           // Build Image Picker
@@ -331,225 +339,205 @@ class RestaurantForm extends HookWidget {
           ),
           const SizedBox(height: 24),
 
-          Card(
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
-              side: BorderSide(
-                color: Theme.of(context).colorScheme.outlineVariant,
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      isCreateMode
-                          ? AppLocalizations.of(context)!.newRestaurantDetails
-                          : AppLocalizations.of(context)!.restaurantDetails,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    const SizedBox(height: 24),
+          AppCard(
+            padding: EdgeInsets.all(16.0),
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    isCreateMode
+                        ? AppLocalizations.of(context)!.newRestaurantDetails
+                        : AppLocalizations.of(context)!.restaurantDetails,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 24),
 
-                    // Inputs
-                    _buildTextField(
-                      context,
-                      controller: nameController,
-                      label: AppLocalizations.of(context)!.restaurantName,
-                      icon: Icons.store,
-                      validator: (v) => v?.isEmpty ?? true
-                          ? AppLocalizations.of(context)!.pleaseEnterName
-                          : null,
+                  // Inputs
+                  _buildTextField(
+                    context,
+                    controller: nameController,
+                    label: AppLocalizations.of(context)!.restaurantName,
+                    icon: Icons.store,
+                    validator: (v) => v?.isEmpty ?? true
+                        ? AppLocalizations.of(context)!.pleaseEnterName
+                        : null,
+                  ),
+                  const SizedBox(height: 16),
+                  _buildTextField(
+                    context,
+                    controller: descriptionController,
+                    label: AppLocalizations.of(context)!.description,
+                    icon: Icons.description,
+                    maxLines: 4,
+                  ),
+                  const SizedBox(height: 16),
+                  _buildTextField(
+                    context,
+                    controller: deliveryPriceController,
+                    label: AppLocalizations.of(context)!.deliveryPricePLN,
+                    icon: Icons.attach_money,
+                    suffixText: "PLN",
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
                     ),
-                    const SizedBox(height: 16),
-                    _buildTextField(
-                      context,
-                      controller: descriptionController,
-                      label: AppLocalizations.of(context)!.description,
-                      icon: Icons.description,
-                      maxLines: 4,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildTextField(
-                      context,
-                      controller: deliveryPriceController,
-                      label: AppLocalizations.of(context)!.deliveryPricePLN,
-                      icon: Icons.attach_money,
-                      suffixText: "PLN",
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
-                      validator: (v) {
-                        if (v != null &&
-                            v.isNotEmpty &&
-                            double.tryParse(v) == null) {
-                          return AppLocalizations.of(context)!.invalidFormat;
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
+                    validator: (v) {
+                      if (v != null &&
+                          v.isNotEmpty &&
+                          double.tryParse(v) == null) {
+                        return AppLocalizations.of(context)!.invalidFormat;
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
 
-                    Text(
-                      AppLocalizations.of(context)!.contactDetails,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 16),
+                  Text(
+                    AppLocalizations.of(context)!.contactDetails,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 16),
 
-                    _buildTextField(
-                      context,
-                      controller: phoneNumberController,
-                      label: AppLocalizations.of(context)!.phoneNumber,
-                      icon: Icons.phone,
-                      validator: (v) {
-                        if (v != null && v.isNotEmpty) {
-                          final phoneRegex = RegExp(
-                            r'^(\+?48)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}$',
-                          );
-                          if (!phoneRegex.hasMatch(v)) {
-                            return AppLocalizations.of(
-                              context,
-                            )!.invalidPhoneNumber;
-                          }
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    _buildTextField(
-                      context,
-                      controller: emailController,
-                      label: AppLocalizations.of(context)!.email,
-                      icon: Icons.email,
-                      validator: (v) {
-                        if (v == null || v.isEmpty) {
-                          return AppLocalizations.of(context)!.pleaseEnterEmail;
-                        }
-                        final emailRegex = RegExp(
-                          r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
+                  _buildTextField(
+                    context,
+                    controller: phoneNumberController,
+                    label: AppLocalizations.of(context)!.phoneNumber,
+                    icon: Icons.phone,
+                    validator: (v) {
+                      if (v != null && v.isNotEmpty) {
+                        final phoneRegex = RegExp(
+                          r'^(\+?48)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}$',
                         );
-                        if (!emailRegex.hasMatch(v)) {
+                        if (!phoneRegex.hasMatch(v)) {
                           return AppLocalizations.of(
                             context,
-                          )!.pleaseEnterValidEmail;
+                          )!.invalidPhoneNumber;
                         }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  _buildTextField(
+                    context,
+                    controller: emailController,
+                    label: AppLocalizations.of(context)!.email,
+                    icon: Icons.email,
+                    validator: (v) {
+                      if (v == null || v.isEmpty) {
+                        return AppLocalizations.of(context)!.pleaseEnterEmail;
+                      }
+                      final emailRegex = RegExp(
+                        r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
+                      );
+                      if (!emailRegex.hasMatch(v)) {
+                        return AppLocalizations.of(
+                          context,
+                        )!.pleaseEnterValidEmail;
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
 
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: _buildTextField(
-                            context,
-                            controller: cityController,
-                            label: AppLocalizations.of(context)!.city,
-                            icon: Icons.location_city,
-                            validator: (v) => v?.isEmpty ?? true
-                                ? AppLocalizations.of(context)!.fieldRequired
-                                : null,
-                          ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: _buildTextField(
+                          context,
+                          controller: cityController,
+                          label: AppLocalizations.of(context)!.city,
+                          icon: Icons.location_city,
+                          validator: (v) => v?.isEmpty ?? true
+                              ? AppLocalizations.of(context)!.fieldRequired
+                              : null,
                         ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: _buildTextField(
-                            context,
-                            controller: zipCodeController,
-                            label: AppLocalizations.of(context)!.zipCode,
-                            icon: Icons.numbers,
-                            validator: (v) {
-                              if (v == null || v.isEmpty) {
-                                return AppLocalizations.of(
-                                  context,
-                                )!.fieldRequired;
-                              }
-                              if (!RegExp(r'^\d{2}-\d{3}$').hasMatch(v)) {
-                                return AppLocalizations.of(
-                                  context,
-                                )!.invalidZipCode;
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    _buildTextField(
-                      context,
-                      controller: streetController,
-                      label: AppLocalizations.of(context)!.street,
-                      icon: Icons.home,
-                      validator: (v) => v?.isEmpty ?? true
-                          ? AppLocalizations.of(context)!.fieldRequired
-                          : null,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildTextField(
-                      context,
-                      controller: nipController,
-                      label: "NIP",
-                      icon: Icons.confirmation_number,
-                      validator: (v) {
-                        if (v != null &&
-                            v.isNotEmpty &&
-                            !RegExp(r'^\d{10}$').hasMatch(v)) {
-                          return AppLocalizations.of(context)!.invalidNip;
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-
-                    // Categories
-                    Text(
-                      AppLocalizations.of(context)!.categories,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 8),
-                    _buildCategories(context, selectedCategories),
-                    const SizedBox(height: 24),
-
-                    // Owner Section
-                    _buildOwnerSection(
-                      context,
-                      authService,
-                      userService,
-                      isCreateMode,
-                      restaurant,
-                      selectedOwner,
-                      ownerMode,
-                      newOwnerEmailController,
-                      isOwnerInitialized,
-                    ),
-
-                    FilledButton.icon(
-                      onPressed: isLoading ? null : saveRestaurant,
-                      icon: const Icon(Icons.save),
-                      label: isLoading
-                          ? const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : Text(
-                              isCreateMode
-                                  ? AppLocalizations.of(
-                                      context,
-                                    )!.createRestaurant
-                                  : AppLocalizations.of(context)!.saveChanges,
-                            ),
-                      style: FilledButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
-                    ),
-                  ],
-                ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: _buildTextField(
+                          context,
+                          controller: zipCodeController,
+                          label: AppLocalizations.of(context)!.zipCode,
+                          icon: Icons.numbers,
+                          validator: (v) {
+                            if (v == null || v.isEmpty) {
+                              return AppLocalizations.of(
+                                context,
+                              )!.fieldRequired;
+                            }
+                            if (!RegExp(r'^\d{2}-\d{3}$').hasMatch(v)) {
+                              return AppLocalizations.of(
+                                context,
+                              )!.invalidZipCode;
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  _buildTextField(
+                    context,
+                    controller: streetController,
+                    label: AppLocalizations.of(context)!.street,
+                    icon: Icons.home,
+                    validator: (v) => v?.isEmpty ?? true
+                        ? AppLocalizations.of(context)!.fieldRequired
+                        : null,
+                  ),
+                  const SizedBox(height: 16),
+                  _buildTextField(
+                    context,
+                    controller: nipController,
+                    label: "NIP",
+                    icon: Icons.confirmation_number,
+                    validator: (v) {
+                      if (v != null &&
+                          v.isNotEmpty &&
+                          !RegExp(r'^\d{10}$').hasMatch(v)) {
+                        return AppLocalizations.of(context)!.invalidNip;
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Categories
+                  Text(
+                    AppLocalizations.of(context)!.categories,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  _buildCategories(context, selectedCategories),
+
+                  const SizedBox(height: 8),
+                  // Owner Section
+                  _buildOwnerSection(
+                    context,
+                    authService,
+                    userService,
+                    isCreateMode,
+                    restaurant,
+                    selectedOwner,
+                    ownerMode,
+                    newOwnerEmailController,
+                    isOwnerInitialized,
+                  ),
+
+                  const SizedBox(height: 24),
+                  AppPremiumButton(
+                    onPressed: saveRestaurant,
+                    label: isCreateMode
+                        ? AppLocalizations.of(context)!.createRestaurant
+                        : AppLocalizations.of(context)!.saveChanges,
+                    isLoading: isLoading,
+                    icon: Icons.save,
+                  ),
+                ],
               ),
             ),
           ),
@@ -570,15 +558,12 @@ class RestaurantForm extends HookWidget {
     TextInputType? keyboardType,
     String? Function(String?)? validator,
   }) {
-    return TextFormField(
+    return CustomTextField(
       controller: controller,
-      decoration: InputDecoration(
-        labelText: label,
-        border: const OutlineInputBorder(),
-        prefixIcon: Icon(icon),
-        suffixText: suffixText,
-        alignLabelWithHint: maxLines != null && maxLines > 1,
-      ),
+      labelText: label,
+      hintText: label,
+      prefixIcon: Icon(icon),
+      suffixText: suffixText,
       maxLines: maxLines,
       keyboardType: keyboardType,
       validator: validator,
@@ -685,86 +670,25 @@ class RestaurantForm extends HookWidget {
     final categoryService = context.read<RestaurantCategoryService>();
     final allCategories = categoryService.restaurantCategories;
 
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: [
-        ...selectedCategories.value.map(
-          (category) => Chip(
-            label: Text(category.name),
-            onDeleted: () {
-              selectedCategories.value = selectedCategories.value
-                  .where((c) => c.id != category.id)
-                  .toList();
-            },
+    if (allCategories.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Text(
+          AppLocalizations.of(context)!.noCategoriesAvailable,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: Theme.of(context).colorScheme.outline,
           ),
         ),
-        ActionChip(
-          avatar: const Icon(Icons.add, size: 16),
-          label: Text(AppLocalizations.of(context)!.add),
-          onPressed: () async {
-            await showDialog(
-              context: context,
-              builder: (context) {
-                // Must access values outside the dialog builder if they are local
-                return StatefulBuilder(
-                  builder: (context, setState) {
-                    return AlertDialog(
-                      title: Text(
-                        AppLocalizations.of(context)!.selectCategories,
-                      ),
-                      content: SizedBox(
-                        width: double.maxFinite,
-                        child: allCategories.isEmpty
-                            ? Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Text(
-                                  AppLocalizations.of(
-                                    context,
-                                  )!.noCategoriesAvailable,
-                                ),
-                              )
-                            : ListView(
-                                shrinkWrap: true,
-                                children: allCategories.map((category) {
-                                  final isSelected = selectedCategories.value
-                                      .any((c) => c.id == category.id);
-                                  return CheckboxListTile(
-                                    title: Text(category.name),
-                                    value: isSelected,
-                                    onChanged: (bool? value) {
-                                      setState(() {
-                                        if (value == true) {
-                                          selectedCategories.value = [
-                                            ...selectedCategories.value,
-                                            category,
-                                          ];
-                                        } else {
-                                          selectedCategories
-                                              .value = selectedCategories.value
-                                              .where((c) => c.id != category.id)
-                                              .toList();
-                                        }
-                                      });
-                                    },
-                                  );
-                                }).toList(),
-                              ),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text(AppLocalizations.of(context)!.done),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            );
-          },
-        ),
-      ],
+      );
+    }
+
+    return FilterChipsBar<RestaurantCategory>(
+      values: allCategories,
+      selectedValues: selectedCategories.value,
+      onSelectedList: (items) {
+        selectedCategories.value = items;
+      },
+      labelBuilder: (category) => category.name,
     );
   }
 
@@ -843,7 +767,6 @@ class RestaurantForm extends HookWidget {
                 labelText: isCreateMode
                     ? AppLocalizations.of(context)!.selectOwner
                     : AppLocalizations.of(context)!.restaurantOwner,
-                border: const OutlineInputBorder(),
                 prefixIcon: const Icon(Icons.person),
               ),
               initialValue: selectedOwner.value?.id,
@@ -892,13 +815,11 @@ class RestaurantForm extends HookWidget {
             ),
         ],
         if (isCreateMode && ownerMode.value == OwnerMode.createNew) ...[
-          TextFormField(
+          CustomTextField(
             controller: newOwnerEmailController,
-            decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.ownerEmail,
-              border: const OutlineInputBorder(),
-              prefixIcon: const Icon(Icons.email),
-            ),
+            labelText: AppLocalizations.of(context)!.ownerEmail,
+            hintText: AppLocalizations.of(context)!.ownerEmail,
+            prefixIcon: const Icon(Icons.email),
             keyboardType: TextInputType.emailAddress,
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -911,7 +832,7 @@ class RestaurantForm extends HookWidget {
               return null;
             },
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 4),
           Text(
             AppLocalizations.of(context)!.driverPasswordWillBeEmailed,
             style: Theme.of(context).textTheme.bodySmall,

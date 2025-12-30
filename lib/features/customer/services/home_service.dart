@@ -122,6 +122,11 @@ class HomeService extends ChangeNotifier {
 
   void clearCache() {
     _homeData = null;
+    clearError();
+  }
+
+  void clearError() {
+    _errorMessage = null;
     notifyListeners();
   }
 }

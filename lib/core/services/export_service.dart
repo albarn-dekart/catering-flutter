@@ -56,11 +56,19 @@ class ExportService {
   /// [statusFilter] - Optional status filter to apply
   Future<void> exportDeliveriesToCsv({
     Enum$DeliveryStatus? statusFilter,
+    DateTime? startDate,
+    DateTime? endDate,
   }) async {
     try {
       final body = <String, dynamic>{};
       if (statusFilter != null) {
         body['status'] = statusFilter.name;
+      }
+      if (startDate != null) {
+        body['startDate'] = startDate.toIso8601String().split('T')[0];
+      }
+      if (endDate != null) {
+        body['endDate'] = endDate.toIso8601String().split('T')[0];
       }
 
       final response = await _apiClient.post(
@@ -75,10 +83,7 @@ class ExportService {
   }
 
   /// Export statistics to CSV (Admin only)
-  Future<void> exportStatisticsToCsv({
-    DateTime? startDate,
-    DateTime? endDate,
-  }) async {
+  Future<void> exportDataToCsv({DateTime? startDate, DateTime? endDate}) async {
     try {
       final body = <String, dynamic>{};
       if (startDate != null) {

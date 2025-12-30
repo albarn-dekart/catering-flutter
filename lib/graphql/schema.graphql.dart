@@ -1,3 +1,193 @@
+class Input$OrderFilter_createdAt {
+  factory Input$OrderFilter_createdAt({
+    String? before,
+    String? strictly_before,
+    String? after,
+    String? strictly_after,
+  }) => Input$OrderFilter_createdAt._({
+    if (before != null) r'before': before,
+    if (strictly_before != null) r'strictly_before': strictly_before,
+    if (after != null) r'after': after,
+    if (strictly_after != null) r'strictly_after': strictly_after,
+  });
+
+  Input$OrderFilter_createdAt._(this._$data);
+
+  factory Input$OrderFilter_createdAt.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('before')) {
+      final l$before = data['before'];
+      result$data['before'] = (l$before as String?);
+    }
+    if (data.containsKey('strictly_before')) {
+      final l$strictly_before = data['strictly_before'];
+      result$data['strictly_before'] = (l$strictly_before as String?);
+    }
+    if (data.containsKey('after')) {
+      final l$after = data['after'];
+      result$data['after'] = (l$after as String?);
+    }
+    if (data.containsKey('strictly_after')) {
+      final l$strictly_after = data['strictly_after'];
+      result$data['strictly_after'] = (l$strictly_after as String?);
+    }
+    return Input$OrderFilter_createdAt._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String? get before => (_$data['before'] as String?);
+
+  String? get strictly_before => (_$data['strictly_before'] as String?);
+
+  String? get after => (_$data['after'] as String?);
+
+  String? get strictly_after => (_$data['strictly_after'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('before')) {
+      final l$before = before;
+      result$data['before'] = l$before;
+    }
+    if (_$data.containsKey('strictly_before')) {
+      final l$strictly_before = strictly_before;
+      result$data['strictly_before'] = l$strictly_before;
+    }
+    if (_$data.containsKey('after')) {
+      final l$after = after;
+      result$data['after'] = l$after;
+    }
+    if (_$data.containsKey('strictly_after')) {
+      final l$strictly_after = strictly_after;
+      result$data['strictly_after'] = l$strictly_after;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$OrderFilter_createdAt<Input$OrderFilter_createdAt>
+  get copyWith => CopyWith$Input$OrderFilter_createdAt(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$OrderFilter_createdAt ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$before = before;
+    final lOther$before = other.before;
+    if (_$data.containsKey('before') != other._$data.containsKey('before')) {
+      return false;
+    }
+    if (l$before != lOther$before) {
+      return false;
+    }
+    final l$strictly_before = strictly_before;
+    final lOther$strictly_before = other.strictly_before;
+    if (_$data.containsKey('strictly_before') !=
+        other._$data.containsKey('strictly_before')) {
+      return false;
+    }
+    if (l$strictly_before != lOther$strictly_before) {
+      return false;
+    }
+    final l$after = after;
+    final lOther$after = other.after;
+    if (_$data.containsKey('after') != other._$data.containsKey('after')) {
+      return false;
+    }
+    if (l$after != lOther$after) {
+      return false;
+    }
+    final l$strictly_after = strictly_after;
+    final lOther$strictly_after = other.strictly_after;
+    if (_$data.containsKey('strictly_after') !=
+        other._$data.containsKey('strictly_after')) {
+      return false;
+    }
+    if (l$strictly_after != lOther$strictly_after) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$before = before;
+    final l$strictly_before = strictly_before;
+    final l$after = after;
+    final l$strictly_after = strictly_after;
+    return Object.hashAll([
+      _$data.containsKey('before') ? l$before : const {},
+      _$data.containsKey('strictly_before') ? l$strictly_before : const {},
+      _$data.containsKey('after') ? l$after : const {},
+      _$data.containsKey('strictly_after') ? l$strictly_after : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$OrderFilter_createdAt<TRes> {
+  factory CopyWith$Input$OrderFilter_createdAt(
+    Input$OrderFilter_createdAt instance,
+    TRes Function(Input$OrderFilter_createdAt) then,
+  ) = _CopyWithImpl$Input$OrderFilter_createdAt;
+
+  factory CopyWith$Input$OrderFilter_createdAt.stub(TRes res) =
+      _CopyWithStubImpl$Input$OrderFilter_createdAt;
+
+  TRes call({
+    String? before,
+    String? strictly_before,
+    String? after,
+    String? strictly_after,
+  });
+}
+
+class _CopyWithImpl$Input$OrderFilter_createdAt<TRes>
+    implements CopyWith$Input$OrderFilter_createdAt<TRes> {
+  _CopyWithImpl$Input$OrderFilter_createdAt(this._instance, this._then);
+
+  final Input$OrderFilter_createdAt _instance;
+
+  final TRes Function(Input$OrderFilter_createdAt) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? before = _undefined,
+    Object? strictly_before = _undefined,
+    Object? after = _undefined,
+    Object? strictly_after = _undefined,
+  }) => _then(
+    Input$OrderFilter_createdAt._({
+      ..._instance._$data,
+      if (before != _undefined) 'before': (before as String?),
+      if (strictly_before != _undefined)
+        'strictly_before': (strictly_before as String?),
+      if (after != _undefined) 'after': (after as String?),
+      if (strictly_after != _undefined)
+        'strictly_after': (strictly_after as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$OrderFilter_createdAt<TRes>
+    implements CopyWith$Input$OrderFilter_createdAt<TRes> {
+  _CopyWithStubImpl$Input$OrderFilter_createdAt(this._res);
+
+  TRes _res;
+
+  call({
+    String? before,
+    String? strictly_before,
+    String? after,
+    String? strictly_after,
+  }) => _res;
+}
+
 class Input$MealFilter_price {
   factory Input$MealFilter_price({
     String? between,
@@ -2063,6 +2253,198 @@ class _CopyWithStubImpl$Input$MealPlanFilter_carbs<TRes>
 
   call({String? between, String? gt, String? gte, String? lt, String? lte}) =>
       _res;
+}
+
+class Input$DeliveryFilter_deliveryDate {
+  factory Input$DeliveryFilter_deliveryDate({
+    String? before,
+    String? strictly_before,
+    String? after,
+    String? strictly_after,
+  }) => Input$DeliveryFilter_deliveryDate._({
+    if (before != null) r'before': before,
+    if (strictly_before != null) r'strictly_before': strictly_before,
+    if (after != null) r'after': after,
+    if (strictly_after != null) r'strictly_after': strictly_after,
+  });
+
+  Input$DeliveryFilter_deliveryDate._(this._$data);
+
+  factory Input$DeliveryFilter_deliveryDate.fromJson(
+    Map<String, dynamic> data,
+  ) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('before')) {
+      final l$before = data['before'];
+      result$data['before'] = (l$before as String?);
+    }
+    if (data.containsKey('strictly_before')) {
+      final l$strictly_before = data['strictly_before'];
+      result$data['strictly_before'] = (l$strictly_before as String?);
+    }
+    if (data.containsKey('after')) {
+      final l$after = data['after'];
+      result$data['after'] = (l$after as String?);
+    }
+    if (data.containsKey('strictly_after')) {
+      final l$strictly_after = data['strictly_after'];
+      result$data['strictly_after'] = (l$strictly_after as String?);
+    }
+    return Input$DeliveryFilter_deliveryDate._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  String? get before => (_$data['before'] as String?);
+
+  String? get strictly_before => (_$data['strictly_before'] as String?);
+
+  String? get after => (_$data['after'] as String?);
+
+  String? get strictly_after => (_$data['strictly_after'] as String?);
+
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('before')) {
+      final l$before = before;
+      result$data['before'] = l$before;
+    }
+    if (_$data.containsKey('strictly_before')) {
+      final l$strictly_before = strictly_before;
+      result$data['strictly_before'] = l$strictly_before;
+    }
+    if (_$data.containsKey('after')) {
+      final l$after = after;
+      result$data['after'] = l$after;
+    }
+    if (_$data.containsKey('strictly_after')) {
+      final l$strictly_after = strictly_after;
+      result$data['strictly_after'] = l$strictly_after;
+    }
+    return result$data;
+  }
+
+  CopyWith$Input$DeliveryFilter_deliveryDate<Input$DeliveryFilter_deliveryDate>
+  get copyWith => CopyWith$Input$DeliveryFilter_deliveryDate(this, (i) => i);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Input$DeliveryFilter_deliveryDate ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$before = before;
+    final lOther$before = other.before;
+    if (_$data.containsKey('before') != other._$data.containsKey('before')) {
+      return false;
+    }
+    if (l$before != lOther$before) {
+      return false;
+    }
+    final l$strictly_before = strictly_before;
+    final lOther$strictly_before = other.strictly_before;
+    if (_$data.containsKey('strictly_before') !=
+        other._$data.containsKey('strictly_before')) {
+      return false;
+    }
+    if (l$strictly_before != lOther$strictly_before) {
+      return false;
+    }
+    final l$after = after;
+    final lOther$after = other.after;
+    if (_$data.containsKey('after') != other._$data.containsKey('after')) {
+      return false;
+    }
+    if (l$after != lOther$after) {
+      return false;
+    }
+    final l$strictly_after = strictly_after;
+    final lOther$strictly_after = other.strictly_after;
+    if (_$data.containsKey('strictly_after') !=
+        other._$data.containsKey('strictly_after')) {
+      return false;
+    }
+    if (l$strictly_after != lOther$strictly_after) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$before = before;
+    final l$strictly_before = strictly_before;
+    final l$after = after;
+    final l$strictly_after = strictly_after;
+    return Object.hashAll([
+      _$data.containsKey('before') ? l$before : const {},
+      _$data.containsKey('strictly_before') ? l$strictly_before : const {},
+      _$data.containsKey('after') ? l$after : const {},
+      _$data.containsKey('strictly_after') ? l$strictly_after : const {},
+    ]);
+  }
+}
+
+abstract class CopyWith$Input$DeliveryFilter_deliveryDate<TRes> {
+  factory CopyWith$Input$DeliveryFilter_deliveryDate(
+    Input$DeliveryFilter_deliveryDate instance,
+    TRes Function(Input$DeliveryFilter_deliveryDate) then,
+  ) = _CopyWithImpl$Input$DeliveryFilter_deliveryDate;
+
+  factory CopyWith$Input$DeliveryFilter_deliveryDate.stub(TRes res) =
+      _CopyWithStubImpl$Input$DeliveryFilter_deliveryDate;
+
+  TRes call({
+    String? before,
+    String? strictly_before,
+    String? after,
+    String? strictly_after,
+  });
+}
+
+class _CopyWithImpl$Input$DeliveryFilter_deliveryDate<TRes>
+    implements CopyWith$Input$DeliveryFilter_deliveryDate<TRes> {
+  _CopyWithImpl$Input$DeliveryFilter_deliveryDate(this._instance, this._then);
+
+  final Input$DeliveryFilter_deliveryDate _instance;
+
+  final TRes Function(Input$DeliveryFilter_deliveryDate) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? before = _undefined,
+    Object? strictly_before = _undefined,
+    Object? after = _undefined,
+    Object? strictly_after = _undefined,
+  }) => _then(
+    Input$DeliveryFilter_deliveryDate._({
+      ..._instance._$data,
+      if (before != _undefined) 'before': (before as String?),
+      if (strictly_before != _undefined)
+        'strictly_before': (strictly_before as String?),
+      if (after != _undefined) 'after': (after as String?),
+      if (strictly_after != _undefined)
+        'strictly_after': (strictly_after as String?),
+    }),
+  );
+}
+
+class _CopyWithStubImpl$Input$DeliveryFilter_deliveryDate<TRes>
+    implements CopyWith$Input$DeliveryFilter_deliveryDate<TRes> {
+  _CopyWithStubImpl$Input$DeliveryFilter_deliveryDate(this._res);
+
+  TRes _res;
+
+  call({
+    String? before,
+    String? strictly_before,
+    String? after,
+    String? strictly_after,
+  }) => _res;
 }
 
 class Input$DeliveryFilter_order {
@@ -6652,12 +7034,24 @@ class Input$updateOrderItemNestedInput {
     String? order,
     String? mealPlan,
     int? quantity,
+    String? mealPlanName,
+    int? mealPlanPrice,
+    double? mealPlanCalories,
+    double? mealPlanProtein,
+    double? mealPlanFat,
+    double? mealPlanCarbs,
     String? clientMutationId,
   }) => Input$updateOrderItemNestedInput._({
     if (id != null) r'id': id,
     if (order != null) r'order': order,
     if (mealPlan != null) r'mealPlan': mealPlan,
     if (quantity != null) r'quantity': quantity,
+    if (mealPlanName != null) r'mealPlanName': mealPlanName,
+    if (mealPlanPrice != null) r'mealPlanPrice': mealPlanPrice,
+    if (mealPlanCalories != null) r'mealPlanCalories': mealPlanCalories,
+    if (mealPlanProtein != null) r'mealPlanProtein': mealPlanProtein,
+    if (mealPlanFat != null) r'mealPlanFat': mealPlanFat,
+    if (mealPlanCarbs != null) r'mealPlanCarbs': mealPlanCarbs,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
   });
 
@@ -6681,6 +7075,31 @@ class Input$updateOrderItemNestedInput {
       final l$quantity = data['quantity'];
       result$data['quantity'] = (l$quantity as int?);
     }
+    if (data.containsKey('mealPlanName')) {
+      final l$mealPlanName = data['mealPlanName'];
+      result$data['mealPlanName'] = (l$mealPlanName as String?);
+    }
+    if (data.containsKey('mealPlanPrice')) {
+      final l$mealPlanPrice = data['mealPlanPrice'];
+      result$data['mealPlanPrice'] = (l$mealPlanPrice as int?);
+    }
+    if (data.containsKey('mealPlanCalories')) {
+      final l$mealPlanCalories = data['mealPlanCalories'];
+      result$data['mealPlanCalories'] = (l$mealPlanCalories as num?)
+          ?.toDouble();
+    }
+    if (data.containsKey('mealPlanProtein')) {
+      final l$mealPlanProtein = data['mealPlanProtein'];
+      result$data['mealPlanProtein'] = (l$mealPlanProtein as num?)?.toDouble();
+    }
+    if (data.containsKey('mealPlanFat')) {
+      final l$mealPlanFat = data['mealPlanFat'];
+      result$data['mealPlanFat'] = (l$mealPlanFat as num?)?.toDouble();
+    }
+    if (data.containsKey('mealPlanCarbs')) {
+      final l$mealPlanCarbs = data['mealPlanCarbs'];
+      result$data['mealPlanCarbs'] = (l$mealPlanCarbs as num?)?.toDouble();
+    }
     if (data.containsKey('clientMutationId')) {
       final l$clientMutationId = data['clientMutationId'];
       result$data['clientMutationId'] = (l$clientMutationId as String?);
@@ -6697,6 +7116,18 @@ class Input$updateOrderItemNestedInput {
   String? get mealPlan => (_$data['mealPlan'] as String?);
 
   int? get quantity => (_$data['quantity'] as int?);
+
+  String? get mealPlanName => (_$data['mealPlanName'] as String?);
+
+  int? get mealPlanPrice => (_$data['mealPlanPrice'] as int?);
+
+  double? get mealPlanCalories => (_$data['mealPlanCalories'] as double?);
+
+  double? get mealPlanProtein => (_$data['mealPlanProtein'] as double?);
+
+  double? get mealPlanFat => (_$data['mealPlanFat'] as double?);
+
+  double? get mealPlanCarbs => (_$data['mealPlanCarbs'] as double?);
 
   String? get clientMutationId => (_$data['clientMutationId'] as String?);
 
@@ -6717,6 +7148,30 @@ class Input$updateOrderItemNestedInput {
     if (_$data.containsKey('quantity')) {
       final l$quantity = quantity;
       result$data['quantity'] = l$quantity;
+    }
+    if (_$data.containsKey('mealPlanName')) {
+      final l$mealPlanName = mealPlanName;
+      result$data['mealPlanName'] = l$mealPlanName;
+    }
+    if (_$data.containsKey('mealPlanPrice')) {
+      final l$mealPlanPrice = mealPlanPrice;
+      result$data['mealPlanPrice'] = l$mealPlanPrice;
+    }
+    if (_$data.containsKey('mealPlanCalories')) {
+      final l$mealPlanCalories = mealPlanCalories;
+      result$data['mealPlanCalories'] = l$mealPlanCalories;
+    }
+    if (_$data.containsKey('mealPlanProtein')) {
+      final l$mealPlanProtein = mealPlanProtein;
+      result$data['mealPlanProtein'] = l$mealPlanProtein;
+    }
+    if (_$data.containsKey('mealPlanFat')) {
+      final l$mealPlanFat = mealPlanFat;
+      result$data['mealPlanFat'] = l$mealPlanFat;
+    }
+    if (_$data.containsKey('mealPlanCarbs')) {
+      final l$mealPlanCarbs = mealPlanCarbs;
+      result$data['mealPlanCarbs'] = l$mealPlanCarbs;
     }
     if (_$data.containsKey('clientMutationId')) {
       final l$clientMutationId = clientMutationId;
@@ -6771,6 +7226,60 @@ class Input$updateOrderItemNestedInput {
     if (l$quantity != lOther$quantity) {
       return false;
     }
+    final l$mealPlanName = mealPlanName;
+    final lOther$mealPlanName = other.mealPlanName;
+    if (_$data.containsKey('mealPlanName') !=
+        other._$data.containsKey('mealPlanName')) {
+      return false;
+    }
+    if (l$mealPlanName != lOther$mealPlanName) {
+      return false;
+    }
+    final l$mealPlanPrice = mealPlanPrice;
+    final lOther$mealPlanPrice = other.mealPlanPrice;
+    if (_$data.containsKey('mealPlanPrice') !=
+        other._$data.containsKey('mealPlanPrice')) {
+      return false;
+    }
+    if (l$mealPlanPrice != lOther$mealPlanPrice) {
+      return false;
+    }
+    final l$mealPlanCalories = mealPlanCalories;
+    final lOther$mealPlanCalories = other.mealPlanCalories;
+    if (_$data.containsKey('mealPlanCalories') !=
+        other._$data.containsKey('mealPlanCalories')) {
+      return false;
+    }
+    if (l$mealPlanCalories != lOther$mealPlanCalories) {
+      return false;
+    }
+    final l$mealPlanProtein = mealPlanProtein;
+    final lOther$mealPlanProtein = other.mealPlanProtein;
+    if (_$data.containsKey('mealPlanProtein') !=
+        other._$data.containsKey('mealPlanProtein')) {
+      return false;
+    }
+    if (l$mealPlanProtein != lOther$mealPlanProtein) {
+      return false;
+    }
+    final l$mealPlanFat = mealPlanFat;
+    final lOther$mealPlanFat = other.mealPlanFat;
+    if (_$data.containsKey('mealPlanFat') !=
+        other._$data.containsKey('mealPlanFat')) {
+      return false;
+    }
+    if (l$mealPlanFat != lOther$mealPlanFat) {
+      return false;
+    }
+    final l$mealPlanCarbs = mealPlanCarbs;
+    final lOther$mealPlanCarbs = other.mealPlanCarbs;
+    if (_$data.containsKey('mealPlanCarbs') !=
+        other._$data.containsKey('mealPlanCarbs')) {
+      return false;
+    }
+    if (l$mealPlanCarbs != lOther$mealPlanCarbs) {
+      return false;
+    }
     final l$clientMutationId = clientMutationId;
     final lOther$clientMutationId = other.clientMutationId;
     if (_$data.containsKey('clientMutationId') !=
@@ -6789,12 +7298,24 @@ class Input$updateOrderItemNestedInput {
     final l$order = order;
     final l$mealPlan = mealPlan;
     final l$quantity = quantity;
+    final l$mealPlanName = mealPlanName;
+    final l$mealPlanPrice = mealPlanPrice;
+    final l$mealPlanCalories = mealPlanCalories;
+    final l$mealPlanProtein = mealPlanProtein;
+    final l$mealPlanFat = mealPlanFat;
+    final l$mealPlanCarbs = mealPlanCarbs;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
       _$data.containsKey('id') ? l$id : const {},
       _$data.containsKey('order') ? l$order : const {},
       _$data.containsKey('mealPlan') ? l$mealPlan : const {},
       _$data.containsKey('quantity') ? l$quantity : const {},
+      _$data.containsKey('mealPlanName') ? l$mealPlanName : const {},
+      _$data.containsKey('mealPlanPrice') ? l$mealPlanPrice : const {},
+      _$data.containsKey('mealPlanCalories') ? l$mealPlanCalories : const {},
+      _$data.containsKey('mealPlanProtein') ? l$mealPlanProtein : const {},
+      _$data.containsKey('mealPlanFat') ? l$mealPlanFat : const {},
+      _$data.containsKey('mealPlanCarbs') ? l$mealPlanCarbs : const {},
       _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
     ]);
   }
@@ -6814,6 +7335,12 @@ abstract class CopyWith$Input$updateOrderItemNestedInput<TRes> {
     String? order,
     String? mealPlan,
     int? quantity,
+    String? mealPlanName,
+    int? mealPlanPrice,
+    double? mealPlanCalories,
+    double? mealPlanProtein,
+    double? mealPlanFat,
+    double? mealPlanCarbs,
     String? clientMutationId,
   });
 }
@@ -6833,6 +7360,12 @@ class _CopyWithImpl$Input$updateOrderItemNestedInput<TRes>
     Object? order = _undefined,
     Object? mealPlan = _undefined,
     Object? quantity = _undefined,
+    Object? mealPlanName = _undefined,
+    Object? mealPlanPrice = _undefined,
+    Object? mealPlanCalories = _undefined,
+    Object? mealPlanProtein = _undefined,
+    Object? mealPlanFat = _undefined,
+    Object? mealPlanCarbs = _undefined,
     Object? clientMutationId = _undefined,
   }) => _then(
     Input$updateOrderItemNestedInput._({
@@ -6841,6 +7374,15 @@ class _CopyWithImpl$Input$updateOrderItemNestedInput<TRes>
       if (order != _undefined) 'order': (order as String?),
       if (mealPlan != _undefined) 'mealPlan': (mealPlan as String?),
       if (quantity != _undefined) 'quantity': (quantity as int?),
+      if (mealPlanName != _undefined) 'mealPlanName': (mealPlanName as String?),
+      if (mealPlanPrice != _undefined) 'mealPlanPrice': (mealPlanPrice as int?),
+      if (mealPlanCalories != _undefined)
+        'mealPlanCalories': (mealPlanCalories as double?),
+      if (mealPlanProtein != _undefined)
+        'mealPlanProtein': (mealPlanProtein as double?),
+      if (mealPlanFat != _undefined) 'mealPlanFat': (mealPlanFat as double?),
+      if (mealPlanCarbs != _undefined)
+        'mealPlanCarbs': (mealPlanCarbs as double?),
       if (clientMutationId != _undefined)
         'clientMutationId': (clientMutationId as String?),
     }),
@@ -6858,6 +7400,12 @@ class _CopyWithStubImpl$Input$updateOrderItemNestedInput<TRes>
     String? order,
     String? mealPlan,
     int? quantity,
+    String? mealPlanName,
+    int? mealPlanPrice,
+    double? mealPlanCalories,
+    double? mealPlanProtein,
+    double? mealPlanFat,
+    double? mealPlanCarbs,
     String? clientMutationId,
   }) => _res;
 }
@@ -7844,13 +8392,25 @@ class Input$OrderItemNestedInput {
   factory Input$OrderItemNestedInput({
     String? id,
     String? order,
-    required String mealPlan,
+    String? mealPlan,
     required int quantity,
+    String? mealPlanName,
+    int? mealPlanPrice,
+    double? mealPlanCalories,
+    double? mealPlanProtein,
+    double? mealPlanFat,
+    double? mealPlanCarbs,
   }) => Input$OrderItemNestedInput._({
     if (id != null) r'id': id,
     if (order != null) r'order': order,
-    r'mealPlan': mealPlan,
+    if (mealPlan != null) r'mealPlan': mealPlan,
     r'quantity': quantity,
+    if (mealPlanName != null) r'mealPlanName': mealPlanName,
+    if (mealPlanPrice != null) r'mealPlanPrice': mealPlanPrice,
+    if (mealPlanCalories != null) r'mealPlanCalories': mealPlanCalories,
+    if (mealPlanProtein != null) r'mealPlanProtein': mealPlanProtein,
+    if (mealPlanFat != null) r'mealPlanFat': mealPlanFat,
+    if (mealPlanCarbs != null) r'mealPlanCarbs': mealPlanCarbs,
   });
 
   Input$OrderItemNestedInput._(this._$data);
@@ -7865,10 +8425,37 @@ class Input$OrderItemNestedInput {
       final l$order = data['order'];
       result$data['order'] = (l$order as String?);
     }
-    final l$mealPlan = data['mealPlan'];
-    result$data['mealPlan'] = (l$mealPlan as String);
+    if (data.containsKey('mealPlan')) {
+      final l$mealPlan = data['mealPlan'];
+      result$data['mealPlan'] = (l$mealPlan as String?);
+    }
     final l$quantity = data['quantity'];
     result$data['quantity'] = (l$quantity as int);
+    if (data.containsKey('mealPlanName')) {
+      final l$mealPlanName = data['mealPlanName'];
+      result$data['mealPlanName'] = (l$mealPlanName as String?);
+    }
+    if (data.containsKey('mealPlanPrice')) {
+      final l$mealPlanPrice = data['mealPlanPrice'];
+      result$data['mealPlanPrice'] = (l$mealPlanPrice as int?);
+    }
+    if (data.containsKey('mealPlanCalories')) {
+      final l$mealPlanCalories = data['mealPlanCalories'];
+      result$data['mealPlanCalories'] = (l$mealPlanCalories as num?)
+          ?.toDouble();
+    }
+    if (data.containsKey('mealPlanProtein')) {
+      final l$mealPlanProtein = data['mealPlanProtein'];
+      result$data['mealPlanProtein'] = (l$mealPlanProtein as num?)?.toDouble();
+    }
+    if (data.containsKey('mealPlanFat')) {
+      final l$mealPlanFat = data['mealPlanFat'];
+      result$data['mealPlanFat'] = (l$mealPlanFat as num?)?.toDouble();
+    }
+    if (data.containsKey('mealPlanCarbs')) {
+      final l$mealPlanCarbs = data['mealPlanCarbs'];
+      result$data['mealPlanCarbs'] = (l$mealPlanCarbs as num?)?.toDouble();
+    }
     return Input$OrderItemNestedInput._(result$data);
   }
 
@@ -7878,9 +8465,21 @@ class Input$OrderItemNestedInput {
 
   String? get order => (_$data['order'] as String?);
 
-  String get mealPlan => (_$data['mealPlan'] as String);
+  String? get mealPlan => (_$data['mealPlan'] as String?);
 
   int get quantity => (_$data['quantity'] as int);
+
+  String? get mealPlanName => (_$data['mealPlanName'] as String?);
+
+  int? get mealPlanPrice => (_$data['mealPlanPrice'] as int?);
+
+  double? get mealPlanCalories => (_$data['mealPlanCalories'] as double?);
+
+  double? get mealPlanProtein => (_$data['mealPlanProtein'] as double?);
+
+  double? get mealPlanFat => (_$data['mealPlanFat'] as double?);
+
+  double? get mealPlanCarbs => (_$data['mealPlanCarbs'] as double?);
 
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
@@ -7892,10 +8491,36 @@ class Input$OrderItemNestedInput {
       final l$order = order;
       result$data['order'] = l$order;
     }
-    final l$mealPlan = mealPlan;
-    result$data['mealPlan'] = l$mealPlan;
+    if (_$data.containsKey('mealPlan')) {
+      final l$mealPlan = mealPlan;
+      result$data['mealPlan'] = l$mealPlan;
+    }
     final l$quantity = quantity;
     result$data['quantity'] = l$quantity;
+    if (_$data.containsKey('mealPlanName')) {
+      final l$mealPlanName = mealPlanName;
+      result$data['mealPlanName'] = l$mealPlanName;
+    }
+    if (_$data.containsKey('mealPlanPrice')) {
+      final l$mealPlanPrice = mealPlanPrice;
+      result$data['mealPlanPrice'] = l$mealPlanPrice;
+    }
+    if (_$data.containsKey('mealPlanCalories')) {
+      final l$mealPlanCalories = mealPlanCalories;
+      result$data['mealPlanCalories'] = l$mealPlanCalories;
+    }
+    if (_$data.containsKey('mealPlanProtein')) {
+      final l$mealPlanProtein = mealPlanProtein;
+      result$data['mealPlanProtein'] = l$mealPlanProtein;
+    }
+    if (_$data.containsKey('mealPlanFat')) {
+      final l$mealPlanFat = mealPlanFat;
+      result$data['mealPlanFat'] = l$mealPlanFat;
+    }
+    if (_$data.containsKey('mealPlanCarbs')) {
+      final l$mealPlanCarbs = mealPlanCarbs;
+      result$data['mealPlanCarbs'] = l$mealPlanCarbs;
+    }
     return result$data;
   }
 
@@ -7929,12 +8554,70 @@ class Input$OrderItemNestedInput {
     }
     final l$mealPlan = mealPlan;
     final lOther$mealPlan = other.mealPlan;
+    if (_$data.containsKey('mealPlan') !=
+        other._$data.containsKey('mealPlan')) {
+      return false;
+    }
     if (l$mealPlan != lOther$mealPlan) {
       return false;
     }
     final l$quantity = quantity;
     final lOther$quantity = other.quantity;
     if (l$quantity != lOther$quantity) {
+      return false;
+    }
+    final l$mealPlanName = mealPlanName;
+    final lOther$mealPlanName = other.mealPlanName;
+    if (_$data.containsKey('mealPlanName') !=
+        other._$data.containsKey('mealPlanName')) {
+      return false;
+    }
+    if (l$mealPlanName != lOther$mealPlanName) {
+      return false;
+    }
+    final l$mealPlanPrice = mealPlanPrice;
+    final lOther$mealPlanPrice = other.mealPlanPrice;
+    if (_$data.containsKey('mealPlanPrice') !=
+        other._$data.containsKey('mealPlanPrice')) {
+      return false;
+    }
+    if (l$mealPlanPrice != lOther$mealPlanPrice) {
+      return false;
+    }
+    final l$mealPlanCalories = mealPlanCalories;
+    final lOther$mealPlanCalories = other.mealPlanCalories;
+    if (_$data.containsKey('mealPlanCalories') !=
+        other._$data.containsKey('mealPlanCalories')) {
+      return false;
+    }
+    if (l$mealPlanCalories != lOther$mealPlanCalories) {
+      return false;
+    }
+    final l$mealPlanProtein = mealPlanProtein;
+    final lOther$mealPlanProtein = other.mealPlanProtein;
+    if (_$data.containsKey('mealPlanProtein') !=
+        other._$data.containsKey('mealPlanProtein')) {
+      return false;
+    }
+    if (l$mealPlanProtein != lOther$mealPlanProtein) {
+      return false;
+    }
+    final l$mealPlanFat = mealPlanFat;
+    final lOther$mealPlanFat = other.mealPlanFat;
+    if (_$data.containsKey('mealPlanFat') !=
+        other._$data.containsKey('mealPlanFat')) {
+      return false;
+    }
+    if (l$mealPlanFat != lOther$mealPlanFat) {
+      return false;
+    }
+    final l$mealPlanCarbs = mealPlanCarbs;
+    final lOther$mealPlanCarbs = other.mealPlanCarbs;
+    if (_$data.containsKey('mealPlanCarbs') !=
+        other._$data.containsKey('mealPlanCarbs')) {
+      return false;
+    }
+    if (l$mealPlanCarbs != lOther$mealPlanCarbs) {
       return false;
     }
     return true;
@@ -7946,11 +8629,23 @@ class Input$OrderItemNestedInput {
     final l$order = order;
     final l$mealPlan = mealPlan;
     final l$quantity = quantity;
+    final l$mealPlanName = mealPlanName;
+    final l$mealPlanPrice = mealPlanPrice;
+    final l$mealPlanCalories = mealPlanCalories;
+    final l$mealPlanProtein = mealPlanProtein;
+    final l$mealPlanFat = mealPlanFat;
+    final l$mealPlanCarbs = mealPlanCarbs;
     return Object.hashAll([
       _$data.containsKey('id') ? l$id : const {},
       _$data.containsKey('order') ? l$order : const {},
-      l$mealPlan,
+      _$data.containsKey('mealPlan') ? l$mealPlan : const {},
       l$quantity,
+      _$data.containsKey('mealPlanName') ? l$mealPlanName : const {},
+      _$data.containsKey('mealPlanPrice') ? l$mealPlanPrice : const {},
+      _$data.containsKey('mealPlanCalories') ? l$mealPlanCalories : const {},
+      _$data.containsKey('mealPlanProtein') ? l$mealPlanProtein : const {},
+      _$data.containsKey('mealPlanFat') ? l$mealPlanFat : const {},
+      _$data.containsKey('mealPlanCarbs') ? l$mealPlanCarbs : const {},
     ]);
   }
 }
@@ -7964,7 +8659,18 @@ abstract class CopyWith$Input$OrderItemNestedInput<TRes> {
   factory CopyWith$Input$OrderItemNestedInput.stub(TRes res) =
       _CopyWithStubImpl$Input$OrderItemNestedInput;
 
-  TRes call({String? id, String? order, String? mealPlan, int? quantity});
+  TRes call({
+    String? id,
+    String? order,
+    String? mealPlan,
+    int? quantity,
+    String? mealPlanName,
+    int? mealPlanPrice,
+    double? mealPlanCalories,
+    double? mealPlanProtein,
+    double? mealPlanFat,
+    double? mealPlanCarbs,
+  });
 }
 
 class _CopyWithImpl$Input$OrderItemNestedInput<TRes>
@@ -7982,15 +8688,29 @@ class _CopyWithImpl$Input$OrderItemNestedInput<TRes>
     Object? order = _undefined,
     Object? mealPlan = _undefined,
     Object? quantity = _undefined,
+    Object? mealPlanName = _undefined,
+    Object? mealPlanPrice = _undefined,
+    Object? mealPlanCalories = _undefined,
+    Object? mealPlanProtein = _undefined,
+    Object? mealPlanFat = _undefined,
+    Object? mealPlanCarbs = _undefined,
   }) => _then(
     Input$OrderItemNestedInput._({
       ..._instance._$data,
       if (id != _undefined) 'id': (id as String?),
       if (order != _undefined) 'order': (order as String?),
-      if (mealPlan != _undefined && mealPlan != null)
-        'mealPlan': (mealPlan as String),
+      if (mealPlan != _undefined) 'mealPlan': (mealPlan as String?),
       if (quantity != _undefined && quantity != null)
         'quantity': (quantity as int),
+      if (mealPlanName != _undefined) 'mealPlanName': (mealPlanName as String?),
+      if (mealPlanPrice != _undefined) 'mealPlanPrice': (mealPlanPrice as int?),
+      if (mealPlanCalories != _undefined)
+        'mealPlanCalories': (mealPlanCalories as double?),
+      if (mealPlanProtein != _undefined)
+        'mealPlanProtein': (mealPlanProtein as double?),
+      if (mealPlanFat != _undefined) 'mealPlanFat': (mealPlanFat as double?),
+      if (mealPlanCarbs != _undefined)
+        'mealPlanCarbs': (mealPlanCarbs as double?),
     }),
   );
 }
@@ -8001,7 +8721,18 @@ class _CopyWithStubImpl$Input$OrderItemNestedInput<TRes>
 
   TRes _res;
 
-  call({String? id, String? order, String? mealPlan, int? quantity}) => _res;
+  call({
+    String? id,
+    String? order,
+    String? mealPlan,
+    int? quantity,
+    String? mealPlanName,
+    int? mealPlanPrice,
+    double? mealPlanCalories,
+    double? mealPlanProtein,
+    double? mealPlanFat,
+    double? mealPlanCarbs,
+  }) => _res;
 }
 
 class Input$createDeliveryNestedInput {
@@ -8238,12 +8969,24 @@ class Input$updateOrderItemInput {
     String? order,
     String? mealPlan,
     int? quantity,
+    String? mealPlanName,
+    int? mealPlanPrice,
+    double? mealPlanCalories,
+    double? mealPlanProtein,
+    double? mealPlanFat,
+    double? mealPlanCarbs,
     String? clientMutationId,
   }) => Input$updateOrderItemInput._({
     r'id': id,
     if (order != null) r'order': order,
     if (mealPlan != null) r'mealPlan': mealPlan,
     if (quantity != null) r'quantity': quantity,
+    if (mealPlanName != null) r'mealPlanName': mealPlanName,
+    if (mealPlanPrice != null) r'mealPlanPrice': mealPlanPrice,
+    if (mealPlanCalories != null) r'mealPlanCalories': mealPlanCalories,
+    if (mealPlanProtein != null) r'mealPlanProtein': mealPlanProtein,
+    if (mealPlanFat != null) r'mealPlanFat': mealPlanFat,
+    if (mealPlanCarbs != null) r'mealPlanCarbs': mealPlanCarbs,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
   });
 
@@ -8265,6 +9008,31 @@ class Input$updateOrderItemInput {
       final l$quantity = data['quantity'];
       result$data['quantity'] = (l$quantity as int?);
     }
+    if (data.containsKey('mealPlanName')) {
+      final l$mealPlanName = data['mealPlanName'];
+      result$data['mealPlanName'] = (l$mealPlanName as String?);
+    }
+    if (data.containsKey('mealPlanPrice')) {
+      final l$mealPlanPrice = data['mealPlanPrice'];
+      result$data['mealPlanPrice'] = (l$mealPlanPrice as int?);
+    }
+    if (data.containsKey('mealPlanCalories')) {
+      final l$mealPlanCalories = data['mealPlanCalories'];
+      result$data['mealPlanCalories'] = (l$mealPlanCalories as num?)
+          ?.toDouble();
+    }
+    if (data.containsKey('mealPlanProtein')) {
+      final l$mealPlanProtein = data['mealPlanProtein'];
+      result$data['mealPlanProtein'] = (l$mealPlanProtein as num?)?.toDouble();
+    }
+    if (data.containsKey('mealPlanFat')) {
+      final l$mealPlanFat = data['mealPlanFat'];
+      result$data['mealPlanFat'] = (l$mealPlanFat as num?)?.toDouble();
+    }
+    if (data.containsKey('mealPlanCarbs')) {
+      final l$mealPlanCarbs = data['mealPlanCarbs'];
+      result$data['mealPlanCarbs'] = (l$mealPlanCarbs as num?)?.toDouble();
+    }
     if (data.containsKey('clientMutationId')) {
       final l$clientMutationId = data['clientMutationId'];
       result$data['clientMutationId'] = (l$clientMutationId as String?);
@@ -8281,6 +9049,18 @@ class Input$updateOrderItemInput {
   String? get mealPlan => (_$data['mealPlan'] as String?);
 
   int? get quantity => (_$data['quantity'] as int?);
+
+  String? get mealPlanName => (_$data['mealPlanName'] as String?);
+
+  int? get mealPlanPrice => (_$data['mealPlanPrice'] as int?);
+
+  double? get mealPlanCalories => (_$data['mealPlanCalories'] as double?);
+
+  double? get mealPlanProtein => (_$data['mealPlanProtein'] as double?);
+
+  double? get mealPlanFat => (_$data['mealPlanFat'] as double?);
+
+  double? get mealPlanCarbs => (_$data['mealPlanCarbs'] as double?);
 
   String? get clientMutationId => (_$data['clientMutationId'] as String?);
 
@@ -8299,6 +9079,30 @@ class Input$updateOrderItemInput {
     if (_$data.containsKey('quantity')) {
       final l$quantity = quantity;
       result$data['quantity'] = l$quantity;
+    }
+    if (_$data.containsKey('mealPlanName')) {
+      final l$mealPlanName = mealPlanName;
+      result$data['mealPlanName'] = l$mealPlanName;
+    }
+    if (_$data.containsKey('mealPlanPrice')) {
+      final l$mealPlanPrice = mealPlanPrice;
+      result$data['mealPlanPrice'] = l$mealPlanPrice;
+    }
+    if (_$data.containsKey('mealPlanCalories')) {
+      final l$mealPlanCalories = mealPlanCalories;
+      result$data['mealPlanCalories'] = l$mealPlanCalories;
+    }
+    if (_$data.containsKey('mealPlanProtein')) {
+      final l$mealPlanProtein = mealPlanProtein;
+      result$data['mealPlanProtein'] = l$mealPlanProtein;
+    }
+    if (_$data.containsKey('mealPlanFat')) {
+      final l$mealPlanFat = mealPlanFat;
+      result$data['mealPlanFat'] = l$mealPlanFat;
+    }
+    if (_$data.containsKey('mealPlanCarbs')) {
+      final l$mealPlanCarbs = mealPlanCarbs;
+      result$data['mealPlanCarbs'] = l$mealPlanCarbs;
     }
     if (_$data.containsKey('clientMutationId')) {
       final l$clientMutationId = clientMutationId;
@@ -8350,6 +9154,60 @@ class Input$updateOrderItemInput {
     if (l$quantity != lOther$quantity) {
       return false;
     }
+    final l$mealPlanName = mealPlanName;
+    final lOther$mealPlanName = other.mealPlanName;
+    if (_$data.containsKey('mealPlanName') !=
+        other._$data.containsKey('mealPlanName')) {
+      return false;
+    }
+    if (l$mealPlanName != lOther$mealPlanName) {
+      return false;
+    }
+    final l$mealPlanPrice = mealPlanPrice;
+    final lOther$mealPlanPrice = other.mealPlanPrice;
+    if (_$data.containsKey('mealPlanPrice') !=
+        other._$data.containsKey('mealPlanPrice')) {
+      return false;
+    }
+    if (l$mealPlanPrice != lOther$mealPlanPrice) {
+      return false;
+    }
+    final l$mealPlanCalories = mealPlanCalories;
+    final lOther$mealPlanCalories = other.mealPlanCalories;
+    if (_$data.containsKey('mealPlanCalories') !=
+        other._$data.containsKey('mealPlanCalories')) {
+      return false;
+    }
+    if (l$mealPlanCalories != lOther$mealPlanCalories) {
+      return false;
+    }
+    final l$mealPlanProtein = mealPlanProtein;
+    final lOther$mealPlanProtein = other.mealPlanProtein;
+    if (_$data.containsKey('mealPlanProtein') !=
+        other._$data.containsKey('mealPlanProtein')) {
+      return false;
+    }
+    if (l$mealPlanProtein != lOther$mealPlanProtein) {
+      return false;
+    }
+    final l$mealPlanFat = mealPlanFat;
+    final lOther$mealPlanFat = other.mealPlanFat;
+    if (_$data.containsKey('mealPlanFat') !=
+        other._$data.containsKey('mealPlanFat')) {
+      return false;
+    }
+    if (l$mealPlanFat != lOther$mealPlanFat) {
+      return false;
+    }
+    final l$mealPlanCarbs = mealPlanCarbs;
+    final lOther$mealPlanCarbs = other.mealPlanCarbs;
+    if (_$data.containsKey('mealPlanCarbs') !=
+        other._$data.containsKey('mealPlanCarbs')) {
+      return false;
+    }
+    if (l$mealPlanCarbs != lOther$mealPlanCarbs) {
+      return false;
+    }
     final l$clientMutationId = clientMutationId;
     final lOther$clientMutationId = other.clientMutationId;
     if (_$data.containsKey('clientMutationId') !=
@@ -8368,12 +9226,24 @@ class Input$updateOrderItemInput {
     final l$order = order;
     final l$mealPlan = mealPlan;
     final l$quantity = quantity;
+    final l$mealPlanName = mealPlanName;
+    final l$mealPlanPrice = mealPlanPrice;
+    final l$mealPlanCalories = mealPlanCalories;
+    final l$mealPlanProtein = mealPlanProtein;
+    final l$mealPlanFat = mealPlanFat;
+    final l$mealPlanCarbs = mealPlanCarbs;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
       l$id,
       _$data.containsKey('order') ? l$order : const {},
       _$data.containsKey('mealPlan') ? l$mealPlan : const {},
       _$data.containsKey('quantity') ? l$quantity : const {},
+      _$data.containsKey('mealPlanName') ? l$mealPlanName : const {},
+      _$data.containsKey('mealPlanPrice') ? l$mealPlanPrice : const {},
+      _$data.containsKey('mealPlanCalories') ? l$mealPlanCalories : const {},
+      _$data.containsKey('mealPlanProtein') ? l$mealPlanProtein : const {},
+      _$data.containsKey('mealPlanFat') ? l$mealPlanFat : const {},
+      _$data.containsKey('mealPlanCarbs') ? l$mealPlanCarbs : const {},
       _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
     ]);
   }
@@ -8393,6 +9263,12 @@ abstract class CopyWith$Input$updateOrderItemInput<TRes> {
     String? order,
     String? mealPlan,
     int? quantity,
+    String? mealPlanName,
+    int? mealPlanPrice,
+    double? mealPlanCalories,
+    double? mealPlanProtein,
+    double? mealPlanFat,
+    double? mealPlanCarbs,
     String? clientMutationId,
   });
 }
@@ -8412,6 +9288,12 @@ class _CopyWithImpl$Input$updateOrderItemInput<TRes>
     Object? order = _undefined,
     Object? mealPlan = _undefined,
     Object? quantity = _undefined,
+    Object? mealPlanName = _undefined,
+    Object? mealPlanPrice = _undefined,
+    Object? mealPlanCalories = _undefined,
+    Object? mealPlanProtein = _undefined,
+    Object? mealPlanFat = _undefined,
+    Object? mealPlanCarbs = _undefined,
     Object? clientMutationId = _undefined,
   }) => _then(
     Input$updateOrderItemInput._({
@@ -8420,6 +9302,15 @@ class _CopyWithImpl$Input$updateOrderItemInput<TRes>
       if (order != _undefined) 'order': (order as String?),
       if (mealPlan != _undefined) 'mealPlan': (mealPlan as String?),
       if (quantity != _undefined) 'quantity': (quantity as int?),
+      if (mealPlanName != _undefined) 'mealPlanName': (mealPlanName as String?),
+      if (mealPlanPrice != _undefined) 'mealPlanPrice': (mealPlanPrice as int?),
+      if (mealPlanCalories != _undefined)
+        'mealPlanCalories': (mealPlanCalories as double?),
+      if (mealPlanProtein != _undefined)
+        'mealPlanProtein': (mealPlanProtein as double?),
+      if (mealPlanFat != _undefined) 'mealPlanFat': (mealPlanFat as double?),
+      if (mealPlanCarbs != _undefined)
+        'mealPlanCarbs': (mealPlanCarbs as double?),
       if (clientMutationId != _undefined)
         'clientMutationId': (clientMutationId as String?),
     }),
@@ -8437,6 +9328,12 @@ class _CopyWithStubImpl$Input$updateOrderItemInput<TRes>
     String? order,
     String? mealPlan,
     int? quantity,
+    String? mealPlanName,
+    int? mealPlanPrice,
+    double? mealPlanCalories,
+    double? mealPlanProtein,
+    double? mealPlanFat,
+    double? mealPlanCarbs,
     String? clientMutationId,
   }) => _res;
 }

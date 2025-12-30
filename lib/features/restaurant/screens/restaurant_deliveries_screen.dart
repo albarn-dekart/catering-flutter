@@ -1,15 +1,21 @@
 import 'package:catering_flutter/graphql/schema.graphql.dart';
+import 'package:catering_flutter/core/widgets/app_premium_button.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:catering_flutter/core/utils/date_formatter.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
 import 'package:catering_flutter/features/driver/services/delivery_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/features/user/services/user_service.dart';
 import 'package:catering_flutter/core/utils/status_extensions.dart';
 import 'package:catering_flutter/core/widgets/searchable_list_screen.dart';
+import 'package:catering_flutter/core/widgets/filter_chips_bar.dart';
 import 'package:catering_flutter/core/services/export_service.dart';
+import 'package:catering_flutter/core/widgets/icon_badge.dart';
+import 'package:catering_flutter/core/widgets/app_card.dart';
+import 'package:catering_flutter/features/customer/widgets/address_card.dart';
+import 'package:catering_flutter/core/widgets/easy_date_picker.dart';
+import 'package:catering_flutter/core/widgets/app_export_button.dart';
 
 class RestaurantDeliveriesScreen extends StatefulWidget {
   final String restaurantIri;
@@ -27,10 +33,16 @@ class _RestaurantDeliveriesScreenState
   String _currentSearchQuery = '';
   bool _isExporting = false;
   final Set<String> _updatingIds = {};
+  DateTimeRange? _selectedDateRange;
 
   @override
   void initState() {
     super.initState();
+    final now = DateTime.now();
+    _selectedDateRange = DateTimeRange(
+      start: DateTime(now.year, now.month, now.day),
+      end: DateTime(now.year, now.month, now.day),
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _fetchDeliveriesAndDrivers();
     });
@@ -50,46 +62,28 @@ class _RestaurantDeliveriesScreenState
       widget.restaurantIri,
       status: _selectedStatusFilter,
       searchQuery: _currentSearchQuery,
+      dateRange: _selectedDateRange,
     );
+  }
+
+  bool get _showProgressSummary {
+    if (_selectedDateRange == null) return false;
+    return _selectedDateRange!.start.year == _selectedDateRange!.end.year &&
+        _selectedDateRange!.start.month == _selectedDateRange!.end.month &&
+        _selectedDateRange!.start.day == _selectedDateRange!.end.day;
   }
 
   @override
   Widget build(BuildContext context) {
-    final isNarrow = MediaQuery.of(context).size.width < 700;
     return Consumer2<DeliveryService, UserService>(
       builder: (context, deliveryService, userService, child) {
         return SearchableListScreen<Delivery>(
           title: AppLocalizations.of(context)!.manageDeliveries,
-          floatingActionButton: isNarrow
-              ? FloatingActionButton(
-                  onPressed: _isExporting ? null : _exportDeliveries,
-                  tooltip: AppLocalizations.of(context)!.exportToCsv,
-                  child: _isExporting
-                      ? const SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        )
-                      : const Icon(Icons.download),
-                )
-              : FloatingActionButton.extended(
-                  onPressed: _isExporting ? null : _exportDeliveries,
-                  icon: _isExporting
-                      ? const SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        )
-                      : const Icon(Icons.download),
-                  label: Text(AppLocalizations.of(context)!.exportToCsv),
-                ),
-          items: deliveryService.deliveries,
+          headerAction: AppExportButton(
+            onPressed: _exportDeliveries,
+            isLoading: _isExporting,
+          ),
+          items: _getSortedItems(deliveryService.deliveries),
           isLoading: deliveryService.isLoading || userService.isLoading,
           isLoadingMore: deliveryService.isFetchingMore,
           onLoadMore: () async {
@@ -111,6 +105,24 @@ class _RestaurantDeliveriesScreenState
               deliveryService.errorMessage ?? userService.errorMessage,
           onRetry: _fetchDeliveriesAndDrivers,
           onRefresh: _fetchDeliveriesAndDrivers,
+          header: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (deliveryService.deliveries.isNotEmpty)
+                _buildProgressSummary(deliveryService.deliveries),
+              EasyDatePicker(
+                selectedDateRange: _selectedDateRange,
+                onDateRangeChanged: (range) {
+                  setState(() {
+                    _selectedDateRange = range;
+                  });
+                  _fetchDeliveries();
+                },
+                isLoading: deliveryService.isLoading,
+              ),
+            ],
+          ),
           customFilters: FilterChipsBar<Enum$DeliveryStatus>(
             values: Enum$DeliveryStatus.values
                 .where((status) => status != Enum$DeliveryStatus.$unknown)
@@ -163,10 +175,14 @@ class _RestaurantDeliveriesScreenState
     Delivery delivery,
     List<RestaurantDriverNode> drivers,
   ) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
+    final theme = Theme.of(context);
+    final isDone =
+        delivery.status == Enum$DeliveryStatus.Delivered ||
+        delivery.status == Enum$DeliveryStatus.Returned;
+
+    return Opacity(
+      opacity: isDone ? 0.6 : 1.0,
+      child: AppCard(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,13 +190,28 @@ class _RestaurantDeliveriesScreenState
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  AppLocalizations.of(
-                    context,
-                  )!.deliveryNumber(IriHelper.getId(delivery.id)),
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.normal,
-                  ),
+                Row(
+                  children: [
+                    if (isDone)
+                      const Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                        size: 20,
+                      ),
+                    if (isDone) const SizedBox(width: 8),
+                    Text(
+                      AppLocalizations.of(context)!.delivery,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                        decoration: isDone ? TextDecoration.lineThrough : null,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    IconBadge(
+                      text: IriHelper.getId(delivery.id),
+                      icon: Icons.tag,
+                    ),
+                  ],
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -189,82 +220,88 @@ class _RestaurantDeliveriesScreenState
                   ),
                   decoration: BoxDecoration(
                     color: delivery.status.containerColor,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
                     delivery.status.getLabel(context),
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    style: theme.textTheme.labelMedium?.copyWith(
                       color: delivery.status.onContainerColor,
-                      fontWeight: FontWeight.normal,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             Row(
               children: [
                 Icon(
                   Icons.receipt_long,
                   size: 16,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  color: theme.colorScheme.primary,
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 12),
                 Text(
-                  AppLocalizations.of(
-                    context,
-                  )!.orderNumber(IriHelper.getId(delivery.order!.id)),
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  '${AppLocalizations.of(context)!.order}:',
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                IconBadge(
+                  text: IriHelper.getId(delivery.order!.id),
+                  icon: Icons.tag,
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            if (delivery.order != null) ...[
+              const SizedBox(height: 16),
+              AddressCard(
+                firstName: delivery.order!.deliveryFirstName ?? '',
+                lastName: delivery.order!.deliveryLastName ?? '',
+                street: delivery.order!.deliveryStreet ?? '',
+                apartment: delivery.order!.deliveryApartment,
+                city: delivery.order!.deliveryCity ?? '',
+                zipCode: delivery.order!.deliveryZipCode ?? '',
+                phoneNumber: delivery.order!.deliveryPhoneNumber ?? '',
+                deliveryDate: DateTime.parse(delivery.deliveryDate),
+                withCardDecoration: false,
+                showActions: false,
+                showDefaultBadge: false,
+                enablePhoneAction: true,
+              ),
+            ],
+            const SizedBox(height: 12),
             Row(
               children: [
-                Icon(
-                  Icons.calendar_today,
-                  size: 16,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-                const SizedBox(width: 8),
+                Icon(Icons.person, size: 16, color: theme.colorScheme.primary),
+                const SizedBox(width: 12),
                 Text(
-                  AppLocalizations.of(context)!.deliveryDateWithDate(
-                    AppDateFormatter.shortDate(
-                      context,
-                      DateTime.parse(delivery.deliveryDate),
-                    ),
+                  '${AppLocalizations.of(context)!.driver}:',
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
                   ),
-                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  delivery.driver?.email ??
+                      AppLocalizations.of(context)!.unassigned,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: delivery.driver == null
+                        ? theme.colorScheme.error
+                        : null,
+                  ),
                 ),
               ],
             ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Icon(
-                  Icons.person,
-                  size: 16,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  AppLocalizations.of(context)!.driverWithName(
-                    delivery.driver?.email ??
-                        AppLocalizations.of(context)!.unassigned,
-                  ),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             if (drivers.isNotEmpty)
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
                   labelText: _getDriverLabel(context, delivery),
-                  border: const OutlineInputBorder(),
                   contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
+                    horizontal: 16,
+                    vertical: 12,
                   ),
                   suffixIcon: _updatingIds.contains(delivery.id)
                       ? const Padding(
@@ -292,54 +329,40 @@ class _RestaurantDeliveriesScreenState
                   );
                 }).toList(),
               ),
-            const SizedBox(height: 16),
+            if (delivery.status == Enum$DeliveryStatus.Assigned ||
+                delivery.status == Enum$DeliveryStatus.Picked_up)
+              const SizedBox(height: 16),
             // Status progression buttons
             if (delivery.status == Enum$DeliveryStatus.Assigned)
               SizedBox(
                 width: double.infinity,
-                child: FilledButton.icon(
+                height: 52,
+                child: AppPremiumButton(
                   onPressed: _updatingIds.contains(delivery.id)
                       ? null
                       : () => _updateStatus(
                           delivery.id,
                           Enum$DeliveryStatus.Picked_up,
                         ),
-                  icon: _updatingIds.contains(delivery.id)
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        )
-                      : const Icon(Icons.shopping_bag),
-                  label: Text(AppLocalizations.of(context)!.markAsPickedUp),
+                  isLoading: _updatingIds.contains(delivery.id),
+                  icon: Icons.shopping_bag_outlined,
+                  label: AppLocalizations.of(context)!.markAsPickedUp,
                 ),
               ),
             if (delivery.status == Enum$DeliveryStatus.Picked_up)
               SizedBox(
                 width: double.infinity,
-                child: FilledButton.icon(
+                height: 52,
+                child: AppPremiumButton(
                   onPressed: _updatingIds.contains(delivery.id)
                       ? null
                       : () => _updateStatus(
                           delivery.id,
                           Enum$DeliveryStatus.Delivered,
                         ),
-                  icon: _updatingIds.contains(delivery.id)
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        )
-                      : const Icon(Icons.check_circle),
-                  label: Text(
-                    AppLocalizations.of(context)!.markAsDeliveredAction,
-                  ),
+                  isLoading: _updatingIds.contains(delivery.id),
+                  icon: Icons.check_circle_outline,
+                  label: AppLocalizations.of(context)!.markAsDeliveredAction,
                 ),
               ),
           ],
@@ -429,20 +452,22 @@ class _RestaurantDeliveriesScreenState
 
       await exportService.exportDeliveriesToCsv(
         statusFilter: _selectedStatusFilter,
+        startDate: _selectedDateRange?.start,
+        endDate: _selectedDateRange?.end,
       );
 
       if (!mounted) return;
 
       UIErrorHandler.showSnackBar(
         context,
-        AppLocalizations.of(context)!.deliveriesExportedSuccess,
+        AppLocalizations.of(context)!.exportSuccess,
         isError: false,
       );
     } catch (e) {
       if (!mounted) return;
       UIErrorHandler.showSnackBar(
         context,
-        AppLocalizations.of(context)!.deliveriesExportFailed(e.toString()),
+        AppLocalizations.of(context)!.exportFailed(e.toString()),
         isError: true,
       );
     } finally {
@@ -452,5 +477,86 @@ class _RestaurantDeliveriesScreenState
         });
       }
     }
+  }
+
+  List<Delivery> _getSortedItems(List<Delivery> items) {
+    final sortedList = List<Delivery>.from(items);
+    sortedList.sort((a, b) {
+      final isDoneA =
+          a.status == Enum$DeliveryStatus.Delivered ||
+          a.status == Enum$DeliveryStatus.Returned;
+      final isDoneB =
+          b.status == Enum$DeliveryStatus.Delivered ||
+          b.status == Enum$DeliveryStatus.Returned;
+
+      // 1. Group by "Done" status (Active first)
+      if (isDoneA != isDoneB) {
+        return isDoneA ? 1 : -1;
+      }
+
+      // 2. Secondary sort based on Date Mode
+      // If we are looking at a single day, we want chronological order (Morning -> Evening)
+      // Since we don't have a specific "time" field easily accessible besides ID/date,
+      // and ID is roughly chronological for creation:
+      if (_showProgressSummary) {
+        // Single Day -> Chronological (Oldest/Morning first)
+        return a.id.compareTo(b.id);
+      } else {
+        // Range/History -> Append Newest First
+        return b.id.compareTo(a.id);
+      }
+    });
+
+    return sortedList;
+  }
+
+  Widget _buildProgressSummary(List<Delivery> items) {
+    final total = items.length;
+    final completed = items.where((i) {
+      return i.status == Enum$DeliveryStatus.Delivered ||
+          i.status == Enum$DeliveryStatus.Returned;
+    }).length;
+
+    final progress = total > 0 ? completed / total : 0.0;
+    final theme = Theme.of(context);
+
+    // Use specific "Daily Progress" if looking at one day, or generic "Progress" for ranges
+    final label = _showProgressSummary
+        ? AppLocalizations.of(context)!.dailyProgress(completed, total)
+        : '${AppLocalizations.of(context)!.summary}: $completed/$total';
+
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              label,
+              style: theme.textTheme.labelLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: theme.colorScheme.primary,
+              ),
+            ),
+            Text(
+              '${(progress * 100).toInt()}%',
+              style: theme.textTheme.labelMedium,
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(4),
+          child: LinearProgressIndicator(
+            value: progress,
+            minHeight: 6,
+            backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.1),
+            valueColor: AlwaysStoppedAnimation<Color>(
+              theme.colorScheme.primary,
+            ),
+          ),
+        ),
+        const SizedBox(height: 4),
+      ],
+    );
   }
 }

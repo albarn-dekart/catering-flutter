@@ -134,6 +134,12 @@ abstract class AppLocalizations {
   /// **'Add Address'**
   String get addAddress;
 
+  /// No description provided for @address.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get address;
+
   /// No description provided for @addAddressToGetStarted.
   ///
   /// In en, this message translates to:
@@ -200,6 +206,12 @@ abstract class AppLocalizations {
   /// **'All'**
   String get all;
 
+  /// No description provided for @allTime.
+  ///
+  /// In en, this message translates to:
+  /// **'All Time'**
+  String get allTime;
+
   /// No description provided for @allDeliveries.
   ///
   /// In en, this message translates to:
@@ -217,12 +229,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Catering Service'**
   String get appTitle;
-
-  /// No description provided for @apt.
-  ///
-  /// In en, this message translates to:
-  /// **'Apt'**
-  String get apt;
 
   /// No description provided for @areYouSureYouWantToCancelThisOrder.
   ///
@@ -515,14 +521,8 @@ abstract class AppLocalizations {
   /// No description provided for @customerLabel.
   ///
   /// In en, this message translates to:
-  /// **'Customer:'**
+  /// **'Customer'**
   String get customerLabel;
-
-  /// No description provided for @customerName.
-  ///
-  /// In en, this message translates to:
-  /// **'Customer: {name}'**
-  String customerName(Object name);
 
   /// No description provided for @customers.
   ///
@@ -614,17 +614,11 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to delete \"{name}\"?'**
   String deleteRestaurantConfirmation(Object name);
 
-  /// No description provided for @deliveriesExportFailed.
+  /// No description provided for @delivery.
   ///
   /// In en, this message translates to:
-  /// **'Failed to export deliveries: {error}'**
-  String deliveriesExportFailed(Object error);
-
-  /// No description provided for @deliveriesExportedSuccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Deliveries exported successfully'**
-  String get deliveriesExportedSuccess;
+  /// **'Delivery'**
+  String get delivery;
 
   /// No description provided for @deliveryAddress.
   ///
@@ -661,12 +655,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delivery Fee'**
   String get deliveryFee;
-
-  /// No description provided for @deliveryNumber.
-  ///
-  /// In en, this message translates to:
-  /// **'Delivery #{number}'**
-  String deliveryNumber(String number);
 
   /// No description provided for @deliveryPricePLN.
   ///
@@ -734,11 +722,11 @@ abstract class AppLocalizations {
   /// **'Don\'t have an account? '**
   String get dontHaveAccount;
 
-  /// No description provided for @downloadPlan.
+  /// No description provided for @driver.
   ///
   /// In en, this message translates to:
-  /// **'Download Plan'**
-  String get downloadPlan;
+  /// **'Driver'**
+  String get driver;
 
   /// No description provided for @driverAssignFailed.
   ///
@@ -812,11 +800,11 @@ abstract class AppLocalizations {
   /// **'Edit Address'**
   String get editAddress;
 
-  /// No description provided for @editCategory.
+  /// No description provided for @editRestaurantCategory.
   ///
   /// In en, this message translates to:
-  /// **'Edit {type} Category'**
-  String editCategory(Object type);
+  /// **'Edit Restaurant Category'**
+  String get editRestaurantCategory;
 
   /// No description provided for @editDetails.
   ///
@@ -887,26 +875,20 @@ abstract class AppLocalizations {
   /// No description provided for @exportFailed.
   ///
   /// In en, this message translates to:
-  /// **'Failed to export orders: {error}'**
+  /// **'Failed to export data: {error}'**
   String exportFailed(Object error);
 
-  /// No description provided for @exportStatistics.
+  /// No description provided for @exportData.
   ///
   /// In en, this message translates to:
-  /// **'Export Statistics'**
-  String get exportStatistics;
+  /// **'Export Data'**
+  String get exportData;
 
   /// No description provided for @exportSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Orders exported successfully'**
+  /// **'Data exported successfully'**
   String get exportSuccess;
-
-  /// No description provided for @exportToCsv.
-  ///
-  /// In en, this message translates to:
-  /// **'Export to CSV'**
-  String get exportToCsv;
 
   /// No description provided for @failedToChangePassword.
   ///
@@ -991,6 +973,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'First Name'**
   String get firstName;
+
+  /// No description provided for @hideIncludedMeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide Included Meals'**
+  String get hideIncludedMeals;
 
   /// No description provided for @history.
   ///
@@ -1207,12 +1195,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Meal Name'**
   String get mealName;
-
-  /// No description provided for @mealPlanCreated.
-  ///
-  /// In en, this message translates to:
-  /// **'Meal Plan created'**
-  String get mealPlanCreated;
 
   /// No description provided for @mealPlanDeleteFailed.
   ///
@@ -1484,10 +1466,22 @@ abstract class AppLocalizations {
   /// **'Operations'**
   String get operations;
 
-  /// No description provided for @orderCreatedSuccessfully.
+  /// No description provided for @order.
+  ///
+  /// In en, this message translates to:
+  /// **'Order'**
+  String get order;
+
+  /// No description provided for @orderCancelledSuccessfully.
   ///
   /// In en, this message translates to:
   /// **'Order cancelled successfully'**
+  String get orderCancelledSuccessfully;
+
+  /// No description provided for @orderCreatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Order created successfully'**
   String get orderCreatedSuccessfully;
 
   /// No description provided for @orderDetails.
@@ -1514,12 +1508,6 @@ abstract class AppLocalizations {
   /// **'Order not found'**
   String get orderNotFound;
 
-  /// No description provided for @orderNumber.
-  ///
-  /// In en, this message translates to:
-  /// **'Order #{number}'**
-  String orderNumber(Object number);
-
   /// No description provided for @orderProcessFailed.
   ///
   /// In en, this message translates to:
@@ -1543,12 +1531,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Orders by Status'**
   String get ordersByStatus;
-
-  /// No description provided for @ordersCount.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} orders'**
-  String ordersCount(int count);
 
   /// No description provided for @overview.
   ///
@@ -1633,12 +1615,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} pcs'**
   String piecesCount(int count);
-
-  /// No description provided for @planName.
-  ///
-  /// In en, this message translates to:
-  /// **'Plan Name'**
-  String get planName;
 
   /// No description provided for @pleaseEnterCategoryName.
   ///
@@ -1928,12 +1904,6 @@ abstract class AppLocalizations {
   /// **'Save Meal Plan'**
   String get saveMealPlan;
 
-  /// No description provided for @savePlan.
-  ///
-  /// In en, this message translates to:
-  /// **'Save Plan'**
-  String get savePlan;
-
   /// No description provided for @search.
   ///
   /// In en, this message translates to:
@@ -2066,6 +2036,12 @@ abstract class AppLocalizations {
   /// **'Set as default address'**
   String get setAsDefaultAddress;
 
+  /// No description provided for @showIncludedMeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Included Meals ({count})'**
+  String showIncludedMeals(int count);
+
   /// No description provided for @signInToContinue.
   ///
   /// In en, this message translates to:
@@ -2095,18 +2071,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Statistics'**
   String get statistics;
-
-  /// No description provided for @statisticsExportFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to export statistics: {error}'**
-  String statisticsExportFailed(Object error);
-
-  /// No description provided for @statisticsExportSuccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Statistics exported successfully'**
-  String get statisticsExportSuccess;
 
   /// No description provided for @status.
   ///
@@ -2298,18 +2262,6 @@ abstract class AppLocalizations {
   /// **'User deleted successfully'**
   String get userDeleted;
 
-  /// No description provided for @usersExportFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to export users: {error}'**
-  String usersExportFailed(Object error);
-
-  /// No description provided for @usersExported.
-  ///
-  /// In en, this message translates to:
-  /// **'Users exported successfully'**
-  String get usersExported;
-
   /// No description provided for @viewAll.
   ///
   /// In en, this message translates to:
@@ -2345,6 +2297,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Zip Code'**
   String get zipCode;
+
+  /// No description provided for @areYouSureYouWantToLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout?'**
+  String get areYouSureYouWantToLogout;
+
+  /// No description provided for @defaultAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Default Address'**
+  String get defaultAddress;
+
+  /// No description provided for @confirmDeleteAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this address? This action cannot be undone.'**
+  String get confirmDeleteAddress;
+
+  /// No description provided for @deletedMealPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted Meal Plan'**
+  String get deletedMealPlan;
+
+  /// No description provided for @yesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get yesterday;
+
+  /// No description provided for @today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get today;
+
+  /// No description provided for @topRestaurants.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Restaurants'**
+  String get topRestaurants;
+
+  /// No description provided for @totalClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Clients'**
+  String get totalClients;
+
+  /// No description provided for @totalDeliveries.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Deliveries'**
+  String get totalDeliveries;
+
+  /// No description provided for @totalStatsMealPlans.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Meal Plans'**
+  String get totalStatsMealPlans;
+
+  /// No description provided for @tomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get tomorrow;
+
+  /// No description provided for @dailyProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Progress: {count}/{total}'**
+  String dailyProgress(Object count, Object total);
 }
 
 class _AppLocalizationsDelegate

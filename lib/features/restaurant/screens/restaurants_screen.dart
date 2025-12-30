@@ -3,13 +3,17 @@ import 'package:catering_flutter/core/utils/iri_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:catering_flutter/core/services/auth_service.dart';
 import 'package:catering_flutter/features/restaurant/services/restaurant_service.dart';
 import 'package:catering_flutter/core/widgets/searchable_list_screen.dart';
+import 'package:catering_flutter/core/widgets/filter_chips_bar.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:catering_flutter/core/widgets/restaurant_card.dart';
 
 class RestaurantsScreen extends StatefulWidget {
-  const RestaurantsScreen({super.key});
+  final bool selectForMealPlan;
+
+  const RestaurantsScreen({super.key, this.selectForMealPlan = false});
 
   @override
   State<RestaurantsScreen> createState() => _RestaurantsScreenState();
@@ -81,7 +85,6 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
             );
           },
           useGrid: true,
-          preferredItemHeight: 300,
           customFilters: FilterChipsBar<String>(
             values: categories,
             selectedValue: _selectedCategory,
@@ -112,15 +115,35 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
               imageUrl: restaurant.imageUrl,
               categories: categories.map((c) => c!.name).toList(),
               onTap: () {
-                context.push(
-                  Uri(
-                    path: AppRoutes.mealPlansByRestaurant,
+                if (widget.selectForMealPlan) {
+                  final authService = context.read<AuthService>();
+                  final builderUri = Uri(
+                    path: AppRoutes.customMealPlanBuilder,
                     queryParameters: {
                       'restaurantId': IriHelper.getId(restaurant.id),
                     },
-                  ).toString(),
-                  extra: restaurant,
-                );
+                  ).toString();
+
+                  if (!authService.isAuthenticated) {
+                    context.push(
+                      Uri(
+                        path: AppRoutes.login,
+                        queryParameters: {'redirect': builderUri},
+                      ).toString(),
+                    );
+                  } else {
+                    context.push(builderUri);
+                  }
+                } else {
+                  context.push(
+                    Uri(
+                      path: AppRoutes.mealPlansByRestaurant,
+                      queryParameters: {
+                        'restaurantId': IriHelper.getId(restaurant.id),
+                      },
+                    ).toString(),
+                  );
+                }
               },
             );
           },

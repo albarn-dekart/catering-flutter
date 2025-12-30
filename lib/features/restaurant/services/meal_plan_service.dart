@@ -449,6 +449,10 @@ class MealPlanService extends ChangeNotifier {
 
   void clearCurrentMealPlan() {
     _currentMealPlan = null;
+    clearError();
+  }
+
+  void clearError() {
     _errorMessage = null;
     notifyListeners();
   }

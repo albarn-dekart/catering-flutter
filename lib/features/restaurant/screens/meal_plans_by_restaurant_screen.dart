@@ -7,10 +7,11 @@ import 'package:catering_flutter/core/app_router.dart';
 import 'package:catering_flutter/features/restaurant/services/meal_plan_service.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
 import 'package:catering_flutter/core/widgets/searchable_list_screen.dart';
+import 'package:catering_flutter/core/widgets/filter_chips_bar.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
-import 'package:catering_flutter/core/widgets/meal_plan_card.dart';
+import 'package:catering_flutter/core/widgets/meal_card.dart';
+
 import 'package:catering_flutter/core/services/auth_service.dart';
-import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 
 class MealPlansByRestaurant extends StatefulWidget {
   final String restaurantIri;
@@ -74,7 +75,6 @@ class _MealPlansByRestaurantState extends State<MealPlansByRestaurant> {
 
   @override
   Widget build(BuildContext context) {
-    final isNarrow = MediaQuery.of(context).size.width < 700;
     return Consumer<MealPlanService>(
       builder: (context, mealPlanService, child) {
         // Extract unique categories from meal plans only when not filtering by category
@@ -124,53 +124,26 @@ class _MealPlansByRestaurantState extends State<MealPlansByRestaurant> {
           errorMessage: mealPlanService.errorMessage,
           onRetry: () =>
               mealPlanService.fetchMealPlansByRestaurant(widget.restaurantIri),
-          floatingActionButton: isNarrow
-              ? FloatingActionButton(
-                  onPressed: () {
-                    final authService = context.read<AuthService>();
-                    if (!authService.isAuthenticated) {
-                      UIErrorHandler.showSnackBar(
-                        context,
-                        AppLocalizations.of(context)!.signInToContinue,
-                        isError: false,
-                      );
-                      return;
-                    }
-                    context.push(
-                      Uri(
-                        path: AppRoutes.customMealPlanBuilder,
-                        queryParameters: {
-                          'restaurantId': IriHelper.getId(widget.restaurantIri),
-                        },
-                      ).toString(),
-                    );
-                  },
-                  tooltip: AppLocalizations.of(context)!.createCustomPlan,
-                  child: const Icon(Icons.add),
-                )
-              : FloatingActionButton.extended(
-                  onPressed: () {
-                    final authService = context.read<AuthService>();
-                    if (!authService.isAuthenticated) {
-                      UIErrorHandler.showSnackBar(
-                        context,
-                        AppLocalizations.of(context)!.signInToContinue,
-                        isError: false,
-                      );
-                      return;
-                    }
-                    context.push(
-                      Uri(
-                        path: AppRoutes.customMealPlanBuilder,
-                        queryParameters: {
-                          'restaurantId': IriHelper.getId(widget.restaurantIri),
-                        },
-                      ).toString(),
-                    );
-                  },
-                  label: Text(AppLocalizations.of(context)!.createCustomPlan),
-                  icon: const Icon(Icons.add),
-                ),
+          onCreate: () {
+            final authService = context.read<AuthService>();
+            final builderUri = Uri(
+              path: AppRoutes.customMealPlanBuilder,
+              queryParameters: {
+                'restaurantId': IriHelper.getId(widget.restaurantIri),
+              },
+            ).toString();
+
+            if (!authService.isAuthenticated) {
+              context.push(
+                Uri(
+                  path: AppRoutes.login,
+                  queryParameters: {'redirect': builderUri},
+                ).toString(),
+              );
+              return;
+            }
+            context.push(builderUri);
+          },
           onLoadMore: () async {
             if (!mealPlanService.isFetchingMore &&
                 mealPlanService.hasNextPage) {
@@ -180,7 +153,7 @@ class _MealPlansByRestaurantState extends State<MealPlansByRestaurant> {
             }
           },
           useGrid: true,
-          preferredItemHeight: 420,
+
           customFilters: SizedBox(
             width: double.infinity,
             child: Column(
@@ -198,23 +171,38 @@ class _MealPlansByRestaurantState extends State<MealPlansByRestaurant> {
                     _onFilterChanged();
                   },
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: TextButton.icon(
-                    onPressed: () {
-                      setState(() {
-                        _showAdvancedFilters = !_showAdvancedFilters;
-                      });
-                    },
-                    icon: Icon(
-                      _showAdvancedFilters
-                          ? Icons.expand_less
-                          : Icons.expand_more,
+                OutlinedButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      _showAdvancedFilters = !_showAdvancedFilters;
+                    });
+                  },
+                  style: OutlinedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    side: BorderSide(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.primary.withValues(alpha: 0.1),
                     ),
-                    label: Text(AppLocalizations.of(context)!.advancedFilters),
+                    backgroundColor: Theme.of(
+                      context,
+                    ).colorScheme.primary.withValues(alpha: 0.02),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    minimumSize: const Size(0, 44),
+                  ),
+                  icon: Icon(
+                    _showAdvancedFilters
+                        ? Icons.expand_less
+                        : Icons.expand_more,
+                    size: 18,
+                  ),
+                  label: Text(
+                    AppLocalizations.of(context)!.advancedFilters,
+                    style: const TextStyle(fontSize: 14),
                   ),
                 ),
-                if (_showAdvancedFilters)
+                if (_showAdvancedFilters) ...[
+                  const SizedBox(height: 8),
                   AdvancedFiltersWidget(
                     maxPrice: maxPrice,
                     priceRange: _priceRange,
@@ -247,6 +235,7 @@ class _MealPlansByRestaurantState extends State<MealPlansByRestaurant> {
                       _onFilterChanged();
                     },
                   ),
+                ],
               ],
             ),
           ),
@@ -270,17 +259,19 @@ class _MealPlansByRestaurantState extends State<MealPlansByRestaurant> {
                     .toList() ??
                 [];
 
-            return MealPlanCard(
+            return MealCard(
               id: mealPlan.id,
               name: mealPlan.name,
               description: mealPlan.description,
               imageUrl: mealPlan.imageUrl,
-              price: (mealPlan.price ?? 0).toDouble(),
+              priceGroszy: (mealPlan.price ?? 0).toDouble(),
+              priceSuffix: AppLocalizations.of(context)!.perDay,
               calories: mealPlan.calories?.toDouble(),
               protein: mealPlan.protein?.toDouble(),
               fat: mealPlan.fat?.toDouble(),
               carbs: mealPlan.carbs?.toDouble(),
               dietCategories: dietCategories,
+
               onTap: () {
                 context.push(
                   Uri(

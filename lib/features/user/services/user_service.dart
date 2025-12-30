@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
 import 'package:catering_flutter/graphql/deliveries.graphql.dart';
 import 'package:catering_flutter/graphql/restaurants.graphql.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:catering_flutter/graphql/users.graphql.dart';
 import 'package:catering_flutter/core/services/api_service.dart';
@@ -226,11 +226,13 @@ class UserService extends ChangeNotifier {
 
   List<Enum$DeliveryStatus>? _currentDeliveryStatuses;
   Input$DeliveryFilter_order? _currentSortOrder;
+  DateTimeRange? _currentDateRange;
 
   Future<void> fetchCurrentUserWithDeliveries({
     List<Enum$DeliveryStatus>? statuses,
     String? searchQuery,
     Input$DeliveryFilter_order? sortOrder,
+    DateTimeRange? dateRange,
   }) async {
     _isLoading = true;
     _errorMessage = null;
@@ -238,6 +240,7 @@ class UserService extends ChangeNotifier {
     _currentDeliveryStatuses = statuses;
     _currentSearchQuery = searchQuery;
     _currentSortOrder = sortOrder;
+    _currentDateRange = dateRange;
     _userDeliveriesEndCursor = null;
     _userDeliveriesHasNextPage = false;
 
@@ -252,6 +255,16 @@ class UserService extends ChangeNotifier {
         throw ApiException('User ID not found in storage');
       }
 
+      List<Input$DeliveryFilter_deliveryDate>? deliveryDateFilter;
+      if (dateRange != null) {
+        deliveryDateFilter = [
+          Input$DeliveryFilter_deliveryDate(
+            after: dateRange.start.toIso8601String().split('T')[0],
+            before: dateRange.end.toIso8601String().split('T')[0],
+          ),
+        ];
+      }
+
       final options = QueryOptions(
         document: documentNodeQueryGetUserDeliveries,
         variables: Variables$Query$GetUserDeliveries(
@@ -260,6 +273,7 @@ class UserService extends ChangeNotifier {
           status: statuses?.map((e) => e.name).toList(),
           search: searchQuery,
           order: sortOrder != null ? [sortOrder] : null,
+          deliveryDate: deliveryDateFilter,
         ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
@@ -303,6 +317,16 @@ class UserService extends ChangeNotifier {
       final userIri = await _authService.getUserIriFromStorage();
       if (userIri == null) return;
 
+      List<Input$DeliveryFilter_deliveryDate>? deliveryDateFilter;
+      if (_currentDateRange != null) {
+        deliveryDateFilter = [
+          Input$DeliveryFilter_deliveryDate(
+            after: _currentDateRange!.start.toIso8601String().split('T')[0],
+            before: _currentDateRange!.end.toIso8601String().split('T')[0],
+          ),
+        ];
+      }
+
       final options = QueryOptions(
         document: documentNodeQueryGetUserDeliveries,
         variables: Variables$Query$GetUserDeliveries(
@@ -312,6 +336,7 @@ class UserService extends ChangeNotifier {
           status: _currentDeliveryStatuses?.map((e) => e.name).toList(),
           search: _currentSearchQuery,
           order: _currentSortOrder != null ? [_currentSortOrder!] : null,
+          deliveryDate: deliveryDateFilter,
         ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
@@ -527,5 +552,10 @@ class UserService extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  void clearError() {
+    _errorMessage = null;
+    notifyListeners();
   }
 }

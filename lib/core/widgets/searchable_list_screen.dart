@@ -4,35 +4,38 @@ import 'dart:async';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/widgets/responsive_grid.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
+import 'package:catering_flutter/core/widgets/custom_text_field.dart';
+import 'package:catering_flutter/core/widgets/app_premium_button.dart';
 
 class SearchableListScreen<T> extends StatefulWidget {
   final String title;
   final List<T> items;
   final Widget Function(BuildContext context, T item) itemBuilder;
-  final Widget? floatingActionButton;
+  final VoidCallback? onCreate;
+  final Widget? headerAction;
   final bool isLoading;
   final bool isLoadingMore;
   final Future<void> Function()? onRefresh;
   final Future<void> Function()? onLoadMore;
   final String? searchHint;
   final bool useGrid;
-  final double? preferredItemHeight;
-  final double mainAxisSpacing;
-  final double crossAxisSpacing;
   final Widget? customFilters;
   final String? errorMessage;
   final bool hasError;
   final VoidCallback? onRetry;
+  final VoidCallback? onCancel;
   final void Function(String query)? onSearch;
   final PreferredSizeWidget? bottom;
-  final int maxColumns;
+  final Widget? header;
+  final bool withScaffold;
 
   const SearchableListScreen({
     super.key,
     required this.title,
     required this.items,
     required this.itemBuilder,
-    this.floatingActionButton,
+    this.onCreate,
+    this.headerAction,
     this.isLoading = false,
     this.isLoadingMore = false,
     this.onRefresh,
@@ -40,15 +43,14 @@ class SearchableListScreen<T> extends StatefulWidget {
     this.searchHint,
     this.customFilters,
     this.useGrid = false,
-    this.preferredItemHeight,
-    this.mainAxisSpacing = 16,
-    this.crossAxisSpacing = 16,
     this.onSearch,
     this.errorMessage,
     this.hasError = false,
     this.onRetry,
+    this.onCancel,
     this.bottom,
-    this.maxColumns = 3,
+    this.header,
+    this.withScaffold = true,
   });
 
   @override
@@ -59,6 +61,7 @@ class SearchableListScreen<T> extends StatefulWidget {
 class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
   final TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  String _lastSearchQuery = '';
 
   Timer? _debounce;
 
@@ -88,10 +91,12 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
 
   void _onSearchChanged() {
     final query = _searchController.text;
+    if (query == _lastSearchQuery) return;
 
     if (widget.onSearch != null) {
       if (_debounce?.isActive ?? false) _debounce!.cancel();
       _debounce = Timer(const Duration(milliseconds: 500), () {
+        _lastSearchQuery = query;
         widget.onSearch!(query);
       });
     }
@@ -99,74 +104,107 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
 
   @override
   Widget build(BuildContext context) {
+    final content = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (widget.header != null) ...[
+          widget.header!,
+          const SizedBox(height: 8),
+        ],
+        Row(
+          children: [
+            Expanded(
+              child: CustomTextField(
+                controller: _searchController,
+                labelText:
+                    widget.searchHint ?? AppLocalizations.of(context)!.search,
+                prefixIcon: const Icon(Icons.search),
+              ),
+            ),
+            if (widget.headerAction != null) ...[
+              const SizedBox(width: 8),
+              widget.headerAction!,
+            ],
+            if (widget.onCreate != null) ...[
+              const SizedBox(width: 8),
+              AppPremiumButton(
+                onPressed: widget.onCreate,
+                icon: Icons.add,
+                label: AppLocalizations.of(context)!.add,
+                isFullWidth: false,
+              ),
+            ],
+          ],
+        ),
+        if (widget.customFilters != null) ...[
+          const SizedBox(height: 8),
+          widget.customFilters!,
+        ],
+        const SizedBox(height: 8),
+        const Divider(),
+        const SizedBox(height: 8),
+        // Top loading indicator (for refresh/delete operations when items exist)
+        if (widget.isLoading && widget.items.isNotEmpty)
+          LinearProgressIndicator(
+            backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        // Main content
+        Expanded(child: _buildContent(context)),
+      ],
+    );
+
+    if (!widget.withScaffold) {
+      return content;
+    }
+
     return CustomScaffold(
       title: widget.title,
       bottom: widget.bottom,
-      floatingActionButton: widget.floatingActionButton,
-      child: Column(
-        children: [
-          // Search bar
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              border: Border(
-                bottom: BorderSide(color: Theme.of(context).dividerColor),
-              ),
-            ),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText:
-                    widget.searchHint ?? AppLocalizations.of(context)!.search,
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                filled: true,
-                fillColor: Theme.of(context).colorScheme.surfaceContainerLow,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-              ),
-            ),
-          ),
-          // Top loading indicator (for refresh/delete operations when items exist)
-          if (widget.isLoading && widget.items.isNotEmpty)
-            LinearProgressIndicator(
-              backgroundColor: Theme.of(
-                context,
-              ).colorScheme.surfaceContainerLow,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          // Custom filters
-          if (widget.customFilters != null) widget.customFilters!,
-          // Main content
-          Expanded(child: _buildContent(context)),
-        ],
-      ),
+      child: content,
     );
   }
 
   Widget _buildContent(BuildContext context) {
-    // Error state (only when no items to show)
-    if (widget.hasError && widget.items.isEmpty) {
-      return GlobalErrorWidget(
-        message: widget.errorMessage,
-        onRetry: widget.onRetry,
-      );
-    }
+    final onRefresh = widget.onRefresh;
 
     // Initial loading state (no items yet)
     if (widget.isLoading && widget.items.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
 
+    // Error state
+    if (widget.hasError && widget.items.isEmpty) {
+      final errorWidget = GlobalErrorWidget(
+        message: widget.errorMessage,
+        onRetry: widget.onRetry,
+        onCancel: widget.onCancel,
+        withScaffold: false,
+      );
+
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          if (onRefresh != null) {
+            return RefreshIndicator(
+              onRefresh: onRefresh,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
+                child: SizedBox(
+                  height: constraints.maxHeight,
+                  child: Center(child: errorWidget),
+                ),
+              ),
+            );
+          }
+          return Center(child: errorWidget);
+        },
+      );
+    }
+
     // Empty state
     if (widget.items.isEmpty) {
-      return Center(
+      final emptyWidget = Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -185,13 +223,33 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
           ],
         ),
       );
+
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          if (onRefresh != null) {
+            return RefreshIndicator(
+              onRefresh: onRefresh,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
+                child: SizedBox(
+                  height: constraints.maxHeight,
+                  child: emptyWidget,
+                ),
+              ),
+            );
+          }
+          return emptyWidget;
+        },
+      );
     }
 
     // Normal state with items
-    return RefreshIndicator(
-      onRefresh: widget.onRefresh ?? () async {},
-      child: widget.useGrid ? _buildGrid() : _buildList(),
-    );
+    final content = widget.useGrid ? _buildGrid() : _buildList();
+    if (onRefresh != null) {
+      return RefreshIndicator(onRefresh: onRefresh, child: content);
+    }
+    return content;
   }
 
   Widget _buildGrid() {
@@ -200,12 +258,7 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
     return ResponsiveGridBuilder(
       physics: const AlwaysScrollableScrollPhysics(),
       controller: _scrollController,
-      padding: const EdgeInsets.all(16),
       itemCount: widget.items.length + (showLoadingMore ? 1 : 0),
-      preferredItemHeight: widget.preferredItemHeight ?? 300,
-      maxColumns: widget.maxColumns,
-      mainAxisSpacing: widget.mainAxisSpacing,
-      crossAxisSpacing: widget.crossAxisSpacing,
       itemBuilder: (context, index) {
         if (index >= widget.items.length) {
           return const Center(
@@ -225,7 +278,7 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
 
     return ListView.separated(
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.zero,
       controller: _scrollController,
       itemCount: widget.items.length + (showLoadingMore ? 1 : 0),
       separatorBuilder: (context, index) => const SizedBox(height: 12),
@@ -240,66 +293,6 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
         }
         return widget.itemBuilder(context, widget.items[index]);
       },
-    );
-  }
-}
-
-class FilterChipsBar<T> extends StatelessWidget {
-  final List<T> values;
-  final T? selectedValue;
-  final String Function(T) labelBuilder;
-  final ValueChanged<T?> onSelected;
-  final String allLabel;
-
-  const FilterChipsBar({
-    super.key,
-    required this.values,
-    required this.selectedValue,
-    required this.labelBuilder,
-    required this.onSelected,
-    required this.allLabel,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            _buildChip(context, null, allLabel),
-            ...values.map(
-              (value) => _buildChip(context, value, labelBuilder(value)),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildChip(BuildContext context, T? value, String label) {
-    final isSelected = selectedValue == value;
-    return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: FilterChip(
-        label: Text(label),
-        selected: isSelected,
-        onSelected: (selected) {
-          if (selectedValue != value) {
-            onSelected(value);
-          }
-        },
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        selectedColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-        checkmarkColor: Theme.of(context).colorScheme.primary,
-        labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-          color: isSelected
-              ? Theme.of(context).colorScheme.primary
-              : Theme.of(context).colorScheme.onSurface,
-          fontWeight: FontWeight.normal,
-        ),
-      ),
     );
   }
 }

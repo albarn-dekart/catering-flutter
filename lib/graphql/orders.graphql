@@ -9,12 +9,20 @@ fragment OrderSummary on Order {
   restaurant {
     id
     name
+    email
+    phoneNumber
   }
   orderItems {
     edges {
       node {
         id
         quantity
+        mealPlanName
+        mealPlanPrice
+        mealPlanCalories
+        mealPlanProtein
+        mealPlanFat
+        mealPlanCarbs
         mealPlan {
           id
           name
@@ -23,10 +31,24 @@ fragment OrderSummary on Order {
           protein
           fat
           carbs
+          meals(first: 5) {
+            edges {
+              node {
+                id
+                name
+                price
+                calories
+                protein
+                fat
+                carbs
+              }
+            }
+          }
         }
       }
     }
   }
+  createdAt
   deliveries(order: [{deliveryDate: "ASC"}]) {
     edges {
       node {
@@ -54,8 +76,8 @@ fragment OrderDetails on Order {
   deliveryZipCode
 }
 
-query GetOrders($first: Int, $after: String, $status: String, $search: String) {
-  orders(first: $first, after: $after, status: $status, search: $search) {
+query GetOrders($first: Int, $after: String, $status: String, $search: String, $createdAt: [OrderFilter_createdAt]) {
+  orders(first: $first, after: $after, status: $status, search: $search, createdAt: $createdAt) {
     edges {
       node {
         ...OrderSummary
@@ -68,10 +90,10 @@ query GetOrders($first: Int, $after: String, $status: String, $search: String) {
   }
 }
 
-query GetOrdersByRestaurant($restaurantId: ID!, $first: Int, $after: String, $status: String, $search: String) {
+query GetOrdersByRestaurant($restaurantId: ID!, $first: Int, $after: String, $status: String, $search: String, $createdAt: [OrderFilter_createdAt]) {
   restaurant(id: $restaurantId) {
     id
-    orders(first: $first, after: $after, status: $status, search: $search) {
+    orders(first: $first, after: $after, status: $status, search: $search, createdAt: $createdAt) {
       edges {
         node {
           ...OrderSummary

@@ -40,8 +40,10 @@ class AppColors {
 }
 
 class AppTheme {
-  static const double _borderRadius = 16.0;
+  static const double _borderRadius = 14.0;
   static const double _cardRadius = 24.0;
+  static const double pagePaddingHorizontal = 16.0;
+  static const double pagePaddingVertical = 8.0;
 
   static ThemeData get lightTheme {
     final ColorScheme colorScheme = ColorScheme.fromSeed(
@@ -115,12 +117,12 @@ class AppTheme {
       bodyLarge: GoogleFonts.roboto(
         fontSize: 16,
         color: AppColors.textPrimary,
-        height: 1.5,
+        height: 1.2,
       ),
       bodyMedium: GoogleFonts.roboto(
         fontSize: 14,
         color: AppColors.textSecondary,
-        height: 1.5,
+        height: 1.2,
       ),
       bodySmall: GoogleFonts.roboto(
         fontSize: 12,
@@ -178,57 +180,85 @@ class AppTheme {
               backgroundColor: AppColors.primary,
               foregroundColor: AppColors.textOnPrimary,
               minimumSize: const Size(88, 48),
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(_borderRadius),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
+              shape: const StadiumBorder(),
+              textStyle: textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.1,
               ),
-              textStyle: textTheme.titleLarge,
+              iconSize: 20,
               elevation: 0,
             ).copyWith(
               elevation: WidgetStateProperty.resolveWith((states) {
-                if (states.contains(WidgetState.pressed)) return 0;
-                if (states.contains(WidgetState.hovered)) return 2;
-                return 0;
+                if (states.contains(WidgetState.pressed)) return 2;
+                if (states.contains(WidgetState.hovered)) return 6;
+                return 4;
               }),
+              shadowColor: WidgetStateProperty.all(
+                AppColors.primary.withValues(alpha: 0.35),
+              ),
             ),
       ),
 
       filledButtonTheme: FilledButtonThemeData(
-        style: FilledButton.styleFrom(
-          backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.textOnPrimary,
-          minimumSize: const Size(88, 48),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(_borderRadius),
-          ),
-          textStyle: textTheme.titleLarge,
-          elevation: 0,
-        ),
+        style:
+            FilledButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              foregroundColor: AppColors.textOnPrimary,
+              minimumSize: const Size(88, 48),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
+              shape: const StadiumBorder(),
+              textStyle: textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.1,
+              ),
+              iconSize: 20,
+              elevation: 0,
+            ).copyWith(
+              elevation: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.pressed)) return 2;
+                if (states.contains(WidgetState.hovered)) return 6;
+                return 4;
+              }),
+              shadowColor: WidgetStateProperty.all(
+                AppColors.primary.withValues(alpha: 0.35),
+              ),
+            ),
       ),
 
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primary,
           minimumSize: const Size(88, 48),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(_borderRadius),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
+          shape: const StadiumBorder(),
+          side: const BorderSide(color: AppColors.primary, width: 1.5),
+          textStyle: textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.1,
           ),
-          side: const BorderSide(color: AppColors.primary),
-          textStyle: textTheme.titleLarge,
+          iconSize: 20,
         ),
       ),
 
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primary,
-          minimumSize: const Size(64, 40),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(_borderRadius),
+          minimumSize: const Size(64, 48),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+          shape: const StadiumBorder(),
+          textStyle: textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w600,
           ),
-          textStyle: textTheme.titleLarge,
+          iconSize: 20,
+        ),
+      ),
+
+      iconButtonTheme: IconButtonThemeData(
+        style: IconButton.styleFrom(
+          minimumSize: const Size(48, 48),
+          padding: const EdgeInsets.all(8),
+          shape: const StadiumBorder(),
         ),
       ),
 
@@ -249,30 +279,49 @@ class AppTheme {
         filled: true,
         fillColor: AppColors.surface,
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 18,
+          horizontal: 24,
+          vertical: 16,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(_borderRadius),
+          borderRadius: BorderRadius.circular(100),
           borderSide: const BorderSide(color: AppColors.border),
+          gapPadding: 8,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(_borderRadius),
+          borderRadius: BorderRadius.circular(100),
           borderSide: const BorderSide(color: AppColors.border),
+          gapPadding: 8,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(_borderRadius),
+          borderRadius: BorderRadius.circular(100),
           borderSide: const BorderSide(color: AppColors.primary, width: 2),
+          gapPadding: 8,
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(_borderRadius),
+          borderRadius: BorderRadius.circular(100),
           borderSide: const BorderSide(color: AppColors.error),
+          gapPadding: 8,
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(100),
+          borderSide: const BorderSide(color: AppColors.error, width: 2),
+          gapPadding: 8,
         ),
         labelStyle: textTheme.bodyLarge?.copyWith(
           color: AppColors.textSecondary,
+          height: 1,
         ),
-        hintStyle: textTheme.bodyLarge?.copyWith(color: AppColors.textTertiary),
+        floatingLabelStyle: textTheme.bodyMedium?.copyWith(
+          color: AppColors.primary,
+          height: 1,
+          fontWeight: FontWeight.w600,
+        ),
+        hintStyle: textTheme.bodyLarge?.copyWith(
+          color: AppColors.textTertiary,
+          height: 1.2,
+        ),
         errorStyle: textTheme.bodySmall?.copyWith(color: AppColors.error),
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
       ),
 
       // Dialogs
@@ -300,17 +349,28 @@ class AppTheme {
 
       // Chips
       chipTheme: ChipThemeData(
-        backgroundColor: AppColors.background,
-        disabledColor: AppColors.background,
+        backgroundColor: AppColors.surface,
+        disabledColor: AppColors.divider.withValues(alpha: 0.5),
         selectedColor: AppColors.primary,
-        secondarySelectedColor: AppColors.secondary,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        labelStyle: textTheme.labelLarge,
-        secondaryLabelStyle: textTheme.labelLarge?.copyWith(
-          color: AppColors.surface,
+        secondarySelectedColor: AppColors.primary,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        labelStyle: textTheme.labelLarge?.copyWith(
+          color: AppColors.textPrimary,
+          fontWeight: FontWeight.w500,
         ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        side: const BorderSide(color: AppColors.border),
+        secondaryLabelStyle: textTheme.labelLarge?.copyWith(
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+        ),
+        shape: const StadiumBorder(),
+        side: BorderSide(
+          color: AppColors.primary.withValues(alpha: 0.1),
+          width: 1.5,
+        ),
+        showCheckmark: false,
+        elevation: 0,
+        pressElevation: 4,
+        shadowColor: AppColors.primary.withValues(alpha: 0.3),
       ),
 
       // List Tiles
@@ -358,7 +418,7 @@ class AppTheme {
       dividerTheme: const DividerThemeData(
         color: AppColors.divider,
         thickness: 1,
-        space: 24,
+        space: 16,
       ),
 
       // Date Picker

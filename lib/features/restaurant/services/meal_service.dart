@@ -92,14 +92,6 @@ class MealService extends ChangeNotifier {
     notifyListeners();
 
     try {
-      // Using fetchAllMeals strategy (global list) if _currentRestaurantIri is null, logic assumes global search context for now.
-      // Or strictly separated: we can introduce loadMoreMealsGlobal and loadMoreMealsByRestaurant.
-      // For simplicity reusing loadMore for both if we store context?
-      // But the previous implementation for loadMoreMeals took restaurantIri argument.
-      // Let's stick to the previous pattern: loadMoreMeals handles restaurant specific mostly.
-      // BUT wait, fetchAllMeals now has pagination, so we need a global loadMore.
-      // Let's create `loadMoreMealsGlobal`.
-
       final options = QueryOptions(
         document: documentNodeQueryGetMeals,
         variables: Variables$Query$GetMeals(
@@ -460,6 +452,10 @@ class MealService extends ChangeNotifier {
 
   void clearCurrentMeal() {
     _currentMeal = null;
+    clearError();
+  }
+
+  void clearError() {
     _errorMessage = null;
     notifyListeners();
   }

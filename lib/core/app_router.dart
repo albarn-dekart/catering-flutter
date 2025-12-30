@@ -121,7 +121,10 @@ class AppRouter {
           GoRoute(
             path: AppRoutes.restaurants,
             builder: (BuildContext context, GoRouterState state) {
-              return const RestaurantsScreen();
+              final intent = state.uri.queryParameters['intent'];
+              return RestaurantsScreen(
+                selectForMealPlan: intent == 'build_meal_plan',
+              );
             },
           ),
           GoRoute(
@@ -149,7 +152,8 @@ class AppRouter {
           GoRoute(
             path: AppRoutes.login,
             builder: (BuildContext context, GoRouterState state) {
-              return const LoginScreen();
+              final redirect = state.uri.queryParameters['redirect'];
+              return LoginScreen(redirectUrl: redirect);
             },
           ),
           GoRoute(
@@ -195,7 +199,9 @@ class AppRouter {
                 'restaurants',
                 state.uri.queryParameters['restaurantId']!,
               );
-              final mealPlanNode = state.extra as MealPlan?;
+              final mealPlanNode = state.extra is MealPlan
+                  ? state.extra as MealPlan
+                  : null;
               return RestaurantMealPlanFormScreen(
                 mealPlanId: mealPlanNode?.id,
                 restaurantIri: restaurantIri,
@@ -209,7 +215,7 @@ class AppRouter {
                 'restaurants',
                 state.uri.queryParameters['restaurantId']!,
               );
-              final mealNode = state.extra as Meal?;
+              final mealNode = state.extra is Meal ? state.extra as Meal : null;
               return RestaurantMealFormScreen(
                 mealId: mealNode?.id,
                 restaurantIri: restaurantIri,
@@ -257,7 +263,11 @@ class AppRouter {
                 'restaurants',
                 state.uri.queryParameters['restaurantId']!,
               );
+              final mealPlanNode = state.extra is MealPlan
+                  ? state.extra as MealPlan
+                  : null;
               return RestaurantMealPlanFormScreen(
+                mealPlanId: mealPlanNode?.id,
                 restaurantIri: restaurantIri,
                 isCustomer: true,
               );
@@ -325,7 +335,9 @@ class AppRouter {
                 state.uri.queryParameters['id']!,
               );
               // Extract the order data if passed via extra
-              final orderData = state.extra as OrderDetails?;
+              final orderData = state.extra is OrderDetails
+                  ? state.extra as OrderDetails
+                  : null;
               return OrderDetailScreen(
                 orderIri: orderIri,
                 initialOrderData: orderData,
@@ -343,7 +355,9 @@ class AppRouter {
           GoRoute(
             path: AppRoutes.addressForm,
             builder: (BuildContext context, GoRouterState state) {
-              final address = state.extra as Address?;
+              final address = state.extra is Address
+                  ? state.extra as Address
+                  : null;
               return AddressFormScreen(address: address);
             },
           ),

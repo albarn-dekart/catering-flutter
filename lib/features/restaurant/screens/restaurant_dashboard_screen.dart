@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:catering_flutter/core/widgets/app_premium_button.dart';
 import 'package:go_router/go_router.dart';
-import 'package:catering_flutter/core/utils/date_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:catering_flutter/core/app_theme.dart';
 import 'package:catering_flutter/core/app_router.dart';
@@ -15,11 +15,15 @@ import 'package:catering_flutter/core/widgets/dashboard_card.dart';
 import 'package:catering_flutter/core/widgets/charts/revenue_line_chart.dart';
 import 'package:catering_flutter/core/widgets/charts/daily_orders_chart.dart';
 import 'package:catering_flutter/core/widgets/charts/horizontal_bar_chart.dart';
+import 'package:catering_flutter/core/widgets/charts/order_status_pie_chart.dart';
+import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:catering_flutter/core/services/export_service.dart';
 import 'package:catering_flutter/core/widgets/stat_card.dart';
 import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:catering_flutter/core/utils/price_formatter.dart';
+import 'package:catering_flutter/core/widgets/easy_date_picker.dart';
+import 'package:catering_flutter/core/widgets/app_export_button.dart';
 
 class RestaurantDashboardScreen extends StatefulWidget {
   final String? restaurantIri;
@@ -35,19 +39,11 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
     with SingleTickerProviderStateMixin {
   bool _isExporting = false;
   late TabController _tabController;
-  int _currentTabIndex = 0;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    _tabController.addListener(() {
-      if (_tabController.indexIsChanging == false) {
-        setState(() {
-          _currentTabIndex = _tabController.index;
-        });
-      }
-    });
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (widget.restaurantIri != null) {
         await context.read<RestaurantService>().getRestaurantById(
@@ -74,8 +70,17 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
     });
   }
 
+  late StatisticsService _statisticsService;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _statisticsService = context.read<StatisticsService>();
+  }
+
   @override
   void dispose() {
+    _statisticsService.clearRestaurantStatistics();
     _tabController.dispose();
     super.dispose();
   }
@@ -96,42 +101,12 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
         ? restaurantService.errorMessage
         : userService.errorMessage;
 
-    final isNarrow = MediaQuery.of(context).size.width < 700;
-
-    // FAB only shown on statistics tab
-    Widget? fab;
-    if (_currentTabIndex == 0 && restaurant != null) {
-      fab = isNarrow
-          ? FloatingActionButton(
-              onPressed: _isExporting ? null : _exportStatistics,
-              tooltip: AppLocalizations.of(context)!.exportStatistics,
-              child: _isExporting
-                  ? const SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(Icons.download),
-            )
-          : FloatingActionButton.extended(
-              onPressed: _isExporting ? null : _exportStatistics,
-              icon: _isExporting
-                  ? const SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(Icons.download),
-              label: Text(AppLocalizations.of(context)!.exportStatistics),
-            );
-    }
-
     return CustomScaffold(
       title: AppLocalizations.of(context)!.restaurantDashboard,
-      floatingActionButton: fab,
       bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(48),
+        preferredSize: const Size.fromHeight(49),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             TabBar(
               controller: _tabController,
@@ -171,7 +146,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
                 ),
               ],
             ),
-            const Divider(height: 1, thickness: 1, indent: 0, endIndent: 0),
+            const Divider(),
           ],
         ),
       ),
@@ -185,6 +160,13 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
             return GlobalErrorWidget(
               message: errorMessage,
               onRetry: _refreshData,
+              onCancel: () {
+                if (widget.restaurantIri != null) {
+                  restaurantService.clearCurrentRestaurant();
+                } else {
+                  userService.clearError();
+                }
+              },
               withScaffold: false,
             );
           }
@@ -196,23 +178,34 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
                 children: [
                   Text(AppLocalizations.of(context)!.noRestaurantFound),
                   const SizedBox(height: 16),
-                  FilledButton(
+                  AppPremiumButton(
                     onPressed: () =>
                         context.push(AppRoutes.adminRestaurantCreate),
-                    child: Text(AppLocalizations.of(context)!.createRestaurant),
+                    icon: Icons.add,
+                    label: AppLocalizations.of(context)!.createRestaurant,
                   ),
                 ],
               ),
             );
           }
 
-          return TabBarView(
-            controller: _tabController,
-            children: [
-              _buildStatisticsTab(context, restaurant),
-              _buildOperationsTab(context, restaurant),
-              _buildMenuTab(context, restaurant),
-            ],
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              final isNarrow = constraints.maxWidth < 700;
+              return TabBarView(
+                controller: _tabController,
+                children: [
+                  _buildStatisticsTab(
+                    context,
+                    restaurant,
+                    constraints,
+                    isNarrow,
+                  ),
+                  _buildOperationsTab(context, restaurant),
+                  _buildMenuTab(context, restaurant),
+                ],
+              );
+            },
           );
         },
       ),
@@ -220,38 +213,6 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
   }
 
   DateTimeRange? _selectedDateRange;
-
-  Future<void> _selectDateRange(BuildContext context) async {
-    final DateTimeRange? picked = await showDateRangePicker(
-      context: context,
-      firstDate: DateTime(2020),
-      lastDate: DateTime.now(),
-      initialDateRange: _selectedDateRange,
-    );
-
-    if (picked != null && picked != _selectedDateRange) {
-      setState(() {
-        _selectedDateRange = picked;
-      });
-      if (!context.mounted) return;
-      if (widget.restaurantIri != null) {
-        await context.read<StatisticsService>().fetchRestaurantStatistics(
-          widget.restaurantIri!,
-          startDate: _selectedDateRange?.start,
-          endDate: _selectedDateRange?.end,
-        );
-      } else {
-        final userService = context.read<UserService>();
-        if (userService.currentUser?.ownedRestaurant != null) {
-          await context.read<StatisticsService>().fetchRestaurantStatistics(
-            userService.currentUser!.ownedRestaurant!.id,
-            startDate: _selectedDateRange?.start,
-            endDate: _selectedDateRange?.end,
-          );
-        }
-      }
-    }
-  }
 
   Future<void> _refreshData() async {
     if (widget.restaurantIri != null) {
@@ -278,250 +239,251 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
     }
   }
 
-  Widget _buildStatisticsTab(BuildContext context, dynamic restaurant) {
+  Widget _buildStatisticsTab(
+    BuildContext context,
+    dynamic restaurant,
+    BoxConstraints constraints,
+    bool isNarrow,
+  ) {
     final statisticsService = context.watch<StatisticsService>();
     final stats = statisticsService.restaurantStatistics;
 
-    // Build the complete layout with charts
+    if (statisticsService.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (statisticsService.hasError) {
+      return RefreshIndicator(
+        onRefresh: _refreshData,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: EdgeInsets.zero,
+          child: SizedBox(
+            height: constraints.maxHeight,
+            child: GlobalErrorWidget(
+              message: statisticsService.errorMessage,
+              onRetry: _refreshData,
+              onCancel: () => statisticsService.clearRestaurantStatistics(),
+              withScaffold: false,
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (stats == null) {
+      return RefreshIndicator(
+        onRefresh: _refreshData,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: EdgeInsets.zero,
+          child: SizedBox(
+            height: constraints.maxHeight,
+            child: Center(
+              child: Text(AppLocalizations.of(context)!.noStatisticsAvailable),
+            ),
+          ),
+        ),
+      );
+    }
+
+    List<Widget> buildOverviewCards() => [
+      StatCard(
+        title: AppLocalizations.of(context)!.totalClients,
+        value: '${stats.totalClients}',
+        icon: Icons.people_outline,
+        color: AppColors.primary,
+      ),
+      StatCard(
+        title: AppLocalizations.of(context)!.totalStatsMealPlans,
+        value: '${stats.totalMealPlans}',
+        icon: Icons.restaurant_menu,
+        color: AppColors.secondary,
+      ),
+    ];
+
+    List<Widget> buildSummaryCards() => [
+      StatCard(
+        title: AppLocalizations.of(context)!.totalRevenue,
+        value: stats.totalRevenue.toPln(),
+        icon: Icons.payments_outlined,
+        color: AppColors.success,
+      ),
+      StatCard(
+        title: AppLocalizations.of(context)!.totalOrders,
+        value: '${stats.totalOrders}',
+        icon: Icons.receipt_long_outlined,
+        color: AppColors.info,
+      ),
+      StatCard(
+        title: AppLocalizations.of(context)!.totalDeliveries,
+        value: '${stats.totalDeliveries}',
+        icon: Icons.local_shipping_outlined,
+        color: AppColors.warning,
+      ),
+      StatCard(
+        title: AppLocalizations.of(context)!.averageOrderValue,
+        value: stats.averageOrderValue.toPln(),
+        icon: Icons.trending_up,
+        color: AppColors.primaryLight,
+      ),
+      StatCard(
+        title: AppLocalizations.of(context)!.deliverySuccess,
+        value: '${stats.deliverySuccessRate.toStringAsFixed(1)}%',
+        icon: Icons.check_circle_outline,
+        color: AppColors.primary,
+      ),
+    ];
+
     return RefreshIndicator(
       onRefresh: _refreshData,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Date range header (styled like production screen)
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Card(
-                elevation: 0,
-                color: Theme.of(
-                  context,
-                ).colorScheme.primaryContainer.withValues(alpha: 0.5),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
-                  side: BorderSide(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.primary.withValues(alpha: 0.1),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.primary.withValues(alpha: 0.1),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.calendar_today_rounded,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)!.overview,
-                              style: Theme.of(context).textTheme.labelMedium
-                                  ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimaryContainer
-                                        .withValues(alpha: 0.7),
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              _selectedDateRange == null
-                                  ? AppLocalizations.of(context)!.last30Days
-                                  : '${AppDateFormatter.dayMonth(context, _selectedDateRange!.start)} - ${AppDateFormatter.dayMonthYear(context, _selectedDateRange!.end)}',
-                              style: Theme.of(context).textTheme.titleLarge
-                                  ?.copyWith(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onPrimaryContainer,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          FilledButton.icon(
-                            onPressed: () => _selectDateRange(context),
-                            icon: const Icon(
-                              Icons.date_range_rounded,
-                              size: 18,
-                            ),
-                            label: Text(AppLocalizations.of(context)!.change),
-                            style: FilledButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 12,
-                              ),
-                            ),
-                          ),
-                          if (_selectedDateRange != null) ...[
-                            const SizedBox(height: 8),
-                            TextButton.icon(
-                              onPressed: () async {
-                                setState(() {
-                                  _selectedDateRange = null;
-                                });
-                                await _refreshData();
-                              },
-                              icon: Icon(
-                                Icons.close,
-                                size: 18,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              label: Text(
-                                AppLocalizations.of(context)!.clearFilter,
-                                style: Theme.of(context).textTheme.labelLarge
-                                    ?.copyWith(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.primary,
-                                    ),
-                              ),
-                              style: TextButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 8,
-                                ),
-                                visualDensity: VisualDensity.compact,
-                              ),
-                            ),
-                          ],
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 8.0,
-              ),
+        padding: EdgeInsets.zero,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (stats != null) ...[
-                    ResponsiveGrid(
-                      preferredItemHeight: 100,
-                      maxColumns: 2,
-                      children: [
-                        StatCard(
-                          title: AppLocalizations.of(context)!.totalRevenue,
-                          value: stats.totalRevenue.toPln(),
-                          icon: Icons.payments_outlined,
-                          color: AppColors.success,
-                        ),
-                        StatCard(
-                          title: AppLocalizations.of(context)!.totalOrders,
-                          value: '${stats.totalOrders}',
-                          icon: Icons.receipt_long_outlined,
-                          color: AppColors.info,
-                        ),
-                        StatCard(
-                          title: AppLocalizations.of(context)!.activeOrders,
-                          value: '${stats.activeOrders}',
-                          icon: Icons.pending_actions_outlined,
-                          color: AppColors.warning,
-                        ),
-                        StatCard(
-                          title: AppLocalizations.of(context)!.deliverySuccess,
-                          value:
-                              '${stats.deliverySuccessRate.toStringAsFixed(1)}%',
-                          icon: Icons.check_circle_outline,
-                          color: AppColors.primary,
-                        ),
-                      ],
+                  // 1. Overview Section
+                  Text(
+                    AppLocalizations.of(context)!.overview,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 12),
+                  ResponsiveGrid(
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    maxColumns: 2,
+                    children: buildOverviewCards(),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                    child: Divider(),
+                  ),
+                  // 2. Summary Section
+                  Text(
+                    AppLocalizations.of(context)!.summary,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  // Date Filter
+                  EasyDatePicker(
+                    selectedDateRange: _selectedDateRange,
+                    onDateRangeChanged: (range) {
+                      setState(() {
+                        _selectedDateRange = range;
+                      });
+                      _refreshData();
+                    },
+                    headerAction: AppExportButton(
+                      onPressed: _exportData,
+                      isLoading: _isExporting,
                     ),
-                    const SizedBox(height: 24),
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        final isWide = constraints.maxWidth > 900;
-
-                        final revenueChart = RevenueLineChart(
-                          revenueTimeSeries: stats.revenueTimeSeries,
-                          title: AppLocalizations.of(
-                            context,
-                          )!.restaurantRevenue,
-                        );
-
-                        final dailyOrdersChart = DailyOrdersChart(
-                          dailyOrdersTimeSeries: stats.dailyOrdersTimeSeries,
-                        );
-
-                        final popularPlansChart = HorizontalBarChartWidget(
-                          data: stats.popularMealPlans
-                              .map(
-                                (mp) => MapEntry(
-                                  mp['name'] as String,
-                                  mp['orderCount'] as int,
-                                ),
-                              )
-                              .toList(),
-                          title: AppLocalizations.of(context)!.popularMealPlans,
-                          valueLabel: AppLocalizations.of(context)!.orders,
-                          barColor: Colors.pink,
-                        );
-
-                        if (isWide) {
-                          return Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    revenueChart,
-                                    const SizedBox(height: 16),
-                                    popularPlansChart,
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(child: dailyOrdersChart),
-                            ],
-                          );
-                        } else {
-                          return Column(
-                            children: [
-                              revenueChart,
-                              const SizedBox(height: 16),
-                              dailyOrdersChart,
-                              const SizedBox(height: 16),
-                              SizedBox(
-                                width: double.infinity,
-                                child: popularPlansChart,
-                              ),
-                            ],
-                          );
-                        }
-                      },
-                    ),
-                  ],
+                    isLoading: statisticsService.isLoading,
+                  ),
+                  const SizedBox(height: 12),
+                  // Summary Cards Grid
+                  ResponsiveGrid(
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    maxColumns: 3,
+                    children: buildSummaryCards(),
+                  ),
+                  // 3. Charts Section
+                  const SizedBox(height: 24),
+                  _buildCharts(context, stats, true),
                 ],
               ),
-            ),
-          ],
+            );
+          },
         ),
       ),
+    );
+  }
+
+  Widget _buildCharts(
+    BuildContext context,
+    RestaurantStatistics stats,
+    bool isWideParent,
+  ) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final effectiveWide = constraints.maxWidth > 900;
+
+        final revenueChart = RevenueLineChart(
+          revenueTimeSeries: stats.revenueTimeSeries,
+          title: AppLocalizations.of(context)!.restaurantRevenue,
+        );
+
+        final dailyOrdersChart = DailyOrdersChart(
+          dailyOrdersTimeSeries: stats.dailyOrdersTimeSeries,
+        );
+
+        final popularPlansChart = HorizontalBarChartWidget(
+          data: stats.popularMealPlans
+              .map(
+                (mp) => MapEntry(mp['name'] as String, mp['orderCount'] as int),
+              )
+              .toList(),
+          title: AppLocalizations.of(context)!.popularMealPlans,
+          valueLabel: AppLocalizations.of(context)!.orders,
+          barColor: Colors.pink,
+        );
+
+        final ordersByStatus = stats.ordersByStatus.map((key, value) {
+          try {
+            final status = Enum$OrderStatus.values.firstWhere(
+              (e) => e.name == key,
+            );
+            return MapEntry(status, value);
+          } catch (_) {
+            return MapEntry(Enum$OrderStatus.$unknown, value);
+          }
+        });
+        ordersByStatus.removeWhere(
+          (key, value) => key == Enum$OrderStatus.$unknown,
+        );
+
+        final pieChart = OrderStatusPieChart(ordersByStatus: ordersByStatus);
+
+        if (effectiveWide) {
+          return Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(child: revenueChart),
+                  const SizedBox(width: 16),
+                  Expanded(child: dailyOrdersChart),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(child: popularPlansChart),
+                  const SizedBox(width: 16),
+                  Expanded(child: pieChart),
+                ],
+              ),
+            ],
+          );
+        } else {
+          return Column(
+            children: [
+              revenueChart,
+              const SizedBox(height: 16),
+              dailyOrdersChart,
+              const SizedBox(height: 16),
+              popularPlansChart,
+              const SizedBox(height: 16),
+              pieChart,
+            ],
+          );
+        }
+      },
     );
   }
 
@@ -530,10 +492,8 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
       onRefresh: _refreshData,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.zero,
         child: ResponsiveGrid(
-          preferredItemHeight: 250,
-          padding: EdgeInsets.zero,
           children: [
             DashboardCard(
               title: AppLocalizations.of(context)!.manageOrders,
@@ -598,10 +558,8 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
       onRefresh: _refreshData,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.zero,
         child: ResponsiveGrid(
-          preferredItemHeight: 250,
-          padding: EdgeInsets.zero,
           children: [
             DashboardCard(
               title: AppLocalizations.of(context)!.restaurantDetails,
@@ -646,7 +604,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
     );
   }
 
-  Future<void> _exportStatistics() async {
+  Future<void> _exportData() async {
     setState(() {
       _isExporting = true;
     });
@@ -675,7 +633,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
 
         UIErrorHandler.showSnackBar(
           context,
-          AppLocalizations.of(context)!.statisticsExportSuccess,
+          AppLocalizations.of(context)!.exportSuccess,
           isError: false,
         );
       } else {
@@ -685,7 +643,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
       if (!mounted) return;
       UIErrorHandler.showSnackBar(
         context,
-        AppLocalizations.of(context)!.statisticsExportFailed(e.toString()),
+        AppLocalizations.of(context)!.exportFailed(e.toString()),
         isError: true,
       );
     } finally {

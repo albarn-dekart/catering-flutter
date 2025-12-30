@@ -35,20 +35,6 @@
       }
     }
   },
-  "@deliveryNumber": {
-    "placeholders": {
-      "number": {
-        "type": "String"
-      }
-    }
-  },
-  "@ordersCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "@piecesCount": {
     "placeholders": {
       "count": {
@@ -57,6 +43,13 @@
     }
   },
   "@quantity": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@showIncludedMeals": {
     "placeholders": {
       "count": {
         "type": "int"
@@ -76,6 +69,7 @@
   "activeOrders": "Active Orders",
   "add": "Add",
   "addAddress": "Add Address",
+  "address": "Address",
   "addAddressToGetStarted": "Add a new address to get started",
   "addMeal": "Add Meal",
   "addMealPlan": "Add Meal Plan",
@@ -87,10 +81,10 @@
   "adminDashboard": "Admin Dashboard",
   "advancedFilters": "Advanced Filters",
   "all": "All",
+  "allTime": "All Time",
   "allDeliveries": "All Deliveries ({count})",
   "apartmentOptional": "Apartment / Unit (Optional)",
   "appTitle": "Catering Service",
-  "apt": "Apt",
   "areYouSureYouWantToCancelThisOrder": "Are you sure you want to cancel this order?",
   "assignDriver": "Assign Driver",
   "assignRole": "Assign Role",
@@ -139,8 +133,7 @@
   "createRestaurant": "Create Restaurant",
   "customMealPlanPromoSubtitle": "Select a restaurant and create a meal plan that fits your diet logic.",
   "customMealPlanPromoTitle": "Build Your Perfect Meal Plan",
-  "customerLabel": "Customer:",
-  "customerName": "Customer: {name}",
+  "customerLabel": "Customer",
   "customers": "Customers",
   "dailyOrders": "Daily Orders",
   "daysCount": "{count} days",
@@ -156,15 +149,13 @@
   "deleteMealPlanConfirmation": "Are you sure you want to delete \"{name}\"?",
   "deleteRestaurant": "Delete Restaurant",
   "deleteRestaurantConfirmation": "Are you sure you want to delete \"{name}\"?",
-  "deliveriesExportFailed": "Failed to export deliveries: {error}",
-  "deliveriesExportedSuccess": "Deliveries exported successfully",
+  "delivery": "Delivery",
   "deliveryAddress": "Delivery Address",
   "deliveryDate": "Delivery Date",
   "deliveryDateWithDate": "Delivery Date: {date}",
   "deliveryDays": "Delivery Days",
   "deliveryDetails": "Delivery Details",
   "deliveryFee": "Delivery Fee",
-  "deliveryNumber": "Delivery #{number}",
   "deliveryPricePLN": "Delivery Price (PLN)",
   "deliverySchedule": "Delivery Schedule",
   "deliveryStatusUpdated": "Delivery status updated successfully",
@@ -176,7 +167,7 @@
   "discoverMessage": "Discover delicious meal plans from top restaurants",
   "done": "Done",
   "dontHaveAccount": "Don't have an account? ",
-  "downloadPlan": "Download Plan",
+  "driver": "Driver",
   "driverAssignFailed": "Failed to assign driver. Please retry.",
   "driverAssignedSuccess": "Driver assigned successfully.",
   "driverDashboard": "Driver Dashboard",
@@ -189,7 +180,7 @@
   "drivers": "Drivers",
   "edit": "Edit",
   "editAddress": "Edit Address",
-  "editCategory": "Edit {type} Category",
+  "editRestaurantCategory": "Edit Restaurant Category",
   "editDetails": "Edit Details",
   "editDietCategory": "Edit Diet Category",
   "editMeal": "Edit Meal",
@@ -201,10 +192,9 @@
   "errorServer": "Server error. Please try again later.",
   "errorTimeout": "Request timed out. The server is taking too long to respond.",
   "errorUnauthorized": "Session expired. Please log in again.",
-  "exportFailed": "Failed to export orders: {error}",
-  "exportStatistics": "Export Statistics",
-  "exportSuccess": "Orders exported successfully",
-  "exportToCsv": "Export to CSV",
+  "exportFailed": "Failed to export data: {error}",
+  "exportData": "Export Data",
+  "exportSuccess": "Data exported successfully",
   "failedToChangePassword": "Failed to change password",
   "failedToCreateCategory": "Failed to create category",
   "failedToDeleteCategory": "Failed to delete category",
@@ -219,6 +209,7 @@
   "fillAllFields": "Please fill in all fields",
   "finalTotal": "Final Total",
   "firstName": "First Name",
+  "hideIncludedMeals": "Hide Included Meals",
   "history": "History",
   "home": "Home",
   "imageUpdatedSuccess": "Image updated successfully!",
@@ -255,7 +246,6 @@
   "mealDeleteFailed": "Failed to delete meal",
   "mealDeleted": "Meal deleted successfully!",
   "mealName": "Meal Name",
-  "mealPlanCreated": "Meal Plan created",
   "mealPlanDeleteFailed": "Failed to delete meal plan",
   "mealPlanDeletedSuccess": "Meal Plan deleted successfully!",
   "mealPlanDetails": "Meal Plan Details",
@@ -301,17 +291,17 @@
   "ok": "OK",
   "oldPassword": "Old Password",
   "operations": "Operations",
-  "orderCreatedSuccessfully": "Order cancelled successfully",
+  "order": "Order",
+  "orderCancelledSuccessfully": "Order cancelled successfully",
+  "orderCreatedSuccessfully": "Order created successfully",
   "orderDetails": "Order Details",
   "orderDuration": "Order Duration",
   "orderItems": "Order Items",
   "orderNotFound": "Order not found",
-  "orderNumber": "Order #{number}",
   "orderProcessFailed": "Failed to process order. Please retry.",
   "orderStatusUpdated": "Order status updated successfully",
   "orders": "Orders",
   "ordersByStatus": "Orders by Status",
-  "ordersCount": "{count} orders",
   "overview": "Overview",
   "ownerEmail": "Owner Email",
   "ownerPassword": "Owner Password",
@@ -326,7 +316,6 @@
   "phoneNumber": "Phone Number",
   "pickUpOrder": "PICK UP ORDER",
   "piecesCount": "{count} pcs",
-  "planName": "Plan Name",
   "pleaseEnterCategoryName": "Please enter a category name",
   "pleaseEnterDescription": "Please enter a description",
   "pleaseEnterEmail": "Please enter an email",
@@ -375,7 +364,6 @@
   "saveChanges": "Save Changes",
   "saveMeal": "Save Meal",
   "saveMealPlan": "Save Meal Plan",
-  "savePlan": "Save Plan",
   "search": "Search...",
   "searchByOrderNumber": "Search by order number...",
   "searchCategories": "Search Categories",
@@ -398,13 +386,12 @@
   "selectedMeals": "Selected Meals",
   "selectedPeriod": "Selected Period",
   "setAsDefaultAddress": "Set as default address",
+  "showIncludedMeals": "Show Included Meals ({count})",
   "signInToContinue": "Please sign in to continue",
   "signUpToGetStarted": "Sign up to get started",
   "somethingWentWrong": "Something went wrong",
   "startBuilding": "Start Building",
   "statistics": "Statistics",
-  "statisticsExportFailed": "Failed to export statistics: {error}",
-  "statisticsExportSuccess": "Statistics exported successfully",
   "status": "Status",
   "statusActive": "Active",
   "statusAssigned": "Assigned",
@@ -436,12 +423,22 @@
   "updateSecurity": "Update Security",
   "updateSecurityDescription": "Enter your current password and a new one.",
   "userDeleted": "User deleted successfully",
-  "usersExportFailed": "Failed to export users: {error}",
-  "usersExported": "Users exported successfully",
   "viewAll": "View All",
   "viewMyPlans": "View My Plans",
   "welcomeBack": "Welcome Back",
   "yes": "Yes",
   "yourCartIsEmpty": "Your cart is empty",
-  "zipCode": "Zip Code"
+  "zipCode": "Zip Code",
+  "areYouSureYouWantToLogout": "Are you sure you want to logout?",
+  "defaultAddress": "Default Address",
+  "confirmDeleteAddress": "Are you sure you want to delete this address? This action cannot be undone.",
+  "deletedMealPlan": "Deleted Meal Plan",
+  "yesterday": "Yesterday",
+  "today": "Today",
+  "topRestaurants": "Top Restaurants",
+  "totalClients": "Total Clients",
+  "totalDeliveries": "Total Deliveries",
+  "totalStatsMealPlans": "Total Meal Plans",
+  "tomorrow": "Tomorrow",
+  "dailyProgress": "Daily Progress: {count}/{total}"
 }

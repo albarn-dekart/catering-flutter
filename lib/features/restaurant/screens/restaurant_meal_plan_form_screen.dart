@@ -6,15 +6,19 @@ import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
-import 'package:catering_flutter/core/widgets/macro_badge.dart';
+import 'package:catering_flutter/core/widgets/custom_text_field.dart';
+import 'package:catering_flutter/core/widgets/filter_chips_bar.dart';
+import 'package:catering_flutter/core/widgets/nutrient_row.dart';
 import 'package:catering_flutter/core/widgets/price_text.dart';
 import 'package:catering_flutter/features/restaurant/screens/restaurant_meals_screen.dart';
 import 'package:catering_flutter/features/restaurant/services/meal_plan_service.dart';
 import 'package:catering_flutter/features/restaurant/services/meal_service.dart';
+import 'package:catering_flutter/features/restaurant/services/diet_category_service.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:catering_flutter/core/widgets/app_premium_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -35,6 +39,7 @@ class RestaurantMealPlanFormScreen extends HookWidget {
     // Services
     final mealPlanService = context.watch<MealPlanService>();
     final mealService = context.read<MealService>();
+    final dietCategoryService = context.read<DietCategoryService>();
     final authService = context.read<AuthService>();
 
     // Form & Controllers
@@ -44,6 +49,7 @@ class RestaurantMealPlanFormScreen extends HookWidget {
 
     // State
     final selectedMeals = useState<List<Meal?>>(List.filled(5, null));
+    final selectedDietCategories = useState<List<DietCategory>>([]);
     final imageBytes = useState<Uint8List?>(null);
     final imageName = useState<String?>(null);
     final isSaving = useState(false);
@@ -54,6 +60,7 @@ class RestaurantMealPlanFormScreen extends HookWidget {
       Future.microtask(() async {
         mealPlanService.clearCurrentMealPlan();
         mealService.fetchMealsByRestaurant(restaurantIri);
+        dietCategoryService.getDietCategories();
 
         if (mealPlanId != null) {
           await mealPlanService.getMealPlanById(mealPlanId!);
@@ -81,11 +88,29 @@ class RestaurantMealPlanFormScreen extends HookWidget {
           }
           selectedMeals.value = newSelection;
         }
+
+        if (mealPlan.dietCategories?.edges != null) {
+          selectedDietCategories.value =
+              (mealPlan.dietCategories!.edges! as List)
+                  .map((e) => e?.node)
+                  .where((node) => node != null)
+                  .map<DietCategory>(
+                    (node) => DietCategory(
+                      id: node!.id,
+                      name: node.name,
+                      $__typename: 'DietCategory',
+                    ),
+                  )
+                  .toList();
+        } else {
+          selectedDietCategories.value = [];
+        }
       } else if (mealPlanId == null) {
         // Explicit create mode reset
         nameController.clear();
         descriptionController.clear();
         selectedMeals.value = List.filled(5, null);
+        selectedDietCategories.value = [];
       }
       return null;
     }, [mealPlanService.currentMealPlan]);
@@ -123,6 +148,10 @@ class RestaurantMealPlanFormScreen extends HookWidget {
           .map((m) => m.id)
           .toList();
 
+      final categoryIds = selectedDietCategories.value
+          .map((c) => c.id)
+          .toList();
+
       if (selectedIds.isEmpty) {
         if (context.mounted) {
           UIErrorHandler.showSnackBar(
@@ -149,6 +178,7 @@ class RestaurantMealPlanFormScreen extends HookWidget {
             name: nameController.text,
             description: descriptionController.text,
             mealIds: selectedIds,
+            categoryIds: categoryIds,
             ownerIri: isCustomer ? authService.userIri : null,
           );
           savedMealPlanId.value = currentId;
@@ -159,6 +189,7 @@ class RestaurantMealPlanFormScreen extends HookWidget {
             name: nameController.text,
             description: descriptionController.text,
             mealIds: selectedIds,
+            categoryIds: categoryIds,
           );
         }
 
@@ -180,9 +211,7 @@ class RestaurantMealPlanFormScreen extends HookWidget {
           if (imageUploadFailed) {
             message = AppLocalizations.of(context)!.mealPlanSavedImageFailed;
           } else {
-            message = isCustomer
-                ? AppLocalizations.of(context)!.mealPlanCreated
-                : AppLocalizations.of(context)!.mealPlanSavedSuccess;
+            message = AppLocalizations.of(context)!.mealPlanSavedSuccess;
           }
 
           UIErrorHandler.showSnackBar(
@@ -213,29 +242,6 @@ class RestaurantMealPlanFormScreen extends HookWidget {
     // Stale Data Guard
     final isCreateMode = mealPlanId == null;
 
-    // Guard: Create Mode but we have a non-null currentMealPlan (stale)
-    if (isCreateMode && mealPlanService.currentMealPlan != null) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    // Guard: Normal Edit Error
-    if (mealPlanService.hasError && mealPlanService.currentMealPlan == null) {
-      return GlobalErrorWidget(
-        message: mealPlanService.errorMessage,
-        onRetry: () => mealPlanService.getMealPlanById(mealPlanId!),
-      );
-    }
-
-    // Guard: Edit Mode but loading generic
-    if (mealPlanService.isLoading &&
-        !isCreateMode &&
-        mealPlanService.currentMealPlan == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    final isLoading = mealPlanService.isLoading || isSaving.value;
-    final currentMealPlan = mealPlanService.currentMealPlan;
-
     // Title
     String title = isCreateMode
         ? AppLocalizations.of(context)!.createMealPlan
@@ -244,11 +250,44 @@ class RestaurantMealPlanFormScreen extends HookWidget {
       title = AppLocalizations.of(context)!.createCustomPlan;
     }
 
+    // Guard: Create Mode but we have a non-null currentMealPlan (stale)
+    if (isCreateMode && mealPlanService.currentMealPlan != null) {
+      return CustomScaffold(
+        title: title,
+        child: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    // Guard: Normal Edit Error
+    if (mealPlanService.hasError && mealPlanService.currentMealPlan == null) {
+      return GlobalErrorWidget(
+        message: mealPlanService.errorMessage,
+        onRetry: () => mealPlanService.getMealPlanById(mealPlanId!),
+        onCancel: () {
+          mealPlanService.clearError();
+          context.pop();
+        },
+      );
+    }
+
+    // Guard: Edit Mode but loading generic
+    if (mealPlanService.isLoading &&
+        !isCreateMode &&
+        mealPlanService.currentMealPlan == null) {
+      return CustomScaffold(
+        title: title,
+        child: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    final isLoading = mealPlanService.isLoading || isSaving.value;
+    final currentMealPlan = mealPlanService.currentMealPlan;
+
     return CustomScaffold(
       title: title,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.zero,
         child: Form(
           key: formKey,
           child: Column(
@@ -267,17 +306,15 @@ class RestaurantMealPlanFormScreen extends HookWidget {
                       : null,
                 ),
                 const SizedBox(height: 16),
+              ] else ...[
+                const SizedBox(height: 4),
               ],
 
               // Name
-              TextFormField(
+              CustomTextField(
                 controller: nameController,
-                decoration: InputDecoration(
-                  labelText: isCustomer
-                      ? AppLocalizations.of(context)!.planName
-                      : AppLocalizations.of(context)!.mealPlanName,
-                  border: const OutlineInputBorder(),
-                ),
+                labelText: AppLocalizations.of(context)!.mealPlanName,
+                hintText: AppLocalizations.of(context)!.mealPlanName,
                 validator: (v) => v?.isEmpty ?? true
                     ? AppLocalizations.of(context)!.pleaseEnterName
                     : null,
@@ -285,15 +322,24 @@ class RestaurantMealPlanFormScreen extends HookWidget {
               const SizedBox(height: 16),
 
               // Description
-              TextFormField(
+              CustomTextField(
                 controller: descriptionController,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)!.description,
-                  border: const OutlineInputBorder(),
-                ),
+                labelText: AppLocalizations.of(context)!.description,
+                hintText: AppLocalizations.of(context)!.description,
                 maxLines: 3,
               ),
               const SizedBox(height: 24),
+
+              // Categories
+              if (!isCustomer) ...[
+                Text(
+                  AppLocalizations.of(context)!.categories,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 8),
+                _buildDietCategories(context, selectedDietCategories),
+                const SizedBox(height: 24),
+              ],
 
               // Meals
               Text(
@@ -316,10 +362,12 @@ class RestaurantMealPlanFormScreen extends HookWidget {
                       final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (ctx) => RestaurantMealsScreen(
-                            restaurantIri: restaurantIri,
-                            isSelectionMode: true,
-                          ),
+                          builder: (ctx) {
+                            return RestaurantMealsScreen(
+                              restaurantIri: restaurantIri,
+                              isSelectionMode: true,
+                            );
+                          },
                         ),
                       );
                       if (result != null && result is Meal) {
@@ -331,7 +379,7 @@ class RestaurantMealPlanFormScreen extends HookWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.surface,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(24),
                         border: Border.all(
                           color: Theme.of(context).colorScheme.outline,
                           style: isSelected
@@ -384,45 +432,19 @@ class RestaurantMealPlanFormScreen extends HookWidget {
                                             ),
                                             PriceText(
                                               priceGroszy: meal.price,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleMedium
-                                                  ?.copyWith(
-                                                    color: Theme.of(
-                                                      context,
-                                                    ).colorScheme.primary,
-                                                  ),
+                                              style: PriceText.standardStyle(
+                                                context,
+                                              ),
                                             ),
                                           ],
                                         ),
                                         const SizedBox(height: 4),
-                                        Wrap(
-                                          spacing: 4,
-                                          runSpacing: 4,
-                                          children: [
-                                            MacroBadge(
-                                              text:
-                                                  '${AppLocalizations.of(context)!.calories}: ${meal.calories.toStringAsFixed(0)}',
-                                              icon: Icons
-                                                  .local_fire_department_outlined,
-                                            ),
-                                            MacroBadge(
-                                              text:
-                                                  '${AppLocalizations.of(context)!.protein}: ${meal.protein.toStringAsFixed(1)}g',
-                                              icon:
-                                                  Icons.fitness_center_outlined,
-                                            ),
-                                            MacroBadge(
-                                              text:
-                                                  '${AppLocalizations.of(context)!.fat}: ${meal.fat.toStringAsFixed(1)}g',
-                                              icon: Icons.water_drop_outlined,
-                                            ),
-                                            MacroBadge(
-                                              text:
-                                                  '${AppLocalizations.of(context)!.carbs}: ${meal.carbs.toStringAsFixed(1)}g',
-                                              icon: Icons.grain_outlined,
-                                            ),
-                                          ],
+                                        NutrientRow(
+                                          calories: meal.calories,
+                                          protein: meal.protein,
+                                          fat: meal.fat,
+                                          carbs: meal.carbs,
+                                          compact: true,
                                         ),
                                       ],
                                     ),
@@ -447,7 +469,7 @@ class RestaurantMealPlanFormScreen extends HookWidget {
                                 color: Theme.of(
                                   context,
                                 ).colorScheme.surfaceContainerHighest,
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(24),
                                 border: Border.all(
                                   color: Theme.of(
                                     context,
@@ -465,7 +487,7 @@ class RestaurantMealPlanFormScreen extends HookWidget {
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
-                                    '${AppLocalizations.of(context)!.selectMeal} ${index + 1}',
+                                    '${AppLocalizations.of(context)!.addMeal} ${index + 1}',
                                     style: Theme.of(context).textTheme.bodyLarge
                                         ?.copyWith(
                                           color: Theme.of(
@@ -481,14 +503,13 @@ class RestaurantMealPlanFormScreen extends HookWidget {
                   );
                 },
               ),
-              const SizedBox(height: 24),
-
+              const SizedBox(height: 16),
               // Summary
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surfaceContainer,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(24),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -525,31 +546,20 @@ class RestaurantMealPlanFormScreen extends HookWidget {
                       null,
                       widgetValue: PriceText.fromDouble(
                         priceGroszy: totalPrice,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.bodyMedium?.copyWith(),
+                        style: PriceText.standardStyle(context),
                       ),
+
                       isBold: true,
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
-
-              // Save Button
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : FilledButton(
-                        onPressed: saveMealPlan,
-                        child: Text(
-                          isCustomer
-                              ? AppLocalizations.of(context)!.savePlan
-                              : AppLocalizations.of(context)!.saveMealPlan,
-                        ),
-                      ),
+              const SizedBox(height: 16),
+              AppPremiumButton(
+                onPressed: saveMealPlan,
+                label: AppLocalizations.of(context)!.saveMealPlan,
+                isLoading: isLoading,
+                icon: Icons.save,
               ),
             ],
           ),
@@ -587,6 +597,35 @@ class RestaurantMealPlanFormScreen extends HookWidget {
     );
   }
 
+  Widget _buildDietCategories(
+    BuildContext context,
+    ValueNotifier<List<DietCategory>> selectedCategories,
+  ) {
+    final categoryService = context.read<DietCategoryService>();
+    final allCategories = categoryService.dietCategories;
+
+    if (allCategories.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Text(
+          AppLocalizations.of(context)!.noCategoriesAvailable,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: Theme.of(context).colorScheme.outline,
+          ),
+        ),
+      );
+    }
+
+    return FilterChipsBar<DietCategory>(
+      values: allCategories,
+      selectedValues: selectedCategories.value,
+      onSelectedList: (items) {
+        selectedCategories.value = items;
+      },
+      labelBuilder: (category) => category.name,
+    );
+  }
+
   Widget _buildImagePicker(
     BuildContext context,
     ValueNotifier<Uint8List?> imageBytes,
@@ -602,19 +641,19 @@ class RestaurantMealPlanFormScreen extends HookWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(24),
         ),
         child: Stack(
           fit: StackFit.expand,
           children: [
             if (imageBytes.value != null)
               ClipRRect(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(24),
                 child: Image.memory(imageBytes.value!, fit: BoxFit.cover),
               )
             else if (currentImageUrl != null)
               ClipRRect(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(24),
                 child: CustomCachedImage(
                   imageUrl: currentImageUrl,
                   fit: BoxFit.cover,

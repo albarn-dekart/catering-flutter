@@ -392,6 +392,10 @@ class RestaurantService extends ChangeNotifier {
 
   void clearCurrentRestaurant() {
     _currentRestaurant = null;
+    clearError();
+  }
+
+  void clearError() {
     _errorMessage = null;
     notifyListeners();
   }

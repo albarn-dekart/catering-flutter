@@ -1,10 +1,10 @@
 import 'package:catering_flutter/core/services/api_service.dart';
+import 'package:catering_flutter/core/widgets/app_card.dart';
 import 'package:flutter/material.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:catering_flutter/core/app_router.dart';
-import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
 import 'package:catering_flutter/features/order/services/order_service.dart';
@@ -13,9 +13,13 @@ import 'package:catering_flutter/core/utils/status_extensions.dart';
 import 'package:catering_flutter/core/services/export_service.dart';
 import 'package:catering_flutter/core/services/auth_service.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
-import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:catering_flutter/core/widgets/searchable_list_screen.dart';
+import 'package:catering_flutter/core/widgets/filter_chips_bar.dart';
 import 'package:catering_flutter/core/widgets/price_text.dart';
+import 'package:catering_flutter/core/widgets/app_export_button.dart';
+import 'package:catering_flutter/core/widgets/icon_badge.dart';
+import 'package:catering_flutter/core/widgets/easy_date_picker.dart';
+import 'package:catering_flutter/core/utils/date_formatter.dart';
 
 class OrderListScreen extends StatefulWidget {
   final String? restaurantIri;
@@ -29,29 +33,35 @@ class OrderListScreen extends StatefulWidget {
 class _OrderListScreenState extends State<OrderListScreen> {
   Enum$OrderStatus? _selectedStatusFilter;
   bool _isExporting = false;
-  final ScrollController _scrollController = ScrollController();
+  DateTimeRange? _selectedDateRange;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+    if (widget.restaurantIri != null) {
+      final now = DateTime.now();
+      _selectedDateRange = DateTimeRange(
+        start: DateTime(now.year, now.month, now.day),
+        end: DateTime(now.year, now.month, now.day),
+      );
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _fetchOrders();
     });
   }
 
-  Future<void> _fetchOrders() async {
+  Future<void> _fetchOrders({String? searchQuery}) async {
     final authService = context.read<AuthService>();
     final orderService = context.read<OrderService>();
 
     if (widget.restaurantIri != null) {
-      // Restaurant Owner View
       await orderService.fetchRestaurantOrders(
         widget.restaurantIri!,
         status: _selectedStatusFilter,
+        searchQuery: searchQuery,
+        dateRange: _selectedDateRange,
       );
     } else {
-      // Customer View
       final userIri = authService.userIri;
       if (userIri != null) {
         await orderService.getMyOrders(userIri, status: _selectedStatusFilter);
@@ -59,60 +69,94 @@ class _OrderListScreenState extends State<OrderListScreen> {
     }
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
+  bool get _showProgressSummary {
+    if (_selectedDateRange == null) return false;
+    return _selectedDateRange!.start.year == _selectedDateRange!.end.year &&
+        _selectedDateRange!.start.month == _selectedDateRange!.end.month &&
+        _selectedDateRange!.start.day == _selectedDateRange!.end.day;
   }
 
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      final service = context.read<OrderService>();
-      if (!service.isLoading &&
-          !service.isFetchingMore &&
-          service.hasNextPage) {
-        service.loadMoreOrders();
-      }
-    }
+  Widget _buildProgressSummary(List<Order> filteredItems) {
+    // Basic count summary
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Text(
+        AppLocalizations.of(context)!.summary + ': ${filteredItems.length}',
+        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+          color: Theme.of(context).colorScheme.primary,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final isNarrow = MediaQuery.of(context).size.width < 700;
     final isRestaurantView = widget.restaurantIri != null;
 
-    return CustomScaffold(
-      title: isRestaurantView
-          ? AppLocalizations.of(context)!.manageOrders
-          : AppLocalizations.of(context)!.orders,
-      floatingActionButton: isNarrow
-          ? FloatingActionButton(
-              onPressed: _isExporting ? null : _exportOrders,
-              tooltip: AppLocalizations.of(context)!.exportToCsv,
-              child: _isExporting
-                  ? const SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(Icons.download),
-            )
-          : FloatingActionButton.extended(
-              onPressed: _isExporting ? null : _exportOrders,
-              icon: _isExporting
-                  ? const SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(Icons.download),
-              label: Text(AppLocalizations.of(context)!.exportToCsv),
-            ),
-      child: Column(
-        children: [
-          // Status filter chips
-          FilterChipsBar<Enum$OrderStatus>(
+    return Consumer2<OrderService, PaymentService>(
+      builder: (context, orderService, paymentService, child) {
+        if (paymentService.checkoutSessionCreated) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            paymentService.redirectToStripeCheckout(
+              apiKey: ApiService.stripePubKey,
+              sessionId: paymentService.checkoutSessionId!,
+            );
+            paymentService.clearCheckoutSessionStatus();
+          });
+        } else if (paymentService.hasError) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            UIErrorHandler.showSnackBar(context, paymentService.errorMessage!);
+            paymentService.clearCheckoutSessionStatus();
+          });
+        }
+
+        // Server-side filtering: use orders directly
+        final displayedOrders = orderService.orders;
+
+        return SearchableListScreen<Order>(
+          title: isRestaurantView
+              ? AppLocalizations.of(context)!.manageOrders
+              : AppLocalizations.of(context)!.orders,
+          items: displayedOrders,
+          isLoading: orderService.isLoading,
+          isLoadingMore: orderService.isFetchingMore,
+          hasError: orderService.hasError,
+          errorMessage: orderService.errorMessage,
+          onRetry: _fetchOrders,
+          onRefresh: _fetchOrders,
+          onLoadMore: () => orderService.loadMoreOrders(),
+          onSearch: (query) {
+            _fetchOrders(searchQuery: query);
+          },
+          searchHint: AppLocalizations.of(context)!.searchByOrderNumber,
+          headerAction: isRestaurantView
+              ? AppExportButton(
+                  onPressed: _exportOrders,
+                  isLoading: _isExporting,
+                )
+              : null,
+          header: isRestaurantView
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (_showProgressSummary)
+                      _buildProgressSummary(displayedOrders),
+                    EasyDatePicker(
+                      selectedDateRange: _selectedDateRange,
+                      onDateRangeChanged: (range) {
+                        setState(() {
+                          _selectedDateRange = range;
+                        });
+                        _fetchOrders(); // Server-side filtering
+                      },
+                      isLoading: orderService.isLoading,
+                    ),
+                  ],
+                )
+              : null,
+          customFilters: FilterChipsBar<Enum$OrderStatus>(
             values: Enum$OrderStatus.values
                 .where((status) => status != Enum$OrderStatus.$unknown)
                 .toList(),
@@ -128,254 +172,129 @@ class _OrderListScreenState extends State<OrderListScreen> {
               }
             },
           ),
-          Expanded(
-            child: Consumer2<OrderService, PaymentService>(
-              builder: (context, orderService, paymentService, child) {
-                if (paymentService.checkoutSessionCreated) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    paymentService.redirectToStripeCheckout(
-                      apiKey: ApiService.stripePubKey,
-                      sessionId: paymentService.checkoutSessionId!,
-                    );
-                    paymentService.clearCheckoutSessionStatus();
-                  });
-                } else if (paymentService.hasError) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    UIErrorHandler.showSnackBar(
-                      context,
-                      paymentService.errorMessage!,
-                    );
-                    paymentService.clearCheckoutSessionStatus();
-                  });
-                }
-
-                if (orderService.isLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (orderService.hasError) {
-                  return GlobalErrorWidget(
-                    message: orderService.errorMessage,
-                    onRetry: _fetchOrders,
-                    withScaffold: false,
+          itemBuilder: (context, order) {
+            final theme = Theme.of(context);
+            return AppCard(
+              child: InkWell(
+                onTap: () {
+                  context.push(
+                    Uri(
+                      path: AppRoutes.orderDetail,
+                      queryParameters: {'id': IriHelper.getId(order.id)},
+                    ).toString(),
                   );
-                } else if (orderService.orders.isEmpty) {
-                  return Center(
-                    child: Text(AppLocalizations.of(context)!.noOrders),
-                  );
-                } else {
-                  // Backend filtering is now used, so allOrders contains the filtered result
-                  final filteredOrders = orderService.orders;
-
-                  if (filteredOrders.isEmpty) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.filter_alt_off,
-                            size: 64,
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurface.withValues(alpha: 77),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            _selectedStatusFilter != null
-                                ? AppLocalizations.of(
-                                    context,
-                                  )!.noOrdersWithStatus(
-                                    _selectedStatusFilter!.getLabel(context),
-                                  )
-                                : AppLocalizations.of(context)!.noOrders,
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(
-                                  color: Theme.of(context).colorScheme.onSurface
-                                      .withValues(alpha: 153),
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primaryContainer,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.receipt_long,
+                          color: theme.colorScheme.primary,
+                          size: 24,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context)!.order,
+                                  style: theme.textTheme.titleLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                          ),
-                          if (_selectedStatusFilter != null) ...[
-                            const SizedBox(height: 8),
-                            TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  _selectedStatusFilter = null;
-                                });
-                                _fetchOrders();
-                              },
-                              child: Text(
-                                AppLocalizations.of(context)!.clearFilter,
+                                const SizedBox(width: 8),
+                                IconBadge(
+                                  text: IriHelper.getId(order.id),
+                                  icon: Icons.tag,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              isRestaurantView
+                                  ? (order.customer?.email ?? 'Unknown')
+                                  : (order.restaurant?.name ??
+                                        AppLocalizations.of(
+                                          context,
+                                        )!.unknownRestaurant),
+                              style: theme.textTheme.bodyLarge?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.calendar_today,
+                                  size: 14,
+                                  color: theme.colorScheme.onSurfaceVariant,
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  AppDateFormatter.fullDate(
+                                    context,
+                                    DateTime.parse(order.createdAt),
+                                  ),
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: theme.colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
-                        ],
+                        ),
                       ),
-                    );
-                  }
-
-                  return RefreshIndicator(
-                    onRefresh: _fetchOrders,
-                    child: ListView.separated(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      controller: _scrollController,
-                      padding: const EdgeInsets.all(16),
-                      itemCount:
-                          filteredOrders.length +
-                          (orderService.isFetchingMore ? 1 : 0),
-                      separatorBuilder: (_, a) => const SizedBox(height: 12),
-                      itemBuilder: (context, index) {
-                        if (index >= filteredOrders.length) {
-                          return const Center(
-                            child: Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: CircularProgressIndicator(),
+                      const SizedBox(width: 12),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
                             ),
-                          );
-                        }
-                        final order = filteredOrders[index];
-
-                        return Card(
-                          elevation: 2,
-                          clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              context.push(
-                                Uri(
-                                  path: AppRoutes.orderDetail,
-                                  queryParameters: {
-                                    'id': IriHelper.getId(order.id),
-                                  },
-                                ).toString(),
-                              );
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.primaryContainer,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Icon(
-                                          Icons.receipt_long,
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.primary,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 16),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              AppLocalizations.of(
-                                                context,
-                                              )!.orderNumber(
-                                                IriHelper.getId(order.id),
-                                              ),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleLarge
-                                                  ?.copyWith(
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                            ),
-                                            const SizedBox(height: 4),
-                                            Text(
-                                              isRestaurantView
-                                                  ? (order.customer?.email ??
-                                                        'Unknown')
-                                                  : (order.restaurant?.name ??
-                                                        AppLocalizations.of(
-                                                          context,
-                                                        )!.unknownRestaurant),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium
-                                                  ?.copyWith(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onSurfaceVariant,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Icon(
-                                        Icons.chevron_right,
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.onSurfaceVariant,
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 16),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 12,
-                                          vertical: 6,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: order.status.containerColor,
-                                          borderRadius: BorderRadius.circular(
-                                            8,
-                                          ),
-                                        ),
-                                        child: Text(
-                                          order.status.getLabel(context),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelMedium
-                                              ?.copyWith(
-                                                color: order
-                                                    .status
-                                                    .onContainerColor,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                        ),
-                                      ),
-                                      PriceText(
-                                        priceGroszy: order.total,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium
-                                            ?.copyWith(
-                                              fontWeight: FontWeight.bold,
-                                              color: Theme.of(
-                                                context,
-                                              ).colorScheme.primary,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                            decoration: BoxDecoration(
+                              color: order.status.containerColor,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              order.status.getLabel(context),
+                              style: theme.textTheme.labelMedium?.copyWith(
+                                color: order.status.onContainerColor,
+                                fontWeight: FontWeight.normal,
                               ),
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  );
-                }
-              },
-            ),
-          ),
-        ],
-      ),
+                          const SizedBox(height: 16),
+                          PriceText(
+                            priceGroszy: order.total,
+                            style: PriceText.standardStyle(context),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 

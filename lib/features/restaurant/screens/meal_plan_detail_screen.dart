@@ -1,15 +1,23 @@
+import 'package:catering_flutter/core/widgets/app_card.dart';
+import 'package:catering_flutter/core/widgets/app_premium_button.dart';
 import 'package:catering_flutter/core/widgets/global_error_widget.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catering_flutter/features/restaurant/services/meal_plan_service.dart';
 import 'package:catering_flutter/features/order/services/cart_service.dart';
 import 'package:catering_flutter/core/services/auth_service.dart';
+import 'package:catering_flutter/core/app_router.dart';
+import 'package:catering_flutter/core/utils/iri_helper.dart';
+import 'package:go_router/go_router.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
-import 'package:catering_flutter/core/widgets/macro_badge.dart';
+import 'package:catering_flutter/core/widgets/nutrient_row.dart';
 import 'package:catering_flutter/core/widgets/price_text.dart';
+import 'package:catering_flutter/core/widgets/meal_card.dart';
+import 'package:catering_flutter/core/widgets/responsive_grid.dart';
 
 class MealPlanDetailScreen extends StatefulWidget {
   final String mealPlanIri;
@@ -42,11 +50,30 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
             return const Center(child: CircularProgressIndicator());
           } else if (mealPlanService.hasError &&
               mealPlanService.currentMealPlan == null) {
-            return GlobalErrorWidget(
-              message: mealPlanService.errorMessage,
-              onRetry: () =>
+            return RefreshIndicator(
+              onRefresh: () =>
                   mealPlanService.getMealPlanById(widget.mealPlanIri),
-              withScaffold: false,
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: EdgeInsets.zero,
+                    child: SizedBox(
+                      height: constraints.maxHeight,
+                      child: GlobalErrorWidget(
+                        message: mealPlanService.errorMessage,
+                        onRetry: () =>
+                            mealPlanService.getMealPlanById(widget.mealPlanIri),
+                        onCancel: () {
+                          mealPlanService.clearError();
+                          context.pop();
+                        },
+                        withScaffold: false,
+                      ),
+                    ),
+                  );
+                },
+              ),
             );
           } else if (mealPlanService.currentMealPlan != null) {
             final mealPlan = mealPlanService.currentMealPlan!;
@@ -63,6 +90,7 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
                     },
                     child: SingleChildScrollView(
                       physics: const AlwaysScrollableScrollPhysics(),
+                      padding: EdgeInsets.zero,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -115,15 +143,7 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
                                     ),
                                     PriceText(
                                       priceGroszy: mealPlan.price!,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge
-                                          ?.copyWith(
-                                            color: Theme.of(
-                                              context,
-                                            ).colorScheme.primary,
-                                            fontWeight: FontWeight.normal,
-                                          ),
+                                      style: PriceText.standardStyle(context),
                                     ),
                                   ],
                                 ),
@@ -156,32 +176,12 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
                                   ],
                                 ),
                                 const SizedBox(height: 12),
-                                Wrap(
-                                  spacing: 8,
-                                  runSpacing: 4,
-                                  children: [
-                                    MacroBadge(
-                                      text:
-                                          '${AppLocalizations.of(context)!.calories}: ${mealPlan.calories?.toStringAsFixed(0)}',
-                                      icon:
-                                          Icons.local_fire_department_outlined,
-                                    ),
-                                    MacroBadge(
-                                      text:
-                                          '${AppLocalizations.of(context)!.protein}: ${mealPlan.protein?.toStringAsFixed(1)}g',
-                                      icon: Icons.fitness_center_outlined,
-                                    ),
-                                    MacroBadge(
-                                      text:
-                                          '${AppLocalizations.of(context)!.fat}: ${mealPlan.fat?.toStringAsFixed(1)}g',
-                                      icon: Icons.water_drop_outlined,
-                                    ),
-                                    MacroBadge(
-                                      text:
-                                          '${AppLocalizations.of(context)!.carbs}: ${mealPlan.carbs?.toStringAsFixed(1)}g',
-                                      icon: Icons.grain_outlined,
-                                    ),
-                                  ],
+                                NutrientRow(
+                                  calories: mealPlan.calories,
+                                  protein: mealPlan.protein,
+                                  fat: mealPlan.fat,
+                                  carbs: mealPlan.carbs,
+                                  compact: false,
                                 ),
                                 const SizedBox(height: 32),
                                 Text(
@@ -190,13 +190,33 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
                                       ?.copyWith(fontWeight: FontWeight.normal),
                                 ),
                                 const SizedBox(height: 16),
-                                // Handle GraphQL meals structure
-                                ...(mealPlan.meals?.edges?.map((edge) {
-                                      final meal = edge?.node;
-                                      if (meal == null) return const SizedBox();
-                                      return _buildMealCard(context, meal);
-                                    }).whereType<Widget>() ??
-                                    []),
+                                // Handle GraphQL meals structure with ResponsiveGrid
+                                if (mealPlan.meals?.edges != null &&
+                                    mealPlan.meals!.edges!.isNotEmpty)
+                                  ResponsiveGrid(
+                                    maxColumns: 1,
+                                    children: mealPlan.meals!.edges!
+                                        .where((edge) => edge?.node != null)
+                                        .map((edge) {
+                                          final meal = edge!.node!;
+                                          return MealCard(
+                                            name: meal.name,
+                                            imageUrl: meal.imageUrl,
+                                            description: meal.description,
+                                            priceGroszy:
+                                                (meal.price as num? ?? 0)
+                                                    .toDouble(),
+                                            calories: (meal.calories as num?)
+                                                ?.toDouble(),
+                                            protein: (meal.protein as num?)
+                                                ?.toDouble(),
+                                            fat: (meal.fat as num?)?.toDouble(),
+                                            carbs: (meal.carbs as num?)
+                                                ?.toDouble(),
+                                          );
+                                        })
+                                        .toList(),
+                                  ),
                               ],
                             ),
                           ),
@@ -208,28 +228,25 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
                 // Add to Cart button at the bottom
                 if ((isCustomer || !authService.isAuthenticated) &&
                     restaurantIri != null)
-                  Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.1),
-                          blurRadius: 8,
-                          offset: const Offset(0, -2),
-                        ),
-                      ],
-                    ),
+                  AppCard(
+                    padding: const EdgeInsets.all(16),
                     child: SafeArea(
                       child: SizedBox(
                         width: double.infinity,
-                        child: FilledButton.icon(
+                        child: AppPremiumButton(
                           onPressed: () {
                             if (!authService.isAuthenticated) {
-                              UIErrorHandler.showSnackBar(
-                                context,
-                                AppLocalizations.of(context)!.signInToContinue,
-                                isError: false,
+                              final currentPath = Uri(
+                                path: AppRoutes.mealPlanDetails,
+                                queryParameters: {
+                                  'id': IriHelper.getId(widget.mealPlanIri),
+                                },
+                              ).toString();
+                              context.go(
+                                Uri(
+                                  path: AppRoutes.login,
+                                  queryParameters: {'redirect': currentPath},
+                                ).toString(),
                               );
                               return;
                             }
@@ -251,13 +268,14 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
                                     )!.clearCartMessage,
                                   ), // Ensure this key exists
                                   actions: [
-                                    TextButton(
+                                    TextButton.icon(
                                       onPressed: () => Navigator.pop(context),
-                                      child: Text(
+                                      icon: const Icon(Icons.close),
+                                      label: Text(
                                         AppLocalizations.of(context)!.cancel,
                                       ),
                                     ),
-                                    TextButton(
+                                    TextButton.icon(
                                       onPressed: () {
                                         Navigator.pop(context);
                                         cartService.clearCart();
@@ -278,7 +296,10 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
                                           );
                                         }
                                       },
-                                      child: Text(
+                                      icon: const Icon(
+                                        Icons.shopping_cart_checkout,
+                                      ),
+                                      label: Text(
                                         AppLocalizations.of(
                                           context,
                                         )!.clearAndAdd,
@@ -304,11 +325,8 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
                               isError: false,
                             );
                           },
-                          icon: const Icon(Icons.add_shopping_cart),
-                          label: Text(AppLocalizations.of(context)!.addToCart),
-                          style: FilledButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                          ),
+                          icon: Icons.add_shopping_cart,
+                          label: AppLocalizations.of(context)!.addToCart,
                         ),
                       ),
                     ),
@@ -316,97 +334,25 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
               ],
             );
           }
-          return Center(
-            child: Text(AppLocalizations.of(context)!.noMealPlanData),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildMealCard(BuildContext context, dynamic meal) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      elevation: 2,
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (meal.imageUrl != null && meal.imageUrl!.isNotEmpty)
-            SizedBox(
-              height: 150,
-              width: double.infinity,
-              child: CustomCachedImage(
-                imageUrl: meal.imageUrl,
-                fit: BoxFit.cover,
-              ),
-            ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        meal.name,
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    PriceText(
-                      priceGroszy: meal.price!,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                if (meal.description != null &&
-                    meal.description!.isNotEmpty) ...[
-                  const SizedBox(height: 8),
-                  Text(
-                    meal.description!,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+          return RefreshIndicator(
+            onRefresh: () =>
+                mealPlanService.getMealPlanById(widget.mealPlanIri),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  child: SizedBox(
+                    height: constraints.maxHeight,
+                    child: Center(
+                      child: Text(AppLocalizations.of(context)!.noMealPlanData),
                     ),
                   ),
-                ],
-                const SizedBox(height: 16),
-                Wrap(
-                  spacing: 16,
-                  runSpacing: 8,
-                  children: [
-                    MacroBadge(
-                      text:
-                          '${AppLocalizations.of(context)!.calories}: ${meal.calories.toStringAsFixed(1)}',
-                      icon: Icons.local_fire_department_outlined,
-                    ),
-                    MacroBadge(
-                      text:
-                          '${AppLocalizations.of(context)!.protein}: ${meal.protein.toStringAsFixed(1)}g',
-                      icon: Icons.fitness_center_outlined,
-                    ),
-                    MacroBadge(
-                      text:
-                          '${AppLocalizations.of(context)!.fat}: ${meal.fat.toStringAsFixed(1)}g',
-                      icon: Icons.water_drop_outlined,
-                    ),
-                    MacroBadge(
-                      text:
-                          '${AppLocalizations.of(context)!.carbs}: ${meal.carbs.toStringAsFixed(1)}g',
-                      icon: Icons.grain_outlined,
-                    ),
-                  ],
-                ),
-              ],
+                );
+              },
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

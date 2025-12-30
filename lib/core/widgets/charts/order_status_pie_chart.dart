@@ -1,3 +1,4 @@
+import 'package:catering_flutter/core/widgets/app_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
@@ -28,9 +29,10 @@ class _OrderStatusPieChartState extends State<OrderStatusPieChart> {
         widget.title ?? AppLocalizations.of(context)!.ordersByStatus;
 
     if (widget.ordersByStatus.isEmpty) {
-      return Card(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
+      return SizedBox(
+        width: double.infinity,
+        child: AppCard(
+          padding: EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -45,36 +47,10 @@ class _OrderStatusPieChartState extends State<OrderStatusPieChart> {
 
     final totalOrders = widget.ordersByStatus.values.reduce((a, b) => a + b);
 
-    final sections = widget.ordersByStatus.entries.toList().asMap().entries.map(
-      (entry) {
-        final index = entry.key;
-        final dataEntry = entry.value;
-        final isTouched = index == touchedIndex;
-        final fontSize = isTouched ? 16.0 : 14.0;
-        final radius = isTouched ? 110.0 : 100.0;
-        final percentage = (dataEntry.value / totalOrders) * 100;
-
-        return PieChartSectionData(
-          color: dataEntry.key.chartColor,
-          value: dataEntry.value.toDouble(),
-          title: isTouched
-              ? '${dataEntry.key.getLabel(context)}\n${dataEntry.value}'
-              : '${percentage.toStringAsFixed(1)}%',
-          radius: radius,
-          titlePositionPercentageOffset: 0.6,
-          titleStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
-            fontSize: fontSize,
-            fontWeight: FontWeight.normal,
-            color: Colors.white,
-            shadows: const [Shadow(color: Colors.black, blurRadius: 2)],
-          ),
-        );
-      },
-    ).toList();
-
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
+    return SizedBox(
+      width: double.infinity,
+      child: AppCard(
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -87,12 +63,54 @@ class _OrderStatusPieChartState extends State<OrderStatusPieChart> {
             const SizedBox(height: 24),
             LayoutBuilder(
               builder: (context, constraints) {
-                final isWide = constraints.maxWidth > 500;
+                final isWide = constraints.maxWidth > 375;
+                final double availableWidth = isWide
+                    ? (constraints.maxWidth * 2 / 3) - 12
+                    : constraints.maxWidth;
+
+                final double baseRadius = (availableWidth / 2.2).clamp(
+                  0.0,
+                  115.0,
+                );
+
+                final sections = widget.ordersByStatus.entries
+                    .toList()
+                    .asMap()
+                    .entries
+                    .map((entry) {
+                      final index = entry.key;
+                      final dataEntry = entry.value;
+                      final isTouched = index == touchedIndex;
+                      final fontSize = isTouched ? 16.0 : 14.0;
+                      final radius = isTouched ? baseRadius + 10 : baseRadius;
+                      final percentage = (dataEntry.value / totalOrders) * 100;
+
+                      return PieChartSectionData(
+                        color: dataEntry.key.chartColor,
+                        value: dataEntry.value.toDouble(),
+                        title: isTouched
+                            ? '${dataEntry.key.getLabel(context)}\n${dataEntry.value}'
+                            : '${percentage.toStringAsFixed(1)}%',
+                        radius: radius,
+                        titlePositionPercentageOffset: 0.6,
+                        titleStyle: Theme.of(context).textTheme.labelSmall
+                            ?.copyWith(
+                              fontSize: fontSize,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.white,
+                              shadows: const [
+                                Shadow(color: Colors.black, blurRadius: 2),
+                              ],
+                            ),
+                      );
+                    })
+                    .toList();
+
                 if (isWide) {
                   return Row(
                     children: [
                       Expanded(
-                        flex: 3,
+                        flex: 2,
                         child: SizedBox(
                           height: 250,
                           child: PieChart(
@@ -123,9 +141,9 @@ class _OrderStatusPieChartState extends State<OrderStatusPieChart> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 24),
+                      const SizedBox(width: 12),
                       Expanded(
-                        flex: 2,
+                        flex: 1,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,

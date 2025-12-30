@@ -29,6 +29,7 @@ class AdminDietCategoriesScreen extends StatelessWidget {
             hasError: service.hasError,
             errorMessage: service.errorMessage,
             onRetry: () => service.getDietCategories(),
+            onCancel: () => service.clearError(),
           );
         },
       ),

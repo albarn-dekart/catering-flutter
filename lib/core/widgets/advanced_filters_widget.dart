@@ -1,3 +1,4 @@
+import 'package:catering_flutter/core/widgets/app_card.dart';
 import 'package:flutter/material.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 
@@ -100,79 +101,74 @@ class AdvancedFiltersWidget extends StatelessWidget {
       );
     }
 
-    return Card(
-      elevation: 0,
+    return AppCard(
+      padding: const EdgeInsets.all(16),
       color: Theme.of(context).colorScheme.surfaceContainerLow,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            // Price is usually important, keep it full width or top
-            buildSlider(
-              label: AppLocalizations.of(context)!.priceRange,
-              currentRange: priceRange,
-              max: maxPrice,
-              onChanged: onPriceChanged,
-              badgeUnit: 'PLN',
-              step: 1,
-            ),
-            const SizedBox(height: 8),
-            // Grid for Macros
-            Row(
-              children: [
-                Expanded(
-                  child: buildSlider(
-                    label: AppLocalizations.of(context)!.caloriesRange,
-                    currentRange: calorieRange,
-                    max: maxCalories,
-                    onChanged: onCaloriesChanged,
-                    badgeUnit: 'kcal',
-                    step: 50,
-                  ),
+      child: Column(
+        children: [
+          // Price is usually important, keep it full width or top
+          buildSlider(
+            label: AppLocalizations.of(context)!.priceRange,
+            currentRange: priceRange,
+            max: maxPrice,
+            onChanged: onPriceChanged,
+            badgeUnit: 'PLN',
+            step: 1,
+          ),
+          const SizedBox(height: 8),
+          // Grid for Macros
+          Row(
+            children: [
+              Expanded(
+                child: buildSlider(
+                  label: AppLocalizations.of(context)!.caloriesRange,
+                  currentRange: calorieRange,
+                  max: maxCalories,
+                  onChanged: onCaloriesChanged,
+                  badgeUnit: 'kcal',
+                  step: 50,
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: buildSlider(
-                    label: AppLocalizations.of(context)!.proteinRange,
-                    currentRange: proteinRange,
-                    max: maxProtein,
-                    onChanged: onProteinChanged,
-                    badgeUnit: 'g',
-                    step: 5,
-                  ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: buildSlider(
+                  label: AppLocalizations.of(context)!.proteinRange,
+                  currentRange: proteinRange,
+                  max: maxProtein,
+                  onChanged: onProteinChanged,
+                  badgeUnit: 'g',
+                  step: 5,
                 ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Expanded(
-                  child: buildSlider(
-                    label: AppLocalizations.of(context)!.fatRange,
-                    currentRange: fatRange,
-                    max: maxFat,
-                    onChanged: onFatChanged,
-                    badgeUnit: 'g',
-                    step: 5,
-                  ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: buildSlider(
+                  label: AppLocalizations.of(context)!.fatRange,
+                  currentRange: fatRange,
+                  max: maxFat,
+                  onChanged: onFatChanged,
+                  badgeUnit: 'g',
+                  step: 5,
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: buildSlider(
-                    label: AppLocalizations.of(context)!.carbsRange,
-                    currentRange: carbRange,
-                    max: maxCarbs,
-                    onChanged: onCarbsChanged,
-                    badgeUnit: 'g',
-                    step: 5,
-                  ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: buildSlider(
+                  label: AppLocalizations.of(context)!.carbsRange,
+                  currentRange: carbRange,
+                  max: maxCarbs,
+                  onChanged: onCarbsChanged,
+                  badgeUnit: 'g',
+                  step: 5,
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

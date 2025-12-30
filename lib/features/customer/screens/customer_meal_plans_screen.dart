@@ -3,11 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:catering_flutter/core/app_router.dart';
 import 'package:catering_flutter/features/restaurant/services/meal_plan_service.dart';
+import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
 import 'package:catering_flutter/core/widgets/searchable_list_screen.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:catering_flutter/core/services/auth_service.dart';
-import 'package:catering_flutter/core/widgets/meal_plan_card.dart';
+import 'package:catering_flutter/core/widgets/meal_card.dart';
+import 'package:catering_flutter/core/widgets/card_action_buttons.dart';
 
 class CustomerMealPlansScreen extends StatefulWidget {
   const CustomerMealPlansScreen({super.key});
@@ -31,7 +33,6 @@ class _CustomerMealPlansScreenState extends State<CustomerMealPlansScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isNarrow = MediaQuery.of(context).size.width < 700;
     return Consumer<MealPlanService>(
       builder: (context, mealPlanService, child) {
         return SearchableListScreen(
@@ -62,34 +63,77 @@ class _CustomerMealPlansScreenState extends State<CustomerMealPlansScreen> {
               await mealPlanService.fetchMyCustomMealPlans(userIri);
             }
           },
-          floatingActionButton: isNarrow
-              ? FloatingActionButton(
-                  onPressed: () {
-                    context.push(AppRoutes.restaurants);
-                  },
-                  tooltip: AppLocalizations.of(context)!.createCustomPlan,
-                  child: const Icon(Icons.add),
-                )
-              : FloatingActionButton.extended(
-                  onPressed: () {
-                    context.push(AppRoutes.restaurants);
-                  },
-                  icon: const Icon(Icons.add),
-                  label: Text(AppLocalizations.of(context)!.createCustomPlan),
-                ),
+          onCreate: () =>
+              context.push('${AppRoutes.restaurants}?intent=build_meal_plan'),
           useGrid: true,
-          preferredItemHeight: 350,
+
           itemBuilder: (context, mealPlan) {
-            return MealPlanCard(
+            return MealCard(
               id: mealPlan.id,
               name: mealPlan.name,
+              description: mealPlan.description,
               imageUrl: mealPlan.imageUrl,
               restaurantName: mealPlan.restaurant?.name,
-              price: (mealPlan.price ?? 0).toDouble(),
+              priceGroszy: (mealPlan.price ?? 0).toDouble(),
+              priceSuffix: AppLocalizations.of(context)!.perDay,
+
               calories: mealPlan.calories?.toDouble(),
               protein: mealPlan.protein?.toDouble(),
               fat: mealPlan.fat?.toDouble(),
               carbs: mealPlan.carbs?.toDouble(),
+              dietCategories: mealPlan.dietCategories?.edges
+                  ?.map((e) => e?.node?.name)
+                  .whereType<String>()
+                  .toList(),
+              actions: CardActionButtons(
+                onEdit: mealPlan.restaurant?.id != null
+                    ? () {
+                        context.push(
+                          Uri(
+                            path: AppRoutes.customMealPlanBuilder,
+                            queryParameters: {
+                              'restaurantId': IriHelper.getId(
+                                mealPlan.restaurant!.id,
+                              ),
+                            },
+                          ).toString(),
+                          extra: mealPlan,
+                        );
+                      }
+                    : null,
+                onDelete: () async {
+                  final confirmed = await DeleteConfirmationDialog.show(
+                    context: context,
+                    title: AppLocalizations.of(context)!.deleteMealPlan,
+                    message: AppLocalizations.of(
+                      context,
+                    )!.deleteMealPlanConfirmation(mealPlan.name),
+                  );
+
+                  if (confirmed && context.mounted) {
+                    try {
+                      await mealPlanService.deleteMealPlan(mealPlan.id);
+                      if (context.mounted) {
+                        UIErrorHandler.showSnackBar(
+                          context,
+                          AppLocalizations.of(context)!.mealPlanDeletedSuccess,
+                          isError: false,
+                        );
+                      }
+                    } catch (e) {
+                      if (context.mounted) {
+                        UIErrorHandler.handleError(
+                          context,
+                          e,
+                          customMessage: AppLocalizations.of(
+                            context,
+                          )!.mealPlanDeleteFailed,
+                        );
+                      }
+                    }
+                  }
+                },
+              ),
               onTap: () {
                 context.push(
                   Uri(

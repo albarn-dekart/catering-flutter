@@ -41,18 +41,23 @@ class UIErrorHandler {
     }
 
     // Handle string representation if it contains certain technical terms
-    final errorString = exception.toString();
-    if (errorString.contains('TimeoutException')) {
-      return localizations?.errorTimeout ?? 'Request timed out.';
+    final errorString = exception.toString().toLowerCase();
+    if (errorString.contains('timeoutexception') ||
+        errorString.contains('timeout') ||
+        errorString.contains('no stream event')) {
+      return localizations?.errorTimeout ??
+          'Request timed out. The server is taking too long to respond.';
     }
-    if (errorString.contains('SocketException')) {
-      return localizations?.errorNetwork ?? 'Network error.';
+    if (errorString.contains('socketexception') ||
+        errorString.contains('connection refused')) {
+      return localizations?.errorNetwork ??
+          'Network error. Please check your connection.';
     }
 
     if (localizations != null) {
-      return localizations.unexpectedError(errorString);
+      return localizations.unexpectedError(exception.toString());
     }
-    return 'An unexpected error occurred: $errorString';
+    return 'An unexpected error occurred: ${exception.toString()}';
   }
 
   static void handleError(
@@ -98,9 +103,10 @@ class UIErrorHandler {
         title: Text(title),
         content: Text(message),
         actions: [
-          TextButton(
+          TextButton.icon(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text(AppLocalizations.of(context)!.ok),
+            icon: const Icon(Icons.check),
+            label: Text(AppLocalizations.of(context)!.ok),
           ),
         ],
       ),

@@ -6,38 +6,60 @@ import 'package:catering_flutter/core/services/auth_service.dart';
 import 'package:catering_flutter/core/app_router.dart';
 import 'package:catering_flutter/features/order/services/cart_service.dart';
 import 'package:catering_flutter/core/providers/language_provider.dart';
+import 'package:catering_flutter/core/app_theme.dart';
+import 'package:catering_flutter/core/widgets/logout_dialog.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 
 class CustomScaffold extends StatelessWidget {
   final Widget child;
   final String? title;
-  final PreferredSizeWidget? bottom; // New parameter
-  final Widget? floatingActionButton;
+  final PreferredSizeWidget? bottom;
+  final bool usePagePadding;
 
   const CustomScaffold({
     required this.child,
     this.title,
     this.bottom,
-    this.floatingActionButton,
+    this.usePagePadding = true,
     super.key,
   });
 
   @override
   Widget build(BuildContext innerContext) {
-    // Only try to get path from GoRouter if we don't have a title
-    // GoRouterState.of() can hang when using Navigator.push, so we avoid it when possible
-    String location = '';
-    try {
-      location = GoRouterState.of(innerContext).matchedLocation;
-    } catch (_) {
-      location = ModalRoute.of(innerContext)?.settings.name ?? '';
+    // Only try to get path from ModalRoute to avoid GoRouterState deadlocks
+    final String fullLocation =
+        ModalRoute.of(innerContext)?.settings.name ?? '';
+    final String cleanPath = fullLocation.split('?').first;
+    final String displayTitle = title ?? cleanPath;
+
+    final authService = Provider.of<AuthService>(innerContext, listen: false);
+    final bool isAdmin = authService.hasRole('ROLE_ADMIN');
+    final bool isRestaurant = authService.hasRole('ROLE_RESTAURANT');
+    final bool isDriver = authService.hasRole('ROLE_DRIVER');
+
+    bool isUserRoot = false;
+    if (cleanPath == AppRoutes.home) {
+      isUserRoot = true;
+    } else if (cleanPath == AppRoutes.adminDashboard && isAdmin) {
+      isUserRoot = true;
+    } else if (cleanPath == AppRoutes.restaurantDashboard && isRestaurant) {
+      isUserRoot = true;
+    } else if (cleanPath == AppRoutes.driverDashboard && isDriver) {
+      isUserRoot = true;
     }
 
-    String displayTitle = title ?? location;
+    final canPopGoRouter = innerContext.canPop();
+    final canPopNavigator = Navigator.of(innerContext).canPop();
+    final canPop = canPopGoRouter || canPopNavigator;
+
+    // Show leading if it's not the user's root OR if we have history to go back to
+    bool shouldShowLeading = !isUserRoot || canPop;
 
     return Scaffold(
       backgroundColor: Theme.of(innerContext).colorScheme.surface,
       appBar: AppBar(
+        titleSpacing: shouldShowLeading ? 0 : AppTheme.pagePaddingHorizontal,
+        automaticallyImplyLeading: false,
         title: Text(
           displayTitle,
           style: Theme.of(innerContext).textTheme.titleLarge?.copyWith(
@@ -45,56 +67,44 @@ class CustomScaffold extends StatelessWidget {
             letterSpacing: -0.5,
           ),
         ),
-        leading: Builder(
-          builder: (BuildContext ctx) {
-            // Check if we're at a root route by path instead of display title
-            final isRoot = [
-              AppRoutes.home,
-              AppRoutes.adminDashboard,
-              AppRoutes.restaurantDashboard,
-              AppRoutes.driverDashboard,
-            ].contains(location);
-
-            // If we are at home or a root screen, don't show any leading icon
-            if (isRoot) {
-              return const SizedBox.shrink();
-            }
-
-            // Priority 1: go_router pop (declarative back)
-            if (ctx.canPop()) {
-              return IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new_rounded),
+        leading: shouldShowLeading
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back_ios_new),
                 onPressed: () {
-                  try {
-                    ctx.pop();
-                  } catch (_) {
-                    ctx.go(AppRoutes.home);
+                  if (canPopGoRouter) {
+                    try {
+                      innerContext.pop();
+                    } catch (_) {
+                      innerContext.go(AppRoutes.home);
+                    }
+                  } else if (canPopNavigator) {
+                    Navigator.of(innerContext).maybePop();
+                  } else {
+                    // Logical "Up" fallback (e.g., after a refresh)
+                    // Go to the user's dashboard if they are in a sub-path of it
+                    if (isAdmin && cleanPath.startsWith('/admin/')) {
+                      innerContext.go(AppRoutes.adminDashboard);
+                    } else if (isRestaurant &&
+                        cleanPath.startsWith('/restaurant/')) {
+                      innerContext.go(AppRoutes.restaurantDashboard);
+                    } else if (isDriver && cleanPath.startsWith('/driver/')) {
+                      innerContext.go(AppRoutes.driverDashboard);
+                    } else if (cleanPath.startsWith('/restaurant/')) {
+                      // Admin visiting restaurant pages fallback
+                      innerContext.go(AppRoutes.adminDashboard);
+                    } else {
+                      innerContext.go(AppRoutes.home);
+                    }
                   }
                 },
-              );
-            }
-
-            // Priority 2: native pop (useful for dialogs/bottom sheets)
-            if (Navigator.of(ctx).canPop()) {
-              return IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                onPressed: () => Navigator.of(ctx).maybePop(),
-              );
-            }
-
-            // Fallback: Home button if no history is available
-            return IconButton(
-              icon: const Icon(Icons.home_rounded),
-              onPressed: () => ctx.go(AppRoutes.home),
-            );
-          },
-        ),
+              )
+            : null,
         bottom: bottom,
         actions: [
           Consumer<LanguageProvider>(
             builder: (context, languageProvider, child) {
               return PopupMenuButton<String>(
-                icon: const Icon(Icons.translate_rounded),
+                icon: const Icon(Icons.translate),
                 tooltip: AppLocalizations.of(context)!.selectLanguage,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24),
@@ -147,8 +157,14 @@ class CustomScaffold extends StatelessWidget {
                         if (value == 'profile') {
                           context.push(AppRoutes.profile);
                         } else if (value == 'logout') {
-                          authService.logout();
-                          context.go(AppRoutes.login);
+                          LogoutConfirmationDialog.show(context).then((
+                            confirmed,
+                          ) {
+                            if (confirmed && context.mounted) {
+                              authService.logout();
+                              context.go(AppRoutes.login);
+                            }
+                          });
                         }
                       },
                       itemBuilder: (BuildContext ctx) =>
@@ -191,10 +207,7 @@ class CustomScaffold extends StatelessWidget {
                               value: 'profile',
                               child: Row(
                                 children: [
-                                  const Icon(
-                                    Icons.person_outline_rounded,
-                                    size: 20,
-                                  ),
+                                  const Icon(Icons.person_outline, size: 20),
                                   const SizedBox(width: 12),
                                   Text(AppLocalizations.of(ctx)!.profile),
                                 ],
@@ -205,7 +218,7 @@ class CustomScaffold extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Icon(
-                                    Icons.logout_rounded,
+                                    Icons.logout,
                                     size: 20,
                                     color: Theme.of(ctx).colorScheme.error,
                                   ),
@@ -227,14 +240,14 @@ class CustomScaffold extends StatelessWidget {
                   ],
                 );
               } else {
-                final isLoginPage = location == AppRoutes.login;
+                final isLoginPage = cleanPath == AppRoutes.login;
                 if (isLoginPage) return const SizedBox.shrink();
 
                 return Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: TextButton.icon(
                     onPressed: () => context.go(AppRoutes.login),
-                    icon: const Icon(Icons.login_rounded),
+                    icon: const Icon(Icons.login),
                     label: Text(
                       AppLocalizations.of(context)!.login,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -261,13 +274,19 @@ class CustomScaffold extends StatelessWidget {
             child: SizedBox(
               width: width,
               height: constraints.maxHeight,
-              child: child,
+              child: Padding(
+                padding: usePagePadding
+                    ? EdgeInsets.symmetric(
+                        horizontal: AppTheme.pagePaddingHorizontal,
+                        vertical: AppTheme.pagePaddingVertical,
+                      )
+                    : EdgeInsets.zero,
+                child: child,
+              ),
             ),
           );
         },
       ),
-      floatingActionButton: floatingActionButton,
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

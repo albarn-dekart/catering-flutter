@@ -4,11 +4,13 @@ import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
+import 'package:catering_flutter/core/widgets/custom_text_field.dart';
 import 'package:catering_flutter/features/restaurant/services/meal_service.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:catering_flutter/core/widgets/app_premium_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -175,35 +177,47 @@ class RestaurantMealFormScreen extends HookWidget {
     }
 
     final isCreateMode = mealId == null;
+    final title = isCreateMode
+        ? AppLocalizations.of(context)!.createMeal
+        : AppLocalizations.of(context)!.editMeal;
+
     if (isCreateMode &&
         mealService.currentMeal != null &&
         mealService.isLoading == false) {
-      return const Center(child: CircularProgressIndicator());
+      return CustomScaffold(
+        title: title,
+        child: const Center(child: CircularProgressIndicator()),
+      );
     }
 
     if (mealService.hasError && mealService.currentMeal == null) {
       return GlobalErrorWidget(
         message: mealService.errorMessage,
         onRetry: () => mealService.getMealById(mealId!),
+        onCancel: () {
+          mealService.clearError();
+          context.pop();
+        },
       );
     }
 
     if (mealService.isLoading &&
         !isCreateMode &&
         mealService.currentMeal == null) {
-      return const Center(child: CircularProgressIndicator());
+      return CustomScaffold(
+        title: title,
+        child: const Center(child: CircularProgressIndicator()),
+      );
     }
 
     final isLoading = mealService.isLoading || isSaving.value;
     final currentMeal = mealService.currentMeal;
 
     return CustomScaffold(
-      title: isCreateMode
-          ? AppLocalizations.of(context)!.createMeal
-          : AppLocalizations.of(context)!.editMeal,
+      title: title,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.zero,
         child: Form(
           key: formKey,
           child: Column(
@@ -330,16 +344,12 @@ class RestaurantMealFormScreen extends HookWidget {
               ),
               const SizedBox(height: 24),
 
-              // Save Button
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : FilledButton(
-                        onPressed: saveMeal,
-                        child: Text(AppLocalizations.of(context)!.saveMeal),
-                      ),
+              const SizedBox(height: 24),
+              AppPremiumButton(
+                onPressed: saveMeal,
+                label: AppLocalizations.of(context)!.saveMeal,
+                isLoading: isLoading,
+                icon: Icons.save,
               ),
             ],
           ),
@@ -359,14 +369,12 @@ class RestaurantMealFormScreen extends HookWidget {
     TextInputType? keyboardType,
     String? Function(String?)? validator,
   }) {
-    return TextFormField(
+    return CustomTextField(
       controller: controller,
-      decoration: InputDecoration(
-        labelText: label,
-        border: const OutlineInputBorder(),
-        prefixText: prefixText,
-        suffixText: suffixText,
-      ),
+      labelText: label,
+      hintText: label,
+      prefixText: prefixText,
+      suffixText: suffixText,
       maxLines: maxLines,
       keyboardType: keyboardType,
       validator: validator,
@@ -388,19 +396,19 @@ class RestaurantMealFormScreen extends HookWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(24),
         ),
         child: Stack(
           fit: StackFit.expand,
           children: [
             if (imageBytes.value != null)
               ClipRRect(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(24),
                 child: Image.memory(imageBytes.value!, fit: BoxFit.cover),
               )
             else if (currentImageUrl != null)
               ClipRRect(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(24),
                 child: CustomCachedImage(
                   imageUrl: currentImageUrl,
                   fit: BoxFit.cover,

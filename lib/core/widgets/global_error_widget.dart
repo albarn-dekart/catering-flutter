@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:catering_flutter/core/widgets/app_premium_button.dart';
 import 'package:catering_flutter/core/widgets/custom_scaffold.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 
@@ -6,6 +7,7 @@ class GlobalErrorWidget extends StatelessWidget {
   final FlutterErrorDetails? details;
   final String? message;
   final VoidCallback? onRetry;
+  final VoidCallback? onCancel;
   final bool withScaffold;
 
   const GlobalErrorWidget({
@@ -13,6 +15,7 @@ class GlobalErrorWidget extends StatelessWidget {
     this.details,
     this.message,
     this.onRetry,
+    this.onCancel,
     this.withScaffold = true,
   });
 
@@ -26,6 +29,7 @@ class GlobalErrorWidget extends StatelessWidget {
     final content = Center(
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.zero,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 48.0),
           child: Column(
@@ -51,9 +55,9 @@ class GlobalErrorWidget extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
-                      Icons.error_outline_rounded,
+                      Icons.error_outline,
                       color: Theme.of(context).colorScheme.error,
-                      size: 56,
+                      size: 48,
                     ),
                   ),
                 ),
@@ -91,23 +95,27 @@ class GlobalErrorWidget extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              if (onRetry != null) ...[
+              if (onRetry != null || onCancel != null) ...[
                 const SizedBox(height: 48),
-                SizedBox(
-                  width: double.infinity,
-                  height: 56,
-                  child: FilledButton.icon(
-                    onPressed: onRetry,
-                    icon: const Icon(Icons.refresh_rounded),
-                    label: Text(AppLocalizations.of(context)!.retry),
+                if (onRetry != null)
+                  SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: AppPremiumButton(
+                      onPressed: onRetry,
+                      icon: Icons.refresh,
+                      label: AppLocalizations.of(context)!.retry,
+                    ),
                   ),
-                ),
                 const SizedBox(height: 12),
-                TextButton(
-                  onPressed: () => Navigator.of(context).canPop()
-                      ? Navigator.of(context).pop()
-                      : null,
-                  child: Text(
+                TextButton.icon(
+                  onPressed:
+                      onCancel ??
+                      (() => Navigator.of(context).canPop()
+                          ? Navigator.of(context).pop()
+                          : null),
+                  icon: const Icon(Icons.close),
+                  label: Text(
                     AppLocalizations.of(context)!.cancel,
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,

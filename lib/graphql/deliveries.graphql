@@ -10,6 +10,13 @@ fragment BasicDeliveryFragment on Delivery {
             id
             email
         }
+        deliveryFirstName
+        deliveryLastName
+        deliveryPhoneNumber
+        deliveryStreet
+        deliveryApartment
+        deliveryCity
+        deliveryZipCode
     }
     driver {
         id
@@ -51,6 +58,22 @@ fragment DriverDeliveryFragment on Delivery {
                     mealPlan {
                         id
                         name
+                        calories
+                        protein
+                        fat
+                        carbs
+                        meals(first: 20) {
+                            edges {
+                                node {
+                                    id
+                                    name
+                                    calories
+                                    protein
+                                    fat
+                                    carbs
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -77,10 +100,10 @@ query GetDeliveries($first: Int, $after: String, $search: String) {
 }
 
 # For drivers - includes their deliveries
-query GetUserDeliveries($id: ID!, $first: Int, $after: String, $status: [String], $search: String, $order: [DeliveryFilter_order]) {
+query GetUserDeliveries($id: ID!, $first: Int, $after: String, $status: [String], $search: String, $order: [DeliveryFilter_order], $deliveryDate: [DeliveryFilter_deliveryDate]) {
     user(id: $id) {
         id
-        deliveries(first: $first, after: $after, status_list: $status, search: $search, order: $order) {
+        deliveries(first: $first, after: $after, status_list: $status, search: $search, order: $order, deliveryDate: $deliveryDate) {
             edges {
                 node {
                     ...DriverDeliveryFragment
@@ -100,8 +123,8 @@ query GetDelivery($id: ID!) {
     }
 }
 
-query GetDeliveriesByRestaurant($restaurantId: String!, $first: Int, $after: String, $status: String, $order: [DeliveryFilter_order], $search: String) {
-    deliveries(first: $first, after: $after, status: $status, search: $search, order: $order, order_restaurant: $restaurantId) {
+query GetDeliveriesByRestaurant($restaurantId: String!, $first: Int, $after: String, $status: String, $order: [DeliveryFilter_order], $search: String, $deliveryDate: [DeliveryFilter_deliveryDate]) {
+    deliveries(first: $first, after: $after, status: $status, search: $search, order: $order, order_restaurant: $restaurantId, deliveryDate: $deliveryDate) {
         edges {
             node {
                 ...BasicDeliveryFragment

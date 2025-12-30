@@ -4,11 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 
 class Statistics {
-  final double totalRevenue;
+  final double totalRevenue; // in groszy
   final int totalOrders;
   final int totalUsers;
   final int activeOrders;
-  final double averageOrderValue;
+  final double averageOrderValue; // in groszy
   final int customerCount;
   final int restaurantCount;
   final int driverCount;
@@ -16,6 +16,7 @@ class Statistics {
   final List<Map<String, dynamic>> revenueTimeSeries;
   final List<Map<String, dynamic>> dailyOrdersTimeSeries;
   final Map<String, int> ordersByStatus;
+  final List<Map<String, dynamic>> topRestaurants;
 
   Statistics({
     required this.totalRevenue,
@@ -30,6 +31,7 @@ class Statistics {
     required this.revenueTimeSeries,
     required this.dailyOrdersTimeSeries,
     required this.ordersByStatus,
+    required this.topRestaurants,
   });
 
   factory Statistics.fromJson(Map<String, dynamic> json) {
@@ -53,25 +55,34 @@ class Statistics {
               ?.map((e) => Map<String, dynamic>.from(e as Map))
               .toList() ??
           [],
-      ordersByStatus:
-          (json['ordersByStatus'] as Map<String, dynamic>?)?.map(
-            (key, value) => MapEntry(key, value as int),
-          ) ??
-          {},
+      ordersByStatus: json['ordersByStatus'] is Map
+          ? (json['ordersByStatus'] as Map<dynamic, dynamic>).map(
+              (key, value) => MapEntry(key.toString(), value as int),
+            )
+          : {},
+      topRestaurants:
+          (json['topRestaurants'] as List<dynamic>?)
+              ?.map((e) => Map<String, dynamic>.from(e as Map))
+              .toList() ??
+          [],
     );
   }
 }
 
 class RestaurantStatistics {
-  final double totalRevenue;
+  final double totalRevenue; // in groszy
   final int totalOrders;
   final int activeOrders;
   final int completedOrders;
   final int totalDeliveries;
   final double deliverySuccessRate;
+  final double averageOrderValue;
   final List<Map<String, dynamic>> popularMealPlans;
   final List<Map<String, dynamic>> revenueTimeSeries;
   final List<Map<String, dynamic>> dailyOrdersTimeSeries;
+  final int totalClients;
+  final int totalMealPlans;
+  final Map<String, int> ordersByStatus;
 
   RestaurantStatistics({
     required this.totalRevenue,
@@ -80,9 +91,13 @@ class RestaurantStatistics {
     required this.completedOrders,
     required this.totalDeliveries,
     required this.deliverySuccessRate,
+    required this.averageOrderValue,
     required this.popularMealPlans,
     required this.revenueTimeSeries,
     required this.dailyOrdersTimeSeries,
+    required this.totalClients,
+    required this.totalMealPlans,
+    required this.ordersByStatus,
   });
 
   factory RestaurantStatistics.fromJson(Map<String, dynamic> json) {
@@ -93,6 +108,7 @@ class RestaurantStatistics {
       completedOrders: json['completedOrders'] ?? 0,
       totalDeliveries: json['totalDeliveries'] ?? 0,
       deliverySuccessRate: (json['deliverySuccessRate'] ?? 0).toDouble(),
+      averageOrderValue: (json['averageOrderValue'] ?? 0).toDouble(),
       popularMealPlans:
           (json['popularMealPlans'] as List<dynamic>?)
               ?.map((e) => Map<String, dynamic>.from(e as Map))
@@ -108,6 +124,13 @@ class RestaurantStatistics {
               ?.map((e) => Map<String, dynamic>.from(e as Map))
               .toList() ??
           [],
+      totalClients: json['totalClients'] ?? 0,
+      totalMealPlans: json['totalMealPlans'] ?? 0,
+      ordersByStatus: json['ordersByStatus'] is Map
+          ? (json['ordersByStatus'] as Map<dynamic, dynamic>).map(
+              (key, value) => MapEntry(key.toString(), value as int),
+            )
+          : {},
     );
   }
 }
@@ -135,6 +158,7 @@ class StatisticsService extends ChangeNotifier {
     DateTime? startDate,
     DateTime? endDate,
   }) async {
+    _adminStatistics = null;
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -170,6 +194,7 @@ class StatisticsService extends ChangeNotifier {
     DateTime? startDate,
     DateTime? endDate,
   }) async {
+    _restaurantStatistics = null;
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -203,6 +228,21 @@ class StatisticsService extends ChangeNotifier {
   void clearCache() {
     _adminStatistics = null;
     _restaurantStatistics = null;
+    clearError();
+  }
+
+  void clearAdminStatistics() {
+    _adminStatistics = null;
+    clearError();
+  }
+
+  void clearRestaurantStatistics() {
+    _restaurantStatistics = null;
+    clearError();
+  }
+
+  void clearError() {
+    _errorMessage = null;
     notifyListeners();
   }
 }

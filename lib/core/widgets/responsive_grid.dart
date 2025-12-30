@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 class ResponsiveGrid extends StatelessWidget {
   final List<Widget> children;
-  final double preferredItemHeight;
   final int maxColumns;
   final double mainAxisSpacing;
   final double crossAxisSpacing;
@@ -12,75 +11,78 @@ class ResponsiveGrid extends StatelessWidget {
   const ResponsiveGrid({
     super.key,
     required this.children,
-    required this.preferredItemHeight,
     this.maxColumns = 3,
-    this.mainAxisSpacing = 16,
-    this.crossAxisSpacing = 16,
-    this.padding = const EdgeInsets.all(24),
+    this.mainAxisSpacing = 24,
+    this.crossAxisSpacing = 24,
+    this.padding = EdgeInsets.zero,
   });
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final (crossAxisCount, aspectRatio) = _calculateLayout(
+        final crossAxisCount = _calculateColumnCount(
           constraints.maxWidth,
           maxColumns,
-          preferredItemHeight,
-          padding,
-          crossAxisSpacing,
         );
 
-        return GridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
+        final List<Widget> rows = [];
+        for (int i = 0; i < children.length; i += crossAxisCount) {
+          final chunk = children.sublist(
+            i,
+            min(i + crossAxisCount, children.length),
+          );
+
+          if (rows.isNotEmpty) {
+            rows.add(SizedBox(height: mainAxisSpacing));
+          }
+
+          rows.add(
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: List.generate(crossAxisCount, (index) {
+                  final widget = index < chunk.length ? chunk[index] : null;
+
+                  return Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: index == 0 ? 0 : crossAxisSpacing / 2,
+                        right: index == crossAxisCount - 1
+                            ? 0
+                            : crossAxisSpacing / 2,
+                      ),
+                      child: widget ?? const SizedBox.shrink(),
+                    ),
+                  );
+                }),
+              ),
+            ),
+          );
+        }
+
+        return Padding(
           padding: padding,
-          crossAxisCount: crossAxisCount,
-          mainAxisSpacing: mainAxisSpacing,
-          crossAxisSpacing: crossAxisSpacing,
-          childAspectRatio: aspectRatio,
-          children: children,
+          child: Column(children: rows),
         );
       },
     );
   }
 
-  static (int, double) _calculateLayout(
-    double maxWidth,
-    int maxColumns,
-    double preferredHeight,
-    EdgeInsetsGeometry padding,
-    double crossAxisSpacing,
-  ) {
-    // Determine number of columns based on width
-    int count;
+  static int _calculateColumnCount(double maxWidth, int maxColumns) {
     if (maxWidth > 1100) {
-      count = maxColumns;
+      return maxColumns;
     } else if (maxWidth > 700) {
-      count = min(maxColumns, 2);
+      return min(maxColumns, 2);
     } else {
-      count = 1;
+      return 1;
     }
-
-    // Calculate aspect ratio for fixed height
-    final double horizontalPadding = padding.horizontal;
-    final double totalSpacing = (count - 1) * crossAxisSpacing;
-    final double itemWidth =
-        (maxWidth - horizontalPadding - totalSpacing) / count;
-
-    double ratio = 1.0;
-    if (itemWidth > 0 && preferredHeight > 0) {
-      ratio = itemWidth / preferredHeight;
-    }
-
-    return (count, ratio);
   }
 }
 
 class ResponsiveGridBuilder extends StatelessWidget {
   final int itemCount;
   final Widget Function(BuildContext, int) itemBuilder;
-  final double preferredItemHeight;
   final int maxColumns;
   final double mainAxisSpacing;
   final double crossAxisSpacing;
@@ -93,11 +95,10 @@ class ResponsiveGridBuilder extends StatelessWidget {
     super.key,
     required this.itemCount,
     required this.itemBuilder,
-    required this.preferredItemHeight,
     this.maxColumns = 3,
-    this.mainAxisSpacing = 16,
-    this.crossAxisSpacing = 16,
-    this.padding = const EdgeInsets.all(24),
+    this.mainAxisSpacing = 24,
+    this.crossAxisSpacing = 24,
+    this.padding = EdgeInsets.zero,
     this.controller,
     this.physics,
     this.shrinkWrap = false,
@@ -107,15 +108,14 @@ class ResponsiveGridBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final (crossAxisCount, aspectRatio) = ResponsiveGrid._calculateLayout(
+        final crossAxisCount = ResponsiveGrid._calculateColumnCount(
           constraints.maxWidth,
           maxColumns,
-          preferredItemHeight,
-          padding,
-          crossAxisSpacing,
         );
 
-        return GridView.builder(
+        final int rowCount = (itemCount / crossAxisCount).ceil();
+
+        return ListView.separated(
           shrinkWrap: shrinkWrap,
           physics:
               physics ??
@@ -124,14 +124,35 @@ class ResponsiveGridBuilder extends StatelessWidget {
                   : null),
           controller: controller,
           padding: padding,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossAxisCount,
-            mainAxisSpacing: mainAxisSpacing,
-            crossAxisSpacing: crossAxisSpacing,
-            childAspectRatio: aspectRatio,
-          ),
-          itemCount: itemCount,
-          itemBuilder: itemBuilder,
+          itemCount: rowCount,
+          separatorBuilder: (context, index) =>
+              SizedBox(height: mainAxisSpacing),
+          itemBuilder: (context, rowIndex) {
+            return IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: List.generate(crossAxisCount, (colIndex) {
+                  final itemIndex = rowIndex * crossAxisCount + colIndex;
+
+                  if (itemIndex >= itemCount) {
+                    return const Expanded(child: SizedBox.shrink());
+                  }
+
+                  return Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: colIndex == 0 ? 0 : crossAxisSpacing / 2,
+                        right: colIndex == crossAxisCount - 1
+                            ? 0
+                            : crossAxisSpacing / 2,
+                      ),
+                      child: itemBuilder(context, itemIndex),
+                    ),
+                  );
+                }),
+              ),
+            );
+          },
         );
       },
     );

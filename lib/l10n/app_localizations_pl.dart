@@ -27,6 +27,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get addAddress => 'Dodaj Adres';
 
   @override
+  String get address => 'Adres';
+
+  @override
   String get addAddressToGetStarted => 'Dodaj nowy adres, aby rozpocząć';
 
   @override
@@ -62,6 +65,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get all => 'Wszystkie';
 
   @override
+  String get allTime => 'Cały okres';
+
+  @override
   String allDeliveries(int count) {
     return 'Wszystkie Dostawy ($count)';
   }
@@ -71,9 +77,6 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get appTitle => 'Usługi Cateringowe';
-
-  @override
-  String get apt => 'Mieszkanie';
 
   @override
   String get areYouSureYouWantToCancelThisOrder =>
@@ -229,12 +232,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get customMealPlanPromoTitle => 'Stwórz Swój Idealny Plan';
 
   @override
-  String get customerLabel => 'Klient:';
-
-  @override
-  String customerName(Object name) {
-    return 'Klient: $name';
-  }
+  String get customerLabel => 'Klient';
 
   @override
   String get customers => 'Klienci';
@@ -295,12 +293,7 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
-  String deliveriesExportFailed(Object error) {
-    return 'Nie udało się wyeksportować dostaw: $error';
-  }
-
-  @override
-  String get deliveriesExportedSuccess => 'Dostawy wyeksportowane pomyślnie';
+  String get delivery => 'Dostawa';
 
   @override
   String get deliveryAddress => 'Adres Dostawy';
@@ -321,11 +314,6 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get deliveryFee => 'Opłata za dostawę';
-
-  @override
-  String deliveryNumber(String number) {
-    return 'Dostawa #$number';
-  }
 
   @override
   String get deliveryPricePLN => 'Cena dostawy (PLN)';
@@ -362,7 +350,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get dontHaveAccount => 'Nie masz konta? ';
 
   @override
-  String get downloadPlan => 'Pobierz Plan';
+  String get driver => 'Kierowca';
 
   @override
   String get driverAssignFailed =>
@@ -407,9 +395,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get editAddress => 'Edytuj Adres';
 
   @override
-  String editCategory(Object type) {
-    return 'Edytuj Kategorię $type';
-  }
+  String get editRestaurantCategory => 'Edytuj Kategorię Restauracji';
 
   @override
   String get editDetails => 'Edytuj Szczegóły';
@@ -448,17 +434,14 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String exportFailed(Object error) {
-    return 'Nie udało się wyeksportować zamówień: $error';
+    return 'Nie udało się pobrać danych: $error';
   }
 
   @override
-  String get exportStatistics => 'Eksportuj Statystyki';
+  String get exportData => 'Pobierz Dane';
 
   @override
-  String get exportSuccess => 'Zamówienia wyeksportowane pomyślnie';
-
-  @override
-  String get exportToCsv => 'Eksportuj do CSV';
+  String get exportSuccess => 'Dane obrane pomyślnie';
 
   @override
   String get failedToChangePassword => 'Nie udało się zmienić hasła';
@@ -501,6 +484,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get firstName => 'Imię';
+
+  @override
+  String get hideIncludedMeals => 'Ukryj zawarte posiłki';
 
   @override
   String get history => 'Historia';
@@ -612,9 +598,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get mealName => 'Nazwa Posiłku';
 
   @override
-  String get mealPlanCreated => 'Plan posiłków utworzony';
-
-  @override
   String get mealPlanDeleteFailed => 'Nie udało się usunąć planu posiłków';
 
   @override
@@ -650,7 +633,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get mealSavedSuccess => 'Posiłek zapisany pomyślnie!';
 
   @override
-  String get mealsIncluded => 'Dostępne Posiłki';
+  String get mealsIncluded => 'Zawarte Posiłki';
 
   @override
   String get menu => 'Menu';
@@ -757,7 +740,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get operations => 'Operacje';
 
   @override
-  String get orderCreatedSuccessfully => 'Zamówienie anulowane pomyślnie';
+  String get order => 'Zamówienie';
+
+  @override
+  String get orderCancelledSuccessfully => 'Zamówienie anulowane pomyślnie';
+
+  @override
+  String get orderCreatedSuccessfully => 'Zamówienie utworzone pomyślnie';
 
   @override
   String get orderDetails => 'Szczegóły Zamówienia';
@@ -772,11 +761,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get orderNotFound => 'Nie znaleziono zamówienia';
 
   @override
-  String orderNumber(Object number) {
-    return 'Zamówienie #$number';
-  }
-
-  @override
   String get orderProcessFailed =>
       'Przetworzenie zam. nie powiodło się. Spróbuj ponownie.';
 
@@ -788,11 +772,6 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get ordersByStatus => 'Zamówienia według statusu';
-
-  @override
-  String ordersCount(int count) {
-    return '$count zamówień';
-  }
 
   @override
   String get overview => 'Przegląd';
@@ -837,9 +816,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String piecesCount(int count) {
     return '$count szt.';
   }
-
-  @override
-  String get planName => 'Nazwa Planu';
 
   @override
   String get pleaseEnterCategoryName => 'Proszę wpisać nazwę kategorii';
@@ -992,9 +968,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get saveMealPlan => 'Zapisz Plan Posiłków';
 
   @override
-  String get savePlan => 'Zapisz Plan';
-
-  @override
   String get search => 'Szukaj...';
 
   @override
@@ -1062,6 +1035,11 @@ class AppLocalizationsPl extends AppLocalizations {
   String get setAsDefaultAddress => 'Ustaw jako adres domyślny';
 
   @override
+  String showIncludedMeals(int count) {
+    return 'Pokaż zawarte posiłki ($count)';
+  }
+
+  @override
   String get signInToContinue => 'Zaloguj się, aby kontynuować';
 
   @override
@@ -1075,14 +1053,6 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get statistics => 'Statystyki';
-
-  @override
-  String statisticsExportFailed(Object error) {
-    return 'Nie udało się wyeksportować statystyk: $error';
-  }
-
-  @override
-  String get statisticsExportSuccess => 'Statystyki wyeksportowane pomyślnie';
 
   @override
   String get status => 'Status';
@@ -1186,14 +1156,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get userDeleted => 'Użytkownik został usunięty pomyślnie';
 
   @override
-  String usersExportFailed(Object error) {
-    return 'Nie udało się wyeksportować użytkowników: $error';
-  }
-
-  @override
-  String get usersExported => 'Użytkownicy wyeksportowani pomyślnie';
-
-  @override
   String get viewAll => 'Zobacz Wszystkie';
 
   @override
@@ -1210,4 +1172,43 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get zipCode => 'Kod pocztowy';
+
+  @override
+  String get areYouSureYouWantToLogout => 'Czy na pewno chcesz się wylogować?';
+
+  @override
+  String get defaultAddress => 'Adres domyślny';
+
+  @override
+  String get confirmDeleteAddress =>
+      'Czy na pewno chcesz usunąć ten adres? Tej operacji nie można cofnąć.';
+
+  @override
+  String get deletedMealPlan => 'Usunięty Plan Posiłków';
+
+  @override
+  String get yesterday => 'Wczoraj';
+
+  @override
+  String get today => 'Dzisiaj';
+
+  @override
+  String get topRestaurants => 'Najlepsze Restauracje';
+
+  @override
+  String get totalClients => 'Liczba Klientów';
+
+  @override
+  String get totalDeliveries => 'Liczba Dostaw';
+
+  @override
+  String get totalStatsMealPlans => 'Liczba Planów Posiłków';
+
+  @override
+  String get tomorrow => 'Jutro';
+
+  @override
+  String dailyProgress(Object count, Object total) {
+    return 'Postęp dnia: $count/$total';
+  }
 }

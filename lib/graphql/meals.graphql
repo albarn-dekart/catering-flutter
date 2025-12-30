@@ -25,6 +25,10 @@ fragment MealPlanSummaryFragment on MealPlan {
         name
         deliveryPrice
     }
+    owner {
+        id
+        roles
+    }
     dietCategories {
         edges {
             node {

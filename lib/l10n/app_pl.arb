@@ -35,13 +35,6 @@
       }
     }
   },
-  "@deliveryNumber": {
-    "placeholders": {
-      "number": {
-        "type": "String"
-      }
-    }
-  },
   "@piecesCount": {
     "placeholders": {
       "count": {
@@ -50,6 +43,13 @@
     }
   },
   "@quantity": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@showIncludedMeals": {
     "placeholders": {
       "count": {
         "type": "int"
@@ -69,6 +69,7 @@
   "activeOrders": "Aktywne Zamówienia",
   "add": "Dodaj",
   "addAddress": "Dodaj Adres",
+  "address": "Adres",
   "addAddressToGetStarted": "Dodaj nowy adres, aby rozpocząć",
   "addMeal": "Dodaj Posiłek",
   "addMealPlan": "Dodaj Plan Posiłków",
@@ -80,10 +81,10 @@
   "adminDashboard": "Panel Administratora",
   "advancedFilters": "Zaawansowane Filtry",
   "all": "Wszystkie",
+  "allTime": "Cały okres",
   "allDeliveries": "Wszystkie Dostawy ({count})",
   "apartmentOptional": "Mieszkanie / Lokal (Opcjonalne)",
   "appTitle": "Usługi Cateringowe",
-  "apt": "Mieszkanie",
   "areYouSureYouWantToCancelThisOrder": "Czy na pewno chcesz anulować to zamówienie?",
   "assignDriver": "Przypisz Kierowcę",
   "assignRole": "Przypisz Rolę",
@@ -132,8 +133,7 @@
   "createRestaurant": "Utwórz Restaurację",
   "customMealPlanPromoSubtitle": "Wybierz restaurację i stwórz plan posiłków dopasowany do Twojej diety.",
   "customMealPlanPromoTitle": "Stwórz Swój Idealny Plan",
-  "customerLabel": "Klient:",
-  "customerName": "Klient: {name}",
+  "customerLabel": "Klient",
   "customers": "Klienci",
   "dailyOrders": "Dzienne Zamówienia",
   "daysCount": "{count} dni",
@@ -149,15 +149,13 @@
   "deleteMealPlanConfirmation": "Czy na pewno chcesz usunąć \"{name}\"?",
   "deleteRestaurant": "Usuń Restaurację",
   "deleteRestaurantConfirmation": "Czy na pewno chcesz usunąć \"{name}\"?",
-  "deliveriesExportFailed": "Nie udało się wyeksportować dostaw: {error}",
-  "deliveriesExportedSuccess": "Dostawy wyeksportowane pomyślnie",
+  "delivery": "Dostawa",
   "deliveryAddress": "Adres Dostawy",
   "deliveryDate": "Data Dostawy",
   "deliveryDateWithDate": "Data Dostawy: {date}",
   "deliveryDays": "Dni Dostawy",
   "deliveryDetails": "Szczegóły Dostawy",
   "deliveryFee": "Opłata za dostawę",
-  "deliveryNumber": "Dostawa #{number}",
   "deliveryPricePLN": "Cena dostawy (PLN)",
   "deliverySchedule": "Harmonogram Dostaw",
   "deliveryStatusUpdated": "Status dostawy zaktualizowany pomyślnie",
@@ -169,7 +167,7 @@
   "discoverMessage": "Odkryj pyszne plany posiłków z najlepszych restauracji",
   "done": "Gotowe",
   "dontHaveAccount": "Nie masz konta? ",
-  "downloadPlan": "Pobierz Plan",
+  "driver": "Kierowca",
   "driverAssignFailed": "Nie udało się przypisać kierowcy. Spróbuj ponownie.",
   "driverAssignedSuccess": "Kierowca przypisany pomyślnie.",
   "driverDashboard": "Panel Kierowcy",
@@ -182,7 +180,7 @@
   "drivers": "Kierowcy",
   "edit": "Edytuj",
   "editAddress": "Edytuj Adres",
-  "editCategory": "Edytuj Kategorię {type}",
+  "editRestaurantCategory": "Edytuj Kategorię Restauracji",
   "editDetails": "Edytuj Szczegóły",
   "editDietCategory": "Edytuj Kategorię Diety",
   "editMeal": "Edytuj Posiłek",
@@ -194,10 +192,9 @@
   "errorServer": "Błąd serwera. Spróbuj ponownie później.",
   "errorTimeout": "Limit czasu żądania upłynął. Serwer zbyt długo nie odpowiada.",
   "errorUnauthorized": "Sesja wygasła. Zaloguj się ponownie.",
-  "exportFailed": "Nie udało się wyeksportować zamówień: {error}",
-  "exportStatistics": "Eksportuj Statystyki",
-  "exportSuccess": "Zamówienia wyeksportowane pomyślnie",
-  "exportToCsv": "Eksportuj do CSV",
+  "exportFailed": "Nie udało się pobrać danych: {error}",
+  "exportData": "Pobierz Dane",
+  "exportSuccess": "Dane obrane pomyślnie",
   "failedToChangePassword": "Nie udało się zmienić hasła",
   "failedToCreateCategory": "Nie udało się utworzyć kategorii",
   "failedToDeleteCategory": "Nie udało się usunąć kategorii",
@@ -212,6 +209,7 @@
   "fillAllFields": "Wypełnij wszystkie pola",
   "finalTotal": "Suma Końcowa",
   "firstName": "Imię",
+  "hideIncludedMeals": "Ukryj zawarte posiłki",
   "history": "Historia",
   "home": "Strona Główna",
   "imageUpdatedSuccess": "Obraz zaktualizowany pomyślnie!",
@@ -248,7 +246,6 @@
   "mealDeleteFailed": "Nie udało się usunąć posiłku",
   "mealDeleted": "Posiłek usunięty pomyślnie!",
   "mealName": "Nazwa Posiłku",
-  "mealPlanCreated": "Plan posiłków utworzony",
   "mealPlanDeleteFailed": "Nie udało się usunąć planu posiłków",
   "mealPlanDeletedSuccess": "Plan posiłków usunięty pomyślnie!",
   "mealPlanDetails": "Szczegóły Planu Posiłków",
@@ -260,7 +257,7 @@
   "mealSaveFailed": "Nie udało się zapisać posiłku",
   "mealSavedImageFailed": "Posiłek zapisany, ale przesłanie obrazu nie powiodło się. Spróbuj ponownie.",
   "mealSavedSuccess": "Posiłek zapisany pomyślnie!",
-  "mealsIncluded": "Dostępne Posiłki",
+  "mealsIncluded": "Zawarte Posiłki",
   "menu": "Menu",
   "myAddresses": "Moje Adresy",
   "myCustomPlans": "Moje Własne Plany",
@@ -294,17 +291,17 @@
   "ok": "OK",
   "oldPassword": "Stare Hasło",
   "operations": "Operacje",
-  "orderCreatedSuccessfully": "Zamówienie anulowane pomyślnie",
+  "order": "Zamówienie",
+  "orderCancelledSuccessfully": "Zamówienie anulowane pomyślnie",
+  "orderCreatedSuccessfully": "Zamówienie utworzone pomyślnie",
   "orderDetails": "Szczegóły Zamówienia",
   "orderDuration": "Okres Zamówienia",
   "orderItems": "Pozycje Zamówienia",
   "orderNotFound": "Nie znaleziono zamówienia",
-  "orderNumber": "Zamówienie #{number}",
   "orderProcessFailed": "Przetworzenie zam. nie powiodło się. Spróbuj ponownie.",
   "orderStatusUpdated": "Status zamówienia zaktualizowany pomyślnie",
   "orders": "Zamówienia",
   "ordersByStatus": "Zamówienia według statusu",
-  "ordersCount": "{count} zamówień",
   "overview": "Przegląd",
   "ownerEmail": "Email Właściciela",
   "ownerPassword": "Hasło Właściciela",
@@ -319,7 +316,6 @@
   "phoneNumber": "Numer telefonu",
   "pickUpOrder": "ODBIERZ ZAMÓWIENIE",
   "piecesCount": "{count} szt.",
-  "planName": "Nazwa Planu",
   "pleaseEnterCategoryName": "Proszę wpisać nazwę kategorii",
   "pleaseEnterDescription": "Wprowadź opis",
   "pleaseEnterEmail": "Wprowadź email",
@@ -368,7 +364,6 @@
   "saveChanges": "Zapisz Zmiany",
   "saveMeal": "Zapisz Posiłek",
   "saveMealPlan": "Zapisz Plan Posiłków",
-  "savePlan": "Zapisz Plan",
   "search": "Szukaj...",
   "searchByOrderNumber": "Szukaj po numerze zamówienia...",
   "searchCategories": "Szukaj Kategorii",
@@ -391,13 +386,12 @@
   "selectedMeals": "Wybrane Posiłki",
   "selectedPeriod": "Wybrany Okres",
   "setAsDefaultAddress": "Ustaw jako adres domyślny",
+  "showIncludedMeals": "Pokaż zawarte posiłki ({count})",
   "signInToContinue": "Zaloguj się, aby kontynuować",
   "signUpToGetStarted": "Zarejestruj się, aby rozpocząć",
   "somethingWentWrong": "Coś poszło nie tak",
   "startBuilding": "Zacznij Tworzyć",
   "statistics": "Statystyki",
-  "statisticsExportFailed": "Nie udało się wyeksportować statystyk: {error}",
-  "statisticsExportSuccess": "Statystyki wyeksportowane pomyślnie",
   "status": "Status",
   "statusActive": "W realizacji",
   "statusAssigned": "Przypisane",
@@ -429,12 +423,22 @@
   "updateSecurity": "Zaktualizuj Zabezpieczenia",
   "updateSecurityDescription": "Wprowadź obecne hasło i nowe.",
   "userDeleted": "Użytkownik został usunięty pomyślnie",
-  "usersExportFailed": "Nie udało się wyeksportować użytkowników: {error}",
-  "usersExported": "Użytkownicy wyeksportowani pomyślnie",
   "viewAll": "Zobacz Wszystkie",
   "viewMyPlans": "Zobacz Moje Plany",
   "welcomeBack": "Witaj ponownie",
   "yes": "Tak",
   "yourCartIsEmpty": "Twój koszyk jest pusty",
-  "zipCode": "Kod pocztowy"
+  "zipCode": "Kod pocztowy",
+  "areYouSureYouWantToLogout": "Czy na pewno chcesz się wylogować?",
+  "defaultAddress": "Adres domyślny",
+  "confirmDeleteAddress": "Czy na pewno chcesz usunąć ten adres? Tej operacji nie można cofnąć.",
+  "deletedMealPlan": "Usunięty Plan Posiłków",
+  "yesterday": "Wczoraj",
+  "today": "Dzisiaj",
+  "topRestaurants": "Najlepsze Restauracje",
+  "totalClients": "Liczba Klientów",
+  "totalDeliveries": "Liczba Dostaw",
+  "totalStatsMealPlans": "Liczba Planów Posiłków",
+  "tomorrow": "Jutro",
+  "dailyProgress": "Postęp dnia: {count}/{total}"
 }

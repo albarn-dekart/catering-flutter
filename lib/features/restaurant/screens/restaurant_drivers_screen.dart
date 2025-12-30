@@ -1,9 +1,15 @@
 import 'package:catering_flutter/l10n/app_localizations.dart';
+import 'package:catering_flutter/core/widgets/app_premium_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
+import 'package:catering_flutter/core/utils/iri_helper.dart';
 import 'package:catering_flutter/features/user/services/user_service.dart';
 import 'package:catering_flutter/core/widgets/searchable_list_screen.dart';
+import 'package:catering_flutter/core/widgets/app_card.dart';
+import 'package:catering_flutter/core/widgets/card_action_buttons.dart';
+import 'package:catering_flutter/core/widgets/custom_text_field.dart';
+import 'package:catering_flutter/core/widgets/icon_badge.dart';
 
 class RestaurantDriversScreen extends StatefulWidget {
   final String restaurantIri;
@@ -32,7 +38,6 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isNarrow = MediaQuery.of(context).size.width < 700;
     return Consumer<UserService>(
       builder: (context, userService, child) {
         return SearchableListScreen<RestaurantDriverNode>(
@@ -50,72 +55,48 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
           errorMessage: userService.errorMessage,
           onRetry: _loadDrivers,
           onRefresh: _loadDrivers,
+          onCreate: _showInviteDriverDialog,
           itemBuilder: (context, driver) {
-            return Card(
+            final theme = Theme.of(context);
+            return AppCard(
+              padding: const EdgeInsets.all(8),
               child: ListTile(
-                contentPadding: const EdgeInsets.all(16),
+                contentPadding: EdgeInsets.zero,
                 leading: CircleAvatar(
                   radius: 24,
-                  backgroundColor: Theme.of(
-                    context,
-                  ).colorScheme.primaryContainer,
-                  child: Icon(
-                    Icons.person,
-                    size: 24,
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  backgroundColor: theme.colorScheme.primaryContainer,
+                  child: Text(
+                    driver.email[0].toUpperCase(),
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: theme.colorScheme.onPrimaryContainer,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 title: Text(
                   driver.email,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.normal,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                subtitle: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 8),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      AppLocalizations.of(context)!.driverRoleLabel,
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.normal,
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Row(
+                    children: [
+                      IconBadge(
+                        text: IriHelper.getId(driver.id),
+                        icon: Icons.tag,
                       ),
-                    ),
+                    ],
                   ),
                 ),
-                trailing: IconButton(
-                  icon: Icon(
-                    Icons.delete_outline_rounded,
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-                  onPressed: () =>
+                trailing: CardActionButtons(
+                  onDelete: () =>
                       _confirmDeleteDriver(context, userService, driver),
                 ),
               ),
             );
           },
-          floatingActionButton: isNarrow
-              ? FloatingActionButton(
-                  onPressed: _showInviteDriverDialog,
-                  tooltip: AppLocalizations.of(context)!.inviteDriver,
-                  child: const Icon(Icons.person_add),
-                )
-              : FloatingActionButton.extended(
-                  onPressed: _showInviteDriverDialog,
-                  icon: const Icon(Icons.person_add),
-                  label: Text(AppLocalizations.of(context)!.inviteDriver),
-                ),
         );
       },
     );
@@ -126,30 +107,13 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
     UserService userService,
     RestaurantDriverNode driver,
   ) async {
-    final confirmed = await showDialog<bool>(
+    final confirmed = await DeleteConfirmationDialog.show(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(AppLocalizations.of(context)!.confirmDelete),
-        content: Text(
-          AppLocalizations.of(context)!.confirmDeleteDriver(driver.email),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(AppLocalizations.of(context)!.cancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).colorScheme.error,
-            ),
-            child: Text(AppLocalizations.of(context)!.delete),
-          ),
-        ],
-      ),
+      title: AppLocalizations.of(context)!.confirmDelete,
+      message: AppLocalizations.of(context)!.confirmDeleteDriver(driver.email),
     );
 
-    if (confirmed == true && context.mounted) {
+    if (confirmed && context.mounted) {
       try {
         await userService.deleteUser(driver.id);
         if (context.mounted) {
@@ -179,12 +143,11 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              TextFormField(
+              CustomTextField(
                 controller: emailController,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)!.email,
-                  prefixIcon: const Icon(Icons.email),
-                ),
+                labelText: AppLocalizations.of(context)!.email,
+                hintText: AppLocalizations.of(context)!.email,
+                prefixIcon: const Icon(Icons.email),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return AppLocalizations.of(context)!.pleaseEnterEmail;
@@ -205,11 +168,12 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
           ),
         ),
         actions: [
-          TextButton(
+          TextButton.icon(
             onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context)!.cancel),
+            icon: const Icon(Icons.close),
+            label: Text(AppLocalizations.of(context)!.cancel),
           ),
-          FilledButton(
+          AppPremiumButton(
             onPressed: () async {
               if (formKey.currentState!.validate()) {
                 try {
@@ -236,7 +200,8 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
                 }
               }
             },
-            child: Text(AppLocalizations.of(context)!.invite),
+            icon: Icons.send,
+            label: AppLocalizations.of(context)!.inviteDriver,
           ),
         ],
       ),

@@ -20,10 +20,8 @@ class DashboardCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppCard(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       onTap: onTap,
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

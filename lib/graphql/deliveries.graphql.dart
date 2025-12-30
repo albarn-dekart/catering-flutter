@@ -327,6 +327,55 @@ const fragmentDefinitionBasicDeliveryFragment = FragmentDefinitionNode(
               ),
             ),
             FieldNode(
+              name: NameNode(value: 'deliveryFirstName'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'deliveryLastName'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'deliveryPhoneNumber'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'deliveryStreet'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'deliveryApartment'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'deliveryCity'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'deliveryZipCode'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
               name: NameNode(value: '__typename'),
               alias: null,
               arguments: [],
@@ -425,6 +474,13 @@ class Fragment$BasicDeliveryFragment$order {
     required this.total,
     required this.status,
     this.customer,
+    this.deliveryFirstName,
+    this.deliveryLastName,
+    this.deliveryPhoneNumber,
+    this.deliveryStreet,
+    this.deliveryApartment,
+    this.deliveryCity,
+    this.deliveryZipCode,
     this.$__typename = 'Order',
   });
 
@@ -435,6 +491,13 @@ class Fragment$BasicDeliveryFragment$order {
     final l$total = json['total'];
     final l$status = json['status'];
     final l$customer = json['customer'];
+    final l$deliveryFirstName = json['deliveryFirstName'];
+    final l$deliveryLastName = json['deliveryLastName'];
+    final l$deliveryPhoneNumber = json['deliveryPhoneNumber'];
+    final l$deliveryStreet = json['deliveryStreet'];
+    final l$deliveryApartment = json['deliveryApartment'];
+    final l$deliveryCity = json['deliveryCity'];
+    final l$deliveryZipCode = json['deliveryZipCode'];
     final l$$__typename = json['__typename'];
     return Fragment$BasicDeliveryFragment$order(
       id: (l$id as String),
@@ -445,6 +508,13 @@ class Fragment$BasicDeliveryFragment$order {
           : Fragment$BasicDeliveryFragment$order$customer.fromJson(
               (l$customer as Map<String, dynamic>),
             ),
+      deliveryFirstName: (l$deliveryFirstName as String?),
+      deliveryLastName: (l$deliveryLastName as String?),
+      deliveryPhoneNumber: (l$deliveryPhoneNumber as String?),
+      deliveryStreet: (l$deliveryStreet as String?),
+      deliveryApartment: (l$deliveryApartment as String?),
+      deliveryCity: (l$deliveryCity as String?),
+      deliveryZipCode: (l$deliveryZipCode as String?),
       $__typename: (l$$__typename as String),
     );
   }
@@ -456,6 +526,20 @@ class Fragment$BasicDeliveryFragment$order {
   final Enum$OrderStatus status;
 
   final Fragment$BasicDeliveryFragment$order$customer? customer;
+
+  final String? deliveryFirstName;
+
+  final String? deliveryLastName;
+
+  final String? deliveryPhoneNumber;
+
+  final String? deliveryStreet;
+
+  final String? deliveryApartment;
+
+  final String? deliveryCity;
+
+  final String? deliveryZipCode;
 
   final String $__typename;
 
@@ -469,6 +553,20 @@ class Fragment$BasicDeliveryFragment$order {
     _resultData['status'] = toJson$Enum$OrderStatus(l$status);
     final l$customer = customer;
     _resultData['customer'] = l$customer?.toJson();
+    final l$deliveryFirstName = deliveryFirstName;
+    _resultData['deliveryFirstName'] = l$deliveryFirstName;
+    final l$deliveryLastName = deliveryLastName;
+    _resultData['deliveryLastName'] = l$deliveryLastName;
+    final l$deliveryPhoneNumber = deliveryPhoneNumber;
+    _resultData['deliveryPhoneNumber'] = l$deliveryPhoneNumber;
+    final l$deliveryStreet = deliveryStreet;
+    _resultData['deliveryStreet'] = l$deliveryStreet;
+    final l$deliveryApartment = deliveryApartment;
+    _resultData['deliveryApartment'] = l$deliveryApartment;
+    final l$deliveryCity = deliveryCity;
+    _resultData['deliveryCity'] = l$deliveryCity;
+    final l$deliveryZipCode = deliveryZipCode;
+    _resultData['deliveryZipCode'] = l$deliveryZipCode;
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -480,8 +578,28 @@ class Fragment$BasicDeliveryFragment$order {
     final l$total = total;
     final l$status = status;
     final l$customer = customer;
+    final l$deliveryFirstName = deliveryFirstName;
+    final l$deliveryLastName = deliveryLastName;
+    final l$deliveryPhoneNumber = deliveryPhoneNumber;
+    final l$deliveryStreet = deliveryStreet;
+    final l$deliveryApartment = deliveryApartment;
+    final l$deliveryCity = deliveryCity;
+    final l$deliveryZipCode = deliveryZipCode;
     final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$total, l$status, l$customer, l$$__typename]);
+    return Object.hashAll([
+      l$id,
+      l$total,
+      l$status,
+      l$customer,
+      l$deliveryFirstName,
+      l$deliveryLastName,
+      l$deliveryPhoneNumber,
+      l$deliveryStreet,
+      l$deliveryApartment,
+      l$deliveryCity,
+      l$deliveryZipCode,
+      l$$__typename,
+    ]);
   }
 
   @override
@@ -511,6 +629,41 @@ class Fragment$BasicDeliveryFragment$order {
     final l$customer = customer;
     final lOther$customer = other.customer;
     if (l$customer != lOther$customer) {
+      return false;
+    }
+    final l$deliveryFirstName = deliveryFirstName;
+    final lOther$deliveryFirstName = other.deliveryFirstName;
+    if (l$deliveryFirstName != lOther$deliveryFirstName) {
+      return false;
+    }
+    final l$deliveryLastName = deliveryLastName;
+    final lOther$deliveryLastName = other.deliveryLastName;
+    if (l$deliveryLastName != lOther$deliveryLastName) {
+      return false;
+    }
+    final l$deliveryPhoneNumber = deliveryPhoneNumber;
+    final lOther$deliveryPhoneNumber = other.deliveryPhoneNumber;
+    if (l$deliveryPhoneNumber != lOther$deliveryPhoneNumber) {
+      return false;
+    }
+    final l$deliveryStreet = deliveryStreet;
+    final lOther$deliveryStreet = other.deliveryStreet;
+    if (l$deliveryStreet != lOther$deliveryStreet) {
+      return false;
+    }
+    final l$deliveryApartment = deliveryApartment;
+    final lOther$deliveryApartment = other.deliveryApartment;
+    if (l$deliveryApartment != lOther$deliveryApartment) {
+      return false;
+    }
+    final l$deliveryCity = deliveryCity;
+    final lOther$deliveryCity = other.deliveryCity;
+    if (l$deliveryCity != lOther$deliveryCity) {
+      return false;
+    }
+    final l$deliveryZipCode = deliveryZipCode;
+    final lOther$deliveryZipCode = other.deliveryZipCode;
+    if (l$deliveryZipCode != lOther$deliveryZipCode) {
       return false;
     }
     final l$$__typename = $__typename;
@@ -544,6 +697,13 @@ abstract class CopyWith$Fragment$BasicDeliveryFragment$order<TRes> {
     int? total,
     Enum$OrderStatus? status,
     Fragment$BasicDeliveryFragment$order$customer? customer,
+    String? deliveryFirstName,
+    String? deliveryLastName,
+    String? deliveryPhoneNumber,
+    String? deliveryStreet,
+    String? deliveryApartment,
+    String? deliveryCity,
+    String? deliveryZipCode,
     String? $__typename,
   });
   CopyWith$Fragment$BasicDeliveryFragment$order$customer<TRes> get customer;
@@ -567,6 +727,13 @@ class _CopyWithImpl$Fragment$BasicDeliveryFragment$order<TRes>
     Object? total = _undefined,
     Object? status = _undefined,
     Object? customer = _undefined,
+    Object? deliveryFirstName = _undefined,
+    Object? deliveryLastName = _undefined,
+    Object? deliveryPhoneNumber = _undefined,
+    Object? deliveryStreet = _undefined,
+    Object? deliveryApartment = _undefined,
+    Object? deliveryCity = _undefined,
+    Object? deliveryZipCode = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
     Fragment$BasicDeliveryFragment$order(
@@ -580,6 +747,27 @@ class _CopyWithImpl$Fragment$BasicDeliveryFragment$order<TRes>
       customer: customer == _undefined
           ? _instance.customer
           : (customer as Fragment$BasicDeliveryFragment$order$customer?),
+      deliveryFirstName: deliveryFirstName == _undefined
+          ? _instance.deliveryFirstName
+          : (deliveryFirstName as String?),
+      deliveryLastName: deliveryLastName == _undefined
+          ? _instance.deliveryLastName
+          : (deliveryLastName as String?),
+      deliveryPhoneNumber: deliveryPhoneNumber == _undefined
+          ? _instance.deliveryPhoneNumber
+          : (deliveryPhoneNumber as String?),
+      deliveryStreet: deliveryStreet == _undefined
+          ? _instance.deliveryStreet
+          : (deliveryStreet as String?),
+      deliveryApartment: deliveryApartment == _undefined
+          ? _instance.deliveryApartment
+          : (deliveryApartment as String?),
+      deliveryCity: deliveryCity == _undefined
+          ? _instance.deliveryCity
+          : (deliveryCity as String?),
+      deliveryZipCode: deliveryZipCode == _undefined
+          ? _instance.deliveryZipCode
+          : (deliveryZipCode as String?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
@@ -610,6 +798,13 @@ class _CopyWithStubImpl$Fragment$BasicDeliveryFragment$order<TRes>
     int? total,
     Enum$OrderStatus? status,
     Fragment$BasicDeliveryFragment$order$customer? customer,
+    String? deliveryFirstName,
+    String? deliveryLastName,
+    String? deliveryPhoneNumber,
+    String? deliveryStreet,
+    String? deliveryApartment,
+    String? deliveryCity,
+    String? deliveryZipCode,
     String? $__typename,
   }) => _res;
 
@@ -1364,6 +1559,150 @@ const fragmentDefinitionDriverDeliveryFragment = FragmentDefinitionNode(
                                       arguments: [],
                                       directives: [],
                                       selectionSet: null,
+                                    ),
+                                    FieldNode(
+                                      name: NameNode(value: 'calories'),
+                                      alias: null,
+                                      arguments: [],
+                                      directives: [],
+                                      selectionSet: null,
+                                    ),
+                                    FieldNode(
+                                      name: NameNode(value: 'protein'),
+                                      alias: null,
+                                      arguments: [],
+                                      directives: [],
+                                      selectionSet: null,
+                                    ),
+                                    FieldNode(
+                                      name: NameNode(value: 'fat'),
+                                      alias: null,
+                                      arguments: [],
+                                      directives: [],
+                                      selectionSet: null,
+                                    ),
+                                    FieldNode(
+                                      name: NameNode(value: 'carbs'),
+                                      alias: null,
+                                      arguments: [],
+                                      directives: [],
+                                      selectionSet: null,
+                                    ),
+                                    FieldNode(
+                                      name: NameNode(value: 'meals'),
+                                      alias: null,
+                                      arguments: [
+                                        ArgumentNode(
+                                          name: NameNode(value: 'first'),
+                                          value: IntValueNode(value: '20'),
+                                        ),
+                                      ],
+                                      directives: [],
+                                      selectionSet: SelectionSetNode(
+                                        selections: [
+                                          FieldNode(
+                                            name: NameNode(value: 'edges'),
+                                            alias: null,
+                                            arguments: [],
+                                            directives: [],
+                                            selectionSet: SelectionSetNode(
+                                              selections: [
+                                                FieldNode(
+                                                  name: NameNode(value: 'node'),
+                                                  alias: null,
+                                                  arguments: [],
+                                                  directives: [],
+                                                  selectionSet:
+                                                      SelectionSetNode(
+                                                        selections: [
+                                                          FieldNode(
+                                                            name: NameNode(
+                                                              value: 'id',
+                                                            ),
+                                                            alias: null,
+                                                            arguments: [],
+                                                            directives: [],
+                                                            selectionSet: null,
+                                                          ),
+                                                          FieldNode(
+                                                            name: NameNode(
+                                                              value: 'name',
+                                                            ),
+                                                            alias: null,
+                                                            arguments: [],
+                                                            directives: [],
+                                                            selectionSet: null,
+                                                          ),
+                                                          FieldNode(
+                                                            name: NameNode(
+                                                              value: 'calories',
+                                                            ),
+                                                            alias: null,
+                                                            arguments: [],
+                                                            directives: [],
+                                                            selectionSet: null,
+                                                          ),
+                                                          FieldNode(
+                                                            name: NameNode(
+                                                              value: 'protein',
+                                                            ),
+                                                            alias: null,
+                                                            arguments: [],
+                                                            directives: [],
+                                                            selectionSet: null,
+                                                          ),
+                                                          FieldNode(
+                                                            name: NameNode(
+                                                              value: 'fat',
+                                                            ),
+                                                            alias: null,
+                                                            arguments: [],
+                                                            directives: [],
+                                                            selectionSet: null,
+                                                          ),
+                                                          FieldNode(
+                                                            name: NameNode(
+                                                              value: 'carbs',
+                                                            ),
+                                                            alias: null,
+                                                            arguments: [],
+                                                            directives: [],
+                                                            selectionSet: null,
+                                                          ),
+                                                          FieldNode(
+                                                            name: NameNode(
+                                                              value:
+                                                                  '__typename',
+                                                            ),
+                                                            alias: null,
+                                                            arguments: [],
+                                                            directives: [],
+                                                            selectionSet: null,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                ),
+                                                FieldNode(
+                                                  name: NameNode(
+                                                    value: '__typename',
+                                                  ),
+                                                  alias: null,
+                                                  arguments: [],
+                                                  directives: [],
+                                                  selectionSet: null,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          FieldNode(
+                                            name: NameNode(value: '__typename'),
+                                            alias: null,
+                                            arguments: [],
+                                            directives: [],
+                                            selectionSet: null,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                     FieldNode(
                                       name: NameNode(value: '__typename'),
@@ -2546,7 +2885,7 @@ class Fragment$DriverDeliveryFragment$order$orderItems$edges$node {
   Fragment$DriverDeliveryFragment$order$orderItems$edges$node({
     required this.id,
     required this.quantity,
-    required this.mealPlan,
+    this.mealPlan,
     this.$__typename = 'OrderItem',
   });
 
@@ -2560,10 +2899,11 @@ class Fragment$DriverDeliveryFragment$order$orderItems$edges$node {
     return Fragment$DriverDeliveryFragment$order$orderItems$edges$node(
       id: (l$id as String),
       quantity: (l$quantity as int),
-      mealPlan:
-          Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan.fromJson(
-            (l$mealPlan as Map<String, dynamic>),
-          ),
+      mealPlan: l$mealPlan == null
+          ? null
+          : Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan.fromJson(
+              (l$mealPlan as Map<String, dynamic>),
+            ),
       $__typename: (l$$__typename as String),
     );
   }
@@ -2572,7 +2912,7 @@ class Fragment$DriverDeliveryFragment$order$orderItems$edges$node {
 
   final int quantity;
 
-  final Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan
+  final Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan?
   mealPlan;
 
   final String $__typename;
@@ -2584,7 +2924,7 @@ class Fragment$DriverDeliveryFragment$order$orderItems$edges$node {
     final l$quantity = quantity;
     _resultData['quantity'] = l$quantity;
     final l$mealPlan = mealPlan;
-    _resultData['mealPlan'] = l$mealPlan.toJson();
+    _resultData['mealPlan'] = l$mealPlan?.toJson();
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -2702,10 +3042,10 @@ class _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node<
       quantity: quantity == _undefined || quantity == null
           ? _instance.quantity
           : (quantity as int),
-      mealPlan: mealPlan == _undefined || mealPlan == null
+      mealPlan: mealPlan == _undefined
           ? _instance.mealPlan
           : (mealPlan
-                as Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan),
+                as Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
@@ -2717,10 +3057,14 @@ class _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node<
   >
   get mealPlan {
     final local$mealPlan = _instance.mealPlan;
-    return CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan(
-      local$mealPlan,
-      (e) => call(mealPlan: e),
-    );
+    return local$mealPlan == null
+        ? CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan.stub(
+            _then(_instance),
+          )
+        : CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan(
+            local$mealPlan,
+            (e) => call(mealPlan: e),
+          );
   }
 }
 
@@ -2758,6 +3102,11 @@ class Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan {
   Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan({
     required this.id,
     required this.name,
+    this.calories,
+    this.protein,
+    this.fat,
+    this.carbs,
+    this.meals,
     this.$__typename = 'MealPlan',
   });
 
@@ -2766,10 +3115,24 @@ class Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan {
   ) {
     final l$id = json['id'];
     final l$name = json['name'];
+    final l$calories = json['calories'];
+    final l$protein = json['protein'];
+    final l$fat = json['fat'];
+    final l$carbs = json['carbs'];
+    final l$meals = json['meals'];
     final l$$__typename = json['__typename'];
     return Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan(
       id: (l$id as String),
       name: (l$name as String),
+      calories: (l$calories as num?)?.toDouble(),
+      protein: (l$protein as num?)?.toDouble(),
+      fat: (l$fat as num?)?.toDouble(),
+      carbs: (l$carbs as num?)?.toDouble(),
+      meals: l$meals == null
+          ? null
+          : Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals.fromJson(
+              (l$meals as Map<String, dynamic>),
+            ),
       $__typename: (l$$__typename as String),
     );
   }
@@ -2777,6 +3140,17 @@ class Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan {
   final String id;
 
   final String name;
+
+  final double? calories;
+
+  final double? protein;
+
+  final double? fat;
+
+  final double? carbs;
+
+  final Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals?
+  meals;
 
   final String $__typename;
 
@@ -2786,6 +3160,16 @@ class Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan {
     _resultData['id'] = l$id;
     final l$name = name;
     _resultData['name'] = l$name;
+    final l$calories = calories;
+    _resultData['calories'] = l$calories;
+    final l$protein = protein;
+    _resultData['protein'] = l$protein;
+    final l$fat = fat;
+    _resultData['fat'] = l$fat;
+    final l$carbs = carbs;
+    _resultData['carbs'] = l$carbs;
+    final l$meals = meals;
+    _resultData['meals'] = l$meals?.toJson();
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -2795,8 +3179,22 @@ class Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan {
   int get hashCode {
     final l$id = id;
     final l$name = name;
+    final l$calories = calories;
+    final l$protein = protein;
+    final l$fat = fat;
+    final l$carbs = carbs;
+    final l$meals = meals;
     final l$$__typename = $__typename;
-    return Object.hashAll([l$id, l$name, l$$__typename]);
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$calories,
+      l$protein,
+      l$fat,
+      l$carbs,
+      l$meals,
+      l$$__typename,
+    ]);
   }
 
   @override
@@ -2817,6 +3215,31 @@ class Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan {
     final l$name = name;
     final lOther$name = other.name;
     if (l$name != lOther$name) {
+      return false;
+    }
+    final l$calories = calories;
+    final lOther$calories = other.calories;
+    if (l$calories != lOther$calories) {
+      return false;
+    }
+    final l$protein = protein;
+    final lOther$protein = other.protein;
+    if (l$protein != lOther$protein) {
+      return false;
+    }
+    final l$fat = fat;
+    final lOther$fat = other.fat;
+    if (l$fat != lOther$fat) {
+      return false;
+    }
+    final l$carbs = carbs;
+    final lOther$carbs = other.carbs;
+    if (l$carbs != lOther$carbs) {
+      return false;
+    }
+    final l$meals = meals;
+    final lOther$meals = other.meals;
+    if (l$meals != lOther$meals) {
       return false;
     }
     final l$$__typename = $__typename;
@@ -2856,7 +3279,21 @@ abstract class CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$n
     TRes res,
   ) = _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan;
 
-  TRes call({String? id, String? name, String? $__typename});
+  TRes call({
+    String? id,
+    String? name,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals?
+    meals,
+    String? $__typename,
+  });
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals<
+    TRes
+  >
+  get meals;
 }
 
 class _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan<
@@ -2884,6 +3321,11 @@ class _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$
   TRes call({
     Object? id = _undefined,
     Object? name = _undefined,
+    Object? calories = _undefined,
+    Object? protein = _undefined,
+    Object? fat = _undefined,
+    Object? carbs = _undefined,
+    Object? meals = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
     Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan(
@@ -2891,11 +3333,36 @@ class _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$
       name: name == _undefined || name == null
           ? _instance.name
           : (name as String),
+      calories: calories == _undefined
+          ? _instance.calories
+          : (calories as double?),
+      protein: protein == _undefined ? _instance.protein : (protein as double?),
+      fat: fat == _undefined ? _instance.fat : (fat as double?),
+      carbs: carbs == _undefined ? _instance.carbs : (carbs as double?),
+      meals: meals == _undefined
+          ? _instance.meals
+          : (meals
+                as Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
     ),
   );
+
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals<
+    TRes
+  >
+  get meals {
+    final local$meals = _instance.meals;
+    return local$meals == null
+        ? CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals.stub(
+            _then(_instance),
+          )
+        : CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals(
+            local$meals,
+            (e) => call(meals: e),
+          );
+  }
 }
 
 class _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan<
@@ -2911,7 +3378,688 @@ class _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$n
 
   TRes _res;
 
-  call({String? id, String? name, String? $__typename}) => _res;
+  call({
+    String? id,
+    String? name,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals?
+    meals,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals<
+    TRes
+  >
+  get meals =>
+      CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals.stub(
+        _res,
+      );
+}
+
+class Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals {
+  Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals({
+    this.edges,
+    this.$__typename = 'MealCursorConnection',
+  });
+
+  factory Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$edges = json['edges'];
+    final l$$__typename = json['__typename'];
+    return Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals(
+      edges: (l$edges as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList(),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final List<
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges?
+  >?
+  edges;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$edges = edges;
+    _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$edges = edges;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other
+            is! Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$edges = edges;
+    final lOther$edges = other.edges;
+    if (l$edges != null && lOther$edges != null) {
+      if (l$edges.length != lOther$edges.length) {
+        return false;
+      }
+      for (int i = 0; i < l$edges.length; i++) {
+        final l$edges$entry = l$edges[i];
+        final lOther$edges$entry = lOther$edges[i];
+        if (l$edges$entry != lOther$edges$entry) {
+          return false;
+        }
+      }
+    } else if (l$edges != lOther$edges) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals
+    on Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals {
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals<
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals
+  >
+  get copyWith =>
+      CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals<
+  TRes
+> {
+  factory CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals(
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals
+    instance,
+    TRes Function(
+      Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals,
+    )
+    then,
+  ) = _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals;
+
+  factory CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals;
+
+  TRes call({
+    List<
+      Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges?
+    >?
+    edges,
+    String? $__typename,
+  });
+  TRes edges(
+    Iterable<
+      Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges?
+    >?
+    Function(
+      Iterable<
+        CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges<
+          Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges
+        >?
+      >?,
+    )
+    _fn,
+  );
+}
+
+class _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals<
+  TRes
+>
+    implements
+        CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals<
+          TRes
+        > {
+  _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals
+  _instance;
+
+  final TRes Function(
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals,
+  )
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? edges = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals(
+      edges: edges == _undefined
+          ? _instance.edges
+          : (edges
+                as List<
+                  Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges?
+                >?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  TRes edges(
+    Iterable<
+      Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges?
+    >?
+    Function(
+      Iterable<
+        CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges<
+          Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges
+        >?
+      >?,
+    )
+    _fn,
+  ) => call(
+    edges: _fn(
+      _instance.edges?.map(
+        (e) => e == null
+            ? null
+            : CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges(
+                e,
+                (i) => i,
+              ),
+      ),
+    )?.toList(),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals<
+  TRes
+>
+    implements
+        CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals<
+          TRes
+        > {
+  _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({
+    List<
+      Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges?
+    >?
+    edges,
+    String? $__typename,
+  }) => _res;
+
+  edges(_fn) => _res;
+}
+
+class Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges {
+  Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges({
+    this.node,
+    this.$__typename = 'MealEdge',
+  });
+
+  factory Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$node = json['node'];
+    final l$$__typename = json['__typename'];
+    return Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges(
+      node: l$node == null
+          ? null
+          : Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node.fromJson(
+              (l$node as Map<String, dynamic>),
+            ),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node?
+  node;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$node = node;
+    _resultData['node'] = l$node?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$node = node;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$node, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other
+            is! Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$node = node;
+    final lOther$node = other.node;
+    if (l$node != lOther$node) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges
+    on
+        Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges {
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges<
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges
+  >
+  get copyWith =>
+      CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges<
+  TRes
+> {
+  factory CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges(
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges
+    instance,
+    TRes Function(
+      Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges,
+    )
+    then,
+  ) = _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges;
+
+  factory CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges;
+
+  TRes call({
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node?
+    node,
+    String? $__typename,
+  });
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node<
+    TRes
+  >
+  get node;
+}
+
+class _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges<
+  TRes
+>
+    implements
+        CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges<
+          TRes
+        > {
+  _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges
+  _instance;
+
+  final TRes Function(
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges,
+  )
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? node = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges(
+      node: node == _undefined
+          ? _instance.node
+          : (node
+                as Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node?),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node<
+    TRes
+  >
+  get node {
+    final local$node = _instance.node;
+    return local$node == null
+        ? CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node.stub(
+            _then(_instance),
+          )
+        : CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node(
+            local$node,
+            (e) => call(node: e),
+          );
+  }
+}
+
+class _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges<
+  TRes
+>
+    implements
+        CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges<
+          TRes
+        > {
+  _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node?
+    node,
+    String? $__typename,
+  }) => _res;
+
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node<
+    TRes
+  >
+  get node =>
+      CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node.stub(
+        _res,
+      );
+}
+
+class Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node {
+  Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node({
+    required this.id,
+    required this.name,
+    required this.calories,
+    required this.protein,
+    required this.fat,
+    required this.carbs,
+    this.$__typename = 'Meal',
+  });
+
+  factory Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$name = json['name'];
+    final l$calories = json['calories'];
+    final l$protein = json['protein'];
+    final l$fat = json['fat'];
+    final l$carbs = json['carbs'];
+    final l$$__typename = json['__typename'];
+    return Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node(
+      id: (l$id as String),
+      name: (l$name as String),
+      calories: (l$calories as num).toDouble(),
+      protein: (l$protein as num).toDouble(),
+      fat: (l$fat as num).toDouble(),
+      carbs: (l$carbs as num).toDouble(),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String name;
+
+  final double calories;
+
+  final double protein;
+
+  final double fat;
+
+  final double carbs;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$calories = calories;
+    _resultData['calories'] = l$calories;
+    final l$protein = protein;
+    _resultData['protein'] = l$protein;
+    final l$fat = fat;
+    _resultData['fat'] = l$fat;
+    final l$carbs = carbs;
+    _resultData['carbs'] = l$carbs;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$calories = calories;
+    final l$protein = protein;
+    final l$fat = fat;
+    final l$carbs = carbs;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$calories,
+      l$protein,
+      l$fat,
+      l$carbs,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other
+            is! Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$calories = calories;
+    final lOther$calories = other.calories;
+    if (l$calories != lOther$calories) {
+      return false;
+    }
+    final l$protein = protein;
+    final lOther$protein = other.protein;
+    if (l$protein != lOther$protein) {
+      return false;
+    }
+    final l$fat = fat;
+    final lOther$fat = other.fat;
+    if (l$fat != lOther$fat) {
+      return false;
+    }
+    final l$carbs = carbs;
+    final lOther$carbs = other.carbs;
+    if (l$carbs != lOther$carbs) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node
+    on
+        Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node {
+  CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node<
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node
+  >
+  get copyWith =>
+      CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node<
+  TRes
+> {
+  factory CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node(
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node
+    instance,
+    TRes Function(
+      Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node,
+    )
+    then,
+  ) = _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node;
+
+  factory CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node;
+
+  TRes call({
+    String? id,
+    String? name,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node<
+  TRes
+>
+    implements
+        CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node<
+          TRes
+        > {
+  _CopyWithImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node
+  _instance;
+
+  final TRes Function(
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node,
+  )
+  _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? calories = _undefined,
+    Object? protein = _undefined,
+    Object? fat = _undefined,
+    Object? carbs = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      name: name == _undefined || name == null
+          ? _instance.name
+          : (name as String),
+      calories: calories == _undefined || calories == null
+          ? _instance.calories
+          : (calories as double),
+      protein: protein == _undefined || protein == null
+          ? _instance.protein
+          : (protein as double),
+      fat: fat == _undefined || fat == null ? _instance.fat : (fat as double),
+      carbs: carbs == _undefined || carbs == null
+          ? _instance.carbs
+          : (carbs as double),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node<
+  TRes
+>
+    implements
+        CopyWith$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node<
+          TRes
+        > {
+  _CopyWithStubImpl$Fragment$DriverDeliveryFragment$order$orderItems$edges$node$mealPlan$meals$edges$node(
+    this._res,
+  );
+
+  TRes _res;
+
+  call({
+    String? id,
+    String? name,
+    double? calories,
+    double? protein,
+    double? fat,
+    double? carbs,
+    String? $__typename,
+  }) => _res;
 }
 
 class Fragment$DriverDeliveryFragment$driver {
@@ -4101,6 +5249,7 @@ class Variables$Query$GetUserDeliveries {
     List<String?>? status,
     String? search,
     List<Input$DeliveryFilter_order?>? order,
+    List<Input$DeliveryFilter_deliveryDate?>? deliveryDate,
   }) => Variables$Query$GetUserDeliveries._({
     r'id': id,
     if (first != null) r'first': first,
@@ -4108,6 +5257,7 @@ class Variables$Query$GetUserDeliveries {
     if (status != null) r'status': status,
     if (search != null) r'search': search,
     if (order != null) r'order': order,
+    if (deliveryDate != null) r'deliveryDate': deliveryDate,
   });
 
   Variables$Query$GetUserDeliveries._(this._$data);
@@ -4148,6 +5298,18 @@ class Variables$Query$GetUserDeliveries {
           )
           .toList();
     }
+    if (data.containsKey('deliveryDate')) {
+      final l$deliveryDate = data['deliveryDate'];
+      result$data['deliveryDate'] = (l$deliveryDate as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$DeliveryFilter_deliveryDate.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
     return Variables$Query$GetUserDeliveries._(result$data);
   }
 
@@ -4165,6 +5327,9 @@ class Variables$Query$GetUserDeliveries {
 
   List<Input$DeliveryFilter_order?>? get order =>
       (_$data['order'] as List<Input$DeliveryFilter_order?>?);
+
+  List<Input$DeliveryFilter_deliveryDate?>? get deliveryDate =>
+      (_$data['deliveryDate'] as List<Input$DeliveryFilter_deliveryDate?>?);
 
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
@@ -4189,6 +5354,12 @@ class Variables$Query$GetUserDeliveries {
     if (_$data.containsKey('order')) {
       final l$order = order;
       result$data['order'] = l$order?.map((e) => e?.toJson()).toList();
+    }
+    if (_$data.containsKey('deliveryDate')) {
+      final l$deliveryDate = deliveryDate;
+      result$data['deliveryDate'] = l$deliveryDate
+          ?.map((e) => e?.toJson())
+          .toList();
     }
     return result$data;
   }
@@ -4272,6 +5443,26 @@ class Variables$Query$GetUserDeliveries {
     } else if (l$order != lOther$order) {
       return false;
     }
+    final l$deliveryDate = deliveryDate;
+    final lOther$deliveryDate = other.deliveryDate;
+    if (_$data.containsKey('deliveryDate') !=
+        other._$data.containsKey('deliveryDate')) {
+      return false;
+    }
+    if (l$deliveryDate != null && lOther$deliveryDate != null) {
+      if (l$deliveryDate.length != lOther$deliveryDate.length) {
+        return false;
+      }
+      for (int i = 0; i < l$deliveryDate.length; i++) {
+        final l$deliveryDate$entry = l$deliveryDate[i];
+        final lOther$deliveryDate$entry = lOther$deliveryDate[i];
+        if (l$deliveryDate$entry != lOther$deliveryDate$entry) {
+          return false;
+        }
+      }
+    } else if (l$deliveryDate != lOther$deliveryDate) {
+      return false;
+    }
     return true;
   }
 
@@ -4283,6 +5474,7 @@ class Variables$Query$GetUserDeliveries {
     final l$status = status;
     final l$search = search;
     final l$order = order;
+    final l$deliveryDate = deliveryDate;
     return Object.hashAll([
       l$id,
       _$data.containsKey('first') ? l$first : const {},
@@ -4297,6 +5489,11 @@ class Variables$Query$GetUserDeliveries {
           ? l$order == null
                 ? null
                 : Object.hashAll(l$order.map((v) => v))
+          : const {},
+      _$data.containsKey('deliveryDate')
+          ? l$deliveryDate == null
+                ? null
+                : Object.hashAll(l$deliveryDate.map((v) => v))
           : const {},
     ]);
   }
@@ -4318,6 +5515,7 @@ abstract class CopyWith$Variables$Query$GetUserDeliveries<TRes> {
     List<String?>? status,
     String? search,
     List<Input$DeliveryFilter_order?>? order,
+    List<Input$DeliveryFilter_deliveryDate?>? deliveryDate,
   });
 }
 
@@ -4338,6 +5536,7 @@ class _CopyWithImpl$Variables$Query$GetUserDeliveries<TRes>
     Object? status = _undefined,
     Object? search = _undefined,
     Object? order = _undefined,
+    Object? deliveryDate = _undefined,
   }) => _then(
     Variables$Query$GetUserDeliveries._({
       ..._instance._$data,
@@ -4348,6 +5547,9 @@ class _CopyWithImpl$Variables$Query$GetUserDeliveries<TRes>
       if (search != _undefined) 'search': (search as String?),
       if (order != _undefined)
         'order': (order as List<Input$DeliveryFilter_order?>?),
+      if (deliveryDate != _undefined)
+        'deliveryDate':
+            (deliveryDate as List<Input$DeliveryFilter_deliveryDate?>?),
     }),
   );
 }
@@ -4365,6 +5567,7 @@ class _CopyWithStubImpl$Variables$Query$GetUserDeliveries<TRes>
     List<String?>? status,
     String? search,
     List<Input$DeliveryFilter_order?>? order,
+    List<Input$DeliveryFilter_deliveryDate?>? deliveryDate,
   }) => _res;
 }
 
@@ -4549,6 +5752,18 @@ const documentNodeQueryGetUserDeliveries = DocumentNode(
           defaultValue: DefaultValueNode(value: null),
           directives: [],
         ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'deliveryDate')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'DeliveryFilter_deliveryDate'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
       ],
       directives: [],
       selectionSet: SelectionSetNode(
@@ -4595,6 +5810,12 @@ const documentNodeQueryGetUserDeliveries = DocumentNode(
                     ArgumentNode(
                       name: NameNode(value: 'order'),
                       value: VariableNode(name: NameNode(value: 'order')),
+                    ),
+                    ArgumentNode(
+                      name: NameNode(value: 'deliveryDate'),
+                      value: VariableNode(
+                        name: NameNode(value: 'deliveryDate'),
+                      ),
                     ),
                   ],
                   directives: [],
@@ -5919,6 +7140,7 @@ class Variables$Query$GetDeliveriesByRestaurant {
     String? status,
     List<Input$DeliveryFilter_order?>? order,
     String? search,
+    List<Input$DeliveryFilter_deliveryDate?>? deliveryDate,
   }) => Variables$Query$GetDeliveriesByRestaurant._({
     r'restaurantId': restaurantId,
     if (first != null) r'first': first,
@@ -5926,6 +7148,7 @@ class Variables$Query$GetDeliveriesByRestaurant {
     if (status != null) r'status': status,
     if (order != null) r'order': order,
     if (search != null) r'search': search,
+    if (deliveryDate != null) r'deliveryDate': deliveryDate,
   });
 
   Variables$Query$GetDeliveriesByRestaurant._(this._$data);
@@ -5964,6 +7187,18 @@ class Variables$Query$GetDeliveriesByRestaurant {
       final l$search = data['search'];
       result$data['search'] = (l$search as String?);
     }
+    if (data.containsKey('deliveryDate')) {
+      final l$deliveryDate = data['deliveryDate'];
+      result$data['deliveryDate'] = (l$deliveryDate as List<dynamic>?)
+          ?.map(
+            (e) => e == null
+                ? null
+                : Input$DeliveryFilter_deliveryDate.fromJson(
+                    (e as Map<String, dynamic>),
+                  ),
+          )
+          .toList();
+    }
     return Variables$Query$GetDeliveriesByRestaurant._(result$data);
   }
 
@@ -5981,6 +7216,9 @@ class Variables$Query$GetDeliveriesByRestaurant {
       (_$data['order'] as List<Input$DeliveryFilter_order?>?);
 
   String? get search => (_$data['search'] as String?);
+
+  List<Input$DeliveryFilter_deliveryDate?>? get deliveryDate =>
+      (_$data['deliveryDate'] as List<Input$DeliveryFilter_deliveryDate?>?);
 
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
@@ -6005,6 +7243,12 @@ class Variables$Query$GetDeliveriesByRestaurant {
     if (_$data.containsKey('search')) {
       final l$search = search;
       result$data['search'] = l$search;
+    }
+    if (_$data.containsKey('deliveryDate')) {
+      final l$deliveryDate = deliveryDate;
+      result$data['deliveryDate'] = l$deliveryDate
+          ?.map((e) => e?.toJson())
+          .toList();
     }
     return result$data;
   }
@@ -6080,6 +7324,26 @@ class Variables$Query$GetDeliveriesByRestaurant {
     if (l$search != lOther$search) {
       return false;
     }
+    final l$deliveryDate = deliveryDate;
+    final lOther$deliveryDate = other.deliveryDate;
+    if (_$data.containsKey('deliveryDate') !=
+        other._$data.containsKey('deliveryDate')) {
+      return false;
+    }
+    if (l$deliveryDate != null && lOther$deliveryDate != null) {
+      if (l$deliveryDate.length != lOther$deliveryDate.length) {
+        return false;
+      }
+      for (int i = 0; i < l$deliveryDate.length; i++) {
+        final l$deliveryDate$entry = l$deliveryDate[i];
+        final lOther$deliveryDate$entry = lOther$deliveryDate[i];
+        if (l$deliveryDate$entry != lOther$deliveryDate$entry) {
+          return false;
+        }
+      }
+    } else if (l$deliveryDate != lOther$deliveryDate) {
+      return false;
+    }
     return true;
   }
 
@@ -6091,6 +7355,7 @@ class Variables$Query$GetDeliveriesByRestaurant {
     final l$status = status;
     final l$order = order;
     final l$search = search;
+    final l$deliveryDate = deliveryDate;
     return Object.hashAll([
       l$restaurantId,
       _$data.containsKey('first') ? l$first : const {},
@@ -6102,6 +7367,11 @@ class Variables$Query$GetDeliveriesByRestaurant {
                 : Object.hashAll(l$order.map((v) => v))
           : const {},
       _$data.containsKey('search') ? l$search : const {},
+      _$data.containsKey('deliveryDate')
+          ? l$deliveryDate == null
+                ? null
+                : Object.hashAll(l$deliveryDate.map((v) => v))
+          : const {},
     ]);
   }
 }
@@ -6122,6 +7392,7 @@ abstract class CopyWith$Variables$Query$GetDeliveriesByRestaurant<TRes> {
     String? status,
     List<Input$DeliveryFilter_order?>? order,
     String? search,
+    List<Input$DeliveryFilter_deliveryDate?>? deliveryDate,
   });
 }
 
@@ -6145,6 +7416,7 @@ class _CopyWithImpl$Variables$Query$GetDeliveriesByRestaurant<TRes>
     Object? status = _undefined,
     Object? order = _undefined,
     Object? search = _undefined,
+    Object? deliveryDate = _undefined,
   }) => _then(
     Variables$Query$GetDeliveriesByRestaurant._({
       ..._instance._$data,
@@ -6156,6 +7428,9 @@ class _CopyWithImpl$Variables$Query$GetDeliveriesByRestaurant<TRes>
       if (order != _undefined)
         'order': (order as List<Input$DeliveryFilter_order?>?),
       if (search != _undefined) 'search': (search as String?),
+      if (deliveryDate != _undefined)
+        'deliveryDate':
+            (deliveryDate as List<Input$DeliveryFilter_deliveryDate?>?),
     }),
   );
 }
@@ -6173,6 +7448,7 @@ class _CopyWithStubImpl$Variables$Query$GetDeliveriesByRestaurant<TRes>
     String? status,
     List<Input$DeliveryFilter_order?>? order,
     String? search,
+    List<Input$DeliveryFilter_deliveryDate?>? deliveryDate,
   }) => _res;
 }
 
@@ -6369,6 +7645,18 @@ const documentNodeQueryGetDeliveriesByRestaurant = DocumentNode(
           defaultValue: DefaultValueNode(value: null),
           directives: [],
         ),
+        VariableDefinitionNode(
+          variable: VariableNode(name: NameNode(value: 'deliveryDate')),
+          type: ListTypeNode(
+            type: NamedTypeNode(
+              name: NameNode(value: 'DeliveryFilter_deliveryDate'),
+              isNonNull: false,
+            ),
+            isNonNull: false,
+          ),
+          defaultValue: DefaultValueNode(value: null),
+          directives: [],
+        ),
       ],
       directives: [],
       selectionSet: SelectionSetNode(
@@ -6400,6 +7688,10 @@ const documentNodeQueryGetDeliveriesByRestaurant = DocumentNode(
               ArgumentNode(
                 name: NameNode(value: 'order_restaurant'),
                 value: VariableNode(name: NameNode(value: 'restaurantId')),
+              ),
+              ArgumentNode(
+                name: NameNode(value: 'deliveryDate'),
+                value: VariableNode(name: NameNode(value: 'deliveryDate')),
               ),
             ],
             directives: [],

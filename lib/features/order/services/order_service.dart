@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
 import 'package:catering_flutter/graphql/orders.graphql.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
-import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:catering_flutter/core/services/api_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
@@ -41,15 +41,30 @@ class OrderService extends ChangeNotifier {
   String? _currentRestaurantIri;
   Enum$OrderStatus? _currentStatusFilter;
   String? _currentSearchQuery;
+  DateTimeRange? _currentDateRange;
+
+  List<Input$OrderFilter_createdAt>? _buildCreatedAtFilter(
+    DateTimeRange? dateRange,
+  ) {
+    if (dateRange == null) return null;
+    return [
+      Input$OrderFilter_createdAt(
+        after: dateRange.start.toIso8601String(),
+        before: dateRange.end.add(const Duration(days: 1)).toIso8601String(),
+      ),
+    ];
+  }
 
   Future<void> fetchAllOrders({
     Enum$OrderStatus? status,
     String? searchQuery,
+    DateTimeRange? dateRange,
   }) async {
     _currentUserId = null;
     _currentRestaurantIri = null;
     _currentStatusFilter = status;
     _currentSearchQuery = searchQuery;
+    _currentDateRange = dateRange;
 
     _isLoading = true;
     _errorMessage = null;
@@ -63,6 +78,7 @@ class OrderService extends ChangeNotifier {
           first: 20,
           status: status?.name,
           search: searchQuery,
+          createdAt: _buildCreatedAtFilter(dateRange),
         ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
@@ -90,11 +106,13 @@ class OrderService extends ChangeNotifier {
     String restaurantIri, {
     Enum$OrderStatus? status,
     String? searchQuery,
+    DateTimeRange? dateRange,
   }) async {
     _currentUserId = null;
     _currentRestaurantIri = restaurantIri;
     _currentStatusFilter = status;
     _currentSearchQuery = searchQuery;
+    _currentDateRange = dateRange;
 
     _isLoading = true;
     _errorMessage = null;
@@ -109,6 +127,7 @@ class OrderService extends ChangeNotifier {
           first: 20,
           status: status?.name,
           search: searchQuery,
+          createdAt: _buildCreatedAtFilter(dateRange),
         ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
@@ -160,6 +179,7 @@ class OrderService extends ChangeNotifier {
             after: _endCursor,
             status: _currentStatusFilter?.name,
             search: _currentSearchQuery,
+            createdAt: _buildCreatedAtFilter(_currentDateRange),
           ).toJson(),
           fetchPolicy: FetchPolicy.networkOnly,
         );
@@ -171,6 +191,7 @@ class OrderService extends ChangeNotifier {
             after: _endCursor,
             status: _currentStatusFilter?.name,
             search: _currentSearchQuery,
+            createdAt: _buildCreatedAtFilter(_currentDateRange),
           ).toJson(),
           fetchPolicy: FetchPolicy.networkOnly,
         );
@@ -428,5 +449,10 @@ class OrderService extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  void clearError() {
+    _errorMessage = null;
+    notifyListeners();
   }
 }

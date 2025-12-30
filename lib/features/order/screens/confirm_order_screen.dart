@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:catering_flutter/core/widgets/app_premium_button.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:catering_flutter/core/utils/date_formatter.dart';
@@ -13,6 +14,9 @@ import 'package:catering_flutter/features/customer/services/address_service.dart
 import 'package:catering_flutter/core/utils/iri_helper.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:catering_flutter/core/widgets/price_text.dart';
+import 'package:catering_flutter/core/widgets/app_card.dart';
+import 'package:catering_flutter/features/customer/widgets/address_card.dart';
+import 'package:catering_flutter/core/widgets/filter_chips_bar.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
   const ConfirmOrderScreen({super.key});
@@ -146,352 +150,319 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
             return GlobalErrorWidget(
               message: addressService.errorMessage,
               onRetry: _loadDefaultAddress,
+              onCancel: () {
+                addressService.clearError();
+                context.pop();
+              },
               withScaffold: false,
             );
           }
 
           return SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.zero,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // Address Section
-                Card(
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
-                    side: BorderSide(
-                      color: Theme.of(context).colorScheme.outlineVariant,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: double.infinity,
-                          child: Wrap(
-                            alignment: WrapAlignment.spaceBetween,
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            spacing: 8.0,
-                            runSpacing: 8.0,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
+                _selectedAddress != null
+                    ? AddressCard.fromAddress(
+                        address: _selectedAddress!,
+                        showActions: false,
+                        title: AppLocalizations.of(context)!.deliveryAddress,
+                        titleAction: TextButton.icon(
+                          onPressed: () async {
+                            final result = await context.push(
+                              Uri(
+                                path: AppRoutes.addressList,
+                                queryParameters: {'selection': 'true'},
+                              ).toString(),
+                            );
+                            if (result != null && result is Address) {
+                              setState(() {
+                                _selectedAddress = result;
+                              });
+                            }
+                          },
+                          icon: const Icon(Icons.edit_location, size: 18),
+                          label: Text(AppLocalizations.of(context)!.change),
+                        ),
+                        onTap: () async {
+                          final result = await context.push(
+                            Uri(
+                              path: AppRoutes.addressList,
+                              queryParameters: {'selection': 'true'},
+                            ).toString(),
+                          );
+                          if (result != null && result is Address) {
+                            setState(() {
+                              _selectedAddress = result;
+                            });
+                          }
+                        },
+                      )
+                    : AppCard(
+                        onTap: () async {
+                          final result = await context.push(
+                            Uri(
+                              path: AppRoutes.addressList,
+                              queryParameters: {'selection': 'true'},
+                            ).toString(),
+                          );
+                          if (result != null && result is Address) {
+                            setState(() {
+                              _selectedAddress = result;
+                            });
+                          }
+                        },
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.location_on,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.deliveryAddress,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                                TextButton.icon(
+                                  onPressed: () async {
+                                    final result = await context.push(
+                                      Uri(
+                                        path: AppRoutes.addressList,
+                                        queryParameters: {'selection': 'true'},
+                                      ).toString(),
+                                    );
+                                    if (result != null && result is Address) {
+                                      setState(() {
+                                        _selectedAddress = result;
+                                      });
+                                    }
+                                  },
+                                  icon: const Icon(
+                                    Icons.add_location,
+                                    size: 18,
+                                  ),
+                                  label: Text(
+                                    AppLocalizations.of(context)!.add,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            const Divider(),
+                            const SizedBox(height: 8),
+                            Center(
+                              child: Column(
                                 children: [
                                   Icon(
-                                    Icons.location_on,
+                                    Icons.add_location_alt_outlined,
+                                    size: 48,
                                     color: Theme.of(
                                       context,
                                     ).colorScheme.primary,
                                   ),
-                                  const SizedBox(width: 8),
+                                  const SizedBox(height: 12),
                                   Text(
                                     AppLocalizations.of(
                                       context,
-                                    )!.deliveryAddress,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge
-                                        ?.copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                              TextButton(
-                                onPressed: () async {
-                                  final result = await context.push(
-                                    Uri(
-                                      path: AppRoutes.addressList,
-                                      queryParameters: {'selection': 'true'},
-                                    ).toString(),
-                                  );
-                                  if (result != null && result is Address) {
-                                    setState(() {
-                                      _selectedAddress = result;
-                                    });
-                                  }
-                                },
-                                child: Text(
-                                  _selectedAddress == null
-                                      ? AppLocalizations.of(context)!.add
-                                      : AppLocalizations.of(context)!.change,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        if (_selectedAddress != null) ...[
-                          const SizedBox(height: 8),
-                          Text(
-                            '${_selectedAddress!.firstName} ${_selectedAddress!.lastName}',
-                            style: Theme.of(context).textTheme.bodyLarge
-                                ?.copyWith(fontWeight: FontWeight.normal),
-                          ),
-                          Text(_selectedAddress!.street),
-                          if (_selectedAddress!.apartment != null)
-                            Text('Apt: ${_selectedAddress!.apartment}'),
-                          Text(
-                            '${_selectedAddress!.city}, ${_selectedAddress!.zipCode}',
-                          ),
-                          Text(_selectedAddress!.phoneNumber),
-                        ] else
-                          Text(
-                            AppLocalizations.of(
-                              context,
-                            )!.pleaseSelectDeliveryAddress,
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                // Duration Section
-                Card(
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
-                    side: BorderSide(
-                      color: Theme.of(context).colorScheme.outlineVariant,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.date_range,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              AppLocalizations.of(context)!.orderDuration,
-                              style: Theme.of(context).textTheme.titleLarge
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        InkWell(
-                          onTap: _pickDateRange,
-                          borderRadius: BorderRadius.circular(12),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 12,
-                            ),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Theme.of(context).colorScheme.outline,
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: Wrap(
-                                alignment: WrapAlignment.spaceBetween,
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                spacing: 8.0,
-                                runSpacing: 8.0,
-                                children: [
-                                  Text(
-                                    _startDate == null || _endDate == null
-                                        ? AppLocalizations.of(
-                                            context,
-                                          )!.selectDateRange
-                                        : '${AppDateFormatter.shortDate(context, _startDate!)} - ${AppDateFormatter.shortDate(context, _endDate!)}',
+                                    )!.pleaseSelectDeliveryAddress,
                                     style: Theme.of(
                                       context,
                                     ).textTheme.bodyLarge,
+                                    textAlign: TextAlign.center,
                                   ),
-                                  const Icon(Icons.calendar_today, size: 20),
                                 ],
                               ),
                             ),
+                          ],
+                        ),
+                      ),
+                const SizedBox(height: 16),
+                // Duration Section
+                AppCard(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.date_range,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            AppLocalizations.of(context)!.orderDuration,
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      InkWell(
+                        onTap: _pickDateRange,
+                        borderRadius: BorderRadius.circular(24),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.outline.withValues(alpha: 0.3),
+                            ),
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Wrap(
+                              alignment: WrapAlignment.spaceBetween,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              spacing: 8.0,
+                              runSpacing: 8.0,
+                              children: [
+                                Text(
+                                  _startDate == null || _endDate == null
+                                      ? AppLocalizations.of(
+                                          context,
+                                        )!.selectDateRange
+                                      : '${AppDateFormatter.shortDate(context, _startDate!)} - ${AppDateFormatter.shortDate(context, _endDate!)}',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                                const Icon(Icons.calendar_today, size: 20),
+                              ],
+                            ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 16),
                 // Delivery Days Section
-                Card(
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
-                    side: BorderSide(
-                      color: Theme.of(context).colorScheme.outlineVariant,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.calendar_view_week,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              AppLocalizations.of(context)!.deliveryDays,
-                              style: Theme.of(context).textTheme.titleLarge
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        Wrap(
-                          spacing: 8.0,
-                          runSpacing: 8.0,
-                          children:
-                              <String>[
-                                'Mon',
-                                'Tue',
-                                'Wed',
-                                'Thu',
-                                'Fri',
-                                'Sat',
-                                'Sun',
-                              ].map((String day) {
-                                final isSelected = _selectedDeliveryDays
-                                    .contains(day);
-                                // Display localized day name but use English internally
-                                final localizedDay =
-                                    AppDateFormatter.localizedDayName(
-                                      context,
-                                      day,
-                                    );
-                                return FilterChip(
-                                  label: Text(localizedDay),
-                                  selected: isSelected,
-                                  onSelected: (bool selected) {
-                                    setState(() {
-                                      if (selected) {
-                                        _selectedDeliveryDays.add(day);
-                                      } else {
-                                        _selectedDeliveryDays.remove(day);
-                                      }
-                                      _updateCartDeliveryDetails();
-                                    });
-                                  },
-                                  selectedColor: Theme.of(
-                                    context,
-                                  ).colorScheme.primaryContainer,
-                                  checkmarkColor: Theme.of(
-                                    context,
-                                  ).colorScheme.onPrimaryContainer,
-                                  labelStyle: Theme.of(context)
-                                      .textTheme
-                                      .labelLarge
-                                      ?.copyWith(
-                                        color: isSelected
-                                            ? Theme.of(
-                                                context,
-                                              ).colorScheme.onPrimaryContainer
-                                            : Theme.of(
-                                                context,
-                                              ).colorScheme.onSurface,
-                                        fontWeight: isSelected
-                                            ? FontWeight.bold
-                                            : FontWeight.normal,
-                                      ),
-                                );
-                              }).toList(),
-                        ),
-                      ],
-                    ),
+                AppCard(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.calendar_view_week,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            AppLocalizations.of(context)!.deliveryDays,
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      FilterChipsBar<String>(
+                        values: const [
+                          'Mon',
+                          'Tue',
+                          'Wed',
+                          'Thu',
+                          'Fri',
+                          'Sat',
+                          'Sun',
+                        ],
+                        selectedValues: _selectedDeliveryDays.toList(),
+                        labelBuilder: (day) =>
+                            AppDateFormatter.localizedDayName(context, day),
+                        onSelectedList: (newList) {
+                          setState(() {
+                            _selectedDeliveryDays.clear();
+                            _selectedDeliveryDays.addAll(newList);
+                            _updateCartDeliveryDetails();
+                          });
+                        },
+                        padding: EdgeInsets.zero,
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 24),
                 // Summary Section
-                Container(
-                  padding: const EdgeInsets.all(24.0),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.shadow.withValues(alpha: 0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, -5),
-                      ),
-                    ],
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(24),
-                    ),
-                  ),
+                AppCard(
+                  padding: const EdgeInsets.all(16),
                   child: SafeArea(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         // Delivery Fee Row
-                        if (cartService.deliveryPrice > 0)
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  AppLocalizations.of(context)!.deliveryFee,
-                                  style: Theme.of(context).textTheme.titleMedium
-                                      ?.copyWith(
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.onSurfaceVariant,
-                                      ),
-                                ),
-                                PriceText.fromDouble(
-                                  priceGroszy:
-                                      (cartService.deliveryPrice *
-                                              cartService.deliveryDates.length)
-                                          .toDouble(),
-                                  style: Theme.of(context).textTheme.titleMedium
-                                      ?.copyWith(fontWeight: FontWeight.normal),
-                                ),
-                              ],
-                            ),
+                        if (cartService.deliveryPrice > 0) ...[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                AppLocalizations.of(context)!.deliveryFee,
+                                style: Theme.of(context).textTheme.titleMedium
+                                    ?.copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurfaceVariant,
+                                    ),
+                              ),
+                              PriceText.fromDouble(
+                                priceGroszy:
+                                    (cartService.deliveryPrice *
+                                            cartService.deliveryDates.length)
+                                        .toDouble(),
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ],
                           ),
+                          const SizedBox(height: 16),
+                        ],
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               AppLocalizations.of(context)!.finalTotal,
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onSurfaceVariant,
-                                  ),
+                              style: Theme.of(context).textTheme.titleLarge
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             PriceText.fromDouble(
                               priceGroszy: cartService.grandTotalPLN,
-                              style: Theme.of(context).textTheme.headlineSmall
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
-                                  ),
+                              style: PriceText.standardStyle(context),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 16),
                         SizedBox(
                           width: double.infinity,
-                          height: 56,
-                          child: FilledButton(
+                          height: 48,
+                          child: AppPremiumButton(
                             onPressed:
-                                (orderService.isLoading ||
-                                    _startDate == null ||
+                                (_startDate == null ||
                                     _endDate == null ||
                                     _selectedDeliveryDays.isEmpty ||
                                     _selectedAddress == null)
@@ -599,17 +570,9 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                       await attemptCreateOrder();
                                     }
                                   },
-                            child: orderService.isLoading
-                                ? const SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                    ),
-                                  )
-                                : Text(
-                                    AppLocalizations.of(context)!.confirmOrder,
-                                  ),
+                            isLoading: orderService.isLoading,
+                            icon: Icons.check_circle,
+                            label: AppLocalizations.of(context)!.confirmOrder,
                           ),
                         ),
                       ],

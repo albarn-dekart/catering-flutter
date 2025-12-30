@@ -27,6 +27,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addAddress => 'Add Address';
 
   @override
+  String get address => 'Address';
+
+  @override
   String get addAddressToGetStarted => 'Add a new address to get started';
 
   @override
@@ -62,6 +65,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get all => 'All';
 
   @override
+  String get allTime => 'All Time';
+
+  @override
   String allDeliveries(int count) {
     return 'All Deliveries ($count)';
   }
@@ -71,9 +77,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get appTitle => 'Catering Service';
-
-  @override
-  String get apt => 'Apt';
 
   @override
   String get areYouSureYouWantToCancelThisOrder =>
@@ -229,12 +232,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get customMealPlanPromoTitle => 'Build Your Perfect Meal Plan';
 
   @override
-  String get customerLabel => 'Customer:';
-
-  @override
-  String customerName(Object name) {
-    return 'Customer: $name';
-  }
+  String get customerLabel => 'Customer';
 
   @override
   String get customers => 'Customers';
@@ -295,12 +293,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String deliveriesExportFailed(Object error) {
-    return 'Failed to export deliveries: $error';
-  }
-
-  @override
-  String get deliveriesExportedSuccess => 'Deliveries exported successfully';
+  String get delivery => 'Delivery';
 
   @override
   String get deliveryAddress => 'Delivery Address';
@@ -321,11 +314,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deliveryFee => 'Delivery Fee';
-
-  @override
-  String deliveryNumber(String number) {
-    return 'Delivery #$number';
-  }
 
   @override
   String get deliveryPricePLN => 'Delivery Price (PLN)';
@@ -362,7 +350,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dontHaveAccount => 'Don\'t have an account? ';
 
   @override
-  String get downloadPlan => 'Download Plan';
+  String get driver => 'Driver';
 
   @override
   String get driverAssignFailed => 'Failed to assign driver. Please retry.';
@@ -406,9 +394,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editAddress => 'Edit Address';
 
   @override
-  String editCategory(Object type) {
-    return 'Edit $type Category';
-  }
+  String get editRestaurantCategory => 'Edit Restaurant Category';
 
   @override
   String get editDetails => 'Edit Details';
@@ -447,17 +433,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String exportFailed(Object error) {
-    return 'Failed to export orders: $error';
+    return 'Failed to export data: $error';
   }
 
   @override
-  String get exportStatistics => 'Export Statistics';
+  String get exportData => 'Export Data';
 
   @override
-  String get exportSuccess => 'Orders exported successfully';
-
-  @override
-  String get exportToCsv => 'Export to CSV';
+  String get exportSuccess => 'Data exported successfully';
 
   @override
   String get failedToChangePassword => 'Failed to change password';
@@ -500,6 +483,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get firstName => 'First Name';
+
+  @override
+  String get hideIncludedMeals => 'Hide Included Meals';
 
   @override
   String get history => 'History';
@@ -608,9 +594,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mealName => 'Meal Name';
-
-  @override
-  String get mealPlanCreated => 'Meal Plan created';
 
   @override
   String get mealPlanDeleteFailed => 'Failed to delete meal plan';
@@ -755,7 +738,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get operations => 'Operations';
 
   @override
-  String get orderCreatedSuccessfully => 'Order cancelled successfully';
+  String get order => 'Order';
+
+  @override
+  String get orderCancelledSuccessfully => 'Order cancelled successfully';
+
+  @override
+  String get orderCreatedSuccessfully => 'Order created successfully';
 
   @override
   String get orderDetails => 'Order Details';
@@ -770,11 +759,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get orderNotFound => 'Order not found';
 
   @override
-  String orderNumber(Object number) {
-    return 'Order #$number';
-  }
-
-  @override
   String get orderProcessFailed => 'Failed to process order. Please retry.';
 
   @override
@@ -785,11 +769,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ordersByStatus => 'Orders by Status';
-
-  @override
-  String ordersCount(int count) {
-    return '$count orders';
-  }
 
   @override
   String get overview => 'Overview';
@@ -834,9 +813,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String piecesCount(int count) {
     return '$count pcs';
   }
-
-  @override
-  String get planName => 'Plan Name';
 
   @override
   String get pleaseEnterCategoryName => 'Please enter a category name';
@@ -988,9 +964,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get saveMealPlan => 'Save Meal Plan';
 
   @override
-  String get savePlan => 'Save Plan';
-
-  @override
   String get search => 'Search...';
 
   @override
@@ -1058,6 +1031,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get setAsDefaultAddress => 'Set as default address';
 
   @override
+  String showIncludedMeals(int count) {
+    return 'Show Included Meals ($count)';
+  }
+
+  @override
   String get signInToContinue => 'Please sign in to continue';
 
   @override
@@ -1071,14 +1049,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statistics => 'Statistics';
-
-  @override
-  String statisticsExportFailed(Object error) {
-    return 'Failed to export statistics: $error';
-  }
-
-  @override
-  String get statisticsExportSuccess => 'Statistics exported successfully';
 
   @override
   String get status => 'Status';
@@ -1183,14 +1153,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get userDeleted => 'User deleted successfully';
 
   @override
-  String usersExportFailed(Object error) {
-    return 'Failed to export users: $error';
-  }
-
-  @override
-  String get usersExported => 'Users exported successfully';
-
-  @override
   String get viewAll => 'View All';
 
   @override
@@ -1207,4 +1169,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get zipCode => 'Zip Code';
+
+  @override
+  String get areYouSureYouWantToLogout => 'Are you sure you want to logout?';
+
+  @override
+  String get defaultAddress => 'Default Address';
+
+  @override
+  String get confirmDeleteAddress =>
+      'Are you sure you want to delete this address? This action cannot be undone.';
+
+  @override
+  String get deletedMealPlan => 'Deleted Meal Plan';
+
+  @override
+  String get yesterday => 'Yesterday';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get topRestaurants => 'Top Restaurants';
+
+  @override
+  String get totalClients => 'Total Clients';
+
+  @override
+  String get totalDeliveries => 'Total Deliveries';
+
+  @override
+  String get totalStatsMealPlans => 'Total Meal Plans';
+
+  @override
+  String get tomorrow => 'Tomorrow';
+
+  @override
+  String dailyProgress(Object count, Object total) {
+    return 'Daily Progress: $count/$total';
+  }
 }

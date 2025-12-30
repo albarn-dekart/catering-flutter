@@ -18,12 +18,12 @@ class StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppCard(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(12),
       elevation: 0,
       color: color.withValues(alpha: 0.05),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: color.withValues(alpha: 0.1)),
+        borderRadius: BorderRadius.circular(24),
+        side: BorderSide(color: color.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [

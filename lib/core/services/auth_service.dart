@@ -81,9 +81,25 @@ class AuthService extends ChangeNotifier {
     }
   }
 
+  Future<String?>? _refreshFuture;
+
   /// Refreshes the access token using the storage refresh token
   /// Returns validated new token if successful, null otherwise
   Future<String?> refreshToken() async {
+    if (_refreshFuture != null) {
+      log('Refresh already in progress, waiting...', name: 'AuthService');
+      return _refreshFuture;
+    }
+
+    _refreshFuture = _doRefreshToken();
+    try {
+      return await _refreshFuture;
+    } finally {
+      _refreshFuture = null;
+    }
+  }
+
+  Future<String?> _doRefreshToken() async {
     final refreshToken = await _tokenStorage.getRefreshToken();
     if (refreshToken == null) return null;
 
@@ -99,6 +115,10 @@ class AuthService extends ChangeNotifier {
         await _handleAuthSuccess(data);
         return data['token'];
       } else {
+        log(
+          'Refresh failed with status ${response.statusCode}: ${response.body}',
+          name: 'AuthService',
+        );
         await logout(); // Refresh failed (expired/invalid), force logout
         return null;
       }
@@ -180,20 +200,19 @@ class AuthService extends ChangeNotifier {
     // Attempt to invalidate refresh token on backend
     final refreshToken = await _tokenStorage.getRefreshToken();
     if (refreshToken != null) {
-      http
-          .post(
-            Uri.parse('${ApiService.baseUrl}/api/logout'),
-            headers: {'Content-Type': 'application/json'},
-            body: jsonEncode({'refresh_token': refreshToken}),
-          )
-          .then((_) {})
-          .catchError((Object e) {
-            log(
-              'Error invalidating token on backend',
-              error: e,
-              name: 'AuthService',
-            );
-          });
+      try {
+        await http.post(
+          Uri.parse('${ApiService.baseUrl}/api/logout'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({'refresh_token': refreshToken}),
+        );
+      } catch (e) {
+        log(
+          'Error invalidating token on backend',
+          error: e,
+          name: 'AuthService',
+        );
+      }
     }
 
     await _tokenStorage.clearAll();

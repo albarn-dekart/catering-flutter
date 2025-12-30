@@ -72,6 +72,10 @@ class ProductionService extends ChangeNotifier {
 
   void clear() {
     _productionItems = [];
+    clearError();
+  }
+
+  void clearError() {
     _errorMessage = null;
     notifyListeners();
   }

@@ -1,6 +1,6 @@
 import 'package:catering_flutter/graphql/deliveries.graphql.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:catering_flutter/core/services/api_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
@@ -90,12 +90,14 @@ class DeliveryService extends ChangeNotifier {
   Enum$DeliveryStatus? _currentStatusFilter;
   String? _currentSearchQuery;
   Input$DeliveryFilter_order? _currentSortOrder;
+  DateTimeRange? _currentDateRange;
 
   Future<void> fetchRestaurantDeliveries(
     String restaurantIri, {
     Enum$DeliveryStatus? status,
     String? searchQuery,
     Input$DeliveryFilter_order? order,
+    DateTimeRange? dateRange,
   }) async {
     _isLoading = true;
     _errorMessage = null;
@@ -103,10 +105,21 @@ class DeliveryService extends ChangeNotifier {
     _currentSearchQuery = searchQuery;
     _currentSortOrder =
         order ?? Input$DeliveryFilter_order(deliveryDate: 'DESC');
+    _currentDateRange = dateRange;
     _deliveries = [];
     notifyListeners();
 
     try {
+      List<Input$DeliveryFilter_deliveryDate>? deliveryDateFilter;
+      if (dateRange != null) {
+        deliveryDateFilter = [
+          Input$DeliveryFilter_deliveryDate(
+            after: dateRange.start.toIso8601String().split('T')[0],
+            before: dateRange.end.toIso8601String().split('T')[0],
+          ),
+        ];
+      }
+
       final options = QueryOptions(
         document: documentNodeQueryGetDeliveriesByRestaurant,
         variables: Variables$Query$GetDeliveriesByRestaurant(
@@ -115,6 +128,7 @@ class DeliveryService extends ChangeNotifier {
           status: status?.name,
           search: searchQuery,
           order: [_currentSortOrder!],
+          deliveryDate: deliveryDateFilter,
         ).toJson(),
         fetchPolicy: FetchPolicy.networkOnly,
       );
@@ -148,6 +162,16 @@ class DeliveryService extends ChangeNotifier {
     try {
       final QueryOptions options;
       if (restaurantIri != null) {
+        List<Input$DeliveryFilter_deliveryDate>? deliveryDateFilter;
+        if (_currentDateRange != null) {
+          deliveryDateFilter = [
+            Input$DeliveryFilter_deliveryDate(
+              after: _currentDateRange!.start.toIso8601String().split('T')[0],
+              before: _currentDateRange!.end.toIso8601String().split('T')[0],
+            ),
+          ];
+        }
+
         options = QueryOptions(
           document: documentNodeQueryGetDeliveriesByRestaurant,
           variables: Variables$Query$GetDeliveriesByRestaurant(
@@ -157,6 +181,7 @@ class DeliveryService extends ChangeNotifier {
             status: _currentStatusFilter?.name,
             search: _currentSearchQuery,
             order: [_currentSortOrder!],
+            deliveryDate: deliveryDateFilter,
           ).toJson(),
           fetchPolicy: FetchPolicy.networkOnly,
         );

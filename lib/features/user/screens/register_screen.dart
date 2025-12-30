@@ -1,3 +1,5 @@
+import 'package:catering_flutter/core/widgets/app_card.dart';
+import 'package:catering_flutter/core/widgets/app_premium_button.dart';
 import 'package:catering_flutter/core/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -70,7 +72,7 @@ class _RegisterViewState extends State<RegisterView> {
     return Center(
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(24.0),
+        padding: EdgeInsets.zero,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -80,80 +82,72 @@ class _RegisterViewState extends State<RegisterView> {
               color: Theme.of(context).colorScheme.primary,
             ),
             const SizedBox(height: 32),
-            Card(
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-                side: BorderSide(
-                  color: Theme.of(context).colorScheme.outlineVariant,
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.createAccount,
-                        style: Theme.of(context).textTheme.headlineSmall,
-                        textAlign: TextAlign.center,
+            AppCard(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.createAccount,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      AppLocalizations.of(context)!.signUpToGetStarted,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        AppLocalizations.of(context)!.signUpToGetStarted,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 32),
-                      CustomTextField(
-                        controller: _emailController,
-                        hintText: AppLocalizations.of(context)!.email,
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return AppLocalizations.of(context)!.fieldRequired;
-                          }
-                          final emailRegex = RegExp(
-                            r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                          );
-                          if (!emailRegex.hasMatch(value)) {
-                            return AppLocalizations.of(context)!.invalidEmail;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      CustomTextField(
-                        controller: _passwordController,
-                        hintText: AppLocalizations.of(context)!.password,
-                        obscureText: true,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return AppLocalizations.of(context)!.fieldRequired;
-                          }
-                          if (value.length < 8) {
-                            return AppLocalizations.of(
-                              context,
-                            )!.passwordMinLength;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 24),
-                      _isLoading
-                          ? const Center(child: CircularProgressIndicator())
-                          : FilledButton(
-                              onPressed: _register,
-                              child: Text(
-                                AppLocalizations.of(context)!.register,
-                              ),
-                            ),
-                    ],
-                  ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 32),
+                    CustomTextField(
+                      controller: _emailController,
+                      labelText: AppLocalizations.of(context)!.email,
+                      hintText: AppLocalizations.of(context)!.email,
+                      prefixIcon: const Icon(Icons.email_outlined),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppLocalizations.of(context)!.fieldRequired;
+                        }
+                        final emailRegex = RegExp(
+                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                        );
+                        if (!emailRegex.hasMatch(value)) {
+                          return AppLocalizations.of(context)!.invalidEmail;
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    CustomTextField(
+                      controller: _passwordController,
+                      labelText: AppLocalizations.of(context)!.password,
+                      hintText: AppLocalizations.of(context)!.password,
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppLocalizations.of(context)!.fieldRequired;
+                        }
+                        if (value.length < 8) {
+                          return AppLocalizations.of(
+                            context,
+                          )!.passwordMinLength;
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    AppPremiumButton(
+                      onPressed: _register,
+                      label: AppLocalizations.of(context)!.register,
+                      isLoading: _isLoading,
+                      icon: Icons.person_add,
+                    ),
+                  ],
                 ),
               ),
             ),

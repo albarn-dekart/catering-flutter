@@ -39,6 +39,14 @@ class PriceText extends StatelessWidget {
     this.overflow,
   });
 
+  /// Standard style for prices across the app.
+  static TextStyle standardStyle(BuildContext context) {
+    return Theme.of(context).textTheme.titleLarge!.copyWith(
+      color: Theme.of(context).colorScheme.primary,
+      fontWeight: FontWeight.bold,
+    );
+  }
+
   /// Creates a PriceText from a double value (for calculated prices).
   factory PriceText.fromDouble({
     Key? key,

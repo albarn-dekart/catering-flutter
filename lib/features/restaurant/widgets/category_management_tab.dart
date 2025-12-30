@@ -1,7 +1,11 @@
+import 'package:catering_flutter/core/widgets/searchable_list_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:catering_flutter/core/widgets/global_error_widget.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
+import 'package:catering_flutter/core/widgets/app_card.dart';
+import 'package:catering_flutter/core/widgets/custom_text_field.dart';
+import 'package:catering_flutter/core/widgets/app_premium_button.dart';
+import 'package:catering_flutter/core/widgets/card_action_buttons.dart';
 
 class CategoryItem {
   final String id;
@@ -20,6 +24,7 @@ class CategoryManagementTab extends StatefulWidget {
   final bool hasError;
   final String? errorMessage;
   final VoidCallback? onRetry;
+  final VoidCallback? onCancel;
 
   const CategoryManagementTab({
     super.key,
@@ -32,6 +37,7 @@ class CategoryManagementTab extends StatefulWidget {
     this.hasError = false,
     this.errorMessage,
     this.onRetry,
+    this.onCancel,
   });
 
   @override
@@ -39,22 +45,20 @@ class CategoryManagementTab extends StatefulWidget {
 }
 
 class _CategoryManagementTabState extends State<CategoryManagementTab> {
-  final TextEditingController _searchController = TextEditingController();
   final TextEditingController _createController = TextEditingController();
   List<CategoryItem> _categories = [];
   List<CategoryItem> _filteredCategories = [];
   bool _isLoading = false;
+  String _currentQuery = '';
 
   @override
   void initState() {
     super.initState();
     _loadCategories();
-    _searchController.addListener(_filterCategories);
   }
 
   @override
   void dispose() {
-    _searchController.dispose();
     _createController.dispose();
     super.dispose();
   }
@@ -66,7 +70,7 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
       if (mounted) {
         setState(() {
           _categories = categories;
-          _filterCategories();
+          _applyFilter(_currentQuery);
           _isLoading = false;
         });
       }
@@ -82,14 +86,14 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
     }
   }
 
-  void _filterCategories() {
-    final query = _searchController.text.toLowerCase();
+  void _applyFilter(String query) {
+    _currentQuery = query.toLowerCase();
     setState(() {
-      if (query.isEmpty) {
+      if (_currentQuery.isEmpty) {
         _filteredCategories = List.from(_categories);
       } else {
         _filteredCategories = _categories
-            .where((c) => c.name.toLowerCase().contains(query))
+            .where((c) => c.name.toLowerCase().contains(_currentQuery))
             .toList();
       }
     });
@@ -135,22 +139,20 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(
-          AppLocalizations.of(context)!.editCategory(widget.categoryType),
-        ),
+        title: Text(AppLocalizations.of(context)!.editRestaurantCategory),
         content: TextField(
           controller: controller,
           decoration: InputDecoration(
             labelText: AppLocalizations.of(context)!.categoryName,
-            border: const OutlineInputBorder(),
           ),
         ),
         actions: [
-          TextButton(
+          TextButton.icon(
             onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context)!.cancel),
+            icon: const Icon(Icons.close),
+            label: Text(AppLocalizations.of(context)!.cancel),
           ),
-          FilledButton(
+          AppPremiumButton(
             onPressed: () async {
               if (controller.text.trim().isEmpty) {
                 UIErrorHandler.showSnackBar(
@@ -185,238 +187,108 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
                 );
               }
             },
-            child: Text(AppLocalizations.of(context)!.save),
+            icon: Icons.save,
+            label: AppLocalizations.of(context)!.save,
           ),
         ],
       ),
     );
   }
 
-  void _showDeleteDialog(CategoryItem category) {
-    showDialog(
+  Future<void> _showDeleteDialog(CategoryItem category) async {
+    final confirmed = await DeleteConfirmationDialog.show(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          AppLocalizations.of(context)!.deleteCategory(widget.categoryType),
-        ),
-        content: Text(
-          AppLocalizations.of(
-            context,
-          )!.deleteCategoryConfirmation(category.name),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context)!.cancel),
-          ),
-          TextButton(
-            onPressed: () async {
-              try {
-                await widget.deleteCategory(category.id);
-                if (!context.mounted) return;
-                Navigator.pop(context);
-                UIErrorHandler.showSnackBar(
-                  context,
-                  AppLocalizations.of(context)!.categoryDeleted,
-                  isError: false,
-                );
-                _loadCategories();
-              } catch (e) {
-                if (!context.mounted) return;
-                Navigator.pop(context);
-                UIErrorHandler.handleError(
-                  context,
-                  e,
-                  customMessage: AppLocalizations.of(
-                    context,
-                  )!.failedToDeleteCategory,
-                );
-              }
-            },
-            style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).colorScheme.error,
-            ),
-            child: Text(AppLocalizations.of(context)!.delete),
-          ),
-        ],
-      ),
+      title: AppLocalizations.of(context)!.deleteCategory(widget.categoryType),
+      message: AppLocalizations.of(
+        context,
+      )!.deleteCategoryConfirmation(category.name),
     );
+
+    if (confirmed && mounted) {
+      try {
+        await widget.deleteCategory(category.id);
+        if (!mounted) return;
+        UIErrorHandler.showSnackBar(
+          context,
+          AppLocalizations.of(context)!.categoryDeleted,
+          isError: false,
+        );
+        _loadCategories();
+      } catch (e) {
+        if (!mounted) return;
+        UIErrorHandler.handleError(
+          context,
+          e,
+          customMessage: AppLocalizations.of(context)!.failedToDeleteCategory,
+        );
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.hasError && _categories.isEmpty) {
-      return GlobalErrorWidget(
-        message: widget.errorMessage,
-        onRetry: widget.onRetry,
-      );
-    }
-
-    if (_isLoading && _categories.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    return Column(
-      children: [
-        // Creation and Search Section
-        Container(
-          padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(
-                  context,
-                ).colorScheme.shadow.withValues(alpha: 0.05),
-                blurRadius: 4,
-                offset: const Offset(0, 2),
-              ),
-            ],
+    return SearchableListScreen<CategoryItem>(
+      title: widget.title,
+      withScaffold: false,
+      items: _filteredCategories,
+      isLoading: _isLoading,
+      hasError: widget.hasError,
+      errorMessage: widget.errorMessage,
+      onRetry: widget.onRetry,
+      onCancel: widget.onCancel,
+      onRefresh: _loadCategories,
+      onSearch: _applyFilter,
+      searchHint: AppLocalizations.of(context)!.searchCategories,
+      header: Row(
+        children: [
+          Expanded(
+            child: CustomTextField(
+              controller: _createController,
+              labelText: AppLocalizations.of(
+                context,
+              )!.newCategory(widget.categoryType),
+              hintText: AppLocalizations.of(context)!.enterName,
+              prefixIcon: const Icon(Icons.add_circle_outline),
+            ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Create New
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _createController,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(
-                          context,
-                        )!.newCategory(widget.categoryType),
-                        hintText: AppLocalizations.of(context)!.enterName,
-                        prefixIcon: const Icon(Icons.add_circle_outline),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  FilledButton(
-                    onPressed: _isLoading ? null : _handleCreate,
-                    style: FilledButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 16,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: _isLoading
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(AppLocalizations.of(context)!.add),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              // Search
-              TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)!.searchCategories,
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  filled: true,
-                  fillColor: Theme.of(context).colorScheme.surfaceContainerLow,
-                ),
-              ),
-            ],
+          const SizedBox(width: 12),
+          AppPremiumButton(
+            onPressed: _handleCreate,
+            label: AppLocalizations.of(context)!.add,
+            isLoading: _isLoading,
+            icon: Icons.add,
+            isFullWidth: false,
           ),
-        ),
-        // List Section
-        Expanded(
-          child: _filteredCategories.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.category_outlined,
-                        size: 64,
-                        color: Theme.of(context).colorScheme.outline,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        AppLocalizations.of(context)!.noCategoriesFound,
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(
-                              color: Theme.of(context).colorScheme.outline,
-                            ),
-                      ),
-                    ],
-                  ),
-                )
-              : RefreshIndicator(
-                  onRefresh: _loadCategories,
-                  child: ListView.separated(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.all(16),
-                    itemCount: _filteredCategories.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 8),
-                    itemBuilder: (context, index) {
-                      final category = _filteredCategories[index];
-                      return Card(
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          side: BorderSide(
-                            color: Theme.of(context).colorScheme.outlineVariant,
-                          ),
-                        ),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Theme.of(
-                              context,
-                            ).colorScheme.primaryContainer,
-                            child: Text(
-                              category.name[0].toUpperCase(),
-                              style: Theme.of(context).textTheme.bodyMedium
-                                  ?.copyWith(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onPrimaryContainer,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                            ),
-                          ),
-                          title: Text(
-                            category.name,
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.edit_outlined),
-                                onPressed: () => _showEditDialog(category),
-                                tooltip: AppLocalizations.of(context)!.edit,
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.delete_outline),
-                                color: Theme.of(context).colorScheme.error,
-                                onPressed: () => _showDeleteDialog(category),
-                                tooltip: AppLocalizations.of(context)!.delete,
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-        ),
-      ],
+        ],
+      ),
+      itemBuilder: (context, category) {
+        final theme = Theme.of(context);
+        return AppCard(
+          margin: EdgeInsets.zero,
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundColor: theme.colorScheme.primaryContainer.withValues(
+                alpha: 0.5,
+              ),
+              foregroundColor: theme.colorScheme.primary,
+              child: Text(
+                category.name[0].toUpperCase(),
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            title: Text(
+              category.name,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            trailing: CardActionButtons(
+              onEdit: () => _showEditDialog(category),
+              onDelete: () => _showDeleteDialog(category),
+            ),
+          ),
+        );
+      },
     );
   }
 }

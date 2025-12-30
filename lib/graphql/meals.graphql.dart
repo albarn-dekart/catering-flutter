@@ -410,6 +410,7 @@ class Fragment$MealPlanSummaryFragment {
     this.fat,
     this.carbs,
     this.restaurant,
+    this.owner,
     this.dietCategories,
     this.$__typename = 'MealPlan',
   });
@@ -425,6 +426,7 @@ class Fragment$MealPlanSummaryFragment {
     final l$fat = json['fat'];
     final l$carbs = json['carbs'];
     final l$restaurant = json['restaurant'];
+    final l$owner = json['owner'];
     final l$dietCategories = json['dietCategories'];
     final l$$__typename = json['__typename'];
     return Fragment$MealPlanSummaryFragment(
@@ -441,6 +443,11 @@ class Fragment$MealPlanSummaryFragment {
           ? null
           : Fragment$MealPlanSummaryFragment$restaurant.fromJson(
               (l$restaurant as Map<String, dynamic>),
+            ),
+      owner: l$owner == null
+          ? null
+          : Fragment$MealPlanSummaryFragment$owner.fromJson(
+              (l$owner as Map<String, dynamic>),
             ),
       dietCategories: l$dietCategories == null
           ? null
@@ -471,6 +478,8 @@ class Fragment$MealPlanSummaryFragment {
 
   final Fragment$MealPlanSummaryFragment$restaurant? restaurant;
 
+  final Fragment$MealPlanSummaryFragment$owner? owner;
+
   final Fragment$MealPlanSummaryFragment$dietCategories? dietCategories;
 
   final String $__typename;
@@ -497,6 +506,8 @@ class Fragment$MealPlanSummaryFragment {
     _resultData['carbs'] = l$carbs;
     final l$restaurant = restaurant;
     _resultData['restaurant'] = l$restaurant?.toJson();
+    final l$owner = owner;
+    _resultData['owner'] = l$owner?.toJson();
     final l$dietCategories = dietCategories;
     _resultData['dietCategories'] = l$dietCategories?.toJson();
     final l$$__typename = $__typename;
@@ -516,6 +527,7 @@ class Fragment$MealPlanSummaryFragment {
     final l$fat = fat;
     final l$carbs = carbs;
     final l$restaurant = restaurant;
+    final l$owner = owner;
     final l$dietCategories = dietCategories;
     final l$$__typename = $__typename;
     return Object.hashAll([
@@ -529,6 +541,7 @@ class Fragment$MealPlanSummaryFragment {
       l$fat,
       l$carbs,
       l$restaurant,
+      l$owner,
       l$dietCategories,
       l$$__typename,
     ]);
@@ -593,6 +606,11 @@ class Fragment$MealPlanSummaryFragment {
     if (l$restaurant != lOther$restaurant) {
       return false;
     }
+    final l$owner = owner;
+    final lOther$owner = other.owner;
+    if (l$owner != lOther$owner) {
+      return false;
+    }
     final l$dietCategories = dietCategories;
     final lOther$dietCategories = other.dietCategories;
     if (l$dietCategories != lOther$dietCategories) {
@@ -633,10 +651,12 @@ abstract class CopyWith$Fragment$MealPlanSummaryFragment<TRes> {
     double? fat,
     double? carbs,
     Fragment$MealPlanSummaryFragment$restaurant? restaurant,
+    Fragment$MealPlanSummaryFragment$owner? owner,
     Fragment$MealPlanSummaryFragment$dietCategories? dietCategories,
     String? $__typename,
   });
   CopyWith$Fragment$MealPlanSummaryFragment$restaurant<TRes> get restaurant;
+  CopyWith$Fragment$MealPlanSummaryFragment$owner<TRes> get owner;
   CopyWith$Fragment$MealPlanSummaryFragment$dietCategories<TRes>
   get dietCategories;
 }
@@ -662,6 +682,7 @@ class _CopyWithImpl$Fragment$MealPlanSummaryFragment<TRes>
     Object? fat = _undefined,
     Object? carbs = _undefined,
     Object? restaurant = _undefined,
+    Object? owner = _undefined,
     Object? dietCategories = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
@@ -686,6 +707,9 @@ class _CopyWithImpl$Fragment$MealPlanSummaryFragment<TRes>
       restaurant: restaurant == _undefined
           ? _instance.restaurant
           : (restaurant as Fragment$MealPlanSummaryFragment$restaurant?),
+      owner: owner == _undefined
+          ? _instance.owner
+          : (owner as Fragment$MealPlanSummaryFragment$owner?),
       dietCategories: dietCategories == _undefined
           ? _instance.dietCategories
           : (dietCategories
@@ -705,6 +729,16 @@ class _CopyWithImpl$Fragment$MealPlanSummaryFragment<TRes>
         : CopyWith$Fragment$MealPlanSummaryFragment$restaurant(
             local$restaurant,
             (e) => call(restaurant: e),
+          );
+  }
+
+  CopyWith$Fragment$MealPlanSummaryFragment$owner<TRes> get owner {
+    final local$owner = _instance.owner;
+    return local$owner == null
+        ? CopyWith$Fragment$MealPlanSummaryFragment$owner.stub(_then(_instance))
+        : CopyWith$Fragment$MealPlanSummaryFragment$owner(
+            local$owner,
+            (e) => call(owner: e),
           );
   }
 
@@ -739,12 +773,16 @@ class _CopyWithStubImpl$Fragment$MealPlanSummaryFragment<TRes>
     double? fat,
     double? carbs,
     Fragment$MealPlanSummaryFragment$restaurant? restaurant,
+    Fragment$MealPlanSummaryFragment$owner? owner,
     Fragment$MealPlanSummaryFragment$dietCategories? dietCategories,
     String? $__typename,
   }) => _res;
 
   CopyWith$Fragment$MealPlanSummaryFragment$restaurant<TRes> get restaurant =>
       CopyWith$Fragment$MealPlanSummaryFragment$restaurant.stub(_res);
+
+  CopyWith$Fragment$MealPlanSummaryFragment$owner<TRes> get owner =>
+      CopyWith$Fragment$MealPlanSummaryFragment$owner.stub(_res);
 
   CopyWith$Fragment$MealPlanSummaryFragment$dietCategories<TRes>
   get dietCategories =>
@@ -845,6 +883,37 @@ const fragmentDefinitionMealPlanSummaryFragment = FragmentDefinitionNode(
             ),
             FieldNode(
               name: NameNode(value: 'deliveryPrice'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: '__typename'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+          ],
+        ),
+      ),
+      FieldNode(
+        name: NameNode(value: 'owner'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(
+          selections: [
+            FieldNode(
+              name: NameNode(value: 'id'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
+            FieldNode(
+              name: NameNode(value: 'roles'),
               alias: null,
               arguments: [],
               directives: [],
@@ -1131,6 +1200,139 @@ class _CopyWithStubImpl$Fragment$MealPlanSummaryFragment$restaurant<TRes>
 
   call({String? id, String? name, int? deliveryPrice, String? $__typename}) =>
       _res;
+}
+
+class Fragment$MealPlanSummaryFragment$owner {
+  Fragment$MealPlanSummaryFragment$owner({
+    required this.id,
+    required this.roles,
+    this.$__typename = 'User',
+  });
+
+  factory Fragment$MealPlanSummaryFragment$owner.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final l$id = json['id'];
+    final l$roles = json['roles'];
+    final l$$__typename = json['__typename'];
+    return Fragment$MealPlanSummaryFragment$owner(
+      id: (l$id as String),
+      roles: (l$roles as List<dynamic>),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final List<dynamic> roles;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$roles = roles;
+    _resultData['roles'] = l$roles;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$roles = roles;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$roles, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$MealPlanSummaryFragment$owner ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$roles = roles;
+    final lOther$roles = other.roles;
+    if (l$roles != lOther$roles) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$MealPlanSummaryFragment$owner
+    on Fragment$MealPlanSummaryFragment$owner {
+  CopyWith$Fragment$MealPlanSummaryFragment$owner<
+    Fragment$MealPlanSummaryFragment$owner
+  >
+  get copyWith =>
+      CopyWith$Fragment$MealPlanSummaryFragment$owner(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$MealPlanSummaryFragment$owner<TRes> {
+  factory CopyWith$Fragment$MealPlanSummaryFragment$owner(
+    Fragment$MealPlanSummaryFragment$owner instance,
+    TRes Function(Fragment$MealPlanSummaryFragment$owner) then,
+  ) = _CopyWithImpl$Fragment$MealPlanSummaryFragment$owner;
+
+  factory CopyWith$Fragment$MealPlanSummaryFragment$owner.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$MealPlanSummaryFragment$owner;
+
+  TRes call({String? id, List<dynamic>? roles, String? $__typename});
+}
+
+class _CopyWithImpl$Fragment$MealPlanSummaryFragment$owner<TRes>
+    implements CopyWith$Fragment$MealPlanSummaryFragment$owner<TRes> {
+  _CopyWithImpl$Fragment$MealPlanSummaryFragment$owner(
+    this._instance,
+    this._then,
+  );
+
+  final Fragment$MealPlanSummaryFragment$owner _instance;
+
+  final TRes Function(Fragment$MealPlanSummaryFragment$owner) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? roles = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$MealPlanSummaryFragment$owner(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      roles: roles == _undefined || roles == null
+          ? _instance.roles
+          : (roles as List<dynamic>),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$MealPlanSummaryFragment$owner<TRes>
+    implements CopyWith$Fragment$MealPlanSummaryFragment$owner<TRes> {
+  _CopyWithStubImpl$Fragment$MealPlanSummaryFragment$owner(this._res);
+
+  TRes _res;
+
+  call({String? id, List<dynamic>? roles, String? $__typename}) => _res;
 }
 
 class Fragment$MealPlanSummaryFragment$dietCategories {
@@ -1645,6 +1847,7 @@ class Fragment$MealPlanFragment implements Fragment$MealPlanSummaryFragment {
     this.fat,
     this.carbs,
     this.restaurant,
+    this.owner,
     this.dietCategories,
     this.$__typename = 'MealPlan',
     this.meals,
@@ -1661,6 +1864,7 @@ class Fragment$MealPlanFragment implements Fragment$MealPlanSummaryFragment {
     final l$fat = json['fat'];
     final l$carbs = json['carbs'];
     final l$restaurant = json['restaurant'];
+    final l$owner = json['owner'];
     final l$dietCategories = json['dietCategories'];
     final l$$__typename = json['__typename'];
     final l$meals = json['meals'];
@@ -1678,6 +1882,11 @@ class Fragment$MealPlanFragment implements Fragment$MealPlanSummaryFragment {
           ? null
           : Fragment$MealPlanFragment$restaurant.fromJson(
               (l$restaurant as Map<String, dynamic>),
+            ),
+      owner: l$owner == null
+          ? null
+          : Fragment$MealPlanFragment$owner.fromJson(
+              (l$owner as Map<String, dynamic>),
             ),
       dietCategories: l$dietCategories == null
           ? null
@@ -1713,6 +1922,8 @@ class Fragment$MealPlanFragment implements Fragment$MealPlanSummaryFragment {
 
   final Fragment$MealPlanFragment$restaurant? restaurant;
 
+  final Fragment$MealPlanFragment$owner? owner;
+
   final Fragment$MealPlanFragment$dietCategories? dietCategories;
 
   final String $__typename;
@@ -1741,6 +1952,8 @@ class Fragment$MealPlanFragment implements Fragment$MealPlanSummaryFragment {
     _resultData['carbs'] = l$carbs;
     final l$restaurant = restaurant;
     _resultData['restaurant'] = l$restaurant?.toJson();
+    final l$owner = owner;
+    _resultData['owner'] = l$owner?.toJson();
     final l$dietCategories = dietCategories;
     _resultData['dietCategories'] = l$dietCategories?.toJson();
     final l$$__typename = $__typename;
@@ -1762,6 +1975,7 @@ class Fragment$MealPlanFragment implements Fragment$MealPlanSummaryFragment {
     final l$fat = fat;
     final l$carbs = carbs;
     final l$restaurant = restaurant;
+    final l$owner = owner;
     final l$dietCategories = dietCategories;
     final l$$__typename = $__typename;
     final l$meals = meals;
@@ -1776,6 +1990,7 @@ class Fragment$MealPlanFragment implements Fragment$MealPlanSummaryFragment {
       l$fat,
       l$carbs,
       l$restaurant,
+      l$owner,
       l$dietCategories,
       l$$__typename,
       l$meals,
@@ -1841,6 +2056,11 @@ class Fragment$MealPlanFragment implements Fragment$MealPlanSummaryFragment {
     if (l$restaurant != lOther$restaurant) {
       return false;
     }
+    final l$owner = owner;
+    final lOther$owner = other.owner;
+    if (l$owner != lOther$owner) {
+      return false;
+    }
     final l$dietCategories = dietCategories;
     final lOther$dietCategories = other.dietCategories;
     if (l$dietCategories != lOther$dietCategories) {
@@ -1886,11 +2106,13 @@ abstract class CopyWith$Fragment$MealPlanFragment<TRes> {
     double? fat,
     double? carbs,
     Fragment$MealPlanFragment$restaurant? restaurant,
+    Fragment$MealPlanFragment$owner? owner,
     Fragment$MealPlanFragment$dietCategories? dietCategories,
     String? $__typename,
     Fragment$MealPlanFragment$meals? meals,
   });
   CopyWith$Fragment$MealPlanFragment$restaurant<TRes> get restaurant;
+  CopyWith$Fragment$MealPlanFragment$owner<TRes> get owner;
   CopyWith$Fragment$MealPlanFragment$dietCategories<TRes> get dietCategories;
   CopyWith$Fragment$MealPlanFragment$meals<TRes> get meals;
 }
@@ -1916,6 +2138,7 @@ class _CopyWithImpl$Fragment$MealPlanFragment<TRes>
     Object? fat = _undefined,
     Object? carbs = _undefined,
     Object? restaurant = _undefined,
+    Object? owner = _undefined,
     Object? dietCategories = _undefined,
     Object? $__typename = _undefined,
     Object? meals = _undefined,
@@ -1941,6 +2164,9 @@ class _CopyWithImpl$Fragment$MealPlanFragment<TRes>
       restaurant: restaurant == _undefined
           ? _instance.restaurant
           : (restaurant as Fragment$MealPlanFragment$restaurant?),
+      owner: owner == _undefined
+          ? _instance.owner
+          : (owner as Fragment$MealPlanFragment$owner?),
       dietCategories: dietCategories == _undefined
           ? _instance.dietCategories
           : (dietCategories as Fragment$MealPlanFragment$dietCategories?),
@@ -1960,6 +2186,16 @@ class _CopyWithImpl$Fragment$MealPlanFragment<TRes>
         : CopyWith$Fragment$MealPlanFragment$restaurant(
             local$restaurant,
             (e) => call(restaurant: e),
+          );
+  }
+
+  CopyWith$Fragment$MealPlanFragment$owner<TRes> get owner {
+    final local$owner = _instance.owner;
+    return local$owner == null
+        ? CopyWith$Fragment$MealPlanFragment$owner.stub(_then(_instance))
+        : CopyWith$Fragment$MealPlanFragment$owner(
+            local$owner,
+            (e) => call(owner: e),
           );
   }
 
@@ -2003,6 +2239,7 @@ class _CopyWithStubImpl$Fragment$MealPlanFragment<TRes>
     double? fat,
     double? carbs,
     Fragment$MealPlanFragment$restaurant? restaurant,
+    Fragment$MealPlanFragment$owner? owner,
     Fragment$MealPlanFragment$dietCategories? dietCategories,
     String? $__typename,
     Fragment$MealPlanFragment$meals? meals,
@@ -2010,6 +2247,9 @@ class _CopyWithStubImpl$Fragment$MealPlanFragment<TRes>
 
   CopyWith$Fragment$MealPlanFragment$restaurant<TRes> get restaurant =>
       CopyWith$Fragment$MealPlanFragment$restaurant.stub(_res);
+
+  CopyWith$Fragment$MealPlanFragment$owner<TRes> get owner =>
+      CopyWith$Fragment$MealPlanFragment$owner.stub(_res);
 
   CopyWith$Fragment$MealPlanFragment$dietCategories<TRes> get dietCategories =>
       CopyWith$Fragment$MealPlanFragment$dietCategories.stub(_res);
@@ -2297,6 +2537,132 @@ class _CopyWithStubImpl$Fragment$MealPlanFragment$restaurant<TRes>
 
   call({String? id, String? name, int? deliveryPrice, String? $__typename}) =>
       _res;
+}
+
+class Fragment$MealPlanFragment$owner
+    implements Fragment$MealPlanSummaryFragment$owner {
+  Fragment$MealPlanFragment$owner({
+    required this.id,
+    required this.roles,
+    this.$__typename = 'User',
+  });
+
+  factory Fragment$MealPlanFragment$owner.fromJson(Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$roles = json['roles'];
+    final l$$__typename = json['__typename'];
+    return Fragment$MealPlanFragment$owner(
+      id: (l$id as String),
+      roles: (l$roles as List<dynamic>),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final List<dynamic> roles;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$roles = roles;
+    _resultData['roles'] = l$roles;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$roles = roles;
+    final l$$__typename = $__typename;
+    return Object.hashAll([l$id, l$roles, l$$__typename]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Fragment$MealPlanFragment$owner ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$roles = roles;
+    final lOther$roles = other.roles;
+    if (l$roles != lOther$roles) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Fragment$MealPlanFragment$owner
+    on Fragment$MealPlanFragment$owner {
+  CopyWith$Fragment$MealPlanFragment$owner<Fragment$MealPlanFragment$owner>
+  get copyWith => CopyWith$Fragment$MealPlanFragment$owner(this, (i) => i);
+}
+
+abstract class CopyWith$Fragment$MealPlanFragment$owner<TRes> {
+  factory CopyWith$Fragment$MealPlanFragment$owner(
+    Fragment$MealPlanFragment$owner instance,
+    TRes Function(Fragment$MealPlanFragment$owner) then,
+  ) = _CopyWithImpl$Fragment$MealPlanFragment$owner;
+
+  factory CopyWith$Fragment$MealPlanFragment$owner.stub(TRes res) =
+      _CopyWithStubImpl$Fragment$MealPlanFragment$owner;
+
+  TRes call({String? id, List<dynamic>? roles, String? $__typename});
+}
+
+class _CopyWithImpl$Fragment$MealPlanFragment$owner<TRes>
+    implements CopyWith$Fragment$MealPlanFragment$owner<TRes> {
+  _CopyWithImpl$Fragment$MealPlanFragment$owner(this._instance, this._then);
+
+  final Fragment$MealPlanFragment$owner _instance;
+
+  final TRes Function(Fragment$MealPlanFragment$owner) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? roles = _undefined,
+    Object? $__typename = _undefined,
+  }) => _then(
+    Fragment$MealPlanFragment$owner(
+      id: id == _undefined || id == null ? _instance.id : (id as String),
+      roles: roles == _undefined || roles == null
+          ? _instance.roles
+          : (roles as List<dynamic>),
+      $__typename: $__typename == _undefined || $__typename == null
+          ? _instance.$__typename
+          : ($__typename as String),
+    ),
+  );
+}
+
+class _CopyWithStubImpl$Fragment$MealPlanFragment$owner<TRes>
+    implements CopyWith$Fragment$MealPlanFragment$owner<TRes> {
+  _CopyWithStubImpl$Fragment$MealPlanFragment$owner(this._res);
+
+  TRes _res;
+
+  call({String? id, List<dynamic>? roles, String? $__typename}) => _res;
 }
 
 class Fragment$MealPlanFragment$dietCategories

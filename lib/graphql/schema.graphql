@@ -28,6 +28,7 @@
     "Returns the elements in the list that come after the specified cursor."
     after: String
 
+    deliveryDate: [DeliveryFilter_deliveryDate]
     search: String
     status: String
     status_list: [String]
@@ -112,6 +113,7 @@
     search: String
     status: String
     status_list: [String]
+    createdAt: [OrderFilter_createdAt]
   ): OrderCursorConnection
   orderItems(
     "Returns the first n elements from the list."
@@ -246,6 +248,7 @@ type User implements Node {
     search: String
     status: String
     status_list: [String]
+    createdAt: [OrderFilter_createdAt]
   ): OrderCursorConnection
   deliveries(
     "Returns the first n elements from the list."
@@ -260,6 +263,7 @@ type User implements Node {
     "Returns the elements in the list that come after the specified cursor."
     after: String
 
+    deliveryDate: [DeliveryFilter_deliveryDate]
     search: String
     status: String
     status_list: [String]
@@ -315,6 +319,13 @@ type User implements Node {
 "The `Iterable` scalar type represents an array or a Traversable with any kind of data."
 scalar Iterable
 
+input OrderFilter_createdAt {
+  before: String
+  strictly_before: String
+  after: String
+  strictly_after: String
+}
+
 "Cursor connection for Order."
 type OrderCursorConnection {
   edges: [OrderEdge]
@@ -360,6 +371,7 @@ type Order implements Node {
     "Returns the elements in the list that come after the specified cursor."
     after: String
 
+    deliveryDate: [DeliveryFilter_deliveryDate]
     search: String
     status: String
     status_list: [String]
@@ -414,8 +426,14 @@ type OrderItemEdge {
 type OrderItem implements Node {
   id: ID!
   order: Order
-  mealPlan: MealPlan!
+  mealPlan: MealPlan
   quantity: Int!
+  mealPlanName: String
+  mealPlanPrice: Int
+  mealPlanCalories: Float
+  mealPlanProtein: Float
+  mealPlanFat: Float
+  mealPlanCarbs: Float
 }
 
 type MealPlan implements Node {
@@ -639,6 +657,7 @@ type Restaurant implements Node {
     search: String
     status: String
     status_list: [String]
+    createdAt: [OrderFilter_createdAt]
   ): OrderCursorConnection
   imageUrl: String
 }
@@ -851,6 +870,13 @@ type OrderItemPageInfo {
   startCursor: String
   hasNextPage: Boolean!
   hasPreviousPage: Boolean!
+}
+
+input DeliveryFilter_deliveryDate {
+  before: String
+  strictly_before: String
+  after: String
+  strictly_after: String
 }
 
 input DeliveryFilter_order {
@@ -1280,6 +1306,12 @@ input updateOrderItemNestedInput {
   order: String
   mealPlan: String
   quantity: Int
+  mealPlanName: String
+  mealPlanPrice: Int
+  mealPlanCalories: Float
+  mealPlanProtein: Float
+  mealPlanFat: Float
+  mealPlanCarbs: Float
   clientMutationId: String
 }
 
@@ -1334,8 +1366,14 @@ input createOrderInput {
 input OrderItemNestedInput {
   id: ID
   order: String
-  mealPlan: String!
+  mealPlan: String
   quantity: Int!
+  mealPlanName: String
+  mealPlanPrice: Int
+  mealPlanCalories: Float
+  mealPlanProtein: Float
+  mealPlanFat: Float
+  mealPlanCarbs: Float
 }
 
 "Creates a Delivery."
@@ -1360,6 +1398,12 @@ input updateOrderItemInput {
   order: String
   mealPlan: String
   quantity: Int
+  mealPlanName: String
+  mealPlanPrice: Int
+  mealPlanCalories: Float
+  mealPlanProtein: Float
+  mealPlanFat: Float
+  mealPlanCarbs: Float
   clientMutationId: String
 }
 

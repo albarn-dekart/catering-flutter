@@ -2,10 +2,10 @@ import 'package:catering_flutter/core/app_router.dart';
 import 'package:catering_flutter/core/widgets/app_card.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
 import 'package:catering_flutter/core/widgets/custom_cached_image.dart';
-import 'package:catering_flutter/core/widgets/macro_badge.dart';
+import 'package:catering_flutter/core/widgets/icon_badge.dart';
+import 'package:catering_flutter/core/widgets/category_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:catering_flutter/l10n/app_localizations.dart';
 
 class RestaurantCard extends StatelessWidget {
   final String id;
@@ -34,7 +34,6 @@ class RestaurantCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return AppCard(
-      padding: EdgeInsets.zero,
       onTap:
           onTap ??
           () {
@@ -99,22 +98,7 @@ class RestaurantCard extends StatelessWidget {
                     spacing: 8,
                     runSpacing: 4,
                     children: categories!.map((c) {
-                      return Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.secondaryContainer,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          c,
-                          style: theme.textTheme.labelMedium?.copyWith(
-                            color: theme.colorScheme.onSecondaryContainer,
-                          ),
-                        ),
-                      );
+                      return CategoryBadge(text: c);
                     }).toList(),
                   ),
                 ],
@@ -130,17 +114,21 @@ class RestaurantCard extends StatelessWidget {
                       height: 1.3,
                     ),
                   ),
-                const SizedBox(height: 8),
-                // Order count badge
-                if (orderCount != null)
-                  MacroBadge(
-                    text: AppLocalizations.of(
-                      context,
-                    )!.ordersCount(orderCount!),
-                    icon: Icons.trending_up,
-                  ),
 
-                if (actions != null) ...[const SizedBox(height: 8), actions!],
+                // Order Count and Actions - Always at bottom
+                if (orderCount != null || actions != null) ...[
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      if (orderCount != null)
+                        IconBadge(
+                          text: '$orderCount',
+                          icon: Icons.local_fire_department,
+                        ),
+                      if (actions != null) ...[const Spacer(), actions!],
+                    ],
+                  ),
+                ],
               ],
             ),
           ),

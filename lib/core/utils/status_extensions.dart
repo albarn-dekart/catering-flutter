@@ -187,17 +187,17 @@ extension DeliveryStatusUI on Enum$DeliveryStatus {
   IconData get icon {
     switch (this) {
       case Enum$DeliveryStatus.Delivered:
-        return Icons.check_circle_rounded;
+        return Icons.check_circle;
       case Enum$DeliveryStatus.Failed:
-        return Icons.error_rounded;
+        return Icons.error;
       case Enum$DeliveryStatus.Returned:
-        return Icons.keyboard_return_rounded;
+        return Icons.keyboard_return;
       case Enum$DeliveryStatus.Picked_up:
-        return Icons.local_shipping_rounded;
+        return Icons.local_shipping;
       case Enum$DeliveryStatus.Assigned:
-        return Icons.assignment_ind_rounded;
+        return Icons.assignment_ind;
       default:
-        return Icons.schedule_rounded;
+        return Icons.schedule;
     }
   }
 }

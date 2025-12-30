@@ -1,3 +1,5 @@
+import 'package:catering_flutter/core/widgets/app_card.dart';
+import 'package:catering_flutter/core/widgets/app_premium_button.dart';
 import 'package:catering_flutter/core/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,19 +12,23 @@ import 'package:catering_flutter/core/services/auth_service.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  final String? redirectUrl;
+
+  const LoginScreen({super.key, this.redirectUrl});
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: AppLocalizations.of(context)!.login,
-      child: const LoginView(),
+      child: LoginView(redirectUrl: redirectUrl),
     );
   }
 }
 
 class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+  final String? redirectUrl;
+
+  const LoginView({super.key, this.redirectUrl});
 
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -52,7 +58,11 @@ class _LoginViewState extends State<LoginView> {
           AppLocalizations.of(context)!.loginSuccess,
           isError: false,
         );
-        context.go(AppRoutes.home);
+        if (widget.redirectUrl != null) {
+          context.go(widget.redirectUrl!);
+        } else {
+          context.go(AppRoutes.home);
+        }
       }
     } catch (e) {
       if (mounted) {
@@ -76,7 +86,7 @@ class _LoginViewState extends State<LoginView> {
     return Center(
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(24.0),
+        padding: EdgeInsets.zero,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -85,95 +95,73 @@ class _LoginViewState extends State<LoginView> {
               size: 64,
               color: Theme.of(context).colorScheme.primary,
             ),
-            const SizedBox(height: 32),
-            Card(
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-                side: BorderSide(
-                  color: Theme.of(context).colorScheme.outlineVariant,
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.welcomeBack,
-                        style: Theme.of(context).textTheme.headlineSmall,
-                        textAlign: TextAlign.center,
+            const SizedBox(height: 16),
+            AppCard(
+              padding: const EdgeInsets.all(24),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.welcomeBack,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      AppLocalizations.of(context)!.signInToContinue,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        AppLocalizations.of(context)!.signInToContinue,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 32),
-                      CustomTextField(
-                        controller: _emailController,
-                        hintText: AppLocalizations.of(context)!.email,
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return AppLocalizations.of(context)!.fieldRequired;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      CustomTextField(
-                        controller: _passwordController,
-                        hintText: AppLocalizations.of(context)!.password,
-                        obscureText: true,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return AppLocalizations.of(context)!.fieldRequired;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 24),
-                      _isLoading
-                          ? const Center(child: CircularProgressIndicator())
-                          : FilledButton(
-                              onPressed: _login,
-                              style: FilledButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 16,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              child: Text(
-                                AppLocalizations.of(context)!.login,
-                                style: Theme.of(context).textTheme.labelLarge
-                                    ?.copyWith(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onPrimary,
-                                    ),
-                              ),
-                            ),
-                    ],
-                  ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 16),
+                    CustomTextField(
+                      controller: _emailController,
+                      labelText: AppLocalizations.of(context)!.email,
+                      hintText: AppLocalizations.of(context)!.email,
+                      prefixIcon: const Icon(Icons.email_outlined),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppLocalizations.of(context)!.fieldRequired;
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    CustomTextField(
+                      controller: _passwordController,
+                      labelText: AppLocalizations.of(context)!.password,
+                      hintText: AppLocalizations.of(context)!.password,
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppLocalizations.of(context)!.fieldRequired;
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    AppPremiumButton(
+                      onPressed: _login,
+                      label: AppLocalizations.of(context)!.login,
+                      isLoading: _isLoading,
+                      icon: Icons.login,
+                    ),
+                  ],
                 ),
               ),
             ),
             const SizedBox(height: 24),
-            TextButton(
+            TextButton.icon(
               onPressed: () {
                 context.push(AppRoutes.register);
               },
-              child: RichText(
+              icon: const Icon(Icons.person_add),
+              label: RichText(
                 text: TextSpan(
                   text: AppLocalizations.of(context)!.dontHaveAccount,
                   style: Theme.of(context).textTheme.bodyMedium,
@@ -182,7 +170,7 @@ class _LoginViewState extends State<LoginView> {
                       text: AppLocalizations.of(context)!.register,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.normal,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],

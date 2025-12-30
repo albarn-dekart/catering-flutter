@@ -29,9 +29,48 @@ import 'features/restaurant/services/diet_category_service.dart';
 import 'features/restaurant/services/production_service.dart';
 import 'features/customer/services/home_service.dart';
 import 'package:flutter/foundation.dart';
+import 'dart:ui' as ui;
 import 'core/services/api_service.dart';
 import 'core/services/media_service.dart';
 import 'core/services/export_service.dart';
+
+/// Custom scroll behavior that shows scrollbars on desktop/web platforms
+/// while maintaining drag-to-scroll support for all pointer types.
+class AppScrollBehavior extends MaterialScrollBehavior {
+  const AppScrollBehavior();
+
+  @override
+  Set<ui.PointerDeviceKind> get dragDevices => {
+    ui.PointerDeviceKind.mouse,
+    ui.PointerDeviceKind.touch,
+    ui.PointerDeviceKind.trackpad,
+    ui.PointerDeviceKind.stylus,
+  };
+
+  @override
+  Widget buildScrollbar(
+    BuildContext context,
+    Widget child,
+    ScrollableDetails details,
+  ) {
+    // On desktop/web, show scrollbars automatically
+    switch (Theme.of(context).platform) {
+      case TargetPlatform.linux:
+      case TargetPlatform.macOS:
+      case TargetPlatform.windows:
+        return Scrollbar(
+          controller: details.controller,
+          thumbVisibility: false, // Only show on hover/interaction
+          child: child,
+        );
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.iOS:
+        // On mobile platforms, use default behavior (scrollbars appear during scroll)
+        return child;
+    }
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -205,6 +244,7 @@ class _MyAppState extends State<MyApp> {
         builder: (context, languageProvider, child) {
           return MaterialApp.router(
             title: 'Catering App',
+            scrollBehavior: const AppScrollBehavior(),
             theme: AppTheme.lightTheme,
             routerConfig: _appRouter.router,
             locale: languageProvider.currentLocale,
