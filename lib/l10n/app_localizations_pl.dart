@@ -316,9 +316,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get deliveryFee => 'Opłata za dostawę';
 
   @override
-  String get deliveryPricePLN => 'Cena dostawy (PLN)';
-
-  @override
   String get deliverySchedule => 'Harmonogram Dostaw';
 
   @override
@@ -1193,7 +1190,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get today => 'Dzisiaj';
 
   @override
-  String get topRestaurants => 'Najlepsze Restauracje';
+  String get topRestaurants => 'Restauracje wg przychodu';
 
   @override
   String get totalClients => 'Liczba Klientów';

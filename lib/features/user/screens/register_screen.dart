@@ -83,6 +83,7 @@ class _RegisterViewState extends State<RegisterView> {
             ),
             const SizedBox(height: 32),
             AppCard(
+              padding: const EdgeInsets.all(24),
               child: Form(
                 key: _formKey,
                 child: Column(

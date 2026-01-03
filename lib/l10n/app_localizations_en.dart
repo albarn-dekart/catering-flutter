@@ -316,9 +316,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deliveryFee => 'Delivery Fee';
 
   @override
-  String get deliveryPricePLN => 'Delivery Price (PLN)';
-
-  @override
   String get deliverySchedule => 'Delivery Schedule';
 
   @override
@@ -1190,7 +1187,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get today => 'Today';
 
   @override
-  String get topRestaurants => 'Top Restaurants';
+  String get topRestaurants => 'Top Restaurants by Revenue';
 
   @override
   String get totalClients => 'Total Clients';

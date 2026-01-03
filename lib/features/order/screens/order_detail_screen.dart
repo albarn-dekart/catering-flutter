@@ -148,16 +148,19 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       for (var edge in order.orderItems!.edges!) {
         final item = edge?.node;
         if (item != null) {
-          // Use snapshot price if mealPlan is null (deleted)
-          final mealPlan = item.mealPlan;
-          final num price = mealPlan?.price ?? item.mealPlanPrice ?? 0;
+          // Use snapshotted price
+          final num price = item.mealPlanPrice ?? 0;
           itemsSubtotal += (price * item.quantity * effectiveDeliveryDays)
               .toInt();
         }
       }
     }
 
-    final deliveryFee = order.total - itemsSubtotal;
+    // Use snapshotted delivery fee (per day)
+    final int perDayDeliveryFee = (order as dynamic).deliveryFee ?? 0;
+    final int totalDeliveryFee = (perDayDeliveryFee * effectiveDeliveryDays)
+        .toInt();
+
     final theme = Theme.of(context);
 
     return Column(
@@ -605,17 +608,15 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 final mealPlan = item.mealPlan;
                 final includedMeals = mealPlan?.meals?.edges ?? [];
 
-                // Use snapshot data if mealPlan is null (deleted)
+                // Use snapshotted data
                 final itemName =
-                    mealPlan?.name ??
                     item.mealPlanName ??
                     AppLocalizations.of(context)!.deletedMealPlan;
-                final itemPrice = mealPlan?.price ?? item.mealPlanPrice ?? 0;
-                final itemCalories =
-                    mealPlan?.calories ?? item.mealPlanCalories;
-                final itemProtein = mealPlan?.protein ?? item.mealPlanProtein;
-                final itemFat = mealPlan?.fat ?? item.mealPlanFat;
-                final itemCarbs = mealPlan?.carbs ?? item.mealPlanCarbs;
+                final itemPrice = item.mealPlanPrice ?? 0;
+                final itemCalories = item.mealPlanCalories;
+                final itemProtein = item.mealPlanProtein;
+                final itemFat = item.mealPlanFat;
+                final itemCarbs = item.mealPlanCarbs;
 
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
@@ -941,15 +942,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     style: theme.textTheme.bodyMedium,
                   ),
                   PriceText(
-                    priceGroszy: deliveryFee,
+                    priceGroszy: totalDeliveryFee,
                     style: theme.textTheme.bodyMedium,
                   ),
                 ],
               ),
               const SizedBox(height: 8),
-              if (deliveryFee == 0 && order.total > itemsSubtotal)
-                // Fallback check if simple math was off or backend quirk, usually unnecessary but safe
-                const SizedBox.shrink(),
 
               const SizedBox(height: 4),
               Row(

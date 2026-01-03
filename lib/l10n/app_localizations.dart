@@ -656,12 +656,6 @@ abstract class AppLocalizations {
   /// **'Delivery Fee'**
   String get deliveryFee;
 
-  /// No description provided for @deliveryPricePLN.
-  ///
-  /// In en, this message translates to:
-  /// **'Delivery Price (PLN)'**
-  String get deliveryPricePLN;
-
   /// No description provided for @deliverySchedule.
   ///
   /// In en, this message translates to:
@@ -2337,7 +2331,7 @@ abstract class AppLocalizations {
   /// No description provided for @topRestaurants.
   ///
   /// In en, this message translates to:
-  /// **'Top Restaurants'**
+  /// **'Top Restaurants by Revenue'**
   String get topRestaurants;
 
   /// No description provided for @totalClients.

@@ -55,13 +55,9 @@ class RestaurantMealFormScreen extends HookWidget {
       return null;
     }, [mealId]);
 
-    // Sync Form Data when currentMeal changes
     useEffect(() {
       final meal = mealService.currentMeal;
-      // Only populate if we have a meal and we are editing (or if we want to support resetting)
-      // In create mode, currentMeal is cleared, so fields might clear if we strictly sync.
-      // But unlike restaurant form, we don't have a complex "stale data" guard that blocks the UI.
-      // We'll populate if meal is not null.
+
       if (meal != null) {
         nameController.text = meal.name;
         descriptionController.text = meal.description ?? '';
@@ -71,8 +67,6 @@ class RestaurantMealFormScreen extends HookWidget {
         fatController.text = meal.fat.toString();
         carbsController.text = meal.carbs.toString();
       } else if (mealId == null) {
-        // Clear fields if explicitly in create mode and meal is null (cleared)
-        // This handles the case of "Create Another" or re-entering the screen
         nameController.clear();
         descriptionController.clear();
         priceController.clear();
@@ -242,30 +236,30 @@ class RestaurantMealFormScreen extends HookWidget {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 16),
-              _buildTextField(
-                context,
+              CustomTextField(
                 controller: nameController,
-                label: AppLocalizations.of(context)!.mealName,
+                labelText: AppLocalizations.of(context)!.mealName,
+                hintText: AppLocalizations.of(context)!.mealName,
                 validator: (v) => v?.isEmpty ?? true
                     ? AppLocalizations.of(context)!.pleaseEnterName
                     : null,
               ),
               const SizedBox(height: 16),
-              _buildTextField(
-                context,
+              CustomTextField(
                 controller: descriptionController,
-                label: AppLocalizations.of(context)!.description,
+                labelText: AppLocalizations.of(context)!.description,
+                hintText: AppLocalizations.of(context)!.description,
                 maxLines: 3,
                 validator: (v) => v?.isEmpty ?? true
                     ? AppLocalizations.of(context)!.pleaseEnterDescription
                     : null,
               ),
               const SizedBox(height: 16),
-              _buildTextField(
-                context,
+              CustomTextField(
                 controller: priceController,
-                label: AppLocalizations.of(context)!.price,
-                prefixText: 'PLN ',
+                labelText: AppLocalizations.of(context)!.price,
+                hintText: AppLocalizations.of(context)!.price,
+                suffixText: 'PLN',
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),
@@ -290,10 +284,10 @@ class RestaurantMealFormScreen extends HookWidget {
               Row(
                 children: [
                   Expanded(
-                    child: _buildTextField(
-                      context,
+                    child: CustomTextField(
                       controller: caloriesController,
-                      label: AppLocalizations.of(context)!.calories,
+                      labelText: AppLocalizations.of(context)!.calories,
+                      hintText: AppLocalizations.of(context)!.calories,
                       suffixText: 'kcal',
                       keyboardType: const TextInputType.numberWithOptions(
                         decimal: true,
@@ -302,10 +296,10 @@ class RestaurantMealFormScreen extends HookWidget {
                   ),
                   const SizedBox(width: 16),
                   Expanded(
-                    child: _buildTextField(
-                      context,
+                    child: CustomTextField(
                       controller: proteinController,
-                      label: AppLocalizations.of(context)!.protein,
+                      labelText: AppLocalizations.of(context)!.protein,
+                      hintText: AppLocalizations.of(context)!.protein,
                       suffixText: 'g',
                       keyboardType: const TextInputType.numberWithOptions(
                         decimal: true,
@@ -318,10 +312,10 @@ class RestaurantMealFormScreen extends HookWidget {
               Row(
                 children: [
                   Expanded(
-                    child: _buildTextField(
-                      context,
+                    child: CustomTextField(
                       controller: fatController,
-                      label: AppLocalizations.of(context)!.fat,
+                      labelText: AppLocalizations.of(context)!.fat,
+                      hintText: AppLocalizations.of(context)!.fat,
                       suffixText: 'g',
                       keyboardType: const TextInputType.numberWithOptions(
                         decimal: true,
@@ -330,10 +324,10 @@ class RestaurantMealFormScreen extends HookWidget {
                   ),
                   const SizedBox(width: 16),
                   Expanded(
-                    child: _buildTextField(
-                      context,
+                    child: CustomTextField(
                       controller: carbsController,
-                      label: AppLocalizations.of(context)!.carbs,
+                      labelText: AppLocalizations.of(context)!.carbs,
+                      hintText: AppLocalizations.of(context)!.carbs,
                       suffixText: 'g',
                       keyboardType: const TextInputType.numberWithOptions(
                         decimal: true,
@@ -355,29 +349,6 @@ class RestaurantMealFormScreen extends HookWidget {
           ),
         ),
       ),
-    );
-  }
-
-  // Helpers
-  Widget _buildTextField(
-    BuildContext context, {
-    required TextEditingController controller,
-    required String label,
-    String? prefixText,
-    String? suffixText,
-    int maxLines = 1,
-    TextInputType? keyboardType,
-    String? Function(String?)? validator,
-  }) {
-    return CustomTextField(
-      controller: controller,
-      labelText: label,
-      hintText: label,
-      prefixText: prefixText,
-      suffixText: suffixText,
-      maxLines: maxLines,
-      keyboardType: keyboardType,
-      validator: validator,
     );
   }
 
@@ -432,7 +403,6 @@ class RestaurantMealFormScreen extends HookWidget {
                   ),
                 ],
               ),
-
             if (imageBytes.value != null || currentImageUrl != null)
               Stack(
                 children: [

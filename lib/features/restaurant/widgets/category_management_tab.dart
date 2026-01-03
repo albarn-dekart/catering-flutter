@@ -239,52 +239,141 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
       onRefresh: _loadCategories,
       onSearch: _applyFilter,
       searchHint: AppLocalizations.of(context)!.searchCategories,
-      header: Row(
-        children: [
-          Expanded(
-            child: CustomTextField(
-              controller: _createController,
-              labelText: AppLocalizations.of(
-                context,
-              )!.newCategory(widget.categoryType),
-              hintText: AppLocalizations.of(context)!.enterName,
-              prefixIcon: const Icon(Icons.add_circle_outline),
-            ),
-          ),
-          const SizedBox(width: 12),
-          AppPremiumButton(
-            onPressed: _handleCreate,
-            label: AppLocalizations.of(context)!.add,
-            isLoading: _isLoading,
-            icon: Icons.add,
-            isFullWidth: false,
-          ),
-        ],
+      header: LayoutBuilder(
+        builder: (context, constraints) {
+          final isNarrow = constraints.maxWidth < 700;
+          if (isNarrow) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                CustomTextField(
+                  controller: _createController,
+                  labelText: AppLocalizations.of(
+                    context,
+                  )!.newCategory(widget.categoryType),
+                  hintText: AppLocalizations.of(context)!.enterName,
+                  prefixIcon: const Icon(Icons.add_circle_outline),
+                ),
+                const SizedBox(height: 12),
+                AppPremiumButton(
+                  onPressed: _handleCreate,
+                  label: AppLocalizations.of(context)!.add,
+                  isLoading: _isLoading,
+                  icon: Icons.add,
+                  isFullWidth: true,
+                ),
+              ],
+            );
+          }
+          return Row(
+            children: [
+              Expanded(
+                child: CustomTextField(
+                  controller: _createController,
+                  labelText: AppLocalizations.of(
+                    context,
+                  )!.newCategory(widget.categoryType),
+                  hintText: AppLocalizations.of(context)!.enterName,
+                  prefixIcon: const Icon(Icons.add_circle_outline),
+                ),
+              ),
+              const SizedBox(width: 12),
+              AppPremiumButton(
+                onPressed: _handleCreate,
+                label: AppLocalizations.of(context)!.add,
+                isLoading: _isLoading,
+                icon: Icons.add,
+                isFullWidth: false,
+              ),
+            ],
+          );
+        },
       ),
       itemBuilder: (context, category) {
         final theme = Theme.of(context);
         return AppCard(
           margin: EdgeInsets.zero,
-          child: ListTile(
-            leading: CircleAvatar(
-              backgroundColor: theme.colorScheme.primaryContainer.withValues(
-                alpha: 0.5,
-              ),
-              foregroundColor: theme.colorScheme.primary,
-              child: Text(
-                category.name[0].toUpperCase(),
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-            title: Text(
-              category.name,
-              style: theme.textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            trailing: CardActionButtons(
-              onEdit: () => _showEditDialog(category),
-              onDelete: () => _showDeleteDialog(category),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final isNarrow = constraints.maxWidth < 700;
+
+                if (isNarrow) {
+                  // Stack layout for narrow screens
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: theme.colorScheme.primaryContainer
+                                .withValues(alpha: 0.5),
+                            foregroundColor: theme.colorScheme.primary,
+                            child: Text(
+                              category.name[0].toUpperCase(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              category.name,
+                              style: theme.textTheme.bodyLarge?.copyWith(
+                                fontWeight: FontWeight.w500,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CardActionButtons(
+                            onEdit: () => _showEditDialog(category),
+                            onDelete: () => _showDeleteDialog(category),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                }
+
+                // Row layout for wider screens
+                return Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: theme.colorScheme.primaryContainer
+                          .withValues(alpha: 0.5),
+                      foregroundColor: theme.colorScheme.primary,
+                      child: Text(
+                        category.name[0].toUpperCase(),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        category.name,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    CardActionButtons(
+                      onEdit: () => _showEditDialog(category),
+                      onDelete: () => _showDeleteDialog(category),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         );

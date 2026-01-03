@@ -376,7 +376,7 @@ class RestaurantForm extends HookWidget {
                   _buildTextField(
                     context,
                     controller: deliveryPriceController,
-                    label: AppLocalizations.of(context)!.deliveryPricePLN,
+                    label: AppLocalizations.of(context)!.deliveryFee,
                     icon: Icons.attach_money,
                     suffixText: "PLN",
                     keyboardType: const TextInputType.numberWithOptions(

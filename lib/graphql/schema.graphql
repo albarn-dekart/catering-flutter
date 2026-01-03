@@ -390,6 +390,7 @@ type Order implements Node {
   deliveryApartment: String
   deliveryCity: String
   deliveryZipCode: String
+  deliveryFee: Int
   createdAt: String!
 
   "Get the earliest delivery date from the deliveries collection."
@@ -1296,6 +1297,7 @@ input updateOrderInput {
   deliveryApartment: String
   deliveryCity: String
   deliveryZipCode: String
+  deliveryFee: Int
   createdAt: String
   clientMutationId: String
 }
@@ -1359,6 +1361,7 @@ input createOrderInput {
   deliveryApartment: String
   deliveryCity: String
   deliveryZipCode: String
+  deliveryFee: Int
   createdAt: String!
   clientMutationId: String
 }

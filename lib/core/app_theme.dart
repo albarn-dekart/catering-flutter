@@ -179,6 +179,8 @@ class AppTheme {
             ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
               foregroundColor: AppColors.textOnPrimary,
+              disabledBackgroundColor: AppColors.border,
+              disabledForegroundColor: AppColors.textTertiary,
               minimumSize: const Size(88, 48),
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
               shape: const StadiumBorder(),
@@ -205,6 +207,8 @@ class AppTheme {
             FilledButton.styleFrom(
               backgroundColor: AppColors.primary,
               foregroundColor: AppColors.textOnPrimary,
+              disabledBackgroundColor: AppColors.border,
+              disabledForegroundColor: AppColors.textTertiary,
               minimumSize: const Size(88, 48),
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
               shape: const StadiumBorder(),
@@ -227,23 +231,34 @@ class AppTheme {
       ),
 
       outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.primary,
-          minimumSize: const Size(88, 48),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
-          shape: const StadiumBorder(),
-          side: const BorderSide(color: AppColors.primary, width: 1.5),
-          textStyle: textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.w600,
-            letterSpacing: 0.1,
-          ),
-          iconSize: 20,
-        ),
+        style:
+            OutlinedButton.styleFrom(
+              foregroundColor: AppColors.primary,
+              minimumSize: const Size(88, 48),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
+              shape: const StadiumBorder(),
+              disabledBackgroundColor:
+                  Colors.transparent, // Outline buttons usually transparent
+              disabledForegroundColor: AppColors.textTertiary,
+              textStyle: textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.1,
+              ),
+              iconSize: 20,
+            ).copyWith(
+              side: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.disabled)) {
+                  return const BorderSide(color: AppColors.border, width: 1.5);
+                }
+                return const BorderSide(color: AppColors.primary, width: 1.5);
+              }),
+            ),
       ),
 
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primary,
+          disabledForegroundColor: AppColors.textTertiary,
           minimumSize: const Size(64, 48),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           shape: const StadiumBorder(),
@@ -256,6 +271,7 @@ class AppTheme {
 
       iconButtonTheme: IconButtonThemeData(
         style: IconButton.styleFrom(
+          disabledForegroundColor: AppColors.textTertiary,
           minimumSize: const Size(48, 48),
           padding: const EdgeInsets.all(8),
           shape: const StadiumBorder(),

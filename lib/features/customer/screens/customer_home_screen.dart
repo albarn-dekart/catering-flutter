@@ -181,29 +181,60 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        Wrap(
-                          spacing: 12,
-                          runSpacing: 12,
-                          children: [
-                            AppPremiumButton(
-                              onPressed: () => context.push(
-                                '${AppRoutes.restaurants}?intent=build_meal_plan',
-                              ),
-                              icon: Icons.add,
-                              label: AppLocalizations.of(
-                                context,
-                              )!.startBuilding,
-                              isFullWidth: false,
-                            ),
-                            OutlinedButton.icon(
-                              onPressed: () =>
-                                  context.push(AppRoutes.myMealPlans),
-                              icon: const Icon(Icons.list_alt),
-                              label: Text(
-                                AppLocalizations.of(context)!.viewMyPlans,
-                              ),
-                            ),
-                          ],
+                        LayoutBuilder(
+                          builder: (context, constraints) {
+                            final isNarrow = constraints.maxWidth < 700;
+                            if (isNarrow) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  AppPremiumButton(
+                                    onPressed: () => context.push(
+                                      '${AppRoutes.restaurants}?intent=build_meal_plan',
+                                    ),
+                                    icon: Icons.add,
+                                    label: AppLocalizations.of(
+                                      context,
+                                    )!.startBuilding,
+                                    isFullWidth: true,
+                                  ),
+                                  const SizedBox(height: 12),
+                                  OutlinedButton.icon(
+                                    onPressed: () =>
+                                        context.push(AppRoutes.myMealPlans),
+                                    icon: const Icon(Icons.list_alt),
+                                    label: Text(
+                                      AppLocalizations.of(context)!.viewMyPlans,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }
+                            return Wrap(
+                              spacing: 12,
+                              runSpacing: 12,
+                              children: [
+                                AppPremiumButton(
+                                  onPressed: () => context.push(
+                                    '${AppRoutes.restaurants}?intent=build_meal_plan',
+                                  ),
+                                  icon: Icons.add,
+                                  label: AppLocalizations.of(
+                                    context,
+                                  )!.startBuilding,
+                                  isFullWidth: false,
+                                ),
+                                OutlinedButton.icon(
+                                  onPressed: () =>
+                                      context.push(AppRoutes.myMealPlans),
+                                  icon: const Icon(Icons.list_alt),
+                                  label: Text(
+                                    AppLocalizations.of(context)!.viewMyPlans,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
                         ),
                       ],
                     ),

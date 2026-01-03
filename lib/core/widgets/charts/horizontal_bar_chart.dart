@@ -1,5 +1,4 @@
 import 'package:catering_flutter/core/widgets/app_card.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 
@@ -19,172 +18,248 @@ class HorizontalBarChartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final effectiveValueLabel =
         valueLabel ?? AppLocalizations.of(context)!.count;
 
     if (data.isEmpty) {
-      return SizedBox(
-        width: double.infinity,
-        child: AppCard(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(title, style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 16),
-              Text(AppLocalizations.of(context)!.noDataAvailable),
-            ],
-          ),
+      return AppCard(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(title, style: theme.textTheme.titleMedium),
+            const SizedBox(height: 24),
+            Text(AppLocalizations.of(context)!.noDataAvailable),
+          ],
         ),
       );
     }
 
     final maxValue = data.map((e) => e.value).reduce((a, b) => a > b ? a : b);
-    // Ensure maxY is at least 5 to have a valid chart range when all values are 0
-    final effectiveMaxY = maxValue < 5 ? 5.0 : maxValue * 1.2;
+    // Add 20% buffer to the max value for better visual balance
+    final double maxY = maxValue < 5 ? 5.0 : maxValue * 1.2;
 
-    return SizedBox(
-      width: double.infinity,
-      child: AppCard(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.normal,
+    return AppCard(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header matching style of other charts
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: BoxDecoration(
+                  color: barColor.withValues(alpha: 1.0).withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: barColor.withValues(alpha: 0.2)),
+                ),
+                child: Text(
+                  effectiveValueLabel,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: barColor,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 2,
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          // Chart Area (250px height matching other charts)
+          SizedBox(
+            height: 250,
+            child: Column(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      // Labels on the left
+                      SizedBox(
+                        width: 100,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: data.map((entry) {
+                              return Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.only(right: 12.0),
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    entry.key,
+                                    style: theme.textTheme.labelSmall,
+                                    textAlign: TextAlign.right,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                      // Chart area with grid and bars
+                      Expanded(
+                        child: Stack(
+                          children: [
+                            // Grid Lines (Vertical matching fl_chart feel)
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: List.generate(6, (index) {
+                                return Container(
+                                  width: 1,
+                                  color: Colors.grey.withValues(alpha: 0.15),
+                                );
+                              }),
+                            ),
+                            // Bars
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 8.0,
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: data.map((entry) {
+                                  final percentage = (entry.value / maxY).clamp(
+                                    0.0,
+                                    1.0,
+                                  );
+                                  return _buildBar(
+                                    context,
+                                    entry,
+                                    percentage,
+                                    effectiveValueLabel,
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  decoration: BoxDecoration(
-                    color: barColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: barColor.withValues(alpha: 0.2)),
-                  ),
-                  child: Text(
-                    effectiveValueLabel,
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: barColor,
-                      fontWeight: FontWeight.bold,
-                    ),
+                ),
+                // X-Axis Scale Labels (Now inside the 250px footprint)
+                Padding(
+                  padding: const EdgeInsets.only(left: 100.0, top: 12.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(6, (index) {
+                      final value = (maxY / 5 * index).toInt();
+                      String label;
+                      if (value >= 1000000) {
+                        label = '${(value / 1000000).toStringAsFixed(1)}M';
+                      } else if (value >= 1000) {
+                        label = '${(value / 1000).toStringAsFixed(0)}K';
+                      } else {
+                        label = '$value';
+                      }
+                      return Text(label, style: theme.textTheme.labelSmall);
+                    }),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 24),
-            SizedBox(
-              height: 250,
-              child: BarChart(
-                BarChartData(
-                  alignment: BarChartAlignment.spaceAround,
-                  maxY: effectiveMaxY,
-                  barTouchData: BarTouchData(
-                    touchTooltipData: BarTouchTooltipData(
-                      fitInsideHorizontally: true,
-                      fitInsideVertically: true,
-                      getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                        return BarTooltipItem(
-                          '${data[groupIndex].key}\n${data[groupIndex].value} $effectiveValueLabel',
-                          Theme.of(context).textTheme.labelSmall?.copyWith(
-                                color: Colors.white,
-                              ) ??
-                              const TextStyle(color: Colors.white),
-                        );
-                      },
-                    ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBar(
+    BuildContext context,
+    MapEntry<String, int> entry,
+    double percentage,
+    String valueLabel,
+  ) {
+    final theme = Theme.of(context);
+
+    // Height of each bar is handled by the Column mainAxisAlignment: spaceEvenly
+    return Expanded(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Row(
+              children: [
+                // Bar itself
+                Tooltip(
+                  message: '${entry.key}\n${entry.value} $valueLabel',
+                  preferBelow: false,
+                  textAlign: TextAlign.center,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
                   ),
-                  titlesData: FlTitlesData(
-                    show: true,
-                    rightTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    topTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        getTitlesWidget: (value, meta) {
-                          final index = value.toInt();
-                          if (index < 0 || index >= data.length) {
-                            return const Text('');
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Text(
-                              data[index].key.length > 12
-                                  ? '${data[index].key.substring(0, 12)}...'
-                                  : data[index].key,
-                              style: Theme.of(context).textTheme.labelSmall,
-                              textAlign: TextAlign.center,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          );
-                        },
-                        reservedSize: 60,
+                  margin: const EdgeInsets.only(bottom: 12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF526A76),
+                    borderRadius: BorderRadius.circular(4),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.2),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
                       ),
+                    ],
+                  ),
+                  textStyle: theme.textTheme.labelSmall?.copyWith(
+                    color: Colors.white,
+                    fontSize: 11,
+                  ),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 800),
+                    curve: Curves.easeOutCubic,
+                    width: (constraints.maxWidth * percentage).clamp(
+                      0.0,
+                      constraints.maxWidth,
                     ),
-                    leftTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 50,
-                        getTitlesWidget: (value, meta) {
-                          if (value % 1 != 0) {
-                            return const SizedBox.shrink();
-                          }
-                          return Text(
-                            value.toInt().toString(),
-                            style: Theme.of(context).textTheme.labelSmall,
-                          );
-                        },
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: barColor,
+                      borderRadius: const BorderRadius.horizontal(
+                        right: Radius.circular(4),
                       ),
-                    ),
-                  ),
-                  borderData: FlBorderData(
-                    show: true,
-                    border: Border.all(
-                      color: Colors.grey.withValues(alpha: 0.3),
-                    ),
-                  ),
-                  gridData: FlGridData(
-                    show: true,
-                    drawVerticalLine: false,
-                    getDrawingHorizontalLine: (value) {
-                      return FlLine(
-                        color: Colors.grey.withValues(alpha: 0.2),
-                        strokeWidth: 1,
-                      );
-                    },
-                  ),
-                  barGroups: data.asMap().entries.map((entry) {
-                    return BarChartGroupData(
-                      x: entry.key,
-                      barRods: [
-                        BarChartRodData(
-                          toY: entry.value.value.toDouble(),
-                          color: barColor,
-                          width: 20,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(4),
-                            topRight: Radius.circular(4),
-                          ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: barColor.withValues(alpha: 0.2),
+                          blurRadius: 4,
+                          offset: const Offset(2, 2),
                         ),
                       ],
-                    );
-                  }).toList(),
+                    ),
+                    // Only show text inside if there is space
+                    child: percentage > 0.2
+                        ? Center(
+                            child: Text(
+                              '${entry.value}',
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                shadows: const [
+                                  Shadow(color: Colors.black, blurRadius: 2),
+                                ],
+                              ),
+                            ),
+                          )
+                        : null,
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

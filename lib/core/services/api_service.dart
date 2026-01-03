@@ -8,7 +8,7 @@ class ApiService {
   final http.Client _client;
 
   static String get baseUrl {
-    return 'https://localhost:8000';
+    return 'http://52.57.64.38';
   }
 
   static String get stripePubKey {

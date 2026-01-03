@@ -81,7 +81,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Text(
-        AppLocalizations.of(context)!.summary + ': ${filteredItems.length}',
+        "${AppLocalizations.of(context)!.summary} ${filteredItems.length}",
         style: Theme.of(context).textTheme.labelMedium?.copyWith(
           color: Theme.of(context).colorScheme.primary,
           fontWeight: FontWeight.bold,

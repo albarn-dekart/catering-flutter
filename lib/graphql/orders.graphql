@@ -2,6 +2,7 @@ fragment OrderSummary on Order {
   id
   status
   total
+  deliveryFee
   customer {
     id
     email

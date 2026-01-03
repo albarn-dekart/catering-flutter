@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:catering_flutter/core/app_theme.dart';
 
 class AppPremiumButton extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -56,6 +57,8 @@ class AppPremiumButton extends StatelessWidget {
         style: FilledButton.styleFrom(
           backgroundColor: backgroundColor,
           foregroundColor: foregroundColor,
+          disabledBackgroundColor: AppColors.border,
+          disabledForegroundColor: AppColors.textTertiary,
           elevation: isLoading ? 0 : null,
           minimumSize: height != null ? Size(88, height!) : null,
         ),

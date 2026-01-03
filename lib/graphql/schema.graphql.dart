@@ -6384,6 +6384,7 @@ class Input$updateOrderInput {
     String? deliveryApartment,
     String? deliveryCity,
     String? deliveryZipCode,
+    int? deliveryFee,
     String? createdAt,
     String? clientMutationId,
   }) => Input$updateOrderInput._({
@@ -6403,6 +6404,7 @@ class Input$updateOrderInput {
     if (deliveryApartment != null) r'deliveryApartment': deliveryApartment,
     if (deliveryCity != null) r'deliveryCity': deliveryCity,
     if (deliveryZipCode != null) r'deliveryZipCode': deliveryZipCode,
+    if (deliveryFee != null) r'deliveryFee': deliveryFee,
     if (createdAt != null) r'createdAt': createdAt,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
   });
@@ -6487,6 +6489,10 @@ class Input$updateOrderInput {
       final l$deliveryZipCode = data['deliveryZipCode'];
       result$data['deliveryZipCode'] = (l$deliveryZipCode as String?);
     }
+    if (data.containsKey('deliveryFee')) {
+      final l$deliveryFee = data['deliveryFee'];
+      result$data['deliveryFee'] = (l$deliveryFee as int?);
+    }
     if (data.containsKey('createdAt')) {
       final l$createdAt = data['createdAt'];
       result$data['createdAt'] = (l$createdAt as String?);
@@ -6531,6 +6537,8 @@ class Input$updateOrderInput {
   String? get deliveryCity => (_$data['deliveryCity'] as String?);
 
   String? get deliveryZipCode => (_$data['deliveryZipCode'] as String?);
+
+  int? get deliveryFee => (_$data['deliveryFee'] as int?);
 
   String? get createdAt => (_$data['createdAt'] as String?);
 
@@ -6601,6 +6609,10 @@ class Input$updateOrderInput {
     if (_$data.containsKey('deliveryZipCode')) {
       final l$deliveryZipCode = deliveryZipCode;
       result$data['deliveryZipCode'] = l$deliveryZipCode;
+    }
+    if (_$data.containsKey('deliveryFee')) {
+      final l$deliveryFee = deliveryFee;
+      result$data['deliveryFee'] = l$deliveryFee;
     }
     if (_$data.containsKey('createdAt')) {
       final l$createdAt = createdAt;
@@ -6775,6 +6787,15 @@ class Input$updateOrderInput {
     if (l$deliveryZipCode != lOther$deliveryZipCode) {
       return false;
     }
+    final l$deliveryFee = deliveryFee;
+    final lOther$deliveryFee = other.deliveryFee;
+    if (_$data.containsKey('deliveryFee') !=
+        other._$data.containsKey('deliveryFee')) {
+      return false;
+    }
+    if (l$deliveryFee != lOther$deliveryFee) {
+      return false;
+    }
     final l$createdAt = createdAt;
     final lOther$createdAt = other.createdAt;
     if (_$data.containsKey('createdAt') !=
@@ -6813,6 +6834,7 @@ class Input$updateOrderInput {
     final l$deliveryApartment = deliveryApartment;
     final l$deliveryCity = deliveryCity;
     final l$deliveryZipCode = deliveryZipCode;
+    final l$deliveryFee = deliveryFee;
     final l$createdAt = createdAt;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
@@ -6841,6 +6863,7 @@ class Input$updateOrderInput {
       _$data.containsKey('deliveryApartment') ? l$deliveryApartment : const {},
       _$data.containsKey('deliveryCity') ? l$deliveryCity : const {},
       _$data.containsKey('deliveryZipCode') ? l$deliveryZipCode : const {},
+      _$data.containsKey('deliveryFee') ? l$deliveryFee : const {},
       _$data.containsKey('createdAt') ? l$createdAt : const {},
       _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
     ]);
@@ -6872,6 +6895,7 @@ abstract class CopyWith$Input$updateOrderInput<TRes> {
     String? deliveryApartment,
     String? deliveryCity,
     String? deliveryZipCode,
+    int? deliveryFee,
     String? createdAt,
     String? clientMutationId,
   });
@@ -6923,6 +6947,7 @@ class _CopyWithImpl$Input$updateOrderInput<TRes>
     Object? deliveryApartment = _undefined,
     Object? deliveryCity = _undefined,
     Object? deliveryZipCode = _undefined,
+    Object? deliveryFee = _undefined,
     Object? createdAt = _undefined,
     Object? clientMutationId = _undefined,
   }) => _then(
@@ -6952,6 +6977,7 @@ class _CopyWithImpl$Input$updateOrderInput<TRes>
       if (deliveryCity != _undefined) 'deliveryCity': (deliveryCity as String?),
       if (deliveryZipCode != _undefined)
         'deliveryZipCode': (deliveryZipCode as String?),
+      if (deliveryFee != _undefined) 'deliveryFee': (deliveryFee as int?),
       if (createdAt != _undefined) 'createdAt': (createdAt as String?),
       if (clientMutationId != _undefined)
         'clientMutationId': (clientMutationId as String?),
@@ -7019,6 +7045,7 @@ class _CopyWithStubImpl$Input$updateOrderInput<TRes>
     String? deliveryApartment,
     String? deliveryCity,
     String? deliveryZipCode,
+    int? deliveryFee,
     String? createdAt,
     String? clientMutationId,
   }) => _res;
@@ -7791,6 +7818,7 @@ class Input$createOrderInput {
     String? deliveryApartment,
     String? deliveryCity,
     String? deliveryZipCode,
+    int? deliveryFee,
     required String createdAt,
     String? clientMutationId,
   }) => Input$createOrderInput._({
@@ -7809,6 +7837,7 @@ class Input$createOrderInput {
     if (deliveryApartment != null) r'deliveryApartment': deliveryApartment,
     if (deliveryCity != null) r'deliveryCity': deliveryCity,
     if (deliveryZipCode != null) r'deliveryZipCode': deliveryZipCode,
+    if (deliveryFee != null) r'deliveryFee': deliveryFee,
     r'createdAt': createdAt,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
   });
@@ -7885,6 +7914,10 @@ class Input$createOrderInput {
       final l$deliveryZipCode = data['deliveryZipCode'];
       result$data['deliveryZipCode'] = (l$deliveryZipCode as String?);
     }
+    if (data.containsKey('deliveryFee')) {
+      final l$deliveryFee = data['deliveryFee'];
+      result$data['deliveryFee'] = (l$deliveryFee as int?);
+    }
     final l$createdAt = data['createdAt'];
     result$data['createdAt'] = (l$createdAt as String);
     if (data.containsKey('clientMutationId')) {
@@ -7925,6 +7958,8 @@ class Input$createOrderInput {
   String? get deliveryCity => (_$data['deliveryCity'] as String?);
 
   String? get deliveryZipCode => (_$data['deliveryZipCode'] as String?);
+
+  int? get deliveryFee => (_$data['deliveryFee'] as int?);
 
   String get createdAt => (_$data['createdAt'] as String);
 
@@ -7987,6 +8022,10 @@ class Input$createOrderInput {
     if (_$data.containsKey('deliveryZipCode')) {
       final l$deliveryZipCode = deliveryZipCode;
       result$data['deliveryZipCode'] = l$deliveryZipCode;
+    }
+    if (_$data.containsKey('deliveryFee')) {
+      final l$deliveryFee = deliveryFee;
+      result$data['deliveryFee'] = l$deliveryFee;
     }
     final l$createdAt = createdAt;
     result$data['createdAt'] = l$createdAt;
@@ -8148,6 +8187,15 @@ class Input$createOrderInput {
     if (l$deliveryZipCode != lOther$deliveryZipCode) {
       return false;
     }
+    final l$deliveryFee = deliveryFee;
+    final lOther$deliveryFee = other.deliveryFee;
+    if (_$data.containsKey('deliveryFee') !=
+        other._$data.containsKey('deliveryFee')) {
+      return false;
+    }
+    if (l$deliveryFee != lOther$deliveryFee) {
+      return false;
+    }
     final l$createdAt = createdAt;
     final lOther$createdAt = other.createdAt;
     if (l$createdAt != lOther$createdAt) {
@@ -8181,6 +8229,7 @@ class Input$createOrderInput {
     final l$deliveryApartment = deliveryApartment;
     final l$deliveryCity = deliveryCity;
     final l$deliveryZipCode = deliveryZipCode;
+    final l$deliveryFee = deliveryFee;
     final l$createdAt = createdAt;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
@@ -8208,6 +8257,7 @@ class Input$createOrderInput {
       _$data.containsKey('deliveryApartment') ? l$deliveryApartment : const {},
       _$data.containsKey('deliveryCity') ? l$deliveryCity : const {},
       _$data.containsKey('deliveryZipCode') ? l$deliveryZipCode : const {},
+      _$data.containsKey('deliveryFee') ? l$deliveryFee : const {},
       l$createdAt,
       _$data.containsKey('clientMutationId') ? l$clientMutationId : const {},
     ]);
@@ -8238,6 +8288,7 @@ abstract class CopyWith$Input$createOrderInput<TRes> {
     String? deliveryApartment,
     String? deliveryCity,
     String? deliveryZipCode,
+    int? deliveryFee,
     String? createdAt,
     String? clientMutationId,
   });
@@ -8286,6 +8337,7 @@ class _CopyWithImpl$Input$createOrderInput<TRes>
     Object? deliveryApartment = _undefined,
     Object? deliveryCity = _undefined,
     Object? deliveryZipCode = _undefined,
+    Object? deliveryFee = _undefined,
     Object? createdAt = _undefined,
     Object? clientMutationId = _undefined,
   }) => _then(
@@ -8315,6 +8367,7 @@ class _CopyWithImpl$Input$createOrderInput<TRes>
       if (deliveryCity != _undefined) 'deliveryCity': (deliveryCity as String?),
       if (deliveryZipCode != _undefined)
         'deliveryZipCode': (deliveryZipCode as String?),
+      if (deliveryFee != _undefined) 'deliveryFee': (deliveryFee as int?),
       if (createdAt != _undefined && createdAt != null)
         'createdAt': (createdAt as String),
       if (clientMutationId != _undefined)
@@ -8379,6 +8432,7 @@ class _CopyWithStubImpl$Input$createOrderInput<TRes>
     String? deliveryApartment,
     String? deliveryCity,
     String? deliveryZipCode,
+    int? deliveryFee,
     String? createdAt,
     String? clientMutationId,
   }) => _res;

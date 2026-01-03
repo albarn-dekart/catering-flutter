@@ -10,6 +10,7 @@ class Fragment$OrderSummary {
     required this.id,
     required this.status,
     required this.total,
+    this.deliveryFee,
     this.customer,
     this.restaurant,
     this.orderItems,
@@ -22,6 +23,7 @@ class Fragment$OrderSummary {
     final l$id = json['id'];
     final l$status = json['status'];
     final l$total = json['total'];
+    final l$deliveryFee = json['deliveryFee'];
     final l$customer = json['customer'];
     final l$restaurant = json['restaurant'];
     final l$orderItems = json['orderItems'];
@@ -32,6 +34,7 @@ class Fragment$OrderSummary {
       id: (l$id as String),
       status: fromJson$Enum$OrderStatus((l$status as String)),
       total: (l$total as int),
+      deliveryFee: (l$deliveryFee as int?),
       customer: l$customer == null
           ? null
           : Fragment$OrderSummary$customer.fromJson(
@@ -63,6 +66,8 @@ class Fragment$OrderSummary {
 
   final int total;
 
+  final int? deliveryFee;
+
   final Fragment$OrderSummary$customer? customer;
 
   final Fragment$OrderSummary$restaurant? restaurant;
@@ -83,6 +88,8 @@ class Fragment$OrderSummary {
     _resultData['status'] = toJson$Enum$OrderStatus(l$status);
     final l$total = total;
     _resultData['total'] = l$total;
+    final l$deliveryFee = deliveryFee;
+    _resultData['deliveryFee'] = l$deliveryFee;
     final l$customer = customer;
     _resultData['customer'] = l$customer?.toJson();
     final l$restaurant = restaurant;
@@ -103,6 +110,7 @@ class Fragment$OrderSummary {
     final l$id = id;
     final l$status = status;
     final l$total = total;
+    final l$deliveryFee = deliveryFee;
     final l$customer = customer;
     final l$restaurant = restaurant;
     final l$orderItems = orderItems;
@@ -113,6 +121,7 @@ class Fragment$OrderSummary {
       l$id,
       l$status,
       l$total,
+      l$deliveryFee,
       l$customer,
       l$restaurant,
       l$orderItems,
@@ -143,6 +152,11 @@ class Fragment$OrderSummary {
     final l$total = total;
     final lOther$total = other.total;
     if (l$total != lOther$total) {
+      return false;
+    }
+    final l$deliveryFee = deliveryFee;
+    final lOther$deliveryFee = other.deliveryFee;
+    if (l$deliveryFee != lOther$deliveryFee) {
       return false;
     }
     final l$customer = customer;
@@ -197,6 +211,7 @@ abstract class CopyWith$Fragment$OrderSummary<TRes> {
     String? id,
     Enum$OrderStatus? status,
     int? total,
+    int? deliveryFee,
     Fragment$OrderSummary$customer? customer,
     Fragment$OrderSummary$restaurant? restaurant,
     Fragment$OrderSummary$orderItems? orderItems,
@@ -224,6 +239,7 @@ class _CopyWithImpl$Fragment$OrderSummary<TRes>
     Object? id = _undefined,
     Object? status = _undefined,
     Object? total = _undefined,
+    Object? deliveryFee = _undefined,
     Object? customer = _undefined,
     Object? restaurant = _undefined,
     Object? orderItems = _undefined,
@@ -239,6 +255,9 @@ class _CopyWithImpl$Fragment$OrderSummary<TRes>
       total: total == _undefined || total == null
           ? _instance.total
           : (total as int),
+      deliveryFee: deliveryFee == _undefined
+          ? _instance.deliveryFee
+          : (deliveryFee as int?),
       customer: customer == _undefined
           ? _instance.customer
           : (customer as Fragment$OrderSummary$customer?),
@@ -311,6 +330,7 @@ class _CopyWithStubImpl$Fragment$OrderSummary<TRes>
     String? id,
     Enum$OrderStatus? status,
     int? total,
+    int? deliveryFee,
     Fragment$OrderSummary$customer? customer,
     Fragment$OrderSummary$restaurant? restaurant,
     Fragment$OrderSummary$orderItems? orderItems,
@@ -356,6 +376,13 @@ const fragmentDefinitionOrderSummary = FragmentDefinitionNode(
       ),
       FieldNode(
         name: NameNode(value: 'total'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'deliveryFee'),
         alias: null,
         arguments: [],
         directives: [],
@@ -3437,6 +3464,7 @@ class Fragment$OrderDetails implements Fragment$OrderSummary {
     required this.id,
     required this.status,
     required this.total,
+    this.deliveryFee,
     this.customer,
     this.restaurant,
     this.orderItems,
@@ -3457,6 +3485,7 @@ class Fragment$OrderDetails implements Fragment$OrderSummary {
     final l$id = json['id'];
     final l$status = json['status'];
     final l$total = json['total'];
+    final l$deliveryFee = json['deliveryFee'];
     final l$customer = json['customer'];
     final l$restaurant = json['restaurant'];
     final l$orderItems = json['orderItems'];
@@ -3475,6 +3504,7 @@ class Fragment$OrderDetails implements Fragment$OrderSummary {
       id: (l$id as String),
       status: fromJson$Enum$OrderStatus((l$status as String)),
       total: (l$total as int),
+      deliveryFee: (l$deliveryFee as int?),
       customer: l$customer == null
           ? null
           : Fragment$OrderDetails$customer.fromJson(
@@ -3514,6 +3544,8 @@ class Fragment$OrderDetails implements Fragment$OrderSummary {
 
   final int total;
 
+  final int? deliveryFee;
+
   final Fragment$OrderDetails$customer? customer;
 
   final Fragment$OrderDetails$restaurant? restaurant;
@@ -3550,6 +3582,8 @@ class Fragment$OrderDetails implements Fragment$OrderSummary {
     _resultData['status'] = toJson$Enum$OrderStatus(l$status);
     final l$total = total;
     _resultData['total'] = l$total;
+    final l$deliveryFee = deliveryFee;
+    _resultData['deliveryFee'] = l$deliveryFee;
     final l$customer = customer;
     _resultData['customer'] = l$customer?.toJson();
     final l$restaurant = restaurant;
@@ -3586,6 +3620,7 @@ class Fragment$OrderDetails implements Fragment$OrderSummary {
     final l$id = id;
     final l$status = status;
     final l$total = total;
+    final l$deliveryFee = deliveryFee;
     final l$customer = customer;
     final l$restaurant = restaurant;
     final l$orderItems = orderItems;
@@ -3604,6 +3639,7 @@ class Fragment$OrderDetails implements Fragment$OrderSummary {
       l$id,
       l$status,
       l$total,
+      l$deliveryFee,
       l$customer,
       l$restaurant,
       l$orderItems,
@@ -3642,6 +3678,11 @@ class Fragment$OrderDetails implements Fragment$OrderSummary {
     final l$total = total;
     final lOther$total = other.total;
     if (l$total != lOther$total) {
+      return false;
+    }
+    final l$deliveryFee = deliveryFee;
+    final lOther$deliveryFee = other.deliveryFee;
+    if (l$deliveryFee != lOther$deliveryFee) {
       return false;
     }
     final l$customer = customer;
@@ -3736,6 +3777,7 @@ abstract class CopyWith$Fragment$OrderDetails<TRes> {
     String? id,
     Enum$OrderStatus? status,
     int? total,
+    int? deliveryFee,
     Fragment$OrderDetails$customer? customer,
     Fragment$OrderDetails$restaurant? restaurant,
     Fragment$OrderDetails$orderItems? orderItems,
@@ -3771,6 +3813,7 @@ class _CopyWithImpl$Fragment$OrderDetails<TRes>
     Object? id = _undefined,
     Object? status = _undefined,
     Object? total = _undefined,
+    Object? deliveryFee = _undefined,
     Object? customer = _undefined,
     Object? restaurant = _undefined,
     Object? orderItems = _undefined,
@@ -3794,6 +3837,9 @@ class _CopyWithImpl$Fragment$OrderDetails<TRes>
       total: total == _undefined || total == null
           ? _instance.total
           : (total as int),
+      deliveryFee: deliveryFee == _undefined
+          ? _instance.deliveryFee
+          : (deliveryFee as int?),
       customer: customer == _undefined
           ? _instance.customer
           : (customer as Fragment$OrderDetails$customer?),
@@ -3890,6 +3936,7 @@ class _CopyWithStubImpl$Fragment$OrderDetails<TRes>
     String? id,
     Enum$OrderStatus? status,
     int? total,
+    int? deliveryFee,
     Fragment$OrderDetails$customer? customer,
     Fragment$OrderDetails$restaurant? restaurant,
     Fragment$OrderDetails$orderItems? orderItems,
