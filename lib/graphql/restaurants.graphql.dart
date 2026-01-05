@@ -5170,7 +5170,7 @@ const documentNodeQueryGetRestaurant = DocumentNode(
                   directives: [],
                 ),
                 FieldNode(
-                  name: NameNode(value: 'drivers'),
+                  name: NameNode(value: 'couriers'),
                   alias: null,
                   arguments: [],
                   directives: [],
@@ -5431,7 +5431,7 @@ class Query$GetRestaurant$restaurant
     this.zipCode,
     this.nip,
     this.owner,
-    this.drivers,
+    this.couriers,
   });
 
   factory Query$GetRestaurant$restaurant.fromJson(Map<String, dynamic> json) {
@@ -5449,7 +5449,7 @@ class Query$GetRestaurant$restaurant
     final l$zipCode = json['zipCode'];
     final l$nip = json['nip'];
     final l$owner = json['owner'];
-    final l$drivers = json['drivers'];
+    final l$couriers = json['couriers'];
     return Query$GetRestaurant$restaurant(
       id: (l$id as String),
       name: (l$name as String),
@@ -5473,10 +5473,10 @@ class Query$GetRestaurant$restaurant
           : Query$GetRestaurant$restaurant$owner.fromJson(
               (l$owner as Map<String, dynamic>),
             ),
-      drivers: l$drivers == null
+      couriers: l$couriers == null
           ? null
-          : Query$GetRestaurant$restaurant$drivers.fromJson(
-              (l$drivers as Map<String, dynamic>),
+          : Query$GetRestaurant$restaurant$couriers.fromJson(
+              (l$couriers as Map<String, dynamic>),
             ),
     );
   }
@@ -5510,7 +5510,7 @@ class Query$GetRestaurant$restaurant
 
   final Query$GetRestaurant$restaurant$owner? owner;
 
-  final Query$GetRestaurant$restaurant$drivers? drivers;
+  final Query$GetRestaurant$restaurant$couriers? couriers;
 
   Map<String, dynamic> toJson() {
     final _resultData = <String, dynamic>{};
@@ -5542,8 +5542,8 @@ class Query$GetRestaurant$restaurant
     _resultData['nip'] = l$nip;
     final l$owner = owner;
     _resultData['owner'] = l$owner?.toJson();
-    final l$drivers = drivers;
-    _resultData['drivers'] = l$drivers?.toJson();
+    final l$couriers = couriers;
+    _resultData['couriers'] = l$couriers?.toJson();
     return _resultData;
   }
 
@@ -5563,7 +5563,7 @@ class Query$GetRestaurant$restaurant
     final l$zipCode = zipCode;
     final l$nip = nip;
     final l$owner = owner;
-    final l$drivers = drivers;
+    final l$couriers = couriers;
     return Object.hashAll([
       l$id,
       l$name,
@@ -5579,7 +5579,7 @@ class Query$GetRestaurant$restaurant
       l$zipCode,
       l$nip,
       l$owner,
-      l$drivers,
+      l$couriers,
     ]);
   }
 
@@ -5662,9 +5662,9 @@ class Query$GetRestaurant$restaurant
     if (l$owner != lOther$owner) {
       return false;
     }
-    final l$drivers = drivers;
-    final lOther$drivers = other.drivers;
-    if (l$drivers != lOther$drivers) {
+    final l$couriers = couriers;
+    final lOther$couriers = other.couriers;
+    if (l$couriers != lOther$couriers) {
       return false;
     }
     return true;
@@ -5701,12 +5701,12 @@ abstract class CopyWith$Query$GetRestaurant$restaurant<TRes> {
     String? zipCode,
     String? nip,
     Query$GetRestaurant$restaurant$owner? owner,
-    Query$GetRestaurant$restaurant$drivers? drivers,
+    Query$GetRestaurant$restaurant$couriers? couriers,
   });
   CopyWith$Query$GetRestaurant$restaurant$restaurantCategories<TRes>
   get restaurantCategories;
   CopyWith$Query$GetRestaurant$restaurant$owner<TRes> get owner;
-  CopyWith$Query$GetRestaurant$restaurant$drivers<TRes> get drivers;
+  CopyWith$Query$GetRestaurant$restaurant$couriers<TRes> get couriers;
 }
 
 class _CopyWithImpl$Query$GetRestaurant$restaurant<TRes>
@@ -5734,7 +5734,7 @@ class _CopyWithImpl$Query$GetRestaurant$restaurant<TRes>
     Object? zipCode = _undefined,
     Object? nip = _undefined,
     Object? owner = _undefined,
-    Object? drivers = _undefined,
+    Object? couriers = _undefined,
   }) => _then(
     Query$GetRestaurant$restaurant(
       id: id == _undefined || id == null ? _instance.id : (id as String),
@@ -5768,9 +5768,9 @@ class _CopyWithImpl$Query$GetRestaurant$restaurant<TRes>
       owner: owner == _undefined
           ? _instance.owner
           : (owner as Query$GetRestaurant$restaurant$owner?),
-      drivers: drivers == _undefined
-          ? _instance.drivers
-          : (drivers as Query$GetRestaurant$restaurant$drivers?),
+      couriers: couriers == _undefined
+          ? _instance.couriers
+          : (couriers as Query$GetRestaurant$restaurant$couriers?),
     ),
   );
 
@@ -5797,13 +5797,15 @@ class _CopyWithImpl$Query$GetRestaurant$restaurant<TRes>
           );
   }
 
-  CopyWith$Query$GetRestaurant$restaurant$drivers<TRes> get drivers {
-    final local$drivers = _instance.drivers;
-    return local$drivers == null
-        ? CopyWith$Query$GetRestaurant$restaurant$drivers.stub(_then(_instance))
-        : CopyWith$Query$GetRestaurant$restaurant$drivers(
-            local$drivers,
-            (e) => call(drivers: e),
+  CopyWith$Query$GetRestaurant$restaurant$couriers<TRes> get couriers {
+    final local$couriers = _instance.couriers;
+    return local$couriers == null
+        ? CopyWith$Query$GetRestaurant$restaurant$couriers.stub(
+            _then(_instance),
+          )
+        : CopyWith$Query$GetRestaurant$restaurant$couriers(
+            local$couriers,
+            (e) => call(couriers: e),
           );
   }
 }
@@ -5829,7 +5831,7 @@ class _CopyWithStubImpl$Query$GetRestaurant$restaurant<TRes>
     String? zipCode,
     String? nip,
     Query$GetRestaurant$restaurant$owner? owner,
-    Query$GetRestaurant$restaurant$drivers? drivers,
+    Query$GetRestaurant$restaurant$couriers? couriers,
   }) => _res;
 
   CopyWith$Query$GetRestaurant$restaurant$restaurantCategories<TRes>
@@ -5839,8 +5841,8 @@ class _CopyWithStubImpl$Query$GetRestaurant$restaurant<TRes>
   CopyWith$Query$GetRestaurant$restaurant$owner<TRes> get owner =>
       CopyWith$Query$GetRestaurant$restaurant$owner.stub(_res);
 
-  CopyWith$Query$GetRestaurant$restaurant$drivers<TRes> get drivers =>
-      CopyWith$Query$GetRestaurant$restaurant$drivers.stub(_res);
+  CopyWith$Query$GetRestaurant$restaurant$couriers<TRes> get couriers =>
+      CopyWith$Query$GetRestaurant$restaurant$couriers.stub(_res);
 }
 
 class Query$GetRestaurant$restaurant$restaurantCategories
@@ -6509,23 +6511,23 @@ class _CopyWithStubImpl$Query$GetRestaurant$restaurant$owner<TRes>
   call({String? id, String? email, String? $__typename}) => _res;
 }
 
-class Query$GetRestaurant$restaurant$drivers {
-  Query$GetRestaurant$restaurant$drivers({
+class Query$GetRestaurant$restaurant$couriers {
+  Query$GetRestaurant$restaurant$couriers({
     this.edges,
     this.$__typename = 'UserCursorConnection',
   });
 
-  factory Query$GetRestaurant$restaurant$drivers.fromJson(
+  factory Query$GetRestaurant$restaurant$couriers.fromJson(
     Map<String, dynamic> json,
   ) {
     final l$edges = json['edges'];
     final l$$__typename = json['__typename'];
-    return Query$GetRestaurant$restaurant$drivers(
+    return Query$GetRestaurant$restaurant$couriers(
       edges: (l$edges as List<dynamic>?)
           ?.map(
             (e) => e == null
                 ? null
-                : Query$GetRestaurant$restaurant$drivers$edges.fromJson(
+                : Query$GetRestaurant$restaurant$couriers$edges.fromJson(
                     (e as Map<String, dynamic>),
                   ),
           )
@@ -6534,7 +6536,7 @@ class Query$GetRestaurant$restaurant$drivers {
     );
   }
 
-  final List<Query$GetRestaurant$restaurant$drivers$edges?>? edges;
+  final List<Query$GetRestaurant$restaurant$couriers$edges?>? edges;
 
   final String $__typename;
 
@@ -6562,7 +6564,7 @@ class Query$GetRestaurant$restaurant$drivers {
     if (identical(this, other)) {
       return true;
     }
-    if (other is! Query$GetRestaurant$restaurant$drivers ||
+    if (other is! Query$GetRestaurant$restaurant$couriers ||
         runtimeType != other.runtimeType) {
       return false;
     }
@@ -6591,33 +6593,33 @@ class Query$GetRestaurant$restaurant$drivers {
   }
 }
 
-extension UtilityExtension$Query$GetRestaurant$restaurant$drivers
-    on Query$GetRestaurant$restaurant$drivers {
-  CopyWith$Query$GetRestaurant$restaurant$drivers<
-    Query$GetRestaurant$restaurant$drivers
+extension UtilityExtension$Query$GetRestaurant$restaurant$couriers
+    on Query$GetRestaurant$restaurant$couriers {
+  CopyWith$Query$GetRestaurant$restaurant$couriers<
+    Query$GetRestaurant$restaurant$couriers
   >
   get copyWith =>
-      CopyWith$Query$GetRestaurant$restaurant$drivers(this, (i) => i);
+      CopyWith$Query$GetRestaurant$restaurant$couriers(this, (i) => i);
 }
 
-abstract class CopyWith$Query$GetRestaurant$restaurant$drivers<TRes> {
-  factory CopyWith$Query$GetRestaurant$restaurant$drivers(
-    Query$GetRestaurant$restaurant$drivers instance,
-    TRes Function(Query$GetRestaurant$restaurant$drivers) then,
-  ) = _CopyWithImpl$Query$GetRestaurant$restaurant$drivers;
+abstract class CopyWith$Query$GetRestaurant$restaurant$couriers<TRes> {
+  factory CopyWith$Query$GetRestaurant$restaurant$couriers(
+    Query$GetRestaurant$restaurant$couriers instance,
+    TRes Function(Query$GetRestaurant$restaurant$couriers) then,
+  ) = _CopyWithImpl$Query$GetRestaurant$restaurant$couriers;
 
-  factory CopyWith$Query$GetRestaurant$restaurant$drivers.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetRestaurant$restaurant$drivers;
+  factory CopyWith$Query$GetRestaurant$restaurant$couriers.stub(TRes res) =
+      _CopyWithStubImpl$Query$GetRestaurant$restaurant$couriers;
 
   TRes call({
-    List<Query$GetRestaurant$restaurant$drivers$edges?>? edges,
+    List<Query$GetRestaurant$restaurant$couriers$edges?>? edges,
     String? $__typename,
   });
   TRes edges(
-    Iterable<Query$GetRestaurant$restaurant$drivers$edges?>? Function(
+    Iterable<Query$GetRestaurant$restaurant$couriers$edges?>? Function(
       Iterable<
-        CopyWith$Query$GetRestaurant$restaurant$drivers$edges<
-          Query$GetRestaurant$restaurant$drivers$edges
+        CopyWith$Query$GetRestaurant$restaurant$couriers$edges<
+          Query$GetRestaurant$restaurant$couriers$edges
         >?
       >?,
     )
@@ -6625,25 +6627,26 @@ abstract class CopyWith$Query$GetRestaurant$restaurant$drivers<TRes> {
   );
 }
 
-class _CopyWithImpl$Query$GetRestaurant$restaurant$drivers<TRes>
-    implements CopyWith$Query$GetRestaurant$restaurant$drivers<TRes> {
-  _CopyWithImpl$Query$GetRestaurant$restaurant$drivers(
+class _CopyWithImpl$Query$GetRestaurant$restaurant$couriers<TRes>
+    implements CopyWith$Query$GetRestaurant$restaurant$couriers<TRes> {
+  _CopyWithImpl$Query$GetRestaurant$restaurant$couriers(
     this._instance,
     this._then,
   );
 
-  final Query$GetRestaurant$restaurant$drivers _instance;
+  final Query$GetRestaurant$restaurant$couriers _instance;
 
-  final TRes Function(Query$GetRestaurant$restaurant$drivers) _then;
+  final TRes Function(Query$GetRestaurant$restaurant$couriers) _then;
 
   static const _undefined = <dynamic, dynamic>{};
 
   TRes call({Object? edges = _undefined, Object? $__typename = _undefined}) =>
       _then(
-        Query$GetRestaurant$restaurant$drivers(
+        Query$GetRestaurant$restaurant$couriers(
           edges: edges == _undefined
               ? _instance.edges
-              : (edges as List<Query$GetRestaurant$restaurant$drivers$edges?>?),
+              : (edges
+                    as List<Query$GetRestaurant$restaurant$couriers$edges?>?),
           $__typename: $__typename == _undefined || $__typename == null
               ? _instance.$__typename
               : ($__typename as String),
@@ -6651,10 +6654,10 @@ class _CopyWithImpl$Query$GetRestaurant$restaurant$drivers<TRes>
       );
 
   TRes edges(
-    Iterable<Query$GetRestaurant$restaurant$drivers$edges?>? Function(
+    Iterable<Query$GetRestaurant$restaurant$couriers$edges?>? Function(
       Iterable<
-        CopyWith$Query$GetRestaurant$restaurant$drivers$edges<
-          Query$GetRestaurant$restaurant$drivers$edges
+        CopyWith$Query$GetRestaurant$restaurant$couriers$edges<
+          Query$GetRestaurant$restaurant$couriers$edges
         >?
       >?,
     )
@@ -6664,7 +6667,7 @@ class _CopyWithImpl$Query$GetRestaurant$restaurant$drivers<TRes>
       _instance.edges?.map(
         (e) => e == null
             ? null
-            : CopyWith$Query$GetRestaurant$restaurant$drivers$edges(
+            : CopyWith$Query$GetRestaurant$restaurant$couriers$edges(
                 e,
                 (i) => i,
               ),
@@ -6673,42 +6676,42 @@ class _CopyWithImpl$Query$GetRestaurant$restaurant$drivers<TRes>
   );
 }
 
-class _CopyWithStubImpl$Query$GetRestaurant$restaurant$drivers<TRes>
-    implements CopyWith$Query$GetRestaurant$restaurant$drivers<TRes> {
-  _CopyWithStubImpl$Query$GetRestaurant$restaurant$drivers(this._res);
+class _CopyWithStubImpl$Query$GetRestaurant$restaurant$couriers<TRes>
+    implements CopyWith$Query$GetRestaurant$restaurant$couriers<TRes> {
+  _CopyWithStubImpl$Query$GetRestaurant$restaurant$couriers(this._res);
 
   TRes _res;
 
   call({
-    List<Query$GetRestaurant$restaurant$drivers$edges?>? edges,
+    List<Query$GetRestaurant$restaurant$couriers$edges?>? edges,
     String? $__typename,
   }) => _res;
 
   edges(_fn) => _res;
 }
 
-class Query$GetRestaurant$restaurant$drivers$edges {
-  Query$GetRestaurant$restaurant$drivers$edges({
+class Query$GetRestaurant$restaurant$couriers$edges {
+  Query$GetRestaurant$restaurant$couriers$edges({
     this.node,
     this.$__typename = 'UserEdge',
   });
 
-  factory Query$GetRestaurant$restaurant$drivers$edges.fromJson(
+  factory Query$GetRestaurant$restaurant$couriers$edges.fromJson(
     Map<String, dynamic> json,
   ) {
     final l$node = json['node'];
     final l$$__typename = json['__typename'];
-    return Query$GetRestaurant$restaurant$drivers$edges(
+    return Query$GetRestaurant$restaurant$couriers$edges(
       node: l$node == null
           ? null
-          : Query$GetRestaurant$restaurant$drivers$edges$node.fromJson(
+          : Query$GetRestaurant$restaurant$couriers$edges$node.fromJson(
               (l$node as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Query$GetRestaurant$restaurant$drivers$edges$node? node;
+  final Query$GetRestaurant$restaurant$couriers$edges$node? node;
 
   final String $__typename;
 
@@ -6733,7 +6736,7 @@ class Query$GetRestaurant$restaurant$drivers$edges {
     if (identical(this, other)) {
       return true;
     }
-    if (other is! Query$GetRestaurant$restaurant$drivers$edges ||
+    if (other is! Query$GetRestaurant$restaurant$couriers$edges ||
         runtimeType != other.runtimeType) {
       return false;
     }
@@ -6751,100 +6754,101 @@ class Query$GetRestaurant$restaurant$drivers$edges {
   }
 }
 
-extension UtilityExtension$Query$GetRestaurant$restaurant$drivers$edges
-    on Query$GetRestaurant$restaurant$drivers$edges {
-  CopyWith$Query$GetRestaurant$restaurant$drivers$edges<
-    Query$GetRestaurant$restaurant$drivers$edges
+extension UtilityExtension$Query$GetRestaurant$restaurant$couriers$edges
+    on Query$GetRestaurant$restaurant$couriers$edges {
+  CopyWith$Query$GetRestaurant$restaurant$couriers$edges<
+    Query$GetRestaurant$restaurant$couriers$edges
   >
   get copyWith =>
-      CopyWith$Query$GetRestaurant$restaurant$drivers$edges(this, (i) => i);
+      CopyWith$Query$GetRestaurant$restaurant$couriers$edges(this, (i) => i);
 }
 
-abstract class CopyWith$Query$GetRestaurant$restaurant$drivers$edges<TRes> {
-  factory CopyWith$Query$GetRestaurant$restaurant$drivers$edges(
-    Query$GetRestaurant$restaurant$drivers$edges instance,
-    TRes Function(Query$GetRestaurant$restaurant$drivers$edges) then,
-  ) = _CopyWithImpl$Query$GetRestaurant$restaurant$drivers$edges;
+abstract class CopyWith$Query$GetRestaurant$restaurant$couriers$edges<TRes> {
+  factory CopyWith$Query$GetRestaurant$restaurant$couriers$edges(
+    Query$GetRestaurant$restaurant$couriers$edges instance,
+    TRes Function(Query$GetRestaurant$restaurant$couriers$edges) then,
+  ) = _CopyWithImpl$Query$GetRestaurant$restaurant$couriers$edges;
 
-  factory CopyWith$Query$GetRestaurant$restaurant$drivers$edges.stub(TRes res) =
-      _CopyWithStubImpl$Query$GetRestaurant$restaurant$drivers$edges;
+  factory CopyWith$Query$GetRestaurant$restaurant$couriers$edges.stub(
+    TRes res,
+  ) = _CopyWithStubImpl$Query$GetRestaurant$restaurant$couriers$edges;
 
   TRes call({
-    Query$GetRestaurant$restaurant$drivers$edges$node? node,
+    Query$GetRestaurant$restaurant$couriers$edges$node? node,
     String? $__typename,
   });
-  CopyWith$Query$GetRestaurant$restaurant$drivers$edges$node<TRes> get node;
+  CopyWith$Query$GetRestaurant$restaurant$couriers$edges$node<TRes> get node;
 }
 
-class _CopyWithImpl$Query$GetRestaurant$restaurant$drivers$edges<TRes>
-    implements CopyWith$Query$GetRestaurant$restaurant$drivers$edges<TRes> {
-  _CopyWithImpl$Query$GetRestaurant$restaurant$drivers$edges(
+class _CopyWithImpl$Query$GetRestaurant$restaurant$couriers$edges<TRes>
+    implements CopyWith$Query$GetRestaurant$restaurant$couriers$edges<TRes> {
+  _CopyWithImpl$Query$GetRestaurant$restaurant$couriers$edges(
     this._instance,
     this._then,
   );
 
-  final Query$GetRestaurant$restaurant$drivers$edges _instance;
+  final Query$GetRestaurant$restaurant$couriers$edges _instance;
 
-  final TRes Function(Query$GetRestaurant$restaurant$drivers$edges) _then;
+  final TRes Function(Query$GetRestaurant$restaurant$couriers$edges) _then;
 
   static const _undefined = <dynamic, dynamic>{};
 
   TRes call({Object? node = _undefined, Object? $__typename = _undefined}) =>
       _then(
-        Query$GetRestaurant$restaurant$drivers$edges(
+        Query$GetRestaurant$restaurant$couriers$edges(
           node: node == _undefined
               ? _instance.node
-              : (node as Query$GetRestaurant$restaurant$drivers$edges$node?),
+              : (node as Query$GetRestaurant$restaurant$couriers$edges$node?),
           $__typename: $__typename == _undefined || $__typename == null
               ? _instance.$__typename
               : ($__typename as String),
         ),
       );
 
-  CopyWith$Query$GetRestaurant$restaurant$drivers$edges$node<TRes> get node {
+  CopyWith$Query$GetRestaurant$restaurant$couriers$edges$node<TRes> get node {
     final local$node = _instance.node;
     return local$node == null
-        ? CopyWith$Query$GetRestaurant$restaurant$drivers$edges$node.stub(
+        ? CopyWith$Query$GetRestaurant$restaurant$couriers$edges$node.stub(
             _then(_instance),
           )
-        : CopyWith$Query$GetRestaurant$restaurant$drivers$edges$node(
+        : CopyWith$Query$GetRestaurant$restaurant$couriers$edges$node(
             local$node,
             (e) => call(node: e),
           );
   }
 }
 
-class _CopyWithStubImpl$Query$GetRestaurant$restaurant$drivers$edges<TRes>
-    implements CopyWith$Query$GetRestaurant$restaurant$drivers$edges<TRes> {
-  _CopyWithStubImpl$Query$GetRestaurant$restaurant$drivers$edges(this._res);
+class _CopyWithStubImpl$Query$GetRestaurant$restaurant$couriers$edges<TRes>
+    implements CopyWith$Query$GetRestaurant$restaurant$couriers$edges<TRes> {
+  _CopyWithStubImpl$Query$GetRestaurant$restaurant$couriers$edges(this._res);
 
   TRes _res;
 
   call({
-    Query$GetRestaurant$restaurant$drivers$edges$node? node,
+    Query$GetRestaurant$restaurant$couriers$edges$node? node,
     String? $__typename,
   }) => _res;
 
-  CopyWith$Query$GetRestaurant$restaurant$drivers$edges$node<TRes> get node =>
-      CopyWith$Query$GetRestaurant$restaurant$drivers$edges$node.stub(_res);
+  CopyWith$Query$GetRestaurant$restaurant$couriers$edges$node<TRes> get node =>
+      CopyWith$Query$GetRestaurant$restaurant$couriers$edges$node.stub(_res);
 }
 
-class Query$GetRestaurant$restaurant$drivers$edges$node {
-  Query$GetRestaurant$restaurant$drivers$edges$node({
+class Query$GetRestaurant$restaurant$couriers$edges$node {
+  Query$GetRestaurant$restaurant$couriers$edges$node({
     required this.id,
     required this.email,
     required this.roles,
     this.$__typename = 'User',
   });
 
-  factory Query$GetRestaurant$restaurant$drivers$edges$node.fromJson(
+  factory Query$GetRestaurant$restaurant$couriers$edges$node.fromJson(
     Map<String, dynamic> json,
   ) {
     final l$id = json['id'];
     final l$email = json['email'];
     final l$roles = json['roles'];
     final l$$__typename = json['__typename'];
-    return Query$GetRestaurant$restaurant$drivers$edges$node(
+    return Query$GetRestaurant$restaurant$couriers$edges$node(
       id: (l$id as String),
       email: (l$email as String),
       roles: (l$roles as List<dynamic>),
@@ -6887,7 +6891,7 @@ class Query$GetRestaurant$restaurant$drivers$edges$node {
     if (identical(this, other)) {
       return true;
     }
-    if (other is! Query$GetRestaurant$restaurant$drivers$edges$node ||
+    if (other is! Query$GetRestaurant$restaurant$couriers$edges$node ||
         runtimeType != other.runtimeType) {
       return false;
     }
@@ -6915,28 +6919,28 @@ class Query$GetRestaurant$restaurant$drivers$edges$node {
   }
 }
 
-extension UtilityExtension$Query$GetRestaurant$restaurant$drivers$edges$node
-    on Query$GetRestaurant$restaurant$drivers$edges$node {
-  CopyWith$Query$GetRestaurant$restaurant$drivers$edges$node<
-    Query$GetRestaurant$restaurant$drivers$edges$node
+extension UtilityExtension$Query$GetRestaurant$restaurant$couriers$edges$node
+    on Query$GetRestaurant$restaurant$couriers$edges$node {
+  CopyWith$Query$GetRestaurant$restaurant$couriers$edges$node<
+    Query$GetRestaurant$restaurant$couriers$edges$node
   >
-  get copyWith => CopyWith$Query$GetRestaurant$restaurant$drivers$edges$node(
+  get copyWith => CopyWith$Query$GetRestaurant$restaurant$couriers$edges$node(
     this,
     (i) => i,
   );
 }
 
-abstract class CopyWith$Query$GetRestaurant$restaurant$drivers$edges$node<
+abstract class CopyWith$Query$GetRestaurant$restaurant$couriers$edges$node<
   TRes
 > {
-  factory CopyWith$Query$GetRestaurant$restaurant$drivers$edges$node(
-    Query$GetRestaurant$restaurant$drivers$edges$node instance,
-    TRes Function(Query$GetRestaurant$restaurant$drivers$edges$node) then,
-  ) = _CopyWithImpl$Query$GetRestaurant$restaurant$drivers$edges$node;
+  factory CopyWith$Query$GetRestaurant$restaurant$couriers$edges$node(
+    Query$GetRestaurant$restaurant$couriers$edges$node instance,
+    TRes Function(Query$GetRestaurant$restaurant$couriers$edges$node) then,
+  ) = _CopyWithImpl$Query$GetRestaurant$restaurant$couriers$edges$node;
 
-  factory CopyWith$Query$GetRestaurant$restaurant$drivers$edges$node.stub(
+  factory CopyWith$Query$GetRestaurant$restaurant$couriers$edges$node.stub(
     TRes res,
-  ) = _CopyWithStubImpl$Query$GetRestaurant$restaurant$drivers$edges$node;
+  ) = _CopyWithStubImpl$Query$GetRestaurant$restaurant$couriers$edges$node;
 
   TRes call({
     String? id,
@@ -6946,17 +6950,17 @@ abstract class CopyWith$Query$GetRestaurant$restaurant$drivers$edges$node<
   });
 }
 
-class _CopyWithImpl$Query$GetRestaurant$restaurant$drivers$edges$node<TRes>
+class _CopyWithImpl$Query$GetRestaurant$restaurant$couriers$edges$node<TRes>
     implements
-        CopyWith$Query$GetRestaurant$restaurant$drivers$edges$node<TRes> {
-  _CopyWithImpl$Query$GetRestaurant$restaurant$drivers$edges$node(
+        CopyWith$Query$GetRestaurant$restaurant$couriers$edges$node<TRes> {
+  _CopyWithImpl$Query$GetRestaurant$restaurant$couriers$edges$node(
     this._instance,
     this._then,
   );
 
-  final Query$GetRestaurant$restaurant$drivers$edges$node _instance;
+  final Query$GetRestaurant$restaurant$couriers$edges$node _instance;
 
-  final TRes Function(Query$GetRestaurant$restaurant$drivers$edges$node) _then;
+  final TRes Function(Query$GetRestaurant$restaurant$couriers$edges$node) _then;
 
   static const _undefined = <dynamic, dynamic>{};
 
@@ -6966,7 +6970,7 @@ class _CopyWithImpl$Query$GetRestaurant$restaurant$drivers$edges$node<TRes>
     Object? roles = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
-    Query$GetRestaurant$restaurant$drivers$edges$node(
+    Query$GetRestaurant$restaurant$couriers$edges$node(
       id: id == _undefined || id == null ? _instance.id : (id as String),
       email: email == _undefined || email == null
           ? _instance.email
@@ -6981,10 +6985,10 @@ class _CopyWithImpl$Query$GetRestaurant$restaurant$drivers$edges$node<TRes>
   );
 }
 
-class _CopyWithStubImpl$Query$GetRestaurant$restaurant$drivers$edges$node<TRes>
+class _CopyWithStubImpl$Query$GetRestaurant$restaurant$couriers$edges$node<TRes>
     implements
-        CopyWith$Query$GetRestaurant$restaurant$drivers$edges$node<TRes> {
-  _CopyWithStubImpl$Query$GetRestaurant$restaurant$drivers$edges$node(
+        CopyWith$Query$GetRestaurant$restaurant$couriers$edges$node<TRes> {
+  _CopyWithStubImpl$Query$GetRestaurant$restaurant$couriers$edges$node(
     this._res,
   );
 

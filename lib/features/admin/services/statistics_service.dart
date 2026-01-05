@@ -11,7 +11,7 @@ class Statistics {
   final double averageOrderValue; // in groszy
   final int customerCount;
   final int restaurantCount;
-  final int driverCount;
+  final int courierCount;
   final int adminCount;
   final List<Map<String, dynamic>> revenueTimeSeries;
   final List<Map<String, dynamic>> dailyOrdersTimeSeries;
@@ -26,7 +26,7 @@ class Statistics {
     required this.averageOrderValue,
     required this.customerCount,
     required this.restaurantCount,
-    required this.driverCount,
+    required this.courierCount,
     required this.adminCount,
     required this.revenueTimeSeries,
     required this.dailyOrdersTimeSeries,
@@ -43,7 +43,7 @@ class Statistics {
       averageOrderValue: (json['averageOrderValue'] ?? 0).toDouble(),
       customerCount: json['customerCount'] ?? 0,
       restaurantCount: json['restaurantCount'] ?? 0,
-      driverCount: json['driverCount'] ?? 0,
+      courierCount: json['courierCount'] ?? 0,
       adminCount: json['adminCount'] ?? 0,
       revenueTimeSeries:
           (json['revenueTimeSeries'] as List<dynamic>?)

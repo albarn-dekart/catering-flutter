@@ -11,8 +11,8 @@ import 'package:catering_flutter/core/services/auth_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 
 typedef UserNode = Query$GetUsers$users$edges$node;
-typedef RestaurantDriverNode =
-    Query$GetDriversByRestaurant$restaurant$drivers$edges$node;
+typedef RestaurantCourierNode =
+    Query$GetCouriersByRestaurant$restaurant$couriers$edges$node;
 typedef CurrentUserData = Query$GetUser$user;
 
 class UserService extends ChangeNotifier {
@@ -216,8 +216,8 @@ class UserService extends ChangeNotifier {
   }
 
   // Specific pagination for user deliveries
-  List<Fragment$DriverDeliveryFragment> _userDeliveries = [];
-  List<Fragment$DriverDeliveryFragment> get userDeliveries => _userDeliveries;
+  List<Fragment$CourierDeliveryFragment> _userDeliveries = [];
+  List<Fragment$CourierDeliveryFragment> get userDeliveries => _userDeliveries;
   String? _userDeliveriesEndCursor;
   bool _userDeliveriesHasNextPage = false;
   bool get userDeliveriesHasNextPage => _userDeliveriesHasNextPage;
@@ -286,7 +286,7 @@ class UserService extends ChangeNotifier {
       if (data.user?.deliveries?.edges != null) {
         _userDeliveries = data.user!.deliveries!.edges!
             .map((e) => e?.node)
-            .whereType<Fragment$DriverDeliveryFragment>()
+            .whereType<Fragment$CourierDeliveryFragment>()
             .toList();
         _userDeliveriesEndCursor = data.user!.deliveries!.pageInfo.endCursor;
         _userDeliveriesHasNextPage =
@@ -350,13 +350,13 @@ class UserService extends ChangeNotifier {
     }
   }
 
-  void updateUserDelivery(Fragment$DriverDeliveryFragment updatedDelivery) {
+  void updateUserDelivery(Fragment$CourierDeliveryFragment updatedDelivery) {
     final index = _userDeliveries.indexWhere((d) => d.id == updatedDelivery.id);
     if (index != -1) {
       _userDeliveries[index] = updatedDelivery;
 
       // If the delivery status no longer matches current filters, we might want to remove it
-      // For DriverDashboard, it filters by status.
+      // For CourierDashboard, it filters by status.
       if (_currentDeliveryStatuses != null &&
           !_currentDeliveryStatuses!.contains(updatedDelivery.status)) {
         _userDeliveries.removeAt(index);
@@ -409,7 +409,7 @@ class UserService extends ChangeNotifier {
   }
 
   // NOTE: updateUserRestaurant has been removed as User no longer has a restaurant field.
-  // Driver assignment is now managed via Restaurant.drivers collection.
+  // Courier assignment is now managed via Restaurant.couriers collection.
 
   Future<void> deleteUser(String userIri) async {
     _isLoading = true;
@@ -426,7 +426,7 @@ class UserService extends ChangeNotifier {
       final result = await _client.mutate(options);
       ApiService.check(result);
       _users.removeWhere((u) => u.id == userIri);
-      _restaurantDrivers.removeWhere((u) => u.id == userIri);
+      _restaurantCouriers.removeWhere((u) => u.id == userIri);
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
@@ -436,23 +436,23 @@ class UserService extends ChangeNotifier {
     }
   }
 
-  List<RestaurantDriverNode> _restaurantDrivers = [];
+  List<RestaurantCourierNode> _restaurantCouriers = [];
 
-  List<RestaurantDriverNode> get restaurantDrivers => _restaurantDrivers;
+  List<RestaurantCourierNode> get restaurantCouriers => _restaurantCouriers;
 
-  Future<void> fetchDriversByRestaurant(
+  Future<void> fetchCouriersByRestaurant(
     String restaurantIri, {
     String? searchQuery,
   }) async {
     _isLoading = true;
     _errorMessage = null;
-    _restaurantDrivers = [];
+    _restaurantCouriers = [];
     notifyListeners();
 
     try {
       final options = QueryOptions(
-        document: documentNodeQueryGetDriversByRestaurant,
-        variables: Variables$Query$GetDriversByRestaurant(
+        document: documentNodeQueryGetCouriersByRestaurant,
+        variables: Variables$Query$GetCouriersByRestaurant(
           id: restaurantIri,
           search: searchQuery,
         ).toJson(),
@@ -462,16 +462,16 @@ class UserService extends ChangeNotifier {
       final result = await _client.query(options);
       ApiService.check(result);
 
-      final data = Query$GetDriversByRestaurant.fromJson(result.data!);
-      final edges = data.restaurant?.drivers?.edges;
+      final data = Query$GetCouriersByRestaurant.fromJson(result.data!);
+      final edges = data.restaurant?.couriers?.edges;
 
       if (edges != null) {
-        _restaurantDrivers = edges
+        _restaurantCouriers = edges
             .map((e) => e?.node)
-            .whereType<RestaurantDriverNode>()
+            .whereType<RestaurantCourierNode>()
             .toList();
       } else {
-        _restaurantDrivers = [];
+        _restaurantCouriers = [];
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -519,7 +519,7 @@ class UserService extends ChangeNotifier {
     }
   }
 
-  Future<void> createDriver(String email, {String? restaurantIri}) async {
+  Future<void> createCourier(String email, {String? restaurantIri}) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -530,19 +530,19 @@ class UserService extends ChangeNotifier {
         body['restaurantId'] = IriHelper.getId(restaurantIri);
       }
 
-      final response = await _apiClient.post('/api/invite-driver', body: body);
+      final response = await _apiClient.post('/api/invite-courier', body: body);
 
       if (response.statusCode == 201) {
         final data = jsonDecode(response.body);
-        final newNode = RestaurantDriverNode(
+        final newNode = RestaurantCourierNode(
           id: IriHelper.buildIri('users', (data['id'] as int).toString()),
           email: data['email'],
           roles: List<String>.from(data['roles']),
         );
-        _restaurantDrivers.add(newNode);
+        _restaurantCouriers.add(newNode);
       } else {
         final error =
-            jsonDecode(response.body)['error'] ?? 'Failed to invite driver';
+            jsonDecode(response.body)['error'] ?? 'Failed to invite courier';
         throw ApiException(error);
       }
     } catch (e) {

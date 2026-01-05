@@ -4,7 +4,7 @@ import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
-import 'package:catering_flutter/features/driver/services/delivery_service.dart';
+import 'package:catering_flutter/features/courier/services/delivery_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/features/user/services/user_service.dart';
 import 'package:catering_flutter/core/utils/status_extensions.dart';
@@ -44,14 +44,14 @@ class _RestaurantDeliveriesScreenState
       end: DateTime(now.year, now.month, now.day),
     );
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _fetchDeliveriesAndDrivers();
+      _fetchDeliveriesAndCouriers();
     });
   }
 
-  Future<void> _fetchDeliveriesAndDrivers() async {
+  Future<void> _fetchDeliveriesAndCouriers() async {
     await Future.wait([
       _fetchDeliveries(),
-      context.read<UserService>().fetchDriversByRestaurant(
+      context.read<UserService>().fetchCouriersByRestaurant(
         widget.restaurantIri,
       ),
     ]);
@@ -103,8 +103,8 @@ class _RestaurantDeliveriesScreenState
           hasError: deliveryService.hasError || userService.hasError,
           errorMessage:
               deliveryService.errorMessage ?? userService.errorMessage,
-          onRetry: _fetchDeliveriesAndDrivers,
-          onRefresh: _fetchDeliveriesAndDrivers,
+          onRetry: _fetchDeliveriesAndCouriers,
+          onRefresh: _fetchDeliveriesAndCouriers,
           header: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,15 +138,15 @@ class _RestaurantDeliveriesScreenState
             },
           ),
           itemBuilder: (context, delivery) {
-            final drivers = userService.restaurantDrivers;
-            return _buildDeliveryCard(context, delivery, drivers);
+            final couriers = userService.restaurantCouriers;
+            return _buildDeliveryCard(context, delivery, couriers);
           },
         );
       },
     );
   }
 
-  bool _isDriverAssignmentDisabled(Delivery delivery) {
+  bool _isCourierAssignmentDisabled(Delivery delivery) {
     return delivery.order?.status == Enum$OrderStatus.Unpaid ||
         delivery.status == Enum$DeliveryStatus.Delivered ||
         delivery.status == Enum$DeliveryStatus.Failed ||
@@ -154,26 +154,26 @@ class _RestaurantDeliveriesScreenState
         _updatingIds.contains(delivery.id);
   }
 
-  String _getDriverLabel(BuildContext context, Delivery delivery) {
+  String _getCourierLabel(BuildContext context, Delivery delivery) {
     if (delivery.order?.status == Enum$OrderStatus.Unpaid) {
-      return '${AppLocalizations.of(context)!.assignDriver} (${AppLocalizations.of(context)!.statusUnpaid})';
+      return '${AppLocalizations.of(context)!.assignCourier} (${AppLocalizations.of(context)!.statusUnpaid})';
     }
     if (delivery.status == Enum$DeliveryStatus.Delivered) {
-      return '${AppLocalizations.of(context)!.assignDriver} (${AppLocalizations.of(context)!.statusDelivered})';
+      return '${AppLocalizations.of(context)!.assignCourier} (${AppLocalizations.of(context)!.statusDelivered})';
     }
     if (delivery.status == Enum$DeliveryStatus.Failed) {
-      return '${AppLocalizations.of(context)!.assignDriver} (${AppLocalizations.of(context)!.statusFailed})';
+      return '${AppLocalizations.of(context)!.assignCourier} (${AppLocalizations.of(context)!.statusFailed})';
     }
     if (delivery.status == Enum$DeliveryStatus.Returned) {
-      return '${AppLocalizations.of(context)!.assignDriver} (${AppLocalizations.of(context)!.statusReturned})';
+      return '${AppLocalizations.of(context)!.assignCourier} (${AppLocalizations.of(context)!.statusReturned})';
     }
-    return AppLocalizations.of(context)!.assignDriver;
+    return AppLocalizations.of(context)!.assignCourier;
   }
 
   Widget _buildDeliveryCard(
     BuildContext context,
     Delivery delivery,
-    List<RestaurantDriverNode> drivers,
+    List<RestaurantCourierNode> couriers,
   ) {
     final theme = Theme.of(context);
     final isDone =
@@ -277,17 +277,17 @@ class _RestaurantDeliveriesScreenState
                 Icon(Icons.person, size: 16, color: theme.colorScheme.primary),
                 const SizedBox(width: 12),
                 Text(
-                  '${AppLocalizations.of(context)!.driver}:',
+                  '${AppLocalizations.of(context)!.courier}:',
                   style: theme.textTheme.labelSmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  delivery.driver?.email ??
+                  delivery.courier?.email ??
                       AppLocalizations.of(context)!.unassigned,
                   style: theme.textTheme.titleMedium?.copyWith(
-                    color: delivery.driver == null
+                    color: delivery.courier == null
                         ? theme.colorScheme.error
                         : null,
                   ),
@@ -295,10 +295,10 @@ class _RestaurantDeliveriesScreenState
               ],
             ),
             const SizedBox(height: 20),
-            if (drivers.isNotEmpty)
+            if (couriers.isNotEmpty)
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
-                  labelText: _getDriverLabel(context, delivery),
+                  labelText: _getCourierLabel(context, delivery),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 12,
@@ -314,18 +314,18 @@ class _RestaurantDeliveriesScreenState
                         )
                       : null,
                 ),
-                initialValue: delivery.driver?.id,
-                onChanged: _isDriverAssignmentDisabled(delivery)
+                initialValue: delivery.courier?.id,
+                onChanged: _isCourierAssignmentDisabled(delivery)
                     ? null
-                    : (String? newDriverId) async {
-                        if (newDriverId != null) {
-                          await _assignDriver(delivery, newDriverId);
+                    : (String? newCourierId) async {
+                        if (newCourierId != null) {
+                          await _assignCourier(delivery, newCourierId);
                         }
                       },
-                items: drivers.map((driver) {
+                items: couriers.map((courier) {
                   return DropdownMenuItem<String>(
-                    value: driver.id,
-                    child: Text(driver.email),
+                    value: courier.id,
+                    child: Text(courier.email),
                   );
                 }).toList(),
               ),
@@ -371,7 +371,7 @@ class _RestaurantDeliveriesScreenState
     );
   }
 
-  Future<void> _assignDriver(Delivery delivery, String driverId) async {
+  Future<void> _assignCourier(Delivery delivery, String courierId) async {
     setState(() {
       _updatingIds.add(delivery.id);
     });
@@ -379,24 +379,24 @@ class _RestaurantDeliveriesScreenState
     try {
       await deliveryService.updateDeliveryStatus(
         delivery.id,
-        driverIri: driverId,
+        courierIri: courierId,
       );
       if (!mounted) return;
 
       UIErrorHandler.showSnackBar(
         context,
-        AppLocalizations.of(context)!.driverAssignedSuccess,
+        AppLocalizations.of(context)!.courierAssignedSuccess,
         isError: false,
       );
     } catch (e) {
       if (!mounted) return;
       UIErrorHandler.showSnackBar(
         context,
-        AppLocalizations.of(context)!.driverAssignFailed,
+        AppLocalizations.of(context)!.courierAssignFailed,
         isError: true,
         action: SnackBarAction(
           label: AppLocalizations.of(context)!.retry,
-          onPressed: () => _assignDriver(delivery, driverId),
+          onPressed: () => _assignCourier(delivery, courierId),
         ),
       );
     } finally {

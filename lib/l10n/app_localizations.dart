@@ -236,11 +236,11 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to cancel this order?'**
   String get areYouSureYouWantToCancelThisOrder;
 
-  /// No description provided for @assignDriver.
+  /// No description provided for @assignCourier.
   ///
   /// In en, this message translates to:
-  /// **'Assign Driver'**
-  String get assignDriver;
+  /// **'Assign Courier'**
+  String get assignCourier;
 
   /// No description provided for @assignRole.
   ///
@@ -410,11 +410,11 @@ abstract class AppLocalizations {
   /// **'Confirm Delete'**
   String get confirmDelete;
 
-  /// No description provided for @confirmDeleteDriver.
+  /// No description provided for @confirmDeleteCourier.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to delete driver {email}? They will be unassigned from any deliveries.'**
-  String confirmDeleteDriver(String email);
+  /// **'Are you sure you want to delete courier {email}? They will be unassigned from any deliveries.'**
+  String confirmDeleteCourier(String email);
 
   /// No description provided for @confirmDeleteUser.
   ///
@@ -716,71 +716,71 @@ abstract class AppLocalizations {
   /// **'Don\'t have an account? '**
   String get dontHaveAccount;
 
-  /// No description provided for @driver.
+  /// No description provided for @courier.
   ///
   /// In en, this message translates to:
-  /// **'Driver'**
-  String get driver;
+  /// **'Courier'**
+  String get courier;
 
-  /// No description provided for @driverAssignFailed.
+  /// No description provided for @courierAssignFailed.
   ///
   /// In en, this message translates to:
-  /// **'Failed to assign driver. Please retry.'**
-  String get driverAssignFailed;
+  /// **'Failed to assign courier. Please retry.'**
+  String get courierAssignFailed;
 
-  /// No description provided for @driverAssignedSuccess.
+  /// No description provided for @courierAssignedSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Driver assigned successfully.'**
-  String get driverAssignedSuccess;
+  /// **'Courier assigned successfully.'**
+  String get courierAssignedSuccess;
 
-  /// No description provided for @driverDashboard.
+  /// No description provided for @courierDashboard.
   ///
   /// In en, this message translates to:
-  /// **'Driver Dashboard'**
-  String get driverDashboard;
+  /// **'Courier Dashboard'**
+  String get courierDashboard;
 
-  /// No description provided for @driverDeleted.
+  /// No description provided for @courierDeleted.
   ///
   /// In en, this message translates to:
-  /// **'Driver deleted successfully'**
-  String get driverDeleted;
+  /// **'Courier deleted successfully'**
+  String get courierDeleted;
 
-  /// No description provided for @driverInviteFailed.
+  /// No description provided for @courierInviteFailed.
   ///
   /// In en, this message translates to:
-  /// **'Failed to invite driver: {error}'**
-  String driverInviteFailed(Object error);
+  /// **'Failed to invite courier: {error}'**
+  String courierInviteFailed(Object error);
 
-  /// No description provided for @driverInvitedSuccess.
+  /// No description provided for @courierInvitedSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Driver invited successfully'**
-  String get driverInvitedSuccess;
+  /// **'Courier invited successfully'**
+  String get courierInvitedSuccess;
 
-  /// No description provided for @driverPasswordWillBeEmailed.
+  /// No description provided for @courierPasswordWillBeEmailed.
   ///
   /// In en, this message translates to:
   /// **'A temporary password will be sent to this email address.'**
-  String get driverPasswordWillBeEmailed;
+  String get courierPasswordWillBeEmailed;
 
-  /// No description provided for @driverRoleLabel.
+  /// No description provided for @courierRoleLabel.
   ///
   /// In en, this message translates to:
-  /// **'DRIVER'**
-  String get driverRoleLabel;
+  /// **'COURIER'**
+  String get courierRoleLabel;
 
-  /// No description provided for @driverWithName.
+  /// No description provided for @courierWithName.
   ///
   /// In en, this message translates to:
-  /// **'Driver: {name}'**
-  String driverWithName(Object name);
+  /// **'Courier: {name}'**
+  String courierWithName(Object name);
 
-  /// No description provided for @drivers.
+  /// No description provided for @couriers.
   ///
   /// In en, this message translates to:
-  /// **'Drivers'**
-  String get drivers;
+  /// **'Couriers'**
+  String get couriers;
 
   /// No description provided for @edit.
   ///
@@ -1046,17 +1046,17 @@ abstract class AppLocalizations {
   /// **'Invite'**
   String get invite;
 
-  /// No description provided for @inviteDriver.
+  /// No description provided for @inviteCourier.
   ///
   /// In en, this message translates to:
-  /// **'Invite Driver'**
-  String get inviteDriver;
+  /// **'Invite Courier'**
+  String get inviteCourier;
 
-  /// No description provided for @inviteNewDriver.
+  /// No description provided for @inviteNewCourier.
   ///
   /// In en, this message translates to:
-  /// **'Invite New Driver'**
-  String get inviteNewDriver;
+  /// **'Invite New Courier'**
+  String get inviteNewCourier;
 
   /// No description provided for @kitchenSchedule.
   ///
@@ -1112,11 +1112,11 @@ abstract class AppLocalizations {
   /// **'Manage Diet Categories'**
   String get manageDietCategories;
 
-  /// No description provided for @manageDrivers.
+  /// No description provided for @manageCouriers.
   ///
   /// In en, this message translates to:
-  /// **'Manage Drivers'**
-  String get manageDrivers;
+  /// **'Manage Couriers'**
+  String get manageCouriers;
 
   /// No description provided for @manageMealPlans.
   ///
@@ -1856,11 +1856,11 @@ abstract class AppLocalizations {
   /// **'Customer'**
   String get roleCustomer;
 
-  /// No description provided for @roleDriver.
+  /// No description provided for @roleCourier.
   ///
   /// In en, this message translates to:
-  /// **'Driver'**
-  String get roleDriver;
+  /// **'Courier'**
+  String get roleCourier;
 
   /// No description provided for @roleRestaurant.
   ///
@@ -1916,17 +1916,17 @@ abstract class AppLocalizations {
   /// **'Search Categories'**
   String get searchCategories;
 
-  /// No description provided for @searchDriverDeliveries.
+  /// No description provided for @searchCourierDeliveries.
   ///
   /// In en, this message translates to:
   /// **'Search by order ID, customer, or address...'**
-  String get searchDriverDeliveries;
+  String get searchCourierDeliveries;
 
-  /// No description provided for @searchDriversByEmail.
+  /// No description provided for @searchCouriersByEmail.
   ///
   /// In en, this message translates to:
-  /// **'Search drivers by email...'**
-  String get searchDriversByEmail;
+  /// **'Search couriers by email...'**
+  String get searchCouriersByEmail;
 
   /// No description provided for @searchMealPlans.
   ///

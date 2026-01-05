@@ -83,7 +83,7 @@ class AppLocalizationsPl extends AppLocalizations {
       'Czy na pewno chcesz anulować to zamówienie?';
 
   @override
-  String get assignDriver => 'Przypisz Kierowcę';
+  String get assignCourier => 'Przypisz Kuriera';
 
   @override
   String get assignRole => 'Przypisz Rolę';
@@ -173,8 +173,8 @@ class AppLocalizationsPl extends AppLocalizations {
   String get confirmDelete => 'Potwierdź Usunięcie';
 
   @override
-  String confirmDeleteDriver(String email) {
-    return 'Czy na pewno chcesz usunąć kierowcę $email? On zostanie odłączony z wszystkich dostaw.';
+  String confirmDeleteCourier(String email) {
+    return 'Czy na pewno chcesz usunąć kuriera $email? On zostanie odłączony z wszystkich dostaw.';
   }
 
   @override
@@ -347,43 +347,43 @@ class AppLocalizationsPl extends AppLocalizations {
   String get dontHaveAccount => 'Nie masz konta? ';
 
   @override
-  String get driver => 'Kierowca';
+  String get courier => 'Kurier';
 
   @override
-  String get driverAssignFailed =>
-      'Nie udało się przypisać kierowcy. Spróbuj ponownie.';
+  String get courierAssignFailed =>
+      'Nie udało się przypisać kuriera. Spróbuj ponownie.';
 
   @override
-  String get driverAssignedSuccess => 'Kierowca przypisany pomyślnie.';
+  String get courierAssignedSuccess => 'Kurier przypisany pomyślnie.';
 
   @override
-  String get driverDashboard => 'Panel Kierowcy';
+  String get courierDashboard => 'Panel Kuriera';
 
   @override
-  String get driverDeleted => 'Kierowca został usunięty pomyślnie';
+  String get courierDeleted => 'Kurier został usunięty pomyślnie';
 
   @override
-  String driverInviteFailed(Object error) {
-    return 'Nie udało się zaprosić kierowcy: $error';
+  String courierInviteFailed(Object error) {
+    return 'Nie udało się zaprosić kuriera: $error';
   }
 
   @override
-  String get driverInvitedSuccess => 'Kierowca zaproszony pomyślnie';
+  String get courierInvitedSuccess => 'Kurier zaproszony pomyślnie';
 
   @override
-  String get driverPasswordWillBeEmailed =>
+  String get courierPasswordWillBeEmailed =>
       'Tymczasowe hasło zostanie wysłane na ten adres email.';
 
   @override
-  String get driverRoleLabel => 'KIEROWCA';
+  String get courierRoleLabel => 'KURIER';
 
   @override
-  String driverWithName(Object name) {
-    return 'Kierowca: $name';
+  String courierWithName(Object name) {
+    return 'Kurier: $name';
   }
 
   @override
-  String get drivers => 'Kierowcy';
+  String get couriers => 'Kuriera';
 
   @override
   String get edit => 'Edytuj';
@@ -523,10 +523,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get invite => 'Zaproś';
 
   @override
-  String get inviteDriver => 'Zaproś Kierowcę';
+  String get inviteCourier => 'Zaproś Kuriera';
 
   @override
-  String get inviteNewDriver => 'Zaproś Nowego Kierowcę';
+  String get inviteNewCourier => 'Zaproś Nowego Kuriera';
 
   @override
   String get kitchenSchedule => 'Harmonogram Kuchni';
@@ -556,7 +556,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get manageDietCategories => 'Zarządzaj Kategoriami Diet';
 
   @override
-  String get manageDrivers => 'Zarządzaj Kierowcami';
+  String get manageCouriers => 'Zarządzaj Kuriermi';
 
   @override
   String get manageMealPlans => 'Zarządzaj Planami Posiłków';
@@ -944,7 +944,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get roleCustomer => 'Klient';
 
   @override
-  String get roleDriver => 'Kierowca';
+  String get roleCourier => 'Kurier';
 
   @override
   String get roleRestaurant => 'Restauracja';
@@ -974,11 +974,11 @@ class AppLocalizationsPl extends AppLocalizations {
   String get searchCategories => 'Szukaj Kategorii';
 
   @override
-  String get searchDriverDeliveries =>
+  String get searchCourierDeliveries =>
       'Wyszukaj po numerze zamówienia, kliencie lub adresie...';
 
   @override
-  String get searchDriversByEmail => 'Szukaj kierowców po emailu...';
+  String get searchCouriersByEmail => 'Szukaj kurierów po emailu...';
 
   @override
   String get searchMealPlans => 'Szukaj planów posiłków...';

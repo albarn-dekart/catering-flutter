@@ -11,27 +11,27 @@ import 'package:catering_flutter/core/widgets/card_action_buttons.dart';
 import 'package:catering_flutter/core/widgets/custom_text_field.dart';
 import 'package:catering_flutter/core/widgets/icon_badge.dart';
 
-class RestaurantDriversScreen extends StatefulWidget {
+class RestaurantCouriersScreen extends StatefulWidget {
   final String restaurantIri;
 
-  const RestaurantDriversScreen({super.key, required this.restaurantIri});
+  const RestaurantCouriersScreen({super.key, required this.restaurantIri});
 
   @override
-  State<RestaurantDriversScreen> createState() =>
-      _RestaurantDriversScreenState();
+  State<RestaurantCouriersScreen> createState() =>
+      _RestaurantCouriersScreenState();
 }
 
-class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
+class _RestaurantCouriersScreenState extends State<RestaurantCouriersScreen> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadDrivers();
+      _loadCouriers();
     });
   }
 
-  Future<void> _loadDrivers() async {
-    await context.read<UserService>().fetchDriversByRestaurant(
+  Future<void> _loadCouriers() async {
+    await context.read<UserService>().fetchCouriersByRestaurant(
       widget.restaurantIri,
     );
   }
@@ -40,23 +40,23 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
   Widget build(BuildContext context) {
     return Consumer<UserService>(
       builder: (context, userService, child) {
-        return SearchableListScreen<RestaurantDriverNode>(
-          title: AppLocalizations.of(context)!.manageDrivers,
-          items: userService.restaurantDrivers,
+        return SearchableListScreen<RestaurantCourierNode>(
+          title: AppLocalizations.of(context)!.manageCouriers,
+          items: userService.restaurantCouriers,
           isLoading: userService.isLoading,
-          searchHint: AppLocalizations.of(context)!.searchDriversByEmail,
+          searchHint: AppLocalizations.of(context)!.searchCouriersByEmail,
           onSearch: (query) {
-            userService.fetchDriversByRestaurant(
+            userService.fetchCouriersByRestaurant(
               widget.restaurantIri,
               searchQuery: query,
             );
           },
           hasError: userService.hasError,
           errorMessage: userService.errorMessage,
-          onRetry: _loadDrivers,
-          onRefresh: _loadDrivers,
-          onCreate: _showInviteDriverDialog,
-          itemBuilder: (context, driver) {
+          onRetry: _loadCouriers,
+          onRefresh: _loadCouriers,
+          onCreate: _showInviteCourierDialog,
+          itemBuilder: (context, courier) {
             final theme = Theme.of(context);
             return AppCard(
               padding: const EdgeInsets.all(8),
@@ -66,7 +66,7 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
                   radius: 24,
                   backgroundColor: theme.colorScheme.primaryContainer,
                   child: Text(
-                    driver.email[0].toUpperCase(),
+                    courier.email[0].toUpperCase(),
                     style: theme.textTheme.titleMedium?.copyWith(
                       color: theme.colorScheme.onPrimaryContainer,
                       fontWeight: FontWeight.bold,
@@ -74,7 +74,7 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
                   ),
                 ),
                 title: Text(
-                  driver.email,
+                  courier.email,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -84,7 +84,7 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
                   child: Row(
                     children: [
                       IconBadge(
-                        text: IriHelper.getId(driver.id),
+                        text: IriHelper.getId(courier.id),
                         icon: Icons.tag,
                       ),
                     ],
@@ -92,7 +92,7 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
                 ),
                 trailing: CardActionButtons(
                   onDelete: () =>
-                      _confirmDeleteDriver(context, userService, driver),
+                      _confirmDeleteCourier(context, userService, courier),
                 ),
               ),
             );
@@ -102,24 +102,24 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
     );
   }
 
-  Future<void> _confirmDeleteDriver(
+  Future<void> _confirmDeleteCourier(
     BuildContext context,
     UserService userService,
-    RestaurantDriverNode driver,
+    RestaurantCourierNode courier,
   ) async {
     final confirmed = await DeleteConfirmationDialog.show(
       context: context,
       title: AppLocalizations.of(context)!.confirmDelete,
-      message: AppLocalizations.of(context)!.confirmDeleteDriver(driver.email),
+      message: AppLocalizations.of(context)!.confirmDeleteCourier(courier.email),
     );
 
     if (confirmed && context.mounted) {
       try {
-        await userService.deleteUser(driver.id);
+        await userService.deleteUser(courier.id);
         if (context.mounted) {
           UIErrorHandler.showSnackBar(
             context,
-            AppLocalizations.of(context)!.driverDeleted,
+            AppLocalizations.of(context)!.courierDeleted,
           );
         }
       } catch (e) {
@@ -130,14 +130,14 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
     }
   }
 
-  void _showInviteDriverDialog() {
+  void _showInviteCourierDialog() {
     final emailController = TextEditingController();
     final formKey = GlobalKey<FormState>();
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(AppLocalizations.of(context)!.inviteNewDriver),
+        title: Text(AppLocalizations.of(context)!.inviteNewCourier),
         content: Form(
           key: formKey,
           child: Column(
@@ -160,7 +160,7 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                AppLocalizations.of(context)!.driverPasswordWillBeEmailed,
+                AppLocalizations.of(context)!.courierPasswordWillBeEmailed,
                 style: Theme.of(context).textTheme.bodySmall,
                 textAlign: TextAlign.center,
               ),
@@ -178,30 +178,30 @@ class _RestaurantDriversScreenState extends State<RestaurantDriversScreen> {
               if (formKey.currentState!.validate()) {
                 try {
                   Navigator.pop(context); // Close dialog first
-                  await context.read<UserService>().createDriver(
+                  await context.read<UserService>().createCourier(
                     emailController.text,
                     restaurantIri: widget.restaurantIri,
                   );
                   if (!context.mounted) return;
                   UIErrorHandler.showSnackBar(
                     context,
-                    AppLocalizations.of(context)!.driverInvitedSuccess,
+                    AppLocalizations.of(context)!.courierInvitedSuccess,
                   );
-                  _loadDrivers(); // Refresh list
+                  _loadCouriers(); // Refresh list
                 } catch (e) {
                   if (!context.mounted) return;
                   UIErrorHandler.showSnackBar(
                     context,
                     AppLocalizations.of(
                       context,
-                    )!.driverInviteFailed(e.toString()),
+                    )!.courierInviteFailed(e.toString()),
                     isError: true,
                   );
                 }
               }
             },
             icon: Icons.send,
-            label: AppLocalizations.of(context)!.inviteDriver,
+            label: AppLocalizations.of(context)!.inviteCourier,
           ),
         ],
       ),

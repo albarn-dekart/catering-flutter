@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catering_flutter/core/utils/iri_helper.dart';
-import 'package:catering_flutter/features/driver/services/delivery_service.dart';
+import 'package:catering_flutter/features/courier/services/delivery_service.dart';
 import 'package:catering_flutter/features/user/services/user_service.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 import 'package:catering_flutter/core/utils/status_extensions.dart';
@@ -16,14 +16,14 @@ import 'package:catering_flutter/core/widgets/nutrient_row.dart';
 import 'package:catering_flutter/core/widgets/icon_badge.dart';
 import 'package:catering_flutter/core/widgets/easy_date_picker.dart';
 
-class DriverDashboardScreen extends StatefulWidget {
-  const DriverDashboardScreen({super.key});
+class CourierDashboardScreen extends StatefulWidget {
+  const CourierDashboardScreen({super.key});
 
   @override
-  State<DriverDashboardScreen> createState() => _DriverDashboardScreenState();
+  State<CourierDashboardScreen> createState() => _CourierDashboardScreenState();
 }
 
-class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
+class _CourierDashboardScreenState extends State<CourierDashboardScreen> {
   final Set<String> _updatingIds = {};
   String _currentSearchQuery = '';
   DateTimeRange? _selectedDateRange;
@@ -100,7 +100,7 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
     return Consumer<UserService>(
       builder: (context, userService, child) {
         return SearchableListScreen<dynamic>(
-          title: AppLocalizations.of(context)!.driverDashboard,
+          title: AppLocalizations.of(context)!.courierDashboard,
           items: _getSortedItems(userService.userDeliveries),
           isLoading: userService.isLoading,
           isLoadingMore: userService.isFetchingMoreUserDeliveries,
@@ -108,7 +108,7 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
           errorMessage: userService.errorMessage,
           onRetry: _fetchDeliveries,
           onLoadMore: () => userService.loadMoreCurrentUserDeliveries(),
-          searchHint: AppLocalizations.of(context)!.searchDriverDeliveries,
+          searchHint: AppLocalizations.of(context)!.searchCourierDeliveries,
           onSearch: (query) {
             _currentSearchQuery = query;
             _fetchDeliveries();

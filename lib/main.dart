@@ -21,7 +21,7 @@ import 'features/restaurant/services/restaurant_service.dart';
 import 'features/user/services/user_service.dart';
 import 'features/customer/services/address_service.dart';
 import 'features/order/services/order_service.dart';
-import 'features/driver/services/delivery_service.dart';
+import 'features/courier/services/delivery_service.dart';
 import 'features/restaurant/services/meal_service.dart';
 import 'features/restaurant/services/meal_plan_service.dart';
 import 'features/restaurant/services/restaurant_category_service.dart';

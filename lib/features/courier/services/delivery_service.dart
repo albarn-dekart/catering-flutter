@@ -231,10 +231,10 @@ class DeliveryService extends ChangeNotifier {
     }
   }
 
-  Future<Fragment$DriverDeliveryFragment?> updateDeliveryStatus(
+  Future<Fragment$CourierDeliveryFragment?> updateDeliveryStatus(
     String deliveryId, {
     Enum$DeliveryStatus? status,
-    String? driverIri,
+    String? courierIri,
   }) async {
     _isLoading = true;
     _errorMessage = null;
@@ -247,7 +247,7 @@ class DeliveryService extends ChangeNotifier {
           input: Input$updateDeliveryInput(
             id: deliveryId,
             status: status,
-            driver: driverIri,
+            courier: courierIri,
           ),
         ).toJson(),
       );
@@ -264,7 +264,7 @@ class DeliveryService extends ChangeNotifier {
         // Update current delivery if currently viewed
         if (_currentDelivery?.id == updatedDelivery.id) {
           // Cast to Fragment$BasicDeliveryFragment as _currentDelivery expects it
-          // Note: DriverDeliveryFragment is used for mutation response now,
+          // Note: CourierDeliveryFragment is used for mutation response now,
           // but we can convert it back to BasicDeliveryFragment if needed,
           // though usually they share the same base structure.
           // For now, we'll just assign it if possible or skip if types strictly mismatch.
@@ -286,10 +286,10 @@ class DeliveryService extends ChangeNotifier {
                         : null,
                   )
                 : null,
-            driver: updatedDelivery.driver != null
-                ? Fragment$BasicDeliveryFragment$driver(
-                    id: updatedDelivery.driver!.id,
-                    email: updatedDelivery.driver!.email,
+            courier: updatedDelivery.courier != null
+                ? Fragment$BasicDeliveryFragment$courier(
+                    id: updatedDelivery.courier!.id,
+                    email: updatedDelivery.courier!.email,
                   )
                 : null,
           ).copyWith(); // Use copyWith if needed or just assign
@@ -320,10 +320,10 @@ class DeliveryService extends ChangeNotifier {
                           : null,
                     )
                   : null,
-              driver: updatedDelivery.driver != null
-                  ? Fragment$BasicDeliveryFragment$driver(
-                      id: updatedDelivery.driver!.id,
-                      email: updatedDelivery.driver!.email,
+              courier: updatedDelivery.courier != null
+                  ? Fragment$BasicDeliveryFragment$courier(
+                      id: updatedDelivery.courier!.id,
+                      email: updatedDelivery.courier!.email,
                     )
                   : null,
             );

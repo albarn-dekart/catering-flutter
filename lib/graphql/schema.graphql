@@ -32,8 +32,8 @@
     search: String
     status: String
     status_list: [String]
-    driver: String
-    driver_list: [String]
+    courier: String
+    courier_list: [String]
     order_restaurant: String
     order_restaurant_list: [String]
     order: [DeliveryFilter_order]
@@ -222,7 +222,7 @@ type AddressPageInfo {
 type Delivery implements Node {
   id: ID!
   _id: Int!
-  driver: User
+  courier: User
   status: DeliveryStatus!
   deliveryDate: String!
   order: Order
@@ -267,8 +267,8 @@ type User implements Node {
     search: String
     status: String
     status_list: [String]
-    driver: String
-    driver_list: [String]
+    courier: String
+    courier_list: [String]
     order_restaurant: String
     order_restaurant_list: [String]
     order: [DeliveryFilter_order]
@@ -375,8 +375,8 @@ type Order implements Node {
     search: String
     status: String
     status_list: [String]
-    driver: String
-    driver_list: [String]
+    courier: String
+    courier_list: [String]
     order_restaurant: String
     order_restaurant_list: [String]
     order: [DeliveryFilter_order]
@@ -569,8 +569,8 @@ type Restaurant implements Node {
   "The restaurant owner (user with ROLE_RESTAURANT)"
   owner: User
 
-  "Drivers assigned to this restaurant"
-  drivers(
+  "Couriers assigned to this restaurant"
+  couriers(
     "Returns the first n elements from the list."
     first: Int
 
@@ -1091,7 +1091,7 @@ type deleteAddressPayload {
 "Updates a Delivery."
 input updateDeliveryInput {
   id: ID!
-  driver: String
+  courier: String
   status: DeliveryStatus
   deliveryDate: String
   order: String
@@ -1118,7 +1118,7 @@ type deleteDeliveryPayload {
 
 "Creates a Delivery."
 input createDeliveryInput {
-  driver: String
+  courier: String
   status: DeliveryStatus!
   deliveryDate: String!
   order: String
@@ -1320,7 +1320,7 @@ input updateOrderItemNestedInput {
 "Updates a Delivery."
 input updateDeliveryNestedInput {
   id: ID
-  driver: String
+  courier: String
   status: DeliveryStatus
   deliveryDate: String
   order: String
@@ -1382,7 +1382,7 @@ input OrderItemNestedInput {
 "Creates a Delivery."
 input createDeliveryNestedInput {
   id: ID
-  driver: String
+  courier: String
   status: DeliveryStatus!
   deliveryDate: String!
   order: String
@@ -1443,8 +1443,8 @@ input createRestaurantInput {
   "The restaurant owner (user with ROLE_RESTAURANT)"
   owner: String
 
-  "Drivers assigned to this restaurant"
-  drivers: [String]
+  "Couriers assigned to this restaurant"
+  couriers: [String]
   restaurantCategories: [String]
   clientMutationId: String
 }
@@ -1471,8 +1471,8 @@ input updateRestaurantInput {
   "The restaurant owner (user with ROLE_RESTAURANT)"
   owner: String
 
-  "Drivers assigned to this restaurant"
-  drivers: [String]
+  "Couriers assigned to this restaurant"
+  couriers: [String]
   restaurantCategories: [String]
   clientMutationId: String
 }

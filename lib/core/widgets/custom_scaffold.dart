@@ -35,7 +35,7 @@ class CustomScaffold extends StatelessWidget {
     final authService = Provider.of<AuthService>(innerContext, listen: false);
     final bool isAdmin = authService.hasRole('ROLE_ADMIN');
     final bool isRestaurant = authService.hasRole('ROLE_RESTAURANT');
-    final bool isDriver = authService.hasRole('ROLE_DRIVER');
+    final bool isCourier = authService.hasRole('ROLE_COURIER');
 
     bool isUserRoot = false;
     if (cleanPath == AppRoutes.home) {
@@ -44,7 +44,7 @@ class CustomScaffold extends StatelessWidget {
       isUserRoot = true;
     } else if (cleanPath == AppRoutes.restaurantDashboard && isRestaurant) {
       isUserRoot = true;
-    } else if (cleanPath == AppRoutes.driverDashboard && isDriver) {
+    } else if (cleanPath == AppRoutes.courierDashboard && isCourier) {
       isUserRoot = true;
     }
 
@@ -87,8 +87,8 @@ class CustomScaffold extends StatelessWidget {
                     } else if (isRestaurant &&
                         cleanPath.startsWith('/restaurant/')) {
                       innerContext.go(AppRoutes.restaurantDashboard);
-                    } else if (isDriver && cleanPath.startsWith('/driver/')) {
-                      innerContext.go(AppRoutes.driverDashboard);
+                    } else if (isCourier && cleanPath.startsWith('/courier/')) {
+                      innerContext.go(AppRoutes.courierDashboard);
                     } else if (cleanPath.startsWith('/restaurant/')) {
                       // Admin visiting restaurant pages fallback
                       innerContext.go(AppRoutes.adminDashboard);

@@ -18,13 +18,13 @@ fragment BasicDeliveryFragment on Delivery {
         deliveryCity
         deliveryZipCode
     }
-    driver {
+    courier {
         id
         email
     }
 }
 
-fragment DriverDeliveryFragment on Delivery {
+fragment CourierDeliveryFragment on Delivery {
     id
     status
     deliveryDate
@@ -79,7 +79,7 @@ fragment DriverDeliveryFragment on Delivery {
             }
         }
     }
-    driver {
+    courier {
         id
         email
     }
@@ -99,14 +99,14 @@ query GetDeliveries($first: Int, $after: String, $search: String) {
     }
 }
 
-# For drivers - includes their deliveries
+# For couriers - includes their deliveries
 query GetUserDeliveries($id: ID!, $first: Int, $after: String, $status: [String], $search: String, $order: [DeliveryFilter_order], $deliveryDate: [DeliveryFilter_deliveryDate]) {
     user(id: $id) {
         id
         deliveries(first: $first, after: $after, status_list: $status, search: $search, order: $order, deliveryDate: $deliveryDate) {
             edges {
                 node {
-                    ...DriverDeliveryFragment
+                    ...CourierDeliveryFragment
                 }
             }
             pageInfo {
@@ -140,7 +140,7 @@ query GetDeliveriesByRestaurant($restaurantId: String!, $first: Int, $after: Str
 mutation UpdateDelivery($input: updateDeliveryInput!) {
     updateDelivery(input: $input) {
         delivery {
-            ...DriverDeliveryFragment
+            ...CourierDeliveryFragment
         }
     }
 }

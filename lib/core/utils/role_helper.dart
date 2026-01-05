@@ -9,8 +9,8 @@ class RoleHelper {
         return l10n.roleAdmin;
       case 'ROLE_RESTAURANT':
         return l10n.roleRestaurant;
-      case 'ROLE_DRIVER':
-        return l10n.roleDriver;
+      case 'ROLE_COURIER':
+        return l10n.roleCourier;
       case 'ROLE_CUSTOMER':
         return l10n.roleCustomer;
       default:

@@ -834,7 +834,7 @@ class RestaurantForm extends HookWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            AppLocalizations.of(context)!.driverPasswordWillBeEmailed,
+            AppLocalizations.of(context)!.courierPasswordWillBeEmailed,
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ],

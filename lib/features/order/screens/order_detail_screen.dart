@@ -1063,11 +1063,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                if (delivery.driver != null)
+                                if (delivery.courier != null)
                                   Text(
                                     AppLocalizations.of(
                                       context,
-                                    )!.driverWithName(delivery.driver!.email),
+                                    )!.courierWithName(delivery.courier!.email),
                                     style: theme.textTheme.bodySmall?.copyWith(
                                       color: Theme.of(
                                         context,

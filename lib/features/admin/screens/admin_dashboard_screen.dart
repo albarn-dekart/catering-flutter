@@ -235,8 +235,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
         color: AppColors.secondary,
       ),
       StatCard(
-        title: AppLocalizations.of(context)!.drivers,
-        value: '${statistics.driverCount}',
+        title: AppLocalizations.of(context)!.couriers,
+        value: '${statistics.courierCount}',
         icon: Icons.delivery_dining_outlined,
         color: AppColors.secondaryDark,
       ),

@@ -3574,14 +3574,14 @@ class _CopyWithStubImpl$Input$deleteAddressInput<TRes>
 class Input$updateDeliveryInput {
   factory Input$updateDeliveryInput({
     required String id,
-    String? driver,
+    String? courier,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
     String? order,
     String? clientMutationId,
   }) => Input$updateDeliveryInput._({
     r'id': id,
-    if (driver != null) r'driver': driver,
+    if (courier != null) r'courier': courier,
     if (status != null) r'status': status,
     if (deliveryDate != null) r'deliveryDate': deliveryDate,
     if (order != null) r'order': order,
@@ -3594,9 +3594,9 @@ class Input$updateDeliveryInput {
     final result$data = <String, dynamic>{};
     final l$id = data['id'];
     result$data['id'] = (l$id as String);
-    if (data.containsKey('driver')) {
-      final l$driver = data['driver'];
-      result$data['driver'] = (l$driver as String?);
+    if (data.containsKey('courier')) {
+      final l$courier = data['courier'];
+      result$data['courier'] = (l$courier as String?);
     }
     if (data.containsKey('status')) {
       final l$status = data['status'];
@@ -3623,7 +3623,7 @@ class Input$updateDeliveryInput {
 
   String get id => (_$data['id'] as String);
 
-  String? get driver => (_$data['driver'] as String?);
+  String? get courier => (_$data['courier'] as String?);
 
   Enum$DeliveryStatus? get status => (_$data['status'] as Enum$DeliveryStatus?);
 
@@ -3637,9 +3637,9 @@ class Input$updateDeliveryInput {
     final result$data = <String, dynamic>{};
     final l$id = id;
     result$data['id'] = l$id;
-    if (_$data.containsKey('driver')) {
-      final l$driver = driver;
-      result$data['driver'] = l$driver;
+    if (_$data.containsKey('courier')) {
+      final l$courier = courier;
+      result$data['courier'] = l$courier;
     }
     if (_$data.containsKey('status')) {
       final l$status = status;
@@ -3679,12 +3679,12 @@ class Input$updateDeliveryInput {
     if (l$id != lOther$id) {
       return false;
     }
-    final l$driver = driver;
-    final lOther$driver = other.driver;
-    if (_$data.containsKey('driver') != other._$data.containsKey('driver')) {
+    final l$courier = courier;
+    final lOther$courier = other.courier;
+    if (_$data.containsKey('courier') != other._$data.containsKey('courier')) {
       return false;
     }
-    if (l$driver != lOther$driver) {
+    if (l$courier != lOther$courier) {
       return false;
     }
     final l$status = status;
@@ -3727,14 +3727,14 @@ class Input$updateDeliveryInput {
   @override
   int get hashCode {
     final l$id = id;
-    final l$driver = driver;
+    final l$courier = courier;
     final l$status = status;
     final l$deliveryDate = deliveryDate;
     final l$order = order;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
       l$id,
-      _$data.containsKey('driver') ? l$driver : const {},
+      _$data.containsKey('courier') ? l$courier : const {},
       _$data.containsKey('status') ? l$status : const {},
       _$data.containsKey('deliveryDate') ? l$deliveryDate : const {},
       _$data.containsKey('order') ? l$order : const {},
@@ -3754,7 +3754,7 @@ abstract class CopyWith$Input$updateDeliveryInput<TRes> {
 
   TRes call({
     String? id,
-    String? driver,
+    String? courier,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
     String? order,
@@ -3774,7 +3774,7 @@ class _CopyWithImpl$Input$updateDeliveryInput<TRes>
 
   TRes call({
     Object? id = _undefined,
-    Object? driver = _undefined,
+    Object? courier = _undefined,
     Object? status = _undefined,
     Object? deliveryDate = _undefined,
     Object? order = _undefined,
@@ -3783,7 +3783,7 @@ class _CopyWithImpl$Input$updateDeliveryInput<TRes>
     Input$updateDeliveryInput._({
       ..._instance._$data,
       if (id != _undefined && id != null) 'id': (id as String),
-      if (driver != _undefined) 'driver': (driver as String?),
+      if (courier != _undefined) 'courier': (courier as String?),
       if (status != _undefined) 'status': (status as Enum$DeliveryStatus?),
       if (deliveryDate != _undefined) 'deliveryDate': (deliveryDate as String?),
       if (order != _undefined) 'order': (order as String?),
@@ -3801,7 +3801,7 @@ class _CopyWithStubImpl$Input$updateDeliveryInput<TRes>
 
   call({
     String? id,
-    String? driver,
+    String? courier,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
     String? order,
@@ -3932,13 +3932,13 @@ class _CopyWithStubImpl$Input$deleteDeliveryInput<TRes>
 
 class Input$createDeliveryInput {
   factory Input$createDeliveryInput({
-    String? driver,
+    String? courier,
     required Enum$DeliveryStatus status,
     required String deliveryDate,
     String? order,
     String? clientMutationId,
   }) => Input$createDeliveryInput._({
-    if (driver != null) r'driver': driver,
+    if (courier != null) r'courier': courier,
     r'status': status,
     r'deliveryDate': deliveryDate,
     if (order != null) r'order': order,
@@ -3949,9 +3949,9 @@ class Input$createDeliveryInput {
 
   factory Input$createDeliveryInput.fromJson(Map<String, dynamic> data) {
     final result$data = <String, dynamic>{};
-    if (data.containsKey('driver')) {
-      final l$driver = data['driver'];
-      result$data['driver'] = (l$driver as String?);
+    if (data.containsKey('courier')) {
+      final l$courier = data['courier'];
+      result$data['courier'] = (l$courier as String?);
     }
     final l$status = data['status'];
     result$data['status'] = fromJson$Enum$DeliveryStatus((l$status as String));
@@ -3970,7 +3970,7 @@ class Input$createDeliveryInput {
 
   Map<String, dynamic> _$data;
 
-  String? get driver => (_$data['driver'] as String?);
+  String? get courier => (_$data['courier'] as String?);
 
   Enum$DeliveryStatus get status => (_$data['status'] as Enum$DeliveryStatus);
 
@@ -3982,9 +3982,9 @@ class Input$createDeliveryInput {
 
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
-    if (_$data.containsKey('driver')) {
-      final l$driver = driver;
-      result$data['driver'] = l$driver;
+    if (_$data.containsKey('courier')) {
+      final l$courier = courier;
+      result$data['courier'] = l$courier;
     }
     final l$status = status;
     result$data['status'] = toJson$Enum$DeliveryStatus(l$status);
@@ -4013,12 +4013,12 @@ class Input$createDeliveryInput {
         runtimeType != other.runtimeType) {
       return false;
     }
-    final l$driver = driver;
-    final lOther$driver = other.driver;
-    if (_$data.containsKey('driver') != other._$data.containsKey('driver')) {
+    final l$courier = courier;
+    final lOther$courier = other.courier;
+    if (_$data.containsKey('courier') != other._$data.containsKey('courier')) {
       return false;
     }
-    if (l$driver != lOther$driver) {
+    if (l$courier != lOther$courier) {
       return false;
     }
     final l$status = status;
@@ -4053,13 +4053,13 @@ class Input$createDeliveryInput {
 
   @override
   int get hashCode {
-    final l$driver = driver;
+    final l$courier = courier;
     final l$status = status;
     final l$deliveryDate = deliveryDate;
     final l$order = order;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
-      _$data.containsKey('driver') ? l$driver : const {},
+      _$data.containsKey('courier') ? l$courier : const {},
       l$status,
       l$deliveryDate,
       _$data.containsKey('order') ? l$order : const {},
@@ -4078,7 +4078,7 @@ abstract class CopyWith$Input$createDeliveryInput<TRes> {
       _CopyWithStubImpl$Input$createDeliveryInput;
 
   TRes call({
-    String? driver,
+    String? courier,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
     String? order,
@@ -4097,7 +4097,7 @@ class _CopyWithImpl$Input$createDeliveryInput<TRes>
   static const _undefined = <dynamic, dynamic>{};
 
   TRes call({
-    Object? driver = _undefined,
+    Object? courier = _undefined,
     Object? status = _undefined,
     Object? deliveryDate = _undefined,
     Object? order = _undefined,
@@ -4105,7 +4105,7 @@ class _CopyWithImpl$Input$createDeliveryInput<TRes>
   }) => _then(
     Input$createDeliveryInput._({
       ..._instance._$data,
-      if (driver != _undefined) 'driver': (driver as String?),
+      if (courier != _undefined) 'courier': (courier as String?),
       if (status != _undefined && status != null)
         'status': (status as Enum$DeliveryStatus),
       if (deliveryDate != _undefined && deliveryDate != null)
@@ -4124,7 +4124,7 @@ class _CopyWithStubImpl$Input$createDeliveryInput<TRes>
   TRes _res;
 
   call({
-    String? driver,
+    String? courier,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
     String? order,
@@ -7440,14 +7440,14 @@ class _CopyWithStubImpl$Input$updateOrderItemNestedInput<TRes>
 class Input$updateDeliveryNestedInput {
   factory Input$updateDeliveryNestedInput({
     String? id,
-    String? driver,
+    String? courier,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
     String? order,
     String? clientMutationId,
   }) => Input$updateDeliveryNestedInput._({
     if (id != null) r'id': id,
-    if (driver != null) r'driver': driver,
+    if (courier != null) r'courier': courier,
     if (status != null) r'status': status,
     if (deliveryDate != null) r'deliveryDate': deliveryDate,
     if (order != null) r'order': order,
@@ -7462,9 +7462,9 @@ class Input$updateDeliveryNestedInput {
       final l$id = data['id'];
       result$data['id'] = (l$id as String?);
     }
-    if (data.containsKey('driver')) {
-      final l$driver = data['driver'];
-      result$data['driver'] = (l$driver as String?);
+    if (data.containsKey('courier')) {
+      final l$courier = data['courier'];
+      result$data['courier'] = (l$courier as String?);
     }
     if (data.containsKey('status')) {
       final l$status = data['status'];
@@ -7491,7 +7491,7 @@ class Input$updateDeliveryNestedInput {
 
   String? get id => (_$data['id'] as String?);
 
-  String? get driver => (_$data['driver'] as String?);
+  String? get courier => (_$data['courier'] as String?);
 
   Enum$DeliveryStatus? get status => (_$data['status'] as Enum$DeliveryStatus?);
 
@@ -7507,9 +7507,9 @@ class Input$updateDeliveryNestedInput {
       final l$id = id;
       result$data['id'] = l$id;
     }
-    if (_$data.containsKey('driver')) {
-      final l$driver = driver;
-      result$data['driver'] = l$driver;
+    if (_$data.containsKey('courier')) {
+      final l$courier = courier;
+      result$data['courier'] = l$courier;
     }
     if (_$data.containsKey('status')) {
       final l$status = status;
@@ -7552,12 +7552,12 @@ class Input$updateDeliveryNestedInput {
     if (l$id != lOther$id) {
       return false;
     }
-    final l$driver = driver;
-    final lOther$driver = other.driver;
-    if (_$data.containsKey('driver') != other._$data.containsKey('driver')) {
+    final l$courier = courier;
+    final lOther$courier = other.courier;
+    if (_$data.containsKey('courier') != other._$data.containsKey('courier')) {
       return false;
     }
-    if (l$driver != lOther$driver) {
+    if (l$courier != lOther$courier) {
       return false;
     }
     final l$status = status;
@@ -7600,14 +7600,14 @@ class Input$updateDeliveryNestedInput {
   @override
   int get hashCode {
     final l$id = id;
-    final l$driver = driver;
+    final l$courier = courier;
     final l$status = status;
     final l$deliveryDate = deliveryDate;
     final l$order = order;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
       _$data.containsKey('id') ? l$id : const {},
-      _$data.containsKey('driver') ? l$driver : const {},
+      _$data.containsKey('courier') ? l$courier : const {},
       _$data.containsKey('status') ? l$status : const {},
       _$data.containsKey('deliveryDate') ? l$deliveryDate : const {},
       _$data.containsKey('order') ? l$order : const {},
@@ -7627,7 +7627,7 @@ abstract class CopyWith$Input$updateDeliveryNestedInput<TRes> {
 
   TRes call({
     String? id,
-    String? driver,
+    String? courier,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
     String? order,
@@ -7647,7 +7647,7 @@ class _CopyWithImpl$Input$updateDeliveryNestedInput<TRes>
 
   TRes call({
     Object? id = _undefined,
-    Object? driver = _undefined,
+    Object? courier = _undefined,
     Object? status = _undefined,
     Object? deliveryDate = _undefined,
     Object? order = _undefined,
@@ -7656,7 +7656,7 @@ class _CopyWithImpl$Input$updateDeliveryNestedInput<TRes>
     Input$updateDeliveryNestedInput._({
       ..._instance._$data,
       if (id != _undefined) 'id': (id as String?),
-      if (driver != _undefined) 'driver': (driver as String?),
+      if (courier != _undefined) 'courier': (courier as String?),
       if (status != _undefined) 'status': (status as Enum$DeliveryStatus?),
       if (deliveryDate != _undefined) 'deliveryDate': (deliveryDate as String?),
       if (order != _undefined) 'order': (order as String?),
@@ -7674,7 +7674,7 @@ class _CopyWithStubImpl$Input$updateDeliveryNestedInput<TRes>
 
   call({
     String? id,
-    String? driver,
+    String? courier,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
     String? order,
@@ -8792,14 +8792,14 @@ class _CopyWithStubImpl$Input$OrderItemNestedInput<TRes>
 class Input$createDeliveryNestedInput {
   factory Input$createDeliveryNestedInput({
     String? id,
-    String? driver,
+    String? courier,
     required Enum$DeliveryStatus status,
     required String deliveryDate,
     String? order,
     String? clientMutationId,
   }) => Input$createDeliveryNestedInput._({
     if (id != null) r'id': id,
-    if (driver != null) r'driver': driver,
+    if (courier != null) r'courier': courier,
     r'status': status,
     r'deliveryDate': deliveryDate,
     if (order != null) r'order': order,
@@ -8814,9 +8814,9 @@ class Input$createDeliveryNestedInput {
       final l$id = data['id'];
       result$data['id'] = (l$id as String?);
     }
-    if (data.containsKey('driver')) {
-      final l$driver = data['driver'];
-      result$data['driver'] = (l$driver as String?);
+    if (data.containsKey('courier')) {
+      final l$courier = data['courier'];
+      result$data['courier'] = (l$courier as String?);
     }
     final l$status = data['status'];
     result$data['status'] = fromJson$Enum$DeliveryStatus((l$status as String));
@@ -8837,7 +8837,7 @@ class Input$createDeliveryNestedInput {
 
   String? get id => (_$data['id'] as String?);
 
-  String? get driver => (_$data['driver'] as String?);
+  String? get courier => (_$data['courier'] as String?);
 
   Enum$DeliveryStatus get status => (_$data['status'] as Enum$DeliveryStatus);
 
@@ -8853,9 +8853,9 @@ class Input$createDeliveryNestedInput {
       final l$id = id;
       result$data['id'] = l$id;
     }
-    if (_$data.containsKey('driver')) {
-      final l$driver = driver;
-      result$data['driver'] = l$driver;
+    if (_$data.containsKey('courier')) {
+      final l$courier = courier;
+      result$data['courier'] = l$courier;
     }
     final l$status = status;
     result$data['status'] = toJson$Enum$DeliveryStatus(l$status);
@@ -8892,12 +8892,12 @@ class Input$createDeliveryNestedInput {
     if (l$id != lOther$id) {
       return false;
     }
-    final l$driver = driver;
-    final lOther$driver = other.driver;
-    if (_$data.containsKey('driver') != other._$data.containsKey('driver')) {
+    final l$courier = courier;
+    final lOther$courier = other.courier;
+    if (_$data.containsKey('courier') != other._$data.containsKey('courier')) {
       return false;
     }
-    if (l$driver != lOther$driver) {
+    if (l$courier != lOther$courier) {
       return false;
     }
     final l$status = status;
@@ -8933,14 +8933,14 @@ class Input$createDeliveryNestedInput {
   @override
   int get hashCode {
     final l$id = id;
-    final l$driver = driver;
+    final l$courier = courier;
     final l$status = status;
     final l$deliveryDate = deliveryDate;
     final l$order = order;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
       _$data.containsKey('id') ? l$id : const {},
-      _$data.containsKey('driver') ? l$driver : const {},
+      _$data.containsKey('courier') ? l$courier : const {},
       l$status,
       l$deliveryDate,
       _$data.containsKey('order') ? l$order : const {},
@@ -8960,7 +8960,7 @@ abstract class CopyWith$Input$createDeliveryNestedInput<TRes> {
 
   TRes call({
     String? id,
-    String? driver,
+    String? courier,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
     String? order,
@@ -8980,7 +8980,7 @@ class _CopyWithImpl$Input$createDeliveryNestedInput<TRes>
 
   TRes call({
     Object? id = _undefined,
-    Object? driver = _undefined,
+    Object? courier = _undefined,
     Object? status = _undefined,
     Object? deliveryDate = _undefined,
     Object? order = _undefined,
@@ -8989,7 +8989,7 @@ class _CopyWithImpl$Input$createDeliveryNestedInput<TRes>
     Input$createDeliveryNestedInput._({
       ..._instance._$data,
       if (id != _undefined) 'id': (id as String?),
-      if (driver != _undefined) 'driver': (driver as String?),
+      if (courier != _undefined) 'courier': (courier as String?),
       if (status != _undefined && status != null)
         'status': (status as Enum$DeliveryStatus),
       if (deliveryDate != _undefined && deliveryDate != null)
@@ -9009,7 +9009,7 @@ class _CopyWithStubImpl$Input$createDeliveryNestedInput<TRes>
 
   call({
     String? id,
-    String? driver,
+    String? courier,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
     String? order,
@@ -9525,7 +9525,7 @@ class Input$createRestaurantInput {
     String? zipCode,
     String? nip,
     String? owner,
-    List<String?>? drivers,
+    List<String?>? couriers,
     List<String?>? restaurantCategories,
     String? clientMutationId,
   }) => Input$createRestaurantInput._({
@@ -9539,7 +9539,7 @@ class Input$createRestaurantInput {
     if (zipCode != null) r'zipCode': zipCode,
     if (nip != null) r'nip': nip,
     if (owner != null) r'owner': owner,
-    if (drivers != null) r'drivers': drivers,
+    if (couriers != null) r'couriers': couriers,
     if (restaurantCategories != null)
       r'restaurantCategories': restaurantCategories,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
@@ -9585,9 +9585,9 @@ class Input$createRestaurantInput {
       final l$owner = data['owner'];
       result$data['owner'] = (l$owner as String?);
     }
-    if (data.containsKey('drivers')) {
-      final l$drivers = data['drivers'];
-      result$data['drivers'] = (l$drivers as List<dynamic>?)
+    if (data.containsKey('couriers')) {
+      final l$couriers = data['couriers'];
+      result$data['couriers'] = (l$couriers as List<dynamic>?)
           ?.map((e) => (e as String?))
           .toList();
     }
@@ -9627,7 +9627,7 @@ class Input$createRestaurantInput {
 
   String? get owner => (_$data['owner'] as String?);
 
-  List<String?>? get drivers => (_$data['drivers'] as List<String?>?);
+  List<String?>? get couriers => (_$data['couriers'] as List<String?>?);
 
   List<String?>? get restaurantCategories =>
       (_$data['restaurantCategories'] as List<String?>?);
@@ -9672,9 +9672,9 @@ class Input$createRestaurantInput {
       final l$owner = owner;
       result$data['owner'] = l$owner;
     }
-    if (_$data.containsKey('drivers')) {
-      final l$drivers = drivers;
-      result$data['drivers'] = l$drivers?.map((e) => e).toList();
+    if (_$data.containsKey('couriers')) {
+      final l$couriers = couriers;
+      result$data['couriers'] = l$couriers?.map((e) => e).toList();
     }
     if (_$data.containsKey('restaurantCategories')) {
       final l$restaurantCategories = restaurantCategories;
@@ -9777,23 +9777,24 @@ class Input$createRestaurantInput {
     if (l$owner != lOther$owner) {
       return false;
     }
-    final l$drivers = drivers;
-    final lOther$drivers = other.drivers;
-    if (_$data.containsKey('drivers') != other._$data.containsKey('drivers')) {
+    final l$couriers = couriers;
+    final lOther$couriers = other.couriers;
+    if (_$data.containsKey('couriers') !=
+        other._$data.containsKey('couriers')) {
       return false;
     }
-    if (l$drivers != null && lOther$drivers != null) {
-      if (l$drivers.length != lOther$drivers.length) {
+    if (l$couriers != null && lOther$couriers != null) {
+      if (l$couriers.length != lOther$couriers.length) {
         return false;
       }
-      for (int i = 0; i < l$drivers.length; i++) {
-        final l$drivers$entry = l$drivers[i];
-        final lOther$drivers$entry = lOther$drivers[i];
-        if (l$drivers$entry != lOther$drivers$entry) {
+      for (int i = 0; i < l$couriers.length; i++) {
+        final l$couriers$entry = l$couriers[i];
+        final lOther$couriers$entry = lOther$couriers[i];
+        if (l$couriers$entry != lOther$couriers$entry) {
           return false;
         }
       }
-    } else if (l$drivers != lOther$drivers) {
+    } else if (l$couriers != lOther$couriers) {
       return false;
     }
     final l$restaurantCategories = restaurantCategories;
@@ -9841,7 +9842,7 @@ class Input$createRestaurantInput {
     final l$zipCode = zipCode;
     final l$nip = nip;
     final l$owner = owner;
-    final l$drivers = drivers;
+    final l$couriers = couriers;
     final l$restaurantCategories = restaurantCategories;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
@@ -9855,10 +9856,10 @@ class Input$createRestaurantInput {
       _$data.containsKey('zipCode') ? l$zipCode : const {},
       _$data.containsKey('nip') ? l$nip : const {},
       _$data.containsKey('owner') ? l$owner : const {},
-      _$data.containsKey('drivers')
-          ? l$drivers == null
+      _$data.containsKey('couriers')
+          ? l$couriers == null
                 ? null
-                : Object.hashAll(l$drivers.map((v) => v))
+                : Object.hashAll(l$couriers.map((v) => v))
           : const {},
       _$data.containsKey('restaurantCategories')
           ? l$restaurantCategories == null
@@ -9890,7 +9891,7 @@ abstract class CopyWith$Input$createRestaurantInput<TRes> {
     String? zipCode,
     String? nip,
     String? owner,
-    List<String?>? drivers,
+    List<String?>? couriers,
     List<String?>? restaurantCategories,
     String? clientMutationId,
   });
@@ -9917,7 +9918,7 @@ class _CopyWithImpl$Input$createRestaurantInput<TRes>
     Object? zipCode = _undefined,
     Object? nip = _undefined,
     Object? owner = _undefined,
-    Object? drivers = _undefined,
+    Object? couriers = _undefined,
     Object? restaurantCategories = _undefined,
     Object? clientMutationId = _undefined,
   }) => _then(
@@ -9934,7 +9935,7 @@ class _CopyWithImpl$Input$createRestaurantInput<TRes>
       if (zipCode != _undefined) 'zipCode': (zipCode as String?),
       if (nip != _undefined) 'nip': (nip as String?),
       if (owner != _undefined) 'owner': (owner as String?),
-      if (drivers != _undefined) 'drivers': (drivers as List<String?>?),
+      if (couriers != _undefined) 'couriers': (couriers as List<String?>?),
       if (restaurantCategories != _undefined)
         'restaurantCategories': (restaurantCategories as List<String?>?),
       if (clientMutationId != _undefined)
@@ -9960,7 +9961,7 @@ class _CopyWithStubImpl$Input$createRestaurantInput<TRes>
     String? zipCode,
     String? nip,
     String? owner,
-    List<String?>? drivers,
+    List<String?>? couriers,
     List<String?>? restaurantCategories,
     String? clientMutationId,
   }) => _res;
@@ -9979,7 +9980,7 @@ class Input$updateRestaurantInput {
     String? zipCode,
     String? nip,
     String? owner,
-    List<String?>? drivers,
+    List<String?>? couriers,
     List<String?>? restaurantCategories,
     String? clientMutationId,
   }) => Input$updateRestaurantInput._({
@@ -9994,7 +9995,7 @@ class Input$updateRestaurantInput {
     if (zipCode != null) r'zipCode': zipCode,
     if (nip != null) r'nip': nip,
     if (owner != null) r'owner': owner,
-    if (drivers != null) r'drivers': drivers,
+    if (couriers != null) r'couriers': couriers,
     if (restaurantCategories != null)
       r'restaurantCategories': restaurantCategories,
     if (clientMutationId != null) r'clientMutationId': clientMutationId,
@@ -10046,9 +10047,9 @@ class Input$updateRestaurantInput {
       final l$owner = data['owner'];
       result$data['owner'] = (l$owner as String?);
     }
-    if (data.containsKey('drivers')) {
-      final l$drivers = data['drivers'];
-      result$data['drivers'] = (l$drivers as List<dynamic>?)
+    if (data.containsKey('couriers')) {
+      final l$couriers = data['couriers'];
+      result$data['couriers'] = (l$couriers as List<dynamic>?)
           ?.map((e) => (e as String?))
           .toList();
     }
@@ -10090,7 +10091,7 @@ class Input$updateRestaurantInput {
 
   String? get owner => (_$data['owner'] as String?);
 
-  List<String?>? get drivers => (_$data['drivers'] as List<String?>?);
+  List<String?>? get couriers => (_$data['couriers'] as List<String?>?);
 
   List<String?>? get restaurantCategories =>
       (_$data['restaurantCategories'] as List<String?>?);
@@ -10141,9 +10142,9 @@ class Input$updateRestaurantInput {
       final l$owner = owner;
       result$data['owner'] = l$owner;
     }
-    if (_$data.containsKey('drivers')) {
-      final l$drivers = drivers;
-      result$data['drivers'] = l$drivers?.map((e) => e).toList();
+    if (_$data.containsKey('couriers')) {
+      final l$couriers = couriers;
+      result$data['couriers'] = l$couriers?.map((e) => e).toList();
     }
     if (_$data.containsKey('restaurantCategories')) {
       final l$restaurantCategories = restaurantCategories;
@@ -10258,23 +10259,24 @@ class Input$updateRestaurantInput {
     if (l$owner != lOther$owner) {
       return false;
     }
-    final l$drivers = drivers;
-    final lOther$drivers = other.drivers;
-    if (_$data.containsKey('drivers') != other._$data.containsKey('drivers')) {
+    final l$couriers = couriers;
+    final lOther$couriers = other.couriers;
+    if (_$data.containsKey('couriers') !=
+        other._$data.containsKey('couriers')) {
       return false;
     }
-    if (l$drivers != null && lOther$drivers != null) {
-      if (l$drivers.length != lOther$drivers.length) {
+    if (l$couriers != null && lOther$couriers != null) {
+      if (l$couriers.length != lOther$couriers.length) {
         return false;
       }
-      for (int i = 0; i < l$drivers.length; i++) {
-        final l$drivers$entry = l$drivers[i];
-        final lOther$drivers$entry = lOther$drivers[i];
-        if (l$drivers$entry != lOther$drivers$entry) {
+      for (int i = 0; i < l$couriers.length; i++) {
+        final l$couriers$entry = l$couriers[i];
+        final lOther$couriers$entry = lOther$couriers[i];
+        if (l$couriers$entry != lOther$couriers$entry) {
           return false;
         }
       }
-    } else if (l$drivers != lOther$drivers) {
+    } else if (l$couriers != lOther$couriers) {
       return false;
     }
     final l$restaurantCategories = restaurantCategories;
@@ -10323,7 +10325,7 @@ class Input$updateRestaurantInput {
     final l$zipCode = zipCode;
     final l$nip = nip;
     final l$owner = owner;
-    final l$drivers = drivers;
+    final l$couriers = couriers;
     final l$restaurantCategories = restaurantCategories;
     final l$clientMutationId = clientMutationId;
     return Object.hashAll([
@@ -10338,10 +10340,10 @@ class Input$updateRestaurantInput {
       _$data.containsKey('zipCode') ? l$zipCode : const {},
       _$data.containsKey('nip') ? l$nip : const {},
       _$data.containsKey('owner') ? l$owner : const {},
-      _$data.containsKey('drivers')
-          ? l$drivers == null
+      _$data.containsKey('couriers')
+          ? l$couriers == null
                 ? null
-                : Object.hashAll(l$drivers.map((v) => v))
+                : Object.hashAll(l$couriers.map((v) => v))
           : const {},
       _$data.containsKey('restaurantCategories')
           ? l$restaurantCategories == null
@@ -10374,7 +10376,7 @@ abstract class CopyWith$Input$updateRestaurantInput<TRes> {
     String? zipCode,
     String? nip,
     String? owner,
-    List<String?>? drivers,
+    List<String?>? couriers,
     List<String?>? restaurantCategories,
     String? clientMutationId,
   });
@@ -10402,7 +10404,7 @@ class _CopyWithImpl$Input$updateRestaurantInput<TRes>
     Object? zipCode = _undefined,
     Object? nip = _undefined,
     Object? owner = _undefined,
-    Object? drivers = _undefined,
+    Object? couriers = _undefined,
     Object? restaurantCategories = _undefined,
     Object? clientMutationId = _undefined,
   }) => _then(
@@ -10419,7 +10421,7 @@ class _CopyWithImpl$Input$updateRestaurantInput<TRes>
       if (zipCode != _undefined) 'zipCode': (zipCode as String?),
       if (nip != _undefined) 'nip': (nip as String?),
       if (owner != _undefined) 'owner': (owner as String?),
-      if (drivers != _undefined) 'drivers': (drivers as List<String?>?),
+      if (couriers != _undefined) 'couriers': (couriers as List<String?>?),
       if (restaurantCategories != _undefined)
         'restaurantCategories': (restaurantCategories as List<String?>?),
       if (clientMutationId != _undefined)
@@ -10446,7 +10448,7 @@ class _CopyWithStubImpl$Input$updateRestaurantInput<TRes>
     String? zipCode,
     String? nip,
     String? owner,
-    List<String?>? drivers,
+    List<String?>? couriers,
     List<String?>? restaurantCategories,
     String? clientMutationId,
   }) => _res;

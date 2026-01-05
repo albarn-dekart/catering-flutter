@@ -8,7 +8,7 @@ import 'package:catering_flutter/features/restaurant/services/meal_plan_service.
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:catering_flutter/features/driver/screens/driver_dashboard_screen.dart';
+import 'package:catering_flutter/features/courier/screens/courier_dashboard_screen.dart';
 import 'package:catering_flutter/features/restaurant/screens/restaurant_dashboard_screen.dart';
 import 'package:catering_flutter/features/admin/screens/admin_dashboard_screen.dart';
 import 'package:catering_flutter/features/user/screens/login_screen.dart';
@@ -27,7 +27,7 @@ import 'package:catering_flutter/features/restaurant/screens/meal_plan_detail_sc
 import 'package:catering_flutter/features/order/screens/order_list_screen.dart';
 import 'package:catering_flutter/features/restaurant/screens/restaurant_deliveries_screen.dart';
 
-import 'package:catering_flutter/features/restaurant/screens/restaurant_drivers_screen.dart';
+import 'package:catering_flutter/features/restaurant/screens/restaurant_couriers_screen.dart';
 import 'package:catering_flutter/features/restaurant/screens/restaurant_production_screen.dart';
 import 'package:catering_flutter/features/order/screens/order_detail_screen.dart';
 import 'package:catering_flutter/features/customer/screens/address_list_screen.dart';
@@ -78,7 +78,7 @@ class AppRoutes {
 
   static const String restaurantOrders = '/restaurant/orders';
   static const String restaurantDeliveries = '/restaurant/deliveries';
-  static const String restaurantDrivers = '/restaurant/drivers';
+  static const String restaurantCouriers = '/restaurant/couriers';
   static const String restaurantForm = '/restaurant/edit';
   static const String restaurantMealPlans = '/restaurant/meal-plans';
   static const String restaurantMeals = '/restaurant/meals';
@@ -86,8 +86,8 @@ class AppRoutes {
   static const String restaurantMealPlanForm = '/restaurant/meal-plan';
   static const String restaurantProduction = '/restaurant/production';
 
-  //Driver
-  static const String driverDashboard = '/driver/dashboard';
+  //Courier
+  static const String courierDashboard = '/courier/dashboard';
 }
 
 class AppRouter {
@@ -128,9 +128,9 @@ class AppRouter {
             },
           ),
           GoRoute(
-            path: AppRoutes.driverDashboard,
+            path: AppRoutes.courierDashboard,
             builder: (BuildContext context, GoRouterState state) {
-              return const DriverDashboardScreen();
+              return const CourierDashboardScreen();
             },
           ),
           GoRoute(
@@ -311,13 +311,13 @@ class AppRouter {
           ),
 
           GoRoute(
-            path: AppRoutes.restaurantDrivers,
+            path: AppRoutes.restaurantCouriers,
             builder: (context, state) {
               final restaurantIri = IriHelper.buildIri(
                 'restaurants',
                 state.uri.queryParameters['restaurantId']!,
               );
-              return RestaurantDriversScreen(restaurantIri: restaurantIri);
+              return RestaurantCouriersScreen(restaurantIri: restaurantIri);
             },
           ),
           GoRoute(
@@ -441,8 +441,8 @@ class AppRouter {
           targetRoute = AppRoutes.adminDashboard;
         } else if (authService.hasRole('ROLE_RESTAURANT')) {
           targetRoute = AppRoutes.restaurantDashboard;
-        } else if (authService.hasRole('ROLE_DRIVER')) {
-          targetRoute = AppRoutes.driverDashboard;
+        } else if (authService.hasRole('ROLE_COURIER')) {
+          targetRoute = AppRoutes.courierDashboard;
         }
 
         if (targetRoute != null) {

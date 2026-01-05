@@ -1,10 +1,10 @@
 # import "meals.graphql"
 
-# Get drivers for a restaurant (for restaurant owners)
-query GetDriversByRestaurant($id: ID!, $search: String) {
+# Get couriers for a restaurant (for restaurant owners)
+query GetCouriersByRestaurant($id: ID!, $search: String) {
     restaurant(id: $id) {
         id
-        drivers(search: $search) {
+        couriers(search: $search) {
             edges {
                 node {
                     id

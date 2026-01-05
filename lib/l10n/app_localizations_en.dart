@@ -83,7 +83,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Are you sure you want to cancel this order?';
 
   @override
-  String get assignDriver => 'Assign Driver';
+  String get assignCourier => 'Assign Courier';
 
   @override
   String get assignRole => 'Assign Role';
@@ -173,8 +173,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmDelete => 'Confirm Delete';
 
   @override
-  String confirmDeleteDriver(String email) {
-    return 'Are you sure you want to delete driver $email? They will be unassigned from any deliveries.';
+  String confirmDeleteCourier(String email) {
+    return 'Are you sure you want to delete courier $email? They will be unassigned from any deliveries.';
   }
 
   @override
@@ -347,42 +347,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dontHaveAccount => 'Don\'t have an account? ';
 
   @override
-  String get driver => 'Driver';
+  String get courier => 'Courier';
 
   @override
-  String get driverAssignFailed => 'Failed to assign driver. Please retry.';
+  String get courierAssignFailed => 'Failed to assign courier. Please retry.';
 
   @override
-  String get driverAssignedSuccess => 'Driver assigned successfully.';
+  String get courierAssignedSuccess => 'Courier assigned successfully.';
 
   @override
-  String get driverDashboard => 'Driver Dashboard';
+  String get courierDashboard => 'Courier Dashboard';
 
   @override
-  String get driverDeleted => 'Driver deleted successfully';
+  String get courierDeleted => 'Courier deleted successfully';
 
   @override
-  String driverInviteFailed(Object error) {
-    return 'Failed to invite driver: $error';
+  String courierInviteFailed(Object error) {
+    return 'Failed to invite courier: $error';
   }
 
   @override
-  String get driverInvitedSuccess => 'Driver invited successfully';
+  String get courierInvitedSuccess => 'Courier invited successfully';
 
   @override
-  String get driverPasswordWillBeEmailed =>
+  String get courierPasswordWillBeEmailed =>
       'A temporary password will be sent to this email address.';
 
   @override
-  String get driverRoleLabel => 'DRIVER';
+  String get courierRoleLabel => 'COURIER';
 
   @override
-  String driverWithName(Object name) {
-    return 'Driver: $name';
+  String courierWithName(Object name) {
+    return 'Courier: $name';
   }
 
   @override
-  String get drivers => 'Drivers';
+  String get couriers => 'Couriers';
 
   @override
   String get edit => 'Edit';
@@ -521,10 +521,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invite => 'Invite';
 
   @override
-  String get inviteDriver => 'Invite Driver';
+  String get inviteCourier => 'Invite Courier';
 
   @override
-  String get inviteNewDriver => 'Invite New Driver';
+  String get inviteNewCourier => 'Invite New Courier';
 
   @override
   String get kitchenSchedule => 'Kitchen Schedule';
@@ -554,7 +554,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get manageDietCategories => 'Manage Diet Categories';
 
   @override
-  String get manageDrivers => 'Manage Drivers';
+  String get manageCouriers => 'Manage Couriers';
 
   @override
   String get manageMealPlans => 'Manage Meal Plans';
@@ -940,7 +940,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get roleCustomer => 'Customer';
 
   @override
-  String get roleDriver => 'Driver';
+  String get roleCourier => 'Courier';
 
   @override
   String get roleRestaurant => 'Restaurant';
@@ -970,11 +970,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchCategories => 'Search Categories';
 
   @override
-  String get searchDriverDeliveries =>
+  String get searchCourierDeliveries =>
       'Search by order ID, customer, or address...';
 
   @override
-  String get searchDriversByEmail => 'Search drivers by email...';
+  String get searchCouriersByEmail => 'Search couriers by email...';
 
   @override
   String get searchMealPlans => 'Search meal plans...';

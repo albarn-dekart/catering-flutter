@@ -818,7 +818,7 @@ const fragmentDefinitionOrderSummary = FragmentDefinitionNode(
                           selectionSet: null,
                         ),
                         FieldNode(
-                          name: NameNode(value: 'driver'),
+                          name: NameNode(value: 'courier'),
                           alias: null,
                           arguments: [],
                           directives: [],
@@ -3116,7 +3116,7 @@ class Fragment$OrderSummary$deliveries$edges$node {
     required this.id,
     required this.status,
     required this.deliveryDate,
-    this.driver,
+    this.courier,
     this.$__typename = 'Delivery',
   });
 
@@ -3126,16 +3126,16 @@ class Fragment$OrderSummary$deliveries$edges$node {
     final l$id = json['id'];
     final l$status = json['status'];
     final l$deliveryDate = json['deliveryDate'];
-    final l$driver = json['driver'];
+    final l$courier = json['courier'];
     final l$$__typename = json['__typename'];
     return Fragment$OrderSummary$deliveries$edges$node(
       id: (l$id as String),
       status: fromJson$Enum$DeliveryStatus((l$status as String)),
       deliveryDate: (l$deliveryDate as String),
-      driver: l$driver == null
+      courier: l$courier == null
           ? null
-          : Fragment$OrderSummary$deliveries$edges$node$driver.fromJson(
-              (l$driver as Map<String, dynamic>),
+          : Fragment$OrderSummary$deliveries$edges$node$courier.fromJson(
+              (l$courier as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
     );
@@ -3147,7 +3147,7 @@ class Fragment$OrderSummary$deliveries$edges$node {
 
   final String deliveryDate;
 
-  final Fragment$OrderSummary$deliveries$edges$node$driver? driver;
+  final Fragment$OrderSummary$deliveries$edges$node$courier? courier;
 
   final String $__typename;
 
@@ -3159,8 +3159,8 @@ class Fragment$OrderSummary$deliveries$edges$node {
     _resultData['status'] = toJson$Enum$DeliveryStatus(l$status);
     final l$deliveryDate = deliveryDate;
     _resultData['deliveryDate'] = l$deliveryDate;
-    final l$driver = driver;
-    _resultData['driver'] = l$driver?.toJson();
+    final l$courier = courier;
+    _resultData['courier'] = l$courier?.toJson();
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -3171,13 +3171,13 @@ class Fragment$OrderSummary$deliveries$edges$node {
     final l$id = id;
     final l$status = status;
     final l$deliveryDate = deliveryDate;
-    final l$driver = driver;
+    final l$courier = courier;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$id,
       l$status,
       l$deliveryDate,
-      l$driver,
+      l$courier,
       l$$__typename,
     ]);
   }
@@ -3206,9 +3206,9 @@ class Fragment$OrderSummary$deliveries$edges$node {
     if (l$deliveryDate != lOther$deliveryDate) {
       return false;
     }
-    final l$driver = driver;
-    final lOther$driver = other.driver;
-    if (l$driver != lOther$driver) {
+    final l$courier = courier;
+    final lOther$courier = other.courier;
+    if (l$courier != lOther$courier) {
       return false;
     }
     final l$$__typename = $__typename;
@@ -3242,10 +3242,11 @@ abstract class CopyWith$Fragment$OrderSummary$deliveries$edges$node<TRes> {
     String? id,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
-    Fragment$OrderSummary$deliveries$edges$node$driver? driver,
+    Fragment$OrderSummary$deliveries$edges$node$courier? courier,
     String? $__typename,
   });
-  CopyWith$Fragment$OrderSummary$deliveries$edges$node$driver<TRes> get driver;
+  CopyWith$Fragment$OrderSummary$deliveries$edges$node$courier<TRes>
+  get courier;
 }
 
 class _CopyWithImpl$Fragment$OrderSummary$deliveries$edges$node<TRes>
@@ -3265,7 +3266,7 @@ class _CopyWithImpl$Fragment$OrderSummary$deliveries$edges$node<TRes>
     Object? id = _undefined,
     Object? status = _undefined,
     Object? deliveryDate = _undefined,
-    Object? driver = _undefined,
+    Object? courier = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
     Fragment$OrderSummary$deliveries$edges$node(
@@ -3276,24 +3277,25 @@ class _CopyWithImpl$Fragment$OrderSummary$deliveries$edges$node<TRes>
       deliveryDate: deliveryDate == _undefined || deliveryDate == null
           ? _instance.deliveryDate
           : (deliveryDate as String),
-      driver: driver == _undefined
-          ? _instance.driver
-          : (driver as Fragment$OrderSummary$deliveries$edges$node$driver?),
+      courier: courier == _undefined
+          ? _instance.courier
+          : (courier as Fragment$OrderSummary$deliveries$edges$node$courier?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
     ),
   );
 
-  CopyWith$Fragment$OrderSummary$deliveries$edges$node$driver<TRes> get driver {
-    final local$driver = _instance.driver;
-    return local$driver == null
-        ? CopyWith$Fragment$OrderSummary$deliveries$edges$node$driver.stub(
+  CopyWith$Fragment$OrderSummary$deliveries$edges$node$courier<TRes>
+  get courier {
+    final local$courier = _instance.courier;
+    return local$courier == null
+        ? CopyWith$Fragment$OrderSummary$deliveries$edges$node$courier.stub(
             _then(_instance),
           )
-        : CopyWith$Fragment$OrderSummary$deliveries$edges$node$driver(
-            local$driver,
-            (e) => call(driver: e),
+        : CopyWith$Fragment$OrderSummary$deliveries$edges$node$courier(
+            local$courier,
+            (e) => call(courier: e),
           );
   }
 }
@@ -3308,29 +3310,29 @@ class _CopyWithStubImpl$Fragment$OrderSummary$deliveries$edges$node<TRes>
     String? id,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
-    Fragment$OrderSummary$deliveries$edges$node$driver? driver,
+    Fragment$OrderSummary$deliveries$edges$node$courier? courier,
     String? $__typename,
   }) => _res;
 
-  CopyWith$Fragment$OrderSummary$deliveries$edges$node$driver<TRes>
-  get driver =>
-      CopyWith$Fragment$OrderSummary$deliveries$edges$node$driver.stub(_res);
+  CopyWith$Fragment$OrderSummary$deliveries$edges$node$courier<TRes>
+  get courier =>
+      CopyWith$Fragment$OrderSummary$deliveries$edges$node$courier.stub(_res);
 }
 
-class Fragment$OrderSummary$deliveries$edges$node$driver {
-  Fragment$OrderSummary$deliveries$edges$node$driver({
+class Fragment$OrderSummary$deliveries$edges$node$courier {
+  Fragment$OrderSummary$deliveries$edges$node$courier({
     required this.id,
     required this.email,
     this.$__typename = 'User',
   });
 
-  factory Fragment$OrderSummary$deliveries$edges$node$driver.fromJson(
+  factory Fragment$OrderSummary$deliveries$edges$node$courier.fromJson(
     Map<String, dynamic> json,
   ) {
     final l$id = json['id'];
     final l$email = json['email'];
     final l$$__typename = json['__typename'];
-    return Fragment$OrderSummary$deliveries$edges$node$driver(
+    return Fragment$OrderSummary$deliveries$edges$node$courier(
       id: (l$id as String),
       email: (l$email as String),
       $__typename: (l$$__typename as String),
@@ -3367,7 +3369,7 @@ class Fragment$OrderSummary$deliveries$edges$node$driver {
     if (identical(this, other)) {
       return true;
     }
-    if (other is! Fragment$OrderSummary$deliveries$edges$node$driver ||
+    if (other is! Fragment$OrderSummary$deliveries$edges$node$courier ||
         runtimeType != other.runtimeType) {
       return false;
     }
@@ -3390,43 +3392,44 @@ class Fragment$OrderSummary$deliveries$edges$node$driver {
   }
 }
 
-extension UtilityExtension$Fragment$OrderSummary$deliveries$edges$node$driver
-    on Fragment$OrderSummary$deliveries$edges$node$driver {
-  CopyWith$Fragment$OrderSummary$deliveries$edges$node$driver<
-    Fragment$OrderSummary$deliveries$edges$node$driver
+extension UtilityExtension$Fragment$OrderSummary$deliveries$edges$node$courier
+    on Fragment$OrderSummary$deliveries$edges$node$courier {
+  CopyWith$Fragment$OrderSummary$deliveries$edges$node$courier<
+    Fragment$OrderSummary$deliveries$edges$node$courier
   >
-  get copyWith => CopyWith$Fragment$OrderSummary$deliveries$edges$node$driver(
+  get copyWith => CopyWith$Fragment$OrderSummary$deliveries$edges$node$courier(
     this,
     (i) => i,
   );
 }
 
-abstract class CopyWith$Fragment$OrderSummary$deliveries$edges$node$driver<
+abstract class CopyWith$Fragment$OrderSummary$deliveries$edges$node$courier<
   TRes
 > {
-  factory CopyWith$Fragment$OrderSummary$deliveries$edges$node$driver(
-    Fragment$OrderSummary$deliveries$edges$node$driver instance,
-    TRes Function(Fragment$OrderSummary$deliveries$edges$node$driver) then,
-  ) = _CopyWithImpl$Fragment$OrderSummary$deliveries$edges$node$driver;
+  factory CopyWith$Fragment$OrderSummary$deliveries$edges$node$courier(
+    Fragment$OrderSummary$deliveries$edges$node$courier instance,
+    TRes Function(Fragment$OrderSummary$deliveries$edges$node$courier) then,
+  ) = _CopyWithImpl$Fragment$OrderSummary$deliveries$edges$node$courier;
 
-  factory CopyWith$Fragment$OrderSummary$deliveries$edges$node$driver.stub(
+  factory CopyWith$Fragment$OrderSummary$deliveries$edges$node$courier.stub(
     TRes res,
-  ) = _CopyWithStubImpl$Fragment$OrderSummary$deliveries$edges$node$driver;
+  ) = _CopyWithStubImpl$Fragment$OrderSummary$deliveries$edges$node$courier;
 
   TRes call({String? id, String? email, String? $__typename});
 }
 
-class _CopyWithImpl$Fragment$OrderSummary$deliveries$edges$node$driver<TRes>
+class _CopyWithImpl$Fragment$OrderSummary$deliveries$edges$node$courier<TRes>
     implements
-        CopyWith$Fragment$OrderSummary$deliveries$edges$node$driver<TRes> {
-  _CopyWithImpl$Fragment$OrderSummary$deliveries$edges$node$driver(
+        CopyWith$Fragment$OrderSummary$deliveries$edges$node$courier<TRes> {
+  _CopyWithImpl$Fragment$OrderSummary$deliveries$edges$node$courier(
     this._instance,
     this._then,
   );
 
-  final Fragment$OrderSummary$deliveries$edges$node$driver _instance;
+  final Fragment$OrderSummary$deliveries$edges$node$courier _instance;
 
-  final TRes Function(Fragment$OrderSummary$deliveries$edges$node$driver) _then;
+  final TRes Function(Fragment$OrderSummary$deliveries$edges$node$courier)
+  _then;
 
   static const _undefined = <dynamic, dynamic>{};
 
@@ -3435,7 +3438,7 @@ class _CopyWithImpl$Fragment$OrderSummary$deliveries$edges$node$driver<TRes>
     Object? email = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
-    Fragment$OrderSummary$deliveries$edges$node$driver(
+    Fragment$OrderSummary$deliveries$edges$node$courier(
       id: id == _undefined || id == null ? _instance.id : (id as String),
       email: email == _undefined || email == null
           ? _instance.email
@@ -3447,10 +3450,12 @@ class _CopyWithImpl$Fragment$OrderSummary$deliveries$edges$node$driver<TRes>
   );
 }
 
-class _CopyWithStubImpl$Fragment$OrderSummary$deliveries$edges$node$driver<TRes>
+class _CopyWithStubImpl$Fragment$OrderSummary$deliveries$edges$node$courier<
+  TRes
+>
     implements
-        CopyWith$Fragment$OrderSummary$deliveries$edges$node$driver<TRes> {
-  _CopyWithStubImpl$Fragment$OrderSummary$deliveries$edges$node$driver(
+        CopyWith$Fragment$OrderSummary$deliveries$edges$node$courier<TRes> {
+  _CopyWithStubImpl$Fragment$OrderSummary$deliveries$edges$node$courier(
     this._res,
   );
 
@@ -6285,7 +6290,7 @@ class Fragment$OrderDetails$deliveries$edges$node
     required this.id,
     required this.status,
     required this.deliveryDate,
-    this.driver,
+    this.courier,
     this.$__typename = 'Delivery',
   });
 
@@ -6295,16 +6300,16 @@ class Fragment$OrderDetails$deliveries$edges$node
     final l$id = json['id'];
     final l$status = json['status'];
     final l$deliveryDate = json['deliveryDate'];
-    final l$driver = json['driver'];
+    final l$courier = json['courier'];
     final l$$__typename = json['__typename'];
     return Fragment$OrderDetails$deliveries$edges$node(
       id: (l$id as String),
       status: fromJson$Enum$DeliveryStatus((l$status as String)),
       deliveryDate: (l$deliveryDate as String),
-      driver: l$driver == null
+      courier: l$courier == null
           ? null
-          : Fragment$OrderDetails$deliveries$edges$node$driver.fromJson(
-              (l$driver as Map<String, dynamic>),
+          : Fragment$OrderDetails$deliveries$edges$node$courier.fromJson(
+              (l$courier as Map<String, dynamic>),
             ),
       $__typename: (l$$__typename as String),
     );
@@ -6316,7 +6321,7 @@ class Fragment$OrderDetails$deliveries$edges$node
 
   final String deliveryDate;
 
-  final Fragment$OrderDetails$deliveries$edges$node$driver? driver;
+  final Fragment$OrderDetails$deliveries$edges$node$courier? courier;
 
   final String $__typename;
 
@@ -6328,8 +6333,8 @@ class Fragment$OrderDetails$deliveries$edges$node
     _resultData['status'] = toJson$Enum$DeliveryStatus(l$status);
     final l$deliveryDate = deliveryDate;
     _resultData['deliveryDate'] = l$deliveryDate;
-    final l$driver = driver;
-    _resultData['driver'] = l$driver?.toJson();
+    final l$courier = courier;
+    _resultData['courier'] = l$courier?.toJson();
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -6340,13 +6345,13 @@ class Fragment$OrderDetails$deliveries$edges$node
     final l$id = id;
     final l$status = status;
     final l$deliveryDate = deliveryDate;
-    final l$driver = driver;
+    final l$courier = courier;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$id,
       l$status,
       l$deliveryDate,
-      l$driver,
+      l$courier,
       l$$__typename,
     ]);
   }
@@ -6375,9 +6380,9 @@ class Fragment$OrderDetails$deliveries$edges$node
     if (l$deliveryDate != lOther$deliveryDate) {
       return false;
     }
-    final l$driver = driver;
-    final lOther$driver = other.driver;
-    if (l$driver != lOther$driver) {
+    final l$courier = courier;
+    final lOther$courier = other.courier;
+    if (l$courier != lOther$courier) {
       return false;
     }
     final l$$__typename = $__typename;
@@ -6411,10 +6416,11 @@ abstract class CopyWith$Fragment$OrderDetails$deliveries$edges$node<TRes> {
     String? id,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
-    Fragment$OrderDetails$deliveries$edges$node$driver? driver,
+    Fragment$OrderDetails$deliveries$edges$node$courier? courier,
     String? $__typename,
   });
-  CopyWith$Fragment$OrderDetails$deliveries$edges$node$driver<TRes> get driver;
+  CopyWith$Fragment$OrderDetails$deliveries$edges$node$courier<TRes>
+  get courier;
 }
 
 class _CopyWithImpl$Fragment$OrderDetails$deliveries$edges$node<TRes>
@@ -6434,7 +6440,7 @@ class _CopyWithImpl$Fragment$OrderDetails$deliveries$edges$node<TRes>
     Object? id = _undefined,
     Object? status = _undefined,
     Object? deliveryDate = _undefined,
-    Object? driver = _undefined,
+    Object? courier = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
     Fragment$OrderDetails$deliveries$edges$node(
@@ -6445,24 +6451,25 @@ class _CopyWithImpl$Fragment$OrderDetails$deliveries$edges$node<TRes>
       deliveryDate: deliveryDate == _undefined || deliveryDate == null
           ? _instance.deliveryDate
           : (deliveryDate as String),
-      driver: driver == _undefined
-          ? _instance.driver
-          : (driver as Fragment$OrderDetails$deliveries$edges$node$driver?),
+      courier: courier == _undefined
+          ? _instance.courier
+          : (courier as Fragment$OrderDetails$deliveries$edges$node$courier?),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
     ),
   );
 
-  CopyWith$Fragment$OrderDetails$deliveries$edges$node$driver<TRes> get driver {
-    final local$driver = _instance.driver;
-    return local$driver == null
-        ? CopyWith$Fragment$OrderDetails$deliveries$edges$node$driver.stub(
+  CopyWith$Fragment$OrderDetails$deliveries$edges$node$courier<TRes>
+  get courier {
+    final local$courier = _instance.courier;
+    return local$courier == null
+        ? CopyWith$Fragment$OrderDetails$deliveries$edges$node$courier.stub(
             _then(_instance),
           )
-        : CopyWith$Fragment$OrderDetails$deliveries$edges$node$driver(
-            local$driver,
-            (e) => call(driver: e),
+        : CopyWith$Fragment$OrderDetails$deliveries$edges$node$courier(
+            local$courier,
+            (e) => call(courier: e),
           );
   }
 }
@@ -6477,30 +6484,30 @@ class _CopyWithStubImpl$Fragment$OrderDetails$deliveries$edges$node<TRes>
     String? id,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
-    Fragment$OrderDetails$deliveries$edges$node$driver? driver,
+    Fragment$OrderDetails$deliveries$edges$node$courier? courier,
     String? $__typename,
   }) => _res;
 
-  CopyWith$Fragment$OrderDetails$deliveries$edges$node$driver<TRes>
-  get driver =>
-      CopyWith$Fragment$OrderDetails$deliveries$edges$node$driver.stub(_res);
+  CopyWith$Fragment$OrderDetails$deliveries$edges$node$courier<TRes>
+  get courier =>
+      CopyWith$Fragment$OrderDetails$deliveries$edges$node$courier.stub(_res);
 }
 
-class Fragment$OrderDetails$deliveries$edges$node$driver
-    implements Fragment$OrderSummary$deliveries$edges$node$driver {
-  Fragment$OrderDetails$deliveries$edges$node$driver({
+class Fragment$OrderDetails$deliveries$edges$node$courier
+    implements Fragment$OrderSummary$deliveries$edges$node$courier {
+  Fragment$OrderDetails$deliveries$edges$node$courier({
     required this.id,
     required this.email,
     this.$__typename = 'User',
   });
 
-  factory Fragment$OrderDetails$deliveries$edges$node$driver.fromJson(
+  factory Fragment$OrderDetails$deliveries$edges$node$courier.fromJson(
     Map<String, dynamic> json,
   ) {
     final l$id = json['id'];
     final l$email = json['email'];
     final l$$__typename = json['__typename'];
-    return Fragment$OrderDetails$deliveries$edges$node$driver(
+    return Fragment$OrderDetails$deliveries$edges$node$courier(
       id: (l$id as String),
       email: (l$email as String),
       $__typename: (l$$__typename as String),
@@ -6537,7 +6544,7 @@ class Fragment$OrderDetails$deliveries$edges$node$driver
     if (identical(this, other)) {
       return true;
     }
-    if (other is! Fragment$OrderDetails$deliveries$edges$node$driver ||
+    if (other is! Fragment$OrderDetails$deliveries$edges$node$courier ||
         runtimeType != other.runtimeType) {
       return false;
     }
@@ -6560,43 +6567,44 @@ class Fragment$OrderDetails$deliveries$edges$node$driver
   }
 }
 
-extension UtilityExtension$Fragment$OrderDetails$deliveries$edges$node$driver
-    on Fragment$OrderDetails$deliveries$edges$node$driver {
-  CopyWith$Fragment$OrderDetails$deliveries$edges$node$driver<
-    Fragment$OrderDetails$deliveries$edges$node$driver
+extension UtilityExtension$Fragment$OrderDetails$deliveries$edges$node$courier
+    on Fragment$OrderDetails$deliveries$edges$node$courier {
+  CopyWith$Fragment$OrderDetails$deliveries$edges$node$courier<
+    Fragment$OrderDetails$deliveries$edges$node$courier
   >
-  get copyWith => CopyWith$Fragment$OrderDetails$deliveries$edges$node$driver(
+  get copyWith => CopyWith$Fragment$OrderDetails$deliveries$edges$node$courier(
     this,
     (i) => i,
   );
 }
 
-abstract class CopyWith$Fragment$OrderDetails$deliveries$edges$node$driver<
+abstract class CopyWith$Fragment$OrderDetails$deliveries$edges$node$courier<
   TRes
 > {
-  factory CopyWith$Fragment$OrderDetails$deliveries$edges$node$driver(
-    Fragment$OrderDetails$deliveries$edges$node$driver instance,
-    TRes Function(Fragment$OrderDetails$deliveries$edges$node$driver) then,
-  ) = _CopyWithImpl$Fragment$OrderDetails$deliveries$edges$node$driver;
+  factory CopyWith$Fragment$OrderDetails$deliveries$edges$node$courier(
+    Fragment$OrderDetails$deliveries$edges$node$courier instance,
+    TRes Function(Fragment$OrderDetails$deliveries$edges$node$courier) then,
+  ) = _CopyWithImpl$Fragment$OrderDetails$deliveries$edges$node$courier;
 
-  factory CopyWith$Fragment$OrderDetails$deliveries$edges$node$driver.stub(
+  factory CopyWith$Fragment$OrderDetails$deliveries$edges$node$courier.stub(
     TRes res,
-  ) = _CopyWithStubImpl$Fragment$OrderDetails$deliveries$edges$node$driver;
+  ) = _CopyWithStubImpl$Fragment$OrderDetails$deliveries$edges$node$courier;
 
   TRes call({String? id, String? email, String? $__typename});
 }
 
-class _CopyWithImpl$Fragment$OrderDetails$deliveries$edges$node$driver<TRes>
+class _CopyWithImpl$Fragment$OrderDetails$deliveries$edges$node$courier<TRes>
     implements
-        CopyWith$Fragment$OrderDetails$deliveries$edges$node$driver<TRes> {
-  _CopyWithImpl$Fragment$OrderDetails$deliveries$edges$node$driver(
+        CopyWith$Fragment$OrderDetails$deliveries$edges$node$courier<TRes> {
+  _CopyWithImpl$Fragment$OrderDetails$deliveries$edges$node$courier(
     this._instance,
     this._then,
   );
 
-  final Fragment$OrderDetails$deliveries$edges$node$driver _instance;
+  final Fragment$OrderDetails$deliveries$edges$node$courier _instance;
 
-  final TRes Function(Fragment$OrderDetails$deliveries$edges$node$driver) _then;
+  final TRes Function(Fragment$OrderDetails$deliveries$edges$node$courier)
+  _then;
 
   static const _undefined = <dynamic, dynamic>{};
 
@@ -6605,7 +6613,7 @@ class _CopyWithImpl$Fragment$OrderDetails$deliveries$edges$node$driver<TRes>
     Object? email = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
-    Fragment$OrderDetails$deliveries$edges$node$driver(
+    Fragment$OrderDetails$deliveries$edges$node$courier(
       id: id == _undefined || id == null ? _instance.id : (id as String),
       email: email == _undefined || email == null
           ? _instance.email
@@ -6617,10 +6625,12 @@ class _CopyWithImpl$Fragment$OrderDetails$deliveries$edges$node$driver<TRes>
   );
 }
 
-class _CopyWithStubImpl$Fragment$OrderDetails$deliveries$edges$node$driver<TRes>
+class _CopyWithStubImpl$Fragment$OrderDetails$deliveries$edges$node$courier<
+  TRes
+>
     implements
-        CopyWith$Fragment$OrderDetails$deliveries$edges$node$driver<TRes> {
-  _CopyWithStubImpl$Fragment$OrderDetails$deliveries$edges$node$driver(
+        CopyWith$Fragment$OrderDetails$deliveries$edges$node$courier<TRes> {
+  _CopyWithStubImpl$Fragment$OrderDetails$deliveries$edges$node$courier(
     this._res,
   );
 

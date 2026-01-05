@@ -535,12 +535,12 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen>
               ),
             ),
             DashboardCard(
-              title: AppLocalizations.of(context)!.drivers,
+              title: AppLocalizations.of(context)!.couriers,
               icon: Icons.delivery_dining,
               color: Colors.deepPurple,
               onTap: () => context.push(
                 Uri(
-                  path: AppRoutes.restaurantDrivers,
+                  path: AppRoutes.restaurantCouriers,
                   queryParameters: {
                     'restaurantId': IriHelper.getId(restaurant.id),
                   },

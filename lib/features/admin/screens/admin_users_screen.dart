@@ -74,8 +74,8 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
               currentRole = 'ROLE_ADMIN';
             } else if (user.roles.contains('ROLE_RESTAURANT')) {
               currentRole = 'ROLE_RESTAURANT';
-            } else if (user.roles.contains('ROLE_DRIVER')) {
-              currentRole = 'ROLE_DRIVER';
+            } else if (user.roles.contains('ROLE_COURIER')) {
+              currentRole = 'ROLE_COURIER';
             }
 
             final theme = Theme.of(context);
@@ -137,7 +137,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                               [
                                 'ROLE_ADMIN',
                                 'ROLE_RESTAURANT',
-                                'ROLE_DRIVER',
+                                'ROLE_COURIER',
                                 'ROLE_CUSTOMER',
                               ].map((role) {
                                 return DropdownMenuItem(
@@ -222,7 +222,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
       values: const [
         'ROLE_ADMIN',
         'ROLE_RESTAURANT',
-        'ROLE_DRIVER',
+        'ROLE_COURIER',
         'ROLE_CUSTOMER',
       ],
       selectedValue: _selectedRoleFilter,

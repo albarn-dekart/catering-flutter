@@ -56,7 +56,7 @@ fragment OrderSummary on Order {
         id
         status
         deliveryDate
-        driver {
+        courier {
           id
           email
         }
