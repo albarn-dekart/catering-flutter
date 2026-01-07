@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:catering_flutter/core/services/api_service.dart';
-import 'package:flutter/foundation.dart';
 import 'package:catering_flutter/core/utils/ui_error_handler.dart';
 
 class ProductionPlanItem {
@@ -38,7 +38,7 @@ class ProductionService extends ChangeNotifier {
 
   Future<void> fetchProductionPlan(
     String restaurantId, {
-    DateTime? date,
+    DateTimeRange? dateRange,
   }) async {
     _isLoading = true;
     _errorMessage = null;
@@ -46,9 +46,10 @@ class ProductionService extends ChangeNotifier {
 
     try {
       String url = '/api/restaurants/$restaurantId/production-plan';
-      if (date != null) {
-        final dateStr = date.toIso8601String().split('T')[0];
-        url += '?date=$dateStr';
+      if (dateRange != null) {
+        final startStr = dateRange.start.toIso8601String().split('T')[0];
+        final endStr = dateRange.end.toIso8601String().split('T')[0];
+        url += '?startDate=$startStr&endDate=$endStr';
       }
 
       final response = await _apiClient.get(url);

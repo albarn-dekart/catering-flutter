@@ -23,7 +23,10 @@ class RestaurantProductionScreen extends StatefulWidget {
 
 class _RestaurantProductionScreenState
     extends State<RestaurantProductionScreen> {
-  DateTime _selectedDate = DateTime.now();
+  DateTimeRange _selectedDateRange = DateTimeRange(
+    start: DateTime.now(),
+    end: DateTime.now(),
+  );
   bool _isExporting = false;
 
   @override
@@ -37,7 +40,7 @@ class _RestaurantProductionScreenState
   Future<void> _fetchData() async {
     await context.read<ProductionService>().fetchProductionPlan(
       widget.restaurantId,
-      date: _selectedDate,
+      dateRange: _selectedDateRange,
     );
   }
 
@@ -48,7 +51,8 @@ class _RestaurantProductionScreenState
     try {
       await context.read<ExportService>().exportProductionPlan(
         widget.restaurantId,
-        date: _selectedDate,
+        startDate: _selectedDateRange.start,
+        endDate: _selectedDateRange.end,
       );
       if (mounted) {
         UIErrorHandler.showSnackBar(
@@ -81,15 +85,12 @@ class _RestaurantProductionScreenState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           EasyDatePicker(
-            selectedDateRange: DateTimeRange(
-              start: _selectedDate,
-              end: _selectedDate,
-            ),
+            selectedDateRange: _selectedDateRange,
             showAllTime: false,
             onDateRangeChanged: (range) {
               if (range != null) {
                 setState(() {
-                  _selectedDate = range.start;
+                  _selectedDateRange = range;
                 });
                 _fetchData();
               }

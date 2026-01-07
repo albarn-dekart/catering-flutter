@@ -144,6 +144,11 @@ class _CourierDashboardScreenState extends State<CourierDashboardScreen> {
                 '${delivery.order.deliveryStreet ?? ''}${delivery.order.deliveryApartment != null ? ', ${delivery.order.deliveryApartment}' : ''}, ${delivery.order.deliveryCity ?? ''} ${delivery.order.deliveryZipCode ?? ''}';
             final phoneNumber = delivery.order.deliveryPhoneNumber;
 
+            final deliveryDate = DateTime.parse(delivery.deliveryDate);
+            final now = DateTime.now();
+            final today = DateTime(now.year, now.month, now.day);
+            final isFuture = deliveryDate.isAfter(today);
+
             final theme = Theme.of(context);
 
             return Opacity(
@@ -442,300 +447,339 @@ class _CourierDashboardScreenState extends State<CourierDashboardScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 24),
-                    if (deliveryStatus == Enum$DeliveryStatus.Assigned)
-                      SizedBox(
-                        width: double.infinity,
-                        height: 48,
-                        child: AppPremiumButton(
-                          onPressed: () async {
-                            setState(() {
-                              _updatingIds.add(delivery.id);
-                            });
-                            try {
-                              final updatedDelivery = await context
-                                  .read<DeliveryService>()
-                                  .updateDeliveryStatus(
-                                    delivery.id,
-                                    status: Enum$DeliveryStatus.Picked_up,
-                                  );
-                              if (!context.mounted) return;
-
-                              if (updatedDelivery != null) {
-                                context.read<UserService>().updateUserDelivery(
-                                  updatedDelivery,
-                                );
-                              } else {
-                                await _fetchDeliveries();
-                              }
-                            } catch (e) {
-                              if (!context.mounted) return;
-                              UIErrorHandler.handleError(
-                                context,
-                                e,
-                                customMessage: AppLocalizations.of(
-                                  context,
-                                )!.failedToUpdateStatus,
-                              );
-                            } finally {
-                              if (mounted) {
-                                setState(() {
-                                  _updatingIds.remove(delivery.id);
-                                });
-                              }
-                            }
-                          },
-                          isLoading: _updatingIds.contains(delivery.id),
-                          icon: Icons.local_shipping,
-                          label: AppLocalizations.of(context)!.pickUpOrder,
-                        ),
-                      ),
-                    if (deliveryStatus == Enum$DeliveryStatus.Picked_up)
-                      Column(
-                        children: [
-                          SizedBox(
-                            width: double.infinity,
-                            height: 48,
-                            child: AppPremiumButton(
-                              onPressed: () async {
-                                setState(() {
-                                  _updatingIds.add(delivery.id);
-                                });
-                                try {
-                                  final updatedDelivery = await context
-                                      .read<DeliveryService>()
-                                      .updateDeliveryStatus(
-                                        delivery.id,
-                                        status: Enum$DeliveryStatus.Delivered,
-                                      );
-                                  if (!context.mounted) return;
-
-                                  if (updatedDelivery != null) {
-                                    context
-                                        .read<UserService>()
-                                        .updateUserDelivery(updatedDelivery);
-                                  } else {
-                                    await _fetchDeliveries();
-                                  }
-                                } catch (e) {
-                                  if (!context.mounted) return;
-                                  UIErrorHandler.handleError(
-                                    context,
-                                    e,
-                                    customMessage: AppLocalizations.of(
-                                      context,
-                                    )!.failedToUpdateStatus,
-                                  );
-                                } finally {
-                                  if (mounted) {
-                                    setState(() {
-                                      _updatingIds.remove(delivery.id);
-                                    });
-                                  }
-                                }
-                              },
-                              isLoading: _updatingIds.contains(delivery.id),
-                              icon: Icons.check_circle,
-                              label: AppLocalizations.of(
-                                context,
-                              )!.markAsDelivered,
-                            ),
+                    if (isFuture) ...[
+                      const SizedBox(height: 16),
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.surfaceContainerHighest,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: theme.colorScheme.outlineVariant,
                           ),
-                          const SizedBox(height: 12),
-                          SizedBox(
-                            width: double.infinity,
-                            height: 48,
-                            child: OutlinedButton.icon(
-                              onPressed:
-                                  !userService.isLoading &&
-                                      !_updatingIds.contains(delivery.id)
-                                  ? () async {
-                                      setState(() {
-                                        _updatingIds.add(delivery.id);
-                                      });
-                                      try {
-                                        final updatedDelivery = await context
-                                            .read<DeliveryService>()
-                                            .updateDeliveryStatus(
-                                              delivery.id,
-                                              status:
-                                                  Enum$DeliveryStatus.Failed,
-                                            );
-                                        if (!context.mounted) return;
-
-                                        if (updatedDelivery != null) {
-                                          context
-                                              .read<UserService>()
-                                              .updateUserDelivery(
-                                                updatedDelivery,
-                                              );
-                                        } else {
-                                          await _fetchDeliveries();
-                                        }
-                                      } catch (e) {
-                                        if (!context.mounted) return;
-                                        UIErrorHandler.handleError(
-                                          context,
-                                          e,
-                                          customMessage: AppLocalizations.of(
-                                            context,
-                                          )!.failedToUpdateStatus,
-                                        );
-                                      } finally {
-                                        if (mounted) {
-                                          setState(() {
-                                            _updatingIds.remove(delivery.id);
-                                          });
-                                        }
-                                      }
-                                    }
-                                  : null,
-                              icon: _updatingIds.contains(delivery.id)
-                                  ? SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.error,
-                                      ),
-                                    )
-                                  : const Icon(Icons.report_problem),
-                              label: Text(
-                                AppLocalizations.of(context)!.actionReportIssue,
-                              ),
-                              style: OutlinedButton.styleFrom(
-                                foregroundColor: Theme.of(
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.info_outline,
+                              size: 20,
+                              color: theme.colorScheme.primary,
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                AppLocalizations.of(
                                   context,
-                                ).colorScheme.error,
-                                side: BorderSide(
-                                  color: Theme.of(context).colorScheme.error,
+                                )!.futureDeliveryNoActions,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: theme.colorScheme.onSurfaceVariant,
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    if (deliveryStatus == Enum$DeliveryStatus.Failed)
-                      Column(
-                        children: [
-                          SizedBox(
-                            width: double.infinity,
-                            height: 48,
-                            child: AppPremiumButton(
-                              onPressed: () async {
-                                setState(() {
-                                  _updatingIds.add(delivery.id);
-                                });
-                                try {
-                                  final updatedDelivery = await context
-                                      .read<DeliveryService>()
-                                      .updateDeliveryStatus(
-                                        delivery.id,
-                                        status: Enum$DeliveryStatus.Delivered,
-                                      );
-                                  if (!context.mounted) return;
+                    ],
+                    const SizedBox(height: 24),
+                    if (!isFuture) ...[
+                      if (deliveryStatus == Enum$DeliveryStatus.Assigned)
+                        SizedBox(
+                          width: double.infinity,
+                          height: 48,
+                          child: AppPremiumButton(
+                            onPressed: () async {
+                              setState(() {
+                                _updatingIds.add(delivery.id);
+                              });
+                              try {
+                                final updatedDelivery = await context
+                                    .read<DeliveryService>()
+                                    .updateDeliveryStatus(
+                                      delivery.id,
+                                      status: Enum$DeliveryStatus.Picked_up,
+                                    );
+                                if (!context.mounted) return;
 
-                                  if (updatedDelivery != null) {
-                                    context
-                                        .read<UserService>()
-                                        .updateUserDelivery(updatedDelivery);
-                                  } else {
-                                    await _fetchDeliveries();
-                                  }
-                                } catch (e) {
-                                  if (!context.mounted) return;
-                                  UIErrorHandler.handleError(
-                                    context,
-                                    e,
-                                    customMessage: AppLocalizations.of(
-                                      context,
-                                    )!.failedToUpdateStatus,
-                                  );
-                                } finally {
-                                  if (mounted) {
-                                    setState(() {
-                                      _updatingIds.remove(delivery.id);
-                                    });
-                                  }
+                                if (updatedDelivery != null) {
+                                  context
+                                      .read<UserService>()
+                                      .updateUserDelivery(updatedDelivery);
+                                } else {
+                                  await _fetchDeliveries();
                                 }
-                              },
-                              isLoading: _updatingIds.contains(delivery.id),
-                              icon: Icons.replay,
-                              label: AppLocalizations.of(context)!.retry,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          SizedBox(
-                            width: double.infinity,
-                            height: 48,
-                            child: OutlinedButton.icon(
-                              onPressed:
-                                  !userService.isLoading &&
-                                      !_updatingIds.contains(delivery.id)
-                                  ? () async {
-                                      setState(() {
-                                        _updatingIds.add(delivery.id);
-                                      });
-                                      try {
-                                        final updatedDelivery = await context
-                                            .read<DeliveryService>()
-                                            .updateDeliveryStatus(
-                                              delivery.id,
-                                              status:
-                                                  Enum$DeliveryStatus.Returned,
-                                            );
-                                        if (!context.mounted) return;
-
-                                        if (updatedDelivery != null) {
-                                          context
-                                              .read<UserService>()
-                                              .updateUserDelivery(
-                                                updatedDelivery,
-                                              );
-                                        } else {
-                                          await _fetchDeliveries();
-                                        }
-                                      } catch (e) {
-                                        if (!context.mounted) return;
-                                        UIErrorHandler.handleError(
-                                          context,
-                                          e,
-                                          customMessage: AppLocalizations.of(
-                                            context,
-                                          )!.failedToUpdateStatus,
-                                        );
-                                      } finally {
-                                        if (mounted) {
-                                          setState(() {
-                                            _updatingIds.remove(delivery.id);
-                                          });
-                                        }
-                                      }
-                                    }
-                                  : null,
-                              icon: _updatingIds.contains(delivery.id)
-                                  ? SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.primary,
-                                      ),
-                                    )
-                                  : const Icon(Icons.assignment_return),
-                              label: Text(
-                                AppLocalizations.of(
+                              } catch (e) {
+                                if (!context.mounted) return;
+                                UIErrorHandler.handleError(
                                   context,
-                                )!.actionReturnToRestaurant,
+                                  e,
+                                  customMessage: AppLocalizations.of(
+                                    context,
+                                  )!.failedToUpdateStatus,
+                                );
+                              } finally {
+                                if (mounted) {
+                                  setState(() {
+                                    _updatingIds.remove(delivery.id);
+                                  });
+                                }
+                              }
+                            },
+                            isLoading: _updatingIds.contains(delivery.id),
+                            icon: Icons.local_shipping,
+                            label: AppLocalizations.of(context)!.pickUpOrder,
+                          ),
+                        ),
+                      if (deliveryStatus == Enum$DeliveryStatus.Picked_up)
+                        Column(
+                          children: [
+                            SizedBox(
+                              width: double.infinity,
+                              height: 48,
+                              child: AppPremiumButton(
+                                onPressed: () async {
+                                  setState(() {
+                                    _updatingIds.add(delivery.id);
+                                  });
+                                  try {
+                                    final updatedDelivery = await context
+                                        .read<DeliveryService>()
+                                        .updateDeliveryStatus(
+                                          delivery.id,
+                                          status: Enum$DeliveryStatus.Delivered,
+                                        );
+                                    if (!context.mounted) return;
+
+                                    if (updatedDelivery != null) {
+                                      context
+                                          .read<UserService>()
+                                          .updateUserDelivery(updatedDelivery);
+                                    } else {
+                                      await _fetchDeliveries();
+                                    }
+                                  } catch (e) {
+                                    if (!context.mounted) return;
+                                    UIErrorHandler.handleError(
+                                      context,
+                                      e,
+                                      customMessage: AppLocalizations.of(
+                                        context,
+                                      )!.failedToUpdateStatus,
+                                    );
+                                  } finally {
+                                    if (mounted) {
+                                      setState(() {
+                                        _updatingIds.remove(delivery.id);
+                                      });
+                                    }
+                                  }
+                                },
+                                isLoading: _updatingIds.contains(delivery.id),
+                                icon: Icons.check_circle,
+                                label: AppLocalizations.of(
+                                  context,
+                                )!.markAsDelivered,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
+                            const SizedBox(height: 12),
+                            SizedBox(
+                              width: double.infinity,
+                              height: 48,
+                              child: OutlinedButton.icon(
+                                onPressed:
+                                    !userService.isLoading &&
+                                        !_updatingIds.contains(delivery.id)
+                                    ? () async {
+                                        setState(() {
+                                          _updatingIds.add(delivery.id);
+                                        });
+                                        try {
+                                          final updatedDelivery = await context
+                                              .read<DeliveryService>()
+                                              .updateDeliveryStatus(
+                                                delivery.id,
+                                                status:
+                                                    Enum$DeliveryStatus.Failed,
+                                              );
+                                          if (!context.mounted) return;
+
+                                          if (updatedDelivery != null) {
+                                            context
+                                                .read<UserService>()
+                                                .updateUserDelivery(
+                                                  updatedDelivery,
+                                                );
+                                          } else {
+                                            await _fetchDeliveries();
+                                          }
+                                        } catch (e) {
+                                          if (!context.mounted) return;
+                                          UIErrorHandler.handleError(
+                                            context,
+                                            e,
+                                            customMessage: AppLocalizations.of(
+                                              context,
+                                            )!.failedToUpdateStatus,
+                                          );
+                                        } finally {
+                                          if (mounted) {
+                                            setState(() {
+                                              _updatingIds.remove(delivery.id);
+                                            });
+                                          }
+                                        }
+                                      }
+                                    : null,
+                                icon: _updatingIds.contains(delivery.id)
+                                    ? SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.error,
+                                        ),
+                                      )
+                                    : const Icon(Icons.report_problem),
+                                label: Text(
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.actionReportIssue,
+                                ),
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: Theme.of(
+                                    context,
+                                  ).colorScheme.error,
+                                  side: BorderSide(
+                                    color: Theme.of(context).colorScheme.error,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      if (deliveryStatus == Enum$DeliveryStatus.Failed)
+                        Column(
+                          children: [
+                            SizedBox(
+                              width: double.infinity,
+                              height: 48,
+                              child: AppPremiumButton(
+                                onPressed: () async {
+                                  setState(() {
+                                    _updatingIds.add(delivery.id);
+                                  });
+                                  try {
+                                    final updatedDelivery = await context
+                                        .read<DeliveryService>()
+                                        .updateDeliveryStatus(
+                                          delivery.id,
+                                          status: Enum$DeliveryStatus.Delivered,
+                                        );
+                                    if (!context.mounted) return;
+
+                                    if (updatedDelivery != null) {
+                                      context
+                                          .read<UserService>()
+                                          .updateUserDelivery(updatedDelivery);
+                                    } else {
+                                      await _fetchDeliveries();
+                                    }
+                                  } catch (e) {
+                                    if (!context.mounted) return;
+                                    UIErrorHandler.handleError(
+                                      context,
+                                      e,
+                                      customMessage: AppLocalizations.of(
+                                        context,
+                                      )!.failedToUpdateStatus,
+                                    );
+                                  } finally {
+                                    if (mounted) {
+                                      setState(() {
+                                        _updatingIds.remove(delivery.id);
+                                      });
+                                    }
+                                  }
+                                },
+                                isLoading: _updatingIds.contains(delivery.id),
+                                icon: Icons.replay,
+                                label: AppLocalizations.of(
+                                  context,
+                                )!.courierRetryDelivery,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            SizedBox(
+                              width: double.infinity,
+                              height: 48,
+                              child: OutlinedButton.icon(
+                                onPressed:
+                                    !userService.isLoading &&
+                                        !_updatingIds.contains(delivery.id)
+                                    ? () async {
+                                        setState(() {
+                                          _updatingIds.add(delivery.id);
+                                        });
+                                        try {
+                                          final updatedDelivery = await context
+                                              .read<DeliveryService>()
+                                              .updateDeliveryStatus(
+                                                delivery.id,
+                                                status: Enum$DeliveryStatus
+                                                    .Returned,
+                                              );
+                                          if (!context.mounted) return;
+
+                                          if (updatedDelivery != null) {
+                                            context
+                                                .read<UserService>()
+                                                .updateUserDelivery(
+                                                  updatedDelivery,
+                                                );
+                                          } else {
+                                            await _fetchDeliveries();
+                                          }
+                                        } catch (e) {
+                                          if (!context.mounted) return;
+                                          UIErrorHandler.handleError(
+                                            context,
+                                            e,
+                                            customMessage: AppLocalizations.of(
+                                              context,
+                                            )!.failedToUpdateStatus,
+                                          );
+                                        } finally {
+                                          if (mounted) {
+                                            setState(() {
+                                              _updatingIds.remove(delivery.id);
+                                            });
+                                          }
+                                        }
+                                      }
+                                    : null,
+                                icon: _updatingIds.contains(delivery.id)
+                                    ? SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
+                                        ),
+                                      )
+                                    : const Icon(Icons.assignment_return),
+                                label: Text(
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.actionReturnToRestaurant,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                    ],
                   ],
                 ),
               ),

@@ -171,6 +171,7 @@
   "courierAssignedSuccess": "Courier assigned successfully.",
   "courierDashboard": "Courier Dashboard",
   "courierDeleted": "Courier deleted successfully",
+  "courierRetryDelivery": "Mark as Delivered (Retry)",
   "courierInviteFailed": "Failed to invite courier: {error}",
   "courierInvitedSuccess": "Courier invited successfully",
   "courierPasswordWillBeEmailed": "A temporary password will be sent to this email address.",
@@ -439,5 +440,6 @@
   "totalDeliveries": "Total Deliveries",
   "totalStatsMealPlans": "Total Meal Plans",
   "tomorrow": "Tomorrow",
-  "dailyProgress": "Daily Progress: {count}/{total}"
+  "dailyProgress": "Daily Progress: {count}/{total}",
+  "futureDeliveryNoActions": "Actions for future deliveries are locked until the scheduled day."
 }

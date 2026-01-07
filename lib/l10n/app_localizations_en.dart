@@ -362,6 +362,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get courierDeleted => 'Courier deleted successfully';
 
   @override
+  String get courierRetryDelivery => 'Mark as Delivered (Retry)';
+
+  @override
   String courierInviteFailed(Object error) {
     return 'Failed to invite courier: $error';
   }
@@ -1205,4 +1208,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String dailyProgress(Object count, Object total) {
     return 'Daily Progress: $count/$total';
   }
+
+  @override
+  String get futureDeliveryNoActions =>
+      'Actions for future deliveries are locked until the scheduled day.';
 }

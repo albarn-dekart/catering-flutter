@@ -171,6 +171,7 @@
   "courierAssignedSuccess": "Kurier przypisany pomyślnie.",
   "courierDashboard": "Panel Kuriera",
   "courierDeleted": "Kurier został usunięty pomyślnie",
+  "courierRetryDelivery": "Dostarczono (ponowna próba)",
   "courierInviteFailed": "Nie udało się zaprosić kuriera: {error}",
   "courierInvitedSuccess": "Kurier zaproszony pomyślnie",
   "courierPasswordWillBeEmailed": "Tymczasowe hasło zostanie wysłane na ten adres email.",
@@ -439,5 +440,6 @@
   "totalDeliveries": "Liczba Dostaw",
   "totalStatsMealPlans": "Liczba Planów Posiłków",
   "tomorrow": "Jutro",
-  "dailyProgress": "Postęp dnia: {count}/{total}"
+  "dailyProgress": "Postęp dnia: {count}/{total}",
+  "futureDeliveryNoActions": "Akcje dla przyszłych dostaw są zablokowane do dnia dostawy."
 }

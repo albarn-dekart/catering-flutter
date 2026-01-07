@@ -136,12 +136,16 @@ class ExportService {
   /// Export production plan to CSV
   Future<void> exportProductionPlan(
     String restaurantId, {
-    DateTime? date,
+    DateTime? startDate,
+    DateTime? endDate,
   }) async {
     try {
       final body = <String, dynamic>{};
-      if (date != null) {
-        body['date'] = date.toIso8601String().split('T')[0];
+      if (startDate != null) {
+        body['startDate'] = startDate.toIso8601String().split('T')[0];
+      }
+      if (endDate != null) {
+        body['endDate'] = endDate.toIso8601String().split('T')[0];
       }
 
       final response = await _apiClient.post(

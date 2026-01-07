@@ -746,6 +746,12 @@ abstract class AppLocalizations {
   /// **'Courier deleted successfully'**
   String get courierDeleted;
 
+  /// No description provided for @courierRetryDelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as Delivered (Retry)'**
+  String get courierRetryDelivery;
+
   /// No description provided for @courierInviteFailed.
   ///
   /// In en, this message translates to:
@@ -2363,6 +2369,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Daily Progress: {count}/{total}'**
   String dailyProgress(Object count, Object total);
+
+  /// No description provided for @futureDeliveryNoActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions for future deliveries are locked until the scheduled day.'**
+  String get futureDeliveryNoActions;
 }
 
 class _AppLocalizationsDelegate
