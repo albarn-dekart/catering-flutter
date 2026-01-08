@@ -405,15 +405,14 @@ class RestaurantForm extends HookWidget {
                     label: AppLocalizations.of(context)!.phoneNumber,
                     icon: Icons.phone,
                     validator: (v) {
-                      if (v != null && v.isNotEmpty) {
-                        final phoneRegex = RegExp(
-                          r'^(\+?48)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}$',
-                        );
-                        if (!phoneRegex.hasMatch(v)) {
-                          return AppLocalizations.of(
-                            context,
-                          )!.invalidPhoneNumber;
-                        }
+                      if (v == null || v.isEmpty) {
+                        return AppLocalizations.of(context)!.fieldRequired;
+                      }
+                      final phoneRegex = RegExp(
+                        r'^(\+?48)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}$',
+                      );
+                      if (!phoneRegex.hasMatch(v)) {
+                        return AppLocalizations.of(context)!.invalidPhoneNumber;
                       }
                       return null;
                     },

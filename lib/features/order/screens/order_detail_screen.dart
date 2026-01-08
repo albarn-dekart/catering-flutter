@@ -60,6 +60,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
+    // Clear any errors when leaving the screen
+    context.read<OrderService>().clearError();
     super.dispose();
   }
 

@@ -110,6 +110,12 @@ abstract class AppLocalizations {
   /// **'Return to Restaurant'**
   String get actionReturnToRestaurant;
 
+  /// No description provided for @actionUndoStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo Status'**
+  String get actionUndoStatus;
+
   /// No description provided for @active.
   ///
   /// In en, this message translates to:
@@ -871,6 +877,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Session expired. Please log in again.'**
   String get errorUnauthorized;
+
+  /// No description provided for @errorInvalidSchema.
+  ///
+  /// In en, this message translates to:
+  /// **'Technical error: The app and server versions are out of sync. Please contact support.'**
+  String get errorInvalidSchema;
+
+  /// No description provided for @errorConstraintViolation.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be completed because of a data conflict.'**
+  String get errorConstraintViolation;
 
   /// No description provided for @exportFailed.
   ///
@@ -1849,6 +1867,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Revenue Trend'**
   String get revenueTrend;
+
+  /// No description provided for @revertStatusSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Status reverted successfully'**
+  String get revertStatusSuccess;
+
+  /// No description provided for @revertStatusFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to revert status'**
+  String get revertStatusFailed;
+
+  /// No description provided for @revertGraceExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Revert period expired (15 min)'**
+  String get revertGraceExpired;
 
   /// No description provided for @roleAdmin.
   ///

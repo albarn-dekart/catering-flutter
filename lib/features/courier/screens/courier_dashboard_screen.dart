@@ -145,9 +145,14 @@ class _CourierDashboardScreenState extends State<CourierDashboardScreen> {
             final phoneNumber = delivery.order.deliveryPhoneNumber;
 
             final deliveryDate = DateTime.parse(delivery.deliveryDate);
+            final deliveryDateNormalized = DateTime(
+              deliveryDate.year,
+              deliveryDate.month,
+              deliveryDate.day,
+            );
             final now = DateTime.now();
             final today = DateTime(now.year, now.month, now.day);
-            final isFuture = deliveryDate.isAfter(today);
+            final isFuture = deliveryDateNormalized.isAfter(today);
 
             final theme = Theme.of(context);
 
@@ -779,6 +784,104 @@ class _CourierDashboardScreenState extends State<CourierDashboardScreen> {
                             ),
                           ],
                         ),
+
+                      if (isDone) ...[
+                        Builder(
+                          builder: (context) {
+                            final updatedAtStr =
+                                delivery.statusUpdatedAt as String?;
+                            if (updatedAtStr == null) {
+                              return const SizedBox.shrink();
+                            }
+
+                            final updatedAt = DateTime.parse(
+                              updatedAtStr,
+                            ).toLocal();
+                            final now = DateTime.now();
+                            final diff = now.difference(updatedAt).inMinutes;
+
+                            if (diff < 15) {
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: TextButton.icon(
+                                    onPressed:
+                                        _updatingIds.contains(delivery.id)
+                                        ? null
+                                        : () async {
+                                            setState(
+                                              () =>
+                                                  _updatingIds.add(delivery.id),
+                                            );
+                                            try {
+                                              final updated = await context
+                                                  .read<DeliveryService>()
+                                                  .updateDeliveryStatus(
+                                                    delivery.id,
+                                                    status: Enum$DeliveryStatus
+                                                        .Picked_up,
+                                                  );
+                                              if (!context.mounted) return;
+                                              if (updated != null) {
+                                                context
+                                                    .read<UserService>()
+                                                    .updateUserDelivery(
+                                                      updated,
+                                                    );
+                                                ScaffoldMessenger.of(
+                                                  context,
+                                                ).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      AppLocalizations.of(
+                                                        context,
+                                                      )!.revertStatusSuccess,
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                            } catch (e) {
+                                              if (!context.mounted) return;
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    AppLocalizations.of(
+                                                      context,
+                                                    )!.revertStatusFailed,
+                                                  ),
+                                                ),
+                                              );
+                                            } finally {
+                                              if (mounted) {
+                                                setState(
+                                                  () => _updatingIds.remove(
+                                                    delivery.id,
+                                                  ),
+                                                );
+                                              }
+                                            }
+                                          },
+                                    icon: const Icon(Icons.undo),
+                                    label: Text(
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.actionUndoStatus,
+                                    ),
+                                    style: TextButton.styleFrom(
+                                      foregroundColor:
+                                          theme.colorScheme.secondary,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          },
+                        ),
+                      ],
                     ],
                   ],
                 ),

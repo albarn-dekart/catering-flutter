@@ -10,6 +10,7 @@ class Fragment$BasicDeliveryFragment {
     required this.id,
     required this.status,
     required this.deliveryDate,
+    this.statusUpdatedAt,
     this.order,
     this.courier,
     this.$__typename = 'Delivery',
@@ -19,6 +20,7 @@ class Fragment$BasicDeliveryFragment {
     final l$id = json['id'];
     final l$status = json['status'];
     final l$deliveryDate = json['deliveryDate'];
+    final l$statusUpdatedAt = json['statusUpdatedAt'];
     final l$order = json['order'];
     final l$courier = json['courier'];
     final l$$__typename = json['__typename'];
@@ -26,6 +28,7 @@ class Fragment$BasicDeliveryFragment {
       id: (l$id as String),
       status: fromJson$Enum$DeliveryStatus((l$status as String)),
       deliveryDate: (l$deliveryDate as String),
+      statusUpdatedAt: (l$statusUpdatedAt as String?),
       order: l$order == null
           ? null
           : Fragment$BasicDeliveryFragment$order.fromJson(
@@ -46,6 +49,8 @@ class Fragment$BasicDeliveryFragment {
 
   final String deliveryDate;
 
+  final String? statusUpdatedAt;
+
   final Fragment$BasicDeliveryFragment$order? order;
 
   final Fragment$BasicDeliveryFragment$courier? courier;
@@ -60,6 +65,8 @@ class Fragment$BasicDeliveryFragment {
     _resultData['status'] = toJson$Enum$DeliveryStatus(l$status);
     final l$deliveryDate = deliveryDate;
     _resultData['deliveryDate'] = l$deliveryDate;
+    final l$statusUpdatedAt = statusUpdatedAt;
+    _resultData['statusUpdatedAt'] = l$statusUpdatedAt;
     final l$order = order;
     _resultData['order'] = l$order?.toJson();
     final l$courier = courier;
@@ -74,6 +81,7 @@ class Fragment$BasicDeliveryFragment {
     final l$id = id;
     final l$status = status;
     final l$deliveryDate = deliveryDate;
+    final l$statusUpdatedAt = statusUpdatedAt;
     final l$order = order;
     final l$courier = courier;
     final l$$__typename = $__typename;
@@ -81,6 +89,7 @@ class Fragment$BasicDeliveryFragment {
       l$id,
       l$status,
       l$deliveryDate,
+      l$statusUpdatedAt,
       l$order,
       l$courier,
       l$$__typename,
@@ -109,6 +118,11 @@ class Fragment$BasicDeliveryFragment {
     final l$deliveryDate = deliveryDate;
     final lOther$deliveryDate = other.deliveryDate;
     if (l$deliveryDate != lOther$deliveryDate) {
+      return false;
+    }
+    final l$statusUpdatedAt = statusUpdatedAt;
+    final lOther$statusUpdatedAt = other.statusUpdatedAt;
+    if (l$statusUpdatedAt != lOther$statusUpdatedAt) {
       return false;
     }
     final l$order = order;
@@ -149,6 +163,7 @@ abstract class CopyWith$Fragment$BasicDeliveryFragment<TRes> {
     String? id,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
+    String? statusUpdatedAt,
     Fragment$BasicDeliveryFragment$order? order,
     Fragment$BasicDeliveryFragment$courier? courier,
     String? $__typename,
@@ -171,6 +186,7 @@ class _CopyWithImpl$Fragment$BasicDeliveryFragment<TRes>
     Object? id = _undefined,
     Object? status = _undefined,
     Object? deliveryDate = _undefined,
+    Object? statusUpdatedAt = _undefined,
     Object? order = _undefined,
     Object? courier = _undefined,
     Object? $__typename = _undefined,
@@ -183,6 +199,9 @@ class _CopyWithImpl$Fragment$BasicDeliveryFragment<TRes>
       deliveryDate: deliveryDate == _undefined || deliveryDate == null
           ? _instance.deliveryDate
           : (deliveryDate as String),
+      statusUpdatedAt: statusUpdatedAt == _undefined
+          ? _instance.statusUpdatedAt
+          : (statusUpdatedAt as String?),
       order: order == _undefined
           ? _instance.order
           : (order as Fragment$BasicDeliveryFragment$order?),
@@ -226,6 +245,7 @@ class _CopyWithStubImpl$Fragment$BasicDeliveryFragment<TRes>
     String? id,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
+    String? statusUpdatedAt,
     Fragment$BasicDeliveryFragment$order? order,
     Fragment$BasicDeliveryFragment$courier? courier,
     String? $__typename,
@@ -262,6 +282,13 @@ const fragmentDefinitionBasicDeliveryFragment = FragmentDefinitionNode(
       ),
       FieldNode(
         name: NameNode(value: 'deliveryDate'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'statusUpdatedAt'),
         alias: null,
         arguments: [],
         directives: [],
@@ -1084,6 +1111,7 @@ class Fragment$CourierDeliveryFragment {
     required this.id,
     required this.status,
     required this.deliveryDate,
+    this.statusUpdatedAt,
     this.order,
     this.courier,
     this.$__typename = 'Delivery',
@@ -1093,6 +1121,7 @@ class Fragment$CourierDeliveryFragment {
     final l$id = json['id'];
     final l$status = json['status'];
     final l$deliveryDate = json['deliveryDate'];
+    final l$statusUpdatedAt = json['statusUpdatedAt'];
     final l$order = json['order'];
     final l$courier = json['courier'];
     final l$$__typename = json['__typename'];
@@ -1100,6 +1129,7 @@ class Fragment$CourierDeliveryFragment {
       id: (l$id as String),
       status: fromJson$Enum$DeliveryStatus((l$status as String)),
       deliveryDate: (l$deliveryDate as String),
+      statusUpdatedAt: (l$statusUpdatedAt as String?),
       order: l$order == null
           ? null
           : Fragment$CourierDeliveryFragment$order.fromJson(
@@ -1120,6 +1150,8 @@ class Fragment$CourierDeliveryFragment {
 
   final String deliveryDate;
 
+  final String? statusUpdatedAt;
+
   final Fragment$CourierDeliveryFragment$order? order;
 
   final Fragment$CourierDeliveryFragment$courier? courier;
@@ -1134,6 +1166,8 @@ class Fragment$CourierDeliveryFragment {
     _resultData['status'] = toJson$Enum$DeliveryStatus(l$status);
     final l$deliveryDate = deliveryDate;
     _resultData['deliveryDate'] = l$deliveryDate;
+    final l$statusUpdatedAt = statusUpdatedAt;
+    _resultData['statusUpdatedAt'] = l$statusUpdatedAt;
     final l$order = order;
     _resultData['order'] = l$order?.toJson();
     final l$courier = courier;
@@ -1148,6 +1182,7 @@ class Fragment$CourierDeliveryFragment {
     final l$id = id;
     final l$status = status;
     final l$deliveryDate = deliveryDate;
+    final l$statusUpdatedAt = statusUpdatedAt;
     final l$order = order;
     final l$courier = courier;
     final l$$__typename = $__typename;
@@ -1155,6 +1190,7 @@ class Fragment$CourierDeliveryFragment {
       l$id,
       l$status,
       l$deliveryDate,
+      l$statusUpdatedAt,
       l$order,
       l$courier,
       l$$__typename,
@@ -1183,6 +1219,11 @@ class Fragment$CourierDeliveryFragment {
     final l$deliveryDate = deliveryDate;
     final lOther$deliveryDate = other.deliveryDate;
     if (l$deliveryDate != lOther$deliveryDate) {
+      return false;
+    }
+    final l$statusUpdatedAt = statusUpdatedAt;
+    final lOther$statusUpdatedAt = other.statusUpdatedAt;
+    if (l$statusUpdatedAt != lOther$statusUpdatedAt) {
       return false;
     }
     final l$order = order;
@@ -1223,6 +1264,7 @@ abstract class CopyWith$Fragment$CourierDeliveryFragment<TRes> {
     String? id,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
+    String? statusUpdatedAt,
     Fragment$CourierDeliveryFragment$order? order,
     Fragment$CourierDeliveryFragment$courier? courier,
     String? $__typename,
@@ -1245,6 +1287,7 @@ class _CopyWithImpl$Fragment$CourierDeliveryFragment<TRes>
     Object? id = _undefined,
     Object? status = _undefined,
     Object? deliveryDate = _undefined,
+    Object? statusUpdatedAt = _undefined,
     Object? order = _undefined,
     Object? courier = _undefined,
     Object? $__typename = _undefined,
@@ -1257,6 +1300,9 @@ class _CopyWithImpl$Fragment$CourierDeliveryFragment<TRes>
       deliveryDate: deliveryDate == _undefined || deliveryDate == null
           ? _instance.deliveryDate
           : (deliveryDate as String),
+      statusUpdatedAt: statusUpdatedAt == _undefined
+          ? _instance.statusUpdatedAt
+          : (statusUpdatedAt as String?),
       order: order == _undefined
           ? _instance.order
           : (order as Fragment$CourierDeliveryFragment$order?),
@@ -1302,6 +1348,7 @@ class _CopyWithStubImpl$Fragment$CourierDeliveryFragment<TRes>
     String? id,
     Enum$DeliveryStatus? status,
     String? deliveryDate,
+    String? statusUpdatedAt,
     Fragment$CourierDeliveryFragment$order? order,
     Fragment$CourierDeliveryFragment$courier? courier,
     String? $__typename,
@@ -1338,6 +1385,13 @@ const fragmentDefinitionCourierDeliveryFragment = FragmentDefinitionNode(
       ),
       FieldNode(
         name: NameNode(value: 'deliveryDate'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'statusUpdatedAt'),
         alias: null,
         arguments: [],
         directives: [],

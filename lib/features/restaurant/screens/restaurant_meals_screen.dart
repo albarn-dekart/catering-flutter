@@ -44,6 +44,7 @@ class _RestaurantMealsScreenState extends State<RestaurantMealsScreen> {
   @override
   void dispose() {
     _debounce?.cancel();
+    context.read<MealService>().clearError();
     super.dispose();
   }
 
@@ -184,6 +185,7 @@ class _RestaurantMealsScreenState extends State<RestaurantMealsScreen> {
           hasError: mealService.hasError,
           errorMessage: mealService.errorMessage,
           onRetry: _fetchMeals,
+          onCancel: () => mealService.clearError(),
           itemBuilder: (context, meal) {
             Widget actionWidget;
             if (widget.isSelectionMode) {

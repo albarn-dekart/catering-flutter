@@ -37,6 +37,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
+    context.read<RestaurantService>().clearError();
     super.dispose();
   }
 
@@ -72,6 +73,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
           hasError: restaurantService.hasError,
           errorMessage: restaurantService.errorMessage,
           onRetry: () => restaurantService.fetchAllRestaurants(),
+          onCancel: () => restaurantService.clearError(),
           onLoadMore: () async {
             if (!restaurantService.isFetchingMore &&
                 restaurantService.hasNextPage) {

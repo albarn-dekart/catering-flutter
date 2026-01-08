@@ -96,7 +96,6 @@
     fat: [MealPlanFilter_fat]
     carbs: [MealPlanFilter_carbs]
   ): MealPlanCursorConnection
-  order(id: ID!): Order
   orders(
     "Returns the first n elements from the list."
     first: Int
@@ -114,7 +113,9 @@
     status: String
     status_list: [String]
     createdAt: [OrderFilter_createdAt]
+    order: [OrderFilter_order]
   ): OrderCursorConnection
+  order(id: ID!): Order
   orderItems(
     "Returns the first n elements from the list."
     first: Int
@@ -226,6 +227,7 @@ type Delivery implements Node {
   status: DeliveryStatus!
   deliveryDate: String!
   order: Order
+  statusUpdatedAt: String
 }
 
 type User implements Node {
@@ -249,6 +251,7 @@ type User implements Node {
     status: String
     status_list: [String]
     createdAt: [OrderFilter_createdAt]
+    order: [OrderFilter_order]
   ): OrderCursorConnection
   deliveries(
     "Returns the first n elements from the list."
@@ -326,6 +329,11 @@ input OrderFilter_createdAt {
   strictly_after: String
 }
 
+input OrderFilter_order {
+  id: String
+  createdAt: String
+}
+
 "Cursor connection for Order."
 type OrderCursorConnection {
   edges: [OrderEdge]
@@ -341,7 +349,6 @@ type OrderEdge {
 
 type Order implements Node {
   id: ID!
-  _id: Int!
   customer: User
   status: OrderStatus!
   orderItems(
@@ -392,15 +399,6 @@ type Order implements Node {
   deliveryZipCode: String
   deliveryFee: Int
   createdAt: String!
-
-  "Get the earliest delivery date from the deliveries collection."
-  deliveryStartDate: String
-
-  "Get the latest delivery date from the deliveries collection."
-  deliveryEndDate: String
-
-  "Get unique delivery days (weekday abbreviations) from the deliveries collection."
-  deliveryDays: Iterable!
 }
 
 enum OrderStatus {
@@ -659,6 +657,7 @@ type Restaurant implements Node {
     status: String
     status_list: [String]
     createdAt: [OrderFilter_createdAt]
+    order: [OrderFilter_order]
   ): OrderCursorConnection
   imageUrl: String
 }
@@ -972,14 +971,14 @@ type Mutation {
   "Creates a MealPlan."
   createMealPlan(input: createMealPlanInput!): createMealPlanPayload
 
+  "Creates a Order."
+  createOrder(input: createOrderInput!): createOrderPayload
+
   "Updates a Order."
   updateOrder(input: updateOrderInput!): updateOrderPayload
 
   "Deletes a Order."
   deleteOrder(input: deleteOrderInput!): deleteOrderPayload
-
-  "Creates a Order."
-  createOrder(input: createOrderInput!): createOrderPayload
 
   "Updates a OrderItem."
   updateOrderItem(input: updateOrderItemInput!): updateOrderItemPayload
@@ -1095,6 +1094,7 @@ input updateDeliveryInput {
   status: DeliveryStatus
   deliveryDate: String
   order: String
+  statusUpdatedAt: String
   clientMutationId: String
 }
 
@@ -1122,6 +1122,7 @@ input createDeliveryInput {
   status: DeliveryStatus!
   deliveryDate: String!
   order: String
+  statusUpdatedAt: String
   clientMutationId: String
 }
 
@@ -1280,6 +1281,54 @@ type createMealPlanPayload {
   clientMutationId: String
 }
 
+"Creates a Order."
+input createOrderInput {
+  customer: String
+  status: OrderStatus!
+  orderItems: [OrderItemNestedInput]
+  restaurant: String
+  deliveries: [createDeliveryNestedInput]
+  total: Int!
+  deliveryFirstName: String
+  deliveryLastName: String
+  deliveryPhoneNumber: String
+  deliveryStreet: String
+  deliveryApartment: String
+  deliveryCity: String
+  deliveryZipCode: String
+  clientMutationId: String
+}
+
+input OrderItemNestedInput {
+  id: ID
+  order: String
+  mealPlan: String
+  quantity: Int!
+  mealPlanName: String
+  mealPlanPrice: Int
+  mealPlanCalories: Float
+  mealPlanProtein: Float
+  mealPlanFat: Float
+  mealPlanCarbs: Float
+}
+
+"Creates a Delivery."
+input createDeliveryNestedInput {
+  id: ID
+  courier: String
+  status: DeliveryStatus!
+  deliveryDate: String!
+  order: String
+  statusUpdatedAt: String
+  clientMutationId: String
+}
+
+"Creates a Order."
+type createOrderPayload {
+  order: Order
+  clientMutationId: String
+}
+
 "Updates a Order."
 input updateOrderInput {
   id: ID!
@@ -1289,7 +1338,6 @@ input updateOrderInput {
   restaurant: String
   deliveries: [updateDeliveryNestedInput]
   total: Int
-  paymentIntentId: String
   deliveryFirstName: String
   deliveryLastName: String
   deliveryPhoneNumber: String
@@ -1297,8 +1345,6 @@ input updateOrderInput {
   deliveryApartment: String
   deliveryCity: String
   deliveryZipCode: String
-  deliveryFee: Int
-  createdAt: String
   clientMutationId: String
 }
 
@@ -1324,6 +1370,7 @@ input updateDeliveryNestedInput {
   status: DeliveryStatus
   deliveryDate: String
   order: String
+  statusUpdatedAt: String
   clientMutationId: String
 }
 
@@ -1341,56 +1388,6 @@ input deleteOrderInput {
 
 "Deletes a Order."
 type deleteOrderPayload {
-  order: Order
-  clientMutationId: String
-}
-
-"Creates a Order."
-input createOrderInput {
-  customer: String
-  status: OrderStatus!
-  orderItems: [OrderItemNestedInput]
-  restaurant: String
-  deliveries: [createDeliveryNestedInput]
-  total: Int!
-  paymentIntentId: String
-  deliveryFirstName: String
-  deliveryLastName: String
-  deliveryPhoneNumber: String
-  deliveryStreet: String
-  deliveryApartment: String
-  deliveryCity: String
-  deliveryZipCode: String
-  deliveryFee: Int
-  createdAt: String!
-  clientMutationId: String
-}
-
-input OrderItemNestedInput {
-  id: ID
-  order: String
-  mealPlan: String
-  quantity: Int!
-  mealPlanName: String
-  mealPlanPrice: Int
-  mealPlanCalories: Float
-  mealPlanProtein: Float
-  mealPlanFat: Float
-  mealPlanCarbs: Float
-}
-
-"Creates a Delivery."
-input createDeliveryNestedInput {
-  id: ID
-  courier: String
-  status: DeliveryStatus!
-  deliveryDate: String!
-  order: String
-  clientMutationId: String
-}
-
-"Creates a Order."
-type createOrderPayload {
   order: Order
   clientMutationId: String
 }

@@ -31,6 +31,12 @@ class _RestaurantMealPlansScreenState extends State<RestaurantMealPlansScreen> {
     });
   }
 
+  @override
+  void dispose() {
+    context.read<MealPlanService>().clearError();
+    super.dispose();
+  }
+
   void _fetchMealPlans() {
     context.read<MealPlanService>().fetchMealPlansByRestaurant(
       widget.restaurantIri,
@@ -78,6 +84,7 @@ class _RestaurantMealPlansScreenState extends State<RestaurantMealPlansScreen> {
           hasError: mealPlanService.hasError,
           errorMessage: mealPlanService.errorMessage,
           onRetry: _fetchMealPlans,
+          onCancel: () => mealPlanService.clearError(),
           itemBuilder: (context, mealPlan) {
             return MealCard(
               id: mealPlan.id,

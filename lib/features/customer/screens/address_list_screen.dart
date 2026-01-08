@@ -34,6 +34,12 @@ class _AddressListScreenState extends State<AddressListScreen> {
   }
 
   @override
+  void dispose() {
+    context.read<AddressService>().clearError();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: widget.isSelectionMode

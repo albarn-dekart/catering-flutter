@@ -71,6 +71,13 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     });
   }
 
+  @override
+  void dispose() {
+    // Clear any errors when leaving the screen
+    context.read<OrderService>().clearError();
+    super.dispose();
+  }
+
   Future<void> _loadDefaultAddress() async {
     final addressService = context.read<AddressService>();
     final userIri = context.read<AuthService>().userIri;

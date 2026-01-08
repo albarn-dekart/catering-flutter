@@ -15,6 +15,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionReturnToRestaurant => 'Return to Restaurant';
 
   @override
+  String get actionUndoStatus => 'Undo Status';
+
+  @override
   String get active => 'Active';
 
   @override
@@ -430,6 +433,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorUnauthorized => 'Session expired. Please log in again.';
+
+  @override
+  String get errorInvalidSchema =>
+      'Technical error: The app and server versions are out of sync. Please contact support.';
+
+  @override
+  String get errorConstraintViolation =>
+      'This action cannot be completed because of a data conflict.';
 
   @override
   String exportFailed(Object error) {
@@ -935,6 +946,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get revenueTrend => 'Revenue Trend';
+
+  @override
+  String get revertStatusSuccess => 'Status reverted successfully';
+
+  @override
+  String get revertStatusFailed => 'Failed to revert status';
+
+  @override
+  String get revertGraceExpired => 'Revert period expired (15 min)';
 
   @override
   String get roleAdmin => 'Admin';

@@ -2,6 +2,7 @@ fragment BasicDeliveryFragment on Delivery {
     id
     status
     deliveryDate
+    statusUpdatedAt
     order {
         id
         total
@@ -28,6 +29,7 @@ fragment CourierDeliveryFragment on Delivery {
     id
     status
     deliveryDate
+    statusUpdatedAt
     order {
         id
         restaurant {

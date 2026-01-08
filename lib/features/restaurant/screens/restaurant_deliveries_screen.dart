@@ -48,6 +48,13 @@ class _RestaurantDeliveriesScreenState
     });
   }
 
+  @override
+  void dispose() {
+    context.read<DeliveryService>().clearError();
+    context.read<UserService>().clearError();
+    super.dispose();
+  }
+
   Future<void> _fetchDeliveriesAndCouriers() async {
     await Future.wait([
       _fetchDeliveries(),
@@ -104,6 +111,10 @@ class _RestaurantDeliveriesScreenState
           errorMessage:
               deliveryService.errorMessage ?? userService.errorMessage,
           onRetry: _fetchDeliveriesAndCouriers,
+          onCancel: () {
+            context.read<DeliveryService>().clearError();
+            context.read<UserService>().clearError();
+          },
           onRefresh: _fetchDeliveriesAndCouriers,
           header: Column(
             mainAxisSize: MainAxisSize.min,

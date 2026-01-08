@@ -36,7 +36,25 @@ class UIErrorHandler {
         return mapExceptionToMessage(exception.linkException, context);
       }
       if (exception.graphqlErrors.isNotEmpty) {
-        return exception.graphqlErrors.map((e) => e.message).join(', ');
+        final messages = exception.graphqlErrors
+            .map((e) {
+              final msg = e.message;
+              if (msg.contains('not defined by type')) {
+                return localizations?.errorInvalidSchema ??
+                    'Technical error: The app and server versions are out of sync. Please contact support.';
+              }
+              if (msg.contains('ConstraintViolationException')) {
+                return localizations?.errorConstraintViolation ??
+                    'This action cannot be completed because of a data conflict.';
+              }
+              if (msg.contains('Access Denied')) {
+                return localizations?.errorUnauthorized ??
+                    'You do not have permission to perform this action.';
+              }
+              return msg;
+            })
+            .join('\n');
+        return messages;
       }
     }
 
@@ -80,13 +98,18 @@ class UIErrorHandler {
     bool isError = true,
     SnackBarAction? action,
   }) {
-    ScaffoldMessenger.of(context).showSnackBar(
+    final messenger = ScaffoldMessenger.of(context);
+    messenger.hideCurrentSnackBar();
+
+    messenger.showSnackBar(
       SnackBar(
         content: Text(message),
         backgroundColor: isError
             ? Theme.of(context).colorScheme.error
             : Theme.of(context).colorScheme.inverseSurface,
-        behavior: SnackBarBehavior.fixed, // Fixed at bottom, below FAB
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 5),
         action: action,
       ),
     );

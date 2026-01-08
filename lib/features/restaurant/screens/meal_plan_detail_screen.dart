@@ -38,6 +38,12 @@ class _MealPlanDetailScreenState extends State<MealPlanDetailScreen> {
   }
 
   @override
+  void dispose() {
+    context.read<MealPlanService>().clearError();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final authService = context.watch<AuthService>();
     final isCustomer = authService.hasRole("ROLE_CUSTOMER");

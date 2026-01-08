@@ -15,6 +15,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get actionReturnToRestaurant => 'Zwróć do Restauracji';
 
   @override
+  String get actionUndoStatus => 'Cofnij Status';
+
+  @override
   String get active => 'Aktywne';
 
   @override
@@ -386,7 +389,7 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
-  String get couriers => 'Kuriera';
+  String get couriers => 'Kurierzy';
 
   @override
   String get edit => 'Edytuj';
@@ -431,6 +434,14 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get errorUnauthorized => 'Sesja wygasła. Zaloguj się ponownie.';
+
+  @override
+  String get errorInvalidSchema =>
+      'Błąd techniczny: Wersje aplikacji i serwera są niezgodne. Skontaktuj się z pomocą techniczną.';
+
+  @override
+  String get errorConstraintViolation =>
+      'Ta operacja nie może zostać ukończona z powodu konfliktu danych.';
 
   @override
   String exportFailed(Object error) {
@@ -559,7 +570,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get manageDietCategories => 'Zarządzaj Kategoriami Diet';
 
   @override
-  String get manageCouriers => 'Zarządzaj Kuriermi';
+  String get manageCouriers => 'Zarządzaj Kurierami';
 
   @override
   String get manageMealPlans => 'Zarządzaj Planami Posiłków';
@@ -939,6 +950,15 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get revenueTrend => 'Trend przychodów';
+
+  @override
+  String get revertStatusSuccess => 'Status został przywrócony';
+
+  @override
+  String get revertStatusFailed => 'Błąd podczas przywracania statusu';
+
+  @override
+  String get revertGraceExpired => 'Czas na cofnięcie wygasł (15 min)';
 
   @override
   String get roleAdmin => 'Administrator';

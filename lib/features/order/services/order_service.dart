@@ -335,7 +335,6 @@ class OrderService extends ChangeNotifier {
             customer: customerIri,
             restaurant: restaurantIri,
             total: 0,
-            createdAt: DateTime.now().toIso8601String(),
             orderItems: orderItems
                 .map(
                   (e) => Input$OrderItemNestedInput(

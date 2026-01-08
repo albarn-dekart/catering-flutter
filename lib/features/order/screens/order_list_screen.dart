@@ -50,6 +50,12 @@ class _OrderListScreenState extends State<OrderListScreen> {
     });
   }
 
+  @override
+  void dispose() {
+    context.read<OrderService>().clearError();
+    super.dispose();
+  }
+
   Future<void> _fetchOrders({String? searchQuery}) async {
     final authService = context.read<AuthService>();
     final orderService = context.read<OrderService>();
