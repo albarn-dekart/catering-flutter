@@ -36,6 +36,9 @@ class MealPlanService extends ChangeNotifier {
   bool _isFetchingMore = false;
   bool get isFetchingMore => _isFetchingMore;
 
+  int _totalItems = 0;
+  int get totalItems => _totalItems;
+
   String? _currentSearchQuery;
   String? get currentSearchQuery => _currentSearchQuery;
   String? _currentCategory;
@@ -58,6 +61,7 @@ class MealPlanService extends ChangeNotifier {
     _errorMessage = null;
     _currentSearchQuery = searchQuery;
     _mealPlans = [];
+    _totalItems = 0;
     notifyListeners();
 
     try {
@@ -80,6 +84,7 @@ class MealPlanService extends ChangeNotifier {
             .toList();
         _endCursor = data.mealPlans?.pageInfo.endCursor;
         _hasNextPage = data.mealPlans?.pageInfo.hasNextPage ?? false;
+        _totalItems = data.mealPlans?.totalCount ?? 0;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -117,6 +122,7 @@ class MealPlanService extends ChangeNotifier {
         _mealPlans = [..._mealPlans, ...newMealPlans];
         _endCursor = data.mealPlans?.pageInfo.endCursor;
         _hasNextPage = data.mealPlans?.pageInfo.hasNextPage ?? false;
+        _totalItems = data.mealPlans?.totalCount ?? 0;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -148,6 +154,7 @@ class MealPlanService extends ChangeNotifier {
     _lastFatRange = fatRange;
     _lastCarbRange = carbRange;
     _mealPlans = [];
+    _totalItems = 0;
     notifyListeners();
 
     try {
@@ -214,6 +221,7 @@ class MealPlanService extends ChangeNotifier {
         _endCursor = data.restaurant?.mealPlans?.pageInfo.endCursor;
         _hasNextPage =
             data.restaurant?.mealPlans?.pageInfo.hasNextPage ?? false;
+        _totalItems = data.restaurant?.mealPlans?.totalCount ?? 0;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -295,6 +303,7 @@ class MealPlanService extends ChangeNotifier {
         _endCursor = data.restaurant?.mealPlans?.pageInfo.endCursor;
         _hasNextPage =
             data.restaurant?.mealPlans?.pageInfo.hasNextPage ?? false;
+        _totalItems = data.restaurant?.mealPlans?.totalCount ?? 0;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -507,6 +516,7 @@ class MealPlanService extends ChangeNotifier {
     _isLoading = true;
     _errorMessage = null;
     _mealPlans = [];
+    _totalItems = 0;
     notifyListeners();
 
     try {
@@ -527,6 +537,7 @@ class MealPlanService extends ChangeNotifier {
             .map((e) => e?.node)
             .whereType<MealPlan>()
             .toList();
+        _totalItems = data.user!.customMealPlans!.totalCount;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);

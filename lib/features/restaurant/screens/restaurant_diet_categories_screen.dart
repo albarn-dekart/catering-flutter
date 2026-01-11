@@ -30,6 +30,7 @@ class ManageDietCategoriesScreen extends StatelessWidget {
             errorMessage: service.errorMessage,
             onRetry: () => service.getDietCategories(),
             onCancel: () => service.clearError(),
+            totalItems: service.totalItems,
           );
         },
       ),

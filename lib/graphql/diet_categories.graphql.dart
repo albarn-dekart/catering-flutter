@@ -380,6 +380,13 @@ const documentNodeQueryGetDietCategories = DocumentNode(
                   ),
                 ),
                 FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null,
+                ),
+                FieldNode(
                   name: NameNode(value: '__typename'),
                   alias: null,
                   arguments: [],
@@ -566,6 +573,7 @@ class Query$GetDietCategories$dietCategories {
   Query$GetDietCategories$dietCategories({
     this.edges,
     required this.pageInfo,
+    required this.totalCount,
     this.$__typename = 'DietCategoryCursorConnection',
   });
 
@@ -574,6 +582,7 @@ class Query$GetDietCategories$dietCategories {
   ) {
     final l$edges = json['edges'];
     final l$pageInfo = json['pageInfo'];
+    final l$totalCount = json['totalCount'];
     final l$$__typename = json['__typename'];
     return Query$GetDietCategories$dietCategories(
       edges: (l$edges as List<dynamic>?)
@@ -588,6 +597,7 @@ class Query$GetDietCategories$dietCategories {
       pageInfo: Query$GetDietCategories$dietCategories$pageInfo.fromJson(
         (l$pageInfo as Map<String, dynamic>),
       ),
+      totalCount: (l$totalCount as int),
       $__typename: (l$$__typename as String),
     );
   }
@@ -595,6 +605,8 @@ class Query$GetDietCategories$dietCategories {
   final List<Query$GetDietCategories$dietCategories$edges?>? edges;
 
   final Query$GetDietCategories$dietCategories$pageInfo pageInfo;
+
+  final int totalCount;
 
   final String $__typename;
 
@@ -604,6 +616,8 @@ class Query$GetDietCategories$dietCategories {
     _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
     final l$pageInfo = pageInfo;
     _resultData['pageInfo'] = l$pageInfo.toJson();
+    final l$totalCount = totalCount;
+    _resultData['totalCount'] = l$totalCount;
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -613,10 +627,12 @@ class Query$GetDietCategories$dietCategories {
   int get hashCode {
     final l$edges = edges;
     final l$pageInfo = pageInfo;
+    final l$totalCount = totalCount;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
       l$pageInfo,
+      l$totalCount,
       l$$__typename,
     ]);
   }
@@ -651,6 +667,11 @@ class Query$GetDietCategories$dietCategories {
     if (l$pageInfo != lOther$pageInfo) {
       return false;
     }
+    final l$totalCount = totalCount;
+    final lOther$totalCount = other.totalCount;
+    if (l$totalCount != lOther$totalCount) {
+      return false;
+    }
     final l$$__typename = $__typename;
     final lOther$$__typename = other.$__typename;
     if (l$$__typename != lOther$$__typename) {
@@ -681,6 +702,7 @@ abstract class CopyWith$Query$GetDietCategories$dietCategories<TRes> {
   TRes call({
     List<Query$GetDietCategories$dietCategories$edges?>? edges,
     Query$GetDietCategories$dietCategories$pageInfo? pageInfo,
+    int? totalCount,
     String? $__typename,
   });
   TRes edges(
@@ -712,6 +734,7 @@ class _CopyWithImpl$Query$GetDietCategories$dietCategories<TRes>
   TRes call({
     Object? edges = _undefined,
     Object? pageInfo = _undefined,
+    Object? totalCount = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
     Query$GetDietCategories$dietCategories(
@@ -721,6 +744,9 @@ class _CopyWithImpl$Query$GetDietCategories$dietCategories<TRes>
       pageInfo: pageInfo == _undefined || pageInfo == null
           ? _instance.pageInfo
           : (pageInfo as Query$GetDietCategories$dietCategories$pageInfo),
+      totalCount: totalCount == _undefined || totalCount == null
+          ? _instance.totalCount
+          : (totalCount as int),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
@@ -767,6 +793,7 @@ class _CopyWithStubImpl$Query$GetDietCategories$dietCategories<TRes>
   call({
     List<Query$GetDietCategories$dietCategories$edges?>? edges,
     Query$GetDietCategories$dietCategories$pageInfo? pageInfo,
+    int? totalCount,
     String? $__typename,
   }) => _res;
 

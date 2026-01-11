@@ -66,6 +66,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
           items: restaurantService.restaurants,
           isLoading: restaurantService.isLoading,
           isLoadingMore: restaurantService.isFetchingMore,
+          totalItems: restaurantService.totalItems,
           searchHint: AppLocalizations.of(context)!.searchRestaurants,
           onRefresh: () async {
             await restaurantService.fetchAllRestaurants();

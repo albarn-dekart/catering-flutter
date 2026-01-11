@@ -12,6 +12,7 @@ query GetCouriersByRestaurant($id: ID!, $search: String) {
                     roles
                 }
             }
+            totalCount
         }
     }
 }
@@ -32,6 +33,7 @@ query GetUsers($first: Int, $after: String, $search: String, $role: String) {
             hasNextPage
             endCursor
         }
+        totalCount
     }
 }
 
@@ -71,6 +73,7 @@ query GetMyCustomMealPlans($id: ID!, $search: String) {
                     ...MealPlanSummaryFragment
                 }
             }
+            totalCount
         }
     }
 }

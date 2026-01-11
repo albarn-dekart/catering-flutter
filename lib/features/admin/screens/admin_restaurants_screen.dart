@@ -67,6 +67,7 @@ class _AdminRestaurantsScreenState extends State<AdminRestaurantsScreen> {
           items: restaurantService.restaurants,
           isLoading: restaurantService.isLoading,
           isLoadingMore: restaurantService.isFetchingMore,
+          totalItems: restaurantService.totalItems,
           hasError: restaurantService.hasError,
           errorMessage: restaurantService.errorMessage,
           onRetry: () => restaurantService.fetchAllRestaurants(),

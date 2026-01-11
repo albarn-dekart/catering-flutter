@@ -50,6 +50,7 @@ query GetRestaurants($first: Int, $after: String, $search: String, $category: St
             hasNextPage
             endCursor
         }
+        totalCount
     }
 }
 

@@ -29,6 +29,9 @@ class SearchableListScreen<T> extends StatefulWidget {
   final Widget? header;
   final bool withScaffold;
 
+  // NEW: Pagination info properties
+  final int? totalItems;
+
   const SearchableListScreen({
     super.key,
     required this.title,
@@ -51,6 +54,8 @@ class SearchableListScreen<T> extends StatefulWidget {
     this.bottom,
     this.header,
     this.withScaffold = true,
+    // NEW: Initialize pagination properties
+    this.totalItems,
   });
 
   @override
@@ -141,6 +146,12 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
           widget.customFilters!,
         ],
         const SizedBox(height: 8),
+        // NEW: Pagination info row (show when we have items)
+        if (widget.items.isNotEmpty && widget.totalItems != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: _buildPaginationInfo(context),
+          ),
         const Divider(),
         const SizedBox(height: 8),
         // Top loading indicator (for refresh/delete operations when items exist)
@@ -162,6 +173,24 @@ class _SearchableListScreenState<T> extends State<SearchableListScreen<T>> {
       title: widget.title,
       bottom: widget.bottom,
       child: content,
+    );
+  }
+
+  Widget _buildPaginationInfo(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    String infoText = l10n.showingXofY(widget.items.length, widget.totalItems!);
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          infoText,
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+            color: Theme.of(context).colorScheme.primary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
     );
   }
 

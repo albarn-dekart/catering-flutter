@@ -88,6 +88,7 @@ query GetOrders($first: Int, $after: String, $status: String, $search: String, $
       hasNextPage
       endCursor
     }
+    totalCount
   }
 }
 
@@ -104,6 +105,7 @@ query GetOrdersByRestaurant($restaurantId: ID!, $first: Int, $after: String, $st
         hasNextPage
         endCursor
       }
+      totalCount
     }
   }
 }
@@ -122,6 +124,7 @@ query GetUserOrders($id: ID!, $first: Int, $after: String, $status: String) {
         hasNextPage
         endCursor
       }
+      totalCount
     }
   }
 }

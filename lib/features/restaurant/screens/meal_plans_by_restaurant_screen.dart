@@ -114,6 +114,7 @@ class _MealPlansByRestaurantState extends State<MealPlansByRestaurant> {
           items: mealPlanService.mealPlans,
           isLoading: mealPlanService.isLoading,
           isLoadingMore: mealPlanService.isFetchingMore,
+          totalItems: mealPlanService.totalItems,
           searchHint: AppLocalizations.of(context)!.searchMealPlans,
           onRefresh: () async {
             await mealPlanService.fetchMealPlansByRestaurant(

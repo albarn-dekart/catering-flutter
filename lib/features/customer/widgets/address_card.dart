@@ -101,25 +101,25 @@ class AddressCard extends StatelessWidget {
       children: [
         if (title != null) ...[
           Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.location_on, color: theme.colorScheme.primary),
-                    const SizedBox(width: 8),
-                    Text(
-                      title!,
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.location_on, color: theme.colorScheme.primary),
+                  const SizedBox(width: 8),
+                  Text(
+                    title!,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
-                ),
-                if (titleAction != null) titleAction!,
-              ],
-            ),
+                  ),
+                ],
+              ),
+              if (titleAction != null) titleAction!,
+            ],
+          ),
           const SizedBox(height: 4),
           const Divider(),
           const SizedBox(height: 8),

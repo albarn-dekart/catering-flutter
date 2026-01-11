@@ -44,6 +44,7 @@ class _RestaurantCouriersScreenState extends State<RestaurantCouriersScreen> {
           title: AppLocalizations.of(context)!.manageCouriers,
           items: userService.restaurantCouriers,
           isLoading: userService.isLoading,
+          totalItems: userService.totalCouriers,
           searchHint: AppLocalizations.of(context)!.searchCouriersByEmail,
           onSearch: (query) {
             userService.fetchCouriersByRestaurant(
@@ -110,7 +111,9 @@ class _RestaurantCouriersScreenState extends State<RestaurantCouriersScreen> {
     final confirmed = await DeleteConfirmationDialog.show(
       context: context,
       title: AppLocalizations.of(context)!.confirmDelete,
-      message: AppLocalizations.of(context)!.confirmDeleteCourier(courier.email),
+      message: AppLocalizations.of(
+        context,
+      )!.confirmDeleteCourier(courier.email),
     );
 
     if (confirmed && context.mounted) {

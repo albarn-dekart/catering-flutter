@@ -34,6 +34,9 @@ class RestaurantService extends ChangeNotifier {
   bool _isFetchingMore = false;
   bool get isFetchingMore => _isFetchingMore;
 
+  int _totalItems = 0;
+  int get totalItems => _totalItems;
+
   String? _currentSearchQuery;
   String? get currentSearchQuery => _currentSearchQuery;
 
@@ -54,6 +57,7 @@ class RestaurantService extends ChangeNotifier {
     _currentSearchQuery = searchQuery;
     _currentCategory = category;
     _restaurants = [];
+    _totalItems = 0;
     notifyListeners();
 
     try {
@@ -77,6 +81,7 @@ class RestaurantService extends ChangeNotifier {
             .toList();
         _endCursor = data.restaurants?.pageInfo.endCursor;
         _hasNextPage = data.restaurants?.pageInfo.hasNextPage ?? false;
+        _totalItems = data.restaurants?.totalCount ?? 0;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -115,6 +120,7 @@ class RestaurantService extends ChangeNotifier {
         _restaurants = [..._restaurants, ...newRestaurants];
         _endCursor = data.restaurants?.pageInfo.endCursor;
         _hasNextPage = data.restaurants?.pageInfo.hasNextPage ?? false;
+        _totalItems = data.restaurants?.totalCount ?? 0;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);

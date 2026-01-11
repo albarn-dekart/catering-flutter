@@ -10,6 +10,7 @@ query GetRestaurantCategories($first: Int, $after: String) {
             hasNextPage
             endCursor
         }
+        totalCount
     }
 }
 

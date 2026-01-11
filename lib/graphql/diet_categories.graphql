@@ -10,6 +10,7 @@ query GetDietCategories($first: Int, $after: String) {
             hasNextPage
             endCursor
         }
+        totalCount
     }
 }
 

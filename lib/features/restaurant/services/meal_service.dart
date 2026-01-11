@@ -35,6 +35,9 @@ class MealService extends ChangeNotifier {
   bool _isFetchingMore = false;
   bool get isFetchingMore => _isFetchingMore;
 
+  int _totalItems = 0;
+  int get totalItems => _totalItems;
+
   String? _currentSearchQuery;
 
   // Cache current filters for pagination
@@ -54,6 +57,7 @@ class MealService extends ChangeNotifier {
     _errorMessage = null;
     _currentSearchQuery = searchQuery;
     _meals = [];
+    _totalItems = 0;
     notifyListeners();
 
     try {
@@ -76,6 +80,7 @@ class MealService extends ChangeNotifier {
             .toList();
         _endCursor = data.meals?.pageInfo.endCursor;
         _hasNextPage = data.meals?.pageInfo.hasNextPage ?? false;
+        _totalItems = data.meals?.totalCount ?? 0;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -114,6 +119,7 @@ class MealService extends ChangeNotifier {
         _meals = [..._meals, ...newMeals];
         _endCursor = data.meals?.pageInfo.endCursor;
         _hasNextPage = data.meals?.pageInfo.hasNextPage ?? false;
+        _totalItems = data.meals?.totalCount ?? 0;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -143,6 +149,7 @@ class MealService extends ChangeNotifier {
     _lastFatRange = fatRange;
     _lastCarbRange = carbRange;
     _meals = [];
+    _totalItems = 0;
     notifyListeners();
 
     try {
@@ -208,6 +215,7 @@ class MealService extends ChangeNotifier {
 
         _endCursor = data.restaurant?.meals?.pageInfo.endCursor;
         _hasNextPage = data.restaurant?.meals?.pageInfo.hasNextPage ?? false;
+        _totalItems = data.restaurant?.meals?.totalCount ?? 0;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -288,6 +296,7 @@ class MealService extends ChangeNotifier {
         _meals = [..._meals, ...newMeals];
         _endCursor = data.restaurant?.meals?.pageInfo.endCursor;
         _hasNextPage = data.restaurant?.meals?.pageInfo.hasNextPage ?? false;
+        _totalItems = data.restaurant?.meals?.totalCount ?? 0;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);

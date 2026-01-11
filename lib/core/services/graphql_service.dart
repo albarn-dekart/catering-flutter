@@ -25,6 +25,11 @@ GraphQLClient initClient(AuthService authService) {
 
   final authLink = AuthLink(
     getToken: () async {
+      // If we are already logged out, don't try to retrieve or refresh tokens
+      if (!authService.isAuthenticated) {
+        return null;
+      }
+
       final token = await authService.getToken();
 
       if (token != null) {
@@ -35,6 +40,12 @@ GraphQLClient initClient(AuthService authService) {
         } else {
           // Token is expired, try to refresh
           final newToken = await authService.refreshToken();
+
+          // Check if we are still authenticated after the refresh attempt
+          if (!authService.isAuthenticated) {
+            return null;
+          }
+
           if (newToken != null) {
             return 'Bearer $newToken';
           }

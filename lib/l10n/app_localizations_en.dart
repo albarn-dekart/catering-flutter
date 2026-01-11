@@ -30,9 +30,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addAddress => 'Add Address';
 
   @override
-  String get address => 'Address';
-
-  @override
   String get addAddressToGetStarted => 'Add a new address to get started';
 
   @override
@@ -59,6 +56,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get address => 'Address';
+
+  @override
   String get adminDashboard => 'Admin Dashboard';
 
   @override
@@ -68,11 +68,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get all => 'All';
 
   @override
+  String allDeliveries(int count) {
+    return 'All Deliveries ($count)';
+  }
+
+  @override
   String get allTime => 'All Time';
 
   @override
-  String allDeliveries(int count) {
-    return 'All Deliveries ($count)';
+  String allTimeProgress(Object count, Object total) {
+    return 'All Time Progress: $count/$total';
   }
 
   @override
@@ -84,6 +89,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get areYouSureYouWantToCancelThisOrder =>
       'Are you sure you want to cancel this order?';
+
+  @override
+  String get areYouSureYouWantToLogout => 'Are you sure you want to logout?';
 
   @override
   String get assignCourier => 'Assign Courier';
@@ -176,6 +184,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmDelete => 'Confirm Delete';
 
   @override
+  String get confirmDeleteAddress =>
+      'Are you sure you want to delete this address? This action cannot be undone.';
+
+  @override
   String confirmDeleteCourier(String email) {
     return 'Are you sure you want to delete courier $email? They will be unassigned from any deliveries.';
   }
@@ -208,6 +220,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get count => 'Count';
+
+  @override
+  String get courier => 'Courier';
+
+  @override
+  String get courierAssignFailed => 'Failed to assign courier. Please retry.';
+
+  @override
+  String get courierAssignedSuccess => 'Courier assigned successfully.';
+
+  @override
+  String get courierDashboard => 'Courier Dashboard';
+
+  @override
+  String get courierDeleted => 'Courier deleted successfully';
+
+  @override
+  String courierInviteFailed(Object error) {
+    return 'Failed to invite courier: $error';
+  }
+
+  @override
+  String get courierInvitedSuccess => 'Courier invited successfully';
+
+  @override
+  String get courierPasswordWillBeEmailed =>
+      'A temporary password will be sent to this email address.';
+
+  @override
+  String get courierRoleLabel => 'COURIER';
+
+  @override
+  String courierWithName(Object name) {
+    return 'Courier: $name';
+  }
+
+  @override
+  String get couriers => 'Couriers';
 
   @override
   String get createAccount => 'Create Account';
@@ -244,9 +294,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dailyOrders => 'Daily Orders';
 
   @override
+  String dailyProgress(Object count, Object total) {
+    return 'Daily Progress: $count/$total';
+  }
+
+  @override
   String daysCount(int count) {
     return '$count days';
   }
+
+  @override
+  String get defaultAddress => 'Default Address';
 
   @override
   String get delete => 'Delete';
@@ -294,6 +352,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String deleteRestaurantConfirmation(Object name) {
     return 'Are you sure you want to delete \"$name\"?';
   }
+
+  @override
+  String get deletedMealPlan => 'Deleted Meal Plan';
 
   @override
   String get delivery => 'Delivery';
@@ -350,54 +411,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dontHaveAccount => 'Don\'t have an account? ';
 
   @override
-  String get courier => 'Courier';
-
-  @override
-  String get courierAssignFailed => 'Failed to assign courier. Please retry.';
-
-  @override
-  String get courierAssignedSuccess => 'Courier assigned successfully.';
-
-  @override
-  String get courierDashboard => 'Courier Dashboard';
-
-  @override
-  String get courierDeleted => 'Courier deleted successfully';
-
-  @override
-  String get courierRetryDelivery => 'Mark as Delivered (Retry)';
-
-  @override
-  String courierInviteFailed(Object error) {
-    return 'Failed to invite courier: $error';
-  }
-
-  @override
-  String get courierInvitedSuccess => 'Courier invited successfully';
-
-  @override
-  String get courierPasswordWillBeEmailed =>
-      'A temporary password will be sent to this email address.';
-
-  @override
-  String get courierRoleLabel => 'COURIER';
-
-  @override
-  String courierWithName(Object name) {
-    return 'Courier: $name';
-  }
-
-  @override
-  String get couriers => 'Couriers';
-
-  @override
   String get edit => 'Edit';
 
   @override
   String get editAddress => 'Edit Address';
-
-  @override
-  String get editRestaurantCategory => 'Edit Restaurant Category';
 
   @override
   String get editDetails => 'Edit Details';
@@ -412,6 +429,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editMealPlan => 'Edit Meal Plan';
 
   @override
+  String get editRestaurantCategory => 'Edit Restaurant Category';
+
+  @override
   String get email => 'Email';
 
   @override
@@ -419,6 +439,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get error => 'Error';
+
+  @override
+  String get errorConstraintViolation =>
+      'This action cannot be completed because of a data conflict.';
+
+  @override
+  String get errorInvalidSchema =>
+      'Technical error: The app and server versions are out of sync. Please contact support.';
 
   @override
   String get errorNetwork =>
@@ -435,20 +463,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorUnauthorized => 'Session expired. Please log in again.';
 
   @override
-  String get errorInvalidSchema =>
-      'Technical error: The app and server versions are out of sync. Please contact support.';
-
-  @override
-  String get errorConstraintViolation =>
-      'This action cannot be completed because of a data conflict.';
+  String get exportData => 'Export Data';
 
   @override
   String exportFailed(Object error) {
     return 'Failed to export data: $error';
   }
-
-  @override
-  String get exportData => 'Export Data';
 
   @override
   String get exportSuccess => 'Data exported successfully';
@@ -494,6 +514,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get firstName => 'First Name';
+
+  @override
+  String get futureDeliveryNoActions =>
+      'Actions for future deliveries are locked until the scheduled day.';
 
   @override
   String get hideIncludedMeals => 'Hide Included Meals';
@@ -562,13 +586,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logout => 'Logout';
 
   @override
+  String get manageCouriers => 'Manage Couriers';
+
+  @override
   String get manageDeliveries => 'Manage Deliveries';
 
   @override
   String get manageDietCategories => 'Manage Diet Categories';
-
-  @override
-  String get manageCouriers => 'Manage Couriers';
 
   @override
   String get manageMealPlans => 'Manage Meal Plans';
@@ -894,6 +918,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quantityToCook => 'Quantity to Cook';
 
   @override
+  String rangeProgress(Object count, Object total) {
+    return 'Range Progress: $count/$total';
+  }
+
+  @override
   String get register => 'Register';
 
   @override
@@ -948,22 +977,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get revenueTrend => 'Revenue Trend';
 
   @override
-  String get revertStatusSuccess => 'Status reverted successfully';
+  String get revertGraceExpired => 'Revert period expired (60 sec)';
 
   @override
   String get revertStatusFailed => 'Failed to revert status';
 
   @override
-  String get revertGraceExpired => 'Revert period expired (15 min)';
+  String get revertStatusSuccess => 'Status reverted successfully';
 
   @override
   String get roleAdmin => 'Admin';
 
   @override
-  String get roleCustomer => 'Customer';
+  String get roleCourier => 'Courier';
 
   @override
-  String get roleCourier => 'Courier';
+  String get roleCustomer => 'Customer';
 
   @override
   String get roleRestaurant => 'Restaurant';
@@ -1056,6 +1085,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String showingXofY(Object count, Object total) {
+    return 'Showing $count of $total';
+  }
+
+  @override
   String get signInToContinue => 'Please sign in to continue';
 
   @override
@@ -1131,7 +1165,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get temporaryPassword => 'Temporary Password';
 
   @override
+  String get today => 'Today';
+
+  @override
+  String get tomorrow => 'Tomorrow';
+
+  @override
+  String get topRestaurants => 'Top Restaurants by Revenue';
+
+  @override
   String get total => 'Total:';
+
+  @override
+  String get totalClients => 'Total Clients';
+
+  @override
+  String get totalDeliveries => 'Total Deliveries';
 
   @override
   String get totalMeals => 'Total Meals';
@@ -1144,6 +1193,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get totalRevenue => 'Total Revenue';
+
+  @override
+  String get totalStatsMealPlans => 'Total Meal Plans';
 
   @override
   String get totalUsers => 'Total Users';
@@ -1185,51 +1237,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get yes => 'Yes';
 
   @override
+  String get yesterday => 'Yesterday';
+
+  @override
   String get yourCartIsEmpty => 'Your cart is empty';
 
   @override
   String get zipCode => 'Zip Code';
-
-  @override
-  String get areYouSureYouWantToLogout => 'Are you sure you want to logout?';
-
-  @override
-  String get defaultAddress => 'Default Address';
-
-  @override
-  String get confirmDeleteAddress =>
-      'Are you sure you want to delete this address? This action cannot be undone.';
-
-  @override
-  String get deletedMealPlan => 'Deleted Meal Plan';
-
-  @override
-  String get yesterday => 'Yesterday';
-
-  @override
-  String get today => 'Today';
-
-  @override
-  String get topRestaurants => 'Top Restaurants by Revenue';
-
-  @override
-  String get totalClients => 'Total Clients';
-
-  @override
-  String get totalDeliveries => 'Total Deliveries';
-
-  @override
-  String get totalStatsMealPlans => 'Total Meal Plans';
-
-  @override
-  String get tomorrow => 'Tomorrow';
-
-  @override
-  String dailyProgress(Object count, Object total) {
-    return 'Daily Progress: $count/$total';
-  }
-
-  @override
-  String get futureDeliveryNoActions =>
-      'Actions for future deliveries are locked until the scheduled day.';
 }

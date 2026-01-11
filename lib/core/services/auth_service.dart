@@ -197,15 +197,49 @@ class AuthService extends ChangeNotifier {
   }
 
   Future<void> logout() async {
-    // Attempt to invalidate refresh token on backend
+    // 1. Capture the refresh token before clearing storage
     final refreshToken = await _tokenStorage.getRefreshToken();
+
+    // 2. Clear local state and storage immediately
+    // We update in-memory state first so UI updates (like redirection) happen instantly
+    _isAuthenticated = false;
+    _roles = [];
+    _userIri = null;
+    _email = null;
+    notifyListeners();
+
+    // 3. Clear persistent storage
+    try {
+      await _tokenStorage.clearAll();
+    } catch (e) {
+      log('Error clearing token storage', error: e, name: 'AuthService');
+    }
+
+    // 4. Attempt to invalidate refresh token on backend (best effort, fire-and-forget)
     if (refreshToken != null) {
       try {
-        await http.post(
-          Uri.parse('${ApiService.baseUrl}/api/logout'),
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({'refresh_token': refreshToken}),
-        );
+        // Use direct http call to avoid ApiService interceptors and don't await
+        http
+            .post(
+              Uri.parse('${ApiService.baseUrl}/api/logout'),
+              headers: {'Content-Type': 'application/json'},
+              body: jsonEncode({'refresh_token': refreshToken}),
+            )
+            .then((response) {
+              if (response.statusCode != 200) {
+                log(
+                  'Backend logout returned status ${response.statusCode}: ${response.body}',
+                  name: 'AuthService',
+                );
+              }
+            })
+            .catchError((e) {
+              log(
+                'Error invalidating token on backend',
+                error: e,
+                name: 'AuthService',
+              );
+            });
       } catch (e) {
         log(
           'Error invalidating token on backend',
@@ -214,13 +248,6 @@ class AuthService extends ChangeNotifier {
         );
       }
     }
-
-    await _tokenStorage.clearAll();
-    _isAuthenticated = false;
-    _roles = [];
-    _userIri = null;
-    _email = null;
-    notifyListeners();
   }
 
   /// Checks if the current token is expired

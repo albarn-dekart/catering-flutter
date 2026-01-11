@@ -36,6 +36,7 @@ class CustomScaffold extends StatelessWidget {
     final bool isAdmin = authService.hasRole('ROLE_ADMIN');
     final bool isRestaurant = authService.hasRole('ROLE_RESTAURANT');
     final bool isCourier = authService.hasRole('ROLE_COURIER');
+    final bool isCustomer = authService.hasRole('ROLE_CUSTOMER');
 
     bool isUserRoot = false;
     if (cleanPath == AppRoutes.home) {
@@ -50,10 +51,11 @@ class CustomScaffold extends StatelessWidget {
 
     final canPopGoRouter = innerContext.canPop();
     final canPopNavigator = Navigator.of(innerContext).canPop();
-    final canPop = canPopGoRouter || canPopNavigator;
 
-    // Show leading if it's not the user's root OR if we have history to go back to
-    bool shouldShowLeading = !isUserRoot || canPop;
+    // Show leading if it's not the user's root.
+    // We strictly use isUserRoot to determine this to avoid back arrows
+    // appearing on root pages when a popup menu is open (which makes Navigator.canPop true).
+    bool shouldShowLeading = !isUserRoot;
 
     return Scaffold(
       backgroundColor: Theme.of(innerContext).colorScheme.surface,
@@ -143,6 +145,7 @@ class CustomScaffold extends StatelessWidget {
                             textColor: Theme.of(context).colorScheme.onPrimary,
                             child: IconButton(
                               icon: const Icon(Icons.shopping_bag_outlined),
+                              tooltip: AppLocalizations.of(context)!.cart,
                               onPressed: () => context.push(AppRoutes.cart),
                             ),
                           );
@@ -156,6 +159,9 @@ class CustomScaffold extends StatelessWidget {
                       onSelected: (value) {
                         if (value == 'profile') {
                           context.push(AppRoutes.profile);
+                        } else if (value == 'orders') {
+                          // NEW: Handle orders menu item
+                          context.push(AppRoutes.orders);
                         } else if (value == 'logout') {
                           LogoutConfirmationDialog.show(context).then((
                             confirmed,
@@ -213,6 +219,18 @@ class CustomScaffold extends StatelessWidget {
                                 ],
                               ),
                             ),
+                            // NEW: Orders menu item
+                            if (isCustomer)
+                              PopupMenuItem<String>(
+                                value: 'orders',
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.receipt_long, size: 20),
+                                    const SizedBox(width: 12),
+                                    Text(AppLocalizations.of(ctx)!.myOrders),
+                                  ],
+                                ),
+                              ),
                             PopupMenuItem<String>(
                               value: 'logout',
                               child: Row(

@@ -1,5 +1,5 @@
+import 'package:catering_flutter/features/courier/widgets/undo_timer_button.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
-import 'package:catering_flutter/core/widgets/app_premium_button.dart';
 import 'package:catering_flutter/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +34,7 @@ class _RestaurantDeliveriesScreenState
   bool _isExporting = false;
   final Set<String> _updatingIds = {};
   DateTimeRange? _selectedDateRange;
+  Map<String, int>? _deliveryStats;
 
   @override
   void initState() {
@@ -64,6 +65,24 @@ class _RestaurantDeliveriesScreenState
     ]);
   }
 
+  Future<void> _fetchDeliveryStats() async {
+    setState(() {
+      _deliveryStats = null;
+    });
+
+    try {
+      final stats = await context.read<DeliveryService>().getDeliveryStats(
+        restaurantIri: widget.restaurantIri,
+        dateRange: _selectedDateRange,
+        statusFilter: _selectedStatusFilter,
+      );
+      setState(() => _deliveryStats = stats);
+    } catch (e) {
+      print('Failed to fetch delivery stats: $e');
+      setState(() => _deliveryStats = null);
+    }
+  }
+
   Future<void> _fetchDeliveries() async {
     await context.read<DeliveryService>().fetchRestaurantDeliveries(
       widget.restaurantIri,
@@ -71,9 +90,46 @@ class _RestaurantDeliveriesScreenState
       searchQuery: _currentSearchQuery,
       dateRange: _selectedDateRange,
     );
+
+    await _fetchDeliveryStats();
   }
 
-  bool get _showProgressSummary {
+  bool _isUndoable(Delivery delivery) {
+    final updatedAtStr = (delivery as dynamic).statusUpdatedAt as String?;
+    if (updatedAtStr == null) return false;
+    final updatedAt = DateTime.parse(updatedAtStr).toLocal();
+    final now = DateTime.now().toLocal();
+    final diff = now.difference(updatedAt).inSeconds;
+    return diff >= 0 && diff < 60;
+  }
+
+  List<Enum$DeliveryStatus> _getValidNextStatuses(
+    Enum$DeliveryStatus currentStatus,
+  ) {
+    switch (currentStatus) {
+      case Enum$DeliveryStatus.Assigned:
+        // Owner can mark as picked up if the courier forgot
+        return [Enum$DeliveryStatus.Assigned, Enum$DeliveryStatus.Picked_up];
+      case Enum$DeliveryStatus.Picked_up:
+        // Owner can help complete or fail the delivery
+        return [
+          Enum$DeliveryStatus.Picked_up,
+          Enum$DeliveryStatus.Delivered,
+          Enum$DeliveryStatus.Failed,
+        ];
+      case Enum$DeliveryStatus.Failed:
+        // Owner can mark as returned once the food is back at the kitchen
+        return [Enum$DeliveryStatus.Failed, Enum$DeliveryStatus.Returned];
+      case Enum$DeliveryStatus.Delivered:
+      case Enum$DeliveryStatus.Returned:
+        // Final states usually don't move forward
+        return [currentStatus];
+      default:
+        return [currentStatus];
+    }
+  }
+
+  bool get _isSingleDay {
     if (_selectedDateRange == null) return false;
     return _selectedDateRange!.start.year == _selectedDateRange!.end.year &&
         _selectedDateRange!.start.month == _selectedDateRange!.end.month &&
@@ -93,6 +149,7 @@ class _RestaurantDeliveriesScreenState
           items: _getSortedItems(deliveryService.deliveries),
           isLoading: deliveryService.isLoading || userService.isLoading,
           isLoadingMore: deliveryService.isFetchingMore,
+          totalItems: deliveryService.totalItems,
           onLoadMore: () async {
             if (!deliveryService.isFetchingMore &&
                 deliveryService.hasNextPage) {
@@ -120,6 +177,7 @@ class _RestaurantDeliveriesScreenState
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Always show progress summary
               if (deliveryService.deliveries.isNotEmpty)
                 _buildProgressSummary(deliveryService.deliveries),
               EasyDatePicker(
@@ -127,6 +185,7 @@ class _RestaurantDeliveriesScreenState
                 onDateRangeChanged: (range) {
                   setState(() {
                     _selectedDateRange = range;
+                    _deliveryStats = null;
                   });
                   _fetchDeliveries();
                 },
@@ -160,6 +219,7 @@ class _RestaurantDeliveriesScreenState
   bool _isCourierAssignmentDisabled(Delivery delivery) {
     return delivery.order?.status == Enum$OrderStatus.Unpaid ||
         delivery.status == Enum$DeliveryStatus.Delivered ||
+        delivery.status == Enum$DeliveryStatus.Picked_up ||
         delivery.status == Enum$DeliveryStatus.Failed ||
         delivery.status == Enum$DeliveryStatus.Returned ||
         _updatingIds.contains(delivery.id);
@@ -171,6 +231,9 @@ class _RestaurantDeliveriesScreenState
     }
     if (delivery.status == Enum$DeliveryStatus.Delivered) {
       return '${AppLocalizations.of(context)!.assignCourier} (${AppLocalizations.of(context)!.statusDelivered})';
+    }
+    if (delivery.status == Enum$DeliveryStatus.Picked_up) {
+      return '${AppLocalizations.of(context)!.assignCourier} (${AppLocalizations.of(context)!.statusPickedUp})';
     }
     if (delivery.status == Enum$DeliveryStatus.Failed) {
       return '${AppLocalizations.of(context)!.assignCourier} (${AppLocalizations.of(context)!.statusFailed})';
@@ -187,17 +250,22 @@ class _RestaurantDeliveriesScreenState
     List<RestaurantCourierNode> couriers,
   ) {
     final theme = Theme.of(context);
+    final deliveryStatus = delivery.status;
     final isDone =
-        delivery.status == Enum$DeliveryStatus.Delivered ||
-        delivery.status == Enum$DeliveryStatus.Returned;
+        deliveryStatus == Enum$DeliveryStatus.Delivered ||
+        deliveryStatus == Enum$DeliveryStatus.Returned;
+    final canUndo = isDone || deliveryStatus == Enum$DeliveryStatus.Failed;
+    final undoable = _isUndoable(delivery);
 
     return Opacity(
-      opacity: isDone ? 0.6 : 1.0,
+      key: ValueKey(delivery.id),
+      opacity: isDone && !undoable ? 0.6 : 1.0,
       child: AppCard(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Header Row with Status Badge
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -212,8 +280,8 @@ class _RestaurantDeliveriesScreenState
                     if (isDone) const SizedBox(width: 8),
                     Text(
                       AppLocalizations.of(context)!.delivery,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
                         decoration: isDone ? TextDecoration.lineThrough : null,
                       ),
                     ),
@@ -230,151 +298,135 @@ class _RestaurantDeliveriesScreenState
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: delivery.status.containerColor,
-                    borderRadius: BorderRadius.circular(10),
+                    color: deliveryStatus.containerColor,
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    delivery.status.getLabel(context),
+                    deliveryStatus.getLabel(context),
                     style: theme.textTheme.labelMedium?.copyWith(
-                      color: delivery.status.onContainerColor,
+                      color: deliveryStatus.onContainerColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ],
             ),
+
             const SizedBox(height: 16),
-            Row(
-              children: [
-                Icon(
-                  Icons.receipt_long,
-                  size: 16,
-                  color: theme.colorScheme.primary,
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  '${AppLocalizations.of(context)!.order}:',
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-                const SizedBox(width: 4),
-                IconBadge(
-                  text: IriHelper.getId(delivery.order!.id),
-                  icon: Icons.tag,
-                ),
-              ],
+
+            // Delivery Address Details
+            AddressCard(
+              firstName: delivery.order?.deliveryFirstName ?? '',
+              lastName: delivery.order?.deliveryLastName ?? '',
+              street: delivery.order?.deliveryStreet ?? '',
+              apartment: delivery.order?.deliveryApartment,
+              city: delivery.order?.deliveryCity ?? '',
+              zipCode: delivery.order?.deliveryZipCode ?? '',
+              phoneNumber: delivery.order?.deliveryPhoneNumber ?? '',
+              deliveryDate: DateTime.parse(delivery.deliveryDate),
+              withCardDecoration: false,
+              showActions: false,
+              showDefaultBadge: false,
+              enablePhoneAction: true,
             ),
-            if (delivery.order != null) ...[
-              const SizedBox(height: 16),
-              AddressCard(
-                firstName: delivery.order!.deliveryFirstName ?? '',
-                lastName: delivery.order!.deliveryLastName ?? '',
-                street: delivery.order!.deliveryStreet ?? '',
-                apartment: delivery.order!.deliveryApartment,
-                city: delivery.order!.deliveryCity ?? '',
-                zipCode: delivery.order!.deliveryZipCode ?? '',
-                phoneNumber: delivery.order!.deliveryPhoneNumber ?? '',
-                deliveryDate: DateTime.parse(delivery.deliveryDate),
-                withCardDecoration: false,
-                showActions: false,
-                showDefaultBadge: false,
-                enablePhoneAction: true,
-              ),
-            ],
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Icon(Icons.person, size: 16, color: theme.colorScheme.primary),
-                const SizedBox(width: 12),
-                Text(
-                  '${AppLocalizations.of(context)!.courier}:',
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  delivery.courier?.email ??
-                      AppLocalizations.of(context)!.unassigned,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: delivery.courier == null
-                        ? theme.colorScheme.error
-                        : null,
-                  ),
-                ),
-              ],
-            ),
+
             const SizedBox(height: 20),
-            if (couriers.isNotEmpty)
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(
-                  labelText: _getCourierLabel(context, delivery),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  suffixIcon: _updatingIds.contains(delivery.id)
-                      ? const Padding(
-                          padding: EdgeInsets.all(12.0),
-                          child: SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+
+            // Unified Management Row: Courier Assignment and Status Control
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 1. Courier Assignment
+                Expanded(
+                  flex: 3,
+                  child: DropdownButtonFormField<String>(
+                    isExpanded: true,
+                    decoration: InputDecoration(
+                      labelText: _getCourierLabel(context, delivery),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      suffixIcon: _updatingIds.contains(delivery.id)
+                          ? const Padding(
+                              padding: EdgeInsets.all(12),
+                              child: SizedBox(
+                                width: 14,
+                                height: 14,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                            )
+                          : null,
+                    ),
+                    initialValue: delivery.courier?.id,
+                    onChanged: _isCourierAssignmentDisabled(delivery)
+                        ? null
+                        : (val) => _assignCourier(delivery, val!),
+                    items: couriers
+                        .map(
+                          (c) => DropdownMenuItem(
+                            value: c.id,
+                            child: Text(
+                              c.email,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         )
-                      : null,
+                        .toList(),
+                  ),
                 ),
-                initialValue: delivery.courier?.id,
-                onChanged: _isCourierAssignmentDisabled(delivery)
-                    ? null
-                    : (String? newCourierId) async {
-                        if (newCourierId != null) {
-                          await _assignCourier(delivery, newCourierId);
-                        }
-                      },
-                items: couriers.map((courier) {
-                  return DropdownMenuItem<String>(
-                    value: courier.id,
-                    child: Text(courier.email),
-                  );
-                }).toList(),
-              ),
-            if (delivery.status == Enum$DeliveryStatus.Assigned ||
-                delivery.status == Enum$DeliveryStatus.Picked_up)
-              const SizedBox(height: 16),
-            // Status progression buttons
-            if (delivery.status == Enum$DeliveryStatus.Assigned)
-              SizedBox(
-                width: double.infinity,
-                height: 52,
-                child: AppPremiumButton(
-                  onPressed: _updatingIds.contains(delivery.id)
-                      ? null
-                      : () => _updateStatus(
-                          delivery.id,
-                          Enum$DeliveryStatus.Picked_up,
-                        ),
-                  isLoading: _updatingIds.contains(delivery.id),
-                  icon: Icons.shopping_bag_outlined,
-                  label: AppLocalizations.of(context)!.markAsPickedUp,
+                const SizedBox(width: 8),
+                // 2. Status Correction
+                Expanded(
+                  flex: 2,
+                  child: DropdownButtonFormField<Enum$DeliveryStatus>(
+                    isExpanded: true,
+                    initialValue: deliveryStatus,
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!.status,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                    ),
+                    onChanged:
+                        (delivery.courier == null ||
+                            _updatingIds.contains(delivery.id))
+                        ? null
+                        : (newStatus) {
+                            if (newStatus != null &&
+                                newStatus != deliveryStatus) {
+                              _updateStatus(delivery.id, newStatus);
+                            }
+                          },
+                    items: _getValidNextStatuses(deliveryStatus)
+                        .map(
+                          (s) => DropdownMenuItem(
+                            value: s,
+                            child: Text(
+                              s.getLabel(context),
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.bodyMedium,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
-              ),
-            if (delivery.status == Enum$DeliveryStatus.Picked_up)
-              SizedBox(
-                width: double.infinity,
-                height: 52,
-                child: AppPremiumButton(
-                  onPressed: _updatingIds.contains(delivery.id)
-                      ? null
-                      : () => _updateStatus(
-                          delivery.id,
-                          Enum$DeliveryStatus.Delivered,
-                        ),
-                  isLoading: _updatingIds.contains(delivery.id),
-                  icon: Icons.check_circle_outline,
-                  label: AppLocalizations.of(context)!.markAsDeliveredAction,
-                ),
+              ],
+            ),
+
+            // Undo Action (adopted from Courier Dashboard logic)
+            if (canUndo && (delivery as dynamic).statusUpdatedAt != null)
+              UndoTimerButton(
+                statusUpdatedAt:
+                    (delivery as dynamic).statusUpdatedAt as String,
+                isUpdating: _updatingIds.contains(delivery.id),
+                onExpired: () => setState(() {}),
+                onUndo: () =>
+                    _updateStatus(delivery.id, Enum$DeliveryStatus.Picked_up),
               ),
           ],
         ),
@@ -392,6 +444,8 @@ class _RestaurantDeliveriesScreenState
         delivery.id,
         courierIri: courierId,
       );
+
+      await _fetchDeliveryStats();
       if (!mounted) return;
 
       UIErrorHandler.showSnackBar(
@@ -429,6 +483,7 @@ class _RestaurantDeliveriesScreenState
     final deliveryService = context.read<DeliveryService>();
     try {
       await deliveryService.updateDeliveryStatus(deliveryId, status: newStatus);
+      await _fetchDeliveryStats();
 
       if (!mounted) return;
 
@@ -492,49 +547,73 @@ class _RestaurantDeliveriesScreenState
 
   List<Delivery> _getSortedItems(List<Delivery> items) {
     final sortedList = List<Delivery>.from(items);
+
     sortedList.sort((a, b) {
-      final isDoneA =
-          a.status == Enum$DeliveryStatus.Delivered ||
-          a.status == Enum$DeliveryStatus.Returned;
-      final isDoneB =
-          b.status == Enum$DeliveryStatus.Delivered ||
-          b.status == Enum$DeliveryStatus.Returned;
+      // 1. Primary sort: Delivery date/time (chronological)
+      final dateA = DateTime.parse(a.deliveryDate);
+      final dateB = DateTime.parse(b.deliveryDate);
+      final dateComparison = dateA.compareTo(dateB);
+      if (dateComparison != 0) return dateComparison;
 
-      // 1. Group by "Done" status (Active first)
-      if (isDoneA != isDoneB) {
-        return isDoneA ? 1 : -1;
+      // 2. Secondary sort: Status priority (active/in-progress first)
+      Enum$DeliveryStatus getEffectiveStatus(Delivery d) {
+        final status = d.status;
+        if (_isUndoable(d)) {
+          if (status == Enum$DeliveryStatus.Delivered ||
+              status == Enum$DeliveryStatus.Failed) {
+            return Enum$DeliveryStatus.Picked_up;
+          }
+          if (status == Enum$DeliveryStatus.Returned) {
+            return Enum$DeliveryStatus.Failed;
+          }
+        }
+        return status;
       }
 
-      // 2. Secondary sort based on Date Mode
-      // If we are looking at a single day, we want chronological order (Morning -> Evening)
-      // Since we don't have a specific "time" field easily accessible besides ID/date,
-      // and ID is roughly chronological for creation:
-      if (_showProgressSummary) {
-        // Single Day -> Chronological (Oldest/Morning first)
-        return a.id.compareTo(b.id);
-      } else {
-        // Range/History -> Append Newest First
-        return b.id.compareTo(a.id);
-      }
+      final statusPriority = {
+        Enum$DeliveryStatus.Assigned: 1,
+        Enum$DeliveryStatus.Picked_up: 2,
+        Enum$DeliveryStatus.Failed: 3,
+        Enum$DeliveryStatus.Delivered: 4,
+        Enum$DeliveryStatus.Returned: 5,
+      };
+
+      final priorityA = statusPriority[getEffectiveStatus(a)] ?? 6;
+      final priorityB = statusPriority[getEffectiveStatus(b)] ?? 6;
+      final statusComparison = priorityA.compareTo(priorityB);
+      if (statusComparison != 0) return statusComparison;
+
+      // 3. Tertiary sort: By ID (newest first as fallback)
+      return b.id.compareTo(a.id);
     });
 
     return sortedList;
   }
 
-  Widget _buildProgressSummary(List<Delivery> items) {
-    final total = items.length;
-    final completed = items.where((i) {
-      return i.status == Enum$DeliveryStatus.Delivered ||
-          i.status == Enum$DeliveryStatus.Returned;
-    }).length;
+  Widget _buildProgressSummary(List items) {
+    final total = _deliveryStats?['total'] ?? items.length;
+    final completed =
+        _deliveryStats?['completed'] ??
+        items.where((i) {
+          final status = i.status as Enum$DeliveryStatus;
+          return status == Enum$DeliveryStatus.Delivered ||
+              status == Enum$DeliveryStatus.Returned ||
+              status == Enum$DeliveryStatus.Failed;
+        }).length;
 
     final progress = total > 0 ? completed / total : 0.0;
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
-    // Use specific "Daily Progress" if looking at one day, or generic "Progress" for ranges
-    final label = _showProgressSummary
-        ? AppLocalizations.of(context)!.dailyProgress(completed, total)
-        : '${AppLocalizations.of(context)!.summary}: $completed/$total';
+    // Create appropriate label based on date range
+    String label;
+    if (_selectedDateRange == null) {
+      label = l10n.allTimeProgress(completed, total);
+    } else if (_isSingleDay) {
+      label = l10n.dailyProgress(completed, total);
+    } else {
+      label = l10n.rangeProgress(completed, total);
+    }
 
     return Column(
       children: [
@@ -566,6 +645,17 @@ class _RestaurantDeliveriesScreenState
             ),
           ),
         ),
+        // Show note if using loaded items instead of stats
+        if (_deliveryStats == null)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text(
+              l10n.showingXofY(items.length, total),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ),
         const SizedBox(height: 4),
       ],
     );

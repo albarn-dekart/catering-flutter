@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:catering_flutter/graphql/deliveries.graphql.dart';
 import 'package:catering_flutter/graphql/schema.graphql.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ typedef DeliveryDetails = Fragment$BasicDeliveryFragment;
 
 class DeliveryService extends ChangeNotifier {
   final GraphQLClient _client;
+  final ApiService _apiService;
 
   List<Delivery> _deliveries = [];
   List<Delivery> get deliveries => _deliveries;
@@ -31,12 +34,16 @@ class DeliveryService extends ChangeNotifier {
   bool _isFetchingMore = false;
   bool get isFetchingMore => _isFetchingMore;
 
-  DeliveryService(this._client);
+  int _totalItems = 0;
+  int get totalItems => _totalItems;
+
+  DeliveryService(this._client, this._apiService);
 
   Future<void> fetchAllDeliveries() async {
     _isLoading = true;
     _errorMessage = null;
     _deliveries = [];
+    _totalItems = 0;
     notifyListeners();
 
     try {
@@ -54,6 +61,9 @@ class DeliveryService extends ChangeNotifier {
             .map((e) => e?.node)
             .whereType<Delivery>()
             .toList();
+        _endCursor = data.deliveries?.pageInfo.endCursor;
+        _hasNextPage = data.deliveries?.pageInfo.hasNextPage ?? false;
+        _totalItems = data.deliveries?.totalCount ?? 0;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -80,7 +90,7 @@ class DeliveryService extends ChangeNotifier {
 
       _currentDelivery = Query$GetDelivery.fromJson(result.data!).delivery;
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -107,6 +117,7 @@ class DeliveryService extends ChangeNotifier {
         order ?? Input$DeliveryFilter_order(deliveryDate: 'DESC');
     _currentDateRange = dateRange;
     _deliveries = [];
+    _totalItems = 0;
     notifyListeners();
 
     try {
@@ -144,9 +155,10 @@ class DeliveryService extends ChangeNotifier {
             .toList();
         _endCursor = data.deliveries?.pageInfo.endCursor;
         _hasNextPage = data.deliveries?.pageInfo.hasNextPage ?? false;
+        _totalItems = data.deliveries?.totalCount ?? 0;
       }
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -210,6 +222,7 @@ class DeliveryService extends ChangeNotifier {
           _deliveries.addAll(newDeliveries);
           _endCursor = data.deliveries?.pageInfo.endCursor;
           _hasNextPage = data.deliveries?.pageInfo.hasNextPage ?? false;
+          _totalItems = data.deliveries?.totalCount ?? 0;
         }
       } else {
         final data = Query$GetDeliveries.fromJson(result.data!);
@@ -221,10 +234,11 @@ class DeliveryService extends ChangeNotifier {
           _deliveries.addAll(newDeliveries);
           _endCursor = data.deliveries?.pageInfo.endCursor;
           _hasNextPage = data.deliveries?.pageInfo.hasNextPage ?? false;
+          _totalItems = data.deliveries?.totalCount ?? 0;
         }
       }
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
       _isFetchingMore = false;
       notifyListeners();
@@ -255,84 +269,69 @@ class DeliveryService extends ChangeNotifier {
       final result = await _client.mutate(options);
       ApiService.check(result);
 
-      // Extract the updated delivery from the mutation response
       final updatedDelivery = Mutation$UpdateDelivery.fromJson(
         result.data!,
       ).updateDelivery?.delivery;
 
       if (updatedDelivery != null) {
+        // Create proper BasicDeliveryFragment with all fields
+        final basicDelivery = Fragment$BasicDeliveryFragment(
+          id: updatedDelivery.id,
+          status: updatedDelivery.status,
+          deliveryDate: updatedDelivery.deliveryDate,
+          statusUpdatedAt: updatedDelivery.statusUpdatedAt,
+          order: updatedDelivery.order != null
+              ? Fragment$BasicDeliveryFragment$order(
+                  id: updatedDelivery.order!.id,
+                  total: updatedDelivery.order!.total,
+                  status: updatedDelivery.order!.status,
+                  customer: updatedDelivery.order!.customer != null
+                      ? Fragment$BasicDeliveryFragment$order$customer(
+                          id: updatedDelivery.order!.customer!.id,
+                          email: updatedDelivery.order!.customer!.email,
+                        )
+                      : null,
+                  // Preserve delivery address fields
+                  deliveryFirstName: updatedDelivery.order!.deliveryFirstName,
+                  deliveryLastName: updatedDelivery.order!.deliveryLastName,
+                  deliveryPhoneNumber:
+                      updatedDelivery.order!.deliveryPhoneNumber,
+                  deliveryStreet: updatedDelivery.order!.deliveryStreet,
+                  deliveryApartment: updatedDelivery.order!.deliveryApartment,
+                  deliveryCity: updatedDelivery.order!.deliveryCity,
+                  deliveryZipCode: updatedDelivery.order!.deliveryZipCode,
+                )
+              : null,
+          courier: updatedDelivery.courier != null
+              ? Fragment$BasicDeliveryFragment$courier(
+                  id: updatedDelivery.courier!.id,
+                  email: updatedDelivery.courier!.email,
+                )
+              : null,
+        );
+
         // Update current delivery if currently viewed
         if (_currentDelivery?.id == updatedDelivery.id) {
-          // Cast to Fragment$BasicDeliveryFragment as _currentDelivery expects it
-          // Note: CourierDeliveryFragment is used for mutation response now,
-          // but we can convert it back to BasicDeliveryFragment if needed,
-          // though usually they share the same base structure.
-          // For now, we'll just assign it if possible or skip if types strictly mismatch.
-          // Since they are generated, we might need a manual conversion.
-          _currentDelivery = Fragment$BasicDeliveryFragment(
-            id: updatedDelivery.id,
-            status: updatedDelivery.status,
-            deliveryDate: updatedDelivery.deliveryDate,
-            order: updatedDelivery.order != null
-                ? Fragment$BasicDeliveryFragment$order(
-                    id: updatedDelivery.order!.id,
-                    total: updatedDelivery.order!.total,
-                    status: updatedDelivery.order!.status,
-                    customer: updatedDelivery.order!.customer != null
-                        ? Fragment$BasicDeliveryFragment$order$customer(
-                            id: updatedDelivery.order!.customer!.id,
-                            email: updatedDelivery.order!.customer!.email,
-                          )
-                        : null,
-                  )
-                : null,
-            courier: updatedDelivery.courier != null
-                ? Fragment$BasicDeliveryFragment$courier(
-                    id: updatedDelivery.courier!.id,
-                    email: updatedDelivery.courier!.email,
-                  )
-                : null,
-          ).copyWith(); // Use copyWith if needed or just assign
+          _currentDelivery = basicDelivery;
         }
 
-        // Find and update the delivery in the local list
+        // Update the delivery in the local list
         final index = _deliveries.indexWhere((d) => d.id == updatedDelivery.id);
         if (index != -1) {
-          // If the delivery status no longer matches current filters, remove it
           if (_currentStatusFilter != null &&
               updatedDelivery.status != _currentStatusFilter) {
             _deliveries.removeAt(index);
           } else {
-            _deliveries[index] = Fragment$BasicDeliveryFragment(
-              id: updatedDelivery.id,
-              status: updatedDelivery.status,
-              deliveryDate: updatedDelivery.deliveryDate,
-              order: updatedDelivery.order != null
-                  ? Fragment$BasicDeliveryFragment$order(
-                      id: updatedDelivery.order!.id,
-                      total: updatedDelivery.order!.total,
-                      status: updatedDelivery.order!.status,
-                      customer: updatedDelivery.order!.customer != null
-                          ? Fragment$BasicDeliveryFragment$order$customer(
-                              id: updatedDelivery.order!.customer!.id,
-                              email: updatedDelivery.order!.customer!.email,
-                            )
-                          : null,
-                    )
-                  : null,
-              courier: updatedDelivery.courier != null
-                  ? Fragment$BasicDeliveryFragment$courier(
-                      id: updatedDelivery.courier!.id,
-                      email: updatedDelivery.courier!.email,
-                    )
-                  : null,
-            );
+            _deliveries[index] = basicDelivery;
           }
+        } else if (status == Enum$DeliveryStatus.Assigned) {
+          // Add to list if newly assigned
+          _deliveries.insert(0, basicDelivery);
         }
       }
       return updatedDelivery;
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
       _isLoading = false;
@@ -356,12 +355,85 @@ class DeliveryService extends ChangeNotifier {
       ApiService.check(result);
       _deliveries.removeWhere((d) => d.id == id);
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
       rethrow;
     } finally {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  Future<Map<String, int>> getDeliveryStats({
+    String? restaurantIri,
+    DateTimeRange? dateRange,
+    Enum$DeliveryStatus? statusFilter,
+  }) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      String url;
+      if (restaurantIri == null) {
+        url = '/api/courier/delivery-stats';
+      } else {
+        url = '$restaurantIri/delivery-stats';
+      }
+
+      // Build query parameters
+      final params = <String>[];
+      if (dateRange != null) {
+        final startStr = dateRange.start.toIso8601String().split('T')[0];
+        final endStr = dateRange.end.toIso8601String().split('T')[0];
+        params.add('startDate=$startStr&endDate=$endStr');
+      }
+
+      if (statusFilter != null) {
+        params.add('status=${statusFilter.name}');
+      }
+
+      if (params.isNotEmpty) {
+        url += '?${params.join('&')}';
+      }
+
+      final response = await _apiService.get(url);
+      final Map<String, dynamic> data = jsonDecode(response.body);
+
+      // Check for error in response
+      if (data.containsKey('error')) {
+        throw Exception(data['error']);
+      }
+
+      final stats = {
+        'total': (data['total'] as int?) ?? 0,
+        'completed': (data['completed'] as int?) ?? 0,
+        'inProgress': (data['inProgress'] as int?) ?? 0,
+        'failed': (data['failed'] as int?) ?? 0,
+        'returned': (data['returned'] as int?) ?? 0,
+      };
+
+      return stats;
+    } catch (e) {
+      _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
+      rethrow;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  void clear() {
+    _deliveries = [];
+    _currentDelivery = null;
+    _errorMessage = null;
+    _endCursor = null;
+    _hasNextPage = false;
+    _isFetchingMore = false;
+    _currentStatusFilter = null;
+    _currentSearchQuery = null;
+    _currentSortOrder = null;
+    _currentDateRange = null;
+    notifyListeners();
   }
 
   void clearError() {

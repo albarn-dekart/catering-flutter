@@ -61,6 +61,7 @@ query GetMeals($first: Int, $after: String, $search: String, $price: [MealFilter
             hasNextPage
             endCursor
         }
+        totalCount
     }
 }
 
@@ -83,6 +84,7 @@ query GetMealsByRestaurant($restaurantId: ID!, $first: Int, $after: String, $sea
                 hasNextPage
                 endCursor
             }
+            totalCount
         }
     }
 }
@@ -122,6 +124,7 @@ query GetMealPlans($first: Int, $after: String, $search: String, $price: [MealPl
             hasNextPage
             endCursor
         }
+        totalCount
     }
 }
 
@@ -144,6 +147,7 @@ query GetMealPlansByRestaurant($restaurantId: ID!, $first: Int, $after: String, 
                 hasNextPage
                 endCursor
             }
+            totalCount
         }
     }
 }

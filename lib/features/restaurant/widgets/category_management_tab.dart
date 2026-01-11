@@ -25,6 +25,7 @@ class CategoryManagementTab extends StatefulWidget {
   final String? errorMessage;
   final VoidCallback? onRetry;
   final VoidCallback? onCancel;
+  final int? totalItems;
 
   const CategoryManagementTab({
     super.key,
@@ -38,6 +39,7 @@ class CategoryManagementTab extends StatefulWidget {
     this.errorMessage,
     this.onRetry,
     this.onCancel,
+    this.totalItems,
   });
 
   @override
@@ -232,6 +234,7 @@ class _CategoryManagementTabState extends State<CategoryManagementTab> {
       withScaffold: false,
       items: _filteredCategories,
       isLoading: _isLoading,
+      totalItems: widget.totalItems,
       hasError: widget.hasError,
       errorMessage: widget.errorMessage,
       onRetry: widget.onRetry,

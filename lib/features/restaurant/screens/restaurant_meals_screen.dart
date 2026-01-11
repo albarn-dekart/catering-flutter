@@ -102,6 +102,7 @@ class _RestaurantMealsScreenState extends State<RestaurantMealsScreen> {
           items: mealService.meals,
           isLoading: mealService.isLoading,
           isLoadingMore: mealService.isFetchingMore,
+          totalItems: mealService.totalItems,
           onLoadMore: () =>
               mealService.loadMoreMealsByRestaurant(widget.restaurantIri),
           searchHint: AppLocalizations.of(context)!.searchMeals,

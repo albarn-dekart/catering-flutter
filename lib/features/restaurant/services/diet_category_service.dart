@@ -25,11 +25,15 @@ class DietCategoryService extends ChangeNotifier {
 
   bool get hasError => _errorMessage != null;
 
+  int _totalItems = 0;
+  int get totalItems => _totalItems;
+
   DietCategoryService(this._client);
 
   Future<void> getDietCategories() async {
     _isLoading = true;
     _errorMessage = null;
+    _totalItems = 0;
     notifyListeners();
 
     try {
@@ -47,6 +51,7 @@ class DietCategoryService extends ChangeNotifier {
             .map((e) => e?.node)
             .whereType<DietCategory>()
             .toList();
+        _totalItems = data.dietCategories?.totalCount ?? 0;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);

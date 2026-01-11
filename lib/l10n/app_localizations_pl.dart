@@ -30,9 +30,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get addAddress => 'Dodaj Adres';
 
   @override
-  String get address => 'Adres';
-
-  @override
   String get addAddressToGetStarted => 'Dodaj nowy adres, aby rozpocząć';
 
   @override
@@ -59,6 +56,9 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
+  String get address => 'Adres';
+
+  @override
   String get adminDashboard => 'Panel Administratora';
 
   @override
@@ -68,11 +68,16 @@ class AppLocalizationsPl extends AppLocalizations {
   String get all => 'Wszystkie';
 
   @override
+  String allDeliveries(int count) {
+    return 'Wszystkie Dostawy ($count)';
+  }
+
+  @override
   String get allTime => 'Cały okres';
 
   @override
-  String allDeliveries(int count) {
-    return 'Wszystkie Dostawy ($count)';
+  String allTimeProgress(Object count, Object total) {
+    return 'Postęp (cały czas): $count/$total';
   }
 
   @override
@@ -84,6 +89,9 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get areYouSureYouWantToCancelThisOrder =>
       'Czy na pewno chcesz anulować to zamówienie?';
+
+  @override
+  String get areYouSureYouWantToLogout => 'Czy na pewno chcesz się wylogować?';
 
   @override
   String get assignCourier => 'Przypisz Kuriera';
@@ -176,6 +184,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get confirmDelete => 'Potwierdź Usunięcie';
 
   @override
+  String get confirmDeleteAddress =>
+      'Czy na pewno chcesz usunąć ten adres? Tej operacji nie można cofnąć.';
+
+  @override
   String confirmDeleteCourier(String email) {
     return 'Czy na pewno chcesz usunąć kuriera $email? On zostanie odłączony z wszystkich dostaw.';
   }
@@ -208,6 +220,45 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get count => 'Liczba';
+
+  @override
+  String get courier => 'Kurier';
+
+  @override
+  String get courierAssignFailed =>
+      'Nie udało się przypisać kuriera. Spróbuj ponownie.';
+
+  @override
+  String get courierAssignedSuccess => 'Kurier przypisany pomyślnie.';
+
+  @override
+  String get courierDashboard => 'Panel Kuriera';
+
+  @override
+  String get courierDeleted => 'Kurier został usunięty pomyślnie';
+
+  @override
+  String courierInviteFailed(Object error) {
+    return 'Nie udało się zaprosić kuriera: $error';
+  }
+
+  @override
+  String get courierInvitedSuccess => 'Kurier zaproszony pomyślnie';
+
+  @override
+  String get courierPasswordWillBeEmailed =>
+      'Tymczasowe hasło zostanie wysłane na ten adres email.';
+
+  @override
+  String get courierRoleLabel => 'KURIER';
+
+  @override
+  String courierWithName(Object name) {
+    return 'Kurier: $name';
+  }
+
+  @override
+  String get couriers => 'Kurierzy';
 
   @override
   String get createAccount => 'Utwórz Konto';
@@ -244,9 +295,17 @@ class AppLocalizationsPl extends AppLocalizations {
   String get dailyOrders => 'Dzienne Zamówienia';
 
   @override
+  String dailyProgress(Object count, Object total) {
+    return 'Postęp dnia: $count/$total';
+  }
+
+  @override
   String daysCount(int count) {
     return '$count dni';
   }
+
+  @override
+  String get defaultAddress => 'Adres domyślny';
 
   @override
   String get delete => 'Usuń';
@@ -294,6 +353,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String deleteRestaurantConfirmation(Object name) {
     return 'Czy na pewno chcesz usunąć \"$name\"?';
   }
+
+  @override
+  String get deletedMealPlan => 'Usunięty Plan Posiłków';
 
   @override
   String get delivery => 'Dostawa';
@@ -350,55 +412,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get dontHaveAccount => 'Nie masz konta? ';
 
   @override
-  String get courier => 'Kurier';
-
-  @override
-  String get courierAssignFailed =>
-      'Nie udało się przypisać kuriera. Spróbuj ponownie.';
-
-  @override
-  String get courierAssignedSuccess => 'Kurier przypisany pomyślnie.';
-
-  @override
-  String get courierDashboard => 'Panel Kuriera';
-
-  @override
-  String get courierDeleted => 'Kurier został usunięty pomyślnie';
-
-  @override
-  String get courierRetryDelivery => 'Dostarczono (ponowna próba)';
-
-  @override
-  String courierInviteFailed(Object error) {
-    return 'Nie udało się zaprosić kuriera: $error';
-  }
-
-  @override
-  String get courierInvitedSuccess => 'Kurier zaproszony pomyślnie';
-
-  @override
-  String get courierPasswordWillBeEmailed =>
-      'Tymczasowe hasło zostanie wysłane na ten adres email.';
-
-  @override
-  String get courierRoleLabel => 'KURIER';
-
-  @override
-  String courierWithName(Object name) {
-    return 'Kurier: $name';
-  }
-
-  @override
-  String get couriers => 'Kurierzy';
-
-  @override
   String get edit => 'Edytuj';
 
   @override
   String get editAddress => 'Edytuj Adres';
-
-  @override
-  String get editRestaurantCategory => 'Edytuj Kategorię Restauracji';
 
   @override
   String get editDetails => 'Edytuj Szczegóły';
@@ -413,6 +430,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get editMealPlan => 'Edytuj Plan Posiłków';
 
   @override
+  String get editRestaurantCategory => 'Edytuj Kategorię Restauracji';
+
+  @override
   String get email => 'Email';
 
   @override
@@ -420,6 +440,14 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get error => 'Błąd';
+
+  @override
+  String get errorConstraintViolation =>
+      'Ta operacja nie może zostać ukończona z powodu konfliktu danych.';
+
+  @override
+  String get errorInvalidSchema =>
+      'Błąd techniczny: Wersje aplikacji i serwera są niezgodne. Skontaktuj się z pomocą techniczną.';
 
   @override
   String get errorNetwork =>
@@ -436,20 +464,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get errorUnauthorized => 'Sesja wygasła. Zaloguj się ponownie.';
 
   @override
-  String get errorInvalidSchema =>
-      'Błąd techniczny: Wersje aplikacji i serwera są niezgodne. Skontaktuj się z pomocą techniczną.';
-
-  @override
-  String get errorConstraintViolation =>
-      'Ta operacja nie może zostać ukończona z powodu konfliktu danych.';
+  String get exportData => 'Pobierz Dane';
 
   @override
   String exportFailed(Object error) {
     return 'Nie udało się pobrać danych: $error';
   }
-
-  @override
-  String get exportData => 'Pobierz Dane';
 
   @override
   String get exportSuccess => 'Dane obrane pomyślnie';
@@ -495,6 +515,10 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get firstName => 'Imię';
+
+  @override
+  String get futureDeliveryNoActions =>
+      'Akcje dla przyszłych dostaw są zablokowane do dnia dostawy.';
 
   @override
   String get hideIncludedMeals => 'Ukryj zawarte posiłki';
@@ -564,13 +588,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get logout => 'Wyloguj';
 
   @override
+  String get manageCouriers => 'Zarządzaj Kurierami';
+
+  @override
   String get manageDeliveries => 'Zarządzaj Dostawami';
 
   @override
   String get manageDietCategories => 'Zarządzaj Kategoriami Diet';
-
-  @override
-  String get manageCouriers => 'Zarządzaj Kurierami';
 
   @override
   String get manageMealPlans => 'Zarządzaj Planami Posiłków';
@@ -897,6 +921,11 @@ class AppLocalizationsPl extends AppLocalizations {
   String get quantityToCook => 'Do Ugotowania';
 
   @override
+  String rangeProgress(Object count, Object total) {
+    return 'Postęp (wybrany okres): $count/$total';
+  }
+
+  @override
   String get register => 'Zarejestruj';
 
   @override
@@ -952,22 +981,22 @@ class AppLocalizationsPl extends AppLocalizations {
   String get revenueTrend => 'Trend przychodów';
 
   @override
-  String get revertStatusSuccess => 'Status został przywrócony';
+  String get revertGraceExpired => 'Czas na cofnięcie wygasł (60 sec)';
 
   @override
   String get revertStatusFailed => 'Błąd podczas przywracania statusu';
 
   @override
-  String get revertGraceExpired => 'Czas na cofnięcie wygasł (15 min)';
+  String get revertStatusSuccess => 'Status został przywrócony';
 
   @override
   String get roleAdmin => 'Administrator';
 
   @override
-  String get roleCustomer => 'Klient';
+  String get roleCourier => 'Kurier';
 
   @override
-  String get roleCourier => 'Kurier';
+  String get roleCustomer => 'Klient';
 
   @override
   String get roleRestaurant => 'Restauracja';
@@ -1060,6 +1089,11 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
+  String showingXofY(Object count, Object total) {
+    return 'Pokazano $count z $total';
+  }
+
+  @override
   String get signInToContinue => 'Zaloguj się, aby kontynuować';
 
   @override
@@ -1135,7 +1169,22 @@ class AppLocalizationsPl extends AppLocalizations {
   String get temporaryPassword => 'Hasło Tymczasowe';
 
   @override
+  String get today => 'Dzisiaj';
+
+  @override
+  String get tomorrow => 'Jutro';
+
+  @override
+  String get topRestaurants => 'Restauracje wg przychodu';
+
+  @override
   String get total => 'Razem:';
+
+  @override
+  String get totalClients => 'Liczba Klientów';
+
+  @override
+  String get totalDeliveries => 'Liczba Dostaw';
 
   @override
   String get totalMeals => 'Suma Posiłków';
@@ -1148,6 +1197,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get totalRevenue => 'Całkowity Przychód';
+
+  @override
+  String get totalStatsMealPlans => 'Liczba Planów Posiłków';
 
   @override
   String get totalUsers => 'Użytkownicy';
@@ -1188,51 +1240,11 @@ class AppLocalizationsPl extends AppLocalizations {
   String get yes => 'Tak';
 
   @override
+  String get yesterday => 'Wczoraj';
+
+  @override
   String get yourCartIsEmpty => 'Twój koszyk jest pusty';
 
   @override
   String get zipCode => 'Kod pocztowy';
-
-  @override
-  String get areYouSureYouWantToLogout => 'Czy na pewno chcesz się wylogować?';
-
-  @override
-  String get defaultAddress => 'Adres domyślny';
-
-  @override
-  String get confirmDeleteAddress =>
-      'Czy na pewno chcesz usunąć ten adres? Tej operacji nie można cofnąć.';
-
-  @override
-  String get deletedMealPlan => 'Usunięty Plan Posiłków';
-
-  @override
-  String get yesterday => 'Wczoraj';
-
-  @override
-  String get today => 'Dzisiaj';
-
-  @override
-  String get topRestaurants => 'Restauracje wg przychodu';
-
-  @override
-  String get totalClients => 'Liczba Klientów';
-
-  @override
-  String get totalDeliveries => 'Liczba Dostaw';
-
-  @override
-  String get totalStatsMealPlans => 'Liczba Planów Posiłków';
-
-  @override
-  String get tomorrow => 'Jutro';
-
-  @override
-  String dailyProgress(Object count, Object total) {
-    return 'Postęp dnia: $count/$total';
-  }
-
-  @override
-  String get futureDeliveryNoActions =>
-      'Akcje dla przyszłych dostaw są zablokowane do dnia dostawy.';
 }

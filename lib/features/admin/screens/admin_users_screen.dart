@@ -46,6 +46,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
           items: userService.users,
           isLoading: userService.isLoading,
           isLoadingMore: userService.isFetchingMore,
+          totalItems: userService.totalItems,
           hasError: userService.hasError,
           errorMessage: userService.errorMessage,
           onRetry: () =>

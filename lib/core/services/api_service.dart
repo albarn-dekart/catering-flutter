@@ -82,13 +82,25 @@ class ApiService {
   Future<Map<String, String>> _getHeaders(bool authenticated) async {
     final headers = {'Content-Type': 'application/json'};
     if (authenticated) {
+      // If we are already logged out, don't try to add or refresh tokens
+      if (!_authService.isAuthenticated) {
+        return headers;
+      }
+
       var token = await _authService.getToken();
       if (token != null) {
         if (await _authService.isTokenExpired()) {
           // Try to refresh the token before giving up
           final newToken = await _authService.refreshToken();
+
+          // If refresh failed or user logged out during refresh,
+          // don't throw "Session expired" if we are already unauthenticated.
+          if (!_authService.isAuthenticated) {
+            return headers;
+          }
+
           if (newToken == null) {
-            // Refresh failed, already logged out by refreshToken()
+            // Refresh failed and we are still supposedly authenticated
             throw ApiException('Session expired. Please log in again.');
           }
           token = newToken;

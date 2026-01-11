@@ -193,7 +193,10 @@ class _MyAppState extends State<MyApp> {
           create: (context) => OrderService(context.read<GraphQLClient>()),
         ),
         ChangeNotifierProvider<DeliveryService>(
-          create: (context) => DeliveryService(context.read<GraphQLClient>()),
+          create: (context) => DeliveryService(
+            context.read<GraphQLClient>(),
+            context.read<ApiService>(),
+          ),
         ),
         ChangeNotifierProvider<MealService>(
           create: (context) => MealService(

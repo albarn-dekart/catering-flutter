@@ -31,6 +31,7 @@ class AdminRestaurantCategoriesScreen extends StatelessWidget {
             errorMessage: service.errorMessage,
             onRetry: () => service.getRestaurantCategories(),
             onCancel: () => service.clearError(),
+            totalItems: service.totalItems,
           );
         },
       ),

@@ -4160,6 +4160,13 @@ const documentNodeQueryGetMeals = DocumentNode(
                   ),
                 ),
                 FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null,
+                ),
+                FieldNode(
                   name: NameNode(value: '__typename'),
                   alias: null,
                   arguments: [],
@@ -4335,12 +4342,14 @@ class Query$GetMeals$meals {
   Query$GetMeals$meals({
     this.edges,
     required this.pageInfo,
+    required this.totalCount,
     this.$__typename = 'MealCursorConnection',
   });
 
   factory Query$GetMeals$meals.fromJson(Map<String, dynamic> json) {
     final l$edges = json['edges'];
     final l$pageInfo = json['pageInfo'];
+    final l$totalCount = json['totalCount'];
     final l$$__typename = json['__typename'];
     return Query$GetMeals$meals(
       edges: (l$edges as List<dynamic>?)
@@ -4355,6 +4364,7 @@ class Query$GetMeals$meals {
       pageInfo: Query$GetMeals$meals$pageInfo.fromJson(
         (l$pageInfo as Map<String, dynamic>),
       ),
+      totalCount: (l$totalCount as int),
       $__typename: (l$$__typename as String),
     );
   }
@@ -4362,6 +4372,8 @@ class Query$GetMeals$meals {
   final List<Query$GetMeals$meals$edges?>? edges;
 
   final Query$GetMeals$meals$pageInfo pageInfo;
+
+  final int totalCount;
 
   final String $__typename;
 
@@ -4371,6 +4383,8 @@ class Query$GetMeals$meals {
     _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
     final l$pageInfo = pageInfo;
     _resultData['pageInfo'] = l$pageInfo.toJson();
+    final l$totalCount = totalCount;
+    _resultData['totalCount'] = l$totalCount;
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -4380,10 +4394,12 @@ class Query$GetMeals$meals {
   int get hashCode {
     final l$edges = edges;
     final l$pageInfo = pageInfo;
+    final l$totalCount = totalCount;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
       l$pageInfo,
+      l$totalCount,
       l$$__typename,
     ]);
   }
@@ -4417,6 +4433,11 @@ class Query$GetMeals$meals {
     if (l$pageInfo != lOther$pageInfo) {
       return false;
     }
+    final l$totalCount = totalCount;
+    final lOther$totalCount = other.totalCount;
+    if (l$totalCount != lOther$totalCount) {
+      return false;
+    }
     final l$$__typename = $__typename;
     final lOther$$__typename = other.$__typename;
     if (l$$__typename != lOther$$__typename) {
@@ -4443,6 +4464,7 @@ abstract class CopyWith$Query$GetMeals$meals<TRes> {
   TRes call({
     List<Query$GetMeals$meals$edges?>? edges,
     Query$GetMeals$meals$pageInfo? pageInfo,
+    int? totalCount,
     String? $__typename,
   });
   TRes edges(
@@ -4469,6 +4491,7 @@ class _CopyWithImpl$Query$GetMeals$meals<TRes>
   TRes call({
     Object? edges = _undefined,
     Object? pageInfo = _undefined,
+    Object? totalCount = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
     Query$GetMeals$meals(
@@ -4478,6 +4501,9 @@ class _CopyWithImpl$Query$GetMeals$meals<TRes>
       pageInfo: pageInfo == _undefined || pageInfo == null
           ? _instance.pageInfo
           : (pageInfo as Query$GetMeals$meals$pageInfo),
+      totalCount: totalCount == _undefined || totalCount == null
+          ? _instance.totalCount
+          : (totalCount as int),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
@@ -4518,6 +4544,7 @@ class _CopyWithStubImpl$Query$GetMeals$meals<TRes>
   call({
     List<Query$GetMeals$meals$edges?>? edges,
     Query$GetMeals$meals$pageInfo? pageInfo,
+    int? totalCount,
     String? $__typename,
   }) => _res;
 
@@ -5973,6 +6000,13 @@ const documentNodeQueryGetMealsByRestaurant = DocumentNode(
                         ),
                       ),
                       FieldNode(
+                        name: NameNode(value: 'totalCount'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null,
+                      ),
+                      FieldNode(
                         name: NameNode(value: '__typename'),
                         alias: null,
                         arguments: [],
@@ -6328,6 +6362,7 @@ class Query$GetMealsByRestaurant$restaurant$meals {
   Query$GetMealsByRestaurant$restaurant$meals({
     this.edges,
     required this.pageInfo,
+    required this.totalCount,
     this.$__typename = 'MealCursorConnection',
   });
 
@@ -6336,6 +6371,7 @@ class Query$GetMealsByRestaurant$restaurant$meals {
   ) {
     final l$edges = json['edges'];
     final l$pageInfo = json['pageInfo'];
+    final l$totalCount = json['totalCount'];
     final l$$__typename = json['__typename'];
     return Query$GetMealsByRestaurant$restaurant$meals(
       edges: (l$edges as List<dynamic>?)
@@ -6350,6 +6386,7 @@ class Query$GetMealsByRestaurant$restaurant$meals {
       pageInfo: Query$GetMealsByRestaurant$restaurant$meals$pageInfo.fromJson(
         (l$pageInfo as Map<String, dynamic>),
       ),
+      totalCount: (l$totalCount as int),
       $__typename: (l$$__typename as String),
     );
   }
@@ -6357,6 +6394,8 @@ class Query$GetMealsByRestaurant$restaurant$meals {
   final List<Query$GetMealsByRestaurant$restaurant$meals$edges?>? edges;
 
   final Query$GetMealsByRestaurant$restaurant$meals$pageInfo pageInfo;
+
+  final int totalCount;
 
   final String $__typename;
 
@@ -6366,6 +6405,8 @@ class Query$GetMealsByRestaurant$restaurant$meals {
     _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
     final l$pageInfo = pageInfo;
     _resultData['pageInfo'] = l$pageInfo.toJson();
+    final l$totalCount = totalCount;
+    _resultData['totalCount'] = l$totalCount;
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -6375,10 +6416,12 @@ class Query$GetMealsByRestaurant$restaurant$meals {
   int get hashCode {
     final l$edges = edges;
     final l$pageInfo = pageInfo;
+    final l$totalCount = totalCount;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
       l$pageInfo,
+      l$totalCount,
       l$$__typename,
     ]);
   }
@@ -6413,6 +6456,11 @@ class Query$GetMealsByRestaurant$restaurant$meals {
     if (l$pageInfo != lOther$pageInfo) {
       return false;
     }
+    final l$totalCount = totalCount;
+    final lOther$totalCount = other.totalCount;
+    if (l$totalCount != lOther$totalCount) {
+      return false;
+    }
     final l$$__typename = $__typename;
     final lOther$$__typename = other.$__typename;
     if (l$$__typename != lOther$$__typename) {
@@ -6443,6 +6491,7 @@ abstract class CopyWith$Query$GetMealsByRestaurant$restaurant$meals<TRes> {
   TRes call({
     List<Query$GetMealsByRestaurant$restaurant$meals$edges?>? edges,
     Query$GetMealsByRestaurant$restaurant$meals$pageInfo? pageInfo,
+    int? totalCount,
     String? $__typename,
   });
   TRes edges(
@@ -6475,6 +6524,7 @@ class _CopyWithImpl$Query$GetMealsByRestaurant$restaurant$meals<TRes>
   TRes call({
     Object? edges = _undefined,
     Object? pageInfo = _undefined,
+    Object? totalCount = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
     Query$GetMealsByRestaurant$restaurant$meals(
@@ -6485,6 +6535,9 @@ class _CopyWithImpl$Query$GetMealsByRestaurant$restaurant$meals<TRes>
       pageInfo: pageInfo == _undefined || pageInfo == null
           ? _instance.pageInfo
           : (pageInfo as Query$GetMealsByRestaurant$restaurant$meals$pageInfo),
+      totalCount: totalCount == _undefined || totalCount == null
+          ? _instance.totalCount
+          : (totalCount as int),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
@@ -6532,6 +6585,7 @@ class _CopyWithStubImpl$Query$GetMealsByRestaurant$restaurant$meals<TRes>
   call({
     List<Query$GetMealsByRestaurant$restaurant$meals$edges?>? edges,
     Query$GetMealsByRestaurant$restaurant$meals$pageInfo? pageInfo,
+    int? totalCount,
     String? $__typename,
   }) => _res;
 
@@ -9560,6 +9614,13 @@ const documentNodeQueryGetMealPlans = DocumentNode(
                   ),
                 ),
                 FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null,
+                ),
+                FieldNode(
                   name: NameNode(value: '__typename'),
                   alias: null,
                   arguments: [],
@@ -9738,12 +9799,14 @@ class Query$GetMealPlans$mealPlans {
   Query$GetMealPlans$mealPlans({
     this.edges,
     required this.pageInfo,
+    required this.totalCount,
     this.$__typename = 'MealPlanCursorConnection',
   });
 
   factory Query$GetMealPlans$mealPlans.fromJson(Map<String, dynamic> json) {
     final l$edges = json['edges'];
     final l$pageInfo = json['pageInfo'];
+    final l$totalCount = json['totalCount'];
     final l$$__typename = json['__typename'];
     return Query$GetMealPlans$mealPlans(
       edges: (l$edges as List<dynamic>?)
@@ -9758,6 +9821,7 @@ class Query$GetMealPlans$mealPlans {
       pageInfo: Query$GetMealPlans$mealPlans$pageInfo.fromJson(
         (l$pageInfo as Map<String, dynamic>),
       ),
+      totalCount: (l$totalCount as int),
       $__typename: (l$$__typename as String),
     );
   }
@@ -9765,6 +9829,8 @@ class Query$GetMealPlans$mealPlans {
   final List<Query$GetMealPlans$mealPlans$edges?>? edges;
 
   final Query$GetMealPlans$mealPlans$pageInfo pageInfo;
+
+  final int totalCount;
 
   final String $__typename;
 
@@ -9774,6 +9840,8 @@ class Query$GetMealPlans$mealPlans {
     _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
     final l$pageInfo = pageInfo;
     _resultData['pageInfo'] = l$pageInfo.toJson();
+    final l$totalCount = totalCount;
+    _resultData['totalCount'] = l$totalCount;
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -9783,10 +9851,12 @@ class Query$GetMealPlans$mealPlans {
   int get hashCode {
     final l$edges = edges;
     final l$pageInfo = pageInfo;
+    final l$totalCount = totalCount;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
       l$pageInfo,
+      l$totalCount,
       l$$__typename,
     ]);
   }
@@ -9821,6 +9891,11 @@ class Query$GetMealPlans$mealPlans {
     if (l$pageInfo != lOther$pageInfo) {
       return false;
     }
+    final l$totalCount = totalCount;
+    final lOther$totalCount = other.totalCount;
+    if (l$totalCount != lOther$totalCount) {
+      return false;
+    }
     final l$$__typename = $__typename;
     final lOther$$__typename = other.$__typename;
     if (l$$__typename != lOther$$__typename) {
@@ -9848,6 +9923,7 @@ abstract class CopyWith$Query$GetMealPlans$mealPlans<TRes> {
   TRes call({
     List<Query$GetMealPlans$mealPlans$edges?>? edges,
     Query$GetMealPlans$mealPlans$pageInfo? pageInfo,
+    int? totalCount,
     String? $__typename,
   });
   TRes edges(
@@ -9876,6 +9952,7 @@ class _CopyWithImpl$Query$GetMealPlans$mealPlans<TRes>
   TRes call({
     Object? edges = _undefined,
     Object? pageInfo = _undefined,
+    Object? totalCount = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
     Query$GetMealPlans$mealPlans(
@@ -9885,6 +9962,9 @@ class _CopyWithImpl$Query$GetMealPlans$mealPlans<TRes>
       pageInfo: pageInfo == _undefined || pageInfo == null
           ? _instance.pageInfo
           : (pageInfo as Query$GetMealPlans$mealPlans$pageInfo),
+      totalCount: totalCount == _undefined || totalCount == null
+          ? _instance.totalCount
+          : (totalCount as int),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
@@ -9928,6 +10008,7 @@ class _CopyWithStubImpl$Query$GetMealPlans$mealPlans<TRes>
   call({
     List<Query$GetMealPlans$mealPlans$edges?>? edges,
     Query$GetMealPlans$mealPlans$pageInfo? pageInfo,
+    int? totalCount,
     String? $__typename,
   }) => _res;
 
@@ -11466,6 +11547,13 @@ const documentNodeQueryGetMealPlansByRestaurant = DocumentNode(
                         ),
                       ),
                       FieldNode(
+                        name: NameNode(value: 'totalCount'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null,
+                      ),
+                      FieldNode(
                         name: NameNode(value: '__typename'),
                         alias: null,
                         arguments: [],
@@ -11832,6 +11920,7 @@ class Query$GetMealPlansByRestaurant$restaurant$mealPlans {
   Query$GetMealPlansByRestaurant$restaurant$mealPlans({
     this.edges,
     required this.pageInfo,
+    required this.totalCount,
     this.$__typename = 'MealPlanCursorConnection',
   });
 
@@ -11840,6 +11929,7 @@ class Query$GetMealPlansByRestaurant$restaurant$mealPlans {
   ) {
     final l$edges = json['edges'];
     final l$pageInfo = json['pageInfo'];
+    final l$totalCount = json['totalCount'];
     final l$$__typename = json['__typename'];
     return Query$GetMealPlansByRestaurant$restaurant$mealPlans(
       edges: (l$edges as List<dynamic>?)
@@ -11855,6 +11945,7 @@ class Query$GetMealPlansByRestaurant$restaurant$mealPlans {
           Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo.fromJson(
             (l$pageInfo as Map<String, dynamic>),
           ),
+      totalCount: (l$totalCount as int),
       $__typename: (l$$__typename as String),
     );
   }
@@ -11862,6 +11953,8 @@ class Query$GetMealPlansByRestaurant$restaurant$mealPlans {
   final List<Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges?>? edges;
 
   final Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo pageInfo;
+
+  final int totalCount;
 
   final String $__typename;
 
@@ -11871,6 +11964,8 @@ class Query$GetMealPlansByRestaurant$restaurant$mealPlans {
     _resultData['edges'] = l$edges?.map((e) => e?.toJson()).toList();
     final l$pageInfo = pageInfo;
     _resultData['pageInfo'] = l$pageInfo.toJson();
+    final l$totalCount = totalCount;
+    _resultData['totalCount'] = l$totalCount;
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -11880,10 +11975,12 @@ class Query$GetMealPlansByRestaurant$restaurant$mealPlans {
   int get hashCode {
     final l$edges = edges;
     final l$pageInfo = pageInfo;
+    final l$totalCount = totalCount;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$edges == null ? null : Object.hashAll(l$edges.map((v) => v)),
       l$pageInfo,
+      l$totalCount,
       l$$__typename,
     ]);
   }
@@ -11916,6 +12013,11 @@ class Query$GetMealPlansByRestaurant$restaurant$mealPlans {
     final l$pageInfo = pageInfo;
     final lOther$pageInfo = other.pageInfo;
     if (l$pageInfo != lOther$pageInfo) {
+      return false;
+    }
+    final l$totalCount = totalCount;
+    final lOther$totalCount = other.totalCount;
+    if (l$totalCount != lOther$totalCount) {
       return false;
     }
     final l$$__typename = $__typename;
@@ -11953,6 +12055,7 @@ abstract class CopyWith$Query$GetMealPlansByRestaurant$restaurant$mealPlans<
   TRes call({
     List<Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges?>? edges,
     Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo? pageInfo,
+    int? totalCount,
     String? $__typename,
   });
   TRes edges(
@@ -11988,6 +12091,7 @@ class _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans<TRes>
   TRes call({
     Object? edges = _undefined,
     Object? pageInfo = _undefined,
+    Object? totalCount = _undefined,
     Object? $__typename = _undefined,
   }) => _then(
     Query$GetMealPlansByRestaurant$restaurant$mealPlans(
@@ -12001,6 +12105,9 @@ class _CopyWithImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans<TRes>
           ? _instance.pageInfo
           : (pageInfo
                 as Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo),
+      totalCount: totalCount == _undefined || totalCount == null
+          ? _instance.totalCount
+          : (totalCount as int),
       $__typename: $__typename == _undefined || $__typename == null
           ? _instance.$__typename
           : ($__typename as String),
@@ -12054,6 +12161,7 @@ class _CopyWithStubImpl$Query$GetMealPlansByRestaurant$restaurant$mealPlans<
   call({
     List<Query$GetMealPlansByRestaurant$restaurant$mealPlans$edges?>? edges,
     Query$GetMealPlansByRestaurant$restaurant$mealPlans$pageInfo? pageInfo,
+    int? totalCount,
     String? $__typename,
   }) => _res;
 

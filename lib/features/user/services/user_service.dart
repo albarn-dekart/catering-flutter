@@ -30,6 +30,15 @@ class UserService extends ChangeNotifier {
   bool _isFetchingMore = false;
   bool get isFetchingMore => _isFetchingMore;
 
+  int _totalItems = 0;
+  int get totalItems => _totalItems;
+
+  int _totalUserDeliveries = 0;
+  int get totalUserDeliveries => _totalUserDeliveries;
+
+  int _totalCouriers = 0;
+  int get totalCouriers => _totalCouriers;
+
   // Filters state
   String? _currentSearchQuery;
   String? _currentRoleFilter;
@@ -57,6 +66,7 @@ class UserService extends ChangeNotifier {
     _currentSearchQuery = searchQuery;
     _currentRoleFilter = roleFilter;
     _users = [];
+    _totalItems = 0;
     notifyListeners();
 
     try {
@@ -81,6 +91,7 @@ class UserService extends ChangeNotifier {
             .toList();
         _endCursor = data.users?.pageInfo.endCursor;
         _hasNextPage = data.users?.pageInfo.hasNextPage ?? false;
+        _totalItems = data.users?.totalCount ?? 0;
       }
     } catch (e) {
       _errorMessage = e.toString();
@@ -120,6 +131,7 @@ class UserService extends ChangeNotifier {
         _users = [..._users, ...newUsers];
         _endCursor = data.users?.pageInfo.endCursor;
         _hasNextPage = data.users?.pageInfo.hasNextPage ?? false;
+        _totalItems = data.users?.totalCount ?? 0;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -246,6 +258,7 @@ class UserService extends ChangeNotifier {
 
     // Clear existing list to ensure loading state is visible and old data is removed
     _userDeliveries = [];
+    _totalUserDeliveries = 0;
 
     notifyListeners();
 
@@ -291,8 +304,10 @@ class UserService extends ChangeNotifier {
         _userDeliveriesEndCursor = data.user!.deliveries!.pageInfo.endCursor;
         _userDeliveriesHasNextPage =
             data.user!.deliveries!.pageInfo.hasNextPage;
+        _totalUserDeliveries = data.user!.deliveries!.totalCount;
       } else {
         _userDeliveries = [];
+        _totalUserDeliveries = 0;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -342,6 +357,19 @@ class UserService extends ChangeNotifier {
       );
       final result = await _client.query(options);
       ApiService.check(result);
+
+      final data = Query$GetUserDeliveries.fromJson(result.data!);
+      if (data.user?.deliveries?.edges != null) {
+        final newDeliveries = data.user!.deliveries!.edges!
+            .map((e) => e?.node)
+            .whereType<Fragment$CourierDeliveryFragment>()
+            .toList();
+        _userDeliveries = [..._userDeliveries, ...newDeliveries];
+        _userDeliveriesEndCursor = data.user!.deliveries!.pageInfo.endCursor;
+        _userDeliveriesHasNextPage =
+            data.user!.deliveries!.pageInfo.hasNextPage;
+        _totalUserDeliveries = data.user!.deliveries!.totalCount;
+      }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
     } finally {
@@ -447,6 +475,7 @@ class UserService extends ChangeNotifier {
     _isLoading = true;
     _errorMessage = null;
     _restaurantCouriers = [];
+    _totalCouriers = 0;
     notifyListeners();
 
     try {
@@ -470,6 +499,7 @@ class UserService extends ChangeNotifier {
             .map((e) => e?.node)
             .whereType<RestaurantCourierNode>()
             .toList();
+        _totalCouriers = data.restaurant?.couriers?.totalCount ?? 0;
       } else {
         _restaurantCouriers = [];
       }

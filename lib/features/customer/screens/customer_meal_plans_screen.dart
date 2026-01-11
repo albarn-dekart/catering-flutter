@@ -39,6 +39,7 @@ class _CustomerMealPlansScreenState extends State<CustomerMealPlansScreen> {
           title: AppLocalizations.of(context)!.myMealPlans,
           items: mealPlanService.mealPlans,
           isLoading: mealPlanService.isLoading,
+          totalItems: mealPlanService.totalItems,
           hasError: mealPlanService.hasError,
           errorMessage: mealPlanService.errorMessage,
           onRetry: () {

@@ -35,6 +35,9 @@ class OrderService extends ChangeNotifier {
   bool _isFetchingMore = false;
   bool get isFetchingMore => _isFetchingMore;
 
+  int _totalItems = 0;
+  int get totalItems => _totalItems;
+
   OrderService(this._client);
 
   String? _currentUserId;
@@ -69,6 +72,7 @@ class OrderService extends ChangeNotifier {
     _isLoading = true;
     _errorMessage = null;
     _orders = [];
+    _totalItems = 0;
     notifyListeners();
 
     try {
@@ -93,6 +97,7 @@ class OrderService extends ChangeNotifier {
             .toList();
         _endCursor = data.orders?.pageInfo.endCursor;
         _hasNextPage = data.orders?.pageInfo.hasNextPage ?? false;
+        _totalItems = data.orders?.totalCount ?? 0;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -117,6 +122,7 @@ class OrderService extends ChangeNotifier {
     _isLoading = true;
     _errorMessage = null;
     _orders = [];
+    _totalItems = 0;
     notifyListeners();
 
     try {
@@ -142,6 +148,7 @@ class OrderService extends ChangeNotifier {
             .toList();
         _endCursor = data.restaurant?.orders?.pageInfo.endCursor;
         _hasNextPage = data.restaurant?.orders?.pageInfo.hasNextPage ?? false;
+        _totalItems = data.restaurant?.orders?.totalCount ?? 0;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);
@@ -210,6 +217,7 @@ class OrderService extends ChangeNotifier {
           _orders = [..._orders, ...newOrders];
           _endCursor = data.user?.orders?.pageInfo.endCursor;
           _hasNextPage = data.user?.orders?.pageInfo.hasNextPage ?? false;
+          _totalItems = data.user?.orders?.totalCount ?? 0;
         }
       } else if (_currentRestaurantIri != null) {
         final data = Query$GetOrdersByRestaurant.fromJson(result.data!);
@@ -221,6 +229,7 @@ class OrderService extends ChangeNotifier {
           _orders = [..._orders, ...newOrders];
           _endCursor = data.restaurant?.orders?.pageInfo.endCursor;
           _hasNextPage = data.restaurant?.orders?.pageInfo.hasNextPage ?? false;
+          _totalItems = data.restaurant?.orders?.totalCount ?? 0;
         }
       } else {
         final data = Query$GetOrders.fromJson(result.data!);
@@ -232,6 +241,7 @@ class OrderService extends ChangeNotifier {
           _orders = [..._orders, ...newOrders];
           _endCursor = data.orders?.pageInfo.endCursor;
           _hasNextPage = data.orders?.pageInfo.hasNextPage ?? false;
+          _totalItems = data.orders?.totalCount ?? 0;
         }
       }
     } catch (e) {
@@ -250,6 +260,7 @@ class OrderService extends ChangeNotifier {
     _isLoading = true;
     _errorMessage = null;
     _orders = [];
+    _totalItems = 0;
     notifyListeners();
 
     try {
@@ -273,9 +284,11 @@ class OrderService extends ChangeNotifier {
             .toList();
         _endCursor = data.user?.orders?.pageInfo.endCursor;
         _hasNextPage = data.user?.orders?.pageInfo.hasNextPage ?? false;
+        _totalItems = data.user?.orders?.totalCount ?? 0;
       } else {
         _orders = [];
         _hasNextPage = false;
+        _totalItems = 0;
       }
     } catch (e) {
       _errorMessage = UIErrorHandler.mapExceptionToMessage(e);

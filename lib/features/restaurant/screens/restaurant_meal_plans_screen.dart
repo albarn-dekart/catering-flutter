@@ -53,6 +53,7 @@ class _RestaurantMealPlansScreenState extends State<RestaurantMealPlansScreen> {
           items: mealPlanService.mealPlans,
           isLoading: mealPlanService.isLoading,
           isLoadingMore: mealPlanService.isFetchingMore,
+          totalItems: mealPlanService.totalItems,
           useGrid: true,
           onLoadMore: () async {
             if (!mealPlanService.isFetchingMore &&

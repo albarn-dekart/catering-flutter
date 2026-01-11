@@ -75,27 +75,6 @@ class _OrderListScreenState extends State<OrderListScreen> {
     }
   }
 
-  bool get _showProgressSummary {
-    if (_selectedDateRange == null) return false;
-    return _selectedDateRange!.start.year == _selectedDateRange!.end.year &&
-        _selectedDateRange!.start.month == _selectedDateRange!.end.month &&
-        _selectedDateRange!.start.day == _selectedDateRange!.end.day;
-  }
-
-  Widget _buildProgressSummary(List<Order> filteredItems) {
-    // Basic count summary
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Text(
-        "${AppLocalizations.of(context)!.summary} ${filteredItems.length}",
-        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-          color: Theme.of(context).colorScheme.primary,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final isRestaurantView = widget.restaurantIri != null;
@@ -127,6 +106,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
           items: displayedOrders,
           isLoading: orderService.isLoading,
           isLoadingMore: orderService.isFetchingMore,
+          totalItems: orderService.totalItems,
           hasError: orderService.hasError,
           errorMessage: orderService.errorMessage,
           onRetry: _fetchOrders,
@@ -147,8 +127,6 @@ class _OrderListScreenState extends State<OrderListScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (_showProgressSummary)
-                      _buildProgressSummary(displayedOrders),
                     EasyDatePicker(
                       selectedDateRange: _selectedDateRange,
                       onDateRangeChanged: (range) {
